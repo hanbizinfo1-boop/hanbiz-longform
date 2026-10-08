@@ -305,7 +305,7 @@ def by_name(n):
     rs = json.loads(SFX.GRADE.read_text(encoding="utf-8"))
     r = next((r for r in rs if Path(r["파일"]).name == n), None)
     if r is None:                                          # 등급표 다시 돌리기 전 새로 받은 파일
-        p = next(config.SFX_LIB.rglob(n))
+        p = next(p for root in config.SFX_ROOTS.values() if root.exists() for p in root.rglob(n))   # 폴더 지도 순서대로
         r = {"파일": str(p), "소재상태": "통과", "등급": "-"}
     return r
 

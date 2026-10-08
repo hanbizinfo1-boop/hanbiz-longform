@@ -23,7 +23,7 @@
 │        ├─ feedback-log.md      # 장면 기록 쓰는 법 · 장면별 사장님 피드백 원문
 │        └─ checklist.md         # 납품 전 점검표 A~F
 ├─ tools/                    # 재사용 도구. 경로는 전부 config.py 한 곳
-│  ├─ config.py · rule_check.py · glyph_check.py · resume_guide.py
+│  ├─ config.py · rule_check.py · glyph_check.py · resume_guide.py · sfx_find.py(효과음 찾기)
 │  ├─ read_lecture_edit.py · lecture_edit_profile.py · lec_xml.py · overlay_xml.py   # 프리미어 읽기 · XML
 │  ├─ transcribe_words.py · srt_from_words.py · cut_plan_only.py · cut_render.py · pause_compress.py · cut_diff_study.py
 │  ├─ apply_removals.py · cut_to_fcpxml.py · cut_to_fcpxml_dual.py · sync_curve.py · rec_av_check.py · render_preview.py · final_preview.py

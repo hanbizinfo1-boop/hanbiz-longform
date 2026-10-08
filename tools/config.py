@@ -36,6 +36,16 @@ SFX_LIB = _p("HANBIZ_SFX_LIB", ORIG_ROOT / "소재" / "예능효과음")
 SFX_LIB_OWNER = _p("HANBIZ_SFX_LIB_OWNER", r"C:\Users\user\Desktop\작업공간\효과음")
 # 장면음(드론·지하철 같은 배경 소리)
 SFX_LIB_SCENE = _p("HANBIZ_SFX_LIB_SCENE", r"C:\Users\user\Desktop\분양\효과음\오픈소스\16_장면음")
+# 효과음 폴더 지도 — 찾는 순서(sfx_find.py · bisa_toc_cards.by_name 이 이 순서로 뒤진다). 설명은 references/sfx-workflow.md 1장
+SFX_ROOTS = {
+    "예능": SFX_LIB,                                   # 분류 01~16 폴더(약 680개) · 미리듣기 합본은 _청음\
+    "사장님": SFX_LIB_OWNER / "효과음",                 # 사장님이 실제 편집에 쓰시는 소리 122개(휙２·맑은소리·도장·채팅 효과음·마우스 클릭…)
+    "자주쓰는": SFX_LIB_OWNER / "자주쓰는 효과음",       # 사장님 단골 24개(뾰로롱·짜잔·카툰 팝·물방울·연필…)
+    "말하는": SFX_LIB_OWNER / "말하는효과음",            # 목소리 효과음 46개(예능 리액션) — 강의 위엔 드물게
+    "다운": SFX_LIB_OWNER / "다운효과음",               # 받아 둔 것 85개(검수 전 — 등급표 밖)
+    "오픈소스": SFX_LIB_SCENE.parent,                  # 분양 때 모은 오픈소스 19분류(전환·임팩트·라이저·현장음·Kenney…)
+}
+SFX_PREVIEW = SFX_LIB / "_청음"                         # 분류별 미리듣기 합본 mp3 (01_쿵쾅_큰강조자막.mp3 …)
 GRADE_JSON = TOOLS / "data" / "예능효과음-등급.json"      # A★ → A → B 등급표(파일 경로 문자열 + 점수)
 USED_JSON = TOOLS / "data" / "예능효과음-실사용.json"      # 사장님이 실제 편집에서 통과·반려한 소리
 
