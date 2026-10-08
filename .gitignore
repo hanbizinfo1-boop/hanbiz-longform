@@ -1,0 +1,56 @@
+# 임시·중간 렌더(다시 만들 수 있는 것)
+_tmp/*
+!_tmp/.gitkeep
+
+# 영상·음원·프로젝트 — git 이 감당하지 못한다. 경로만 문서에 적는다
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.webm
+*.wav
+*.mp3
+*.m4a
+*.aac
+*.flac
+*.aep
+*.aepx
+*.prproj
+*.prin
+*.psd
+
+# 납품·소재 아래 바이너리 (텍스트 .md·.json 은 커밋 가능)
+납품/*
+!납품/.gitkeep
+!납품/*.md
+소재/*
+!소재/.gitkeep
+!소재/*.md
+!소재/**/
+!소재/**/*.md
+!소재/**/*.json
+소재/**/*.png
+소재/**/*.jpg
+소재/**/*.jpeg
+소재/**/*.webp
+소재/**/*.gif
+소재/**/*.psd
+소재/**/*.ttf
+소재/**/*.otf
+
+# 고객 정보가 들어갈 수 있는 것
+**/가릴것.json
+**/ocr.json
+*.srt.bak
+
+# 윈도 탐색기 부산물
+desktop.ini
+Thumbs.db
+
+# 파이썬
+__pycache__/
+*.pyc
+.venv/
+
+# 로컬 설정
+.claude/settings.local.json
