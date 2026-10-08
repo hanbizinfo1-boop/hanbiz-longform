@@ -17,7 +17,7 @@ description: 한비즈 롱폼(강의형 가로 1920×1080, 사장님이 말하�
 | **P2 사장님 컷·자막 확정** | 프리미어에서 자막 넣고 버벅임·중복을 잘라 확정, V2/V3 배치·PIP 마스크 | **사장님** (멈추는 곳) | `lecture-graphics.md` 0장 |
 | **P3 최신 자동저장 prproj 읽기** | 사장님 프로젝트의 **가장 최근 자동저장본**을 사본으로 떠서 읽는다 → 컷 조각(SEGS)·자막(C1 원문)·V2 크기·효과음 볼륨, 그 구간 말을 사장님 컷대로 이어 붙여 **단어 시각** | 나 | `read_lecture_edit` `transcribe_words` `lecture_edit_profile` · `bisa_web_vs_instant` 의 `SEGS` |
 | **P4 장면 연출** | **앞뒤 맥락 → 구도 → 그림 → 정지 스토리보드 → 조각·겹침 검사 → 애펙 렌더** (후킹 애펙) / 강의 자료는 지정된 자막 타이밍에 카드·패널 | 나 | `motion-graphics.md` 1장 · `lecture-graphics.md` · `ai-video.md` |
-| **P5 효과음** | 등급표에서 고르되 역할마다 파일 이름 고정 · 크기 파일별 표 · `rule_check.check_sfx` 통과해야 섞는다 | 나 | `sfx.md` · `bisa_meta_sfx` `rule_check` |
+| **P5 효과음** | `sfx-workflow.md` S1~S8 — 뜻별 단골(3장) → 등급표에서 고르되 역할마다 파일 이름 고정 · 크기 파일별 표 · `rule_check.check_sfx` 통과해야 섞는다 | 나 | `sfx.md` · `bisa_meta_sfx` `rule_check` |
 | **P6 납품 3종** | `NN_이름_시작초~.mp4` · `NN_이름_효과음.xml` · `NN_이름_미리보기.mp4`, **같은 이름 제자리 덮어쓰기**. 트랙: **V1 바꿔 끼우기(기본, 사람은 굽지 않음) · 반반만 V3 · 알파 카드는 V2** + 효과음 A2~. 강의 자료는 영상 V3 · 효과음 A2~ 의 «얹을 것만» XML | 나 → 사장님이 프리미어에 넣음 | `motion-graphics.md` 1-1 · `lec_xml` |
 | **P7 피드백 기록** | 사장님 말씀을 **원문 그대로** `기록/작업기록.md` · `feedback-log.md`, 효과음 반응은 `tools/data/예능효과음-실사용.json`, 굳은 규칙은 SKILL/checklist 에 **규칙 한 줄 + 점검표 한 줄** | 나 | `feedback-log.md` |
 
@@ -27,7 +27,7 @@ description: 한비즈 롱폼(강의형 가로 1920×1080, 사장님이 말하�
 |---|---|---|---|
 | **말하는 사람 위 애펙 장면** | `기록/작업기록.md` 맨 위 → 이 SKILL 3장 → `motion-graphics.md` «한눈에» → 0장(그림 길·갈래) → 1장(순서·1-1 납품 형태) | 같은 문서 2장(통과)·2-1장(영상미)·3장(효과음 뜻·그림)·**4장(반려)**·5장(함정) | `checklist.md` A표 |
 | ㄴ B 경로(클로드 디자인) | 위 + `motion-graphics.md` «B 경로 원칙» | 이미지 출처는 `소재/이미지-출처.md` | 같은 A표 |
-| **효과음 깔기**(어느 장면이든) | `sfx.md` 핵심 → 1~3장 | `예능효과음-등급.json`(A★→A→B) · `예능효과음-실사용.json`(통과·반려) | `sfx.md` 12장 · `rule_check.check_sfx` · `checklist.md` D표 |
+| **효과음 깔기**(어느 장면이든) | **`sfx-workflow.md`**(폴더 주소·단골·순서) → `sfx.md` 핵심 → 1~3장 | `예능효과음-등급.json`(A★→A→B) · `예능효과음-실사용.json`(통과·반려) | `sfx.md` 12장 · `rule_check.check_sfx` · `checklist.md` D표 |
 | **강의 무음편집** | `silence-cut.md` 0장 | — | 손상 0 확인(`pause_compress` 가 멈춤) · `checklist.md` B표 |
 | **강의 자료·자막 타이밍 자료** | `lecture-graphics.md` 0장(작업 방식) → 3장(보조 패널) | 5장(포토카드 통과 틀) · `tools/examples/lec12_card01.py` 복사 | `checklist.md` C표 |
 | **AI 이미지·영상 생성** | `ai-video.md` 전체 | 유료 영상화 직전 «영상화 직전 점검»(6장) | `checklist.md` E표 |
@@ -49,7 +49,7 @@ description: 한비즈 롱폼(강의형 가로 1920×1080, 사장님이 말하�
 6. **그림**(5장 길 고르기) — Codex 는 한 세션에 몰아서(투명 배경·같은 인물은 앞 그림을 `view_image` 로 물림).
 7. **조각 → 정지 스토리보드** — PIL 조각을 만들고 **렌더 전에 «다 나온 모습» 정지 화면을 합성해 눈으로 본다**(겹침·글자 깨짐·주소창 노출). 겹침 자동 검사는 렌더 전에 멈춘다.
 8. **애펙** — JSX(ASCII) → `AfterFX -r`(감시 `run_ae_guarded`) → `aerender` → ffmpeg. 등장은 `eo`(빠르게 들어와 감속), UI 는 튕김 없음.
-9. **효과음** — `sfx.md`. 뜻·그림에 맞는지 먼저, 이름으로 고정, `rule_check.check_sfx` 통과해야 섞는다.
+9. **효과음** — `sfx-workflow.md`(폴더 주소 1장 · 뜻별 단골 3장 · 순서 4장) → 근거 `sfx.md`. 뜻·그림에 맞는지 먼저, 이름으로 고정, `rule_check.check_sfx` 통과해야 섞는다.
 10. **확인** — 렌더 뒤 단어 시각마다 프레임을 모아 보고 ebur128 트루피크. 소리를 귀로 못 들었으면 «못 들었다».
 11. **납품 3종 + 폴더 열기** → 12. **점검표**(`checklist.md`) → 13. **기록**(P7).
 
@@ -177,6 +177,7 @@ description: 한비즈 롱폼(강의형 가로 1920×1080, 사장님이 말하�
 | `config.py` | 경로·규격 한 곳: ORIG_ROOT · SUBPIPE · RAW_ROOT · AE_DIR · SFX_LIB(원본 경로만) · GRADE_JSON · FONTS · WORK(_tmp) · OUT(납품) · CHROME · W,H,FPS |
 | **점검** | |
 | `rule_check.py` | `check_sfx`(5-2 연속 · 5-2b 짧은 주기 · 5-3 빈 구간) · `report` — 렌더 도구가 소리 섞은 뒤 부르고 ERROR 면 멈춘다(`--무시`). `check_plan` 은 분양 화면 목록용 |
+| `sfx_find.py` | 효과음 찾기 — 이름·분류(`--cat`)·뜻별 단골(`--role`/`--roles`)·폴더 지도(`--dirs`)·바로 듣기(`--play`). 폴더 주소는 `config.SFX_ROOTS` 한 곳 — `references/sfx-workflow.md` |
 | `glyph_check.py` | 글꼴에 없는 글자(빈칸·네모) 렌더 전 점검 `check(글, 글꼴)` |
 | `resume_guide.py` | SessionStart 훅 — 상시 규칙·작업기록 «다음 작업 예정»·점검표 A를 6k자 이하로 대화에 넣음 |
 | **무음편집 · 프리미어 읽기** | |
