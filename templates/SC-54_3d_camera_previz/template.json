@@ -1,0 +1,150 @@
+{
+  "id": "SC-54",
+  "name": "3D카메라프리비즈",
+  "drawer": "SC",
+  "version": 1,
+  "status": "신규",
+  "engine": "blender",
+  "subject": [
+    "무대배경"
+  ],
+  "source_ref": [
+    "쇼츠 blender.md (b4_previz05_scene.py — look()·smoothstep·CONSTANT 렌즈)",
+    "templates/SC-15 (3D 오브젝트 본보기)",
+    "origin-session-1008.md #86 «블렌더 프리비즈→AI 실사» (Gemini/Seedance, 반실사 반려 이력)",
+    "쇼츠 blender.md 0·4장",
+    "templates/SC-14 · SC-60 (짝)"
+  ],
+  "summary": "AI 실사 영상의 카메라 참조 영상(회색 단색 도형 장면에서 카메라만 움직임)을 만든다. 화면에 직접 나가지 않고 SC-14·SC-60 에 reference-to-video 로 들어간다. 길이는 대사 구간(3·4·5초)",
+  "use_when": [
+    "현실 공간·사람"
+  ],
+  "avoid_when": [
+    "숫자·금액",
+    "설정·버튼"
+  ],
+  "tones": {
+    "TN-1": 0.1,
+    "TN-2": 0.1,
+    "TN-3": 0.5,
+    "TN-4": 0.1
+  },
+  "screens": [
+    "사람없음"
+  ],
+  "layer": "L2",
+  "moves_person": false,
+  "duration": [
+    3,
+    5
+  ],
+  "slots": {
+    "previz": {
+      "kind": "image",
+      "source": [
+        "render3d"
+      ],
+      "style": "3D 비닐",
+      "alpha": false,
+      "desc": "프리비즈 참조 영상 — 단색 도형 3D 장면의 카메라 이동(질감 없음). 프롬프트에 «Follow ONLY the camera movement… ignore the grey shapes»"
+    },
+    "start_image": {
+      "kind": "image",
+      "source": [
+        "codex"
+      ],
+      "style": "실사 사진",
+      "alpha": false,
+      "desc": "함께 넣을 시작 이미지 — 사진기 톤 Codex 사진, 글자·로고 없음"
+    },
+    "camera_plan": {
+      "kind": "text",
+      "max_chars": 80,
+      "rule": "카메라 길이·방향·구간 한 줄(예: 눈높이 전진 → 테이블 위로) — 내부용"
+    },
+    "model": {
+      "kind": "choice",
+      "options": [
+        "Gemini Omni Flash 1.1",
+        "Seedance 2.0"
+      ],
+      "desc": "참조 영상을 받는 모델만(Kling 3.0 은 못 받음). 기본 Gemini, 미성년이면 Seedance"
+    },
+    "seconds": {
+      "kind": "choice",
+      "options": [
+        3,
+        4,
+        5
+      ],
+      "desc": "대사 구간 길이 — 쇼츠 기록은 30fps 기준 90·120·150프레임 (롱폼 59.94 환산은 첫 견본에서)"
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "AI 컷이 시작하는 단어 시각"
+    }
+  },
+  "drawn_allowed": [],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "프리비즈 렌더 시작(화면에 나가지 않음)",
+      "dur": 0.0,
+      "ease": "hold"
+    },
+    {
+      "at": "t1",
+      "do": "참조 영상 완성 → SC-14·SC-60 입력",
+      "dur": 0.0,
+      "ease": "hold"
+    }
+  ],
+  "look": {
+    "render": "Eevee 가정, 1920×1080 59.94 (요청 설계 — 블렌더 미설치라 확인 안 됨)",
+    "camera": "yaw=atan2(−dx, dy), pitch=atan2(dz, hypot(dx,dy)), rotation_euler=(π/2+pitch, 0, yaw)",
+    "render_split": "힉스필드 클라우드 블렌더는 한 조작 300초 제한 — 30~36프레임씩 쪼개 렌더 (blender.md 1장)",
+    "previz_note": "질감 없는 단색 재질만 — Principled BSDF Base Color + diffuse_color (쇼츠 blender.md 1장)"
+  },
+  "sfx": [
+    {
+      "at": "t0",
+      "role": "in",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "회색 도형 질감이 영상에 새지 않게 프롬프트에 «카메라만 따를 것, 회색 도형 무시»를 넣는다 (쇼츠 blender.md 0장)",
+    "Kling 3.0 은 참조 영상을 못 받는다 (ai-video.md 4장)",
+    "블렌더 렌더는 무료, 영상화는 유료 한도·장면당 1건 (CLAUDE.md 3)",
+    "사물·공간은 3D 렌더 이미지(render3d) — 도형을 쌓아 형상을 흉내 내는 짜깁기 금지 (10-07 06)",
+    "카메라 각도는 눈대중이 아니라 look(p,q) 로 목표점을 보게 계산한다: yaw=atan2(−dx,dy), pitch=atan2(dz,hypot(dx,dy)), rotation_euler=(π/2+pitch,0,yaw) (쇼츠 blender.md 1장 09-30 함정)",
+    "구간 보간은 smoothstep u²(3−2u), 렌즈 키는 CONSTANT (쇼츠 blender.md 1장)",
+    "렌더 길이는 대사 구간 길이에 맞춘다 — 나중에 구간별 배속 변경 금지 (blender.md 1장 · ai-video.md 4장)",
+    "글자는 3D 모델에 박지 않는다 — 렌더러(PIL·AE)가 위에 얹는다 (SC-15 rules)",
+    "Flova 는 쓰지 않는다 (사장님 10-08 «오케이 일단 플로바는 제외하고»)"
+  ],
+  "sample": {
+    "camera_plan": "눈높이 전진",
+    "seconds": 4
+  },
+  "fallback": [
+    "SC-14",
+    "SC-15"
+  ],
+  "from": "코드 없음 — 쇼츠 blender.md 의 b4_previz05_scene.py 구조만 참고(로컬 블렌더 실행은 확인된 바 없음)",
+  "basis": "origin-session-1008.md #86 · 쇼츠 blender.md 0·4장",
+  "todo": [
+    "이 PC 에 블렌더 미설치",
+    "화면에 직접 나가지 않는 참조 영상이라 screens/layer/sfx 는 형식상 값 — 짝 템플릿(SC-14·SC-60)의 자리를 따른다",
+    "프레임레이트: 쇼츠 장면 코드는 30fps 217프레임 — 롱폼 59.94 와 맞추는 방법은 정하지 않음",
+    "쇼츠 blender.md 는 코드를 이 PC 에서 다시 돌려 확인하지 않았다 — 힉스필드 클라우드 블렌더(3D Jutsu) 기록뿐, 로컬 bpy 실행 여부 미확인(한 조작 300초 제한이라 30~36프레임씩 쪼개 렌더)",
+    "duration·카메라 종류·등장 모션 수치는 문서에 근거 없음 → 초기값 — 첫 견본에서 정함",
+    "R4 로드맵 항목(블렌더 설치 후)"
+  ],
+  "rejected": []
+}

@@ -1,0 +1,78 @@
+{
+  "id": "CA-06",
+  "name": "원위치",
+  "drawer": "CA",
+  "version": 1,
+  "status": "신규",
+  "engine": "compose",
+  "subject": [
+    "녹화화면",
+    "사람"
+  ],
+  "source_ref": [
+    "auto-pipeline.md 4장 CA-06",
+    "CA-03 의 복귀 구간(bisa_ab_live: 0.45초) — 통과 결"
+  ],
+  "summary": "확대된 카메라를 1.0 으로 감속하며 되돌린다. 챕터 끝·장면 시작 전에 공통으로 붙는다",
+  "use_when": [
+    "챕터 시작"
+  ],
+  "avoid_when": [],
+  "screens": [
+    "PIP",
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "L1",
+  "moves_person": false,
+  "duration": [
+    0.3,
+    0.45
+  ],
+  "slots": {
+    "dur": {
+      "kind": "number",
+      "range": [
+        0.3,
+        0.45
+      ],
+      "desc": "복귀 시간(초)"
+    }
+  },
+  "drawn_allowed": [],
+  "keepout": [],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "현재 배율 → 1.0 복귀(풀샷이면 L1+L3 묶음)",
+      "dur": "0.3 (설계안) ~ 0.45 (CA-03 값)",
+      "ease": "ez"
+    }
+  ],
+  "look": {
+    "design_sec": 0.3,
+    "ca03_out_sec": 0.45
+  },
+  "sfx": [
+    {
+      "at": "t0",
+      "role": "back",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "확대 상태에서 챕터가 끝나거나 SC 장면이 시작되기 전에 반드시 1.0 으로 돌아온다 — 카메라 움직임 중 SC 시작 금지 (auto-pipeline.md 6-3)",
+    "이미 1.0 이면 아무것도 하지 않는다 — 소리도 붙이지 않는다 (소리는 그림에 붙는다, sfx-workflow.md 0장 1)",
+    "카메라는 L1(녹화)에만 건다 — 자막(L6)·사람 PIP 는 영향을 받지 않는다 (auto-pipeline.md 2-2·4장 CA)",
+    "카메라가 움직이는 동안 SC 장면을 시작하지 않는다 — auto-pipeline.md 6-3 «시간 겹침»"
+  ],
+  "rejected": [],
+  "fallback": [
+    "CA-03"
+  ],
+  "from": "tools/examples/bisa_ab_live.py (복귀 0.45초 — CA-03 값)",
+  "basis": "auto-pipeline.md 4장 CA-06 (설계안 0.3초) · CA-03 템플릿 look.out_sec 0.45",
+  "todo": [
+    "복귀 시간이 설계안 0.3초와 CA-03 실제 코드 0.45초로 갈린다 — 기본을 어느 쪽으로 할지 첫 견본에서 정함"
+  ]
+}

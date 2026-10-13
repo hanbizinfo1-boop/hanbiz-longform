@@ -1,0 +1,126 @@
+{
+  "id": "SC-42",
+  "name": "자료고정자막교체",
+  "drawer": "SC",
+  "version": 1,
+  "status": "신규",
+  "engine": "compose",
+  "subject": [
+    "자료이미지",
+    "글자"
+  ],
+  "source_ref": [
+    "원#80 (ad_build — 자료는 컷의 42%·이어지는 컷 38%·한 컷 22% 지점에 늦게 등장, 다음 줄까지 유지)",
+    "쇼츠 R6-4 (motion-graphics.md 7장 — 자료 고정·자막만 교체, 강의 자료 판)"
+  ],
+  "summary": "자료 이미지는 한 장으로 고정해 두고 그 위·아래 자막만 말 따라 교체한다 — 자료를 늦게 띄우고 다음 줄까지 유지",
+  "use_when": [
+    "자료 등장",
+    "화면 속 특정 부분",
+    "정의·조건"
+  ],
+  "avoid_when": [
+    "일상 상황"
+  ],
+  "tones": {
+    "TN-1": 0.4,
+    "TN-2": 0.4,
+    "TN-3": 0.6,
+    "TN-4": 0.8
+  },
+  "screens": [
+    "PIP",
+    "사람없음"
+  ],
+  "layer": "L2",
+  "moves_person": false,
+  "duration": [
+    5,
+    25
+  ],
+  "slots": {
+    "material": {
+      "kind": "image",
+      "source": [
+        "doc",
+        "real_capture"
+      ],
+      "style": "실사 사진",
+      "alpha": false,
+      "desc": "고정할 자료 한 장(사장님 PDF·공고문 페이지 — 자동 모드에선 업체·개인정보 없는 것만)"
+    },
+    "captions": {
+      "kind": "text",
+      "rule": "교체 자막 — 사장님 자막 트랙 원문 사용(SKILL.md 144)",
+      "many": true,
+      "max_chars": 20
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "자막 줄마다 단어 시각"
+    }
+  },
+  "drawn_allowed": [
+    "어둡게덮기",
+    "테두리"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "t0+0.42*cut",
+      "do": "자료 등장(컷 길이의 42% 지점 — 한 컷 22%, 이어지는 컷 38%)",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[i]",
+      "do": "자료는 그대로, 자막만 교체",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "t1",
+      "do": "다음 줄 시작까지 유지 후 퇴장",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "appear_ratio": 0.42,
+    "appear_ratio_continued": 0.38,
+    "appear_ratio_single": 0.22,
+    "hint": "원#80 비율. 쇼츠 R6-4 세부는 motion-graphics.md 7장에서 확인"
+  },
+  "sfx": [
+    {
+      "at": "t0+0.42*cut",
+      "role": "in",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "자막은 원문(사장님) 그대로 — 이 템플릿은 자료를 늦게 띄우고 다음 줄까지 유지하는 것만 맡는다. 자막을 새로 그리거나 바꾸지 않는다 (설계자 10-08, CLAUDE.md 11)",
+    "자료는 컷 처음부터가 아니라 늦게(비율) — 말이 자료를 부른 뒤 (원#80)",
+    "자막은 사장님 몫 — 이쪽은 자막을 새로 쓰지 않는다 (CLAUDE.md 11)",
+    "자동 모드에선 실제 업체·개인정보가 보이는 실자료를 쓰지 않는다 — 재현·Codex, 업체명 ○○ (README 8장, CLAUDE.md 4)",
+    "자료 지정은 사장님이 정한 자리에서만 (CLAUDE.md 11)"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "EM-01",
+    "SC-11"
+  ],
+  "from": "D:\\영상제작\\도구\\광고편집\\ad_build.py (읽기만)",
+  "basis": "origin-session-1008.md 원#80",
+  "todo": [
+    "42/38/22% 가 «컷의 몇 %» 인지 ad_build.py 에서 확인(원 노트 표현 그대로)",
+    "쇼츠 R6-4 수치: 노트에 없음",
+    "자막 교체를 이쪽이 그리는지 사장님 자막이 하는지 경계 — 설계자 판단"
+  ]
+}

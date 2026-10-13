@@ -1,0 +1,117 @@
+{
+  "id": "CA-01",
+  "name": "순간줌",
+  "drawer": "CA",
+  "version": 1,
+  "status": "통과",
+  "engine": "compose",
+  "subject": [
+    "녹화화면"
+  ],
+  "source_ref": [
+    "사장님 강의 편집 2강 «녹화 화면 확대» 4회 실측 (lecture-graphics.md 1장)"
+  ],
+  "summary": "녹화 화면을 100%에서 196~226%로 거의 순간(0.034~0.067초)에 확대해 말하는 칸을 짚는다",
+  "use_when": [
+    "화면 속 특정 부분",
+    "설정·버튼"
+  ],
+  "avoid_when": [
+    "일상 상황",
+    "개념 비교"
+  ],
+  "tones": {
+    "TN-1": 1.0
+  },
+  "screens": [
+    "PIP",
+    "사람없음"
+  ],
+  "layer": "L1",
+  "moves_person": false,
+  "duration": [
+    0.1,
+    20
+  ],
+  "slots": {
+    "target": {
+      "kind": "box",
+      "from": "해부.녹화활동",
+      "desc": "확대 목표 상자(녹화 좌표). 커서·바뀐 영역에서 자동, 내가 고칠 수 있음"
+    },
+    "zoom": {
+      "kind": "number",
+      "range": [
+        1.96,
+        2.26
+      ],
+      "desc": "확대 배율(실측 196~226%)"
+    }
+  },
+  "drawn_allowed": [],
+  "keepout": [
+    "자막띠",
+    "사람PIP"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "녹화(V1) 비율 100% → zoom + 목표 쪽 위치 이동(거의 순간 줌)",
+      "to": "zoom",
+      "dur": "0.034~0.067 (2강 4회 실측 범위, 59.94fps 로 2~4프레임)",
+      "ease": "eo"
+    },
+    {
+      "at": "t1",
+      "do": "원위치 — 복귀는 CA-06 이 받는다"
+    }
+  ],
+  "look": {
+    "zoom_pct": [
+      196,
+      226
+    ],
+    "in_sec": [
+      0.034,
+      0.067
+    ]
+  },
+  "sfx": [
+    {
+      "at": "t0",
+      "role": "in",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "확대해도 녹화 기본 틀 밖(주소창·탭·북마크)이 보이지 않게 위치를 묶는다 — bisa_ab_live.cam_at (motion-graphics.md 5장 함정, 10-08 13)",
+    "확대한 영역에 업체명·번호·계정 ID 가 보이면 이 박자는 버리고 fallback — CLAUDE.md 4",
+    "녹화 화면 확대에 붙이는 휙２ 는 작게 — sfx.md 3-3 «05 확대 휙２ 는 16:19 에 0dB 로 내리셨다» (크기는 sfx.md 3장 파일별 표를 따른다)",
+    "순간줌은 드물게 — 실측이 2강 4회뿐이다 (lecture-graphics.md 1장). 한 문장에 연달아 쓰지 않는다 (인지할 텀 0.6초, motion-graphics.md 2-1 원칙 13)",
+    "카메라는 L1(녹화)에만 건다 — 자막(L6)·사람 PIP 는 영향을 받지 않는다 (auto-pipeline.md 2-2·4장 CA)",
+    "카메라가 움직이는 동안 SC 장면을 시작하지 않는다 — auto-pipeline.md 6-3 «시간 겹침»",
+    "같은 템플릿은 3박자 안에 다시 쓰지 않는다 — auto-pipeline.md 6-2·6-3"
+  ],
+  "rejected": [],
+  "sample": {
+    "target": [
+      812,
+      404,
+      1240,
+      470
+    ],
+    "zoom": 2.0
+  },
+  "fallback": [
+    "CA-03",
+    "EM-02"
+  ],
+  "from": "lecture-graphics.md 1장 «화면 자체의 움직임» 표 (코드 출처 없음 — 사장님 편집 실측)",
+  "basis": "lecture-graphics.md 1장 (2강 4회, 196~226%, 0.034~0.067초) · auto-pipeline.md 4장 CA-01",
+  "todo": [
+    "실측 문서에 원위치(복귀) 방식·유지 시간·위치 이동 목표값이 없다 — 초기값, 첫 견본에서 정함",
+    "기본 배율(zoom 기본값)은 정하지 않았다 — 범위 196~226% 안에서 첫 견본에서 정함",
+    "1080p 녹화 원본에서 2배 확대 시 흐림 정도는 견본으로 확인",
+    "duration 은 서랍 범위(auto-pipeline.md 3-1장) — 이 템플릿 고유 값은 초기값, 첫 견본에서 정함"
+  ]
+}

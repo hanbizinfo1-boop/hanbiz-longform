@@ -1,0 +1,147 @@
+{
+  "id": "TR-02",
+  "name": "목차복귀",
+  "drawer": "TR",
+  "version": 1,
+  "status": "신규",
+  "engine": "ae",
+  "subject": [
+    "글자",
+    "자료이미지"
+  ],
+  "source_ref": [
+    "SC-02 템플릿 변형 (빡이사DB 02 노트 손글씨 «좋아» 통과)",
+    "motion-graphics.md 2-1 원칙 12 북엔드"
+  ],
+  "summary": "목차 노트가 다시 나와 방금 끝난 항목에 손글씨 체크를 표시하고 닫힌다(SC-02 목차의 변형). 챕터가 끝나고 다음으로 넘어가는 자리",
+  "use_when": [
+    "챕터 시작",
+    "정리·목차"
+  ],
+  "avoid_when": [
+    "설정·버튼"
+  ],
+  "screens": [
+    "풀샷",
+    "PIP"
+  ],
+  "layer": "L5",
+  "moves_person": true,
+  "duration": [
+    1.41,
+    4
+  ],
+  "slots": {
+    "paper": {
+      "kind": "image",
+      "source": [
+        "codex"
+      ],
+      "style": "실사 사진",
+      "alpha": true,
+      "desc": "SC-02 와 같은 스프링 노트 종이(건 단위 한 장 재사용)"
+    },
+    "lines": {
+      "kind": "text",
+      "many": true,
+      "max_chars": 14,
+      "rule": "목차 줄 — SC-02 목차 장면에서 쓴 줄 그대로. 말 복사·«» 금지, 개구 글꼴에 없는 «·…→①» 금지"
+    },
+    "done": {
+      "kind": "choice",
+      "desc": "방금 끝난 줄 번호(체크 표시)"
+    },
+    "check": {
+      "kind": "image",
+      "source": [
+        "codex"
+      ],
+      "style": "손글씨 종이",
+      "alpha": true,
+      "desc": "손으로 쓴 체크 표시 한 장(투명 배경). 펜 그림은 넣지 않는다"
+    }
+  },
+  "drawn_allowed": [
+    "판",
+    "형광펜",
+    "글자"
+  ],
+  "keepout": [
+    "자막띠"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "사람 x 960→480 이동",
+      "dur": 0.45,
+      "ease": "ez"
+    },
+    {
+      "at": "t0",
+      "do": "노트 판이 오른쪽 밖에서 기준점 x 900 으로 — 줄은 이미 써진 상태",
+      "dur": 0.45,
+      "ease": "eo"
+    },
+    {
+      "at": "t0+0.45",
+      "do": "done 줄에 체크 이미지 팝(세로 130→100%)",
+      "dur": 0.216,
+      "ease": "eo"
+    },
+    {
+      "at": "t1-0.36",
+      "do": "거꾸로 닫힘(북엔드)",
+      "dur": 0.36,
+      "ease": "ez"
+    }
+  ],
+  "look": {
+    "person_x": [
+      960,
+      480
+    ],
+    "panel_anchor_x": 900,
+    "font": "Gaegu Bold (손글씨, OFL)",
+    "line_gap_px": 90,
+    "check_pop_sec": 0.216
+  },
+  "sfx": [
+    {
+      "at": "t0",
+      "role": "in",
+      "meaning": "중립"
+    },
+    {
+      "at": "t0+0.45",
+      "role": "click",
+      "meaning": "그림"
+    },
+    {
+      "at": "t1-0.36",
+      "role": "back",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "목차 장면(SC-02 등)이 앞에서 나온 건에만 쓴다 — 보여 준 적 없는 목차가 갑자기 돌아오면 맥락이 끊긴다 (앞뒤 맥락 먼저, 10-07, SKILL.md 3장)",
+    "체크는 코드로 그린 ✓ 아이콘이 아니라 이미지 칸이다 — 도형 흉내 금지 (10-07 06, README 4·5장). 맑은 고딕엔 «✓» 글리프도 없다 (motion-graphics.md 5장)",
+    "펜 그림은 넣지 않는다 — 10-02 «연필이 너무 흔들려서 집중이 분산돼» (motion-graphics.md 4장)",
+    "판 위 요소는 판에 부모로 묶어 같이 빠지게 — motion-graphics.md 2장",
+    "사람을 옮기는 반반 장면이라 «원본 컷 바뀌면 다시 렌더» — SKILL.md 2-2",
+    "체크 소리는 그림에 맞춰 클릭 — motion-graphics.md 3장 «체크·스위치 = 클릭»"
+  ],
+  "rejected": [],
+  "fallback": [
+    "TR-01",
+    "TR-03"
+  ],
+  "from": "templates/SC-02_note_handwriting (사본 변형) · tools/bisa_toc_cards.py (글꼴·종이)",
+  "basis": "auto-pipeline.md 4장 TR-02 · motion-graphics.md 2장(02 통과)·2-1 원칙 12",
+  "todo": [
+    "줄이 이미 써진 상태로 나오게 한 것은 설계 판단이다(쓰기 애니메이션을 다시 보이면 길어짐) — 첫 견본에서 확인",
+    "체크 팝 시각 t0+0.45 는 노트가 자리 잡는 시간(0.45초)에 맞춘 값 — 초기값, 첫 견본에서 정함",
+    "하한 1.41초 = 열림 0.45 + 인지할 텀 0.6 + 닫힘 0.36 (SC-02 값의 합)",
+    "체크 이미지는 Codex 로 새로 만든다 — 손글씨 체크 투명 배경 한 장",
+    "견본 렌더 전이라 status 신규"
+  ]
+}

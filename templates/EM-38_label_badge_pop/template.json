@@ -1,0 +1,149 @@
+{
+  "id": "EM-38",
+  "name": "라벨배지톡",
+  "drawer": "EM",
+  "version": 1,
+  "status": "대기",
+  "engine": "ae",
+  "subject": [
+    "자료이미지",
+    "글자"
+  ],
+  "source_ref": [
+    "origin-session-1008.md #68 라벨 배지 톡+솟아오름 — 분양4 03 통과 (D:\\영상제작\\도구\\광고편집\\b4_subway.py)"
+  ],
+  "summary": "장소·이름 배지가 톡 붙고 대상(출입구 등)이 아래에서 솟아오른다. 새 항목이 말에 나올 때마다 배지가 하나씩 붙고 맨 끝에 작은 주석",
+  "use_when": [
+    "소개·여러 항목",
+    "자료 등장"
+  ],
+  "avoid_when": [
+    "가림",
+    "숫자·금액"
+  ],
+  "tones": {
+    "TN-1": 0.6,
+    "TN-2": 0.4,
+    "TN-3": 0.6,
+    "TN-4": 0.5
+  },
+  "screens": [
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "L4",
+  "moves_person": false,
+  "duration": [
+    2,
+    8
+  ],
+  "slots": {
+    "base": {
+      "kind": "image",
+      "source": [
+        "doc",
+        "codex",
+        "crawl"
+      ],
+      "style": "실사 사진",
+      "alpha": false,
+      "desc": "배지가 붙는 배경 이미지(지도·사진)"
+    },
+    "object": {
+      "kind": "image",
+      "source": [
+        "codex"
+      ],
+      "style": "실사 사진",
+      "alpha": true,
+      "desc": "솟아오르는 대상 이미지(출입구 등) — 도형 금지"
+    },
+    "badges": {
+      "kind": "text",
+      "many": true,
+      "max_chars": 8,
+      "rule": "이름 배지 — 말에 나온 이름만"
+    },
+    "note": {
+      "kind": "text",
+      "optional": true,
+      "max_chars": 10,
+      "rule": "작은 주석(예: 계획 단계) — 사실 확인된 것만"
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "배지마다 단어 시각"
+    }
+  },
+  "drawn_allowed": [
+    "카드바탕",
+    "글자"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "word:hit[0]",
+      "do": "첫 배지 톡 + 대상 솟음",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[1]",
+      "do": "둘째 배지(뿅)",
+      "dur": 0.22,
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[note]",
+      "do": "주석 등장",
+      "dur": 0.22,
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "time_basis": "b4_subway.py 장면 0초=9.877: 배지 +0.684 · 둘째 +1.234 · 주석 +2.10 · 끝 +4.5",
+    "badge_color": "보라 빛 + 배지(원본 색, 롱폼은 브랜드색으로 초기값 — 첫 견본에서 정함)"
+  },
+  "sfx": [
+    {
+      "at": "word:hit[0]",
+      "role": "in",
+      "meaning": "중립",
+      "when": "도돈 계열 — 단골 이름표 in/card"
+    },
+    {
+      "at": "word:hit[1]",
+      "role": "card",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "새 요소는 혼자 0.6초 이상 — 배지 사이 간격 확보 (원본 +0.55초는 쇼츠 속도, 롱폼은 말 시각에)",
+    "대상은 실제 질감 이미지 — 도형 흉내 금지 (R_REAL)",
+    "계획·미확정 사실은 주석으로 «계획 단계» 처럼 표기 (원본 «※ 계획 단계»)",
+    "등장은 4~8프레임~0.22초 감속(eo), 오버슈트 0, 새 요소는 혼자 0.6초 이상 (README 6장 · motion-graphics 2-1장 원칙 3·13)"
+  ],
+  "rejected": [],
+  "sample": {
+    "badges": [
+      "○○역",
+      "△△선"
+    ]
+  },
+  "fallback": [
+    "EM-07",
+    "SC-11"
+  ],
+  "from": "D:\\영상제작\\도구\\광고편집\\b4_subway.py (읽기만)",
+  "basis": "origin-session-1008.md 1장 #68 (분양 쇼츠 통과 → 롱폼 대기)",
+  "todo": [
+    "원본은 AI 영상(Gemini Omni Flash image-to-video 15크레딧)으로 만든 급강하 장면이 바탕 — 이 템플릿은 배지+솟음만 떼어 정지 이미지 위에서 한다",
+    "솟음 이동 거리·시간 초기값 — 첫 견본에서 정함",
+    "가로 1920×1080·59.94fps 재배치 — 프레임 수는 29.97 기준이면 초로 환산해 다시 맞춘다 (원본은 세로)"
+  ]
+}

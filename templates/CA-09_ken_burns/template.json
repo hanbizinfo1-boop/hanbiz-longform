@@ -1,0 +1,97 @@
+{
+  "id": "CA-09",
+  "name": "켄번스",
+  "drawer": "CA",
+  "version": 1,
+  "status": "신규",
+  "engine": "compose",
+  "subject": [
+    "자료이미지"
+  ],
+  "source_ref": [
+    "웹#14 켄 번스 효과 (web-research-1008.md 1장 «정지 자료 이미지 천천히 밀기·훑기» 계열, 출처 값 없음)"
+  ],
+  "summary": "정지 자료 이미지(문서·사진·기사 캡처)를 천천히 밀거나 훑어 움직임이 없는 구간에 숨을 넣는다. 말하는 곳으로 방향을 잡는다",
+  "use_when": [
+    "자료 등장",
+    "사례·후기",
+    "현실 공간·사람"
+  ],
+  "avoid_when": [
+    "설정·버튼",
+    "숫자·금액"
+  ],
+  "tones": {
+    "TN-1": 0.6,
+    "TN-2": 0.3,
+    "TN-3": 1.0,
+    "TN-4": 0.2
+  },
+  "screens": [
+    "사람없음",
+    "풀샷"
+  ],
+  "layer": "L2",
+  "moves_person": false,
+  "duration": [
+    2,
+    8
+  ],
+  "slots": {
+    "still": {
+      "kind": "image",
+      "source": [
+        "doc",
+        "codex",
+        "crawl",
+        "real_capture"
+      ],
+      "style": "실사 사진",
+      "alpha": false,
+      "desc": "움직일 정지 자료 한 장(업체명·번호 노출 자료 금지)"
+    },
+    "from_box": {
+      "kind": "box",
+      "desc": "시작 크롭 상자"
+    },
+    "to_box": {
+      "kind": "box",
+      "desc": "끝 크롭 상자 — 말하는 곳"
+    }
+  },
+  "drawn_allowed": [],
+  "keepout": [
+    "자막띠",
+    "사람PIP"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "시작 크롭에서 끝 크롭으로 천천히 이동·확대",
+      "dur": "구간 길이(t1-t0)",
+      "ease": "ez"
+    }
+  ],
+  "look": {},
+  "sfx": [],
+  "rules": [
+    "말이 가리키는 곳으로 끝나게 한다 — 방향 근거 없는 훑기 금지 (SKILL.md 3장 «그 말이 실제로 일어나는 자리»)",
+    "정지 자료는 업체명·번호·계정이 안 보이는 것만 — CLAUDE.md 4, SKILL.md 3장",
+    "도형이 아니라 실제 이미지 — 10-07 06",
+    "느린 한 방향만 — 흔들림·바운스 없음 (motion-graphics.md 2-1 원칙 3)",
+    "자막 띠(y 967~1041)·사람 PIP(원형 중심 (126,964) 반지름 약 123px)를 가리지 않는다 — lecture-graphics.md 1·4장, 10-08 18 겹침 없음",
+    "같은 템플릿은 3박자 안에 다시 쓰지 않는다 — auto-pipeline.md 6-2·6-3"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "CA-02",
+    "CA-07"
+  ],
+  "from": "web-research-1008.md (켄 번스 출처 값 없음) — 설계안",
+  "basis": "web-research-1008.md 2장 시장 템플릿 카테고리 · auto-pipeline.md 4장 CA",
+  "todo": [
+    "배율·이동 거리·시간은 근거 값이 없다 — 초기값, 첫 견본에서 정함 (CA-02 의 1.00→1.06 은 풀샷 사람용이라 자료에 그대로 쓰지 않는다)",
+    "SC 계열의 자료 움직임과 겹치는지 첫 견본에서 정함"
+  ]
+}

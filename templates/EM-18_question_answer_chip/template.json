@@ -1,0 +1,169 @@
+{
+  "id": "EM-18",
+  "name": "질문칩답칩",
+  "drawer": "EM",
+  "version": 1,
+  "status": "대기",
+  "engine": "ae",
+  "subject": [
+    "녹화화면",
+    "글자"
+  ],
+  "source_ref": [
+    "origin-session-1008.md #3 질문 칩→답 체크 칩 — 빡이사DB 05 (D:\\영상제작\\도구\\광고편집\\bisa_purpose_qs.py)"
+  ],
+  "summary": "녹화 화면의 트리(캠페인/세트/광고) 줄 옆에 파란 질문 칩이 하나씩 붙고, 한 번 반짝한 뒤 말이 끝나면 흰 체크 칩(답)으로 모양이 바뀐다",
+  "use_when": [
+    "질문",
+    "설정·버튼",
+    "소개·여러 항목"
+  ],
+  "avoid_when": [
+    "일상 상황"
+  ],
+  "tones": {
+    "TN-1": 0.9,
+    "TN-2": 0.3,
+    "TN-3": 0.2,
+    "TN-4": 1.0
+  },
+  "screens": [
+    "PIP"
+  ],
+  "layer": "L2",
+  "moves_person": false,
+  "duration": [
+    6,
+    12
+  ],
+  "slots": {
+    "screen": {
+      "kind": "image",
+      "source": [
+        "real_capture"
+      ],
+      "style": "실사 사진",
+      "alpha": false,
+      "desc": "녹화 실화면 트리 부분 — 주소창·계정 ID·북마크가 크게 보이면 그 아래부터 크롭"
+    },
+    "rows": {
+      "kind": "box",
+      "many": true,
+      "desc": "칩을 붙일 줄의 화면 좌표"
+    },
+    "questions": {
+      "kind": "text",
+      "many": true,
+      "max_chars": 8,
+      "rule": "질문 칩 — 앞 설명을 이어받은 개념어(예: 목적?)"
+    },
+    "answers": {
+      "kind": "text",
+      "many": true,
+      "max_chars": 10,
+      "rule": "답 체크 칩 — 앞에서 한 말 그대로(예: 목적 설정)"
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "질문 단어 시각들 + 답으로 바뀌는 단어 시각"
+    }
+  },
+  "drawn_allowed": [
+    "UI위젯",
+    "카드바탕",
+    "반짝선",
+    "글자"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "트리 쪽으로 200% 확대",
+      "dur": 0.5,
+      "ease": "ez"
+    },
+    {
+      "at": "word:hit[i]",
+      "do": "줄 옆 파란 질문 칩 등장(질문 단어 시각마다, 칩 사이 1.5초 안팎)",
+      "dur": 0.22,
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[flash]",
+      "do": "세 칩이 위에서부터 한 번씩 반짝",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[answer]",
+      "do": "칩이 차례로 흰 체크 칩(답)으로 모양이 바뀜 (원본 302.20~302.60 약 0.4초)",
+      "dur": 0.4,
+      "ease": "eo"
+    },
+    {
+      "at": "t1-0.5",
+      "do": "요소 빠지고 확대 풀림",
+      "dur": 0.4,
+      "ease": "ez"
+    }
+  ],
+  "look": {
+    "zoom": 2.0,
+    "zoom_sec": 0.5,
+    "colors": "흰·검정·메타 파랑",
+    "time_basis": "bisa_purpose_qs.py 295.10~304.20 구간 상대: 질문 칩 +0.76 +2.24 +4.06 · 반짝 +5.74 · 답 +7.10~7.50 · 풀림 +8.6"
+  },
+  "sfx": [
+    {
+      "at": "word:hit[i]",
+      "role": "card",
+      "meaning": "중립"
+    },
+    {
+      "at": "word:hit[flash]",
+      "role": "shine",
+      "meaning": "긍정"
+    },
+    {
+      "at": "word:hit[answer]",
+      "role": "ok",
+      "meaning": "긍정",
+      "when": "답이 정리됐다는 뜻"
+    }
+  ],
+  "rules": [
+    "같은 칩이 질문 → 답으로 모양을 바꾼다 (원칙 8) — 새 요소를 따로 띄우지 않는다",
+    "앞 맥락을 이어받는다 — 앞에서 한 말(목적·타겟·콘텐츠)이 답이다",
+    "확대 구도에서 주소창·계정 ID·북마크가 드러나면 크롭을 내린다 (원본 docstring)",
+    "등장은 4~8프레임~0.22초 감속(eo), 오버슈트 0, 새 요소는 혼자 0.6초 이상 (README 6장 · motion-graphics 2-1장 원칙 3·13)",
+    "자동 모드에서는 실제 업체·개인정보가 보이는 실자료를 쓰지 않는다(블러로 가려도) — 재현·Codex 로. 사장님이 그 자료를 지정한 건만 예외 (README 8장 · CLAUDE.md 4)",
+    "화면은 가만히, 칩만 움직인다"
+  ],
+  "rejected": [],
+  "sample": {
+    "questions": [
+      "목적?",
+      "누구에게?",
+      "무엇을?"
+    ],
+    "answers": [
+      "목적 설정",
+      "타겟 설정",
+      "콘텐츠 배치"
+    ]
+  },
+  "fallback": [
+    "EM-01",
+    "EM-06"
+  ],
+  "from": "D:\\영상제작\\도구\\광고편집\\bisa_purpose_qs.py (읽기만)",
+  "basis": "origin-session-1008.md 1장 #3 (검수 대기)",
+  "todo": [
+    "사장님 반응 없음 — 대기 상태",
+    "칩 크기·반짝 방식은 원본 코드 픽셀값을 확인하지 않았다",
+    "가로 1920×1080·59.94fps 재배치 — 프레임 수는 29.97 기준이면 초로 환산해 다시 맞춘다"
+  ]
+}

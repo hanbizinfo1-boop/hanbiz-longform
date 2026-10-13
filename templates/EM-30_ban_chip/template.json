@@ -1,0 +1,124 @@
+{
+  "id": "EM-30",
+  "name": "금지칩",
+  "drawer": "EM",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "글자"
+  ],
+  "source_ref": [
+    "origin-session-1008.md #34 줄 그은 금지 칩 (학습분)",
+    "쇼츠 CM-12 금지 칩 (study/claude-motion-graphics.md)"
+  ],
+  "summary": "칩 모양의 단어에 ✕ 줄이 그어져 «하지 마세요»를 보여 준다. 실수 항목을 하나씩",
+  "use_when": [
+    "경고·실수",
+    "소개·여러 항목"
+  ],
+  "avoid_when": [
+    "가림",
+    "일상 상황"
+  ],
+  "tones": {
+    "TN-1": 0.8,
+    "TN-2": 0.6,
+    "TN-3": 0.4,
+    "TN-4": 0.8
+  },
+  "screens": [
+    "풀샷",
+    "PIP",
+    "사람없음"
+  ],
+  "layer": "L4",
+  "moves_person": false,
+  "duration": [
+    1.5,
+    6
+  ],
+  "slots": {
+    "chips": {
+      "kind": "text",
+      "many": true,
+      "max_chars": 8,
+      "rule": "화면 글은 말을 받치는 개념어 — 말 복사·«» 대사 금지, 숫자는 말에 근거 (사장님 10-08 17·19) — 하지 말아야 할 항목"
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "항목마다 말하는 시각"
+    },
+    "area": {
+      "kind": "box",
+      "desc": "안전영역"
+    }
+  },
+  "drawn_allowed": [
+    "카드바탕",
+    "밑줄",
+    "글자"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "word:hit[i]",
+      "do": "칩 등장",
+      "dur": 0.22,
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[i]+0.4",
+      "do": "칩에 ✕ 줄이 좌→우로 그어짐",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "t1",
+      "do": "컷에서 같이 끝",
+      "dur": 0.15,
+      "ease": "lin"
+    }
+  ],
+  "look": {
+    "strike_color": "빨강 — 값 초기값 — 첫 견본에서 정함"
+  },
+  "sfx": [
+    {
+      "at": "word:hit[i]+0.4",
+      "role": "no",
+      "meaning": "부정"
+    }
+  ],
+  "rules": [
+    "빨강 하나로, 부정 소리 (상황 강령 PB-10)",
+    "글리치·흔들기류를 붙이지 않는다 — 한 편 한 번은 EM-31 몫 (원칙 11)",
+    "화면 글은 말을 받치는 개념어 — 말 복사·«» 대사 금지, 숫자는 말에 근거 (사장님 10-08 17·19)",
+    "움직임은 그 말의 단어 시각(±2프레임)에 건다 — 타이머 간격 금지 (상황 강령 0장 2 · SKILL 3장)",
+    "등장은 4~8프레임~0.22초 감속(eo), 오버슈트 0, 새 요소는 혼자 0.6초 이상 (README 6장 · motion-graphics 2-1장 원칙 3·13)",
+    "html 계약(쇼츠 tools/html_motion.py): window.W/H/FPS/DURATION · seek(t) 는 t 만의 순수 함수(CSS transition·타이머·Math.random 금지) · PALETTE 3색 이하 (EM-04 와 같은 틀)",
+    "이모지 소품(빨간 화살표·통장 X·트로피)은 쓰지 않는다 — 칩과 줄만 (origin-session-1008.md 6장 반려)"
+  ],
+  "rejected": [],
+  "sample": {
+    "chips": [
+      "무조건 최대",
+      "예산 방치"
+    ]
+  },
+  "fallback": [
+    "EM-15",
+    "EM-09"
+  ],
+  "from": "origin-session-1008.md #34 · 쇼츠 study/claude-motion-graphics.md CM-12",
+  "basis": "shorts-notes-index-1008.md claude-mg 묶음 CM-12",
+  "todo": [
+    "CM-12 의 원문 값을 claude-motion-graphics.md 에서 찾지 못했다(금지 목록 언급만) — 줄 길이·두께·칩 크기 초기값 — 첫 견본에서 정함",
+    "가로 1920×1080·59.94fps 재배치 — 프레임 수는 29.97 기준이면 초로 환산해 다시 맞춘다"
+  ]
+}

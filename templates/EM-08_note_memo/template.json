@@ -1,0 +1,53 @@
+{
+  "id": "EM-08", "name": "노트메모", "drawer": "EM", "version": 1, "status": "대기",
+  "engine": "ae",
+  "subject": ["글자"],
+  "source_ref": ["창근님 강의 09-23 저녁 «메모(한지)» (lecture-graphics.md 3장)", "lecture-graphics.md 1장 장면 A «노트» — 글자 규격·팝(세로 130→100%, 0.216초)", "memo_build.py (원본에만 있음, 이 폴더에 없음)"],
+  "summary": "자료도 패널도 없는 인물 구간에서 정리할 만한 말이 나올 때, 오른쪽에 한지 한 장이 놓이고 노란 제목 아래 흰 줄이 말하는 순간 하나씩 팝으로 생긴다",
+  "use_when": ["정리·목차", "소개·여러 항목"],
+  "avoid_when": ["숫자·금액", "설정·버튼", "개념 비교"],
+  "tones": {"TN-1": 0.8, "TN-2": 0.4, "TN-3": 0.3, "TN-4": 0.4},
+  "screens": ["풀샷"],
+  "layer": "L4", "moves_person": false,
+  "duration": [4, 20],
+  "slots": {
+    "paper": {"kind": "image", "source": ["codex"], "style": "손글씨 종이", "alpha": true, "desc": "한지 한 장(위에서 찍은 사진). 초록 배경으로 만들어 키를 따서 투명하게"},
+    "title": {"kind": "text", "max_chars": 10, "rule": "노랑 제목, 말을 받치는 개념어, 말 복사·«» 금지"},
+    "lines": {"kind": "text", "many": true, "max_chars": 10, "rule": "흰 하위 줄(앞에 «· » 표시 가능 — glyph_check 로 글꼴 확인). 한 줄 10자 안팎, 넘치면 자동 축소. 문안은 강사 말에서만"},
+    "hit":   {"kind": "words", "desc": "줄마다 말하는 순간(단어 시각)"}
+  },
+  "drawn_allowed": ["글자"],
+  "keepout": ["얼굴+16px", "자막띠", "판밖"],
+  "timeline": [
+    {"at": "word:hit[0]-0.2", "do": "한지 등장", "dur": "초기값 — 첫 견본에서 정함", "ease": "eo"},
+    {"at": "word:hit[i]", "do": "줄 i 팝 — 세로 130→100%", "dur": 0.216, "ease": "eo"},
+    {"at": "t1", "do": "화면 모드가 바뀌는 컷에서 같이 끝", "dur": "0.03~0.32 (8강 실측 범위)", "ease": "lin"}
+  ],
+  "look": {
+    "title_color": "#F8DA08", "line_color": "#FFFFFF",
+    "text": "Pretendard Bold + 검정 외곽선 (1·2·3강 노트 글자 규격)",
+    "position": "보조 패널과 같은 오른쪽 자리"
+  },
+  "sfx": [
+    {"at": "word:hit[0]-0.2", "role": "page", "meaning": "중립"},
+    {"at": "word:hit[i]", "role": "pen", "meaning": "중립"}
+  ],
+  "rules": [
+    "종이는 Codex 로 만든 실제 사진풍 이미지 — 도형으로 종이를 흉내 내지 않는다 (10-07 06)",
+    "펜 그림은 넣지 않는다 — 흔들리는 펜이 집중을 분산 (10-02 02 3판 «연필이 너무 흔들려서 집중이 분산돼»)",
+    "카드와 같이 나오는 제목은 종이에 처음부터 찍혀서 나온다 (09-30 «나오자마자 글자 떠오르면 급한 느낌»)",
+    "글자는 크게, 줄은 말하는 순간 하나씩 — 인지 텀 0.6초 (09-23 · 10-07 10)",
+    "개구·Pretendard 에 없는 글자(«①»«→»)는 쓰지 않는다 — glyph_check (motion-graphics.md 5장)"
+  ],
+  "rejected": [],
+  "sample": {"title": "업종", "lines": ["· 병원", "· 학원"], "hit": []},
+  "fallback": ["EM-06", "SC-02"],
+  "from": "lecture-graphics.md 3장 «메모(한지)» 서술만 — 렌더 코드(memo_build.py)는 이 폴더에 없음",
+  "basis": "lecture-graphics.md 3장 · 1장 장면 A 글자 규격",
+  "todo": [
+    "memo_build.py 가 원본에만 있어 한지 크기·위치·등장 모션 수치를 알 수 없다 — 초기값 — 첫 견본에서 정함",
+    "한지 사진은 건마다 Codex 로 새로 만든다(초록 배경 → 키 따기 방식의 키 도구는 이 폴더에 없음)",
+    "상황 태그: 문서는 «정리할 만한 말이 있는 곳 곳곳에»라고만 적음 — avoid_when 은 작업기록 쌓이면 보강",
+    "09-23 저녁 기록이라 사장님 통과 표시가 없다 — 대기"
+  ]
+}

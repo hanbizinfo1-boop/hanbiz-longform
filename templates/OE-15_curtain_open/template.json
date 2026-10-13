@@ -1,0 +1,120 @@
+{
+  "id": "OE-15",
+  "name": "커튼막열림",
+  "drawer": "OE",
+  "version": 1,
+  "status": "신규",
+  "engine": "ae",
+  "subject": [
+    "무대배경"
+  ],
+  "source_ref": [
+    "쇼츠 M1 막 열림 오프닝 (koba-maestro.md — 커튼 이음선 → 작은 무대 드러남, 0.0–1.4, 원작 1920×1080)"
+  ],
+  "summary": "가운데 이음선이 있는 커튼이 좌우로 벌어지며 어두운 무대가 드러나는 오프닝. 첫 컷의 크기 대비로 훅을 만든다. 정지 오프닝이라 사장님 요청 시",
+  "use_when": [
+    "한 편 시작"
+  ],
+  "avoid_when": [
+    "설정·버튼"
+  ],
+  "tones": {
+    "TN-1": 0.1,
+    "TN-2": 0.6,
+    "TN-3": 0.8,
+    "TN-4": 0.0
+  },
+  "screens": [
+    "사람없음"
+  ],
+  "layer": "L5",
+  "moves_person": false,
+  "duration": [
+    1.4,
+    1.4
+  ],
+  "slots": {
+    "curtain": {
+      "kind": "image",
+      "source": [
+        "codex"
+      ],
+      "style": "2D 플랫",
+      "alpha": true,
+      "desc": "커튼 이미지 한 장 — 좌·우 두 레이어로 나눈다"
+    },
+    "stage": {
+      "kind": "image",
+      "source": [
+        "codex"
+      ],
+      "style": "2D 플랫",
+      "alpha": false,
+      "desc": "어두운 무대·스포트라이트 배경 한 장"
+    },
+    "title": {
+      "kind": "text",
+      "desc": "무대에서 드러날 한 줄(선택)",
+      "max_chars": 14,
+      "optional": true,
+      "rule": "말 복사·«» 금지"
+    }
+  },
+  "drawn_allowed": [
+    "글자"
+  ],
+  "keepout": [
+    "자막띠",
+    "사람PIP"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "커튼 좌·우 두 장이 x 방향으로 벌어진다 — 0.8초 감속, 오버슈트 0",
+      "dur": 0.8,
+      "ease": "eo"
+    },
+    {
+      "at": "t0+0.8",
+      "do": "무대·스포트라이트가 드러난 채 정리 (전체 0.0–1.4초)",
+      "dur": 0.6,
+      "ease": "hold"
+    }
+  ],
+  "look": {
+    "total_sec": 1.4,
+    "open_sec": 0.8,
+    "canvas": [
+      1920,
+      1080
+    ]
+  },
+  "sfx": [
+    {
+      "at": "t0",
+      "role": "in",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "Codex 커튼 한 장을 좌·우 레이어로 나눠 x 이동 — 4~8프레임이 아니라 0.8초 감속, 오버슈트 0 (koba-maestro.md M1)",
+    "이미지 스타일은 한 편 안에서 섞지 않는다 — 2D 플랫이면 캐릭터·카드도 2D 플랫 (README 4장)",
+    "사진·CG 카드로 시작하는 오프닝은 «영상미가 죽어» 반려 이력이 있다 — 정지 이미지 오프닝은 짧게 1.4초 이내 (origin 6장)",
+    "오프닝 장식은 원문 첫 말 위에 얹는다 — 원문 길이를 늘리지 않는다 (auto-pipeline.md 10장 qc 길이)"
+  ],
+  "rejected": [
+    "origin 6장 «사진·CG 카드로 시작»(«영상미가 죽어») — 이 템플릿은 1.4초 이내 오프닝 연출로만"
+  ],
+  "sample": {},
+  "fallback": [
+    "OE-01",
+    "OE-08"
+  ],
+  "from": "쇼츠 study/koba-maestro.md M1 (0.0–1.4)",
+  "basis": "koba-maestro.md 4장 M1",
+  "todo": [
+    "커튼·무대 이미지 시안 — Codex 로 만들 때 한 세션에 몰아서(약 60초 기동), 사장님 확인 필요",
+    "원작이 1920×1080 이라 가로 재배치는 필요 없으나 한비즈 오프닝(OE-01)과의 중복 여부는 첫 견본에서 정함",
+    "정책자금 강의 오프닝에 연극 무대 은유가 어울리는지 — 사장님 판단 필요"
+  ]
+}

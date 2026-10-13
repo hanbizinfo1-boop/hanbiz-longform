@@ -1,4 +1,21 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(python *)",
+      "Bash(ffmpeg *)",
+      "Bash(ffprobe *)",
+      "Bash(powershell -NoProfile -ExecutionPolicy Bypass -File \"C:/Users/user/.claude/scripts/codex-run.ps1\" *)",
+      "Bash(powercfg *)",
+      "PowerShell(python *)",
+      "PowerShell(ffmpeg *)",
+      "PowerShell(ffprobe *)",
+      "PowerShell(& \"C:\\Program Files\\Adobe\\Adobe After Effects 2026\\Support Files\\aerender.exe\" *)",
+      "PowerShell(& \"C:\\Program Files\\Adobe\\Adobe After Effects 2026\\Support Files\\AfterFX.exe\" *)",
+      "PowerShell(powershell -NoProfile -ExecutionPolicy Bypass -File \"C:/Users/user/.claude/scripts/codex-run.ps1\" *)",
+      "PowerShell(Start-Process explorer.exe *)",
+      "PowerShell(powercfg *)"
+    ]
+  },
   "hooks": {
     "SessionStart": [
       {

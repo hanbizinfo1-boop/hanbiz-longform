@@ -1,0 +1,158 @@
+{
+  "id": "SC-39",
+  "name": "마스코트가리킴",
+  "drawer": "SC",
+  "version": 1,
+  "status": "신규",
+  "engine": "ae",
+  "subject": [
+    "캐릭터"
+  ],
+  "source_ref": [
+    "쇼츠 M2 (koba-maestro.md 준비 동작→인서트→반응)",
+    "쇼츠 KP1-a·b (koba-lecture 숨쉬기·스쿼시)"
+  ],
+  "summary": "마스코트가 준비 동작 뒤 서류를 가리키고(큰 컷→작은 컷) 말풍선으로 짚어 준다 — 숨쉬기와 눌림만 쓰고 UI 는 튕기지 않는다",
+  "use_when": [
+    "용어 제시",
+    "경고·실수",
+    "일상 상황",
+    "감정·리액션"
+  ],
+  "avoid_when": [
+    "숫자·금액"
+  ],
+  "tones": {
+    "TN-1": 0.8,
+    "TN-2": 0.8,
+    "TN-3": 0.3,
+    "TN-4": 0.1
+  },
+  "screens": [
+    "PIP",
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "L4",
+  "moves_person": false,
+  "duration": [
+    4,
+    15
+  ],
+  "slots": {
+    "mascot": {
+      "kind": "image",
+      "source": [
+        "char2d"
+      ],
+      "style": "2D 플랫",
+      "alpha": true,
+      "desc": "같은 인물 여러 동작 PNG — 서 있음·준비·가리킴·반응(투명 배경)",
+      "many": true
+    },
+    "doc_item": {
+      "kind": "image",
+      "source": [
+        "doc",
+        "codex"
+      ],
+      "style": "실사 사진",
+      "alpha": false,
+      "desc": "가리킬 서류 한 장(업체명 ○○)"
+    },
+    "bubble": {
+      "kind": "text",
+      "rule": "말풍선 글 — 말을 받치는 개념어, 말 복사·«» 금지",
+      "max_chars": 12
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "준비 / 가리킴 / 반응 단어 시각"
+    }
+  },
+  "drawn_allowed": [
+    "말풍선바탕",
+    "글자"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "캐릭터 숨쉬기(들썩임) 시작",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "lin"
+    },
+    {
+      "at": "word:hit[0]",
+      "do": "준비 동작(눌림)",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[1]",
+      "do": "서류 쪽을 가리킴(작은 컷)",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[2]",
+      "do": "반응 + 말풍선",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "t1-0.36",
+      "do": "닫힘",
+      "dur": 0.36,
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "bubble_tail_above_head_px": 16,
+    "hint": "동작 순서 Wide→Insert→Detail (M2). 말풍선 꼬리는 머리 위 16px (SKILL.md 99)"
+  },
+  "sfx": [
+    {
+      "at": "word:hit[0]",
+      "role": "pop",
+      "meaning": "중립"
+    },
+    {
+      "at": "word:hit[1]",
+      "role": "click",
+      "meaning": "중립"
+    },
+    {
+      "at": "word:hit[2]",
+      "role": "in",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "같은 인물 이어 쓰기 — 컷마다 얼굴·옷이 바뀌지 않게 (SKILL.md 161)",
+    "눌림·들썩임은 허용, 말풍선·카드·글자 UI 는 튕김 금지 (SKILL.md 147)",
+    "말풍선 꼬리는 머리 위 16px 떨어짐, 효과선은 머리 반지름 바깥 (SKILL.md 99)",
+    "좌우 뒤집기 금지 (SKILL.md 161)",
+    "한 편에 캐릭터 스타일 하나 — 2D 플랫 또는 3D 비닐 (README 8장)",
+    "화면 글은 말을 받치는 개념어 — 말 복사·«» 금지(10-08 17·19, SKILL.md 3장)"
+  ],
+  "rejected": [],
+  "sample": {
+    "bubble": "여기 확인"
+  },
+  "fallback": [
+    "SC-07",
+    "SC-08"
+  ],
+  "from": "D:\\영상제작\\도구\\광고편집\\bisa_need_drop.py (읽기만 — 눌림 리그 본보기)",
+  "basis": "shorts-notes-index-1008.md M2 · KP1-a·b",
+  "todo": [
+    "동작 PNG 수·눌림 비율·숨쉬기 주기: 근거 노트에 수치 없음 — 시간·간격·배율·크기는 초기값, 첫 견본에서 정함",
+    "KP1-a/b 세부는 koba-lecture 노트에서 찾지 못함 — 색인 한 줄 기준"
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "id": "CA-02",
+  "name": "천천히밀기",
+  "drawer": "CA",
+  "version": 1,
+  "status": "신규",
+  "engine": "compose",
+  "subject": [
+    "사람"
+  ],
+  "source_ref": [
+    "auto-pipeline.md 4장 CA-02 (설계안)",
+    "쇼츠 study/typography-remotion.md T5 «천천히 push-in 1.00→1.06» (설계안, 사장님 반응 없음)"
+  ],
+  "summary": "풀샷에서 강조 문장 한 문장 동안 1.00→1.06 으로 감속하며 천천히 밀고 들어간다",
+  "use_when": [
+    "용어 제시",
+    "정의·조건",
+    "부연"
+  ],
+  "avoid_when": [
+    "설정·버튼",
+    "화면 속 특정 부분"
+  ],
+  "tones": {
+    "TN-3": 1.0
+  },
+  "screens": [
+    "풀샷"
+  ],
+  "layer": "L1",
+  "moves_person": false,
+  "duration": [
+    0.1,
+    20
+  ],
+  "slots": {
+    "center": {
+      "kind": "box",
+      "desc": "밀어 들어갈 중심. 기본은 화면 가운데, 얼굴 상자(해부.얼굴상자)가 있으면 얼굴 쪽"
+    },
+    "zoom": {
+      "kind": "number",
+      "default": 1.06,
+      "desc": "도착 배율(설계안 값)"
+    }
+  },
+  "drawn_allowed": [],
+  "keepout": [
+    "자막띠"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "풀샷(L1+L3 묶음) 1.00 → zoom 으로 한 문장 동안 천천히 밀기",
+      "to": "zoom",
+      "dur": "문장 길이(t1-t0)",
+      "ease": "eo"
+    },
+    {
+      "at": "t1",
+      "do": "문장 끝 — 원위치는 CA-06 이 받는다"
+    }
+  ],
+  "look": {
+    "zoom_from": 1.0,
+    "zoom_to": 1.06
+  },
+  "sfx": [],
+  "rules": [
+    "풀샷 구간은 사람(L3)과 녹화(L1)를 묶어 같이 민다 — 자막은 영향 없음 (auto-pipeline.md 3-1 CA 층)",
+    "얼굴이 화면 밖으로 나가지 않게 중심을 묶는다 — 얼굴 상자 +16px 금지 구역 규칙의 연장 (10-08 18, auto-pipeline.md 6-3)",
+    "느낌 TN-3 프리미엄에서 카메라는 이것 위주 — auto-pipeline.md 5장 표",
+    "카메라는 L1(녹화)에만 건다 — 자막(L6)·사람 PIP 는 영향을 받지 않는다 (auto-pipeline.md 2-2·4장 CA)",
+    "카메라가 움직이는 동안 SC 장면을 시작하지 않는다 — auto-pipeline.md 6-3 «시간 겹침»",
+    "같은 템플릿은 3박자 안에 다시 쓰지 않는다 — auto-pipeline.md 6-2·6-3"
+  ],
+  "rejected": [],
+  "fallback": [
+    "CA-04",
+    "CA-06"
+  ],
+  "from": "auto-pipeline.md 4장 CA-02 (코드 출처 없음)",
+  "basis": "auto-pipeline.md 4장 CA-02 · 쇼츠 typography-remotion.md T5 (둘 다 설계안)",
+  "todo": [
+    "1.06 은 설계안 값이다(사장님 실측·통과 이력 없음) — 초기값, 첫 견본에서 정함",
+    "문장이 아주 짧을 때의 하한(너무 짧으면 밀기가 아니라 튐) — 초기값, 첫 견본에서 정함",
+    "duration 은 서랍 범위(auto-pipeline.md 3-1장) — 이 템플릿 고유 값은 초기값, 첫 견본에서 정함"
+  ]
+}

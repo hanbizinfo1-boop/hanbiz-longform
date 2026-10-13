@@ -18,7 +18,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SKILL = ROOT / ".claude" / "skills" / "longform"
-LIMIT = 6000
+LIMIT = 9000
 
 
 def read(p):
@@ -86,14 +86,29 @@ def skill_rules():
     return "\n".join(out)
 
 
+def forbidden():
+    """피드백/절대금지.md — 영구 금지(10-13 규칙 4). 줄마다 원문 인용 앞까지만."""
+    t = read(ROOT / "피드백" / "절대금지.md")
+    lines = []
+    for ln in t.splitlines():
+        if ln.startswith("- "):
+            core = ln.split(" — «")[0].split(" — ")[0]
+            lines.append(clip(core, 150))
+    return "## 피드백/절대금지.md (영구 — 전문을 다시 열 것)\n" + "\n".join(lines)
+
+
 def main():
     sys.stdout.reconfigure(encoding="utf-8")
-    head = "# 한비즈 롱폼 자동화 — 세션 재개 자동 안내 (장면을 만들기 전에 아래를 다시 읽는다)\n"
+    head = ("# 한비즈 롱폼 자동화 — 세션 재개 자동 안내 (장면을 만들기 전에 아래를 다시 읽는다)\n"
+            "최상위 규칙(10-13): 작업 시작 때 길라잡이(CLAUDE.md·SKILL.md·references·피드백/)를 전문 정독하고, "
+            "바뀐 규칙은 매 작업 길라잡이에 반영 — 충돌·병목은 최신으로 정리(폐기는 취소선+날짜, 보존, 갱신). 절대금지는 폐기 없음.\n")
     foot = ("\n---\n읽을 순서: CLAUDE.md → .claude/skills/longform/SKILL.md(3장 상시 규칙·4장 범위·7장 점검표) → 일에 맞는 references/"
             "(장면=motion-graphics.md, 효과음=sfx.md, 무음편집=silence-cut.md, 강의 자료=lecture-graphics.md) → 기록/작업기록.md. "
-            "위 파일들을 Read 로 다시 열어 전문을 확인한 뒤 작업을 이어 간다(발췌만 믿지 않는다). 컷·자막·자료 자리는 사장님이 정한다.")
-    parts = [claude_rules(), next_tasks(), checklist(), skill_rules()]
-    caps = [1500, 1300, 1700, 900]
+            "위 파일들을 Read 로 다시 열어 전문을 확인한 뒤 작업을 이어 간다(발췌만 믿지 않는다). "
+            "모드 먼저 확인: A. 얹을 것만(구간 지정 — 자료 자리는 사장님) / B. 자동 연출(원문 통째로 — auto-pipeline.md 13장이 A 와 다른 점). "
+            "두 모드 모두 컷은 사장님 몫(B 모드 자막은 맞춤법·타이밍만 고치고 검수표에 적음). 피드백/작업목록.json 맨 아래 작업 기록을 먼저 읽는다.")
+    parts = [forbidden(), claude_rules(), next_tasks(), checklist(), skill_rules()]
+    caps = [2600, 1900, 1300, 1700, 900]
     body = []
     for p, c in zip(parts, caps):
         body.append(p if len(p) <= c else p[: c - 2].rstrip() + " …")

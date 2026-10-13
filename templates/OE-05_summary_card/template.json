@@ -1,0 +1,139 @@
+{
+  "id": "OE-05",
+  "name": "전체요약카드",
+  "drawer": "OE",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "글자",
+    "브랜드"
+  ],
+  "source_ref": [
+    "lecture-graphics.md 3장 보조 패널(말 순서대로 쌓기)",
+    "lecture-graphics.md 5장 포토카드 통과 틀 (12강 자료01 «오케이 이런 느낌으로»)",
+    "tools/examples/lec12_card01.py",
+    "9강 피드백 #1·#2"
+  ],
+  "summary": "챕터별 핵심을 한 장 카드에 한 줄씩 쌓아 정리하는 전체 요약. 한 편 끝 직전에 붙는다",
+  "use_when": [
+    "정리·목차",
+    "한 편 끝"
+  ],
+  "avoid_when": [],
+  "screens": [
+    "PIP",
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "L5",
+  "moves_person": false,
+  "duration": [
+    3,
+    30
+  ],
+  "slots": {
+    "title": {
+      "kind": "text",
+      "max_chars": 10,
+      "rule": "카드 제목 — 판에 처음부터 찍힌다(나오자마자 글자가 떠오르지 않게)"
+    },
+    "items": {
+      "kind": "text",
+      "many": true,
+      "max_chars": 10,
+      "rule": "챕터별 핵심 한 줄(10자 안팎). 강사가 한 말에서만, 말 복사·«» 금지"
+    },
+    "logo": {
+      "kind": "image",
+      "source": [
+        "brand"
+      ],
+      "alpha": true,
+      "desc": "좌상단 원색 로고 — 소재/브랜드 원본"
+    },
+    "accent_idx": {
+      "kind": "choice",
+      "desc": "진짜 강조할 줄 번호(노랑) — 카드 한 장에 1~4곳"
+    }
+  },
+  "drawn_allowed": [
+    "카드바탕",
+    "구분선",
+    "글자"
+  ],
+  "keepout": [],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "카드가 아래에서 올라오며 나타남 — 제목·로고는 판에 처음부터 찍혀 있음",
+      "dur": 0.35,
+      "ease": "eo"
+    },
+    {
+      "at": "item[i]",
+      "do": "i 번째 핵심 줄이 쌓임(간격은 인지할 텀 0.6초 이상)",
+      "dur": 0.216,
+      "ease": "eo"
+    },
+    {
+      "at": "t1",
+      "do": "카드가 위로 빠지며 사라짐(글자 불투명도도 따로 100→0)",
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "card_px": [
+      600,
+      700
+    ],
+    "radius_px": 24,
+    "left_band_px": 10,
+    "band_gradient": [
+      "#2F5BD0",
+      "#F28C1C"
+    ],
+    "logo_height_px": 76,
+    "accent_yellow": "#FFDE28",
+    "title_font": "G마켓 산스 Bold/Medium",
+    "ref": "포토카드 통과 틀(lecture-graphics.md 5장) — 크기·위치는 요약 카드용으로 다시 정함"
+  },
+  "sfx": [
+    {
+      "at": "t0",
+      "role": "paper",
+      "file": "종이소리.mp3",
+      "meaning": "중립"
+    },
+    {
+      "at": "item[i]",
+      "role": "ding",
+      "file": "2. 띠딩2.mp3",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "문안은 강사가 한 말에서만. 틀린 말·말에 없는 말을 붙이지 않는다 — 09-29 «일반 지원 빼야겠네» (lecture-graphics.md 3·5장)",
+    "카드는 똑바로, 회전·목걸이 줄·테이프 같은 장식 금지 — 09-29 «회전시키지 말고 똑바로» «위에 줄이나 테이프 같은 건 다 없애고» (lecture-graphics.md 5장)",
+    "노랑은 진짜 강조만, 나머지는 흰/검정 — 09-29 «진짜 강조하는 거 아니면 하얀색» (lecture-graphics.md 5장)",
+    "카드와 같이 나오는 글자는 카드에 처음부터 찍어서 — 09-30 «나오자마자 글자 떠오르면 급한 느낌» (lecture-graphics.md 5장)",
+    "퇴장 때는 글자 레이어에도 불투명도 100→0 을 따로 준다 — 자료01 v3 에서 발견 (lecture-graphics.md 5장)",
+    "쌓기 단계마다 «지금 보이는 모든 글자를 강사가 이미 말했나?» 확인, 비교 요약이면 대상 단위로 쌓는다 — 9강 피드백 #1·#2 (lecture-graphics.md 3장)",
+    "새 요소는 0.6초 이상 혼자 — 10-07 10 (motion-graphics.md 2-1 원칙 13)",
+    "로고는 원본 그대로, 새로 그리지 않는다 — README 4장",
+    "효과음 크기는 sfx.md 3-4 (강의 자료 카드 크기, 원본 파일 대비)를 따른다. 동작마다 하나씩 — 09-30"
+  ],
+  "rejected": [],
+  "fallback": [
+    "EM-06",
+    "EM-07"
+  ],
+  "from": "tools/examples/lec12_card01.py (포토카드 틀) · tools/card_render.py / side_panel_render.py (쌓기)",
+  "basis": "auto-pipeline.md 4장 OE-05 · lecture-graphics.md 3·5장",
+  "todo": [
+    "요약 카드의 화면 크기·위치(600×700 포토카드는 인물 옆 자료 카드 규격) — 한 편 요약용은 첫 견본에서 정함",
+    "원문 뒤에 붙는 구간은 목소리가 없어 단어 시각이 없다 — 줄 간격은 인지할 텀 0.6초 이상 안에서 첫 견본에서 정함",
+    "lecture-graphics.md 5장 글자 규격이 «흰 글자 + 얇은 검은 테두리»인데 판은 흰 카드다 — 대비를 lec12_card01.py 로 확인",
+    "견본 렌더 전이라 status 신규"
+  ]
+}

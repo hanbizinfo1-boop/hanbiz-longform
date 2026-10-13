@@ -1,0 +1,162 @@
+{
+  "id": "SC-34",
+  "name": "카드뉴스2쪽",
+  "drawer": "SC",
+  "version": 1,
+  "status": "대기",
+  "engine": "ae",
+  "subject": [
+    "자료이미지",
+    "글자"
+  ],
+  "source_ref": [
+    "원#49 (lec13_card02~04, 강의 13강 — 검수 대기)"
+  ],
+  "summary": "1쪽 카드가 25% 로 줄어 (1172,118) 로 비켜나고 2쪽이 들어와 [칸]▼[칸]▼ 이 이어진 뒤 «= 결론» 이 쾅 박힌다",
+  "use_when": [
+    "정의·조건",
+    "정리·목차",
+    "결론·센 말"
+  ],
+  "avoid_when": [
+    "일상 상황"
+  ],
+  "tones": {
+    "TN-1": 0.6,
+    "TN-2": 0.6,
+    "TN-3": 0.7,
+    "TN-4": 0.3
+  },
+  "screens": [
+    "PIP",
+    "풀샷"
+  ],
+  "layer": "L4",
+  "moves_person": true,
+  "duration": [
+    8,
+    25
+  ],
+  "slots": {
+    "page1": {
+      "kind": "image",
+      "source": [
+        "doc",
+        "codex"
+      ],
+      "style": "실사 사진",
+      "alpha": false,
+      "desc": "1쪽 카드 배경 이미지(필요할 때)",
+      "optional": true
+    },
+    "boxes": {
+      "kind": "text",
+      "rule": "[칸] 글 — 조건·단계 개념어",
+      "many": true,
+      "max_chars": 10
+    },
+    "conclusion": {
+      "kind": "text",
+      "rule": "결론 한 줄 — «= 결론» 형식, 개념어",
+      "max_chars": 14
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "1쪽 말 / 칸마다 / 결론 말의 단어 시각"
+    }
+  },
+  "drawn_allowed": [
+    "카드바탕",
+    "구분선",
+    "UI위젯",
+    "글자"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "word:hit[0]",
+      "do": "1쪽 카드 등장",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[1]",
+      "do": "1쪽이 25% 로 줄며 (1172,118) 로 비킴, 2쪽 들어옴",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "ez"
+    },
+    {
+      "at": "word:hit[i]",
+      "do": "[칸] ▼ [칸] ▼ 이 차례로 올라앉음",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[-1]",
+      "do": "«= 결론» 쾅(감속 안착)",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "t1-0.36",
+      "do": "닫힘",
+      "dur": 0.36,
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "page1_shrink": 0.25,
+    "page1_pos": [
+      1172,
+      118
+    ],
+    "hint": "원본 좌표(1920×1080 가정 — 강의 가로): 25% (1172,118) (원#49)"
+  },
+  "sfx": [
+    {
+      "at": "word:hit[1]",
+      "role": "sweep",
+      "meaning": "중립"
+    },
+    {
+      "at": "word:hit[i]",
+      "role": "st1",
+      "meaning": "중립"
+    },
+    {
+      "at": "word:hit[-1]",
+      "role": "stamp",
+      "meaning": "긍정"
+    }
+  ],
+  "rules": [
+    "카드는 기존 «보조 패널» 결 — 전체화면 자료 카드 6종은 반려 성격 (원#56, lecture-graphics.md 3장)",
+    "쾅 튕김은 EM-07 12강 통과 예외 — 이 템플릿으로 확장할지 설계자 확인 (README 8장)",
+    "사람(L3)이 옮겨지면 «원본 컷 바뀌면 다시 렌더» (SKILL.md 2-2)",
+    "화면 글은 말을 받치는 개념어 — 말 복사·«» 금지(10-08 17·19, SKILL.md 3장)"
+  ],
+  "rejected": [],
+  "sample": {
+    "boxes": [
+      "조건",
+      "확인"
+    ],
+    "conclusion": "= 기준"
+  },
+  "fallback": [
+    "EM-06",
+    "SC-01"
+  ],
+  "from": "D:\\영상제작\\도구\\강의편집\\lec13_card02~04.py (읽기만)",
+  "basis": "origin-session-1008.md 원#49",
+  "todo": [
+    "moves_person 값(사람이 옮겨지는지)은 원본 코드 확인 — 일단 true",
+    "쾅 값(170→94→103→100은 EM-07 전용): 이 장면은 초기값 — 첫 견본에서 정함",
+    "원본 강의 13강은 검수 대기 — 통과로 올릴 때 원문 확인"
+  ]
+}

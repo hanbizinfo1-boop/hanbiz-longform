@@ -1,0 +1,55 @@
+{
+  "id": "EM-09", "name": "도장", "drawer": "EM", "version": 1, "status": "대기",
+  "engine": "ae",
+  "subject": ["자료이미지", "소리"],
+  "source_ref": ["빡이사DB 22 (tools/examples/bisa_pitch_mg.py — 추천 도장 slam·✕ 도장)", "빡이사DB 12강 포토카드 결론 도장 (lecture-graphics.md 5장 «결론 도장 0dB»)", "sfx-workflow.md 3장 stamp", "사장님 10-08 22 «도장에는 왜 도장 효과음 안 쓰고»"],
+  "summary": "실물 도장 이미지가 크게 내려와 찍히고 도장 소리가 나는 한 컷. 추천·확정 같은 결론 순간, 또는 ✕ 도장으로 부정을 찍는다",
+  "use_when": ["결론·센 말", "경고·실수"],
+  "avoid_when": ["설정·버튼", "일상 상황", "숫자·금액"],
+  "tones": {"TN-1": 0.3, "TN-2": 1.0, "TN-3": 0.2, "TN-4": 0.2},
+  "screens": ["풀샷", "PIP", "사람없음"],
+  "layer": "L4", "moves_person": false,
+  "duration": [1.5, 5],
+  "slots": {
+    "stamp": {"kind": "image", "source": ["codex"], "style": "실사 사진", "alpha": true, "desc": "인주가 번진 실물 도장 자국(빈 도장 — 글자 없음). 투명 배경"},
+    "label": {"kind": "text", "optional": true, "max_chars": 8, "rule": "도장 안 글자는 렌더러(PIL)가 곱하기로 얹는다 — AI 에 맡기지 않는다. 말을 받치는 개념어"},
+    "tone":  {"kind": "choice", "options": ["긍정", "부정"], "desc": "추천·확정 도장(긍정) 또는 ✕ 도장(부정) — 소리와 색을 정한다"},
+    "hit":   {"kind": "words", "desc": "도장이 찍히는 단어 시각"},
+    "area":  {"kind": "box", "desc": "안전영역(화면 좌표) — 사람 PIP·자막띠·얼굴 제외"}
+  },
+  "drawn_allowed": ["글자"],
+  "keepout": ["사람PIP", "자막띠", "얼굴+16px", "판밖"],
+  "timeline": [
+    {"at": "word:hit", "do": "도장 크게 260→100% 로 내려앉음 + 회전 −30°→−12°", "dur": 0.26, "ease": "eo"},
+    {"at": "word:hit", "do": "불투명 0→100% (진입)", "dur": 0.05, "ease": "lin"},
+    {"at": "t1", "do": "사라짐 — 불투명 100→0", "dur": 0.2, "ease": "lin"}
+  ],
+  "look": {
+    "slam_from_pct": 260, "tilt_deg": [-30, -12],
+    "x_mark_slam_from_pct": 220, "x_mark_slam_sec": 0.2,
+    "color": "긍정 = 브랜드 강조색 하나 · 부정 = 빨강 (3색 안에서)"
+  },
+  "sfx": [
+    {"at": "word:hit", "role": "stamp", "meaning": "긍정", "when": "추천·확정 도장 — 도장 그림이면 무조건 도장.mp3 (그림 기준 단골)"},
+    {"at": "word:hit", "role": "stamp", "meaning": "부정", "when": "✕ 도장 — 같은 도장.mp3, 뜻만 부정"}
+  ],
+  "rules": [
+    "도장 그림에는 반드시 도장 소리(도장.mp3) — 반짝·축하음으로 대체 금지 (10-08 22 «도장에는 왜 도장 효과음 안 쓰고»)",
+    "도장은 이미지 칸(Codex 실물) — 원·고리·선으로 그려 흉내 내지 않는다 (10-07 06 «도형으로 수준 낮은 짜깁기 원하지 않음»). 22 의 그려 만든 «추천» 고리 도장은 이 템플릿으로 대체",
+    "도장이 뜻하는 것이 조건·기준이면 긍정 도장·축하음 금지 — 뜻(긍정/부정/중립)을 먼저 정한다 (10-08 22 «천만 원 미만인 사람인데 왜 축하 효과음»)",
+    "도장 안 글자는 PIL 로 얹는다 — 한글을 AI 에 맡기지 않는다 (ai-video.md 3장)",
+    "등장은 4~8프레임부터 0.26초 사이 감속, 새 요소는 0.6초 혼자 (2-1장 원칙 3·13)"
+  ],
+  "rejected": [
+    "10-08 22 «천만 원을 벌었다가 아니라 천만 원 미만인 사람인데 왜 축하 효과음이 나오며 · 마지막에 도장에는 왜 도장 효과음 안 쓰고 다른 거 쓰는지 · 효과음 길라잡이 제대로 참고해서 다시»"
+  ],
+  "sample": {"label": "추천", "tone": "긍정"},
+  "fallback": ["EM-04", "EM-05"],
+  "from": "tools/examples/bisa_pitch_mg.py (rec · stamp · slam · SND_FIX stamp) · lec12_card01.py (결론 도장 0dB)",
+  "basis": "motion-graphics.md 3장 «그림에 맞춘다» · 4장 10-08 22 반려 · sfx-workflow.md 3장 stamp",
+  "todo": [
+    "22 의 추천 도장은 PIL 로 그린 금빛 고리라 이 템플릿(Codex 실물 이미지)과 다르다 — 실물 도장 이미지를 만든 뒤 slam 값(260%·−30→−12°)이 어울리는지 첫 견본에서 확인",
+    "도장 색·크기(상대)·화면 위치는 정하지 않음 — 초기값 — 첫 견본에서 정함",
+    "22 효과음 수정판은 사장님 반응이 없어 도장 소리 크기(구울 +5)가 최종인지 미확인 — sfx.md 3장 파일별 표를 따른다"
+  ]
+}

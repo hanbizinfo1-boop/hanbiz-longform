@@ -1,0 +1,133 @@
+{
+  "id": "SC-18",
+  "name": "UI한도형모핑",
+  "drawer": "SC",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "데이터",
+    "글자"
+  ],
+  "source_ref": [
+    "쇼츠 CM-2 (claude-motion-graphics.md 한 도형 UI 모핑, 간격 0.6초+)"
+  ],
+  "summary": "한 도형이 버튼→로더→체크→슬라이더→토글처럼 모양을 바꾸며 한도·설정값 조작 과정을 한 무대에서 보여 준다",
+  "use_when": [
+    "설정·버튼",
+    "숫자·금액",
+    "과정·단계"
+  ],
+  "avoid_when": [
+    "일상 상황",
+    "개념 비교"
+  ],
+  "tones": {
+    "TN-1": 0.3,
+    "TN-2": 0.3,
+    "TN-3": 0.9,
+    "TN-4": 1.0
+  },
+  "screens": [
+    "PIP",
+    "사람없음"
+  ],
+  "layer": "L2",
+  "moves_person": false,
+  "duration": [
+    6,
+    20
+  ],
+  "slots": {
+    "labels": {
+      "kind": "text",
+      "rule": "UI 칸 이름 — 말을 받치는 개념어",
+      "many": true,
+      "max_chars": 8
+    },
+    "value": {
+      "kind": "text",
+      "rule": "슬라이더·토글 옆 값 — 말에 나온 숫자만, 없으면 칸을 비운다",
+      "many": true,
+      "max_chars": 8,
+      "optional": true
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "상태가 바뀌는 말의 단어 시각"
+    }
+  },
+  "drawn_allowed": [
+    "카드바탕",
+    "UI위젯",
+    "글자"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "버튼 형태 도형 등장",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[i]",
+      "do": "도형이 반경·크기·색을 바꾸며 다음 UI(로더→체크→슬라이더→토글)로. 내용만 짧은 블러로 교체",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "t1-0.36",
+      "do": "닫힘",
+      "dur": 0.36,
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "gap_min_sec": 0.6,
+    "hint": "상태 사이 간격 0.6초 이상 (CM-2 원본은 0.5초라 위반)"
+  },
+  "sfx": [
+    {
+      "at": "t0",
+      "role": "in",
+      "meaning": "중립"
+    },
+    {
+      "at": "word:hit[i]",
+      "role": "click",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "상태 사이 간격 0.6초 이상 — 인지 텀 (원칙 13)",
+    "변형 중간 회색 덩어리 판·글자 겹침·숫자 떨림 점검 (쇼츠 claude-motion-graphics.md 3-5)",
+    "가짜 커서는 설정 장면에서만, 커서 크기는 줌에 따라 (쇼츠 claude-motion-graphics.md 6장)",
+    "한 편 안에서 리퀴드 글라스는 한 곳만 (CM-4 변형 금지 목록)",
+    "화면 글은 말을 받치는 개념어 — 말 복사·«» 금지(10-08 17·19, SKILL.md 3장)",
+    "새 요소는 0.6초 이상 혼자, 한 문장 새 요소 3개 이하 (10-07 10, motion-graphics.md 2-1장 원칙 13)"
+  ],
+  "rejected": [],
+  "sample": {
+    "labels": [
+      "한도",
+      "기간"
+    ]
+  },
+  "fallback": [
+    "EM-03",
+    "SC-06"
+  ],
+  "from": "코드 없음 — 쇼츠 claude-motion-graphics.md 04:14–04:29 서술",
+  "basis": "shorts-notes-index-1008.md CM-2",
+  "todo": [
+    "html 렌더 도구 tools/html_motion.py 는 1080×1920·29.97fps 하드코딩 사본 — 가로 1920×1080·59.94 인자화가 먼저(쇼츠 claude-motion-graphics.md 5-4)",
+    "UI 칸 구성·크기·배열: 근거 노트에 수치 없음 — 시간·간격·배율·크기는 초기값, 첫 견본에서 정함",
+    "SC-17 과 차이: 이쪽은 값을 조작하는 UI(슬라이더·토글) 한도 설정용"
+  ]
+}

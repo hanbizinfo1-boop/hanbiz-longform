@@ -1,0 +1,113 @@
+{
+  "id": "EM-61",
+  "name": "블록조립포커스링",
+  "drawer": "EM",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "글자",
+    "자료이미지"
+  ],
+  "source_ref": [
+    "쇼츠 E11 블록 조립 + 포커스 링 (study/entry-reel-opus.md 00.0–01.8 · 4장 E2·E8)"
+  ],
+  "summary": "조각 카드(블록)가 옆에서 하나씩 날아와 스크립트처럼 쌓여 조립되고, 원형 포커스 링이 새 블록을 따라간다. 서비스 UI를 시각 언어로",
+  "use_when": [
+    "과정·단계",
+    "소개·여러 항목",
+    "한 편 시작"
+  ],
+  "avoid_when": [
+    "숫자·금액",
+    "가림"
+  ],
+  "tones": {
+    "TN-1": 0.3,
+    "TN-2": 0.5,
+    "TN-3": 0.8,
+    "TN-4": 0.3
+  },
+  "screens": [
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "L5",
+  "moves_person": false,
+  "duration": [
+    3,
+    10
+  ],
+  "slots": {
+    "blocks": {
+      "kind": "text",
+      "many": true,
+      "max_chars": 14,
+      "rule": "화면 글은 말을 받치는 개념어 — 말 복사·«» 대사 금지, 숫자는 말에 근거 (사장님 10-08 17·19) — 한 줄 블록(체크 항목·신청 단계)"
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "블록마다 말하는 단어 시각"
+    }
+  },
+  "drawn_allowed": [
+    "UI위젯",
+    "카드바탕",
+    "테두리",
+    "글자"
+  ],
+  "keepout": [
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "word:hit[i]",
+      "do": "블록이 옆에서 모션블러 꼬리를 달고 슬라이드 인 — 원본 약 0.25초 간격",
+      "dur": 0.25,
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[i]",
+      "do": "원형 포커스 링이 새 블록으로 이동",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "block_gap_sec": 0.25,
+    "time_basis": "entry-reel 00.0–01.8 (1마디) — 말 없는 릴 기준"
+  },
+  "sfx": [
+    {
+      "at": "word:hit[i]",
+      "role": "st1",
+      "meaning": "중립",
+      "when": "블록 착지 «틱» 계열 — 번갈아 st1/st2"
+    }
+  ],
+  "rules": [
+    "제품 자신의 언어로 — 블록은 서비스의 실제 단계/체크 항목(코드로 다시 그린 UI), 남의 그림·도형 장식 아님 (entry-reel E2 · UI위젯 허용)",
+    "새 요소 사이 간격: 원본 0.25초는 말 없는 릴 속도 — 설명형은 단어 시각, 0.6초 (R_APPEAR)",
+    "실제 고객 화면 금지, 업체 ○○ (같은 노트 4장 E2)",
+    "html 계약(쇼츠 tools/html_motion.py): window.W/H/FPS/DURATION · seek(t) 는 t 만의 순수 함수(CSS transition·타이머·Math.random 금지) · PALETTE 3색 이하 (EM-04 와 같은 틀)"
+  ],
+  "rejected": [],
+  "sample": {
+    "blocks": [
+      "서류 모으기",
+      "조건 확인",
+      "신청"
+    ]
+  },
+  "fallback": [
+    "EM-06",
+    "SC-12"
+  ],
+  "from": "쇼츠 study/entry-reel-opus.md E11",
+  "basis": "shorts-notes-index-1008.md entry 묶음 E11",
+  "todo": [
+    "쇼츠 노트는 세로 1080×1920 기준 — 가로 1920×1080 재배치 필요",
+    "포커스 링 크기·이동 곡선 초기값 — 첫 견본에서 정함",
+    "SC-12 모핑 단계와 겹침 — 구분은 첫 견본 뒤 정리"
+  ]
+}

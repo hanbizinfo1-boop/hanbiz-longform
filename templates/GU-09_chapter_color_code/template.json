@@ -1,0 +1,92 @@
+{
+  "id": "GU-09",
+  "name": "챕터색코딩",
+  "drawer": "GU",
+  "version": 1,
+  "status": "신규",
+  "engine": "compose",
+  "subject": [
+    "글자",
+    "브랜드"
+  ],
+  "source_ref": [
+    "쇼츠 E3 장면별 단색 + 브랜드 팔레트 (entry-reel-opus.md)"
+  ],
+  "summary": "챕터마다 브랜드 색 집합 안의 색 하나를 정해 표지·HUD·강조 한 곳에 쓰는 구성 틀. 장면 안은 3색 그대로, 챕터가 바뀌면 강조색만 바뀐다",
+  "use_when": [
+    "챕터 시작",
+    "정리·목차"
+  ],
+  "avoid_when": [
+    "개념 비교"
+  ],
+  "tones": {
+    "TN-1": 0.7,
+    "TN-2": 0.5,
+    "TN-3": 0.8,
+    "TN-4": 0.6
+  },
+  "screens": [
+    "PIP",
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "L5",
+  "moves_person": false,
+  "duration": [
+    0,
+    0
+  ],
+  "slots": {
+    "palette": {
+      "kind": "choice",
+      "desc": "브랜드 색 집합 4~5개(사장님 파일에서 받는다)",
+      "many": true
+    },
+    "chapter_color": {
+      "kind": "choice",
+      "desc": "챕터별로 고른 색 — 챕터 수만큼",
+      "many": true
+    }
+  },
+  "drawn_allowed": [
+    "판",
+    "글자"
+  ],
+  "keepout": [
+    "자막띠",
+    "사람PIP"
+  ],
+  "timeline": [
+    {
+      "at": "챕터마다 — 시작",
+      "do": "그 챕터의 색을 표지(TR-01)·HUD(GU-08)의 강조 한 곳에 건다",
+      "dur": 0.216,
+      "ease": "eo"
+    },
+    {
+      "at": "챕터 안",
+      "do": "같은 색을 챕터 끝까지 쓴다 — 챕터 안에서 색을 더 늘리지 않는다"
+    }
+  ],
+  "look": {},
+  "sfx": [],
+  "rules": [
+    "장면 안은 3색(바탕·글·강조 하나) — motion-graphics.md 2-1 원칙 1",
+    "색은 브랜드 색 집합 안에서만 — 집합 밖 색을 지어내지 않는다 (E3, astra-branding.md 6장)",
+    "비교 장면은 쪽마다 색 하나(빨강 vs 파랑)로 이 규칙보다 앞선다 — 10-07 06 (SKILL.md 3장)",
+    "색만 바뀌고 나머지 문법은 같다 — 시그니처 모티프 하나 (motion-graphics.md 2-1 원칙 2)"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "GU-08",
+    "GU-01"
+  ],
+  "from": "쇼츠 study/entry-reel-opus.md E3",
+  "basis": "entry-reel-opus.md 6장 · astra-branding.md 5장 D",
+  "todo": [
+    "브랜드 색 집합이 이 폴더에 확정돼 있지 않다 — 쇼츠 로고 엔딩 시안 값(#0639A4 로열·#021D76 navy·#080D22 잉크·#F6F4EF 크림, OE-01·02 기록)은 로고용이다. 챕터 색 4~5개는 사장님 파일을 받아 정한다 — 초기값, 첫 견본에서 정함",
+    "색이 챕터 의미를 갖는지(예: 위험=빨강) 단순 교대인지 정하지 않았다 — 초기값, 첫 견본에서 정함"
+  ]
+}

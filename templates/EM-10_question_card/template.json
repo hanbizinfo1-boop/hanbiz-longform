@@ -1,0 +1,55 @@
+{
+  "id": "EM-10", "name": "질문카드", "drawer": "EM", "version": 1, "status": "신규",
+  "engine": "html",
+  "subject": ["글자"],
+  "source_ref": ["창근님 강의 장면 B «풀샷 위 글자» 질문형 → 답 (lecture-graphics.md 1장)", "lecture-graphics.md 2장 ⑥ 질문 유형(? 로 끝남, 골드) · 8강 연속 질문 3개 등장", "쇼츠 study/typography-remotion.md T6(반전 카드) · T2(폭 맞춤)"],
+  "summary": "강사가 던지는 «~?» 질문 한 줄이 골드로 떠 있다가, 답을 말하는 순간 «~!» 로 바뀌며 133% 로 튄다. 연속 질문은 아래에서 올라오며 차례로 선다",
+  "use_when": ["질문", "용어 제시"],
+  "avoid_when": ["숫자·금액", "설정·버튼"],
+  "tones": {"TN-1": 0.5, "TN-2": 0.8, "TN-3": 0.6, "TN-4": 0.2},
+  "screens": ["풀샷"],
+  "layer": "L4", "moves_person": false,
+  "duration": [2, 8],
+  "slots": {
+    "question": {"kind": "text", "max_chars": 14, "rule": "«?» 로 끝나는 질문 한 줄 — 용어(명사구) + ?  말을 받치는 개념어, «» 따옴표 대사 금지"},
+    "answer":   {"kind": "text", "optional": true, "max_chars": 14, "rule": "답 한 줄(«!» 로 끝남). 말에 나온 용어만, 지어내지 않는다"},
+    "hit_q":    {"kind": "words", "desc": "질문이 나오는 단어 시각(연속 질문이면 목록)"},
+    "hit_a":    {"kind": "words", "optional": true, "desc": "답을 말하는 단어 시각 — 여기서 133% 튐"},
+    "area":     {"kind": "box", "desc": "강사 옆 빈 곳 안전영역(화면 좌표, 오른쪽 위) — 사람·자막 제외"}
+  },
+  "drawn_allowed": ["글자"],
+  "keepout": ["얼굴+16px", "자막띠", "사람PIP", "판밖"],
+  "timeline": [
+    {"at": "word:hit_q[i]", "do": "[연속 질문] 아래에서 올라오며 등장 — 위치 y 0.684→0.5(화면 비율) + 불투명 0→100%", "dur": 0.133, "ease": "eo"},
+    {"at": "word:hit_q[i]", "do": "[단일 질문] 등장 — 세로 130→100% 팝", "dur": 0.216, "ease": "eo"},
+    {"at": "word:hit_a", "do": "«?»→«!» 로 바뀌며 크기 100→133% 로 튐 (벡터 모션 비율)", "dur": 0.05, "ease": "eo"},
+    {"at": "t1", "do": "화면 모드가 바뀌는 컷에서 같이 끝", "dur": "0.03~0.32 (8강 실측 범위)", "ease": "lin"}
+  ],
+  "look": {
+    "question_color": "골드 계열(강의 노랑 #F8DA08)", "answer_color": "흰 + 노랑 기호",
+    "fonts": "HM Pretendard Bold · 글자 크기는 강의 노트 규격 제목 약 99px(외곽선 포함) 참고",
+    "punch_pct": 133
+  },
+  "sfx": [
+    {"at": "word:hit_q[i]", "role": "st1", "meaning": "중립"},
+    {"at": "word:hit_a", "role": "st2", "meaning": "중립"}
+  ],
+  "rules": [
+    "질문 줄은 «?» 로 끝나고 용어 하나가 주인공 — 말 문장을 통째로 옮기지 않는다 (lecture-graphics.md 2장 ⑥ · 10-08 17)",
+    "133% 튐은 질문→답 한 순간에만 — 카드·글자에 통통 튀는 반복 바운스 금지 (2-1장 원칙 3)",
+    "연속 질문은 한 번에 하나씩 서고, 앞 질문이 남아 있으면 새 용어 덮어쓰기 금지 (lecture-graphics.md 2장 «누적 중인 화면에는 새 용어 제시를 넣지 않는다»)",
+    "html 계약(쇼츠 tools/html_motion.py): seek(t) 순수 함수 · EVENTS · data-box · PALETTE 3색 이하",
+    "노랑·골드는 질문 줄 하나에만 — 진짜 강조만 (09-29 포토카드 시안 반려)"
+  ],
+  "rejected": [],
+  "sample": {"question": "단기 차입금?", "answer": "단기 차입금!"},
+  "fallback": ["EM-04", "EM-07"],
+  "from": "lecture-graphics.md 1장 장면 B · 2장 문구 유형 ⑥ (코드 없음) — HTML 렌더는 쇼츠 tools/html_motion.py 사본으로 새로 만든다",
+  "basis": "auto-pipeline.md 4장 EM-10 «HTML — ?로 끝나는 질문 → 답에서 133% 튐 · 강의 실측 · 신규»",
+  "todo": [
+    "쇼츠 html_motion.py 는 1080×1920·29.97fps 하드코딩 — 가로 1920×1080·59.94 로 인자화 필요",
+    "질문 등장 후 유지 시간, 답 전환 시 «?»→«!» 글자 교체 방식(깜박임 없이 교체할지) 은 초기값 — 첫 견본에서 정함",
+    "질문 글자 크기·위치는 건마다 사람 상자를 재서 정한다(강의는 칠판 앞 오른쪽 위)",
+    "강의 원본(질문→답 133%, 0.05초)은 8강 실측이지만 이 폴더에는 해당 구간 편집 로그가 없다 — 수치는 lecture-graphics.md 1장 기록 그대로"
+  ]
+}

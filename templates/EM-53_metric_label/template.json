@@ -1,0 +1,126 @@
+{
+  "id": "EM-53",
+  "name": "메트릭라벨",
+  "drawer": "EM",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "데이터",
+    "글자"
+  ],
+  "source_ref": [
+    "웹#34 메트릭 라벨 (웹 조사 EM 카테고리 Metric label)"
+  ],
+  "summary": "큰 숫자 하나와 작은 라벨(무슨 숫자인지)을 한 덩어리로 화면 구석이나 대상 옆에 붙인다. 카운트 없이 정리된 숫자 표지",
+  "use_when": [
+    "숫자·금액",
+    "정의·조건"
+  ],
+  "avoid_when": [
+    "가림",
+    "일상 상황"
+  ],
+  "tones": {
+    "TN-1": 0.9,
+    "TN-2": 0.4,
+    "TN-3": 0.6,
+    "TN-4": 0.8
+  },
+  "screens": [
+    "풀샷",
+    "PIP",
+    "사람없음"
+  ],
+  "layer": "L4",
+  "moves_person": false,
+  "duration": [
+    2,
+    8
+  ],
+  "slots": {
+    "value": {
+      "kind": "number",
+      "desc": "말에 나온 숫자 — 지어내지 않는다"
+    },
+    "unit": {
+      "kind": "text",
+      "max_chars": 3,
+      "rule": "단위는 숫자보다 작게 고정"
+    },
+    "label": {
+      "kind": "text",
+      "max_chars": 8,
+      "rule": "화면 글은 말을 받치는 개념어 — 말 복사·«» 대사 금지, 숫자는 말에 근거 (사장님 10-08 17·19) — 숫자의 이름"
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "숫자를 말하는 단어 시각"
+    },
+    "area": {
+      "kind": "box",
+      "desc": "안전영역"
+    }
+  },
+  "drawn_allowed": [
+    "카드바탕",
+    "글자",
+    "구분선"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "word:hit",
+      "do": "라벨 덩어리 등장",
+      "dur": 0.22,
+      "ease": "eo"
+    },
+    {
+      "at": "t1",
+      "do": "컷에서 같이 끝",
+      "dur": 0.15,
+      "ease": "lin"
+    }
+  ],
+  "look": {
+    "digits": "고정 폭 숫자(tnum) — 자릿수가 바뀌어도 안 흔들리게",
+    "size_ratio": "숫자 : 라벨 = 초기값 — 첫 견본에서 정함"
+  },
+  "sfx": [
+    {
+      "at": "word:hit",
+      "role": "st1",
+      "meaning": "중립",
+      "when": "조건·기준 숫자는 big, 결과 숫자는 중립"
+    }
+  ],
+  "rules": [
+    "숫자는 말에 나온 값만 (typography-remotion 6장)",
+    "숫자가 조건·기준이면 축하음 금지 (사장님 10-08 22)",
+    "카운트업이 필요하면 EM-05 — 이쪽은 정적 표지",
+    "화면 글은 말을 받치는 개념어 — 말 복사·«» 대사 금지, 숫자는 말에 근거 (사장님 10-08 17·19)",
+    "등장은 4~8프레임~0.22초 감속(eo), 오버슈트 0, 새 요소는 혼자 0.6초 이상 (README 6장 · motion-graphics 2-1장 원칙 3·13)",
+    "html 계약(쇼츠 tools/html_motion.py): window.W/H/FPS/DURATION · seek(t) 는 t 만의 순수 함수(CSS transition·타이머·Math.random 금지) · PALETTE 3색 이하 (EM-04 와 같은 틀)"
+  ],
+  "rejected": [],
+  "sample": {
+    "value": 3000,
+    "unit": "만 원",
+    "label": "한도"
+  },
+  "fallback": [
+    "EM-05",
+    "EM-43"
+  ],
+  "from": "웹 조사 EM 카테고리 Metric label — 한비즈 견본 없음",
+  "basis": "web-research-1008.md 2장",
+  "todo": [
+    "웹#34 수치 근거 없음 — 초기값 — 첫 견본에서 정함",
+    "가로 1920×1080·59.94fps 재배치 — 프레임 수는 29.97 기준이면 초로 환산해 다시 맞춘다"
+  ]
+}

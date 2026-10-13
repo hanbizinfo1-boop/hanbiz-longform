@@ -1,0 +1,75 @@
+{
+  "id": "SC-09", "name": "보는사람휴대폰", "drawer": "SC", "version": 1, "status": "대기",
+  "engine": "ae",
+  "subject": ["자료이미지", "무대배경"],
+  "source_ref": ["빡이사DB 17 «위에서 아래로» (tools/examples/bisa_scroll_view.py)", "빡이사DB 15 «프로필 보기» (bisa_profile_view — 이 폴더에 없음)", "쇼츠 techniques.md A표 «보는 사람 휴대폰» · «트랙 매트 프리컴프»", "사장님 10-08 17 지시 «이렇게라는 표현을 쓰면서 손가락으로 방향을 알려 주거든, 그런 거 정합성 맞춰서 핸드폰으로 보는 화면 연출»"],
+  "summary": "광고를 보는 사람 시점일 때만. 사람이 왼쪽 절반으로 비켜나고 오른쪽 판에 손에 든 휴대폰 사진이 놓이며, 화면 안에서 피드가 강사의 손짓 방향대로 넘어간다. 왼쪽 칸 방향 카드는 세로=파랑·가로=빨강",
+  "use_when": ["보는 사람 시점", "일상 상황", "개념 비교"],
+  "avoid_when": ["설정·버튼", "숫자·금액"],
+  "tones": {"TN-1": 0.4, "TN-2": 0.3, "TN-3": 0.3, "TN-4": 0.2},
+  "screens": ["풀샷"],
+  "layer": "L4", "moves_person": true,
+  "duration": [15, 25],
+  "slots": {
+    "phone":  {"kind": "image", "source": ["codex"], "style": "실사 사진", "alpha": true, "desc": "손에 든 휴대폰 사진 — 화면 칸은 흰색으로 비워 매트로 쓴다. 손가락이 화면 가장자리를 덮으면 그 안 글이 잘리니 화면 왼쪽 여백 50px 확보. 사진기로 찍은 사진 톤"},
+    "feeds":  {"kind": "image", "many": true, "source": ["codex"], "style": "실사 사진", "alpha": false, "desc": "화면 안 피드 이미지 4장 — 글자·간판·로고 없음. 업체명은 ○○ (렌더러가 얹음)"},
+    "logos":  {"kind": "image", "many": true, "optional": true, "source": ["brand", "crawl"], "style": "2D 플랫", "alpha": true, "desc": "왼쪽 칸 서비스 로고(유튜브·쇼츠·릴스 등) — 실제 로고 파일"},
+    "pills":  {"kind": "text", "many": true, "max_chars": 12, "rule": "아래 알약 — 말을 받치는 개념어(이런 광고 없어요 → 눈은 익숙해요 식), 말 복사·«» 금지, «심리학적으로 그래요» 같은 말 따라 쓰기 금지"},
+    "dirs":   {"kind": "choice", "many": true, "options": ["세로", "가로"], "desc": "손짓마다 방향 — 세로(익숙)=파랑, 가로(지루)=빨강. 비교는 쪽마다 색 하나"},
+    "hit_swipe": {"kind": "words", "desc": "손짓 «이렇게» 시각 — 촬영본을 0.25초 간격 프레임으로 보고 손짓 방향·시각을 재서 적는다"},
+    "hit":    {"kind": "words", "desc": "로고·알약·카드가 나오는 단어 시각"}
+  },
+  "drawn_allowed": ["판", "카드바탕", "UI위젯", "구분선", "반짝선", "글자"],
+  "keepout": ["사람PIP", "자막띠", "판밖"],
+  "timeline": [
+    {"at": "t0", "do": "사람 x 960→480(원본 4K 50%), 판이 오른쪽 밖에서 x 900 으로", "dur": 0.45, "ease": "ez"},
+    {"at": "word:hit_swipe[i]", "do": "세로 손짓 — 피드 띠가 위로 한 칸 넘어감 + 손가락 터치 점이 아래에서 위로 끌어올림", "dur": 0.45, "ease": "eo"},
+    {"at": "word:hit_swipe[side]", "do": "가로 손짓 — 피드가 옆으로 120px 밀렸다 돌아옴(넘어가지 않음) + 붉은 틴트", "dur": 0.75, "ease": "eo"},
+    {"at": "word:page", "do": "글줄 페이지가 옆에서 들어옴", "dur": 0.42, "ease": "eo"},
+    {"at": "word:dir[i]", "do": "방향 카드가 가로 크기 100→0→100% 로 뒤집혀 바뀜(같은 카드가 모양을 바꿈)", "dur": 0.16, "ease": "eo"},
+    {"at": "word:pill[i]", "do": "알약 72→100% 팝 + 아래서 18px 올라옴", "dur": 0.28, "ease": "eo"},
+    {"at": "t1-0.36", "do": "거꾸로 닫힘 — 판이 빠지고 사람이 480→960 으로 돌아옴", "dur": 0.36, "ease": "ez"}
+  ],
+  "look": {
+    "phone_scale": 0.70, "screen_img_box": [222, 166, 776, 1302], "screen_origin_px": [1290, 80],
+    "left_column_x": [978, 1264], "screen_left_margin_px": 50,
+    "colors": {"ink": "#181B1F", "blue": "#0064E0", "red": "#D63028", "blue_bg": "#E4EEFD", "red_bg": "#FDE8E6"},
+    "panel": "연한 점 격자 36px 간격, 라벨 «보는 사람 화면» 20px(HUD 잔글씨)",
+    "touch": "흰 반투명 원 + 꼬리, 세로 스와이프마다"
+  },
+  "sfx": [
+    {"at": "t0", "role": "in", "meaning": "중립"},
+    {"at": "word:hit[i]", "role": "card", "meaning": "중립"},
+    {"at": "word:q", "role": "msg", "meaning": "중립"},
+    {"at": "word:hit_swipe[i]", "role": "sweep", "meaning": "중립"},
+    {"at": "word:no", "role": "no", "meaning": "부정"},
+    {"at": "word:eye", "role": "ok", "meaning": "긍정"},
+    {"at": "word:book", "role": "page", "meaning": "중립"},
+    {"at": "word:key", "role": "shine", "meaning": "긍정"},
+    {"at": "t1-0.36", "role": "back", "meaning": "중립"}
+  ],
+  "rules": [
+    "휴대폰은 «광고를 보는 사람 시점»일 때만 — 설정·값 이야기에는 쓰지 않는다. 휴대폰·비교 판은 기본값이 아니다 (10-07 08 1판 반려)",
+    "손짓 방향 정합 — 강사가 손으로 위·아래·옆을 가리키는 시각을 촬영본에서 재서 같은 방향으로 움직인다 (10-08 17 지시)",
+    "화면 안 글은 읽히는 예시 글(회색 줄·블러 금지), 업체명은 ○○ (10-07 06 · CLAUDE.md 4)",
+    "알약은 말 따라 쓰지 않는다 — 개념어·구조로 (10-08 17 반려)",
+    "방향 카드: 세로=파랑·가로=빨강 — 비교는 쪽마다 색 하나 (10-07 06 통과 때 말씀)",
+    "휴대폰 화면 칸 = 사진의 흰 칸을 알파 매트로 한 프리컴프(트랙 매트). 매트 실패 시 moveBefore (쇼츠 techniques.md)",
+    "Codex 휴대폰 사진은 화면 흰 칸 + 손가락이 화면을 덮지 않게 — 손가락 덮이면 글 여백 50px (motion-graphics.md 5장 17)",
+    "사람을 옮기므로 V3 납품, 시작이 클립 가운데면 «잘라서 바꿔 끼우기» (10-08 21 반반만 V3)"
+  ],
+  "rejected": [
+    "10-07 08 1판 «왜 핸드폰으로 연출했어, 각 상황에 맞게 연출 구도 잡아야지 · 실제 세팅 페이지에서 설정하는 느낌으로 · 비교 연출도 너무 많으면 안 좋아, 이번엔 다른 연출로»",
+    "10-08 17 (수정 없이 다음 편부터) «심리학적으로 그래요 라고 말한 거 그대로 말풍선에 따라 썼는데 … 심리학적 요소 이런 식으로 말을 뒷받침하게끔 문맥 구조를 잡아 줘, 말 따라 하지 말고»"
+  ],
+  "sample": {"pills": ["이런 광고 없어요", "눈은 이게 익숙해요", "구조가 중요"], "dirs": ["세로", "가로", "세로"]},
+  "fallback": ["SC-07", "SC-03"],
+  "from": "tools/examples/bisa_scroll_view.py (panel_png · screen_parts · column_parts · jsx — 17 SCR 프리컴프)",
+  "basis": "motion-graphics.md 0장 «휴대폰(보는 사람 시점)» · 4장 10-07 08 · 10-08 17 반려",
+  "todo": [
+    "17 은 검수 대기(사장님 반응 없음) — 대기",
+    "17 의 피드 아이콘(하트·말풍선·보내기)·터치 점·방향 화살표는 코드로 그린 UI/표시 — 휴대폰 사진은 이미지 칸이고 UI 위젯만 그림 (drawn_allowed 에 포함)",
+    "손가락이 화면을 덮는 문제는 휴대폰 사진마다 달라 Codex 사진을 만든 뒤 화면 칸·여백을 직접 확인",
+    "duration 은 17(22.3초) 한 건 실측 — 초기값"
+  ]
+}

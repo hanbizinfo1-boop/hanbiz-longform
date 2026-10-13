@@ -1,0 +1,113 @@
+{
+  "id": "TR-04",
+  "name": "3D카메라풀백",
+  "drawer": "TR",
+  "version": 1,
+  "status": "신규",
+  "engine": "ae",
+  "subject": [
+    "자료이미지",
+    "무대배경"
+  ],
+  "source_ref": [
+    "웹#18 Vox식 3D 카메라 풀백 전환 (premiumbeat 글, web-research-1008.md 1장 출처값)"
+  ],
+  "summary": "두 장면을 3D 레이어로 놓고 편집점 몇 프레임 전부터 카메라를 뒤로 빼 앞 장면이 작아지며 다음 장면으로 넘어간다. 속도 그래프의 정점이 편집점",
+  "use_when": [
+    "챕터 시작",
+    "자료 등장"
+  ],
+  "avoid_when": [
+    "설정·버튼",
+    "숫자·금액"
+  ],
+  "tones": {
+    "TN-1": 0.3,
+    "TN-2": 0.7,
+    "TN-3": 0.9,
+    "TN-4": 0.1
+  },
+  "screens": [
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "L5",
+  "moves_person": false,
+  "duration": [
+    0.4,
+    1.2
+  ],
+  "slots": {
+    "scene_a": {
+      "kind": "image",
+      "source": [
+        "real_capture",
+        "doc",
+        "codex"
+      ],
+      "style": "실사 사진",
+      "alpha": false,
+      "desc": "앞 장면 이미지(정지 또는 프레임)"
+    },
+    "scene_b": {
+      "kind": "image",
+      "source": [
+        "real_capture",
+        "doc",
+        "codex"
+      ],
+      "style": "실사 사진",
+      "alpha": false,
+      "desc": "다음 장면 이미지"
+    },
+    "cut_t": {
+      "kind": "number",
+      "desc": "편집점(초) — 원문 컷 경계 또는 챕터 첫 말"
+    }
+  },
+  "drawn_allowed": [],
+  "keepout": [
+    "자막띠",
+    "사람PIP"
+  ],
+  "timeline": [
+    {
+      "at": "cut_t-몇 프레임",
+      "do": "카메라가 뒤로 빠지기 시작 — 두 시퀀스는 3D 레이어",
+      "ease": "ez"
+    },
+    {
+      "at": "cut_t",
+      "do": "속도 그래프의 정점 = 편집점 (EasyEase). 블러는 이동보다 짧게",
+      "ease": "ez"
+    }
+  ],
+  "look": {},
+  "sfx": [
+    {
+      "at": "cut_t-0.18",
+      "role": "sweep",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "EasyEase 로 정점을 편집점에 맞춘다 · 블러는 이동보다 짧게 — premiumbeat Vox 글 (web-research-1008.md 1장)",
+    "사장님 롱폼 편집 실측은 «장면 전환은 트랜지션 없이 컷» — lecture-graphics.md 1장. 이 템플릿은 쇼츠·학습분 문법이라 쓸 곳을 좁게 잡는다",
+    "전환음은 컷보다 0.18초 먼저 — sfx.md 5장 (컷에 맞추면 늦게 들린다)",
+    "자막 띠(y 967~1041)·사람 PIP(원형 중심 (126,964) 반지름 약 123px)를 가리지 않는다 — lecture-graphics.md 1·4장, 10-08 18 겹침 없음",
+    "같은 템플릿은 3박자 안에 다시 쓰지 않는다 — auto-pipeline.md 6-2·6-3"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "TR-01",
+    "TR-03"
+  ],
+  "from": "web-research-1008.md 1장 «3D 카메라 풀백 전환(Vox식)» 줄 (premiumbeat 링크)",
+  "basis": "web-research-1008.md 1장",
+  "todo": [
+    "«편집점 몇 프레임 전부터»의 프레임 수는 출처에 숫자가 없다 — 초기값, 첫 견본에서 정함",
+    "원문 컷 경계에만 쓸 수 있다 — 장면 안에서 쓰면 말이 끊긴다. 컷 경계 자리와 챕터 표지(TR-01)와의 역할 분담은 첫 견본에서 정함",
+    "duration 은 서랍 범위(auto-pipeline.md 3-1장) 안의 초기값 — 첫 견본에서 정함"
+  ]
+}

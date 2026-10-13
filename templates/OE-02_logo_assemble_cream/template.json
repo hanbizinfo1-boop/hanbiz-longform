@@ -1,0 +1,218 @@
+{
+  "id": "OE-02",
+  "name": "로고조립엔딩크림",
+  "drawer": "OE",
+  "version": 1,
+  "status": "시안",
+  "engine": "html",
+  "subject": [
+    "브랜드",
+    "글자"
+  ],
+  "source_ref": [
+    "쇼츠 납품/시안_로고엔딩_1008 읽어보기.txt «로고 조립 엔딩»",
+    "쇼츠 tools/scenes/html/hanbiz_logo_ending_paper.html",
+    "쇼츠 study/entry-reel-opus.md E8 로고 조립 엔딩 + CTA 파동"
+  ],
+  "summary": "로고 두 획이 날아와 S 로 맞물리고 한글·영문 줄이 드러난 뒤 CTA 버튼이 올라오며 파동(크림 바탕). 4.0초",
+  "use_when": [
+    "한 편 끝"
+  ],
+  "avoid_when": [],
+  "tones": {
+    "TN-1": 1.0,
+    "TN-2": 1.0
+  },
+  "screens": [
+    "PIP",
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "L5",
+  "moves_person": false,
+  "duration": [
+    4.0,
+    4.0
+  ],
+  "slots": {
+    "part_blue": {
+      "kind": "image",
+      "source": [
+        "brand"
+      ],
+      "alpha": true,
+      "desc": "로고 파랑 획 조각 — 쇼츠 소재/브랜드/logo_part_blue.png (원본 로고에서 색으로 분리)"
+    },
+    "part_warm": {
+      "kind": "image",
+      "source": [
+        "brand"
+      ],
+      "alpha": true,
+      "desc": "로고 주황 획 조각 — logo_part_warm.png"
+    },
+    "word_ko": {
+      "kind": "image",
+      "source": [
+        "brand"
+      ],
+      "alpha": true,
+      "desc": "한글 줄 «한국중소기업 비즈니스센터» — logo_word_ko.png (가로형에서 잘라냄)"
+    },
+    "word_en": {
+      "kind": "image",
+      "source": [
+        "brand"
+      ],
+      "alpha": true,
+      "desc": "영문 줄 — logo_word_en.png"
+    },
+    "cta_text": {
+      "kind": "text",
+      "max_chars": 8,
+      "desc": "CTA 버튼 글(시안 문구 «상담 신청하기», 확정 전)"
+    },
+    "hud_label": {
+      "kind": "text",
+      "optional": true,
+      "desc": "상단 소형 라벨(시안 «HANBIZ — 08 / 08» 형식). 업체명·번호 금지"
+    }
+  },
+  "drawn_allowed": [
+    "판",
+    "HUD",
+    "UI위젯",
+    "글자",
+    "테두리"
+  ],
+  "keepout": [],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "HUD(모서리 괄호 4·상단 라벨·진행 대시) 페이드 인",
+      "dur": 0.3,
+      "ease": "eo"
+    },
+    {
+      "at": "t0+0.15",
+      "do": "파랑 획이 오른쪽 위에서 회전하며 날아옴(감속 착지)",
+      "dur": 0.85,
+      "ease": "eo"
+    },
+    {
+      "at": "t0+0.25",
+      "do": "주황 획이 왼쪽 아래에서 회전하며 날아옴(감속 착지)",
+      "dur": 0.85,
+      "ease": "eo"
+    },
+    {
+      "at": "t0+1.10",
+      "do": "S 로 맞물림 + 심볼 둘레 원형 파동",
+      "dur": 0.7,
+      "ease": "eo"
+    },
+    {
+      "at": "t0+1.25",
+      "do": "심볼이 위로 살짝 올라감",
+      "dur": 0.6,
+      "ease": "eo"
+    },
+    {
+      "at": "t0+1.40",
+      "do": "한글 줄이 왼→오로 와이프",
+      "dur": 0.65,
+      "ease": "eo"
+    },
+    {
+      "at": "t0+2.05",
+      "do": "영문 줄 페이드",
+      "dur": 0.3,
+      "ease": "eo"
+    },
+    {
+      "at": "t0+2.65",
+      "do": "«CTA» 버튼이 아래에서 올라옴",
+      "dur": 0.5,
+      "ease": "eo"
+    },
+    {
+      "at": "t0+3.15",
+      "do": "CTA 둘레 원형 파동. 마지막 약 0.8초 정지",
+      "dur": 0.7,
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "bg": "#F6F4EF",
+    "ink": "#060606",
+    "accent": "#0639A4",
+    "wave": "#0639A4",
+    "fps_ref": 29.97,
+    "canvas_ref": "1080x1920 (세로 쇼츠 시안)",
+    "wave_ring_scale_symbol": 2.6,
+    "wave_ring_scale_cta": 1.7
+  },
+  "sfx": [
+    {
+      "at": "t0+0.13",
+      "role": "logo_fly",
+      "file": "ML_Magic transition sweep presentation",
+      "meaning": "중립"
+    },
+    {
+      "at": "t0+0.77",
+      "role": "logo_lock_spark",
+      "file": "ML_Magic sparkle touch",
+      "meaning": "긍정"
+    },
+    {
+      "at": "t0+1.10",
+      "role": "logo_lock_hit",
+      "file": "KN_impactBell_heavy_000",
+      "meaning": "중립"
+    },
+    {
+      "at": "t0+1.40",
+      "role": "logo_word",
+      "file": "ML_Magic glitter or particles",
+      "meaning": "긍정"
+    },
+    {
+      "at": "t0+2.64",
+      "role": "ok",
+      "file": "맑은소리.mp3",
+      "meaning": "긍정"
+    },
+    {
+      "at": "t0+3.14",
+      "role": "shine",
+      "file": "SEL_キラッ1.mp3",
+      "meaning": "긍정"
+    }
+  ],
+  "rules": [
+    "로고는 새로 그리지 않고 원본 그대로 — 조각으로 쓸 때도 원본 이미지를 잘라 쓴다(조각을 다시 합치면 원본과 픽셀 차이 최대 7) — 쇼츠 납품/시안_로고엔딩_1008/읽어보기.txt, motion-typo.md C «로고를 AI 로 다시 그림 금지»",
+    "로고는 사물이라 반드시 image 칸(source brand)이다 — README 4장",
+    "CTA 문구 «상담 신청하기» 는 시안 문구 — 사장님 확정 전 (쇼츠 읽어보기.txt «시안 문구 — 확정 아님»)",
+    "업체 연락처·번호·고객 정보를 넣지 않는다 — CLAUDE.md 4 (쇼츠 읽어보기.txt «번호는 넣지 않았습니다»)",
+    "등장은 감속, 오버슈트 0 — 튕김 없음 (motion-graphics.md 2-1 원칙 3, 쇼츠 읽어보기.txt)",
+    "크림 판(#F6F4EF) 위 글자·HUD 는 잉크 #060606, 버튼·파동은 로열 #0639A4 — 쇼츠 hanbiz_logo_ending_paper.html THEME",
+    "엔딩 소리는 부드러운 스윕·울리는 벨·반짝·맑은 차임만 — 뿅·방울 같은 만화 소리, 저음 쿵, 날카로운 고음 없음 (쇼츠 읽어보기.txt «브랜드 로고용»)",
+    "엔딩은 원문 뒤에 붙는다 — 원문 본문 길이는 불변 (auto-pipeline.md 3-1 OE)"
+  ],
+  "rejected": [],
+  "fallback": [
+    "OE-03",
+    "OE-04"
+  ],
+  "from": "쇼츠 tools/scenes/html/hanbiz_logo_ending_paper.html (window.seek(t) HTML, 4.0초) · 조각 tools/scenes/hanbiz_logo_parts.py",
+  "basis": "auto-pipeline.md 4장 OE-02·03 «쇼츠 시안 → 가로 재배치» · 쇼츠 읽어보기.txt · study/entry-reel-opus.md E8",
+  "todo": [
+    "시각(초)은 쇼츠 시안(29.97fps)의 값이다 — 59.94fps 변환 때 프레임 단위 값(불투명 4프레임 등)을 확인",
+    "px 값(심볼 위로 80px·CTA 올라옴 110px·획 날아오는 거리·파동 크기)은 전부 1080×1920 세로 좌표다 — 1920×1080 가로로 다시 배치하고 값은 첫 견본에서 정함",
+    "롱폼 소재/브랜드 에는 로고 조각이 아직 없다 — 쇼츠 소재/브랜드 에서 읽어 와야 한다(복사 여부는 설계자 확인)",
+    "효과음은 귀로 듣지 못하고 파형·길이·시각만 확인한 값이다(쇼츠 읽어보기.txt). 크기는 sfx.md 3장 파일별 표/기본 +5dB 를 따른다. 이 이름표들은 sfx-workflow.md 3장 단골에 없다 — 통과하시면 추가 (sfx-workflow.md 6장 4항)",
+    "HUD 라벨 «NN / NN» 의 의미(롱폼 엔딩에서는 무엇을 셀지) — 초기값, 첫 견본에서 정함",
+    "쇼츠에서 렌더된 시안 mp4 가 있어 status 는 시안(롱폼 가로 견본은 아직 없음)"
+  ]
+}

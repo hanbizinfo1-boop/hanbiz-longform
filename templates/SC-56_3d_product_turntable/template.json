@@ -1,0 +1,150 @@
+{
+  "id": "SC-56",
+  "name": "3D제품턴테이블",
+  "drawer": "SC",
+  "version": 1,
+  "status": "신규",
+  "engine": "blender",
+  "subject": [
+    "자료이미지"
+  ],
+  "source_ref": [
+    "쇼츠 blender.md (b4_previz05_scene.py — look()·smoothstep·CONSTANT 렌즈)",
+    "templates/SC-15 (3D 오브젝트 본보기)",
+    "쇼츠 study/flova-3d.md (제품 사진 → 샷 리스트 구조만)",
+    "SC-15 camera «돌려 보기»"
+  ],
+  "summary": "실물(인증서·카드·기기) 한 바퀴 돌려 보여 준다. 텍스처는 실물 사진(doc/codex/real_capture)을 입힌다",
+  "use_when": [
+    "자료 등장",
+    "소개·여러 항목"
+  ],
+  "avoid_when": [
+    "숫자·금액",
+    "설정·버튼"
+  ],
+  "tones": {
+    "TN-1": 0.4,
+    "TN-2": 0.3,
+    "TN-3": 0.6,
+    "TN-4": 0.2
+  },
+  "screens": [
+    "PIP",
+    "사람없음"
+  ],
+  "layer": "L4",
+  "moves_person": false,
+  "duration": [
+    3,
+    8
+  ],
+  "slots": {
+    "product_tex": {
+      "kind": "image",
+      "source": [
+        "doc",
+        "codex",
+        "real_capture"
+      ],
+      "style": "실사 사진",
+      "alpha": false,
+      "desc": "실물 앞·뒷면 사진(업체명·개인정보 가림)",
+      "many": true
+    },
+    "turntable": {
+      "kind": "image",
+      "source": [
+        "render3d"
+      ],
+      "style": "3D 비닐",
+      "alpha": true,
+      "desc": "블렌더로 렌더한 한 바퀴 회전 컷(알파)"
+    },
+    "labels": {
+      "kind": "text",
+      "max_chars": 10,
+      "rule": "옆 개념어 라벨",
+      "many": true,
+      "optional": true
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "오브젝트가 나오고 카메라가 움직이는 단어 시각"
+    }
+  },
+  "drawn_allowed": [
+    "글자"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "word:hit[0]",
+      "do": "실물 등장",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[0]+0.4",
+      "do": "한 바퀴 돌려 보기(카메라 또는 오브젝트) — 지연 0.4 는 초기값",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "ez"
+    },
+    {
+      "at": "t1",
+      "do": "끝",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "render": "Eevee 가정, 1920×1080 59.94 (요청 설계 — 블렌더 미설치라 확인 안 됨)",
+    "camera": "yaw=atan2(−dx, dy), pitch=atan2(dz, hypot(dx,dy)), rotation_euler=(π/2+pitch, 0, yaw)",
+    "render_split": "힉스필드 클라우드 블렌더는 한 조작 300초 제한 — 30~36프레임씩 쪼개 렌더 (blender.md 1장)"
+  },
+  "sfx": [
+    {
+      "at": "word:hit[0]",
+      "role": "in",
+      "meaning": "중립"
+    },
+    {
+      "at": "word:hit[0]+0.4",
+      "role": "sweep",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "텍스처는 실물 사진 — 색 도형으로 칠하지 않는다 (README 4장)",
+    "실물 표면 글자는 읽히거나 가린다 — 개인·업체 정보 금지 (CLAUDE.md 4)",
+    "사물·공간은 3D 렌더 이미지(render3d) — 도형을 쌓아 형상을 흉내 내는 짜깁기 금지 (10-07 06)",
+    "카메라 각도는 눈대중이 아니라 look(p,q) 로 목표점을 보게 계산한다: yaw=atan2(−dx,dy), pitch=atan2(dz,hypot(dx,dy)), rotation_euler=(π/2+pitch,0,yaw) (쇼츠 blender.md 1장 09-30 함정)",
+    "구간 보간은 smoothstep u²(3−2u), 렌즈 키는 CONSTANT (쇼츠 blender.md 1장)",
+    "렌더 길이는 대사 구간 길이에 맞춘다 — 나중에 구간별 배속 변경 금지 (blender.md 1장 · ai-video.md 4장)",
+    "글자는 3D 모델에 박지 않는다 — 렌더러(PIL·AE)가 위에 얹는다 (SC-15 rules)",
+    "Flova 는 쓰지 않는다 (사장님 10-08 «오케이 일단 플로바는 제외하고»)"
+  ],
+  "sample": {
+    "labels": [
+      "인증서"
+    ]
+  },
+  "fallback": [
+    "SC-15",
+    "EM-07"
+  ],
+  "from": "코드 없음 — 쇼츠 blender.md 의 b4_previz05_scene.py 구조만 참고(로컬 블렌더 실행은 확인된 바 없음)",
+  "basis": "auto-pipeline.md 4장 블렌더 · SC-15",
+  "todo": [
+    "이 PC 에 블렌더 미설치",
+    "쇼츠 blender.md 는 코드를 이 PC 에서 다시 돌려 확인하지 않았다 — 힉스필드 클라우드 블렌더(3D Jutsu) 기록뿐, 로컬 bpy 실행 여부 미확인(한 조작 300초 제한이라 30~36프레임씩 쪼개 렌더)",
+    "duration·카메라 종류·등장 모션 수치는 문서에 근거 없음 → 초기값 — 첫 견본에서 정함",
+    "R4 로드맵 항목(블렌더 설치 후)"
+  ],
+  "rejected": []
+}

@@ -1,0 +1,32 @@
+{
+  "id": "TN-1",
+  "name": "정보 깔끔",
+  "em_per_min": [
+    5,
+    7
+  ],
+  "sc_ratio": [
+    0.15,
+    0.2
+  ],
+  "camera_prefer": [
+    "CA-01",
+    "CA-03"
+  ],
+  "camera_avoid": [],
+  "prefer": [
+    "EM-06",
+    "EM-07",
+    "SC-02",
+    "SC-03"
+  ],
+  "palette": {
+    "bg": "#FFFFFF",
+    "text": "#111111",
+    "accent": "#1857D1"
+  },
+  "motif": "오른쪽에서 밀려드는 판",
+  "sfx": "SD-01",
+  "ending": "OE-02",
+  "note": "초기값 — 첫 건 검수 뒤 고침. 기본 느낌. 강조 밀도는 강의 실측(강조 6.8개/분 · 효과음 6.2회/분, lecture-graphics.md 2장)을 출발점으로 잡았다. 색: 흰·검정·브랜드 파랑(blue #1857D1, 소재/브랜드/colors.json)."
+}

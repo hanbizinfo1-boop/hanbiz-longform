@@ -1,0 +1,126 @@
+{
+  "id": "OE-17",
+  "name": "기준선락업엔드",
+  "drawer": "OE",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "브랜드",
+    "글자"
+  ],
+  "source_ref": [
+    "쇼츠 K 샷5 기준선 락업 (2d-mg-newtake.md 샷 5 — 8.300–10.000초, 변형 C7)"
+  ],
+  "summary": "모든 요소가 작은 사각형으로 줄어 한 기준선으로 모여 로고·문의 한 줄로 합쳐지는 엔드 카드. 마지막 0.85초는 새 요소 없이 정지",
+  "use_when": [
+    "한 편 끝",
+    "브랜드"
+  ],
+  "avoid_when": [],
+  "tones": {
+    "TN-1": 0.6,
+    "TN-2": 0.3,
+    "TN-3": 0.9,
+    "TN-4": 0.6
+  },
+  "screens": [
+    "PIP",
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "L5",
+  "moves_person": false,
+  "duration": [
+    1.7,
+    3
+  ],
+  "slots": {
+    "logo": {
+      "kind": "image",
+      "source": [
+        "brand"
+      ],
+      "style": "실사 사진",
+      "alpha": true,
+      "desc": "로고 원본"
+    },
+    "cta_text": {
+      "kind": "text",
+      "desc": "문의 한 줄(번호 자리표시 010-0000-0000)",
+      "max_chars": 16,
+      "rule": "실제 번호 금지"
+    }
+  },
+  "drawn_allowed": [
+    "글자",
+    "구분선"
+  ],
+  "keepout": [
+    "자막띠",
+    "사람PIP"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "요소들이 중앙 주변의 작은 사각형으로 줄어든다",
+      "ease": "ez"
+    },
+    {
+      "at": "t0+0.85",
+      "do": "한 기준선 위로 snap — 로고 + 문의 한 줄로 합쳐진다",
+      "ease": "eo"
+    },
+    {
+      "at": "t1-0.85",
+      "do": "얇은 선 한 줄이 한 번 그려지고 멈춘다",
+      "dur": 0.4,
+      "ease": "eo"
+    },
+    {
+      "at": "t1-0.85",
+      "do": "마지막 0.85초 새 요소·모핑·카메라 이동 없이 정지 (원본 9.150–10.000)",
+      "dur": 0.85,
+      "ease": "hold"
+    }
+  ],
+  "look": {
+    "hold_sec": 0.85,
+    "ref_shot_sec": [
+      8.3,
+      10.0
+    ],
+    "ref_hold_sec": [
+      9.15,
+      10.0
+    ]
+  },
+  "sfx": [
+    {
+      "at": "t0+0.85",
+      "role": "ok",
+      "meaning": "긍정"
+    }
+  ],
+  "rules": [
+    "마지막 0.85초는 새 요소 없이 정지 — 원본 지시 «From 9.150s to exactly 10.000s, hold the final composition steadily» (2d-mg-newtake.md 샷 5)",
+    "CTA 는 마지막 컷 하나 — 중복 CTA 금지 (같은 노트 C7)",
+    "로고는 새로 그리지 않고 원본 그대로, 사물이라 image 칸(source brand) — README 4장, 쇼츠 motion-typo.md C «로고를 AI 로 다시 그림 금지»",
+    "업체 연락처·번호·고객 정보를 넣지 않는다 — 번호 자리는 010-0000-0000 — CLAUDE.md 4",
+    "엔딩은 원문 뒤에 붙는다 — 원문 본문 길이는 불변 (auto-pipeline.md 3-1 OE)",
+    "한글 타이틀은 코드 글자로 — AI 가 그리지 않는다 (R_GLYPH)"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "OE-02",
+    "OE-11"
+  ],
+  "from": "쇼츠 study/2d-mg-newtake.md 샷 5 · 변형 C7 (16.4–18.85)",
+  "basis": "2d-mg-newtake.md 샷 5·C7",
+  "todo": [
+    "px·좌표·길이는 1080×1920 세로 노트 값이거나 없음 — 1920×1080 가로 재배치는 초기값, 첫 견본에서 정함",
+    "모듈이 줄어드는 시간·기준선 위치·선 길이는 노트에 숫자 없음 — 초기값, 첫 견본에서 정함",
+    "원본 시각 8.300–10.000 은 원본 영상 값 — 우리 엔딩 길이는 서랍 범위 안의 초기값"
+  ]
+}

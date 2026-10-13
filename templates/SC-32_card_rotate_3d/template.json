@@ -1,0 +1,126 @@
+{
+  "id": "SC-32",
+  "name": "3D카드회전",
+  "drawer": "SC",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "자료이미지"
+  ],
+  "source_ref": [
+    "쇼츠 V7a (higgsfield-mg.md 3D 카드 Y 회전, 16.2–18.0, 정착 0.4초 감속)"
+  ],
+  "summary": "카드가 비스듬히 입장해 Y 축으로 회전하고 뒷면까지 보인 뒤 정면에 정착한다 — 자료 한 장을 입체적으로 소개한다",
+  "use_when": [
+    "자료 등장",
+    "소개·여러 항목",
+    "브랜드"
+  ],
+  "avoid_when": [
+    "설정·버튼",
+    "숫자·금액"
+  ],
+  "tones": {
+    "TN-1": 0.6,
+    "TN-2": 0.5,
+    "TN-3": 0.4,
+    "TN-4": 0.2
+  },
+  "screens": [
+    "사람없음"
+  ],
+  "layer": "L2",
+  "moves_person": false,
+  "duration": [
+    3,
+    10
+  ],
+  "slots": {
+    "front": {
+      "kind": "image",
+      "source": [
+        "doc",
+        "codex"
+      ],
+      "style": "실사 사진",
+      "alpha": false,
+      "desc": "카드 앞면 이미지(글자 없는 Codex 사진 또는 자료 한 쪽)"
+    },
+    "back_text": {
+      "kind": "text",
+      "rule": "뒷면 글(거울 반전 글자) — 필요할 때만, 개념어",
+      "max_chars": 10,
+      "optional": true
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "카드가 정착하는 말"
+    }
+  },
+  "drawn_allowed": [
+    "카드바탕",
+    "글자"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "카드 비스듬히 입장 + Y 회전",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit",
+      "do": "정면 정착",
+      "dur": 0.4,
+      "ease": "eo"
+    },
+    {
+      "at": "t1-0.36",
+      "do": "닫힘",
+      "dur": 0.36,
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "settle_sec": 0.4,
+    "hint": "정착 0.4초 감속 (V7a 16.2–18.0 관찰)"
+  },
+  "sfx": [
+    {
+      "at": "t0",
+      "role": "sweep",
+      "meaning": "중립"
+    },
+    {
+      "at": "word:hit",
+      "role": "in",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "카드 앞 이미지는 이미지 칸 — V7b 식 아이콘 콜라주 카드로 채우지 않는다 (higgsfield-mg.md 도형 위주 카드 충돌)",
+    "뒷면 글자는 거울 반전이 정상 — 글자 AI 생성 금지, 코드 글자만",
+    "한글 앞면 텍스트는 원근에서 읽히는 크기 (higgsfield-mg.md V7a)",
+    "바운스 없음 — 카드는 감속 정착 (원칙 3)"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "SC-13",
+    "SC-26"
+  ],
+  "from": "코드 없음 — 쇼츠 V7a 서술",
+  "basis": "shorts-notes-index-1008.md V7a",
+  "todo": [
+    "html 렌더 도구 tools/html_motion.py 는 1080×1920·29.97fps 하드코딩 사본 — 가로 1920×1080·59.94 인자화가 먼저(쇼츠 claude-motion-graphics.md 5-4)",
+    "회전 각도·원근·그림자: 근거 노트에 수치 없음 — 시간·간격·배율·크기는 초기값, 첫 견본에서 정함",
+    "SC-13(3D 장표)와 차이: 이쪽은 카드 한 장 회전 입장, SC-13 은 PDF 장표 3D — 병합 여부 설계자 판단"
+  ]
+}

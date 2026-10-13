@@ -1,0 +1,102 @@
+{
+  "id": "OE-12",
+  "name": "듀오톤고스트엔드",
+  "drawer": "OE",
+  "version": 1,
+  "status": "신규",
+  "engine": "compose",
+  "subject": [
+    "브랜드",
+    "자료이미지"
+  ],
+  "source_ref": [
+    "쇼츠 M6 엔드 카드 = 앞 장면 하이라이트의 듀오톤 고스트 + 좌하단 작은 글 (koba-maestro.md 34.03–39.11)"
+  ],
+  "summary": "앞 장면 약 5초를 낮은 대비 + 파랑 그라디언트 오버레이로 다시 깔고, 작은 글씨와 로고를 좌하단에 놓는 엔드 카드. 새 영상을 만들지 않는다",
+  "use_when": [
+    "한 편 끝",
+    "브랜드"
+  ],
+  "avoid_when": [],
+  "tones": {
+    "TN-1": 0.8,
+    "TN-2": 0.3,
+    "TN-3": 0.9,
+    "TN-4": 0.7
+  },
+  "screens": [
+    "PIP",
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "L5",
+  "moves_person": false,
+  "duration": [
+    5,
+    5
+  ],
+  "slots": {
+    "ghost_src": {
+      "kind": "box",
+      "desc": "고스트로 다시 쓸 원문 구간(초) — 앞 장면 하이라이트"
+    },
+    "logo": {
+      "kind": "image",
+      "source": [
+        "brand"
+      ],
+      "style": "실사 사진",
+      "alpha": true,
+      "desc": "로고 원본"
+    },
+    "cta_text": {
+      "kind": "text",
+      "desc": "CTA 한 줄",
+      "max_chars": 12
+    }
+  },
+  "drawn_allowed": [
+    "어둡게덮기",
+    "글자"
+  ],
+  "keepout": [
+    "자막띠",
+    "사람PIP"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "ghost_src 구간을 낮은 대비 + 파랑 그라디언트 반투명 오버레이로 재생",
+      "ease": "hold"
+    },
+    {
+      "at": "t0+0.3",
+      "do": "좌하단에 CTA 한 줄 + 로고가 들어온다",
+      "dur": 0.216,
+      "ease": "eo"
+    }
+  ],
+  "look": {},
+  "sfx": [],
+  "rules": [
+    "로고는 새로 그리지 않고 원본 그대로, 사물이라 image 칸(source brand) — README 4장, 쇼츠 motion-typo.md C «로고를 AI 로 다시 그림 금지»",
+    "업체 연락처·번호·고객 정보를 넣지 않는다 — 번호 자리는 010-0000-0000 — CLAUDE.md 4",
+    "CTA 는 한 줄 + 로고 하나 — 중복 CTA 금지 (koba-maestro.md M6 한비즈 적용 예)",
+    "오버레이는 영상 전체라 알파 255 «카드» 규칙의 예외 (koba-maestro.md M6) — 그 외 카드는 알파 255",
+    "엔딩은 원문 뒤에 붙는다 — 원문 본문 길이는 불변 (auto-pipeline.md 3-1 OE)",
+    "장면 안은 3색(바탕·글·강조 하나) — motion-graphics.md 2-1 원칙 1"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "OE-02",
+    "OE-13"
+  ],
+  "from": "쇼츠 study/koba-maestro.md M6 (34.03–39.11, extra/36.0·37.0)",
+  "basis": "koba-maestro.md 4장 M6",
+  "todo": [
+    "오버레이 색·대비 값은 노트에 숫자 없음(ffmpeg colorchannelmixer/hue 언급뿐) — 초기값, 첫 견본에서 정함",
+    "원본 길이 약 5초(34.03–39.11)는 쇼츠 값 — 롱폼 엔딩 길이는 첫 견본에서 정함",
+    "원문에서 재사용할 구간을 고르는 방식(목소리 에너지 상위?)은 첫 견본에서 정함"
+  ]
+}

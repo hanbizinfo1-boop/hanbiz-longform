@@ -1,0 +1,61 @@
+{
+  "id": "SC-08", "name": "의인화인형", "drawer": "SC", "version": 1, "status": "대기",
+  "engine": "ae",
+  "subject": ["캐릭터"],
+  "source_ref": ["빡이사DB 11 2판 «광고 의인화 인형» (bisa_ad_mascot — 이 폴더에 없음)", "빡이사DB 16 «학습» (bisa_learning_b — 이 폴더에 없음)", "쇼츠 techniques.md A표 «마스코트 의인화»", "쇼츠 design-paths.md 4장", "쇼츠 motion-typo.md 카드 F / study/koba-maestro.md"],
+  "summary": "광고·계정·알고리즘이 사람처럼 행동하는 말. 글자(예: Meta)가 적힌 팔다리 달린 인형 캐릭터가 설정을 입력받고 행동하는 모습을 모션그래픽처럼 역동적으로 보여 준다. 떨어져 착지·눌림·달리기",
+  "use_when": ["알고리즘·시스템 행동", "과정·단계"],
+  "avoid_when": ["숫자·금액", "설정·버튼"],
+  "tones": {"TN-1": 0.3, "TN-2": 1.0, "TN-3": 0.2, "TN-4": 0.3},
+  "screens": ["PIP", "풀샷"],
+  "layer": "L2", "moves_person": false,
+  "duration": [8, 25],
+  "slots": {
+    "doll":   {"kind": "image", "many": true, "source": ["char2d"], "style": "3D 비닐", "same_person_as": "건 단위 고정", "alpha": true, "desc": "글자(브랜드 문구)가 적힌 팔다리 달린 인형 4~5동작(서 있음·입력받음·달림·착지 등). 앞 그림을 view_image 로 물려 같은 인형으로. 글자는 AI 가 아니라 렌더러가 얹을 수 있게 비운 판을 우선"},
+    "bg":     {"kind": "image", "optional": true, "source": ["codex"], "style": "3D 비닐", "alpha": false, "desc": "무대 배경 — 글자 없음"},
+    "bubbles": {"kind": "text", "many": true, "max_chars": 14, "rule": "말풍선·알약 글 — 말을 받치는 개념어, 말 복사·«» 따옴표 대사 금지, 숫자는 말에 근거"},
+    "hit":    {"kind": "words", "desc": "인형이 행동을 바꾸는 단어 시각"}
+  },
+  "drawn_allowed": ["판", "말풍선바탕", "효과선", "UI위젯", "카드바탕", "글자"],
+  "keepout": ["사람PIP", "자막띠", "얼굴+16px", "판밖"],
+  "timeline": [
+    {"at": "t0", "do": "무대가 오른쪽에서 밀려 들어옴, 끝에 왼쪽으로 빠짐", "dur": 0.45, "ease": "eo"},
+    {"at": "word:hit[i]", "do": "동작 교체 — 그 시각에 딱 바뀜 + 눌림(스쿼시)", "dur": "초기값 — 첫 견본에서 정함", "ease": "eo"},
+    {"at": "word:bubble[i]", "do": "말풍선 70→100% 0.22초 eo 한 번", "dur": 0.22, "ease": "eo"},
+    {"at": "word:run", "do": "달리기 두 보폭 (착지는 떨어져 앉고 눌림)", "dur": "초기값 — 첫 견본에서 정함", "ease": "eo"}
+  ],
+  "look": {
+    "bubble_pop": "70→100% · 0.22초 · eo 한 번",
+    "bubble_tail": "꼬리 끝은 머리 위 16px",
+    "fx_lines": "효과선은 머리 반지름 바깥에만",
+    "flip": "글자가 적힌 인형은 좌우 뒤집기 금지"
+  },
+  "sfx": [
+    {"at": "t0", "role": "in", "meaning": "중립"},
+    {"at": "word:hit[i]", "role": "st1", "meaning": "중립"},
+    {"at": "word:run", "role": "sweep", "meaning": "중립"},
+    {"at": "t1-0.4", "role": "back", "meaning": "중립"}
+  ],
+  "rules": [
+    "글자가 적힌 인형은 좌우 뒤집기 금지 — 글자가 거울 글자가 된다 (쇼츠 techniques.md · motion-graphics.md 한눈에)",
+    "실사 직원 사진으로 의인화하지 않는다 — 팔다리 달린 인형 캐릭터 (10-07 11 1판 반려)",
+    "모션그래픽처럼 역동적으로 — 카드·글만 페이드로 띄우지 않는다 (10-07 11)",
+    "눌림(스쿼시)·들썩임은 허용, 말풍선은 70→100% 한 번 (2-1장 원칙 3)",
+    "말풍선 꼬리는 머리 위 16px, 효과선은 머리 반지름 바깥 (10-08 18)",
+    "한글·브랜드 글자는 AI 에 맡기지 않는다 — 렌더러가 얹거나 글자 없는 인형에 글자만 따로 (ai-video.md 3장)",
+    "화면 글은 말을 받치는 개념어 — 말 복사·«» 금지 (10-08 17·19)"
+  ],
+  "rejected": [
+    "10-07 11 1판(실사 직원) «나는 그 meta라는 문구가 적혀 있는 팔다리 달린 인형 같은 애가 나와서 행동하는 의인화를 하고 싶은 건데, 이걸 모션그래픽 같은 좀 역동적인 연출»"
+  ],
+  "sample": {"bubbles": ["입력 받는 중", "학습 시작"]},
+  "fallback": ["SC-05", "SC-04"],
+  "from": "도구 원본(bisa_ad_mascot.py · bisa_learning_b.py)에만 있고 이 폴더에 이식되지 않음 — feedback-log.md 11·16 서술과 쇼츠 techniques.md 만 근거",
+  "basis": "motion-graphics.md 0장 갈래 «의인화 인형» · 7장 11·16 · 쇼츠 techniques.md «마스코트 의인화»",
+  "todo": [
+    "도구 원본 미이식 — timeline 수치(착지·달리기 보폭·눌림 값)를 모른다 → 초기값 — 첫 견본에서 정함",
+    "11 2판은 Codex 3D 마스코트 5동작, 16 은 검수 대기 — 사장님 통과 기록 없음 → 대기",
+    "스타일 충돌: 인형은 3D 장난감(3D 비닐), SC-07 캐릭터는 2D 플랫 — 11·16 과 18·21 이 같은 편에서 쓰였으나 templates/README.md 4장 «한 편 안에서 섞지 않는다»와 부딪힘, 설계자 확인",
+    "duration [8,25] 는 문서 근거가 없는 초기값 — 첫 견본에서 정함"
+  ]
+}

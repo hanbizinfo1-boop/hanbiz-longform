@@ -1,0 +1,128 @@
+{
+  "id": "SC-26",
+  "name": "격자콜라주",
+  "drawer": "SC",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "자료이미지"
+  ],
+  "source_ref": [
+    "원#30 (한 장 번식 → 격자 콜라주)",
+    "쇼츠 CM-6 (사진 그리드→벤토→타일 줌)"
+  ],
+  "summary": "원 하나가 사진 원으로 바뀌고 십자로 피어나 격자(벤토) 콜라주가 되며 마지막에 한 칸으로 줌 — 사례를 나열한다",
+  "use_when": [
+    "사례·후기",
+    "소개·여러 항목"
+  ],
+  "avoid_when": [
+    "설정·버튼",
+    "숫자·금액"
+  ],
+  "tones": {
+    "TN-1": 0.7,
+    "TN-2": 0.5,
+    "TN-3": 0.6,
+    "TN-4": 0.2
+  },
+  "screens": [
+    "사람없음"
+  ],
+  "layer": "L2",
+  "moves_person": false,
+  "duration": [
+    4,
+    12
+  ],
+  "slots": {
+    "photos": {
+      "kind": "image",
+      "source": [
+        "codex"
+      ],
+      "style": "실사 사진",
+      "alpha": false,
+      "desc": "격자 칸마다 들어갈 사진(사람 나오면 사진기로 찍은 톤, 실존 인물·업체 금지)",
+      "many": true
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "칸이 피어나는 말의 단어 시각 목록"
+    },
+    "zoom_idx": {
+      "kind": "choice",
+      "desc": "마지막에 줌인할 칸 번호"
+    }
+  },
+  "drawn_allowed": [
+    "카드바탕",
+    "어둡게덮기"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "원이 사진 원으로",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[i]",
+      "do": "십자로 피어나 칸이 늘어 격자가 됨",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "t1-0.8",
+      "do": "한 칸으로 타일 줌",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "ez"
+    },
+    {
+      "at": "t1-0.36",
+      "do": "닫힘",
+      "dur": 0.36,
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "hint": "원 → 사진 원 → 십자로 피어남 → 격자 (원#30). 칸 수·비율 초기값 — 첫 견본에서 정함"
+  },
+  "sfx": [
+    {
+      "at": "t0",
+      "role": "in",
+      "meaning": "중립"
+    },
+    {
+      "at": "word:hit[i]",
+      "role": "st1",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "사진은 Codex 실사 — 도형 칸에 아이콘을 채우지 않는다 (SKILL.md 4장)",
+    "사람 사진은 «사진기로 찍은 사진» 톤, 반실사 금지 (ai-video.md 3장)",
+    "자동 모드에선 실제 업체·개인정보가 보이는 실자료를 쓰지 않는다 — 재현·Codex, 업체명 ○○ (README 8장, CLAUDE.md 4)",
+    "새 요소는 0.6초 이상 혼자, 한 문장 새 요소 3개 이하 (10-07 10, motion-graphics.md 2-1장 원칙 13)"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "SC-25",
+    "EM-07"
+  ],
+  "from": "코드 없음 — 쇼츠 claude-motion-graphics.md CM-6 서술",
+  "basis": "origin-session-1008.md 원#30 · 쇼츠 CM-6",
+  "todo": [
+    "html 렌더 도구 tools/html_motion.py 는 1080×1920·29.97fps 하드코딩 사본 — 가로 1920×1080·59.94 인자화가 먼저(쇼츠 claude-motion-graphics.md 5-4)",
+    "칸 수·간격·피어나는 간격: 근거 노트에 수치 없음 — 시간·간격·배율·크기는 초기값, 첫 견본에서 정함"
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "id": "TR-16",
+  "name": "로워서드",
+  "drawer": "TR",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "글자"
+  ],
+  "source_ref": [
+    "웹#75 거친 로워서드 마스크 리빌 (premiumbeat Vox 글, 출처값)",
+    "쇼츠 Vox 거친 마스크 (web-research-1008.md 1장)"
+  ],
+  "summary": "인물·장소 이름 띠가 거친 텍스처 마스크로 불균일하게 펼쳐지며 나오고, 글자는 몇 프레임 늦게 따라온다. 자막 띠 위에 얹는다",
+  "use_when": [
+    "소개·여러 항목",
+    "한 편 시작",
+    "현실 공간·사람"
+  ],
+  "avoid_when": [
+    "설정·버튼",
+    "가림"
+  ],
+  "tones": {
+    "TN-1": 0.9,
+    "TN-2": 0.6,
+    "TN-3": 0.5,
+    "TN-4": 0.4
+  },
+  "screens": [
+    "풀샷",
+    "PIP"
+  ],
+  "layer": "L4",
+  "moves_person": false,
+  "duration": [
+    2,
+    5
+  ],
+  "slots": {
+    "name": {
+      "kind": "text",
+      "desc": "이름 또는 장소(출연자 실명·고객 정보 금지)",
+      "max_chars": 12,
+      "rule": "출연자·고객 개인정보는 어떤 형태로도 커밋·사용 금지 — 업체명은 ○○"
+    },
+    "texture": {
+      "kind": "image",
+      "source": [
+        "codex"
+      ],
+      "style": "실사 사진",
+      "alpha": true,
+      "desc": "거친 텍스처 마스크 PNG(얼룩·종이결)"
+    }
+  },
+  "drawn_allowed": [
+    "판",
+    "글자"
+  ],
+  "keepout": [
+    "자막띠",
+    "사람PIP"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "거친 텍스처 마스크가 프레임을 건너뛰며 불균일하게 확장되어 띠가 드러난다",
+      "dur": 0.4,
+      "ease": "eo"
+    },
+    {
+      "at": "t0+몇 프레임",
+      "do": "글자가 마스크보다 몇 프레임 늦게 나온다",
+      "dur": 0.216,
+      "ease": "eo"
+    },
+    {
+      "at": "t1-0.3",
+      "do": "페이드 아웃",
+      "dur": 0.3,
+      "ease": "lin"
+    }
+  ],
+  "look": {},
+  "sfx": [],
+  "rules": [
+    "거친 텍스처 PNG + 프레임 건너뛰며 불균일 확장, 글자는 몇 프레임 늦게 — premiumbeat Vox 글 (web-research-1008.md 1장)",
+    "자막 띠(y 967~1041)를 가리지 않는다 — 띠는 자막 띠 바로 위 또는 한쪽 위에 둔다 (lecture-graphics.md 1장)",
+    "출연자·고객 이름은 실명을 쓰지 않는다 — 개인정보 (CLAUDE.md 4)",
+    "글꼴에 없는 글자는 glyph_check 로 렌더 전에 막는다 — 10-08 13 (motion-graphics.md 5장)",
+    "등장은 감속(eo), 오버슈트 없음 — motion-graphics.md 2-1 원칙 3"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "EM-04",
+    "TR-01"
+  ],
+  "from": "web-research-1008.md 1장 «거친 로워서드 마스크 리빌» 줄 (premiumbeat 링크)",
+  "basis": "web-research-1008.md 1장 · 2장 Lower thirds",
+  "todo": [
+    "띠 위치(자막 띠 위 어디)·크기는 노트에 없다 — 초기값, 첫 견본에서 정함",
+    "«몇 프레임 늦게» 의 프레임 수와 12fps 스터터(그래픽을 12fps 로 렌더)를 쓸지 — 출처에 프레임 수 없음, 첫 견본에서 정함",
+    "텍스처 마스크 PNG 를 Codex 로 만들 때 알파 처리 방법 — 시험 전"
+  ]
+}

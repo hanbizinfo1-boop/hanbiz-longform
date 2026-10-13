@@ -1,0 +1,128 @@
+{
+  "id": "TR-18",
+  "name": "3D공간통과전환",
+  "drawer": "TR",
+  "version": 1,
+  "status": "신규",
+  "engine": "blender",
+  "subject": [
+    "무대배경"
+  ],
+  "source_ref": [
+    "쇼츠 blender.md (b4_previz05_scene.py — look()·smoothstep·CONSTANT 렌즈)",
+    "templates/SC-15 (3D 오브젝트 본보기)",
+    "templates/TR-04 (3D 카메라 풀백 전환)",
+    "쇼츠 blender.md 1장 (구간별 카메라 pose)"
+  ],
+  "summary": "카메라가 3D 공간을 지나 다음 장면으로 넘어간다. 통과 끝에서 다음 장면(챕터 표지·본편)으로 이어진다",
+  "use_when": [
+    "챕터 시작",
+    "챕터 끝"
+  ],
+  "avoid_when": [
+    "숫자·금액",
+    "설정·버튼"
+  ],
+  "tones": {
+    "TN-1": 0.3,
+    "TN-2": 0.3,
+    "TN-3": 0.3,
+    "TN-4": 0.6
+  },
+  "screens": [
+    "PIP",
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "L5",
+  "moves_person": false,
+  "duration": [
+    0.4,
+    1.2
+  ],
+  "slots": {
+    "space": {
+      "kind": "image",
+      "source": [
+        "render3d"
+      ],
+      "style": "3D 비닐",
+      "alpha": false,
+      "desc": "블렌더로 렌더한 통과용 3D 공간"
+    },
+    "next_still": {
+      "kind": "image",
+      "source": [
+        "codex",
+        "real_capture"
+      ],
+      "style": "실사 사진",
+      "alpha": false,
+      "desc": "통과 끝에서 이어질 다음 장면의 첫 프레임(또는 표지)",
+      "optional": true
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "전환이 일어나는 말의 순간"
+    }
+  },
+  "drawn_allowed": [
+    "글자"
+  ],
+  "keepout": [
+    "자막띠",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "카메라가 공간을 지나감(smoothstep)",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "ez"
+    },
+    {
+      "at": "t1",
+      "do": "다음 장면으로 이어짐",
+      "dur": 0.0,
+      "ease": "hold"
+    }
+  ],
+  "look": {
+    "render": "Eevee 가정, 1920×1080 59.94 (요청 설계 — 블렌더 미설치라 확인 안 됨)",
+    "camera": "yaw=atan2(−dx, dy), pitch=atan2(dz, hypot(dx,dy)), rotation_euler=(π/2+pitch, 0, yaw)",
+    "render_split": "힉스필드 클라우드 블렌더는 한 조작 300초 제한 — 30~36프레임씩 쪼개 렌더 (blender.md 1장)",
+    "duration_note": "[0.4,1.2] 는 TR-04(3D 카메라풀백)의 duration 을 빌린 값 — 첫 견본에서 확인"
+  },
+  "sfx": [
+    {
+      "at": "t0",
+      "role": "sweep",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "전환은 한 편에서 몇 번 안 쓴다 — 표지·구간 끊기에만 (TR 서랍 원칙)",
+    "다음 장면과 색·톤이 이어져야 한다 — 이음매에서 갑자기 다른 결로 튀지 않게",
+    "사물·공간은 3D 렌더 이미지(render3d) — 도형을 쌓아 형상을 흉내 내는 짜깁기 금지 (10-07 06)",
+    "카메라 각도는 눈대중이 아니라 look(p,q) 로 목표점을 보게 계산한다: yaw=atan2(−dx,dy), pitch=atan2(dz,hypot(dx,dy)), rotation_euler=(π/2+pitch,0,yaw) (쇼츠 blender.md 1장 09-30 함정)",
+    "구간 보간은 smoothstep u²(3−2u), 렌즈 키는 CONSTANT (쇼츠 blender.md 1장)",
+    "렌더 길이는 대사 구간 길이에 맞춘다 — 나중에 구간별 배속 변경 금지 (blender.md 1장 · ai-video.md 4장)",
+    "글자는 3D 모델에 박지 않는다 — 렌더러(PIL·AE)가 위에 얹는다 (SC-15 rules)",
+    "Flova 는 쓰지 않는다 (사장님 10-08 «오케이 일단 플로바는 제외하고»)"
+  ],
+  "sample": {},
+  "fallback": [
+    "TR-04",
+    "TR-01"
+  ],
+  "from": "코드 없음 — 쇼츠 blender.md 의 b4_previz05_scene.py 구조만 참고(로컬 블렌더 실행은 확인된 바 없음)",
+  "basis": "auto-pipeline.md 4장 블렌더 · TR-04",
+  "todo": [
+    "이 PC 에 블렌더 미설치",
+    "TR-04(ae)와 겹침: 이쪽은 3D 공간을 실제로 지나가는 렌더 — 같은 한 편에 둘 다 쓰는지 정하지 않음",
+    "쇼츠 blender.md 는 코드를 이 PC 에서 다시 돌려 확인하지 않았다 — 힉스필드 클라우드 블렌더(3D Jutsu) 기록뿐, 로컬 bpy 실행 여부 미확인(한 조작 300초 제한이라 30~36프레임씩 쪼개 렌더)",
+    "duration·카메라 종류·등장 모션 수치는 문서에 근거 없음 → 초기값 — 첫 견본에서 정함",
+    "R4 로드맵 항목(블렌더 설치 후)"
+  ],
+  "rejected": []
+}

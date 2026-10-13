@@ -1,0 +1,122 @@
+{
+  "id": "EM-47",
+  "name": "에코스택",
+  "drawer": "EM",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "글자"
+  ],
+  "source_ref": [
+    "쇼츠 V9 에코 스택 (study/higgsfield-mg.md 00:20.0–00:22.6 · 4장 V8·V9)"
+  ],
+  "summary": "굵은 글자가 잔상(에코) 3~5겹으로 쌓여 모이며 정돈되고, 줄 간이 위아래로 어긋났다가 다음 줄로 슬라이드 교체된다",
+  "use_when": [
+    "결론·센 말",
+    "챕터 시작",
+    "한 편 시작"
+  ],
+  "avoid_when": [
+    "숫자·금액",
+    "설정·버튼",
+    "가림"
+  ],
+  "tones": {
+    "TN-1": 0.1,
+    "TN-2": 0.6,
+    "TN-3": 0.6,
+    "TN-4": 0.1
+  },
+  "screens": [
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "L4",
+  "moves_person": false,
+  "duration": [
+    1.5,
+    4
+  ],
+  "slots": {
+    "lines": {
+      "kind": "text",
+      "many": true,
+      "max_chars": 8,
+      "rule": "화면 글은 말을 받치는 개념어 — 말 복사·«» 대사 금지, 숫자는 말에 근거 (사장님 10-08 17·19) — 2~3줄"
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "줄마다 말하는 단어 시각"
+    },
+    "area": {
+      "kind": "box",
+      "desc": "안전영역"
+    }
+  },
+  "drawn_allowed": [
+    "글자"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "word:hit[i]",
+      "do": "에코 잔상 3~5겹으로 겹쳐 모이며 정돈(원본 20.0→20.5초 약 0.5초)",
+      "dur": 0.5,
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[i+1]",
+      "do": "줄 교체 슬라이드(겹쳤다 갈라짐)",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "echo_layers": [
+      3,
+      5
+    ],
+    "echo_opacity": "감쇠 — 초기값 — 첫 견본에서 정함",
+    "offset_px": "초기값 — 첫 견본에서 정함"
+  },
+  "sfx": [
+    {
+      "at": "word:hit[i]",
+      "role": "sweep",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "한글은 받침이 에코 겹침에서 뭉개질 수 있다 — 겹침 불투명도·오프셋을 한글로 시험 (higgsfield-mg.md 4장 V9 약점)",
+    "영문 몽타주 단어 금지 — 한글 개념어 (higgsfield-mg 4장 V9 «말 따라 쓰기 금지»)",
+    "화면 글은 말을 받치는 개념어 — 말 복사·«» 대사 금지, 숫자는 말에 근거 (사장님 10-08 17·19)",
+    "움직임은 그 말의 단어 시각(±2프레임)에 건다 — 타이머 간격 금지 (상황 강령 0장 2 · SKILL 3장)",
+    "한 장면 3색 이하 — 바탕·글·강조 하나 (motion-graphics 2-1장 원칙 1)",
+    "html 계약(쇼츠 tools/html_motion.py): window.W/H/FPS/DURATION · seek(t) 는 t 만의 순수 함수(CSS transition·타이머·Math.random 금지) · PALETTE 3색 이하 (EM-04 와 같은 틀)"
+  ],
+  "rejected": [],
+  "sample": {
+    "lines": [
+      "핵심",
+      "조건",
+      "충족"
+    ]
+  },
+  "fallback": [
+    "EM-04",
+    "EM-45"
+  ],
+  "from": "쇼츠 study/higgsfield-mg.md V9",
+  "basis": "shorts-notes-index-1008.md higgsfield 묶음 V9",
+  "todo": [
+    "쇼츠 노트는 세로 1080×1920 기준 — 가로 1920×1080 재배치 필요",
+    "에코 겹수·불투명 감쇠·줄 어긋남 폭 초기값 — 첫 견본에서 정함",
+    "한글 시험 필요 — 받침 뭉개짐"
+  ]
+}

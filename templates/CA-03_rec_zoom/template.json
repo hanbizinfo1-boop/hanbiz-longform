@@ -1,0 +1,127 @@
+{
+  "id": "CA-03",
+  "name": "녹화따라줌",
+  "drawer": "CA",
+  "version": 1,
+  "status": "통과",
+  "engine": "compose",
+  "subject": [
+    "녹화화면"
+  ],
+  "summary": "녹화 화면에서 지금 말하는 칸(커서·바뀐 영역)으로 카메라가 밀고 들어가 버티다 원위치. 자막·사람 PIP 는 영향 없음",
+  "use_when": [
+    "설정·버튼",
+    "화면 속 특정 부분"
+  ],
+  "avoid_when": [
+    "개념 비교",
+    "일상 상황",
+    "결론·센 말"
+  ],
+  "tones": {
+    "TN-1": 0.7,
+    "TN-2": 0.5,
+    "TN-3": 0.3,
+    "TN-4": 1.0
+  },
+  "screens": [
+    "PIP",
+    "사람없음"
+  ],
+  "layer": "L1",
+  "moves_person": false,
+  "duration": [
+    1.5,
+    20
+  ],
+  "slots": {
+    "target": {
+      "kind": "box",
+      "from": "해부.녹화활동",
+      "desc": "확대 목표 상자(녹화 좌표). 커서·바뀐 영역에서 자동, 내가 고칠 수 있음"
+    },
+    "zoom": {
+      "kind": "number",
+      "range": [
+        1.45,
+        2.2
+      ],
+      "default": 1.45,
+      "desc": "확대 배율"
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "카메라가 옮겨 갈 단어 시각(여러 칸을 차례로 짚을 때)"
+    }
+  },
+  "drawn_allowed": [],
+  "keepout": [
+    "자막띠",
+    "사람PIP"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "목표 상자 쪽으로 확대",
+      "to": "zoom",
+      "dur": 0.5,
+      "ease": "ez"
+    },
+    {
+      "at": "word:hit[i]",
+      "do": "다음 칸으로 이동(같은 배율)",
+      "dur": 0.4,
+      "ease": "eo"
+    },
+    {
+      "at": "t1-0.45",
+      "do": "원위치 100%",
+      "dur": 0.45,
+      "ease": "ez"
+    }
+  ],
+  "look": {
+    "zoom_default": 1.45,
+    "in_sec": 0.5,
+    "out_sec": 0.45
+  },
+  "sfx": [
+    {
+      "at": "t0",
+      "role": "in/zoom",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "확대해도 녹화 기본 틀 밖(주소창·탭·북마크)이 보이지 않게 위치를 묶는다 — bisa_ab_live.cam_at (10-08 13)",
+    "확대한 영역에 업체명·번호·계정 ID 가 보이면 이 박자는 버리고 fallback — CLAUDE.md 4",
+    "장면 중간에 녹화가 스크롤되면 스크롤 시각 전후로 나눈다 — motion-graphics.md 5장(20)",
+    "카메라가 움직이는 동안 SC 장면을 시작하지 않는다 — auto-pipeline.md 6-3"
+  ],
+  "rejected": [],
+  "sample": {
+    "target": [
+      812,
+      404,
+      1240,
+      470
+    ],
+    "zoom": 1.45,
+    "hit": []
+  },
+  "fallback": [
+    "CA-01",
+    "EM-02"
+  ],
+  "from": "tools/examples/bisa_ab_live.py (CAM 널 · cam_at · 녹화 1.45 확대 0.5초 / 복귀 0.45초)",
+  "basis": "motion-graphics.md 2장(04·08 2판 통과) · 0장 갈래 «녹화 실화면에서 값 넣기»",
+  "source_ref": [
+    "빡이사DB 04",
+    "빡이사DB 08 2판",
+    "빡이사DB 13 2판"
+  ],
+  "todo": [
+    "활동 상자 자동 검출(커서 템플릿 매칭·프레임 차분) 정확도는 첫 시험 파일에서 잰다",
+    "1.45 넘는 배율에서 녹화 화질(1080p 원본) 한계 — 2.2 는 실측 문서 근거(강의 2강 196~226%)이나 흐림 정도는 견본으로 확인"
+  ]
+}

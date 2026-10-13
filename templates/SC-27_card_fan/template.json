@@ -1,0 +1,137 @@
+{
+  "id": "SC-27",
+  "name": "카드부채꼴",
+  "drawer": "SC",
+  "version": 1,
+  "status": "신규",
+  "engine": "ae",
+  "subject": [
+    "자료이미지",
+    "글자"
+  ],
+  "source_ref": [
+    "원#38 (카드 부채꼴 + 반대 방향 띠 글자)"
+  ],
+  "summary": "폴더에서 카드가 부채꼴로 펼쳐지고 화면 위·아래 띠 글자가 서로 반대 방향으로 흐른다 — 사례 몽타주",
+  "use_when": [
+    "사례·후기",
+    "소개·여러 항목",
+    "챕터 시작"
+  ],
+  "avoid_when": [
+    "설정·버튼"
+  ],
+  "tones": {
+    "TN-1": 0.7,
+    "TN-2": 0.6,
+    "TN-3": 0.4,
+    "TN-4": 0.2
+  },
+  "screens": [
+    "사람없음",
+    "풀샷"
+  ],
+  "layer": "L2",
+  "moves_person": false,
+  "duration": [
+    4,
+    12
+  ],
+  "slots": {
+    "folder": {
+      "kind": "image",
+      "source": [
+        "codex"
+      ],
+      "style": "2D 플랫",
+      "alpha": true,
+      "desc": "카드가 나오는 폴더 한 개(투명 배경)"
+    },
+    "cards": {
+      "kind": "image",
+      "source": [
+        "codex",
+        "doc"
+      ],
+      "style": "실사 사진",
+      "alpha": false,
+      "desc": "부채꼴로 펴질 카드 속 사진·서류 3~7장(업체명 ○○)",
+      "many": true
+    },
+    "ribbon": {
+      "kind": "text",
+      "rule": "위아래 띠 글자 — 개념어 반복 단어",
+      "max_chars": 10,
+      "optional": true
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "카드가 펼쳐지는 말"
+    }
+  },
+  "drawn_allowed": [
+    "카드바탕",
+    "글자"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "폴더 등장",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit",
+      "do": "카드가 폴더에서 부채꼴로 펼쳐짐",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "t0",
+      "do": "위·아래 띠 글자가 반대 방향으로 이동 시작",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "lin"
+    },
+    {
+      "at": "t1-0.36",
+      "do": "닫힘",
+      "dur": 0.36,
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "hint": "위아래 띠는 반대 방향 (원#38). 카드 수 3~7 은 초기값 — 첫 견본에서 정함"
+  },
+  "sfx": [
+    {
+      "at": "word:hit",
+      "role": "sweep",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "사람·서류·돈·지도·휴대폰·도장은 이미지 칸 — 도형 소품·아이콘 짜깁기 금지 (06 반려, SKILL.md 4장)",
+    "띠 글자는 읽히는 크기이되 자막띠·사람 PIP 를 가리지 않는다",
+    "카드 사진은 실제 고객 금지 (CLAUDE.md 4)",
+    "자동 모드에선 실제 업체·개인정보가 보이는 실자료를 쓰지 않는다 — 재현·Codex, 업체명 ○○ (README 8장, CLAUDE.md 4)"
+  ],
+  "rejected": [],
+  "sample": {
+    "ribbon": "사례"
+  },
+  "fallback": [
+    "SC-26",
+    "SC-10"
+  ],
+  "from": "코드 없음 — 학습분 서술",
+  "basis": "origin-session-1008.md 원#38 (학습분)",
+  "todo": [
+    "부채꼴 각도·카드 수·띠 속도: 근거 노트에 수치 없음 — 시간·간격·배율·크기는 초기값, 첫 견본에서 정함"
+  ]
+}

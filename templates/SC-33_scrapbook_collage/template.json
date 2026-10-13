@@ -1,0 +1,130 @@
+{
+  "id": "SC-33",
+  "name": "스크랩북콜라주",
+  "drawer": "SC",
+  "version": 1,
+  "status": "신규",
+  "engine": "ae",
+  "subject": [
+    "자료이미지",
+    "무대배경"
+  ],
+  "source_ref": [
+    "웹#56 (시장 Backgrounds 종이·노트 / Polaroid 카테고리 — 수치 출처값 없음)"
+  ],
+  "summary": "종이 바탕 위에 사진·메모·테이프 조각이 하나씩 붙는 스크랩북 — 사례와 자료를 한 장에 모은다",
+  "use_when": [
+    "사례·후기",
+    "소개·여러 항목",
+    "자료 등장"
+  ],
+  "avoid_when": [
+    "설정·버튼",
+    "숫자·금액"
+  ],
+  "tones": {
+    "TN-1": 0.9,
+    "TN-2": 0.6,
+    "TN-3": 0.3,
+    "TN-4": 0.1
+  },
+  "screens": [
+    "사람없음",
+    "PIP"
+  ],
+  "layer": "L2",
+  "moves_person": false,
+  "duration": [
+    5,
+    20
+  ],
+  "slots": {
+    "paper": {
+      "kind": "image",
+      "source": [
+        "codex"
+      ],
+      "style": "손글씨 종이",
+      "alpha": false,
+      "desc": "스크랩북 종이 바탕(위에서 찍은 질감)"
+    },
+    "pieces": {
+      "kind": "image",
+      "source": [
+        "codex",
+        "doc"
+      ],
+      "style": "손글씨 종이",
+      "alpha": false,
+      "desc": "붙을 사진·메모·테이프 조각(업체명 ○○)",
+      "many": true
+    },
+    "notes": {
+      "kind": "text",
+      "rule": "메모 글 — 손글씨 개념어",
+      "many": true,
+      "max_chars": 10,
+      "optional": true
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "조각이 붙는 말"
+    }
+  },
+  "drawn_allowed": [
+    "글자"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "종이 바탕 등장",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[i]",
+      "do": "조각 i 가 붙음(감속, 튕김 없음)",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "t1-0.36",
+      "do": "닫힘",
+      "dur": 0.36,
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "hint": "조각 크기·기울기·그림자: 초기값 — 첫 견본에서 정함"
+  },
+  "sfx": [
+    {
+      "at": "word:hit[i]",
+      "role": "paper",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "테이프·압정·사진 모서리도 이미지로 — 도형 소품 짜깁기 금지 (06 반려)",
+    "한 편 안에서 이미지 style 은 하나 — 종이 결 유지 (README 4장)",
+    "자동 모드에선 실제 업체·개인정보가 보이는 실자료를 쓰지 않는다 — 재현·Codex, 업체명 ○○ (README 8장, CLAUDE.md 4)",
+    "새 요소는 0.6초 이상 혼자, 한 문장 새 요소 3개 이하 (10-07 10, motion-graphics.md 2-1장 원칙 13)"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "SC-02",
+    "EM-08"
+  ],
+  "from": "코드 없음 — 웹 조사 카테고리에서 설계",
+  "basis": "web-research-1008.md §2",
+  "todo": [
+    "웹#56 은 카테고리 이름뿐 — 움직임 수치는 근거 없음, 전부 초기값 — 첫 견본에서 정함"
+  ]
+}

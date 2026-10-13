@@ -113,6 +113,14 @@ def clip(cid, name, tstart, tend, sin, sout, dur_frames, file_el, mtype, links, 
 
 
 def main():
+    # --v2-scale <비율> : 카메라 비율. 4K 카메라 50(기본) · 1080p 카메라 100 = 둘 다 전체화면 (원본 10-12 파트너센터)
+    # 위치(center)는 넣지 않는다 — 09-23 프리미어에서 화면 밖으로 나감, 10-12 에 또 넣었다가 되돌림.
+    # 30% 왼쪽 아래 배치·원형 마스크는 사장님이 기존 PIP 클립 속성(모션+불투명도)을 붙여 넣어 만든다.
+    global CAM_SCALE
+    if "--v2-scale" in sys.argv:
+        i = sys.argv.index("--v2-scale")
+        CAM_SCALE = int(sys.argv[i + 1])
+        del sys.argv[i:i + 2]
     plan_path, rec, out_path = Path(sys.argv[1]), Path(sys.argv[2]), Path(sys.argv[4])
     # offset 자리에 json 을 주면 [[카메라 초, offset], …] 곡선 — 녹화 시계가 카메라와 조금씩 어긋날 때(빡이사DB 10-01).
     # 클립마다 그 클립 시작 시각의 offset 을 쓴다(클립 하나 안의 어긋남은 1프레임 미만).

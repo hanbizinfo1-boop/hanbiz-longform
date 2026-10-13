@@ -1,0 +1,96 @@
+{
+  "id": "TR-06",
+  "name": "블롭삼킴",
+  "drawer": "TR",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "브랜드",
+    "무대배경"
+  ],
+  "source_ref": [
+    "원#28 모티프가 화면을 삼키는 전환 (쌩초 레퍼런스, 학습분)",
+    "쇼츠 A-3 블롭 (motion-graphics.md 7장 «블롭으로 화면을 삼키며 장면 닫기»)"
+  ],
+  "summary": "한 가지 모티프(블롭)가 커져 화면을 삼키고 브랜드 카드로 넘어가며 섹션을 닫는다. 한 편의 시그니처 모티프로 쓴다",
+  "use_when": [
+    "챕터 끝",
+    "브랜드"
+  ],
+  "avoid_when": [
+    "설정·버튼",
+    "화면 속 특정 부분"
+  ],
+  "tones": {
+    "TN-1": 0.2,
+    "TN-2": 0.9,
+    "TN-3": 0.3,
+    "TN-4": 0.1
+  },
+  "screens": [
+    "PIP",
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "L5",
+  "moves_person": false,
+  "duration": [
+    0.5,
+    1.2
+  ],
+  "slots": {
+    "motif_color": {
+      "kind": "choice",
+      "desc": "블롭 색 — 브랜드 색 하나"
+    },
+    "next_card": {
+      "kind": "choice",
+      "desc": "삼킨 뒤 보여 줄 카드 — 브랜드 카드·챕터 표지",
+      "options": [
+        "OE-05",
+        "TR-01"
+      ]
+    }
+  },
+  "drawn_allowed": [
+    "판"
+  ],
+  "keepout": [
+    "자막띠",
+    "사람PIP"
+  ],
+  "timeline": [
+    {
+      "at": "챕터 끝",
+      "do": "블롭이 한 점에서 커져 화면을 삼킨다",
+      "ease": "ez"
+    },
+    {
+      "at": "삼킨 뒤",
+      "do": "브랜드 카드로 이어진다"
+    }
+  ],
+  "look": {},
+  "sfx": [],
+  "rules": [
+    "사장님 롱폼 편집 실측은 «장면 전환은 트랜지션 없이 컷» — lecture-graphics.md 1장. 이 템플릿은 쇼츠·학습분 문법이라 쓸 곳을 좁게 잡는다",
+    "시그니처 모티프 하나 — 블롭을 쓰면 한 편의 다른 모티프를 줄인다 (motion-graphics.md 2-1 원칙 2)",
+    "장면 안은 3색(바탕·글·강조 하나) — motion-graphics.md 2-1 원칙 1",
+    "블롭은 도형이 모티프일 뿐 사물 흉내가 아니다 — 휴대폰·사람 모양을 블롭으로 만들지 않는다 (10-07 06)",
+    "같은 템플릿은 3박자 안에 다시 쓰지 않는다 — auto-pipeline.md 6-2·6-3"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "TR-05",
+    "TR-03"
+  ],
+  "from": "motion-graphics.md 7장 A-3 (쇼츠 reference)",
+  "basis": "origin-session-1008.md 2장 #28",
+  "todo": [
+    "블롭 모양·크기·커지는 시간은 노트에 숫자가 없다 — 초기값, 첫 견본에서 정함",
+    "삼킨 뒤 브랜드 카드가 어떤 카드인지 정하지 않았다 — 첫 견본에서 정함",
+    "duration 은 서랍 범위(auto-pipeline.md 3-1장) 안의 초기값 — 첫 견본에서 정함"
+  ]
+}

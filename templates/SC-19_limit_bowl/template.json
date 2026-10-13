@@ -1,0 +1,163 @@
+{
+  "id": "SC-19",
+  "name": "한도그릇",
+  "drawer": "SC",
+  "version": 1,
+  "status": "대기",
+  "engine": "ae",
+  "subject": [
+    "데이터",
+    "캐릭터"
+  ],
+  "source_ref": [
+    "원#52 (lec13_card05, 강의 13강 «카드뉴스 말고 시각적으로 재현»)"
+  ],
+  "summary": "열린 그릇에 돈 덩어리가 쌓이다 한도선에 걸려 흔들리고 ✕/✓ 로 판정 — 한도 개념을 상황으로 재현한다",
+  "use_when": [
+    "숫자·금액",
+    "개념 비교",
+    "정의·조건"
+  ],
+  "avoid_when": [
+    "일상 상황"
+  ],
+  "tones": {
+    "TN-1": 0.6,
+    "TN-2": 0.6,
+    "TN-3": 0.8,
+    "TN-4": 0.3
+  },
+  "screens": [
+    "PIP",
+    "사람없음"
+  ],
+  "layer": "L2",
+  "moves_person": false,
+  "duration": [
+    6,
+    20
+  ],
+  "slots": {
+    "bowl": {
+      "kind": "image",
+      "source": [
+        "codex"
+      ],
+      "style": "2D 플랫",
+      "alpha": true,
+      "desc": "열린 그릇 한 개(투명 배경)"
+    },
+    "money": {
+      "kind": "image",
+      "source": [
+        "codex"
+      ],
+      "style": "2D 플랫",
+      "alpha": true,
+      "desc": "돈 덩어리·지폐 뭉치 한두 종(투명 배경)",
+      "many": true
+    },
+    "limit_label": {
+      "kind": "text",
+      "rule": "한도선 옆 라벨 — 개념어(예: 한도)",
+      "max_chars": 6
+    },
+    "verdict": {
+      "kind": "choice",
+      "desc": "판정 ✕ 또는 ✓ — 말이 정한다"
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "돈이 들어가는 말 / 한도에 걸리는 말 / 판정 말"
+    }
+  },
+  "drawn_allowed": [
+    "판",
+    "구분선",
+    "글자"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "그릇 등장",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[0]",
+      "do": "돈 덩어리가 그릇에 쌓임",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[1]",
+      "do": "한도선에 걸려 그릇이 흔들림(눌림·들썩임만)",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[2]",
+      "do": "판정 ✕/✓ 등장",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "t1-0.36",
+      "do": "닫힘",
+      "dur": 0.36,
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "hint": "원본은 매출 막대 → 그릇 순서 — 막대는 말에 매출 수치가 있을 때만 별도(EM-35·SC-23)"
+  },
+  "sfx": [
+    {
+      "at": "word:hit[0]",
+      "role": "money",
+      "meaning": "중립"
+    },
+    {
+      "at": "word:hit[1]",
+      "role": "impact",
+      "meaning": "부정"
+    },
+    {
+      "at": "word:hit[2]",
+      "role": "stamp",
+      "meaning": "긍정"
+    }
+  ],
+  "rules": [
+    "사람·서류·돈·지도·휴대폰·도장은 이미지 칸 — 도형 소품·아이콘 짜깁기 금지 (06 반려, SKILL.md 4장)",
+    "돈·그릇은 Codex 이미지 — 도형으로 그리지 않는다 (SKILL.md 4장)",
+    "그릇 흔들림은 캐릭터급 눌림·들썩임 표현만, UI 튕김 아님 (SKILL.md 147)",
+    "매출 막대를 쓸 때 숫자는 말에 나온 값만 (쇼츠 B-4 금지)",
+    "한 편 안에서 캐릭터·일러스트 스타일은 하나 (README 8장)",
+    "새 요소는 0.6초 이상 혼자, 한 문장 새 요소 3개 이하 (10-07 10, motion-graphics.md 2-1장 원칙 13)"
+  ],
+  "rejected": [
+    "원#52 상태: 대기 — «카드뉴스 말고 시각적으로 재현»(사장님 요청, 이 장면의 출발점)"
+  ],
+  "sample": {
+    "limit_label": "한도",
+    "verdict": "✕"
+  },
+  "fallback": [
+    "SC-07",
+    "SC-04"
+  ],
+  "from": "D:\\영상제작\\도구\\강의편집\\lec13_card05.py (읽기만, 이 폴더에 없음)",
+  "basis": "origin-session-1008.md 원#52",
+  "todo": [
+    "매출 막대 단계 포함 여부·막대 모양: 원본 코드 읽고 결정 (이 노트엔 서술만)",
+    "그릇 흔들림 폭·시간: 원본 코드 docstring 확인 후 채움",
+    "✕/✓ 기호가 쓰는 글꼴에 있는지 glyph_check — 없으면 글자 대신 도장 이미지"
+  ]
+}

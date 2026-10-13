@@ -1,0 +1,115 @@
+{
+  "id": "EM-56",
+  "name": "사진슬라이드인",
+  "drawer": "EM",
+  "version": 1,
+  "status": "신규",
+  "engine": "ae",
+  "subject": [
+    "자료이미지"
+  ],
+  "source_ref": [
+    "웹#42 사진 슬라이드인 + 블러 (JH식) [출처값] https://blog.motionarray.com/learn/premiere-pro/edit-documentary-in-premiere-pro/"
+  ],
+  "summary": "사진이 위에서 미끄러져 들어오며 블러가 풀리듯 자리 잡는다. 사진 한 장씩 «증거»를 쌓는 다큐 결",
+  "use_when": [
+    "자료 등장",
+    "사례·후기"
+  ],
+  "avoid_when": [
+    "가림"
+  ],
+  "tones": {
+    "TN-1": 0.5,
+    "TN-2": 0.5,
+    "TN-3": 0.7,
+    "TN-4": 0.3
+  },
+  "screens": [
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "L4",
+  "moves_person": false,
+  "duration": [
+    2,
+    6
+  ],
+  "slots": {
+    "photo": {
+      "kind": "image",
+      "source": [
+        "codex",
+        "crawl",
+        "doc"
+      ],
+      "style": "실사 사진",
+      "alpha": false,
+      "desc": "슬라이드인 할 사진 — 사람이 나오면 «사진기로 찍은 사진» 톤, 개인정보 없음"
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "사진을 소개하는 단어 시각"
+    },
+    "area": {
+      "kind": "box",
+      "desc": "착지 자리(화면 좌표)"
+    }
+  },
+  "drawn_allowed": [
+    "카드바탕"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "word:hit",
+      "do": "위치 키(위→착지) 8프레임 지점 — 출처값, 프레임 기준 미표기",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit",
+      "do": "블러 약 50 에서 사라짐(AE Gaussian Blur 값 기준)",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "position_key_frames": 8,
+    "blur_value": 50,
+    "blur_note": "출처 글 표기 «약 50 에서 사라짐» — 단위는 AE Gaussian Blurriness"
+  },
+  "sfx": [
+    {
+      "at": "word:hit",
+      "role": "sweep",
+      "meaning": "중립",
+      "when": "원본: 프로젝터·셔터음 — 단골 이름표에 없어 임시"
+    }
+  ],
+  "rules": [
+    "위에서 슬라이드인, 블러 약 50 에서 사라짐 [출처값 웹#42]",
+    "사진은 이미지 칸(source 안) — 휴대폰·건물을 도형으로 그리지 않는다 (R_REAL)",
+    "한 장 약 2초 이상 머무르게 (상황 강령 PB-04)",
+    "자동 모드에서는 실제 업체·개인정보가 보이는 실자료를 쓰지 않는다(블러로 가려도) — 재현·Codex 로. 사장님이 그 자료를 지정한 건만 예외 (README 8장 · CLAUDE.md 4)",
+    "등장은 4~8프레임~0.22초 감속(eo), 오버슈트 0, 새 요소는 혼자 0.6초 이상 (README 6장 · motion-graphics 2-1장 원칙 3·13)"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "EM-07",
+    "EM-57"
+  ],
+  "from": "웹 조사 «사진 슬라이드인 + 블러(JH식)» — 한비즈 견본 없음",
+  "basis": "web-research-1008.md 1장",
+  "todo": [
+    "출처값 두 개(8프레임·블러 50) 외 착지 후 머무름·이징 초기값 — 첫 견본에서 정함",
+    "프로젝터·셔터음 단골 이름표 신설 필요",
+    "가로 1920×1080·59.94fps 재배치 — 프레임 수는 29.97 기준이면 초로 환산해 다시 맞춘다"
+  ]
+}

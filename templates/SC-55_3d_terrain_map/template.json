@@ -1,0 +1,142 @@
+{
+  "id": "SC-55",
+  "name": "3D지도지형",
+  "drawer": "SC",
+  "version": 1,
+  "status": "신규",
+  "engine": "blender",
+  "subject": [
+    "데이터",
+    "무대배경"
+  ],
+  "source_ref": [
+    "쇼츠 blender.md (b4_previz05_scene.py — look()·smoothstep·CONSTANT 렌즈)",
+    "templates/SC-15 (3D 오브젝트 본보기)",
+    "templates/SC-21 · SC-22 (지도 열기·드러내기)",
+    "쇼츠 blender.md 3장 (계획도 → 지도 펼침)"
+  ],
+  "summary": "지역 지형·높이를 3D 판으로 보여 준다. 지역 경계는 통계청 실제 데이터, 높이는 실제 값에서. 카메라가 판 위를 이동",
+  "use_when": [
+    "숫자·금액",
+    "현실 공간·사람"
+  ],
+  "avoid_when": [
+    "설정·버튼",
+    "개념 비교"
+  ],
+  "tones": {
+    "TN-1": 0.5,
+    "TN-2": 0.3,
+    "TN-3": 0.4,
+    "TN-4": 0.4
+  },
+  "screens": [
+    "PIP",
+    "사람없음"
+  ],
+  "layer": "L2",
+  "moves_person": false,
+  "duration": [
+    4,
+    12
+  ],
+  "slots": {
+    "terrain": {
+      "kind": "image",
+      "source": [
+        "render3d"
+      ],
+      "style": "3D 비닐",
+      "alpha": false,
+      "desc": "블렌더로 렌더한 지형 판(지역 경계는 통계청 실제 데이터 기반)"
+    },
+    "boundary_src": {
+      "kind": "text",
+      "max_chars": 40,
+      "rule": "경계 데이터 출처(기관·내려받은 날) — 소재/이미지-출처.md 에도 기록"
+    },
+    "region": {
+      "kind": "text",
+      "max_chars": 10,
+      "rule": "지역 이름 라벨 — 말에 나온 지역"
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "오브젝트가 나오고 카메라가 움직이는 단어 시각"
+    }
+  },
+  "drawn_allowed": [
+    "글자",
+    "HUD"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "word:hit[0]",
+      "do": "지형 판 등장",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[i]",
+      "do": "카메라가 판 위로 이동(smoothstep)",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "ez"
+    },
+    {
+      "at": "t1",
+      "do": "끝",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "render": "Eevee 가정, 1920×1080 59.94 (요청 설계 — 블렌더 미설치라 확인 안 됨)",
+    "camera": "yaw=atan2(−dx, dy), pitch=atan2(dz, hypot(dx,dy)), rotation_euler=(π/2+pitch, 0, yaw)",
+    "render_split": "힉스필드 클라우드 블렌더는 한 조작 300초 제한 — 30~36프레임씩 쪼개 렌더 (blender.md 1장)"
+  },
+  "sfx": [
+    {
+      "at": "word:hit[0]",
+      "role": "in",
+      "meaning": "중립"
+    },
+    {
+      "at": "word:hit[i]",
+      "role": "sweep",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "경계·높이는 실제 데이터 — 지어낸 지형 금지 (요청 설계 «경계는 통계청 실제 데이터»)",
+    "지명 글자는 렌더러가 얹는다 — 3D 모델에 글자를 박지 않는다 (ai-video.md 3장)",
+    "사물·공간은 3D 렌더 이미지(render3d) — 도형을 쌓아 형상을 흉내 내는 짜깁기 금지 (10-07 06)",
+    "카메라 각도는 눈대중이 아니라 look(p,q) 로 목표점을 보게 계산한다: yaw=atan2(−dx,dy), pitch=atan2(dz,hypot(dx,dy)), rotation_euler=(π/2+pitch,0,yaw) (쇼츠 blender.md 1장 09-30 함정)",
+    "구간 보간은 smoothstep u²(3−2u), 렌즈 키는 CONSTANT (쇼츠 blender.md 1장)",
+    "렌더 길이는 대사 구간 길이에 맞춘다 — 나중에 구간별 배속 변경 금지 (blender.md 1장 · ai-video.md 4장)",
+    "글자는 3D 모델에 박지 않는다 — 렌더러(PIL·AE)가 위에 얹는다 (SC-15 rules)",
+    "Flova 는 쓰지 않는다 (사장님 10-08 «오케이 일단 플로바는 제외하고»)"
+  ],
+  "sample": {
+    "region": "○○시"
+  },
+  "fallback": [
+    "SC-21",
+    "SC-22"
+  ],
+  "from": "코드 없음 — 쇼츠 blender.md 의 b4_previz05_scene.py 구조만 참고(로컬 블렌더 실행은 확인된 바 없음)",
+  "basis": "auto-pipeline.md 4장 블렌더 · SC-21",
+  "todo": [
+    "이 PC 에 블렌더 미설치",
+    "통계청 경계 데이터를 받는 길·형식(SHP/GeoJSON)과 블렌더 변환은 확인 안 됨",
+    "높이 값의 근거 데이터가 무엇인지 정하지 않음",
+    "쇼츠 blender.md 는 코드를 이 PC 에서 다시 돌려 확인하지 않았다 — 힉스필드 클라우드 블렌더(3D Jutsu) 기록뿐, 로컬 bpy 실행 여부 미확인(한 조작 300초 제한이라 30~36프레임씩 쪼개 렌더)",
+    "duration·카메라 종류·등장 모션 수치는 문서에 근거 없음 → 초기값 — 첫 견본에서 정함",
+    "R4 로드맵 항목(블렌더 설치 후)"
+  ],
+  "rejected": []
+}

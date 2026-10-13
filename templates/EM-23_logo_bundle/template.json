@@ -1,0 +1,123 @@
+{
+  "id": "EM-23",
+  "name": "로고한묶음",
+  "drawer": "EM",
+  "version": 1,
+  "status": "통과",
+  "engine": "ae",
+  "subject": [
+    "브랜드"
+  ],
+  "source_ref": [
+    "origin-session-1008.md #13 실제 로고 한 묶음 — 빡이사DB 10 2판 통과 (D:\\영상제작\\도구\\광고편집\\bisa_cost_model.py)"
+  ],
+  "summary": "플랫폼·서비스 로고 셋을 따로따로가 아니라 한 번에 한 묶음으로 띄운다. 말이 «메타, 유튜브, 구글»처럼 나열할 때",
+  "use_when": [
+    "소개·여러 항목",
+    "브랜드",
+    "자료 등장"
+  ],
+  "avoid_when": [
+    "가림"
+  ],
+  "tones": {
+    "TN-1": 0.9,
+    "TN-2": 0.5,
+    "TN-3": 0.7,
+    "TN-4": 0.7
+  },
+  "screens": [
+    "풀샷",
+    "PIP",
+    "사람없음"
+  ],
+  "layer": "L4",
+  "moves_person": false,
+  "duration": [
+    2,
+    6
+  ],
+  "slots": {
+    "logos": {
+      "kind": "image",
+      "many": true,
+      "source": [
+        "crawl",
+        "brand"
+      ],
+      "style": "실사 사진",
+      "alpha": true,
+      "desc": "실제 로고 파일(위키미디어 공용·공식) 2~4개 — 새로 그리지 않는다. 출처 기록 필수"
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "묶음이 등장하는 단어 시각 하나(나열 시작 단어)"
+    },
+    "area": {
+      "kind": "box",
+      "desc": "안전영역"
+    }
+  },
+  "drawn_allowed": [
+    "카드바탕"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "word:hit",
+      "do": "로고 셋이 한 번에 한 묶음으로 등장(같은 프레임)",
+      "dur": 0.22,
+      "ease": "eo"
+    },
+    {
+      "at": "t1",
+      "do": "묶음이 같이 퇴장",
+      "dur": 0.2,
+      "ease": "lin"
+    }
+  ],
+  "look": {
+    "time_basis": "bisa_cost_model.py 741.08 «메타» 에서 Meta · YouTube · Google Ads 한 묶음 등장",
+    "size": "초기값 — 첫 견본에서 정함"
+  },
+  "sfx": [
+    {
+      "at": "word:hit",
+      "role": "card",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "로고는 한 묶음으로 한 번에 — 따로따로 하나씩 띄우면 «급해서» 반려",
+    "로고는 원본 파일 그대로 — 새로 그리거나 AI 로 재생성하지 않는다 (상황 강령 PB-13)",
+    "사물(사람·돈·서류·로고·도장·지도)은 이미지 칸 — 도형으로 흉내 내지 않는다 (사장님 10-07 06 «도형으로 수준 낮은 짜깁기 원하지 않음»)",
+    "출처 있는 공식·위키미디어 로고만, 출처를 기록에 남긴다 (CLAUDE.md 4)",
+    "등장은 4~8프레임~0.22초 감속(eo), 오버슈트 0, 새 요소는 혼자 0.6초 이상 (README 6장 · motion-graphics 2-1장 원칙 3·13)"
+  ],
+  "rejected": [
+    "로고를 따로 하나씩 띄우는 방식은 «급해서» 반려 — 한 묶음 2판으로 통과 (origin-session-1008.md #13)"
+  ],
+  "sample": {
+    "logos": [
+      "meta",
+      "youtube",
+      "google_ads"
+    ]
+  },
+  "fallback": [
+    "EM-07",
+    "EM-06"
+  ],
+  "from": "D:\\영상제작\\도구\\광고편집\\bisa_cost_model.py (읽기만)",
+  "basis": "origin-session-1008.md 1장 #13 · 사장님 10 2판 통과",
+  "todo": [
+    "로고 묶음 배치(가로 나열/격자)·간격 초기값 — 첫 견본에서 정함",
+    "한비즈 로고는 OE 서랍 — 이 템플릿은 외부 플랫폼 로고용",
+    "가로 1920×1080·59.94fps 재배치 — 프레임 수는 29.97 기준이면 초로 환산해 다시 맞춘다"
+  ]
+}
