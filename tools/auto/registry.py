@@ -329,6 +329,10 @@ def main():
     L.append("| " + " | ".join(STATUSES) + " |")
     L.append("|" + "---|" * len(STATUSES))
     L.append("| " + " | ".join(str(len(by_status[s])) for s in STATUSES) + " |")
+    maker = [e for e in entries if e["engine"] not in ("ae", "blender") and e["status"] != "폐기"]
+    L.append("")
+    L.append(f"> **제작 컴퓨터(새 PC)에서 쓸 수 있는 것 {len(maker)}개** — 애프터이펙트 없음(10-13 «에펙말고 다른방향으로 연출해야해»). "
+             f"`engine: ae` {sum(1 for e in entries if e['engine'] == 'ae')}개는 연출표에서 고르지 않고, 필요하면 html/compose 로 다시 만든다. blender 는 설치 확인 전까지 보류.")
     L.append("")
 
     def full_table(es):
