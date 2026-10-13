@@ -97,6 +97,17 @@ def forbidden():
     return "## 피드백/절대금지.md (영구 — 전문을 다시 열 것)\n" + "\n".join(lines)
 
 
+def handoff():
+    """두 컴퓨터 분업 — 이 컴퓨터 역할과 내 차례 건(받기 없이)."""
+    import subprocess
+    try:
+        r = subprocess.run([sys.executable, str(ROOT / "tools" / "handoff.py"), "상태", "--받기없이"], capture_output=True,
+                           text=True, encoding="utf-8", timeout=20, env={**__import__("os").environ, "PYTHONIOENCODING": "utf-8"})
+        return "## 두 컴퓨터 분업 (핸드오프/README.md — 시작 때 `python tools/handoff.py 상태` 로 최신 받기)\n" + r.stdout.strip()
+    except Exception as e:
+        return f"## 두 컴퓨터 분업\n(상태 확인 실패: {e})"
+
+
 def main():
     sys.stdout.reconfigure(encoding="utf-8")
     head = ("# 한비즈 롱폼 자동화 — 세션 재개 자동 안내 (장면을 만들기 전에 아래를 다시 읽는다)\n"
@@ -107,8 +118,8 @@ def main():
             "위 파일들을 Read 로 다시 열어 전문을 확인한 뒤 작업을 이어 간다(발췌만 믿지 않는다). "
             "모드 먼저 확인: A. 얹을 것만(구간 지정 — 자료 자리는 사장님) / B. 자동 연출(원문 통째로 — auto-pipeline.md 13장이 A 와 다른 점). "
             "두 모드 모두 컷은 사장님 몫(B 모드 자막은 맞춤법·타이밍만 고치고 검수표에 적음). 피드백/작업목록.json 맨 아래 작업 기록을 먼저 읽는다.")
-    parts = [forbidden(), claude_rules(), next_tasks(), checklist(), skill_rules()]
-    caps = [2600, 1900, 1300, 1700, 900]
+    parts = [handoff(), forbidden(), claude_rules(), next_tasks(), checklist(), skill_rules()]
+    caps = [700, 2600, 1900, 1300, 1700, 900]
     body = []
     for p, c in zip(parts, caps):
         body.append(p if len(p) <= c else p[: c - 2].rstrip() + " …")

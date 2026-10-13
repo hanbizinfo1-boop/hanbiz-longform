@@ -16,8 +16,15 @@ it = json.load(open(TMP / "edit.json", encoding="utf-8"))["items"]
 v1 = [i for i in it if i["track"] == "V1" and "화면" in i["name"]]
 FPS = float(SEQ_FPS)
 def seq(s): return [i["t0"] + s - i["s0"] for i in v1 if i["s0"] <= s < i["s1"]]
-TG = re.compile(r"○○|members|memnbers|mnembers|shared links|Write a mess|광고일림|○○ .*members")
-pts = sorted(t for smp in d["samples"] if TG.search(" ".join(b[4] for b in smp["boxes"])) for t in seq(smp["s"]))
+TG = re.compile(r"members|memnbers|mnembers|shared links|Write a mess")   # 텔레그램 화면 표지(영문 UI) — 업체명은 넣지 않는다
+sys.path.insert(0, str(ROOT))
+from tools.auto import termhash                     # 금지어는 실명 없이 지문으로(10-13 — 실명이 커밋된 사고 뒤)
+FP = ROOT / "핸드오프" / "_파트너센터_금지어지문.json"
+if not FP.exists():
+    termhash.make(str(ROOT / "기록" / "비공개" / "금지어_파트너센터.txt"), str(FP))
+TD = termhash.load(FP)
+pts = sorted(t for smp in d["samples"] if TG.search(" ".join(b[4] for b in smp["boxes"])) or any(termhash.hit(b[4], TD) for b in smp["boxes"])
+             for t in seq(smp["s"]))
 groups = []
 for t in pts:
     if groups and t - groups[-1][1] <= 1.5: groups[-1][1] = t
@@ -42,14 +49,14 @@ for a, b in groups:
     out.append(dict(t0=round(t0, 3), t1=round(t1, 3), box=[0, 0, 1920, 1040], block=22, why="텔레그램 창 전체"))
     print(f"텔레그램 {a:.2f}~{b:.2f} → 프레임 {t0:.3f}~{t1:.3f}")
 # 알림 팝업 · 미리보기 (OCR 로 시각, 칸은 화면에서 잰 값)
-POP = [(re.compile(r"○○"), (1500, 1000), [1508, 905, 1915, 1015], "텔레그램 알림 팝업"),
-       (re.compile(r"○○"), (1200, 838), [1088, 800, 1378, 1038], "작업표시줄 텔레그램 미리보기")]
+POP = [(None, (1500, 1000), [1508, 905, 1915, 1015], "텔레그램 알림 팝업"),        # 칸 안 글자가 금지어(지문)면
+       (None, (1200, 838), [1088, 800, 1378, 1038], "작업표시줄 텔레그램 미리보기")]
 for rx, near, box, why in POP:
     ts = []
     for smp in d["samples"]:
         for bb in smp["boxes"]:
             cx, cy = (bb[0] + bb[2]) / 2, (bb[1] + bb[3]) / 2
-            if rx.search(bb[4]) and abs(cx - near[0]) < 260 and abs(cy - near[1]) < 90:
+            if termhash.hit(bb[4], TD) and abs(cx - near[0]) < 260 and abs(cy - near[1]) < 90:
                 ts += seq(smp["s"])
     ts = sorted(t for t in ts if not any(o["t0"] - 1 <= t <= o["t1"] + 1 for o in out if o["box"][2] == 1920))
     gs = []
