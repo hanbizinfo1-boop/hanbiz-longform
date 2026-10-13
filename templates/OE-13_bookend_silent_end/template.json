@@ -1,0 +1,101 @@
+{
+  "id": "OE-13",
+  "name": "북엔드끝무음",
+  "drawer": "OE",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "브랜드"
+  ],
+  "source_ref": [
+    "쇼츠 DY-7 북엔드 + 끝 무음 (dynamic-mg-sfx.md 카드 7, 0.0–1.0 / 21.2–22.4)",
+    "원#37 북엔드 (끝을 처음 모티프 거꾸로, 학습분)"
+  ],
+  "summary": "한 편의 처음과 끝에 같은 작은 모티프(로고의 가장 작은 부분)를 같은 자리에 놓고, 마지막 1초 남짓은 소리를 비운다",
+  "use_when": [
+    "한 편 끝",
+    "한 편 시작",
+    "브랜드"
+  ],
+  "avoid_when": [],
+  "tones": {
+    "TN-1": 0.6,
+    "TN-2": 0.2,
+    "TN-3": 1.0,
+    "TN-4": 0.4
+  },
+  "screens": [
+    "PIP",
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "L5",
+  "moves_person": false,
+  "duration": [
+    1,
+    2
+  ],
+  "slots": {
+    "motif": {
+      "kind": "image",
+      "source": [
+        "brand"
+      ],
+      "style": "실사 사진",
+      "alpha": true,
+      "desc": "로고에서 떼어 낸 가장 작은 부분 한 점"
+    }
+  },
+  "drawn_allowed": [],
+  "keepout": [
+    "자막띠",
+    "사람PIP"
+  ],
+  "timeline": [
+    {
+      "at": "한 편 시작",
+      "do": "모티프가 정해진 자리에 약 1초 놓인다(페이드 인 약 0.8초)",
+      "dur": 1.0,
+      "ease": "eo"
+    },
+    {
+      "at": "엔딩 마지막",
+      "do": "같은 자리에 같은 모티프가 다시 페이드 인하고 끝까지 정지 (원본 0.2→0.8초)",
+      "dur": 1.2,
+      "ease": "eo"
+    },
+    {
+      "at": "t1-1.2",
+      "do": "마지막 약 1.2초 소리를 비운다 — 꼬리 −5→−9dB 뒤 무음",
+      "dur": 1.2,
+      "ease": "hold"
+    }
+  ],
+  "look": {
+    "start_sec": 1.0,
+    "end_sec": 1.2,
+    "end_silence_sec": 1.2,
+    "fade_in_sec_start": 0.8
+  },
+  "sfx": [],
+  "rules": [
+    "로고는 새로 그리지 않고 원본 그대로, 사물이라 image 칸(source brand) — README 4장, 쇼츠 motion-typo.md C «로고를 AI 로 다시 그림 금지»",
+    "끝 무음을 만들려고 엔딩 효과음을 빼야 할 수 있다 — 소리 없는 시간 2.5초 상한은 지킨다 (sfx.md 5장, SD-01 rules)",
+    "북엔드는 처음과 같은 자리·같은 모양 — motion-graphics.md 2-1 원칙 12",
+    "엔딩은 원문 뒤에 붙는다 — 원문 본문 길이는 불변 (auto-pipeline.md 3-1 OE)"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "OE-02",
+    "OE-12"
+  ],
+  "from": "쇼츠 study/dynamic-mg-sfx.md 카드 7 · 2-1 표 21.2–22.4",
+  "basis": "dynamic-mg-sfx.md 4장 카드 7 · origin-session-1008.md 2장 #37",
+  "todo": [
+    "px·좌표·길이는 1080×1920 세로 노트 값이거나 없음 — 1920×1080 가로 재배치는 초기값, 첫 견본에서 정함",
+    "모티프를 로고의 어느 부분으로 할지는 로고 파일을 보고 정함 — 쇼츠 로고 조각(logo_part_blue/warm)을 쓰는 방법은 OE-02 todo 참조",
+    "한비즈 로고 엔딩(OE-02~04) 뒤에 붙일지, 대신 쓸지 첫 견본에서 정함"
+  ]
+}

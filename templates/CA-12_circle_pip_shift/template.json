@@ -1,0 +1,96 @@
+{
+  "id": "CA-12",
+  "name": "원형PIP전환",
+  "drawer": "CA",
+  "version": 1,
+  "status": "통과",
+  "engine": "compose",
+  "subject": [
+    "사람"
+  ],
+  "source_ref": [
+    "원#46 원형 PIP 좌하단 (강의 8강, 통과)",
+    "웹#21 Remotion Layouts PIP·Slide to Split (web-research-1008.md 2장 CA 시장 카테고리)",
+    "lecture-graphics.md 4장 원형 PIP 실측"
+  ],
+  "summary": "풀샷 사람이 좌하단 원형 PIP 로 줄어 화면을 자료·녹화에 내주고, 말이 돌아오면 다시 풀샷으로 돌아온다",
+  "use_when": [
+    "자료 등장",
+    "화면 속 특정 부분",
+    "설정·버튼"
+  ],
+  "avoid_when": [
+    "감정·리액션"
+  ],
+  "tones": {
+    "TN-1": 1.0,
+    "TN-2": 0.3,
+    "TN-3": 0.5,
+    "TN-4": 0.9
+  },
+  "screens": [
+    "풀샷",
+    "PIP"
+  ],
+  "layer": "L4",
+  "moves_person": false,
+  "duration": [
+    2,
+    60
+  ],
+  "slots": {
+    "pip_pos": {
+      "kind": "box",
+      "desc": "원형 PIP 위치(기록 값: 중심 (126,964) 반지름 약 123, 크기 19%, 위치 (178,1000))"
+    }
+  },
+  "drawn_allowed": [],
+  "keepout": [
+    "자막띠",
+    "사람PIP"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "풀샷 사람 → 원형 PIP(19%, 좌하단)로 줄어듦 — 뒤 화면이 자료·녹화로 채워진다",
+      "ease": "ez"
+    },
+    {
+      "at": "t1",
+      "do": "원형 PIP → 풀샷으로 복귀",
+      "ease": "ez"
+    }
+  ],
+  "look": {
+    "pip_pct": 19,
+    "pip_pos_px": [
+      178,
+      1000
+    ],
+    "circle_center_px": [
+      126,
+      964
+    ],
+    "circle_radius_px": 123
+  },
+  "sfx": [],
+  "rules": [
+    "원형 PIP 위치·크기는 8강 실측 값을 쓴다 — 크기 19%·위치 (178,1000)·원 중심 (126,964)·반지름 약 123 (lecture-graphics.md 4장, origin #46)",
+    "PIP 마스크·V2/V3 배치는 사장님이 확정한다 — 이 템플릿은 사장님이 만든 PIP 위에 얹을 뿐이다 (CLAUDE.md 11)",
+    "자막 띠 y 967~1041 과 PIP 가 만나는 쪽이 겹치지 않게 — lecture-graphics.md 1장",
+    "사람(V2)은 굽지 않는다 — 10-08 21 (SKILL.md 3장)"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "CA-06",
+    "CA-03"
+  ],
+  "from": "lecture-graphics.md 4장 원형 PIP · 8강 편집 실측",
+  "basis": "origin-session-1008.md 3장 #46 · lecture-graphics.md 4장",
+  "todo": [
+    "줄어들고 돌아오는 시간·곡선은 노트에 없다 — 사장님 편집 실측을 다시 재야 한다, 초기값 첫 견본에서 정함",
+    "원#46 은 PIP 의 «자리 값»만 있고 전환 동작은 없다 — 이 템플릿이 전환 동작을 새로 정의한다(초기값)",
+    "웹#21 은 시장 카테고리 이름뿐 수치 없음"
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "TN-2",
+  "name": "예능 텐션",
+  "em_per_min": [
+    7,
+    9
+  ],
+  "sc_ratio": [
+    0.25,
+    0.35
+  ],
+  "camera_prefer": [
+    "CA-04"
+  ],
+  "camera_avoid": [],
+  "prefer": [
+    "SC-07",
+    "SC-08",
+    "SC-11",
+    "EM-04",
+    "EM-09"
+  ],
+  "palette": {
+    "bg": "#FFFFFF",
+    "text": "#111111",
+    "accent": "#FDA608"
+  },
+  "motif": "톡 튀는 말풍선(캐릭터만 눌림 허용)",
+  "sfx": "SD-02",
+  "ending": "OE-02",
+  "note": "초기값 — 첫 건 검수 뒤 고침. 펀치인(CA-04) 비중을 올린다. 색: 흰·검정·amber(#FDA608). 튕김(오버슈트)은 UI·카드·글자에 쓰지 않고 캐릭터 눌림만 예외(motion-graphics.md 2-1 원칙 3)."
+}

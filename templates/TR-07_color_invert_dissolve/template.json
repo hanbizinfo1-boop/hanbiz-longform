@@ -1,0 +1,87 @@
+{
+  "id": "TR-07",
+  "name": "색반전디졸브",
+  "drawer": "TR",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "글자"
+  ],
+  "source_ref": [
+    "쇼츠 B-2 색 반전 디졸브 (typography-remotion.md 4-2)"
+  ],
+  "summary": "한 장면 안에서 다음 단락을 알리려 글자 패널의 바탕색과 글자색을 2~3프레임 선형 디졸브로 뒤집는다. 컷 대신 색만 뒤집는 가장 싼 신호",
+  "use_when": [
+    "챕터 시작",
+    "개념 비교"
+  ],
+  "avoid_when": [
+    "설정·버튼"
+  ],
+  "tones": {
+    "TN-1": 0.5,
+    "TN-2": 0.8,
+    "TN-3": 0.3,
+    "TN-4": 0.2
+  },
+  "screens": [
+    "사람없음",
+    "풀샷"
+  ],
+  "layer": "L5",
+  "moves_person": false,
+  "duration": [
+    0.1,
+    0.1
+  ],
+  "slots": {
+    "panel": {
+      "kind": "text",
+      "desc": "색을 뒤집을 글자 패널의 글(개념어)",
+      "max_chars": 14,
+      "rule": "말 복사·«» 금지"
+    },
+    "invert_t": {
+      "kind": "words",
+      "desc": "단락이 바뀌는 단어 시각"
+    }
+  },
+  "drawn_allowed": [
+    "판",
+    "글자"
+  ],
+  "keepout": [
+    "자막띠",
+    "사람PIP"
+  ],
+  "timeline": [
+    {
+      "at": "word:invert_t",
+      "do": "패널 바탕색과 글자색을 동시에 반전 — 2~3프레임 선형 디졸브(30fps 기준)",
+      "dur": 0.1,
+      "ease": "lin"
+    }
+  ],
+  "look": {},
+  "sfx": [],
+  "rules": [
+    "영상 위에서는 바탕이 영상이라 글자 패널 색만 반전한다 — typography-remotion.md 4-2",
+    "색은 3색 안에서만 — 반전해도 새 색이 생기지 않는다 (같은 문서, 장면 안은 3색(바탕·글·강조 하나) — motion-graphics.md 2-1 원칙 1)",
+    "흰 플래시와 겹치지 않게 둘 중 하나만 — typography-remotion.md T6",
+    "사장님 롱폼 편집 실측은 «장면 전환은 트랜지션 없이 컷» — lecture-graphics.md 1장. 이 템플릿은 쇼츠·학습분 문법이라 쓸 곳을 좁게 잡는다"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "TR-03",
+    "TR-01"
+  ],
+  "from": "쇼츠 study/typography-remotion.md 4-2·T6",
+  "basis": "typography-remotion.md 4-2 (2~3프레임 선형 디졸브)",
+  "todo": [
+    "쇼츠 노트는 29.97~30fps 기준 — 59.94fps 프레임 환산은 첫 견본에서 확인",
+    "패널 크기·위치는 노트에 없다 — 초기값, 첫 견본에서 정함",
+    "비교 장면(쪽마다 색 하나)과의 관계 — 비교에서는 쪽마다 색이 이미 다르다, 첫 견본에서 정함"
+  ]
+}

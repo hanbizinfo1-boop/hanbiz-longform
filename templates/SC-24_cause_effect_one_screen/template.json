@@ -1,0 +1,144 @@
+{
+  "id": "SC-24",
+  "name": "원인결과한화면",
+  "drawer": "SC",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "자료이미지",
+    "데이터"
+  ],
+  "source_ref": [
+    "쇼츠 E6 (entry-reel-opus.md 원인→결과 한 화면, 03.8–05.5 · 07.5–09.4)"
+  ],
+  "summary": "원인 블록에서 점선 궤적이 결과 화면으로 이어지며 한 화면에서 인과를 보여 준다. 서류 → 심사 → 승인 카드",
+  "use_when": [
+    "알고리즘·시스템 행동",
+    "과정·단계",
+    "개념 비교"
+  ],
+  "avoid_when": [
+    "일상 상황",
+    "설정·버튼"
+  ],
+  "tones": {
+    "TN-1": 0.5,
+    "TN-2": 0.4,
+    "TN-3": 0.9,
+    "TN-4": 0.5
+  },
+  "screens": [
+    "PIP",
+    "사람없음"
+  ],
+  "layer": "L2",
+  "moves_person": false,
+  "duration": [
+    5,
+    15
+  ],
+  "slots": {
+    "cause": {
+      "kind": "image",
+      "source": [
+        "doc",
+        "codex"
+      ],
+      "style": "실사 사진",
+      "alpha": false,
+      "desc": "원인 쪽 서류 한 장(위에서 찍은 사진, 업체명 ○○)"
+    },
+    "effect": {
+      "kind": "image",
+      "source": [
+        "codex"
+      ],
+      "style": "실사 사진",
+      "alpha": false,
+      "desc": "결과 쪽 승인 카드·결과 화면 한 장"
+    },
+    "cause_label": {
+      "kind": "text",
+      "rule": "원인 라벨 — 개념어",
+      "max_chars": 8
+    },
+    "effect_label": {
+      "kind": "text",
+      "rule": "결과 라벨 — 개념어",
+      "max_chars": 8
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "원인 말 / 결과 말의 단어 시각"
+    }
+  },
+  "drawn_allowed": [
+    "카드바탕",
+    "효과선",
+    "글자"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "word:hit[0]",
+      "do": "원인 블록 등장",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[1]",
+      "do": "점선 궤적이 그려지며 결과 화면으로 이어짐",
+      "dur": 1.7,
+      "ease": "eo"
+    },
+    {
+      "at": "t1-0.36",
+      "do": "닫힘",
+      "dur": 0.36,
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "hint": "원본(세로): 블록 → 점선 궤적 → 결과 03.8–05.5(1.7초) · 07.5–09.4(1.9초). 가로 값은 초기값 — 첫 견본에서 정함"
+  },
+  "sfx": [
+    {
+      "at": "word:hit[0]",
+      "role": "in",
+      "meaning": "중립"
+    },
+    {
+      "at": "word:hit[1]",
+      "role": "in/zoom",
+      "meaning": "긍정"
+    }
+  ],
+  "rules": [
+    "사람·서류·돈·지도·휴대폰·도장은 이미지 칸 — 도형 소품·아이콘 짜깁기 금지 (06 반려, SKILL.md 4장)",
+    "점선 궤적은 효과선 — 화살표 아이콘·도형 소품 금지",
+    "한 화면 안 원인과 결과가 겹치지 않는다 (SKILL.md 99)",
+    "화면 글은 말을 받치는 개념어 — 말 복사·«» 금지(10-08 17·19, SKILL.md 3장)",
+    "자동 모드에선 실제 업체·개인정보가 보이는 실자료를 쓰지 않는다 — 재현·Codex, 업체명 ○○ (README 8장, CLAUDE.md 4)"
+  ],
+  "rejected": [],
+  "sample": {
+    "cause_label": "서류",
+    "effect_label": "승인"
+  },
+  "fallback": [
+    "SC-04",
+    "SC-12"
+  ],
+  "from": "코드 없음 — 쇼츠 entry-reel-opus.md E6 서술에서 설계",
+  "basis": "shorts-notes-index-1008.md E6",
+  "todo": [
+    "html 렌더 도구 tools/html_motion.py 는 1080×1920·29.97fps 하드코딩 사본 — 가로 1920×1080·59.94 인자화가 먼저(쇼츠 claude-motion-graphics.md 5-4)",
+    "1.7·1.9초는 원본 세로 구간 길이 — 가로 시간 배분: 초기값 — 첫 견본에서 정함"
+  ]
+}

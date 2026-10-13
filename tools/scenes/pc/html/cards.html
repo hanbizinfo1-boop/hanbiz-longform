@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<!-- 파트너센터 자동 S3·S10 — 알림 예시 카드(체험병원 예시 데이터만, 실제 고객 정보 없음). render_cards.py 가 #id 마다 투명 PNG 로 찍는다 -->
+<style>
+  body { margin:0; background:transparent; font-family:"Noto Sans KR","Malgun Gothic",sans-serif; }
+  .stage { padding:40px; display:inline-block; }
+  /* 텔레그램 직원 방 */
+  .tg { width:620px; border-radius:22px; overflow:hidden; background:#fff; box-shadow:0 24px 60px rgba(10,20,40,.35), 0 2px 0 rgba(255,255,255,.6) inset; }
+  .tg .bar { display:flex; align-items:center; gap:14px; padding:18px 22px; background:#fff; border-bottom:1px solid #e7ecf2; }
+  .tg .ava { width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg,#2f6fde,#1c4fb0); color:#fff; font-weight:800; display:flex; align-items:center; justify-content:center; font-size:20px; }
+  .tg .ttl { font-weight:700; font-size:22px; color:#111; } .tg .sub { font-size:15px; color:#8a96a3; }
+  .tg .chat { background-color:#cfdcbc; background-image:radial-gradient(circle at 20% 30%, rgba(255,255,255,.35), transparent 40%), radial-gradient(circle at 80% 70%, rgba(255,255,255,.25), transparent 45%); padding:26px 22px 30px; }
+  .tg .msg { background:#fff; border-radius:16px 16px 16px 4px; padding:16px 20px 12px; width:470px; box-shadow:0 1px 1px rgba(0,0,0,.08); }
+  .tg .who { color:#e17b2f; font-weight:700; font-size:17px; margin-bottom:6px; }
+  .tg .head { font-weight:800; font-size:20px; color:#111; margin-bottom:8px; }
+  .tg .row { font-size:18px; color:#222; line-height:1.6; } .tg .row b { color:#2a6fd6; font-weight:600; }
+  .tg .time { text-align:right; font-size:13px; color:#9aa5b1; margin-top:2px; }
+  .tg .btn { margin-top:10px; width:470px; text-align:center; padding:12px 0; border-radius:12px; background:rgba(88,120,70,.55); color:#fff; font-weight:700; font-size:17px; }
+  /* 카카오 알림톡 */
+  .kk { width:560px; border-radius:22px; overflow:hidden; background:#bacee0; box-shadow:0 24px 60px rgba(10,20,40,.35); padding:26px 24px 30px; }
+  .kk .from { display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+  .kk .logo { width:46px; height:46px; border-radius:16px; background:#fff; display:flex; align-items:center; justify-content:center; font-weight:900; color:#1c4fb0; font-size:20px; }
+  .kk .name { font-size:18px; color:#333; font-weight:600; }
+  .kk .bubble { margin-left:58px; width:420px; background:#fff; border-radius:6px 18px 18px 18px; overflow:hidden; }
+  .kk .yel { background:#fee500; padding:14px 20px; font-weight:800; font-size:19px; color:#191919; }
+  .kk .body { padding:18px 20px 20px; font-size:18px; color:#222; line-height:1.65; }
+  .kk .body .hl { font-weight:700; }
+  .kk .act { margin:0 20px 18px; text-align:center; padding:12px 0; border-radius:8px; background:#f2f3f5; font-size:17px; color:#333; font-weight:600; }
+  .kk .time { margin-left:58px; font-size:13px; color:#5d6d7c; margin-top:6px; }
+  /* 예약 전날 */
+  .cal { width:600px; border-radius:22px; background:#fff; box-shadow:0 24px 60px rgba(10,20,40,.35); padding:24px 26px 26px; }
+  .cal .t { font-weight:800; font-size:21px; color:#111; margin-bottom:16px; }
+  .cal .days { display:flex; gap:12px; }
+  .cal .d { flex:1; border-radius:14px; border:2px solid #e5e9ef; padding:12px 14px; }
+  .cal .d .n { font-size:15px; color:#7a8794; } .cal .d .v { font-size:26px; font-weight:800; color:#1a1f27; margin-top:2px; }
+  .cal .d.send { border-color:#fee500; background:#fffbe0; } .cal .d.book { border-color:#0d7a4b; background:#eaf7f0; }
+  .cal .tag { display:inline-block; margin-top:8px; font-size:15px; font-weight:700; padding:4px 10px; border-radius:999px; }
+  .cal .send .tag { background:#fee500; color:#191919; } .cal .book .tag { background:#0d7a4b; color:#fff; }
+</style></head><body>
+<div class="stage" id="tg"><div class="tg">
+  <div class="bar"><div class="ava">한</div><div><div class="ttl">[파트너] 한비즈 체험 병원</div><div class="sub">직원 9명</div></div></div>
+  <div class="chat">
+    <div class="msg">
+      <div class="who">한비즈 마케터</div>
+      <div class="head">[한비즈 체험 병원] 실시간 DB 수집되었습니다</div>
+      <div class="row">이름: 박서아</div>
+      <div class="row">전화번호: <b>010-0010-0935</b></div>
+      <div class="row">경로: 인스턴트 양식 · 인스타그램</div>
+      <div class="time">오후 3:32</div>
+    </div>
+    <div class="btn">파트너센터에서 보기</div>
+  </div>
+</div></div>
+
+<div class="stage" id="kk"><div class="kk">
+  <div class="from"><div class="logo"><img src="../../../../소재/pc/hanbiz_symbol.png" style="width:34px;height:34px;object-fit:contain"></div><div class="name">한비즈 체험 병원</div></div>
+  <div class="bubble">
+    <div class="yel">알림톡 도착</div>
+    <div class="body"><span class="hl">박서아</span>님, 상담 신청이 완료되었습니다.<br>30분에서 1일 이내 통화 드리도록 하겠습니다.</div>
+    <div class="act">채널 추가</div>
+  </div>
+  <div class="time">오후 3:32</div>
+</div></div>
+
+<div class="stage" id="cal"><div class="cal">
+  <div class="t">최하윤 님 · 예약 확정</div>
+  <div class="days">
+    <div class="d send"><div class="n">10월 6일 (전날)</div><div class="v">알림톡</div><span class="tag">자동 발송</span></div>
+    <div class="d book"><div class="n">10월 7일</div><div class="v">09:00</div><span class="tag">내원 예약</span></div>
+  </div>
+</div></div>
+
+<div class="stage" id="kk2"><div class="kk">
+  <div class="from"><div class="logo"><img src="../../../../소재/pc/hanbiz_symbol.png" style="width:34px;height:34px;object-fit:contain"></div><div class="name">한비즈 체험 병원</div></div>
+  <div class="bubble">
+    <div class="yel">예약 전날 안내</div>
+    <div class="body"><span class="hl">최하윤</span>님, 내일 <span class="hl">한비즈 체험 병원</span> 예약이 있어 미리 안내드려요.<br>· 예약 시간: 10월 7일 오전 9시</div>
+  </div>
+  <div class="time">10월 6일</div>
+</div></div>
+
+<div class="stage" id="buy"><div class="tg">
+  <div class="bar"><div class="ava">한</div><div><div class="ttl">[파트너] 한비즈 체험 병원</div><div class="sub">직원 9명</div></div></div>
+  <div class="chat">
+    <div class="msg">
+      <div class="who">한비즈 마케터</div>
+      <div class="head">권유나 님 구매 완료입니다</div>
+      <div class="row">어떤 상품입니까?</div>
+      <div class="opts"><span class="on">보톡스</span><span>필러</span><span>리프팅</span></div>
+      <div class="row" style="margin-top:10px">결제 금액 <b>100,000원</b> 맞습니까?</div>
+      <div class="opts"><span class="on">맞습니다</span><span>수정</span></div>
+      <div class="time">오후 6:37</div>
+    </div>
+  </div>
+</div></div>
+<style>
+  .tg .opts { display:flex; gap:8px; margin-top:8px; }
+  .tg .opts span { padding:8px 16px; border-radius:10px; background:#eef2f6; font-size:17px; font-weight:600; color:#3a4654; }
+  .tg .opts span.on { background:#2a6fd6; color:#fff; }
+</style>
+</body></html>

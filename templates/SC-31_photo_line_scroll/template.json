@@ -1,0 +1,130 @@
+{
+  "id": "SC-31",
+  "name": "사진줄스크롤",
+  "drawer": "SC",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "자료이미지",
+    "글자"
+  ],
+  "source_ref": [
+    "쇼츠 V11 (higgsfield-mg.md, 24.5–26.8)"
+  ],
+  "summary": "카드 왼쪽에 사진, 오른쪽 글이 줄 단위로 위로 흘러가며 줄별로 블러에서 선명하게 — 후기·상담 문구를 읽어 준다",
+  "use_when": [
+    "사례·후기",
+    "소개·여러 항목",
+    "용어 제시"
+  ],
+  "avoid_when": [
+    "설정·버튼"
+  ],
+  "tones": {
+    "TN-1": 0.6,
+    "TN-2": 0.4,
+    "TN-3": 0.5,
+    "TN-4": 0.4
+  },
+  "screens": [
+    "PIP",
+    "사람없음"
+  ],
+  "layer": "L4",
+  "moves_person": false,
+  "duration": [
+    3,
+    12
+  ],
+  "slots": {
+    "photo": {
+      "kind": "image",
+      "source": [
+        "codex"
+      ],
+      "style": "실사 사진",
+      "alpha": false,
+      "desc": "카드 왼쪽 인물·장면 사진(사진기로 찍은 톤, 실존 고객·초상권 금지)"
+    },
+    "lines": {
+      "kind": "text",
+      "rule": "스크롤될 줄 — 후기·상담 문구를 짧게 풀어쓴 개념어 줄",
+      "many": true,
+      "max_chars": 14
+    },
+    "label": {
+      "kind": "text",
+      "rule": "좌상단 라벨",
+      "max_chars": 8,
+      "optional": true
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "줄이 올라오는 말"
+    }
+  },
+  "drawn_allowed": [
+    "카드바탕",
+    "글자"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "카드 등장",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[i]",
+      "do": "줄 i 가 위로 흘러오며 블러에서 선명하게",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "t1-0.36",
+      "do": "닫힘",
+      "dur": 0.36,
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "scroll_time_total": "원본 2.3초(24.5–26.8) — 가로 값은 초기값 — 첫 견본에서 정함"
+  },
+  "sfx": [
+    {
+      "at": "word:hit[i]",
+      "role": "st1",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "인물 사진은 Codex 연출 이미지 — 실존 고객 금지, 초상권 허락 범위 기록 (CLAUDE.md 4)",
+    "줄 글은 말 복사 금지 (SKILL.md 144)",
+    "자동 모드에선 실제 업체·개인정보가 보이는 실자료를 쓰지 않는다 — 재현·Codex, 업체명 ○○ (README 8장, CLAUDE.md 4)",
+    "새 요소는 0.6초 이상 혼자, 한 문장 새 요소 3개 이하 (10-07 10, motion-graphics.md 2-1장 원칙 13)"
+  ],
+  "rejected": [],
+  "sample": {
+    "lines": [
+      "첫 상담",
+      "조건 확인"
+    ]
+  },
+  "fallback": [
+    "EM-07",
+    "SC-11"
+  ],
+  "from": "코드 없음 — 쇼츠 higgsfield-mg.md V11",
+  "basis": "shorts-notes-index-1008.md V11",
+  "todo": [
+    "html 렌더 도구 tools/html_motion.py 는 1080×1920·29.97fps 하드코딩 사본 — 가로 1920×1080·59.94 인자화가 먼저(쇼츠 claude-motion-graphics.md 5-4)",
+    "줄 간격·블러 크기·스크롤 속도: 근거 노트에 수치 없음 — 시간·간격·배율·크기는 초기값, 첫 견본에서 정함"
+  ]
+}

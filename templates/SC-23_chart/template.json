@@ -1,0 +1,147 @@
+{
+  "id": "SC-23",
+  "name": "차트",
+  "drawer": "SC",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "데이터"
+  ],
+  "source_ref": [
+    "웹#47 (시장 Data 카테고리 — 차트 5종·카운터)",
+    "web-research-1008.md §2",
+    "쇼츠 B-4 금지 쪽(더미 숫자 막대)"
+  ],
+  "summary": "말·자료에 나온 실제 수치만으로 차트(막대·선·원 등)를 그리고 숫자가 따라 올라간다. 수치가 없으면 쓰지 않는다",
+  "use_when": [
+    "숫자·금액",
+    "개념 비교",
+    "사례·후기"
+  ],
+  "avoid_when": [
+    "일상 상황",
+    "설정·버튼"
+  ],
+  "tones": {
+    "TN-1": 0.5,
+    "TN-2": 0.4,
+    "TN-3": 0.8,
+    "TN-4": 0.6
+  },
+  "screens": [
+    "PIP",
+    "사람없음"
+  ],
+  "layer": "L2",
+  "moves_person": false,
+  "duration": [
+    5,
+    20
+  ],
+  "slots": {
+    "series": {
+      "kind": "number",
+      "many": true,
+      "desc": "말·자료에 있는 실제 수치 목록 — 더미 숫자 금지, 없으면 이 템플릿을 쓰지 않는다"
+    },
+    "labels": {
+      "kind": "text",
+      "rule": "수치 이름 — 개념어, 말에 나온 항목만",
+      "many": true,
+      "max_chars": 8
+    },
+    "unit": {
+      "kind": "text",
+      "rule": "단위 — 말·자료에 나온 것만",
+      "max_chars": 4,
+      "optional": true
+    },
+    "chart_type": {
+      "kind": "choice",
+      "desc": "차트 종류 — 5종 이름은 웹#47 에 없음, todo"
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "수치마다 말하는 단어 시각"
+    }
+  },
+  "drawn_allowed": [
+    "구분선",
+    "글자",
+    "차트",
+    "판"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "축·판 등장",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[i]",
+      "do": "수치 i 가 자라며 숫자 카운트업",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "t1-0.36",
+      "do": "닫힘",
+      "dur": 0.36,
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "hint": "색 3색 이하, 숫자는 고정 폭(tnum) 권장 — 쇼츠 «다음에 해 볼 것»"
+  },
+  "sfx": [
+    {
+      "at": "word:hit[i]",
+      "role": "st1",
+      "meaning": "중립"
+    },
+    {
+      "at": "word:hit[-1]",
+      "role": "gauge",
+      "meaning": "긍정"
+    }
+  ],
+  "rules": [
+    "말·자료에 있는 실제 수치만, 더미 숫자 금지 (쇼츠 B-4 금지 쪽)",
+    "막대·도형으로 사물을 흉내 내지 않는다 — 차트는 데이터 표시일 뿐 (06 반려, SKILL.md 4장)",
+    "수치 근거를 slots.series 옆 출처(말 단어 시각 또는 자료 쪽수)로 남긴다",
+    "두 막대 비교는 EM-35 로, 이 템플릿은 3개 이상 항목",
+    "새 요소는 0.6초 이상 혼자, 한 문장 새 요소 3개 이하 (10-07 10, motion-graphics.md 2-1장 원칙 13)"
+  ],
+  "rejected": [],
+  "sample": {
+    "series": [
+      1,
+      2,
+      3
+    ],
+    "labels": [
+      "A",
+      "B",
+      "C"
+    ]
+  },
+  "fallback": [
+    "EM-05",
+    "SC-04"
+  ],
+  "from": "코드 없음 — 웹 조사 카테고리에서 설계 (sample 숫자는 견본 전용, 실사용 금지)",
+  "basis": "web-research-1008.md §2 시장 카테고리 SC=Data",
+  "todo": [
+    "차트 5종 이름·구성: 웹#47 에 값이 없다 — 첫 견본에서 정함",
+    "막대·선을 직접 그리는 것은 README 5장 drawn_allowed 에 해당 단어가 없어 «판» 으로 등록 — 설계자 확인 필요",
+    "카운트업 시간·막대 폭: 초기값 — 첫 견본에서 정함"
+  ]
+}

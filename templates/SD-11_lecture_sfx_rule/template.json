@@ -1,0 +1,125 @@
+{
+  "id": "SD-11",
+  "name": "강의효과음규칙",
+  "drawer": "SD",
+  "version": 1,
+  "status": "통과",
+  "engine": "compose",
+  "subject": [
+    "소리"
+  ],
+  "source_ref": [
+    "원#98 강의 효과음 길이 규칙 (강의 재무제표 설계 실측 — 2초 미만 띠딩2 · 2~10초 도장 · 10초+ 휙２, 등장 프레임 97%)",
+    "sfx.md 3-4 · lecture-graphics.md 1·2장"
+  ],
+  "summary": "강의 그래픽에 소리를 붙일 때 그래픽 길이로 소리를 정한다 — 2초 미만 띠딩2, 2~10초 도장, 10초 이상 휙２. 소리는 그래픽 등장 프레임에 붙는다",
+  "use_when": [
+    "자료 등장",
+    "소개·여러 항목",
+    "정의·조건"
+  ],
+  "avoid_when": [],
+  "tones": {
+    "TN-1": 1.0,
+    "TN-2": 0.3,
+    "TN-3": 0.3,
+    "TN-4": 1.0
+  },
+  "screens": [
+    "PIP",
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "audio",
+  "moves_person": false,
+  "duration": [
+    0,
+    0
+  ],
+  "slots": {
+    "graphic_len": {
+      "kind": "number",
+      "desc": "그래픽 길이(초) — 소리 종류를 정한다"
+    },
+    "graphic_t": {
+      "kind": "words",
+      "desc": "그래픽이 등장하는 단어 시각"
+    }
+  },
+  "drawn_allowed": [],
+  "keepout": [],
+  "timeline": [
+    {
+      "at": "word:graphic_t",
+      "do": "graphic_len < 2초: 띠딩2 (기본 −3~−6dB)",
+      "ease": "hold"
+    },
+    {
+      "at": "word:graphic_t",
+      "do": "2초 이상 10초 이하: 도장 (단정 0dB)",
+      "ease": "hold"
+    },
+    {
+      "at": "word:graphic_t",
+      "do": "10초 초과: 휙２ (2강 −5dB)",
+      "ease": "hold"
+    }
+  ],
+  "look": {
+    "under_2s": "2. 띠딩2.mp3",
+    "between_2_10s": "도장.mp3",
+    "over_10s": "휙２.mp3",
+    "attach_rate_8강": 0.97,
+    "attach_rate_2강": 0.74,
+    "ding_db": [
+      -3,
+      -6
+    ],
+    "stamp_db": 0,
+    "whoosh_db_2강": -5
+  },
+  "sfx": [
+    {
+      "at": "word:graphic_t",
+      "role": "ding",
+      "meaning": "중립",
+      "file": "2. 띠딩2.mp3 — graphic_len < 2"
+    },
+    {
+      "at": "word:graphic_t",
+      "role": "stamp",
+      "meaning": "그림",
+      "file": "도장.mp3 — 2 ≤ graphic_len ≤ 10"
+    },
+    {
+      "at": "word:graphic_t",
+      "role": "in",
+      "meaning": "중립",
+      "file": "휙２.mp3 — graphic_len > 10"
+    }
+  ],
+  "rules": [
+    "길이 규칙: 2초 미만 `2. 띠딩2` · 2~10초 `도장` · 10초 이상 `휙２` — sfx.md 3-4, lecture-graphics.md 1장 (설계 실측)",
+    "소리는 그래픽 등장 프레임에 붙는다 — 8강 97%·2강 74% (lecture-graphics.md 2장)",
+    "볼펜소리는 필기·밑줄 연출이라 사람이 정한다 — 이 규칙 밖 (sfx.md 3장)",
+    "조건·기준 글에는 축하음 금지, 도장 그림이면 도장.mp3 (SD-01 rules, 10-08 22)",
+    "컷마다 전환음을 깔지 않는다 — 09-22 (sfx.md 핵심)",
+    "마우스 클릭(표 짚기 0dB)·뿅(연속 질문)·종이소리(노트/자료 넘김)는 이 길이 규칙과 별도로 그림에 맞춘다 (lecture-graphics.md 1장 효과음 줄)",
+    "음원 파일을 이 폴더에 복사하지 않는다 — 주소는 tools/config.py SFX_ROOTS 한 곳 (CLAUDE.md 1, sfx-workflow.md 1장)",
+    "소리를 귀로 못 들었으면 «못 들었다»고 보고한다 (sfx.md 핵심, checklist.md D표)"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "SD-01",
+    "SD-03"
+  ],
+  "from": "lecture-graphics.md 1·2장 효과음 줄 · sfx.md 3-4",
+  "basis": "origin-session-1008.md 5장 #98 · lecture-graphics.md",
+  "todo": [
+    "길이 경계 2초·10초에서 어느 쪽에 넣을지(2초 정확히) 노트에 없다 — 초기값, 첫 견본에서 정함",
+    "도장 그림이 아닌 그래픽에 도장.mp3 를 쓰는 것은 사장님 편집 실측 — 도장 그림에 도장 소리 규칙(SD-01)과 충돌하지 않는다",
+    "음량은 sfx.md 3장 파일별 표를 따른다(여기 dB 는 lecture-graphics.md 1장에 적힌 실측)",
+    "노트의 소리 값은 파형·길이·시각으로 확인한 것이고 귀로 확인한 적은 없다 — 첫 실사용에서 사장님 반응을 적는다"
+  ]
+}

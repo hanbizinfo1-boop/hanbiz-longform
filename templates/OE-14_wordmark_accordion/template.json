@@ -1,0 +1,88 @@
+{
+  "id": "OE-14",
+  "name": "워드마크아코디언",
+  "drawer": "OE",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "브랜드",
+    "글자"
+  ],
+  "source_ref": [
+    "쇼츠 CM-5 워드마크 아코디언 (claude-motion-graphics.md 학습 — 세부 수치 없음)"
+  ],
+  "summary": "워드마크의 글자 사이가 아코디언처럼 접혔다 펴지며 로고 이름이 자리 잡는다. 로고 엔딩의 변형",
+  "use_when": [
+    "한 편 끝",
+    "브랜드"
+  ],
+  "avoid_when": [],
+  "tones": {
+    "TN-1": 0.4,
+    "TN-2": 0.5,
+    "TN-3": 0.9,
+    "TN-4": 0.2
+  },
+  "screens": [
+    "PIP",
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "L5",
+  "moves_person": false,
+  "duration": [
+    1.5,
+    3
+  ],
+  "slots": {
+    "wordmark": {
+      "kind": "image",
+      "source": [
+        "brand"
+      ],
+      "style": "실사 사진",
+      "alpha": true,
+      "desc": "워드마크 로고 원본(글자 단위로 자른 조각이 필요하면 원본을 잘라 쓴다)"
+    }
+  },
+  "drawn_allowed": [],
+  "keepout": [
+    "자막띠",
+    "사람PIP"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "워드마크 조각이 겹쳐 접힌 상태에서 펴지며 제 자리로 간다",
+      "ease": "ez"
+    }
+  ],
+  "look": {},
+  "sfx": [
+    {
+      "at": "t0",
+      "role": "logo_first",
+      "meaning": "긍정"
+    }
+  ],
+  "rules": [
+    "로고는 새로 그리지 않고 원본 그대로, 사물이라 image 칸(source brand) — README 4장, 쇼츠 motion-typo.md C «로고를 AI 로 다시 그림 금지»",
+    "로고를 AI 로 다시 그리지 않는다 — 원본을 잘라 쓴다 (OE-02 규칙과 같음)",
+    "엔딩은 원문 뒤에 붙는다 — 원문 본문 길이는 불변 (auto-pipeline.md 3-1 OE)",
+    "등장은 감속(eo), 오버슈트 없음 — motion-graphics.md 2-1 원칙 3"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "OE-02",
+    "OE-03"
+  ],
+  "from": "쇼츠 study/claude-motion-graphics.md 기법 카드 (CM-5 세부 시각·수치는 이 노트에 없음)",
+  "basis": "쇼츠 index claude-mg CM-5",
+  "todo": [
+    "CM-5 의 접힘 폭·시간·이징 값이 근거 노트에 없다 — 전부 초기값, 첫 견본에서 정함",
+    "원본 영상 자체를 다시 열어 보지 않았다 — 필요하면 설계자가 쇼츠 노트 원문을 확인",
+    "글자 단위 조각을 로고 원본에서 자르는 방법 — OE-02 의 조각 todo 참조"
+  ]
+}

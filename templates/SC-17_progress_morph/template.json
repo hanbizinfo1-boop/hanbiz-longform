@@ -1,0 +1,149 @@
+{
+  "id": "SC-17",
+  "name": "진행상태모핑",
+  "drawer": "SC",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "데이터",
+    "글자"
+  ],
+  "source_ref": [
+    "원#32",
+    "쇼츠 CM-7 (claude-motion-graphics.md 진행 상태 한 도형 모핑)",
+    "motion-graphics.md 2-1장 원칙 8"
+  ],
+  "summary": "신청→심사→승인을 컷 없이 한 도형이 상태를 바꾸며 보여 준다 — 진행률 29→100%, 체크, 커서 클릭으로 단계가 넘어간다",
+  "use_when": [
+    "과정·단계",
+    "알고리즘·시스템 행동"
+  ],
+  "avoid_when": [
+    "일상 상황",
+    "개념 비교"
+  ],
+  "tones": {
+    "TN-1": 0.3,
+    "TN-2": 0.3,
+    "TN-3": 1.0,
+    "TN-4": 0.6
+  },
+  "screens": [
+    "PIP",
+    "사람없음"
+  ],
+  "layer": "L2",
+  "moves_person": false,
+  "duration": [
+    6,
+    20
+  ],
+  "slots": {
+    "states": {
+      "kind": "text",
+      "rule": "상태 이름 3개 — 말을 받치는 개념어(예: 접수·검토·확정). 단계 수·순서는 말에 나온 것만",
+      "many": true,
+      "max_chars": 8
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "상태가 넘어가는 말의 단어 시각"
+    },
+    "paper": {
+      "kind": "image",
+      "source": [
+        "doc",
+        "codex"
+      ],
+      "style": "실사 사진",
+      "alpha": false,
+      "desc": "승인 단계에서 나오는 서류 한 장(위에서 찍은 사진, 업체명 ○○)",
+      "optional": true
+    }
+  },
+  "drawn_allowed": [
+    "카드바탕",
+    "UI위젯",
+    "HUD",
+    "글자"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "도형 등장(알약 모양 진행 UI)",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[i]",
+      "do": "진행선이 29%→100% 로 차오르고 체크로 바뀐 뒤 다음 상태로 모양을 바꿔 이어 감",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "t1-0.36",
+      "do": "닫힘",
+      "dur": 0.36,
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "progress_from_to": [
+      29,
+      100
+    ],
+    "hint": "29→100%→✓ 는 원#32 학습분 값, 가로 크기는 초기값 — 첫 견본에서 정함"
+  },
+  "sfx": [
+    {
+      "at": "t0",
+      "role": "in",
+      "meaning": "중립"
+    },
+    {
+      "at": "word:hit[i]",
+      "role": "click",
+      "meaning": "중립"
+    },
+    {
+      "at": "word:hit[-1]",
+      "role": "gauge",
+      "meaning": "긍정"
+    }
+  ],
+  "rules": [
+    "한 도형이 모양을 바꾸며 이어 간다 — 상태마다 새 카드 나열 금지 (원칙 8)",
+    "진행선·체크·커서는 UI 위젯으로 그려도 된다, 서류·사람은 이미지 칸 (SKILL.md 4장 UI 재현 통과 이력)",
+    "모핑 중간에 회색 덩어리 판이 보이면 안 된다 — 중간 3~4프레임 점검 (쇼츠 claude-motion-graphics.md 3-5장 결함)",
+    "상태 변화 간격 0.6초 이상(원본은 0.5초 간격이라 위반) (쇼츠 claude-motion-graphics.md 3-5)",
+    "화면 글은 말을 받치는 개념어 — 말 복사·«» 금지(10-08 17·19, SKILL.md 3장)",
+    "새 요소는 0.6초 이상 혼자, 한 문장 새 요소 3개 이하 (10-07 10, motion-graphics.md 2-1장 원칙 13)",
+    "게이지·진행선에는 차오르는 소리를 꼭 — 10-02 «게이지는 왜 뺐어»"
+  ],
+  "rejected": [],
+  "sample": {
+    "states": [
+      "접수",
+      "검토",
+      "확정"
+    ]
+  },
+  "fallback": [
+    "SC-12",
+    "SC-06"
+  ],
+  "from": "코드 없음 — 쇼츠 claude-motion-graphics.md UI 모핑(04:14–04:29) 서술에서 설계",
+  "basis": "origin-session-1008.md 원#32 · 쇼츠 CM-7",
+  "todo": [
+    "html 렌더 도구 tools/html_motion.py 는 1080×1920·29.97fps 하드코딩 사본 — 가로 1920×1080·59.94 인자화가 먼저(쇼츠 claude-motion-graphics.md 5-4)",
+    "29→100%·체크 모양은 학습분 값 — 가로 재배치와 크기: 초기값 — 첫 견본에서 정함",
+    "SC-12 와 겹침: 이쪽은 진행 UI 위젯(신청→심사→승인) 전용"
+  ]
+}

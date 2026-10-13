@@ -1,0 +1,106 @@
+{
+  "id": "TR-08",
+  "name": "블러암전점팽창",
+  "drawer": "TR",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "글자",
+    "무대배경"
+  ],
+  "source_ref": [
+    "쇼츠 DY-3 글자 뭉개짐 → 암전 → 점에서 재시작 (dynamic-mg-sfx.md 카드 3)"
+  ],
+  "summary": "화면의 주요 요소가 번지며 사라지고 0.15~0.2초 암전, 중앙의 작은 점에서 다음 장면이 팽창한다. 섹션 전환(문제 → 해결)용",
+  "use_when": [
+    "챕터 시작",
+    "결론·센 말"
+  ],
+  "avoid_when": [
+    "설정·버튼"
+  ],
+  "tones": {
+    "TN-1": 0.2,
+    "TN-2": 0.5,
+    "TN-3": 0.9,
+    "TN-4": 0.1
+  },
+  "screens": [
+    "사람없음",
+    "풀샷"
+  ],
+  "layer": "L5",
+  "moves_person": false,
+  "duration": [
+    0.5,
+    0.7
+  ],
+  "slots": {
+    "next_scene": {
+      "kind": "image",
+      "source": [
+        "real_capture",
+        "codex",
+        "doc"
+      ],
+      "style": "실사 사진",
+      "alpha": false,
+      "desc": "점에서 팽창할 다음 장면 이미지"
+    }
+  },
+  "drawn_allowed": [
+    "어둡게덮기"
+  ],
+  "keepout": [
+    "자막띠",
+    "사람PIP"
+  ],
+  "timeline": [
+    {
+      "at": "cut_t-0.2",
+      "do": "앞 요소 블러 0→30 + 불투명 100→0 (6프레임, 30fps 기준)",
+      "dur": 0.2,
+      "ease": "ez"
+    },
+    {
+      "at": "cut_t",
+      "do": "암전 0.15~0.2초",
+      "dur": 0.2,
+      "ease": "hold"
+    },
+    {
+      "at": "cut_t+0.2",
+      "do": "다음 장면이 스케일 5→100% 로 팽창 (10~12프레임, 감속, 바운스 없음)",
+      "dur": 0.37,
+      "ease": "ez"
+    }
+  ],
+  "look": {},
+  "sfx": [
+    {
+      "at": "cut_t-0.1",
+      "role": "in",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "바운스 없음 — 감속만 (dynamic-mg-sfx.md 카드 3 «바운스 없음»)",
+    "큰 변화 전에 소리를 비운다(SD-10)와 짝으로 쓸 수 있다 — dynamic-mg-sfx.md 카드 2",
+    "암전이 길면 «dead time» — 0.2초를 넘기지 않는다 (claude-motion-graphics.md 3-5)",
+    "사장님 롱폼 편집 실측은 «장면 전환은 트랜지션 없이 컷» — lecture-graphics.md 1장. 이 템플릿은 쇼츠·학습분 문법이라 쓸 곳을 좁게 잡는다"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "TR-05",
+    "TR-03"
+  ],
+  "from": "쇼츠 study/dynamic-mg-sfx.md 카드 3 (9.93–10.3 · 17.75–18.1)",
+  "basis": "dynamic-mg-sfx.md 4장 카드 3",
+  "todo": [
+    "쇼츠 노트는 29.97~30fps 기준 — 59.94fps 프레임 환산은 첫 견본에서 확인",
+    "점의 모양·위치는 노트에 없다(원본은 작은 나비) — 한비즈는 로고 모티프 가장 작은 부분을 쓸지 첫 견본에서 정함",
+    "duration 은 서랍 범위(auto-pipeline.md 3-1장) 안의 초기값 — 첫 견본에서 정함"
+  ]
+}

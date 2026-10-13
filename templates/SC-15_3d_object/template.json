@@ -1,0 +1,55 @@
+{
+  "id": "SC-15", "name": "3D오브젝트", "drawer": "SC", "version": 1, "status": "신규",
+  "engine": "blender",
+  "subject": ["자료이미지", "무대배경"],
+  "source_ref": ["쇼츠 blender.md (b4_previz05_scene.py — 카메라 프리비즈, look() 계산·smoothstep·렌즈 CONSTANT)", "쇼츠 study/higgsfield-mg.md V7a·V15", "쇼츠 study/flova-3d.md (제품 사진 → 샷 리스트 구조만, Flova 는 사장님 결정으로 제외)", "쇼츠 motion-typo.md 카드 G"],
+  "summary": "제품·공간 구조처럼 3D 로 돌려 보여야 하는 말. 블렌더로 만든 3D 오브젝트(알파 렌더)가 카메라 이동과 함께 말에 맞춰 보여진다. 사물은 도형 흉내가 아니라 3D 렌더 이미지",
+  "use_when": ["현실 공간·사람", "소개·여러 항목"],
+  "avoid_when": ["설정·버튼", "숫자·금액", "일상 상황"],
+  "tones": {"TN-1": 0.2, "TN-2": 0.2, "TN-3": 0.6, "TN-4": 0.1},
+  "screens": ["PIP", "사람없음"],
+  "layer": "L4", "moves_person": false,
+  "duration": [3, 10],
+  "slots": {
+    "object": {"kind": "image", "source": ["render3d"], "style": "3D 비닐", "alpha": true, "desc": "블렌더로 렌더한 3D 오브젝트(투명 배경 알파). 글자 없음 — 글자는 렌더러가 위에 얹는다"},
+    "brief":  {"kind": "text", "max_chars": 60, "rule": "무엇을 어떻게 돌려 보여 줄지 한 줄 — 지시문(내부용), 화면에는 나오지 않음"},
+    "camera": {"kind": "choice", "options": ["돌려 보기", "밀고 들어가기", "내려다보기"], "desc": "카메라 움직임 종류 — 목표점을 보게 look(p,q) 으로 계산해 넣는다(눈대중 각도 금지)"},
+    "labels": {"kind": "text", "many": true, "optional": true, "max_chars": 10, "rule": "오브젝트 옆 개념어 라벨 — 말 복사·«» 금지"},
+    "hit":    {"kind": "words", "desc": "오브젝트가 나오고 카메라가 움직이는 단어 시각"}
+  },
+  "drawn_allowed": ["글자", "HUD"],
+  "keepout": ["사람PIP", "자막띠", "얼굴+16px", "판밖"],
+  "timeline": [
+    {"at": "word:hit[0]", "do": "오브젝트 등장", "dur": "초기값 — 첫 견본에서 정함", "ease": "eo"},
+    {"at": "word:hit[i]", "do": "카메라 이동(구간별 smoothstep u²(3−2u))", "dur": "초기값 — 첫 견본에서 정함", "ease": "ez"},
+    {"at": "t1", "do": "끝", "dur": "초기값 — 첫 견본에서 정함", "ease": "eo"}
+  ],
+  "look": {
+    "camera": "yaw=atan2(−dx, dy), pitch=atan2(dz, hypot(dx,dy)), rotation_euler=(π/2+pitch, 0, yaw)",
+    "render_split": "힉스필드 클라우드 블렌더는 한 조작 300초 제한 — 30~36프레임씩 쪼개 렌더 (blender.md 1장)"
+  },
+  "sfx": [
+    {"at": "word:hit[0]", "role": "in", "meaning": "중립"},
+    {"at": "word:hit[i]", "role": "sweep", "meaning": "중립"}
+  ],
+  "rules": [
+    "사물은 3D 렌더 이미지(render3d) — 도형을 쌓아 형상을 흉내 내는 짜깁기 금지 (10-07 06)",
+    "카메라 각도는 눈대중이 아니라 목표점을 보게 계산해서 넣는다 — 안 그러면 목표가 화면 끝에 걸린다 (쇼츠 blender.md 1장 09-30 함정)",
+    "렌즈 키는 CONSTANT 보간(디지털 줌 단), 구간은 smoothstep (blender.md 1장)",
+    "AI 영상은 구간별 배속 변경 금지 — 길이는 대사 구간에 맞춰 렌더 (blender.md 1장 · ai-video.md 4장)",
+    "글자는 렌더러(PIL·AE)가 위에 얹는다 — 3D 모델에 글자를 박지 않는다",
+    "Flova 는 쓰지 않는다 (사장님 10-08 «오케이 일단 플로바는 제외하고»)"
+  ],
+  "rejected": [],
+  "sample": {"brief": "제품 모형을 천천히 한 바퀴 돌려 보여 줌", "camera": "돌려 보기"},
+  "fallback": ["SC-14", "SC-01"],
+  "from": "코드 없음 — 쇼츠 blender.md 의 b4_previz05_scene.py 구조만 참고(로컬 블렌더 실행은 확인된 바 없음)",
+  "basis": "auto-pipeline.md 4장 SC-15 «블렌더 · 신규(블렌더 설치 필요)» · 쇼츠 blender.md",
+  "todo": [
+    "이 PC에 블렌더 미설치",
+    "쇼츠 blender.md 는 코드를 이 PC 에서 다시 돌려 확인하지 않았다 — 힉스필드 클라우드 블렌더(3D Jutsu) 기록뿐, 로컬 bpy 실행 여부 미확인",
+    "블렌더 렌더물을 알파 mov 로 뽑아 합성하는 길(L4)과 V1 바꿔 끼우기(L2)는 정하지 않음",
+    "duration·카메라 종류·등장 모션 수치는 문서에 근거 없음 → 초기값 — 첫 견본에서 정함",
+    "R4 로드맵 항목(블렌더 설치 후)"
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "id": "EM-43",
+  "name": "금색숫자팝",
+  "drawer": "EM",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "글자",
+    "데이터"
+  ],
+  "source_ref": [
+    "쇼츠 R6-2 금색 숫자 팝 (study/shorts-notes-index-1008.md 예전 묶음 — 원문 노트에서 값을 확인하지 못함)"
+  ],
+  "summary": "말에 나온 숫자 하나가 금색으로 크게 팝 하며 도착한다. 카운트 없이 한 번에 «이 숫자»를 박는다",
+  "use_when": [
+    "숫자·금액",
+    "결론·센 말"
+  ],
+  "avoid_when": [
+    "가림",
+    "과정·단계"
+  ],
+  "tones": {
+    "TN-1": 0.4,
+    "TN-2": 0.7,
+    "TN-3": 0.9,
+    "TN-4": 0.3
+  },
+  "screens": [
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "L4",
+  "moves_person": false,
+  "duration": [
+    1,
+    4
+  ],
+  "slots": {
+    "number": {
+      "kind": "number",
+      "desc": "말에 나온 숫자 — 지어내지 않는다"
+    },
+    "unit": {
+      "kind": "text",
+      "max_chars": 3,
+      "rule": "단위는 숫자보다 작게 고정"
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "숫자를 말하는 단어 시각"
+    },
+    "area": {
+      "kind": "box",
+      "desc": "안전영역"
+    }
+  },
+  "drawn_allowed": [
+    "글자"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "word:hit",
+      "do": "숫자가 크게 팝 후 제자리(130→100% 계열) — 값 초기값 — 첫 견본에서 정함",
+      "dur": 0.216,
+      "ease": "eo"
+    },
+    {
+      "at": "t1",
+      "do": "컷에서 같이 끝",
+      "dur": 0.15,
+      "ease": "lin"
+    }
+  ],
+  "look": {
+    "gold": "금색 — 색값 초기값 — 첫 견본에서 정함",
+    "digits": "고정 폭 숫자(tnum) — 자릿수가 바뀌어도 안 흔들리게"
+  },
+  "sfx": [
+    {
+      "at": "word:hit",
+      "role": "big",
+      "meaning": "중립",
+      "when": "조건·기준 숫자라면 big(축하음 금지)"
+    }
+  ],
+  "rules": [
+    "숫자는 말에 나온 값만 — 더미 숫자 금지 (typography-remotion 6장)",
+    "숫자가 조건·기준이면 축하음 금지 → big (사장님 10-08 22)",
+    "단위는 작게 고정",
+    "움직임은 그 말의 단어 시각(±2프레임)에 건다 — 타이머 간격 금지 (상황 강령 0장 2 · SKILL 3장)",
+    "한 장면 3색 이하 — 바탕·글·강조 하나 (motion-graphics 2-1장 원칙 1)",
+    "html 계약(쇼츠 tools/html_motion.py): window.W/H/FPS/DURATION · seek(t) 는 t 만의 순수 함수(CSS transition·타이머·Math.random 금지) · PALETTE 3색 이하 (EM-04 와 같은 틀)"
+  ],
+  "rejected": [],
+  "sample": {
+    "number": 3000,
+    "unit": "만 원"
+  },
+  "fallback": [
+    "EM-05",
+    "EM-04"
+  ],
+  "from": "쇼츠 R6-2 (원문 노트 미확인)",
+  "basis": "shorts-notes-index-1008.md 예전 묶음 R6-2",
+  "todo": [
+    "R6-2 의 금색 값·팝 크기·길이를 근거 노트에서 확인하지 못했다 — 모두 초기값 — 첫 견본에서 정함",
+    "EM-05(카운트업)와 구분: 이쪽은 카운트 없이 팝 한 번",
+    "가로 1920×1080·59.94fps 재배치 — 프레임 수는 29.97 기준이면 초로 환산해 다시 맞춘다"
+  ]
+}

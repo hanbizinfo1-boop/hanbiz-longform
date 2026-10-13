@@ -1,0 +1,109 @@
+{
+  "id": "SD-04",
+  "name": "성스러운순간",
+  "drawer": "SD",
+  "version": 1,
+  "status": "대기",
+  "engine": "compose",
+  "subject": [
+    "소리"
+  ],
+  "source_ref": [
+    "원#92 성스러운 순간 (분양4 03 b4_subway_sound.py, 통과 시안 C, 사장님 10-01 «이 순간엔 드론 소리 조금 줄여서 배경음 블러 느낌»)"
+  ],
+  "summary": "한 번뿐인 감동·신성한 순간에 띠링을 낮춘 소리와 띠로링을 겹쳐 잔향을 입히고, 그 순간 배경 소리를 낮추고 650Hz 아래만 남겨 먹먹하게 깐 뒤 복귀한다",
+  "use_when": [
+    "감정·리액션",
+    "결론·센 말"
+  ],
+  "avoid_when": [
+    "숫자·금액",
+    "설정·버튼"
+  ],
+  "tones": {
+    "TN-1": 0.2,
+    "TN-2": 0.4,
+    "TN-3": 1.0,
+    "TN-4": 0.0
+  },
+  "screens": [
+    "PIP",
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "audio",
+  "moves_person": false,
+  "duration": [
+    2.5,
+    3.5
+  ],
+  "slots": {
+    "holy_t": {
+      "kind": "words",
+      "desc": "성스러운 순간의 단어 시각 — 소리가 이 시각에 닿게"
+    },
+    "ambient": {
+      "kind": "choice",
+      "desc": "먹먹하게 내릴 배경 소리(있을 때)",
+      "optional": true
+    }
+  },
+  "drawn_allowed": [],
+  "keepout": [],
+  "timeline": [
+    {
+      "at": "word:holy_t",
+      "do": "띠링1(0.8배 낮춤) + 띠로링(0.84배, −4dB)을 겹치고 잔향(aecho)·loudnorm −20 LUFS(TP −3)를 입힌다"
+    },
+    {
+      "at": "word:holy_t-0.2",
+      "do": "배경 소리를 0.2초 동안 −8dB·650Hz 로우패스로 먹먹하게 내린다(마른 소리 1에서 젖은 소리 0.45로)"
+    },
+    {
+      "at": "word:holy_t+1.75",
+      "do": "1.75초 유지 뒤 0.8초에 걸쳐 원래 소리로 복귀"
+    }
+  ],
+  "look": {
+    "holy_tone_ratio": 0.8,
+    "holy_second_ratio": 0.84,
+    "holy_second_db": -4,
+    "loudnorm_lufs": -20,
+    "ambient_cut_db": -8,
+    "ambient_lowpass_hz": 650,
+    "duck_in_sec": 0.2,
+    "hold_sec": 1.75,
+    "duck_out_sec": 0.8
+  },
+  "sfx": [
+    {
+      "at": "word:holy_t",
+      "role": "holy",
+      "meaning": "긍정",
+      "file": "i_테두리_띠링1 + 띠로링.mp3 (b4_subway_sound.py)"
+    }
+  ],
+  "rules": [
+    "시안 C = 띠링1 0.8배 + 띠로링 0.84배 −4dB + 잔향 (aecho 0.8:0.85:60|120|240|480 / 0.45|0.35|0.25|0.15), loudnorm −20 LUFS TP −3 — b4_subway_sound.py",
+    "배경 소리를 줄이는 구간: 0.2초에 내리고 1.75초 유지 후 0.8초에 복귀 (DUCK 곡선, 같은 파일)",
+    "도돈은 뺐고 배지 톡 −6dB·뿅 −8dB·급강하 두꺼운 바람 −4dB 가 같은 장면의 나머지 소리였다 (b4_subway_sound.py) — 이 템플릿 밖",
+    "한 편 한 번 — 성스러운 순간이 흔하면 의미가 사라진다 (설계, 근거 노트에 횟수 없음)",
+    "소리는 그림에 붙고 뜻(긍정/부정/중립)에 맞춘다 — 10-08 22 (sfx.md 2장)",
+    "음원 파일을 이 폴더에 복사하지 않는다 — 주소는 tools/config.py SFX_ROOTS 한 곳 (CLAUDE.md 1, sfx-workflow.md 1장)",
+    "소리를 귀로 못 들었으면 «못 들었다»고 보고한다 (sfx.md 핵심, checklist.md D표)"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "SD-01",
+    "SD-03"
+  ],
+  "from": "D:/영상제작/도구/광고편집/b4_subway_sound.py (HOLY · DUCK · RV · SFX 목록)",
+  "basis": "origin-session-1008.md 5장 #92 · 쇼츠 분양4 03",
+  "todo": [
+    "노트의 소리 값은 파형·길이·시각으로 확인한 것이고 귀로 확인한 적은 없다 — 첫 실사용에서 사장님 반응을 적는다",
+    "분양 쇼츠 통과라 롱폼 가로 통과 이력은 없다 → 대기",
+    "롱폼 정책자금 강의에서 «성스러운 순간»이 어디인지(예: 승인 결과 공개) — 사장님 확인 필요, 억지로 만들지 않는다",
+    "원본 소리 파일은 후킹AI 효과음 폴더·사장님 폴더(띠로링.mp3) — sfx-workflow.md 3장 단골에 없음, 통과하면 추가"
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "id": "EM-03", "name": "값타자", "drawer": "EM", "version": 1, "status": "통과",
+  "engine": "ae",
+  "subject": ["녹화화면", "글자"],
+  "source_ref": ["빡이사DB 04 (페이지 이름 타자)", "빡이사DB 08 2판 (예산 칸 1만→2만→3만)", "빡이사DB 13 2판 (tools/examples/bisa_ab_live.py — 커서·타자·CAM·강조 포인트)", "쇼츠 techniques.md A표 «녹화 화면 확대 + 값 타자»"],
+  "summary": "녹화 화면의 설정 칸으로 카메라가 밀고 들어가 커서가 실제로 누르고, 값이 왼쪽부터 타자로 바뀐다. 값이 뜰 때마다 반짝 선과 테두리 번짐, 값에 맞는 알약이 따라 나온다",
+  "use_when": ["설정·버튼", "화면 속 특정 부분", "숫자·금액"],
+  "avoid_when": ["개념 비교", "일상 상황", "결론·센 말"],
+  "tones": {"TN-1": 0.7, "TN-2": 0.4, "TN-3": 0.2, "TN-4": 1.0},
+  "screens": ["PIP", "사람없음"],
+  "layer": "L2", "moves_person": false,
+  "duration": [5, 35],
+  "slots": {
+    "field":  {"kind": "box", "from": "해부.녹화활동", "desc": "값이 바뀔 녹화 칸(녹화 좌표)"},
+    "base":   {"kind": "image", "source": ["real_capture"], "style": "실사 사진", "alpha": false, "desc": "그 칸·줄의 실제 녹화 크롭에서 글자 부분만 배경색으로 비운 불투명 판(녹화 글자가 비치지 않게). 주소창·탭·북마크·계정 ID 제외"},
+    "values": {"kind": "text", "many": true, "max_chars": 14, "rule": "칸에 실제로 들어갈 값 — 숫자·고유 표현은 말에 나온 것만(지어내지 않는다), 말 복사·«» 금지"},
+    "pills":  {"kind": "text", "many": true, "optional": true, "max_chars": 12, "rule": "값을 받치는 개념어 알약(예: 광고 2개·하루 합계 식). 말 복사 금지"},
+    "clicks": {"kind": "box", "many": true, "desc": "커서가 차례로 누를 점(녹화 좌표)"},
+    "hit_click": {"kind": "words", "desc": "클릭 시각(말에서 그 칸을 짚는 단어)"},
+    "hit_type":  {"kind": "words", "desc": "타자 시작·끝 단어 시각(값마다)"},
+    "hit_pill":  {"kind": "words", "desc": "알약이 나오는 단어 시각"},
+    "zoom":   {"kind": "number", "range": [1.45, 1.8], "default": 1.45, "desc": "녹화 확대 배율 (13 1.45 · 04 약 1.5 · 08 1.8)"}
+  },
+  "drawn_allowed": ["UI위젯", "테두리번짐", "반짝선", "카드바탕", "글자"],
+  "keepout": ["사람PIP", "자막띠", "판밖"],
+  "timeline": [
+    {"at": "t0", "do": "녹화가 설정 칸 쪽으로 확대", "to": "zoom", "dur": 0.5, "ease": "ez"},
+    {"at": "word:hit_click[i]", "do": "커서가 칸으로 이동해 누름 — 커서 100→84%(눌림 0.06 전→0.14 뒤 복귀) + 클릭 고리 35→130%", "dur": 0.42, "ease": "eo"},
+    {"at": "word:hit_type[i]", "do": "값 타자 — Linear Wipe 270°·페더 2 로 왼쪽부터, 캐럿(파랑 4px)이 끝을 따라감, 다 쓰고 두 번 깜빡이고 사라짐", "dur": 0.64, "ease": "lin"},
+    {"at": "word:hit_pill[i]", "do": "알약 72→100% 팝 + 옆에서 20px 들어옴", "dur": 0.24, "ease": "eo"},
+    {"at": "word:hit_pill[i]+0.04", "do": "강조 포인트 — 테두리 번짐(불투명 0→95%, 100→108·118% 확대, 0.5초에 사라짐) + 반짝 선 3줄(35→100→115%)", "dur": 0.5, "ease": "eo"},
+    {"at": "t1-0.45", "do": "카메라 원위치 100%", "dur": 0.45, "ease": "ez"}
+  ],
+  "look": {
+    "blue": "#0064E0", "red": "#D63028", "ink": "#1C1E21",
+    "ui_font": "Noto Sans KR 굵기 500 · 25px (맑은 고딕 25px 는 받침이 뭉개져 금지)",
+    "caret": "파랑 4×32", "ring_width_px": 5, "spark": "3줄(위·대각·오른쪽), 선 폭 9",
+    "zoom_in_sec": 0.5, "zoom_out_sec": 0.45
+  },
+  "sfx": [
+    {"at": "t0", "role": "in", "meaning": "중립"},
+    {"at": "word:hit_click[i]", "role": "click", "meaning": "중립"},
+    {"at": "word:hit_type[i]", "role": "type", "meaning": "중립"},
+    {"at": "word:hit_pill[i]", "role": "st1", "meaning": "중립"},
+    {"at": "word:hit_pill[sum]", "role": "ok", "meaning": "긍정"},
+    {"at": "word:hit_click[off]", "role": "no", "meaning": "부정"},
+    {"at": "t1-0.45", "role": "back", "meaning": "중립"}
+  ],
+  "rules": [
+    "녹화 글자를 덮는 판은 투명도를 낮추지 않는다 — 꺼짐은 불투명 회색판으로 교체 (10-08 13 1판 «글자 깨짐» 원인)",
+    "글자가 뜰 때마다 강조 포인트(반짝 선 + 테두리 번짐), 커서는 실제로 누르고 값은 타자 — 페이드로만 뜨면 밋밋하다 (10-08 13)",
+    "카메라 위치는 녹화 기본 틀 밖(주소창·탭·북마크)이 보이지 않게 묶는다 — bisa_ab_live.cam_at (10-08 13)",
+    "UI 글자는 Noto Sans KR 500, 렌더 뒤 그 글자를 원본 크기로 잘라 확인 (10-08 13 «또 깨졌어»)",
+    "클릭 소리는 두 파일 번갈아(마우스 클릭 ↔ 15. 마우스클릭) — 연달아 같은 소리 금지 (sfx-workflow.md S4)",
+    "숫자·값은 말에 근거 — 근거 자막 시각을 basis 로 (auto-pipeline.md 6-3)",
+    "알약·값에 업체명·계정 ID·전화번호 금지(○○ · 010-0000-0000) — CLAUDE.md 4"
+  ],
+  "rejected": [
+    "10-07 08 1판 «왜 핸드폰으로 연출했어, 각 상황에 맞게 연출 구도 잡아야지 · 실제 세팅 페이지에서 설정하는 느낌으로 · 비교 연출도 너무 많으면 안 좋아, 이번엔 다른 연출로»",
+    "10-08 13 1판 «13번 뭐 글자가 생길 때 나오는 포인트들도 없고 왼쪽 상단엔 글자도 깨지고 연출도 없고 해서 몰입이 안 됨, 다시 만들어 줘»",
+    "10-08 13 2판 «또 깨졌어» (맑은 고딕 25px 받침 뭉개짐 → Noto Sans KR)"
+  ],
+  "sample": {"values": ["세트 A", "세트 B"], "pills": ["광고 2개"], "zoom": 1.45},
+  "fallback": ["CA-03", "EM-02"],
+  "from": "tools/examples/bisa_ab_live.py (typed · point · cam_at · cursor · pop) · bisa_ab_setup.py(FRAME·S·A)",
+  "basis": "motion-graphics.md 2장 04·08 통과 · 4장 08·13 반려 · 0장 갈래 «녹화 실화면에서 값 넣기»",
+  "todo": [
+    "한 값 단위로 쪼갰을 때 최소 길이 — 04 약 7.7초, 08 약 34초, 13 약 31초가 실측일 뿐이라 duration [5,35] 는 초기값 — 첫 견본에서 정함 (EM 서랍 기준 1~8초와도 맞춰야 함)",
+    "base 판(녹화 실제 줄 그림에서 글자를 지운 것)을 정지 녹화 프레임에서 자동으로 만드는 도구가 아직 없다 — 13 은 FRAME 한 장을 손으로 지정",
+    "sfx 의 word:hit_pill[sum]·word:hit_click[off] 같은 별칭은 연출표에서 박자마다 실제 단어 시각으로 풀어 쓴다",
+    "04 이름 타자의 확대 배율은 문서마다 «1.5배»로만 적혀 있어 범위 하한 1.45(13 코드) 와 맞는지 첫 견본에서 확인"
+  ]
+}

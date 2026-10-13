@@ -1,0 +1,120 @@
+{
+  "id": "OE-01",
+  "name": "로고빛스침오프닝",
+  "drawer": "OE",
+  "version": 1,
+  "status": "신규",
+  "engine": "ae",
+  "subject": [
+    "브랜드"
+  ],
+  "source_ref": [
+    "분양4 04 건설사 로고(분양 통과, 쇼츠 motion-graphics.md 9장)",
+    "쇼츠 motion-graphics.md «로고 효과음 = 짧은 효과음만(휘익 → 맑은 종 한 번 → 반짝, 1.8초)»"
+  ],
+  "summary": "가로 빛줄기 → 워드마크가 가운데서 양옆으로 열림(흐림→선명) → 보조 로고 떠오름 → 빛이 글자 안을 스치는 2.4초 로고 오프닝",
+  "use_when": [
+    "한 편 시작"
+  ],
+  "avoid_when": [],
+  "screens": [
+    "PIP",
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "L5",
+  "moves_person": false,
+  "duration": [
+    2.4,
+    2.4
+  ],
+  "slots": {
+    "logo": {
+      "kind": "image",
+      "source": [
+        "brand"
+      ],
+      "alpha": true,
+      "desc": "한비즈 로고 워드마크 — 소재/브랜드 원본(logo_wordmark.png 등). 새로 그리지 않음"
+    },
+    "sub": {
+      "kind": "image",
+      "source": [
+        "brand"
+      ],
+      "alpha": true,
+      "desc": "보조 로고(영문 줄) — logo_word_en.png"
+    },
+    "bg": {
+      "kind": "choice",
+      "options": [
+        "크림 #F6F4EF",
+        "잉크 남색 #080D22"
+      ],
+      "desc": "바탕 판 — 느낌 팩 palette 를 따른다"
+    }
+  },
+  "drawn_allowed": [
+    "판",
+    "빛훑기",
+    "테두리번짐"
+  ],
+  "keepout": [],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "가로 빛줄기"
+    },
+    {
+      "at": "빛줄기 뒤",
+      "do": "워드마크가 가운데서 양옆으로 열림(흐림→선명, 108→100%)",
+      "ease": "eo"
+    },
+    {
+      "at": "워드마크 뒤",
+      "do": "보조 로고 떠오름"
+    },
+    {
+      "at": "마지막",
+      "do": "빛 스침 — 띠가 글자 안을 왼→오로 지나가고 글자 둘레에 번짐"
+    }
+  ],
+  "look": {
+    "total_sec": 2.4,
+    "open_scale_from_pct": 108
+  },
+  "sfx": [
+    {
+      "at": "로고 첫 등장",
+      "role": "logo_first",
+      "file": "ML_Page forward single chime.wav 또는 맑은소리.mp3",
+      "meaning": "긍정"
+    },
+    {
+      "at": "빛 스침",
+      "role": "shine",
+      "meaning": "긍정"
+    }
+  ],
+  "rules": [
+    "로고는 새로 그리지 않고 원본 그대로 — 조각으로 쓸 때도 원본 이미지를 잘라 쓴다(조각을 다시 합치면 원본과 픽셀 차이 최대 7) — 쇼츠 납품/시안_로고엔딩_1008/읽어보기.txt, motion-typo.md C «로고를 AI 로 다시 그림 금지»",
+    "로고는 사물이라 반드시 image 칸(source brand)이다 — README 4장",
+    "로고 효과음은 짧은 효과음만, 배경음 아님 — 쇼츠 납품 기록 «배경음 넣는 게 아니라 로고 효과음만» (shorts motion-graphics.md 반려표)",
+    "짙은 로고색이 어두운 바탕에 묻으면 밝은 판 위에 올린다. 어두운 판은 브랜드 navy #021D76 이 아니라 잉크 남색 #080D22 — 파랑 획이 묻는다 (쇼츠 colors.json proposal_for_motion, 10-08 로고 엔딩 시안)",
+    "로고 첫 등장 소리는 통과한 ML_Page forward single chime · 맑은소리 (sfx.md 4-2 «로고·브랜드 첫 등장»)",
+    "오프닝은 원문 앞에 붙는다 — 원문 본문 길이는 불변 (auto-pipeline.md 3-1 OE, 10장 qc 길이)"
+  ],
+  "rejected": [],
+  "fallback": [
+    "OE-02",
+    "OE-03"
+  ],
+  "from": "쇼츠 .claude/skills/shorts-ad/references/motion-graphics.md «04 건설사 로고» (AE 2.4초) — 코드 파일은 이 폴더에 없다",
+  "basis": "auto-pipeline.md 4장 OE-01 «분양4 통과 결» · 쇼츠 motion-graphics.md 9장 04",
+  "todo": [
+    "분양 04 는 건설사 로고였고 빛줄기 띠는 금빛이었다 — 한비즈 로고로 바꿀 때 띠 색(amber #FDA608 후보)과 조각 구성은 첫 견본에서 정함",
+    "2.4초 안의 단계별 시각 분할은 기록에 없다 — 초기값, 첫 견본에서 정함",
+    "끝에 정지로 유지하는 시간 — 초기값, 첫 견본에서 정함",
+    "status 는 신규: 분양 04 의 «통과» 는 건설사 로고 장면이지 이 템플릿이 아니다"
+  ]
+}

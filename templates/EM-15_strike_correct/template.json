@@ -1,0 +1,132 @@
+{
+  "id": "EM-15",
+  "name": "취소선정정",
+  "drawer": "EM",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "글자"
+  ],
+  "source_ref": [
+    "웹#28 취소선 정정 (웹 조사 EM 카테고리 Circle/Strike marker)",
+    "origin-session-1008.md #34 줄 그은 금지 칩"
+  ],
+  "summary": "틀린 말·옛 기준에 줄을 그어 지우고 옆(또는 아래)에 바른 말을 놓는다. «이렇게 말고 이렇게»",
+  "use_when": [
+    "경고·실수",
+    "개념 비교",
+    "정의·조건"
+  ],
+  "avoid_when": [
+    "가림",
+    "일상 상황"
+  ],
+  "tones": {
+    "TN-1": 0.8,
+    "TN-2": 0.6,
+    "TN-3": 0.4,
+    "TN-4": 0.8
+  },
+  "screens": [
+    "풀샷",
+    "PIP",
+    "사람없음"
+  ],
+  "layer": "L4",
+  "moves_person": false,
+  "duration": [
+    1.5,
+    5
+  ],
+  "slots": {
+    "wrong": {
+      "kind": "text",
+      "max_chars": 10,
+      "rule": "화면 글은 말을 받치는 개념어 — 말 복사·«» 대사 금지, 숫자는 말에 근거 (사장님 10-08 17·19)"
+    },
+    "right": {
+      "kind": "text",
+      "max_chars": 10,
+      "rule": "화면 글은 말을 받치는 개념어 — 말 복사·«» 대사 금지, 숫자는 말에 근거 (사장님 10-08 17·19)"
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "wrong 줄이 그어지는 단어 시각 · right 가 나오는 단어 시각 두 개"
+    },
+    "area": {
+      "kind": "box",
+      "desc": "안전영역"
+    }
+  },
+  "drawn_allowed": [
+    "밑줄",
+    "글자"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "word:hit[0]",
+      "do": "wrong 에 취소선이 좌→우로 그어짐",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[1]",
+      "do": "right 가 등장(wrong 은 연하게 남음)",
+      "dur": 0.22,
+      "ease": "eo"
+    },
+    {
+      "at": "t1",
+      "do": "컷에서 같이 끝",
+      "dur": 0.15,
+      "ease": "lin"
+    }
+  ],
+  "look": {
+    "strike_color": "빨강 — 정확한 색값 초기값 — 첫 견본에서 정함",
+    "right_color": "강조색 하나"
+  },
+  "sfx": [
+    {
+      "at": "word:hit[0]",
+      "role": "no",
+      "meaning": "부정"
+    },
+    {
+      "at": "word:hit[1]",
+      "role": "st1",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "정정은 틀린 말이 실제로 말에 나온 경우에만 — 없는 오류를 지어내지 않는다",
+    "화면 글은 말을 받치는 개념어 — 말 복사·«» 대사 금지, 숫자는 말에 근거 (사장님 10-08 17·19)",
+    "움직임은 그 말의 단어 시각(±2프레임)에 건다 — 타이머 간격 금지 (상황 강령 0장 2 · SKILL 3장)",
+    "한 장면 3색 이하 — 바탕·글·강조 하나 (motion-graphics 2-1장 원칙 1)",
+    "html 계약(쇼츠 tools/html_motion.py): window.W/H/FPS/DURATION · seek(t) 는 t 만의 순수 함수(CSS transition·타이머·Math.random 금지) · PALETTE 3색 이하 (EM-04 와 같은 틀)",
+    "EM-16(타자로 고치는 정정)과 연달아 쓰지 않는다 — 같은 뜻 연출 반복 (상황 강령 0장 6)"
+  ],
+  "rejected": [],
+  "sample": {
+    "wrong": "분기별 접수",
+    "right": "매달 접수"
+  },
+  "fallback": [
+    "EM-16",
+    "EM-26"
+  ],
+  "from": "웹 조사 EM 카테고리(Strike marker) — 한비즈 견본 없음",
+  "basis": "web-research-1008.md 2장",
+  "todo": [
+    "웹#28 수치 없음 — 취소선 굵기·시간 초기값 — 첫 견본에서 정함",
+    "예시 문구는 견본용 일반값(실제 말이 아님)",
+    "가로 1920×1080·59.94fps 재배치 — 프레임 수는 29.97 기준이면 초로 환산해 다시 맞춘다"
+  ]
+}

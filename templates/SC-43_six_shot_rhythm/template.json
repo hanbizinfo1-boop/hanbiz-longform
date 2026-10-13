@@ -1,0 +1,127 @@
+{
+  "id": "SC-43",
+  "name": "샷6종교대",
+  "drawer": "SC",
+  "version": 1,
+  "status": "신규",
+  "engine": "compose",
+  "subject": [
+    "캐릭터",
+    "자료이미지"
+  ],
+  "source_ref": [
+    "쇼츠 K5 (koba-lecture-part2.md 샷 6종: Wide·Medium/CU·Detail·Insert·POV·Metaphor)",
+    "쇼츠 M8 (koba-maestro.md 2D 스타일 일관 + 광각 왜곡·더치 앵글)"
+  ],
+  "summary": "같은 캐릭터·자료로 샷 종류를 바꿔 가며(큰 컷↔작은 컷) 컷 리듬을 만든다 — 단조로운 한 컷을 샷 6종으로 쪼갠다",
+  "use_when": [
+    "일상 상황",
+    "사례·후기",
+    "현실 공간·사람"
+  ],
+  "avoid_when": [
+    "설정·버튼",
+    "숫자·금액"
+  ],
+  "tones": {
+    "TN-1": 0.8,
+    "TN-2": 0.8,
+    "TN-3": 0.3,
+    "TN-4": 0.1
+  },
+  "screens": [
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "L2",
+  "moves_person": false,
+  "duration": [
+    6,
+    25
+  ],
+  "slots": {
+    "shots": {
+      "kind": "image",
+      "source": [
+        "char2d",
+        "codex"
+      ],
+      "style": "2D 플랫",
+      "alpha": false,
+      "desc": "샷 종류별 이미지 — Wide·Medium/CU·Detail·Insert·POV·Metaphor 중 필요한 것(같은 캐릭터)",
+      "many": true
+    },
+    "inserts": {
+      "kind": "image",
+      "source": [
+        "doc",
+        "codex"
+      ],
+      "style": "실사 사진",
+      "alpha": false,
+      "desc": "디테일·인서트용 자료 클로즈업",
+      "many": true,
+      "optional": true
+    },
+    "shot_types": {
+      "kind": "choice",
+      "many": true,
+      "desc": "쓸 샷 종류 순서"
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "컷이 바뀌는 단어 시각"
+    }
+  },
+  "drawn_allowed": [],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "word:hit[i]",
+      "do": "샷 i 로 컷 — 앞 샷과 크기가 달라야 함",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "shot_sizes": [
+      "Wide",
+      "Medium/CU",
+      "Detail",
+      "Insert",
+      "POV",
+      "Metaphor"
+    ],
+    "style": "M8: 광각 왜곡·더치 앵글 같은 촬영 말투는 시작프레임 영문 프롬프트로"
+  },
+  "sfx": [
+    {
+      "at": "word:hit[i]",
+      "role": "cut",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "같은 인물 이어 쓰기, 컷마다 스타일 일치 (M8)",
+    "캐릭터 스타일은 한 편에 하나 (README 8장)",
+    "컷 길이는 말에 맞춰 — 0.6초 인지 텀을 깎지 않는다 (원칙 13)",
+    "Metaphor·POV 컷은 시작프레임을 Codex 로 먼저 만든다 — 유료 영상화는 장면당 한 건 (CLAUDE.md 3)"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "SC-07",
+    "SC-08"
+  ],
+  "from": "코드 없음 — 쇼츠 K5·M8 서술",
+  "basis": "shorts-notes-index-1008.md K5 · M8",
+  "todo": [
+    "컷 길이 리듬: 노트엔 Maestro 5박 리듬이라고만 — 수치 초기값 — 첫 견본에서 정함",
+    "SC-39 와 겹침: 39 는 한 컷 안 연기, 43 은 컷 리듬 — 구분 유지"
+  ]
+}

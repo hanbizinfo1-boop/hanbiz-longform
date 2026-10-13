@@ -1,0 +1,111 @@
+{
+  "id": "GU-08",
+  "name": "HUD틀",
+  "drawer": "GU",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "글자"
+  ],
+  "source_ref": [
+    "원#35 HUD 잔글씨 «02 / 05»·눈금 작고 연하게",
+    "쇼츠 E4 HUD 템플릿 (entry-reel-opus.md)",
+    "쇼츠 B-9 구석 크롬 (typography-remotion.md 4-9)",
+    "쇼츠 AS-2 라벨-제목-HUD (astra-branding.md 카드 2)"
+  ],
+  "summary": "한 편 내내 화면 구석에 같은 자리로 깔리는 잔글씨 틀 — 모서리 괄호·섹션 라벨·«02 / 05»·진행 눈금. 정보가 아니라 장면 번호 + 브랜딩 틀",
+  "use_when": [
+    "챕터 시작",
+    "정리·목차"
+  ],
+  "avoid_when": [
+    "설정·버튼",
+    "화면 속 특정 부분"
+  ],
+  "tones": {
+    "TN-1": 0.5,
+    "TN-2": 0.1,
+    "TN-3": 1.0,
+    "TN-4": 0.3
+  },
+  "screens": [
+    "PIP",
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "L4",
+  "moves_person": false,
+  "duration": [
+    0,
+    0
+  ],
+  "slots": {
+    "index": {
+      "kind": "number",
+      "desc": "지금 챕터 번호"
+    },
+    "total": {
+      "kind": "number",
+      "desc": "챕터 총수"
+    },
+    "label": {
+      "kind": "text",
+      "desc": "섹션 라벨(영문 소형 대문자 가능)",
+      "max_chars": 12,
+      "optional": true,
+      "rule": "업체명·번호 금지, 한글 메시지를 대신하지 않는다"
+    }
+  },
+  "drawn_allowed": [
+    "HUD",
+    "글자",
+    "구분선"
+  ],
+  "keepout": [
+    "자막띠",
+    "사람PIP"
+  ],
+  "timeline": [
+    {
+      "at": "한 편 시작",
+      "do": "모서리 괄호·라벨·진행 눈금 페이드 인(한 번만)",
+      "dur": 0.3,
+      "ease": "eo"
+    },
+    {
+      "at": "챕터가 바뀔 때",
+      "do": "«NN / NN» 숫자와 진행 눈금만 바뀐다(자리 고정)",
+      "dur": 0.216,
+      "ease": "eo"
+    },
+    {
+      "at": "한 편 끝",
+      "do": "엔딩 직전 페이드 아웃 — 엔딩에서 같은 틀을 닫는다(OE-13 북엔드)",
+      "ease": "lin"
+    }
+  ],
+  "look": {},
+  "sfx": [],
+  "rules": [
+    "HUD 는 작고 연하게 구석에만 — 정보를 싣지 않는다 (원#35, typography-remotion.md 4-9)",
+    "업체명·번호를 넣지 않는다 — «01/04» 같은 진행 눈금만 (CLAUDE.md 4, typography-remotion.md 4-9)",
+    "구석 글씨 약 14px@1080 은 폰에서 안 읽혔다 — 크기는 시청 기기를 정해 첫 견본에서 재 본다 (claude-motion-graphics.md 3-5 판정표)",
+    "자막 띠(y 967~1041)·사람 PIP(원형 중심 (126,964) 반지름 약 123px)를 가리지 않는다 — lecture-graphics.md 1·4장, 10-08 18 겹침 없음",
+    "시그니처 모티프 하나 — 한 편 안에서 HUD 모양을 바꾸지 않는다 (motion-graphics.md 2-1 원칙 2)",
+    "글꼴에 없는 글자는 glyph_check 로 렌더 전에 막는다 — 10-08 13 (motion-graphics.md 5장)"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "TR-01",
+    "GU-01"
+  ],
+  "from": "쇼츠 study/entry-reel-opus.md E4 · typography-remotion.md 4-9 · astra-branding.md 카드 2 (모두 1080×1920 세로)",
+  "basis": "SKILL 3장 영상미 · motion-graphics.md 2-1 원칙 10 HUD 잔글씨",
+  "todo": [
+    "HUD 크기·불투명도는 TR-01 의 쇼츠 세로 시안 값(괄호 44px·두께 3px·여백 48px·불투명 0.55 / 라벨 26px·자간 0.22em·0.6 / 진행 대시 56×4px·간격 12px)이 유일한 숫자다 — 1920×1080 가로 재배치는 초기값, 첫 견본에서 정함",
+    "한 편 내내 깔면 사람·자막과 겹치는 시간이 길다 — 상시로 깔지 챕터 표지에만 둘지 첫 견본에서 정함",
+    "고스트 번호(E12)·타임코드는 이번 틀에 넣지 않았다 — 필요하면 첫 견본에서 정함"
+  ]
+}

@@ -1,0 +1,144 @@
+{
+  "id": "SC-28",
+  "name": "군집핵심하나",
+  "drawer": "SC",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "자료이미지",
+    "브랜드"
+  ],
+  "source_ref": [
+    "쇼츠 AS-5 (astra-branding.md 카드 5·시안 3 — 조각 군집이 한 조각으로)"
+  ],
+  "summary": "서류 조각 군집이 중앙에서 0.2초에 커져 3초 천천히 회전하다 가운데 서류 한 장이 브랜드색으로 채워지며 앞으로 나온다",
+  "use_when": [
+    "소개·여러 항목",
+    "정리·목차",
+    "브랜드"
+  ],
+  "avoid_when": [
+    "설정·버튼",
+    "숫자·금액"
+  ],
+  "tones": {
+    "TN-1": 0.8,
+    "TN-2": 0.5,
+    "TN-3": 0.6,
+    "TN-4": 0.1
+  },
+  "screens": [
+    "사람없음"
+  ],
+  "layer": "L5",
+  "moves_person": false,
+  "duration": [
+    4,
+    10
+  ],
+  "slots": {
+    "pieces": {
+      "kind": "image",
+      "source": [
+        "codex"
+      ],
+      "style": "실사 사진",
+      "alpha": false,
+      "desc": "군집 조각이 될 서류 사진 8~10종(서로 다른 종류, 업체명 ○○)",
+      "many": true
+    },
+    "core": {
+      "kind": "image",
+      "source": [
+        "codex",
+        "brand"
+      ],
+      "style": "실사 사진",
+      "alpha": false,
+      "desc": "가운데로 나올 핵심 서류 한 장 또는 로고 평면판"
+    },
+    "word": {
+      "kind": "text",
+      "rule": "핵심 개념어 한 줄(제목 자리, 말 따라 쓰기 금지)",
+      "max_chars": 8,
+      "optional": true
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "핵심이 나오는 말"
+    }
+  },
+  "drawn_allowed": [
+    "어둡게덮기",
+    "글자"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "작은 군집이 중앙에서 커져 원형 군집",
+      "dur": 0.2,
+      "ease": "eo"
+    },
+    {
+      "at": "t0+0.2",
+      "do": "느린 회전, 조각마다 조금씩 이동",
+      "dur": 3,
+      "ease": "ez"
+    },
+    {
+      "at": "word:hit",
+      "do": "가운데 한 장이 브랜드색으로 채워지며 앞으로",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "t1-0.36",
+      "do": "닫힘",
+      "dur": 0.36,
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "expand_sec": 0.2,
+    "rotate_sec": 3,
+    "colors": "군집 회색-청색 단색 투명도 단계, 가운데 한 장 브랜드색 (astra 시안 3)"
+  },
+  "sfx": [
+    {
+      "at": "t0",
+      "role": "sweep",
+      "meaning": "중립"
+    },
+    {
+      "at": "word:hit",
+      "role": "impact",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "조각은 삼각형 도형이 아니라 서류 이미지 — 도형 군집은 짜깁기 위험 (astra-branding.md 6장 충돌표)",
+    "확대는 4~8프레임 감속·바운스 없음 (원칙 3)",
+    "큰 쿵은 한 번 (시안 3 소리 설계)",
+    "자동 모드에선 실제 업체·개인정보가 보이는 실자료를 쓰지 않는다 — 재현·Codex, 업체명 ○○ (README 8장, CLAUDE.md 4)"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "SC-26",
+    "OE-05"
+  ],
+  "from": "코드 없음 — astra 카드 5 서술",
+  "basis": "shorts-notes-index-1008.md AS-5",
+  "todo": [
+    "html 렌더 도구 tools/html_motion.py 는 1080×1920·29.97fps 하드코딩 사본 — 가로 1920×1080·59.94 인자화가 먼저(쇼츠 claude-motion-graphics.md 5-4)",
+    "0.2·3초는 원본 세로 값 — 가로 값: 초기값 — 첫 견본에서 정함",
+    "원본 조각 약 60개를 서류 이미지 몇 장으로 줄일지: 8~10종은 시안 값이라 첫 견본에서 정함"
+  ]
+}

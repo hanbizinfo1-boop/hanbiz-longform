@@ -1,0 +1,94 @@
+{
+  "id": "TR-13",
+  "name": "알약카드모핑",
+  "drawer": "TR",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "글자"
+  ],
+  "source_ref": [
+    "쇼츠 V10 알약 → 카드 모핑 (higgsfield-mg.md 해부표)"
+  ],
+  "summary": "입력 알약이 블러되며 사각 카드로 모핑한다. 폭·높이·모서리·불투명도가 보간된다. 단계를 컷 없이 이어 가는 전환",
+  "use_when": [
+    "과정·단계",
+    "소개·여러 항목"
+  ],
+  "avoid_when": [
+    "감정·리액션"
+  ],
+  "tones": {
+    "TN-1": 0.9,
+    "TN-2": 0.3,
+    "TN-3": 0.7,
+    "TN-4": 0.7
+  },
+  "screens": [
+    "사람없음",
+    "풀샷"
+  ],
+  "layer": "L5",
+  "moves_person": false,
+  "duration": [
+    0.4,
+    0.8
+  ],
+  "slots": {
+    "pill_text": {
+      "kind": "text",
+      "desc": "알약 안의 글(개념어)",
+      "max_chars": 14,
+      "rule": "말 복사·«» 금지"
+    },
+    "card_text": {
+      "kind": "text",
+      "desc": "카드로 변한 뒤의 글",
+      "max_chars": 14,
+      "rule": "말 복사·«» 금지"
+    },
+    "morph_t": {
+      "kind": "words",
+      "desc": "모핑이 시작하는 단어 시각"
+    }
+  },
+  "drawn_allowed": [
+    "카드바탕",
+    "UI위젯",
+    "글자"
+  ],
+  "keepout": [
+    "자막띠",
+    "사람PIP"
+  ],
+  "timeline": [
+    {
+      "at": "word:morph_t",
+      "do": "알약이 블러되며 사각 카드로 모핑 — 폭·높이·모서리·불투명도 보간",
+      "dur": 0.4,
+      "ease": "ez"
+    }
+  ],
+  "look": {},
+  "sfx": [],
+  "rules": [
+    "카드는 알파 255 구멍 없이 — 변형 중간의 회색 덩어리 판 3~4프레임이 보이지 않게 한다 (claude-motion-graphics.md 3-5 판정표 결함, SKILL.md 3장)",
+    "글꼴에 없는 글자는 glyph_check 로 렌더 전에 막는다 — 10-08 13 (motion-graphics.md 5장)",
+    "UI 한 도형 모핑은 간격 0.6초 이상 — CM-2 (쇼츠 index «간격 0.6초+»), 새 요소는 혼자 0.6초 이상 — 10-07 10 «급해서 정신없는 느낌» (SKILL.md 3장)",
+    "등장은 감속(eo), 오버슈트 없음 — motion-graphics.md 2-1 원칙 3"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "TR-02",
+    "EM-04"
+  ],
+  "from": "쇼츠 study/higgsfield-mg.md V10 (23.5~24.2초 구간)",
+  "basis": "higgsfield-mg.md 해부표 V10·V11",
+  "todo": [
+    "모핑 시간은 노트에 숫자가 없다(24.2 부근 한 프레임 묘사뿐) — 초기값, 첫 견본에서 정함",
+    "알약은 UI 위젯(입력칸)이지 사물 흉내가 아니다 — 알약으로 사물을 흉내 내지 않는다. 입력창 글을 화면 글로 두는 문구 규칙은 첫 견본에서 확인",
+    "duration 은 서랍 범위(auto-pipeline.md 3-1장) 안의 초기값 — 첫 견본에서 정함"
+  ]
+}

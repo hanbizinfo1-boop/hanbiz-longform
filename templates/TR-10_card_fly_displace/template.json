@@ -1,0 +1,174 @@
+{
+  "id": "TR-10",
+  "name": "카드날아와비킴",
+  "drawer": "TR",
+  "version": 1,
+  "status": "대기",
+  "engine": "ae",
+  "subject": [
+    "자료이미지"
+  ],
+  "source_ref": [
+    "원#75 카드 날아와 앞 카드 비킴 + X (분양1 sg_motion.py cards(), 통과)",
+    "원#75 사장님 09-29 «X 자가 이상한데» → 오버슈트 없이 흐리게→진하게"
+  ],
+  "summary": "자료 카드가 좌하단에서 회전하며 날아오고, 둘째 카드가 우하단에서 오면 앞 카드는 좌상단으로 작아져 비킨다. 이어 X 가 살짝 크고 흐리게 나타나 진해지며 제자리",
+  "use_when": [
+    "자료 등장",
+    "소개·여러 항목"
+  ],
+  "avoid_when": [
+    "설정·버튼"
+  ],
+  "tones": {
+    "TN-1": 0.8,
+    "TN-2": 0.7,
+    "TN-3": 0.2,
+    "TN-4": 0.4
+  },
+  "screens": [
+    "사람없음",
+    "PIP"
+  ],
+  "layer": "L4",
+  "moves_person": false,
+  "duration": [
+    3,
+    3.2
+  ],
+  "slots": {
+    "card_1": {
+      "kind": "image",
+      "source": [
+        "doc",
+        "codex",
+        "crawl"
+      ],
+      "style": "실사 사진",
+      "alpha": true,
+      "desc": "첫째 자료 카드 이미지(공고문·서식 — 업체명·번호 금지)"
+    },
+    "card_2": {
+      "kind": "image",
+      "source": [
+        "doc",
+        "codex",
+        "crawl"
+      ],
+      "style": "실사 사진",
+      "alpha": true,
+      "desc": "둘째 자료 카드 이미지"
+    },
+    "x_mark": {
+      "kind": "image",
+      "source": [
+        "codex"
+      ],
+      "style": "2D 플랫",
+      "alpha": true,
+      "desc": "X 표시 이미지(빨강)",
+      "optional": true
+    },
+    "card2_t": {
+      "kind": "words",
+      "desc": "둘째 카드를 말하는 단어 시각"
+    },
+    "x_t": {
+      "kind": "words",
+      "desc": "X 를 말하는 단어 시각"
+    }
+  },
+  "drawn_allowed": [],
+  "keepout": [
+    "자막띠",
+    "사람PIP"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "첫째 카드가 좌하단에서 회전(−28→0°)하며 날아옴 — 이동 (−560,620)→0, 배율 80→100%, 8프레임(30fps)",
+      "dur": 0.27,
+      "ease": "eo"
+    },
+    {
+      "at": "word:card2_t",
+      "do": "둘째 카드가 우하단에서 회전(26→0°)하며 날아옴 (560,640)→0",
+      "dur": 0.27,
+      "ease": "eo"
+    },
+    {
+      "at": "word:card2_t",
+      "do": "앞 카드는 좌상단 (−241,−310) 으로 이동하며 배율 ×0.71",
+      "dur": 0.27,
+      "ease": "eo"
+    },
+    {
+      "at": "word:x_t",
+      "do": "X 가 배율 112→100%·불투명 15→100% 로 4프레임에 진해지며 제자리 (오버슈트 없음)",
+      "dur": 0.13,
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "ease_frames_30fps": 8,
+    "card1_from": {
+      "dx": -560,
+      "dy": 620,
+      "rot": -28,
+      "scale": 0.8
+    },
+    "card2_from": {
+      "dx": 560,
+      "dy": 640,
+      "rot": 26,
+      "scale": 0.8
+    },
+    "card1_displace": {
+      "dx": -241,
+      "dy": -310,
+      "scale_mult": 0.71
+    },
+    "x_scale_from": 1.12,
+    "x_alpha_from": 0.15,
+    "x_frames_30fps": 4
+  },
+  "sfx": [
+    {
+      "at": "t0",
+      "role": "sweep",
+      "meaning": "중립"
+    },
+    {
+      "at": "word:card2_t",
+      "role": "sweep",
+      "meaning": "중립"
+    },
+    {
+      "at": "word:x_t",
+      "role": "no",
+      "meaning": "부정"
+    }
+  ],
+  "rules": [
+    "X 는 살짝 크게 흐리게 나타나 진해지며 제자리 — 튀는 오버슈트 없음. 사장님 09-29 «X 자가 이상한데» (sg_motion.py even_x/cards)",
+    "자막(y 1108~1191, 세로 기준)을 피해 카드를 위로 올린다 — 롱폼은 자막 띠 y 967~1041 을 피한다 (sg_motion.py BOOK_DY, 자막 띠(y 967~1041)·사람 PIP(원형 중심 (126,964) 반지름 약 123px)를 가리지 않는다 — lecture-graphics.md 1·4장, 10-08 18 겹침 없음)",
+    "카드는 알파 255 — 구멍·반투명 금지 (SKILL.md 3장)",
+    "등장은 감속(eo), 오버슈트 없음 — motion-graphics.md 2-1 원칙 3",
+    "소리는 부정 뜻(X)에 부정 소리 — 10-08 22"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "EM-06",
+    "EM-07"
+  ],
+  "from": "D:/영상제작/도구/광고편집/sg_motion.py cards() (8프레임 ease · 이동·배율 값)",
+  "basis": "origin-session-1008.md 4장 #75 · 쇼츠 분양1 통과",
+  "todo": [
+    "px·좌표·길이는 1080×1920 세로 노트 값이거나 없음 — 1920×1080 가로 재배치는 초기값, 첫 견본에서 정함",
+    "쇼츠 노트는 29.97~30fps 기준 — 59.94fps 프레임 환산은 첫 견본에서 확인",
+    "sg_motion.py 에 back()(오버슈트) 함수가 있으나 cards() 는 ease 만 쓴다 — 오버슈트는 쓰지 않았다",
+    "분양 쇼츠(세로) 통과라 롱폼 가로 통과 이력은 없다 → 대기",
+    "X 이미지: 도형 X 가 아니라 이미지 칸 — 어떤 X(손글씨·도장)로 할지 첫 견본에서 정함"
+  ]
+}

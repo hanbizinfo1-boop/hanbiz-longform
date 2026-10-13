@@ -1,0 +1,95 @@
+{
+  "id": "OE-18",
+  "name": "그라디언트워드마크",
+  "drawer": "OE",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "브랜드",
+    "글자"
+  ],
+  "source_ref": [
+    "쇼츠 AS-3 글자 단위 그라디언트 타이틀 (astra-branding.md 카드 3 — navy→blue, 13.5–14.2)"
+  ],
+  "summary": "큰 워드마크를 글자마다 다른 세로 그라디언트로 채우고 0.1~0.2초 간격으로 한 글자씩 올린다. 브랜드색 한 톤의 명도 단계(navy → blue)로만",
+  "use_when": [
+    "한 편 끝",
+    "한 편 시작",
+    "브랜드"
+  ],
+  "avoid_when": [],
+  "tones": {
+    "TN-1": 0.4,
+    "TN-2": 0.2,
+    "TN-3": 1.0,
+    "TN-4": 0.2
+  },
+  "screens": [
+    "PIP",
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "L5",
+  "moves_person": false,
+  "duration": [
+    1,
+    3
+  ],
+  "slots": {
+    "wordmark": {
+      "kind": "text",
+      "desc": "워드마크 글자(브랜드명 2~4자)",
+      "max_chars": 6,
+      "rule": "실제 브랜드 표기는 사장님 파일 기준"
+    },
+    "gradient": {
+      "kind": "choice",
+      "desc": "그라디언트 색 쌍 — 브랜드색 한 톤의 명도 단계",
+      "default": "navy→blue"
+    }
+  },
+  "drawn_allowed": [
+    "글자"
+  ],
+  "keepout": [
+    "자막띠",
+    "사람PIP"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "글자마다 세로 그라디언트(navy→blue)로 채워진 채 한 글자씩 올라온다 — 0.1~0.2초 간격",
+      "dur": 0.7,
+      "ease": "eo"
+    }
+  ],
+  "look": {},
+  "sfx": [
+    {
+      "at": "t0",
+      "role": "logo_first",
+      "meaning": "긍정"
+    }
+  ],
+  "rules": [
+    "색은 브랜드색 한 톤의 명도 변화만 — 무지개 7색은 3색 규칙과 충돌해 쓰지 않는다 (astra-branding.md 6장, 장면 안은 3색(바탕·글·강조 하나) — motion-graphics.md 2-1 원칙 1)",
+    "한 글자씩 0.1~0.2초 간격 — 단어 단위 반 박 (motion-graphics.md 2-1 원칙 4)",
+    "로고 이미지가 있으면 로고는 원본 그대로 쓰고 이 템플릿은 글자 워드마크가 로고가 아닐 때만 — 로고를 다시 그리지 않는다 (OE-02 규칙)",
+    "엔딩은 원문 뒤에 붙는다 — 원문 본문 길이는 불변 (auto-pipeline.md 3-1 OE)",
+    "글꼴에 없는 글자는 glyph_check 로 렌더 전에 막는다 — 10-08 13 (motion-graphics.md 5장)"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "OE-02",
+    "OE-14"
+  ],
+  "from": "쇼츠 study/astra-branding.md 카드 3 (13.5–14.2)",
+  "basis": "astra-branding.md 4장 카드 3",
+  "todo": [
+    "navy·blue 의 실제 색값은 노트에 없다 — 쇼츠 로고 엔딩 시안의 navy #021D76·로열 #0639A4 를 후보로 보나 사장님 파일 확인 필요",
+    "원본 글자 수는 PRISM(영문 5자) — 한글 3글자(«한비즈»)에서의 간격은 첫 견본에서 정함",
+    "글자별 그라디언트를 AE 로 할지 html(background-clip:text) 로 할지는 engine html 로 두되 첫 견본에서 정함"
+  ]
+}

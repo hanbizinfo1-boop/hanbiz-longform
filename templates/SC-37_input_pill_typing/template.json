@@ -1,0 +1,131 @@
+{
+  "id": "SC-37",
+  "name": "입력알약타자",
+  "drawer": "SC",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "글자",
+    "데이터"
+  ],
+  "source_ref": [
+    "쇼츠 V4 (higgsfield-mg.md, 8.2–9.8)",
+    "쇼츠 B-12 (typography-remotion.md 터미널 타자)"
+  ],
+  "summary": "점이 알약으로 늘어나 어두운 입력창이 되고 글자가 한 글자씩 쳐진 뒤 버튼이 눌린다 — 질문·명령을 입력하는 장면",
+  "use_when": [
+    "질문",
+    "설정·버튼",
+    "용어 제시"
+  ],
+  "avoid_when": [
+    "일상 상황"
+  ],
+  "tones": {
+    "TN-1": 0.3,
+    "TN-2": 0.3,
+    "TN-3": 0.7,
+    "TN-4": 0.8
+  },
+  "screens": [
+    "PIP",
+    "사람없음"
+  ],
+  "layer": "L2",
+  "moves_person": false,
+  "duration": [
+    3,
+    10
+  ],
+  "slots": {
+    "query": {
+      "kind": "text",
+      "rule": "입력 글자 — 질문·키워드 개념어",
+      "max_chars": 16
+    },
+    "button": {
+      "kind": "text",
+      "rule": "버튼 글",
+      "max_chars": 6,
+      "optional": true
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "타자 시작 / 버튼 누르는 말"
+    }
+  },
+  "drawn_allowed": [
+    "UI위젯",
+    "글자"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "점이 알약으로 확장",
+      "dur": 0.3,
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[0]",
+      "do": "글자 한 글자씩 타자",
+      "dur": 0.06,
+      "ease": "lin"
+    },
+    {
+      "at": "word:hit[1]",
+      "do": "버튼 눌림(어두워짐)",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "t1-0.36",
+      "do": "닫힘",
+      "dur": 0.36,
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "morph_sec": 0.3,
+    "type_sec_per_char": 0.06,
+    "hint": "점→알약 0.3초 · 타자 0.06초/글자 (V4 관찰, 세로)"
+  },
+  "sfx": [
+    {
+      "at": "word:hit[0]",
+      "role": "type",
+      "meaning": "중립"
+    },
+    {
+      "at": "word:hit[1]",
+      "role": "click",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "한글 타자는 완성형 글자 단위로 분해 — 자모 조합 모양 주의 (higgsfield-mg.md V4)",
+    "알약·입력창은 UI 위젯 — 휴대폰·사물은 이미지 칸",
+    "화면 글은 말을 받치는 개념어 — 말 복사·«» 금지(10-08 17·19, SKILL.md 3장)",
+    "새 요소는 0.6초 이상 혼자, 한 문장 새 요소 3개 이하 (10-07 10, motion-graphics.md 2-1장 원칙 13)"
+  ],
+  "rejected": [],
+  "sample": {
+    "query": "한도 조회"
+  },
+  "fallback": [
+    "EM-03",
+    "SC-06"
+  ],
+  "from": "코드 없음 — higgsfield V4 서술",
+  "basis": "shorts-notes-index-1008.md V4 · B-12",
+  "todo": [
+    "html 렌더 도구 tools/html_motion.py 는 1080×1920·29.97fps 하드코딩 사본 — 가로 1920×1080·59.94 인자화가 먼저(쇼츠 claude-motion-graphics.md 5-4)",
+    "입력창 크기·위치·글자 크기 가로 값: 초기값 — 첫 견본에서 정함"
+  ]
+}

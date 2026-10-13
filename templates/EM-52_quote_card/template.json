@@ -1,0 +1,128 @@
+{
+  "id": "EM-52",
+  "name": "인용카드",
+  "drawer": "EM",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "글자",
+    "자료이미지"
+  ],
+  "source_ref": [
+    "웹#35 인용 카드 (웹 조사 EM 카테고리 Quote card)",
+    "예능 자막 «짤·댓글 자막화» (web-research-1008.md 1장 국내 PD)"
+  ],
+  "summary": "공고문 문구·후기·댓글처럼 외부 출처의 문장을 카드에 담아 띄우고 출처 줄을 붙인다. 강사의 말을 복사하는 카드가 아니다",
+  "use_when": [
+    "자료 등장",
+    "사례·후기"
+  ],
+  "avoid_when": [
+    "가림",
+    "일상 상황"
+  ],
+  "tones": {
+    "TN-1": 0.7,
+    "TN-2": 0.8,
+    "TN-3": 0.6,
+    "TN-4": 0.5
+  },
+  "screens": [
+    "풀샷",
+    "PIP",
+    "사람없음"
+  ],
+  "layer": "L4",
+  "moves_person": false,
+  "duration": [
+    2,
+    6
+  ],
+  "slots": {
+    "quote": {
+      "kind": "text",
+      "max_chars": 28,
+      "rule": "외부 출처에 실제로 있는 문장(공고문·후기·댓글)만 — 강사 말 복사 금지. 개인정보는 ○○"
+    },
+    "source": {
+      "kind": "text",
+      "max_chars": 16,
+      "rule": "출처 라벨(공식 문서명 등) — 지어내지 않는다"
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "인용을 소개하는 단어 시각"
+    },
+    "area": {
+      "kind": "box",
+      "desc": "안전영역"
+    }
+  },
+  "drawn_allowed": [
+    "카드바탕",
+    "구분선",
+    "글자"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "word:hit",
+      "do": "카드 등장 — 따옴표 장식 없이 판 + 문장",
+      "dur": 0.22,
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit+0.5",
+      "do": "출처 줄 등장",
+      "dur": 0.22,
+      "ease": "eo"
+    },
+    {
+      "at": "t1",
+      "do": "컷에서 같이 끝",
+      "dur": 0.15,
+      "ease": "lin"
+    }
+  ],
+  "look": {
+    "card": "판 + 문장 + 출처 줄",
+    "quote_marks": "«» 대사 따옴표를 화면 글에 쓰지 않는다 — 카드 모양으로 인용임을 보여 준다"
+  },
+  "sfx": [
+    {
+      "at": "word:hit",
+      "role": "card",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "외부 출처 문장만 담는다 — 말 복사·«» 대사 카드 금지 (사장님 10-08 19)",
+    "출처는 실제 문서/매체 — 지어낸 출처 금지",
+    "자동 모드에서는 실제 업체·개인정보가 보이는 실자료를 쓰지 않는다(블러로 가려도) — 재현·Codex 로. 사장님이 그 자료를 지정한 건만 예외 (README 8장 · CLAUDE.md 4)",
+    "등장은 4~8프레임~0.22초 감속(eo), 오버슈트 0, 새 요소는 혼자 0.6초 이상 (README 6장 · motion-graphics 2-1장 원칙 3·13)",
+    "html 계약(쇼츠 tools/html_motion.py): window.W/H/FPS/DURATION · seek(t) 는 t 만의 순수 함수(CSS transition·타이머·Math.random 금지) · PALETTE 3색 이하 (EM-04 와 같은 틀)",
+    "사진·CG 카드로 시작하는 식은 «영상미가 죽어» 반려 (origin-session-1008.md 6장) — 사람이 말하는 화면 위 보조로만"
+  ],
+  "rejected": [],
+  "sample": {
+    "quote": "대출 한도는 심사 결과에 따라 달라질 수 있습니다",
+    "source": "공고문(견본)"
+  },
+  "fallback": [
+    "EM-07",
+    "EM-50"
+  ],
+  "from": "웹 조사 EM 카테고리 Quote card — 한비즈 견본 없음",
+  "basis": "web-research-1008.md 2장",
+  "todo": [
+    "웹#35 수치 근거 없음 — 카드 크기·글자 크기 초기값 — 첫 견본에서 정함",
+    "EM-07 포토카드·EM-50 공고문형광과 구분: 이쪽은 글만 담는 카드",
+    "가로 1920×1080·59.94fps 재배치 — 프레임 수는 29.97 기준이면 초로 환산해 다시 맞춘다"
+  ]
+}

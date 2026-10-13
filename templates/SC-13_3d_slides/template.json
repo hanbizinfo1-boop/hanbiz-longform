@@ -1,0 +1,217 @@
+{
+  "id": "SC-13",
+  "name": "3D장표",
+  "drawer": "SC",
+  "version": 1,
+  "status": "대기",
+  "engine": "ae",
+  "subject": [
+    "자료이미지",
+    "무대배경"
+  ],
+  "source_ref": [
+    "분양 쇼츠 rf3 (tools/rf3_ae.py — 사장님 2026-09-28 «에펙으로 고급지게, 연속성으로 내용을 챙기게»)",
+    "쇼츠 study/higgsfield-mg.md V7a(3D 슬라이드 카드, 뒷면 거울 글씨)",
+    "쇼츠 techniques.md A표 «3D 판 카드»",
+    "auto-pipeline.md 4장 SC-13 «분양 통과 · 가로화 필요»"
+  ],
+  "summary": "흐린 실사 배경 위로 문서 장표가 3D 로 미끄러져 들어오고 카메라가 말하는 곳으로 밀고 들어가 노란 테두리가 그려지며 나머지는 어두워진다. 다음 말로 넘어가면 같은 장표 안에서 이어서 옮겨 가거나 옆 장표로 미끄러진다",
+  "use_when": [
+    "정의·조건",
+    "숫자·금액",
+    "화면 속 특정 부분"
+  ],
+  "avoid_when": [
+    "일상 상황",
+    "설정·버튼"
+  ],
+  "tones": {
+    "TN-1": 0.4,
+    "TN-2": 0.3,
+    "TN-3": 1.0,
+    "TN-4": 0.3
+  },
+  "screens": [
+    "PIP",
+    "사람없음"
+  ],
+  "layer": "L2",
+  "moves_person": false,
+  "duration": [
+    8,
+    30
+  ],
+  "slots": {
+    "pages": {
+      "kind": "image",
+      "many": true,
+      "source": [
+        "real_capture",
+        "codex"
+      ],
+      "style": "실사 사진",
+      "alpha": false,
+      "desc": "문서·장표 페이지 이미지. 사장님이 주신 자료 페이지 또는 다시 그린 장표 — 업체명·번호·개인정보 없는 것"
+    },
+    "bg": {
+      "kind": "image",
+      "source": [
+        "codex"
+      ],
+      "style": "실사 사진",
+      "alpha": false,
+      "desc": "흐리게 쓸 실사 배경(사진기로 찍은 사진 톤, 글자·로고 없음)"
+    },
+    "shots": {
+      "kind": "box",
+      "many": true,
+      "desc": "장표 안에서 말하는 곳 ROI(장표 픽셀 좌표) — 카메라가 이 영역으로 밀고 들어감"
+    },
+    "hl": {
+      "kind": "box",
+      "many": true,
+      "optional": true,
+      "desc": "노란 테두리를 그릴 칸(장표 좌표). 안 적으면 테두리 없음"
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "장표가 바뀌는 말 / 같은 장표 안에서 다음 곳으로 옮겨 가는 말"
+    }
+  },
+  "drawn_allowed": [
+    "테두리",
+    "어둡게덮기",
+    "글자"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "word:hit[0]",
+      "do": "[첫 장표] 깊이(z 900)·크기 90%·기울기(x 16°, y −24°)에서 날아 앉음 — 불투명 0→100% 0.3초",
+      "dur": 0.55,
+      "ease": "ez"
+    },
+    {
+      "at": "word:hit[page]",
+      "do": "[다음 장표] 오른쪽 바깥(+1350px, z 250)에서 y 회전 −38°→0 으로 미끄러져 들어옴",
+      "dur": 0.45,
+      "ease": "ez"
+    },
+    {
+      "at": "word:hit[shot]",
+      "do": "카메라가 말하는 곳 ROI 로 이동 — 이동 직전 103% 로 숨 쉬고 목표 배율(최대 1.7배)로",
+      "dur": 0.5,
+      "ease": "ez"
+    },
+    {
+      "at": "word:hit[shot]+0.05",
+      "do": "노란 테두리가 그려짐(Trim 0→100%) + 나머지 어둡게(불투명 55%, 페더 18) + 테두리 번짐",
+      "dur": 0.35,
+      "ease": "ez"
+    },
+    {
+      "at": "word:hit[out]",
+      "do": "장표가 왼쪽 바깥(−1350px)으로 y 회전 0→38° 빠짐",
+      "dur": 0.45,
+      "ease": "ez"
+    }
+  ],
+  "look": {
+    "slide_in": {
+      "x_px": 1350,
+      "z_px": 250,
+      "y_rot_deg": -38,
+      "sec": 0.45
+    },
+    "first_in": {
+      "z_px": 900,
+      "scale_pct": 90,
+      "x_rot_deg": 16,
+      "y_rot_deg": -24,
+      "land_sec": 0.55
+    },
+    "camera_move_sec": 0.5,
+    "scale_max": 1.7,
+    "dim": {
+      "opacity_pct": 55,
+      "feather_px": 18
+    },
+    "border": {
+      "color": "#FFCC0D",
+      "width_px": 7,
+      "draw_sec": 0.35
+    },
+    "shadow": {
+      "blur_px": 60,
+      "opacity_pct": 70
+    },
+    "bg": "실사 배경 블러 70 + 어두운 단색 덮개 불투명 42%, 배경 112%→121% 천천히 확대",
+    "origin_canvas": "1080×1920 @30fps (세로 쇼츠) — 가로화 필요"
+  },
+  "sfx": [
+    {
+      "at": "word:hit[page]",
+      "role": "in",
+      "meaning": "중립"
+    },
+    {
+      "at": "word:hit[shot]",
+      "role": "sweep",
+      "meaning": "중립"
+    },
+    {
+      "at": "word:hit[shot]+0.05",
+      "role": "marker",
+      "meaning": "중립"
+    },
+    {
+      "at": "word:hit[out]",
+      "role": "back",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "끊지 않고 잇는다 — 같은 장표 안에서 옮겨 가거나 옆 장표로 미끄러진다 (rf3 설계)",
+    "장표 속 글·표를 강조하되 안 보여 줄 부분(제목·기사 글)은 clip 으로 오려 낸다 — 글자 강조가 너무 많으면 클라이언트 반려 이력 (rf3 clip)",
+    "업체명·대표번호·개인정보가 보이는 장표는 쓰지 않는다 — 다시 그린 장표(○○) (CLAUDE.md 4)",
+    "새 요소는 0.6초 혼자 — 카메라 이동 중 다음 장표를 시작하지 않는다 (auto-pipeline.md 6-3)",
+    "사람(V2)은 굽지 않는다 — V1 바꿔 끼우기 (10-08 21)",
+    "화면 글은 장표에 원래 있는 글 — 이쪽이 새로 쓰는 글(라벨 등)은 말을 받치는 개념어, 말 복사·«» 금지 (10-08 17·19)"
+  ],
+  "rejected": [],
+  "sample": {
+    "shots": [
+      [
+        200,
+        300,
+        800,
+        500
+      ]
+    ],
+    "hl": [
+      [
+        200,
+        300,
+        800,
+        500
+      ]
+    ]
+  },
+  "fallback": [
+    "EM-01",
+    "SC-11"
+  ],
+  "from": "tools/rf3_ae.py (scene_jsx — 1080×1920@30 하드코딩) · 쇼츠 study/higgsfield-mg.md V7a",
+  "basis": "auto-pipeline.md 4장 SC-13 · 쇼츠 motion-typo.md 1장 «3D 판»",
+  "todo": [
+    "rf3_ae.py 는 W,H,FPS = 1080,1920,30 과 TX,TY=(540,640)·BW,BH=(1010,860) 하드코딩 — 가로 1920×1080·59.94 로 인자화(좌표·슬라이드 거리 1350px·카메라 중심) 필요",
+    "«통과»는 분양 광고(쇼츠) 장면에서의 사장님 통과 — 롱폼 건에서는 사용 이력이 없다. 상태를 대기로 바꿀지 설계자 판단",
+    "pages 의 source: 사장님이 주시는 PDF 장표는 templates/README.md 4장 source 목록에 없음 — real_capture 로 취급해도 되는지 설계자 확인",
+    "rf3 는 노선·레이더 등 분양 전용 옵션이 있으나(routes·radar) 롱폼 일반 템플릿에서는 뺐다",
+    "duration 은 문서에 근거 없음 — 초기값 — 첫 견본에서 정함"
+  ]
+}

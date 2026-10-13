@@ -1,0 +1,105 @@
+{
+  "id": "SD-09",
+  "name": "BGM녹이기",
+  "drawer": "SD",
+  "version": 1,
+  "status": "대기",
+  "engine": "compose",
+  "subject": [
+    "소리"
+  ],
+  "source_ref": [
+    "원#97 BGM 녹이기 (v5_sound.py, 대기)"
+  ],
+  "summary": "BGM 을 말이 있는 구간에 −9dB 로 내리고(0.12초에 내리고 0.45초에 걸쳐 올림) 큰 효과음 순간엔 −3dB 로 더 내리며, 곡 끝을 영상 끝에 맞춘다. BGM 은 사장님이 오더할 때만",
+  "use_when": [
+    "한 편 시작",
+    "한 편 끝"
+  ],
+  "avoid_when": [],
+  "tones": {
+    "TN-1": 0.0,
+    "TN-2": 0.0,
+    "TN-3": 0.0,
+    "TN-4": 0.0
+  },
+  "screens": [
+    "PIP",
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "audio",
+  "moves_person": false,
+  "duration": [
+    0,
+    0
+  ],
+  "slots": {
+    "bgm": {
+      "kind": "choice",
+      "desc": "BGM 무드 — 사장님이 오더할 때만",
+      "options": [
+        "없음"
+      ],
+      "default": "없음"
+    },
+    "order": {
+      "kind": "choice",
+      "desc": "사장님 오더 있음",
+      "options": [
+        "없음",
+        "있음"
+      ],
+      "default": "없음"
+    }
+  },
+  "drawn_allowed": [],
+  "keepout": [],
+  "timeline": [
+    {
+      "at": "말이 있는 구간",
+      "do": "BGM 을 −9dB 로 부드럽게 내린다 (attack 0.12초 · release 0.45초 · hold 0.35초)"
+    },
+    {
+      "at": "큰 효과음 순간",
+      "do": "BGM 을 −3dB 더 내린다 (attack 0.05초 · release 0.6초 · hold 0.1초)"
+    },
+    {
+      "at": "영상 끝",
+      "do": "곡 끝을 영상 끝에 맞춘다"
+    }
+  ],
+  "look": {
+    "voice_duck_db": -9,
+    "voice_attack_sec": 0.12,
+    "voice_release_sec": 0.45,
+    "voice_hold_sec": 0.35,
+    "sfx_duck_db": -3,
+    "sfx_attack_sec": 0.05,
+    "sfx_release_sec": 0.6,
+    "sfx_hold_sec": 0.1
+  },
+  "sfx": [],
+  "rules": [
+    "BGM 은 사장님 오더 때만 — 기본은 없음. 10-08 «bgm은 그때 상황에따라 오더하겠음» (auto-pipeline.md 4장 SD-B1, SD-01 rules)",
+    "오더가 없으면 이 템플릿은 켜지지 않는다 — 사장님이 말하지 않은 BGM 을 붙이지 않는다",
+    "문장 사이 짧은 숨에는 BGM 이 다시 올라오지 않는다 — 말 밑 −9dB 유지 (v5_sound.py 주석)",
+    "BGM 음원은 사용 허락 범위를 기록 — 작업기록 «사용 허락 범위» 칸 (CLAUDE.md 4)",
+    "마감 음량: 트루피크 −1.5dB 이하 (sfx.md 15장)",
+    "음원 파일을 이 폴더에 복사하지 않는다 — 주소는 tools/config.py SFX_ROOTS 한 곳 (CLAUDE.md 1, sfx-workflow.md 1장)",
+    "소리를 귀로 못 들었으면 «못 들었다»고 보고한다 (sfx.md 핵심, checklist.md D표)"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "SD-01",
+    "SD-03"
+  ],
+  "from": "D:/영상제작/도구/광고편집/v5_sound.py (smooth_gain −9dB 0.12/0.45/0.35 · −3dB 0.05/0.6/0.1)",
+  "basis": "origin-session-1008.md 5장 #97 · auto-pipeline.md 4장 SD",
+  "todo": [
+    "노트의 소리 값은 파형·길이·시각으로 확인한 것이고 귀로 확인한 적은 없다 — 첫 실사용에서 사장님 반응을 적는다",
+    "원본은 대기 상태(사장님 통과 평가 없음) → 대기",
+    "곡 종류·BGM 후보는 건마다 사장님 오더 — 정하지 않는다"
+  ]
+}

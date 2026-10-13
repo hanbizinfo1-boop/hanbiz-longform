@@ -1,0 +1,309 @@
+{
+  "id": "SD-01",
+  "name": "효과음기본",
+  "drawer": "SD",
+  "version": 1,
+  "status": "대기",
+  "engine": "compose",
+  "subject": [
+    "소리"
+  ],
+  "source_ref": [
+    "sfx-workflow.md 3장 뜻별 단골 (빡이사DB 후킹 13~23 SND_FIX)",
+    "sfx.md 2장 계기마다 맞는 소리 · 3장 크기",
+    "tools/sfx_find.py ROLES"
+  ],
+  "summary": "효과음 역할표 기본 — 뜻·그림에 따라 역할 이름 → 파일을 고정한다. 크기는 파일별 표를 따른다",
+  "use_when": [],
+  "avoid_when": [],
+  "tones": {
+    "TN-1": 1.0,
+    "TN-4": 1.0
+  },
+  "screens": [
+    "PIP",
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "audio",
+  "moves_person": false,
+  "duration": [
+    0,
+    0
+  ],
+  "slots": {
+    "bgm": {
+      "kind": "choice",
+      "options": [
+        "없음"
+      ],
+      "default": "없음",
+      "desc": "BGM 무드 — 건마다 사장님이 오더할 때만(SD-B1~)"
+    }
+  },
+  "drawn_allowed": [],
+  "keepout": [],
+  "timeline": [
+    {
+      "at": "박자마다 — 그림 등장 프레임",
+      "do": "소리 시작(onset)을 단어 시각의 그림 등장에 맞춘다. 컷에 붙이지 않는다"
+    },
+    {
+      "at": "휙 계열(in/back)",
+      "do": "소리 꼭대기(peak)를 움직임 꼭대기에 맞춘다"
+    },
+    {
+      "at": "큰 장면 전환",
+      "do": "전환음은 컷보다 0.18초 먼저 시작 — 컷에 맞추면 늦게 들린다 (sfx.md 5장)"
+    },
+    {
+      "at": "한 편 마감",
+      "do": "rule_check.check_sfx 통과 → 마스터 트루피크 −1.5dB 이하 리미터 (sfx.md 5·8장)"
+    }
+  ],
+  "look": {
+    "roles": {
+      "in": {
+        "meaning": "중립",
+        "files": [
+          "휙２.mp3"
+        ],
+        "align": "peak",
+        "when": "판·장면이 들어옴, 확대, 반반 갈림",
+        "folder": "사장님"
+      },
+      "back": {
+        "meaning": "중립",
+        "files": [
+          "휙1.mp3"
+        ],
+        "align": "peak",
+        "when": "판이 빠지고 사람으로 돌아감(장면 끝 거의 항상)",
+        "folder": "사장님"
+      },
+      "card": {
+        "meaning": "중립",
+        "files": [
+          "ML_Cartoon bubbles popping.wav"
+        ],
+        "align": "onset",
+        "when": "카드·칸·댓글이 쑥 나옴",
+        "folder": "예능 02_뿅_팝"
+      },
+      "st1/st2": {
+        "meaning": "중립",
+        "files": [
+          "KN_pepSound1.wav",
+          "KN_pepSound2.wav"
+        ],
+        "align": "onset",
+        "when": "단계 알약·목록 줄",
+        "folder": "예능 02_뿅_팝",
+        "alternate": true,
+        "note": "번갈아 쓴다"
+      },
+      "big": {
+        "meaning": "중립",
+        "files": [
+          "SEL_文字表示の衝撃音1.mp3",
+          "SEL_文字表示の衝撃音2.mp3",
+          "SEL_文字表示の衝撃音3.mp3"
+        ],
+        "align": "onset",
+        "when": "큰 글 쿵",
+        "folder": "예능 01_쿵쾅_큰강조자막",
+        "alternate": true,
+        "note": "조건·기준 글도 이것(축하음 금지). 1·2·3 번갈아"
+      },
+      "ok": {
+        "meaning": "긍정",
+        "files": [
+          "맑은소리.mp3"
+        ],
+        "align": "onset",
+        "when": "잘 됨·정답·추천",
+        "folder": "사장님"
+      },
+      "no": {
+        "meaning": "부정",
+        "files": [
+          "KN_error_003.wav"
+        ],
+        "align": "onset",
+        "when": "안 됨·✕·지움·허수",
+        "folder": "예능 06_실패_오답"
+      },
+      "miss": {
+        "meaning": "부정",
+        "files": [
+          "KN_lowDown.wav"
+        ],
+        "align": "onset",
+        "when": "실망·부재·내려감",
+        "folder": "예능"
+      },
+      "stamp": {
+        "meaning": "그림",
+        "files": [
+          "도장.mp3"
+        ],
+        "align": "onset",
+        "when": "도장 그림이면 무조건",
+        "folder": "사장님 (A★)",
+        "note": "도장 그림에 다른 소리 금지"
+      },
+      "msg": {
+        "meaning": "그림",
+        "files": [
+          "채팅 효과음.mp3"
+        ],
+        "align": "onset",
+        "when": "문의·메시지·알림톡이 넘어감",
+        "folder": "사장님"
+      },
+      "bell": {
+        "meaning": "그림",
+        "files": [
+          "ML_Bell notification.wav"
+        ],
+        "align": "onset",
+        "when": "새 DB·알림 도착",
+        "folder": "예능 16_UI_타자_메시지"
+      },
+      "ring": {
+        "meaning": "그림",
+        "files": [
+          "SEL_携帯電話の着信音1.mp3"
+        ],
+        "align": "onset",
+        "when": "전화 걸림",
+        "folder": "예능 16_UI_타자_메시지"
+      },
+      "click": {
+        "meaning": "그림",
+        "files": [
+          "마우스 클릭.mp3",
+          "15. 마우스클릭.mp3"
+        ],
+        "align": "onset",
+        "when": "커서 누름, 체크·스위치",
+        "folder": "사장님 / 자주쓰는",
+        "alternate": true,
+        "note": "두 파일을 번갈아 쓴다"
+      },
+      "type": {
+        "meaning": "그림",
+        "files": [
+          "SEL_キーボード2.mp3"
+        ],
+        "align": "onset",
+        "when": "타자",
+        "folder": "예능 16_UI_타자_메시지"
+      },
+      "pen": {
+        "meaning": "그림",
+        "files": [
+          "SEL_シャーペンで字を書く.mp3"
+        ],
+        "align": "onset",
+        "when": "노트 손글씨"
+      },
+      "marker": {
+        "meaning": "그림",
+        "files": [
+          "SEL_油性マーカーで字を書く.mp3"
+        ],
+        "align": "onset",
+        "when": "동그라미·밑줄 긋기",
+        "note": "동작 길이에 딱 맞춰 자른다(음수 길이)"
+      },
+      "page": {
+        "meaning": "그림",
+        "files": [
+          "ML_Page turn chime.wav"
+        ],
+        "align": "onset",
+        "when": "페이지·책 넘김"
+      },
+      "sweep": {
+        "meaning": "중립",
+        "files": [
+          "ML_Fast sweep transition.wav",
+          "ML_Fast air sweep transition.wav",
+          "ML_Fast small sweep transition.wav"
+        ],
+        "align": "onset",
+        "when": "자료 카드 날아듦, 세로 스와이프",
+        "alternate": true,
+        "note": "세 파일을 번갈아 쓴다"
+      },
+      "gauge": {
+        "meaning": "긍정",
+        "files": [
+          "SEL_ゲージ回復1.mp3",
+          "SEL_ゲージ回復2.mp3",
+          "SEL_ゲージ回復3.mp3"
+        ],
+        "align": "onset",
+        "when": "게이지·막대 차오름",
+        "alternate": true,
+        "note": "차오르는 그림엔 이 소리를 꼭"
+      },
+      "shine": {
+        "meaning": "긍정",
+        "files": [
+          "SEL_キラッ1.mp3"
+        ],
+        "align": "onset",
+        "when": "빛줄 훑기·핵심 반짝"
+      },
+      "level": {
+        "meaning": "긍정",
+        "files": [
+          "SEL_レベルアップ.mp3"
+        ],
+        "align": "onset",
+        "when": "단계 완주 — 실제로 좋아진 순간에만"
+      }
+    },
+    "size": "크기는 sfx.md 3장 파일별 표를 따른다(표에 없는 파일 기본값 포함)",
+    "density_ref_per_min": {
+      "강의 재무제표2강 전체": 4.6,
+      "같은 강의 초반": 6.2,
+      "note": "사장님 마감본 실측(sfx.md 1장, lecture-graphics.md 2장). 롱폼 기준 밀도는 이 실측이 1순위"
+    },
+    "rejected_files": [
+      "6. SE_블록소리.mp3 (02 목차 카드 등장 «별로» — 장면반려)",
+      "축하·환호 계열(05·14 분류) — 조건·기준 글에는 금지"
+    ]
+  },
+  "sfx": [],
+  "rules": [
+    "소리는 그림에 붙는다 — 컷에 붙이지 않는다. 그림이 뜨는 프레임(단어 시각)에 소리 시작(onset)을 맞춘다 (sfx-workflow.md 0장 1, sfx.md 핵심, 사장님 편집 실측 97%)",
+    "고르는 순서: 뜻(긍정/부정/중립) → 그림(도장·전화·타자·펜…) → 3장 단골 → 등급표 A★→A→B (sfx-workflow.md 0장 2)",
+    "조건·기준 글에는 축하음 금지 — 10-08 22 «천만 원을 벌었다가 아니라 미만인 사람인데 왜 축하 효과음» (sfx.md 2장)",
+    "도장 그림에는 반드시 도장.mp3 — 10-08 «도장에는 왜 도장 효과음 안 쓰고» (sfx.md 2장)",
+    "게이지·밑줄처럼 차오르는 그림엔 차오르는 소리를 꼭 — 10-02 «게이지는 왜 뺐어» (sfx.md 11장)",
+    "같은 파일을 바로 연달아 쓰지 않는다. 번갈아도 3초 안에 같은 파일 3번까지 — 10-02 «최대 3번까지는 번갈아사용가능» (sfx.md 5장, rule_check.check_sfx 5-2/5-2b)",
+    "소리 없는 시간은 2.5초를 넘기지 않는다. 걸리면 그 시각 말에 맞는 움직임을 찾아 붙이고, 빈칸용 요소·소리를 끼워 넣지 않는다 — 10-07 «급해서 정신없다» (sfx.md 5장)",
+    "자연 길이로 둔다(잦아드는 곳까지, 최대 2.5초) — 10-07 «효과음 또 짧게 끊기고» (sfx.md 5장)",
+    "컷마다 전환음을 깔지 않는다 — 09-22 «너무 같은 효과음이 많이 들어가 / 정합성도 안 맞아» (sfx.md 핵심)",
+    "청음본·A/B 듣기를 요청하지 않고 실제 편에 넣어 반응을 적는다 — 10-02 «청음본 들을 시간이없어 … 그냥 실 사용에서 하고» (sfx.md 핵심)",
+    "소리를 귀로 못 들었으면 «못 들었다»고 보고한다 (sfx.md 핵심, checklist.md D표)",
+    "BGM 은 건마다 사장님이 오더할 때만, 기본은 없음 — 10-08 «bgm은 그때 상황에따라 오더하겠음» (auto-pipeline.md 4장 SD-B1~)",
+    "음원 파일을 이 폴더에 복사하지 않는다 — 주소는 tools/config.py SFX_ROOTS 한 곳 (CLAUDE.md 1, sfx-workflow.md 1장)"
+  ],
+  "rejected": [
+    "10-02 02 목차 카드 등장 «'2 여러업종공' 나올 때 효과음, META DB 광고 세팅법 나오는 장면 제외하고는 다 별로야» → 6. SE_블록소리.mp3 는 이 자리에서 장면반려",
+    "10-08 22 «천만 원을 벌었다가 아니라 미만인 사람인데 왜 축하 효과음 · 도장에는 왜 도장 효과음 안 쓰고 · 효과음 길라잡이 제대로 참고해서»"
+  ],
+  "fallback": [
+    "SD-03"
+  ],
+  "from": "tools/sfx_find.py (ROLES) · tools/bisa_meta_sfx.py (FILE_DB) · sfx-workflow.md 3장",
+  "basis": "sfx-workflow.md 3장 · sfx.md 2·3·5장 · auto-pipeline.md 4장 SD-01",
+  "todo": [
+    "통과한 소리와 10-08 에 새로 쓴 검수 대기 소리(스와이프·KN_lowDown·착신음·衝撃音·도장·알림·레벨업)가 섞여 있다 — 반응이 오면 status 를 통과로",
+    "look.roles 의 파일별 최대 길이·구울 dB 는 일부러 옮기지 않았다(숫자 복사 금지) — sfx_find.ROLES / sfx.md 3장 표가 기준"
+  ]
+}

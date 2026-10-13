@@ -1,0 +1,132 @@
+{
+  "id": "EM-46",
+  "name": "색반전카드컷",
+  "drawer": "EM",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "글자"
+  ],
+  "source_ref": [
+    "쇼츠 T6 색 반전 카드 컷 (study/typography-remotion.md 5-2 T6, 4-2)",
+    "쇼츠 B-3 한 단어 스왑 (study/shorts-notes-index-1008.md)"
+  ],
+  "summary": "영상 사이에 핵심 주장 한 단어/한 줄 카드를 0.4~0.9초 끼우고, 2~3프레임 선형 디졸브로 바탕과 글자색이 뒤집힌다. «다음 단락»을 알리는 가장 싼 신호",
+  "use_when": [
+    "결론·센 말",
+    "챕터 시작"
+  ],
+  "avoid_when": [
+    "숫자·금액",
+    "설정·버튼",
+    "가림"
+  ],
+  "tones": {
+    "TN-1": 0.2,
+    "TN-2": 0.7,
+    "TN-3": 0.8,
+    "TN-4": 0.1
+  },
+  "screens": [
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "L5",
+  "moves_person": false,
+  "duration": [
+    0.4,
+    0.9
+  ],
+  "slots": {
+    "word": {
+      "kind": "text",
+      "max_chars": 8,
+      "rule": "화면 글은 말을 받치는 개념어 — 말 복사·«» 대사 금지, 숫자는 말에 근거 (사장님 10-08 17·19) — 한 단어/한 줄"
+    },
+    "colors": {
+      "kind": "choice",
+      "options": [
+        "바탕↔글자 반전"
+      ],
+      "desc": "3색(바탕·글·강조 하나) 안에서만 반전"
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "카드가 끼는 단어 시각"
+    }
+  },
+  "drawn_allowed": [
+    "글자",
+    "판"
+  ],
+  "keepout": [
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "word:hit",
+      "do": "한 단어 카드가 들어옴(하드컷 + 130~150%→100% 3~4프레임)",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit+0.3",
+      "do": "색 반전 — 2~3프레임 선형 디졸브",
+      "dur": 0.05,
+      "ease": "lin"
+    },
+    {
+      "at": "word:hit+0.7",
+      "do": "카드 끝(전체 0.4~0.9초)",
+      "dur": 0.1,
+      "ease": "lin"
+    }
+  ],
+  "look": {
+    "card_sec": [
+      0.4,
+      0.9
+    ],
+    "dissolve_frames": [
+      2,
+      3
+    ],
+    "per_video": [
+      2,
+      3
+    ],
+    "no_consecutive": true
+  },
+  "sfx": [
+    {
+      "at": "word:hit",
+      "role": "big",
+      "meaning": "중립",
+      "when": "카드 컷마다가 아니라 묶음 하나 (typography-remotion 4-3)"
+    }
+  ],
+  "rules": [
+    "한 편 2~3장, 연달아 두 장 금지 — 사이에 영상 (typography-remotion T6)",
+    "흰 플래시 2프레임(TR-03)과 겹치지 않게 둘 중 하나만 (T6)",
+    "3색(바탕·글·강조 하나) 안에서만 뒤집는다",
+    "한 단어 카드는 2자 단어가 작아 허전 — 폭 맞춤 (T2) 적용",
+    "화면 글은 말을 받치는 개념어 — 말 복사·«» 대사 금지, 숫자는 말에 근거 (사장님 10-08 17·19)",
+    "html 계약(쇼츠 tools/html_motion.py): window.W/H/FPS/DURATION · seek(t) 는 t 만의 순수 함수(CSS transition·타이머·Math.random 금지) · PALETTE 3색 이하 (EM-04 와 같은 틀)"
+  ],
+  "rejected": [],
+  "sample": {
+    "word": "핵심 조건"
+  },
+  "fallback": [
+    "TR-03",
+    "EM-04"
+  ],
+  "from": "쇼츠 study/typography-remotion.md T6 · 4-2 · B-3",
+  "basis": "shorts-notes-index-1008.md 타이포 묶음 T6·B-3",
+  "todo": [
+    "카드가 영상을 가리므로(풀스크린) layer L5 로 적었다 — 합성기에서 확인",
+    "롱폼 말하는 사람 위에서 카드가 얼굴을 완전히 가린다 — 챕터 경계 한정 사용 여부 설계자 확인",
+    "쇼츠 노트는 세로 1080×1920 기준 — 가로 1920×1080 재배치 필요"
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "id": "EM-13",
+  "name": "애니밑줄",
+  "drawer": "EM",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "글자"
+  ],
+  "source_ref": [
+    "웹#25 애니메이션 밑줄 (웹 조사 EM 카테고리 Highlighter·Circle/Strike marker)",
+    "origin-session-1008.md #45 휜 밑줄"
+  ],
+  "summary": "핵심어 아래로 밑줄이 좌→우로 그려진다. 형광이나 상자보다 가벼운 강조",
+  "use_when": [
+    "용어 제시",
+    "정의·조건",
+    "화면 속 특정 부분"
+  ],
+  "avoid_when": [
+    "가림"
+  ],
+  "tones": {
+    "TN-1": 0.9,
+    "TN-2": 0.4,
+    "TN-3": 0.7,
+    "TN-4": 0.8
+  },
+  "screens": [
+    "풀샷",
+    "PIP",
+    "사람없음"
+  ],
+  "layer": "L4",
+  "moves_person": false,
+  "duration": [
+    0.8,
+    4
+  ],
+  "slots": {
+    "line": {
+      "kind": "text",
+      "max_chars": 14,
+      "rule": "화면 글은 말을 받치는 개념어 — 말 복사·«» 대사 금지, 숫자는 말에 근거 (사장님 10-08 17·19)"
+    },
+    "key": {
+      "kind": "choice",
+      "desc": "밑줄 칠 단어 하나"
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "그 단어를 말하는 시각"
+    },
+    "area": {
+      "kind": "box",
+      "desc": "안전영역(화면 좌표)"
+    }
+  },
+  "drawn_allowed": [
+    "밑줄",
+    "글자"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "word:hit-0.3",
+      "do": "밑줄이 단어 왼쪽에서 오른쪽으로 그려짐",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "t1",
+      "do": "컷에서 같이 끝",
+      "dur": 0.15,
+      "ease": "lin"
+    }
+  ],
+  "look": {
+    "stroke_px": "초기값 — 첫 견본에서 정함",
+    "color": "강조색 하나 — 초기값 — 첫 견본에서 정함",
+    "curve": "직선 기본, 휜 밑줄은 시험 후"
+  },
+  "sfx": [
+    {
+      "at": "word:hit-0.3",
+      "role": "marker",
+      "meaning": "그림"
+    }
+  ],
+  "rules": [
+    "화면 글은 말을 받치는 개념어 — 말 복사·«» 대사 금지, 숫자는 말에 근거 (사장님 10-08 17·19)",
+    "움직임은 그 말의 단어 시각(±2프레임)에 건다 — 타이머 간격 금지 (상황 강령 0장 2 · SKILL 3장)",
+    "한 장면 3색 이하 — 바탕·글·강조 하나 (motion-graphics 2-1장 원칙 1)",
+    "등장은 4~8프레임~0.22초 감속(eo), 오버슈트 0, 새 요소는 혼자 0.6초 이상 (README 6장 · motion-graphics 2-1장 원칙 3·13)",
+    "html 계약(쇼츠 tools/html_motion.py): window.W/H/FPS/DURATION · seek(t) 는 t 만의 순수 함수(CSS transition·타이머·Math.random 금지) · PALETTE 3색 이하 (EM-04 와 같은 틀)",
+    "자료 위 표 수치의 밑줄은 EM-01(빨강 밑줄)이 맡는다 — 이 템플릿은 화면 글 전용 (lecture-graphics 1장 장면 C)"
+  ],
+  "rejected": [],
+  "sample": {
+    "line": "정책자금 한도",
+    "key": 0
+  },
+  "fallback": [
+    "EM-11",
+    "EM-01"
+  ],
+  "from": "웹 조사 EM 카테고리(Highlighter) — 한비즈 견본 없음",
+  "basis": "web-research-1008.md 2장",
+  "todo": [
+    "웹#25 에 수치 출처값이 없다 — 시간·굵기·색 모두 초기값 — 첫 견본에서 정함",
+    "가로 1920×1080·59.94fps 재배치 — 프레임 수는 29.97 기준이면 초로 환산해 다시 맞춘다"
+  ]
+}

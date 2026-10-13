@@ -1,0 +1,150 @@
+{
+  "id": "SC-36",
+  "name": "검색결과클릭",
+  "drawer": "SC",
+  "version": 1,
+  "status": "신규",
+  "engine": "compose",
+  "subject": [
+    "녹화화면",
+    "캐릭터"
+  ],
+  "source_ref": [
+    "쇼츠 F-6 (flova-3d.md 검색창 타자→결과 클릭)",
+    "쇼츠 F-3 (화면 녹화 줌·패닝 + 클릭 손 표시, 롱폼 핵심)"
+  ],
+  "summary": "검색창에 글자가 쳐지고 결과 목록이 뜬 뒤 손 표시가 한 결과를 클릭한다. 화면 녹화처럼 확대·패닝하되 실화면 대신 재현을 쓴다",
+  "use_when": [
+    "설정·버튼",
+    "화면 속 특정 부분",
+    "보는 사람 시점"
+  ],
+  "avoid_when": [
+    "숫자·금액"
+  ],
+  "tones": {
+    "TN-1": 0.4,
+    "TN-2": 0.4,
+    "TN-3": 0.5,
+    "TN-4": 1.0
+  },
+  "screens": [
+    "PIP",
+    "사람없음"
+  ],
+  "layer": "L2",
+  "moves_person": false,
+  "duration": [
+    4,
+    12
+  ],
+  "slots": {
+    "query": {
+      "kind": "text",
+      "rule": "검색어 — 말에 나온 키워드, 업체명 ○○",
+      "max_chars": 14
+    },
+    "results": {
+      "kind": "text",
+      "rule": "결과 줄 — 재현 글, 업체명·번호 ○○·010-0000-0000",
+      "many": true,
+      "max_chars": 16
+    },
+    "click_hand": {
+      "kind": "image",
+      "source": [
+        "codex"
+      ],
+      "style": "2D 플랫",
+      "alpha": true,
+      "desc": "클릭 표시 손 이미지(투명 배경)"
+    },
+    "pick": {
+      "kind": "choice",
+      "desc": "클릭할 결과 번호"
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "타자 시작 / 결과 / 클릭 말의 단어 시각"
+    }
+  },
+  "drawn_allowed": [
+    "UI위젯",
+    "카드바탕",
+    "글자"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "word:hit[0]",
+      "do": "검색창에 글자 한 글자씩 입력",
+      "dur": 1.7,
+      "ease": "lin"
+    },
+    {
+      "at": "word:hit[1]",
+      "do": "결과 목록이 위에서 나타남",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[2]",
+      "do": "손 표시가 pick 줄을 눌러 클릭 반응",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "t1-0.45",
+      "do": "확대 원위치",
+      "dur": 0.45,
+      "ease": "ez"
+    }
+  ],
+  "look": {
+    "typing_total_sec": "1.7 (flova 00:07.5–09.2 ‘flo’→‘flov’→‘flova ai’)",
+    "zoom": "화면 녹화 줌 150~200% 는 벤더추정·미검증 → 초기값 — 첫 견본에서 정함"
+  },
+  "sfx": [
+    {
+      "at": "word:hit[0]",
+      "role": "type",
+      "meaning": "중립"
+    },
+    {
+      "at": "word:hit[2]",
+      "role": "click",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "자동 모드에선 실제 업체·개인정보가 보이는 실자료를 쓰지 않는다 — 재현·Codex, 업체명 ○○ (README 8장, CLAUDE.md 4)",
+    "검색창·결과 목록은 UI 재현(UI 위젯)이되 로고·사람·사물은 이미지 칸",
+    "손 표시는 클릭 지점에 정확히 — 커서 크기는 줌에 따라 (쇼츠 claude-motion-graphics.md 6장)",
+    "확대해도 주소창·탭 틀 밖이 보이지 않게 (CA-03 규칙)"
+  ],
+  "rejected": [],
+  "sample": {
+    "query": "지원 조건",
+    "results": [
+      "○○ 공고",
+      "○○ 안내"
+    ],
+    "pick": 1
+  },
+  "fallback": [
+    "EM-03",
+    "CA-03"
+  ],
+  "from": "코드 없음 — 쇼츠 flova-3d.md F-6·F-3 서술",
+  "basis": "shorts-notes-index-1008.md F-6 · F-3",
+  "todo": [
+    "html 렌더 도구 tools/html_motion.py 는 1080×1920·29.97fps 하드코딩 사본 — 가로 1920×1080·59.94 인자화가 먼저(쇼츠 claude-motion-graphics.md 5-4)",
+    "타자 1.7초는 flova 관찰 값(영문) — 한글 자모 조합은 완성형 글자 단위로 나눠 입력",
+    "확대 배율·패닝 속도: 초기값 — 첫 견본에서 정함"
+  ]
+}

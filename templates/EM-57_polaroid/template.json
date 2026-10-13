@@ -1,0 +1,126 @@
+{
+  "id": "EM-57",
+  "name": "폴라로이드",
+  "drawer": "EM",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "자료이미지"
+  ],
+  "source_ref": [
+    "웹#43 폴라로이드 (웹 조사 SC 카테고리 Polaroid → 짧은 강조용으로 EM 서랍)"
+  ],
+  "summary": "사진이 폴라로이드(흰 테두리+아래 캡션 칸) 카드로 살짝 기울어 놓인다. 사례·현장 사진 한 장을 «순간 기록»처럼",
+  "use_when": [
+    "사례·후기",
+    "현실 공간·사람",
+    "자료 등장"
+  ],
+  "avoid_when": [
+    "가림",
+    "숫자·금액"
+  ],
+  "tones": {
+    "TN-1": 0.4,
+    "TN-2": 0.8,
+    "TN-3": 0.6,
+    "TN-4": 0.3
+  },
+  "screens": [
+    "풀샷",
+    "PIP",
+    "사람없음"
+  ],
+  "layer": "L4",
+  "moves_person": false,
+  "duration": [
+    2,
+    6
+  ],
+  "slots": {
+    "photo": {
+      "kind": "image",
+      "source": [
+        "codex",
+        "crawl"
+      ],
+      "style": "실사 사진",
+      "alpha": false,
+      "desc": "폴라로이드 안에 들어갈 사진 — 사람 나오면 «사진기로 찍은 사진» 톤, 실제 고객 얼굴 금지"
+    },
+    "caption": {
+      "kind": "text",
+      "optional": true,
+      "max_chars": 10,
+      "rule": "화면 글은 말을 받치는 개념어 — 말 복사·«» 대사 금지, 숫자는 말에 근거 (사장님 10-08 17·19) — 폴라로이드 아래 손글씨 칸"
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "사진 소개 단어 시각"
+    },
+    "area": {
+      "kind": "box",
+      "desc": "안전영역"
+    }
+  },
+  "drawn_allowed": [
+    "카드바탕",
+    "글자"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "word:hit",
+      "do": "폴라로이드가 살짝 기울어 놓임(작게→제자리)",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "t1",
+      "do": "컷에서 같이 끝",
+      "dur": 0.2,
+      "ease": "lin"
+    }
+  ],
+  "look": {
+    "frame": "흰 테두리 + 아래 캡션 칸",
+    "tilt_deg": "기울기 각도 초기값 — 첫 견본에서 정함"
+  },
+  "sfx": [
+    {
+      "at": "word:hit",
+      "role": "page",
+      "meaning": "그림",
+      "when": "셔터/종이 계열"
+    }
+  ],
+  "rules": [
+    "사진 속 사람은 «사진기로 찍은 사진» 톤 — 한 편 안에서 일러스트와 섞지 않는다 (README 4장 style)",
+    "실제 고객 얼굴·업체 정보 금지 (CLAUDE.md 4)",
+    "EM-07 포토카드는 로고·캡션이 있는 통과 틀 — 이 템플릿은 사진 중심",
+    "사물(사람·돈·서류·로고·도장·지도)은 이미지 칸 — 도형으로 흉내 내지 않는다 (사장님 10-07 06 «도형으로 수준 낮은 짜깁기 원하지 않음»)",
+    "등장은 4~8프레임~0.22초 감속(eo), 오버슈트 0, 새 요소는 혼자 0.6초 이상 (README 6장 · motion-graphics 2-1장 원칙 3·13)",
+    "html 계약(쇼츠 tools/html_motion.py): window.W/H/FPS/DURATION · seek(t) 는 t 만의 순수 함수(CSS transition·타이머·Math.random 금지) · PALETTE 3색 이하 (EM-04 와 같은 틀)"
+  ],
+  "rejected": [],
+  "sample": {
+    "caption": "현장"
+  },
+  "fallback": [
+    "EM-07",
+    "EM-56"
+  ],
+  "from": "웹 조사 SC 카테고리 Polaroid — 한비즈 견본 없음",
+  "basis": "web-research-1008.md 2장",
+  "todo": [
+    "웹#43 수치 근거 없음 — 초기값 — 첫 견본에서 정함",
+    "SC 서랍 카테고리이지만 짧은 강조(EM)로 분류했다 — 서랍 위치는 설계자 확인",
+    "가로 1920×1080·59.94fps 재배치 — 프레임 수는 29.97 기준이면 초로 환산해 다시 맞춘다"
+  ]
+}

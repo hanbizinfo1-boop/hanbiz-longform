@@ -1,0 +1,80 @@
+{
+  "id": "OE-06",
+  "name": "후킹미리보기",
+  "drawer": "OE",
+  "version": 1,
+  "status": "신규",
+  "engine": "compose",
+  "subject": [
+    "사람"
+  ],
+  "source_ref": [
+    "auto-pipeline.md 4장 GU 아래 «후킹 미리보기» 설명",
+    "feedback-log.md 장면 기록(후킹 본편)"
+  ],
+  "summary": "본문의 센 장면 몇 개를 원문 앞에 몰아 붙인다. 길이가 바뀌므로 요청에 «후킹 붙여» 가 있을 때만",
+  "use_when": [
+    "한 편 시작",
+    "결론·센 말"
+  ],
+  "avoid_when": [],
+  "screens": [
+    "PIP",
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "L5",
+  "moves_person": false,
+  "duration": [
+    3,
+    30
+  ],
+  "slots": {
+    "clips": {
+      "kind": "choice",
+      "many": true,
+      "desc": "원문에서 고른 센 장면 구간 {t0, t1} — 목소리 에너지 상위·결론·센 말. 컷·자막은 원문 그대로"
+    },
+    "request": {
+      "kind": "choice",
+      "options": [
+        "후킹 붙여"
+      ],
+      "desc": "요청에 이 말이 있을 때만 켠다"
+    }
+  },
+  "drawn_allowed": [],
+  "keepout": [
+    "자막띠"
+  ],
+  "timeline": [
+    {
+      "at": "한 편 시작",
+      "if": "요청에 «후킹 붙여»",
+      "do": "고른 센 장면 구간들을 차례로 이어 붙임(원문 컷·자막 그대로)"
+    },
+    {
+      "at": "마지막 구간 뒤",
+      "if": "요청에 «후킹 붙여»",
+      "do": "구분 뒤 본편 시작(구분 방식은 todo)"
+    }
+  ],
+  "sfx": [],
+  "rules": [
+    "요청에 «후킹 붙여» 가 있을 때만 — 본문 장면을 앞에 복사해 붙이면 길이가 바뀐다 (auto-pipeline.md 4장 GU 아래, 6-1 요청 문법)",
+    "원문의 컷과 자막은 고치지 않는다 — 잘라 쓸 뿐 (auto-pipeline.md 0장, 사장님 10-08 «원문»)",
+    "미리보기에 쓴 구간은 본편에도 원문 그대로 남는다(복사) — 원문 순서를 바꾸지 않는다 (auto-pipeline.md 4장 GU)",
+    "자막이 잘린 구간을 고르지 않는다 — 사장님 C1 자막 단위로 자른다 (SKILL.md 3장 «자막은 타임라인 원문»)"
+  ],
+  "rejected": [],
+  "fallback": [
+    "OE-01"
+  ],
+  "from": "auto-pipeline.md 4장 (코드 출처 없음)",
+  "basis": "auto-pipeline.md 4장 GU 후킹 설명 · 6-1 요청 문법",
+  "todo": [
+    "센 장면을 몇 개·몇 초씩 붙일지 — 초기값, 첫 견본에서 정함",
+    "미리보기와 본편 사이 구분 방식(컷 / TR-03 흰 플래시 / OE-01 오프닝) — 초기값, 첫 견본에서 정함",
+    "견본 렌더 전이라 status 신규"
+  ]
+}

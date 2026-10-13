@@ -1,0 +1,96 @@
+{
+  "id": "SD-10",
+  "name": "쿵앞숨",
+  "drawer": "SD",
+  "version": 1,
+  "status": "신규",
+  "engine": "compose",
+  "subject": [
+    "소리"
+  ],
+  "source_ref": [
+    "쇼츠 DY-2 쿵 앞 0.5초 숨 (dynamic-mg-sfx.md 카드 2 — 7번 모두 0.45~0.5초 비움)"
+  ],
+  "summary": "큰 타격(쿵) 직전 0.45~0.5초는 소리를 꼬리만 남기고 비워 같은 쿵이 더 크게 들리게 한다. 화면은 같은 구간에서 정지 또는 어두워진다",
+  "use_when": [
+    "질문",
+    "결론·센 말"
+  ],
+  "avoid_when": [],
+  "tones": {
+    "TN-1": 0.2,
+    "TN-2": 0.8,
+    "TN-3": 0.9,
+    "TN-4": 0.0
+  },
+  "screens": [
+    "PIP",
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "audio",
+  "moves_person": false,
+  "duration": [
+    0.45,
+    0.5
+  ],
+  "slots": {
+    "hit_t": {
+      "kind": "words",
+      "desc": "쿵이 닿는 단어 시각"
+    }
+  },
+  "drawn_allowed": [],
+  "keepout": [],
+  "timeline": [
+    {
+      "at": "word:hit_t-0.5",
+      "do": "BGM·효과음을 꼬리만 남기고 비운다(BGM 이 있으면 −11~−20dB 로 내림)",
+      "dur": 0.5,
+      "ease": "hold"
+    },
+    {
+      "at": "word:hit_t",
+      "do": "쿵"
+    }
+  ],
+  "look": {
+    "breath_sec": [
+      0.45,
+      0.5
+    ],
+    "bgm_cut_db": [
+      -20,
+      -11
+    ]
+  },
+  "sfx": [
+    {
+      "at": "word:hit_t",
+      "role": "big",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "직전 0.45~0.5초는 비운다 — 근거 7번 모두 (7.57→8.06, 9.51→10.0, 11.46→11.94, 13.40→13.89, 15.34→15.82, 17.29→17.78, 19.23→19.71)",
+    "질문 직후 0.5초를 비우고 답 자막 + 쿵 — dynamic-mg-sfx.md 카드 2 한비즈 적용 예",
+    "BGM 이 없으면 비울 소리가 없으니 쓰지 않는다 — 소리 없는 시간 2.5초 상한 안에서만 (sfx.md 5장)",
+    "BGM 내림은 사장님 오더로 BGM 이 있을 때만 (SD-09)",
+    "한 편의 큰 변화 3~4곳에만 — SD-06 과 같은 자리",
+    "음원 파일을 이 폴더에 복사하지 않는다 — 주소는 tools/config.py SFX_ROOTS 한 곳 (CLAUDE.md 1, sfx-workflow.md 1장)",
+    "소리를 귀로 못 들었으면 «못 들었다»고 보고한다 (sfx.md 핵심, checklist.md D표)"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "SD-06",
+    "SD-01"
+  ],
+  "from": "쇼츠 study/dynamic-mg-sfx.md 카드 2 (시각 7개)",
+  "basis": "dynamic-mg-sfx.md 4장 카드 2",
+  "todo": [
+    "BGM 구간 지정 덕킹은 도구가 아직 없다(edit_render 덕킹은 목소리 있는 구간 기준, 노트에 확인함) — 설계자가 배치표에 구간 필드를 추가해야 함. 렌더 도구가 이 폴더에 생기기 전까지 설계 상태",
+    "BGM 내림 폭 −11~−20dB 는 sfx.md 2-1 «음악 끊김» 값을 빌린 노트의 표현이다 — 초기값, 첫 견본에서 정함",
+    "노트의 소리 값은 파형·길이·시각으로 확인한 것이고 귀로 확인한 적은 없다 — 첫 실사용에서 사장님 반응을 적는다"
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "id": "SC-12", "name": "모핑단계도식", "drawer": "SC", "version": 1, "status": "신규",
+  "engine": "html",
+  "subject": ["글자", "데이터"],
+  "source_ref": ["motion-graphics.md 2-1장 원칙 8(한 물체가 모양을 바꾸며 이어 가기)·9(단계 도식 = 계단)·10(HUD 잔글씨)", "쇼츠 motion-typo.md 카드 D «자료 모션 — 정보·절차·숫자»", "쇼츠 study/claude-motion-graphics.md UI 모핑(04:14–04:29)", "쇼츠 study/higgsfield-mg.md V4·V6(입력·진행 알약)"],
+  "summary": "절차·단계를 컷 없이 한 무대에서 한 요소가 모양을 바꾸며 이어 간다. 모눈 바탕에 오른쪽 위로 오르는 계단 선, 단계가 하나씩 옆으로 흘러 들어오고 마지막에 줌아웃해 셋을 한눈에 보여 준다. 진행률·체크로 단계를 표시",
+  "use_when": ["과정·단계", "정리·목차"],
+  "avoid_when": ["일상 상황", "개념 비교"],
+  "tones": {"TN-1": 0.4, "TN-2": 0.3, "TN-3": 1.0, "TN-4": 0.4},
+  "screens": ["PIP", "사람없음"],
+  "layer": "L2", "moves_person": false,
+  "duration": [8, 25],
+  "slots": {
+    "steps": {"kind": "text", "many": true, "max_chars": 10, "rule": "단계 이름 3~5개 — 말을 받치는 개념어, 말 복사·«» 금지. 단계 수·번호는 말에 나온 것만"},
+    "title": {"kind": "text", "optional": true, "max_chars": 12, "rule": "무대 상단 라벨(HUD 소형) — 정보가 아닌 분류 라벨, 업체명·숫자 실적 금지"},
+    "hit":   {"kind": "words", "desc": "단계마다 말하는 단어 시각 — 새 요소는 0.6초 혼자"},
+    "hit_zoomout": {"kind": "words", "optional": true, "desc": "마지막에 줌아웃해 전체를 보여 주는 말"}
+  },
+  "drawn_allowed": ["판", "구분선", "테두리", "카드바탕", "UI위젯", "HUD", "글자"],
+  "keepout": ["사람PIP", "자막띠", "얼굴+16px", "판밖"],
+  "timeline": [
+    {"at": "t0", "do": "모눈·미색 바탕 판 등장 (오른쪽에서 밀려 들어옴)", "dur": 0.45, "ease": "eo"},
+    {"at": "word:hit[i]", "do": "계단 선이 한 칸 그려지고 단계 카드가 옆으로 흘러 들어와 앉음 — 진행 눈금·체크가 한 칸 진행", "dur": "초기값 — 첫 견본에서 정함", "ease": "eo"},
+    {"at": "word:hit_zoomout", "do": "카메라가 줌아웃해 계단 전체를 한눈에", "dur": "초기값 — 첫 견본에서 정함", "ease": "ez"},
+    {"at": "t1-0.36", "do": "판이 빠지며 닫힘", "dur": 0.36, "ease": "eo"}
+  ],
+  "look": {
+    "bg": "모눈 + 미색, 가는 선 그림 (원칙 9)",
+    "hud": "구석 작은 라벨 «02 / 05»·진행 눈금 — 아주 작게·연하게 (원칙 10)",
+    "colors": "3색 — 바탕·글·강조 하나"
+  },
+  "sfx": [
+    {"at": "t0", "role": "in", "meaning": "중립"},
+    {"at": "word:hit[i]", "role": "st1", "meaning": "중립"},
+    {"at": "word:hit_zoomout", "role": "sweep", "meaning": "중립"},
+    {"at": "t1-0.36", "role": "back", "meaning": "중립"}
+  ],
+  "rules": [
+    "한 물체가 모양을 바꾸며 이어 간다 — 단계마다 컷·새 카드 나열 금지, 아이콘 카드 나열(템플릿 느낌) 금지 (쇼츠 motion-typo.md 카드 D · 원칙 8)",
+    "진행률·체크 표시로 단계를 보여 준다 — 단 체크·진행선은 UI 위젯으로, 아이콘은 이미지 (원칙 8 · 10-07 06)",
+    "계단 선은 가는 선 그림 — 막대 그래프 도형으로 양을 흉내 내지 않는다 (쇼츠 motion-typo.md 카드 D)",
+    "글자는 크게·작은 글씨 금지(휴대폰에서도 읽히게) — 근거 없는 숫자 금지 (쇼츠 motion-typo.md 카드 D)",
+    "새 요소는 0.6초 이상 혼자, 한 문장 새 요소 3개 이하 (10-07 10)",
+    "html 계약(쇼츠 tools/html_motion.py): seek(t) 순수 함수 · EVENTS · data-box · PALETTE 3색 이하",
+    "계단 장면을 비교 판(SC-03)과 연달아 쓰지 않는다 — 구도는 장면마다 다르게 (10-07 08)"
+  ],
+  "rejected": [],
+  "sample": {"steps": ["광고 만들기", "예산 정하기", "게재 시작"], "title": "진행 순서"},
+  "fallback": ["SC-04", "SC-02"],
+  "from": "코드 없음 — motion-graphics.md 2-1장 원칙 8·9·10 서술과 쇼츠 motion-typo.md 카드 D 에서 처음 설계. HTML 렌더는 쇼츠 tools/html_motion.py 사본으로 새로 만든다",
+  "basis": "auto-pipeline.md 4장 SC-12 «HTML — 원칙 8·9 · 신규» · motion-graphics.md 2-1장",
+  "todo": [
+    "쇼츠 html_motion.py 는 1080×1920·29.97fps 하드코딩 — 가로 1920×1080·59.94 로 인자화 필요",
+    "원칙 8·9 는 레퍼런스 학습분(통과 장면 04·07·08·09·10 에서 문제없었음)이고 이 연출 자체는 시험 전 — 새 견본이 첫 시도",
+    "계단 선 각도·단계 간격·카드 크기·줌아웃 배율·시간은 문서에 수치가 없다 → 초기값 — 첫 견본에서 정함",
+    "단계 개수 한도(3~5)는 원칙 9 의 «01 → 02 → 03» 예에서 잡은 초기값",
+    "원칙 9 는 강의 보조 패널에도 쓸 수 있다고 하나 그쪽은 강사님-강의편집 규칙이 우선"
+  ]
+}

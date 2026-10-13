@@ -1,0 +1,98 @@
+{
+  "id": "SD-05",
+  "name": "로고효과음",
+  "drawer": "SD",
+  "version": 1,
+  "status": "대기",
+  "engine": "compose",
+  "subject": [
+    "소리"
+  ],
+  "source_ref": [
+    "원#93 로고 효과음 (도구/소리/logo_sting.py, 분양4 04 로고, 통과 — 긴 휙 −6 · 치링 −5 · 윙크 +10 · 9kHz 저역통과)"
+  ],
+  "summary": "로고가 처음 나타날 때 따뜻한 공기 휙 → 종 한 번 → 반짝(치링) 순으로 1.8초 안팎의 로고 효과음만 깐다. 배경음이 아니다",
+  "use_when": [
+    "브랜드",
+    "한 편 끝",
+    "한 편 시작"
+  ],
+  "avoid_when": [],
+  "tones": {
+    "TN-1": 0.6,
+    "TN-2": 0.6,
+    "TN-3": 1.0,
+    "TN-4": 0.4
+  },
+  "screens": [
+    "PIP",
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "audio",
+  "moves_person": false,
+  "duration": [
+    1.8,
+    3.0
+  ],
+  "slots": {
+    "logo_t": {
+      "kind": "words",
+      "desc": "로고가 처음 보이는 시각"
+    }
+  },
+  "drawn_allowed": [],
+  "keepout": [],
+  "timeline": [
+    {
+      "at": "word:logo_t",
+      "do": "긴 휙(−6dB) → 치링(−5dB) → 윙크(+10dB), 9kHz 이상은 저역통과로 눌러 날카로움을 막는다"
+    }
+  ],
+  "look": {
+    "swoosh_db": -6,
+    "chiring_db": -5,
+    "wink_db": 10,
+    "lowpass_hz": 9000,
+    "sting_sec": 1.8,
+    "target_lufs": -18,
+    "peak_db": -3
+  },
+  "sfx": [
+    {
+      "at": "word:logo_t",
+      "role": "logo_first",
+      "meaning": "긍정"
+    },
+    {
+      "at": "word:logo_t+0.87",
+      "role": "shine",
+      "meaning": "긍정"
+    }
+  ],
+  "rules": [
+    "원#93 통과 값: 긴 휙 −6 · 치링 −5 · 윙크 +10 · 9kHz 저역통과",
+    "사장님 조건: «AI 기계음·날카로운 음·찢어지는 음·둔탁한 소리 없게, 다른 브랜드 건설사 로고 타이밍처럼» (logo_sting.py 주석, 10-01)",
+    "로고 효과음만 — 배경음 아님 (v1 화음·패드는 «배경음처럼 들림»이라 v2 효과음만으로 정함, logo_sting.py)",
+    "타격음·노이즈 신스는 쓰지 않는다 (logo_sting.py 조사)",
+    "합성 브랜드 사운드 팔레트는 반려된 결이다 — 실제 효과음 파일 조합으로 만든다 (origin 5장 반려)",
+    "소리는 그림에 붙고 뜻(긍정/부정/중립)에 맞춘다 — 10-08 22 (sfx.md 2장)",
+    "음원 파일을 이 폴더에 복사하지 않는다 — 주소는 tools/config.py SFX_ROOTS 한 곳 (CLAUDE.md 1, sfx-workflow.md 1장)",
+    "소리를 귀로 못 들었으면 «못 들었다»고 보고한다 (sfx.md 핵심, checklist.md D표)"
+  ],
+  "rejected": [
+    "origin 5장 «브랜드 사운드 팔레트 합성 · 시네마틱 A·B 둘 다 별로» — 합성 화음/시네마틱으로 되돌아가지 않는다"
+  ],
+  "sample": {},
+  "fallback": [
+    "SD-01",
+    "SD-03"
+  ],
+  "from": "D:/영상제작/도구/소리/logo_sting.py (v2 sfx: 휘익 → 종 한 번 → 반짝, 1.8초 — 0.00~0.40 휘익, 0.87 반짝 차임, −18 LUFS 최고 −3dB)",
+  "basis": "origin-session-1008.md 5장 #93 · 쇼츠 분양4 04",
+  "todo": [
+    "노트의 소리 값은 파형·길이·시각으로 확인한 것이고 귀로 확인한 적은 없다 — 첫 실사용에서 사장님 반응을 적는다",
+    "통과 값(−6·−5·+10)이 어느 소리에 붙는지 노트 한 줄뿐 — 파일 이름은 logo_sting.py 의 v2 효과음 목록으로 첫 견본에서 확정",
+    "분양 쇼츠 통과 → 대기. 쇼츠 OE-02 엔딩용 소리(logo_fly·logo_lock_spark 등)와 겹친다 — 어느 쪽을 롱폼 기본으로 할지 첫 견본에서 정함"
+  ]
+}

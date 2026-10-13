@@ -1,0 +1,113 @@
+{
+  "id": "CA-05",
+  "name": "따라가기",
+  "drawer": "CA",
+  "version": 1,
+  "status": "신규",
+  "engine": "compose",
+  "subject": [
+    "녹화화면"
+  ],
+  "source_ref": [
+    "빡이사DB 13 (bisa_ab_live.cam_at — 카메라가 말하는 칸으로 밀고 당김)",
+    "motion-graphics.md 5장 함정 «녹화가 중간에 스크롤되면 강조 위치가 어긋난다»(20)"
+  ],
+  "summary": "녹화 줌 상태에서 커서·스크롤을 따라 같은 배율로 부드럽게 이동한다. 긴 조작 시연용",
+  "use_when": [
+    "설정·버튼",
+    "과정·단계"
+  ],
+  "avoid_when": [
+    "개념 비교",
+    "일상 상황",
+    "결론·센 말"
+  ],
+  "tones": {
+    "TN-4": 1.0
+  },
+  "screens": [
+    "PIP",
+    "사람없음"
+  ],
+  "layer": "L1",
+  "moves_person": false,
+  "duration": [
+    0.1,
+    20
+  ],
+  "slots": {
+    "path": {
+      "kind": "box",
+      "many": true,
+      "from": "해부.녹화활동",
+      "desc": "커서 궤적·스크롤 시각에서 뽑은 따라갈 상자들"
+    },
+    "zoom": {
+      "kind": "number",
+      "range": [
+        1.45,
+        2.2
+      ],
+      "default": 1.45,
+      "desc": "확대 배율 — CA-03 과 같은 범위"
+    }
+  },
+  "drawn_allowed": [],
+  "keepout": [
+    "자막띠",
+    "사람PIP"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "첫 활동 상자 쪽으로 확대",
+      "to": "zoom",
+      "dur": 0.5,
+      "ease": "ez"
+    },
+    {
+      "at": "커서 이동 중",
+      "do": "커서·스크롤을 따라 같은 배율로 부드럽게 이동",
+      "ease": "ez"
+    },
+    {
+      "at": "t1-0.45",
+      "do": "원위치 100%",
+      "dur": 0.45,
+      "ease": "ez"
+    }
+  ],
+  "look": {
+    "zoom_default": 1.45,
+    "in_sec": 0.5,
+    "out_sec": 0.45,
+    "note": "들어감·나옴 시간과 기본 배율은 CA-03(bisa_ab_live 값)을 빌림"
+  },
+  "sfx": [
+    {
+      "at": "t0",
+      "role": "in",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "이동해도 녹화 기본 틀 밖(주소창·탭·북마크)이 보이지 않게 위치 범위를 묶는다 — bisa_ab_live.cam_at (10-08 13)",
+    "녹화가 스크롤되면 스크롤 시각을 재서 그 전후로 나눈다 — motion-graphics.md 5장 (20: 2136.6 −125px)",
+    "따라가는 영역에 업체명·번호·계정 ID 가 한 번이라도 보이면 이 박자는 버리고 fallback — CLAUDE.md 4",
+    "카메라는 L1(녹화)에만 건다 — 자막(L6)·사람 PIP 는 영향을 받지 않는다 (auto-pipeline.md 2-2·4장 CA)",
+    "카메라가 움직이는 동안 SC 장면을 시작하지 않는다 — auto-pipeline.md 6-3 «시간 겹침»",
+    "같은 템플릿은 3박자 안에 다시 쓰지 않는다 — auto-pipeline.md 6-2·6-3"
+  ],
+  "rejected": [],
+  "fallback": [
+    "CA-03",
+    "CA-01"
+  ],
+  "from": "tools/examples/bisa_ab_live.py (cam_at · CAM 널) — 따라가는 부분은 새로 만든다",
+  "basis": "motion-graphics.md 2장(13 2판) · 5장 · auto-pipeline.md 4장 CA-05",
+  "todo": [
+    "따라가는 부드러움(지연·최대 속도) — 초기값, 첫 견본에서 정함",
+    "커서 위치 검출(템플릿 매칭)과 스크롤 시각 검출의 정확도는 첫 시험 파일에서 잰다 (CA-03 todo 와 같음)",
+    "duration 은 서랍 범위(auto-pipeline.md 3-1장) — 이 템플릿 고유 값은 초기값, 첫 견본에서 정함"
+  ]
+}

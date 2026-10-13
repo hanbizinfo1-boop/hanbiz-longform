@@ -1,0 +1,56 @@
+{
+  "id": "EM-05", "name": "숫자카운트", "drawer": "EM", "version": 1, "status": "신규",
+  "engine": "html",
+  "subject": ["데이터", "글자"],
+  "source_ref": ["쇼츠 study/typography-remotion.md T7(숫자 카운트업 + 단위 고정 + 도착 점멸)", "쇼츠 motion-typo.md 카드 A «카운트업: 말에 나온 숫자만»", "쇼츠 study/typography-remotion.md 4-4(카운트업)"],
+  "summary": "말에 나온 숫자가 그 단어 시각에 0에서 올라가 도착한다. 숫자는 크게, 단위는 작게 고정, 도착 순간 강조색이 한 번 점멸. 막대·게이지 도형은 쓰지 않는다",
+  "use_when": ["숫자·금액", "결론·센 말"],
+  "avoid_when": ["설정·버튼", "일상 상황", "개념 비교"],
+  "tones": {"TN-1": 0.5, "TN-2": 0.5, "TN-3": 1.0, "TN-4": 0.3},
+  "screens": ["풀샷", "PIP"],
+  "layer": "L4", "moves_person": false,
+  "duration": [2, 6],
+  "slots": {
+    "value": {"kind": "number", "desc": "도착할 숫자 — 반드시 말(자막)에 나온 숫자. 지어낸 숫자·더미 금지"},
+    "unit":  {"kind": "text", "max_chars": 4, "rule": "단위는 작게 고정(만원·평·세대 식)"},
+    "label": {"kind": "text", "optional": true, "max_chars": 10, "rule": "숫자를 받치는 개념어 한 줄, 말 복사·«» 금지"},
+    "hit":   {"kind": "words", "desc": "숫자를 말하는 단어 시각 — 카운트가 여기서 시작"},
+    "area":  {"kind": "box", "desc": "안전영역(화면 좌표) — 사람 PIP·자막띠·얼굴 제외"}
+  },
+  "drawn_allowed": ["글자"],
+  "keepout": ["사람PIP", "자막띠", "얼굴+16px", "판밖"],
+  "timeline": [
+    {"at": "word:hit", "do": "숫자 카운트업 — 증가량 지수 감쇠로 도착 (30프레임 @29.97)", "dur": 1.0, "ease": "eo"},
+    {"at": "word:hit+1.0", "do": "도착 프레임에 강조색 1회 점멸 (4프레임 @29.97)", "dur": 0.133, "ease": "lin"},
+    {"at": "t1", "do": "화면 모드가 바뀌는 컷에서 같이 끝 — 끝 0.03~0.32초 페이드", "dur": "0.03~0.32 (8강 실측 범위)", "ease": "lin"}
+  ],
+  "look": {
+    "digits": "자릿수가 변해도 흔들리지 않게 숫자 한 글자씩 같은 폭 칸(고정 폭)에 그리거나 오른쪽 정렬",
+    "unit": "숫자보다 작게, 위치 고정",
+    "flash": "도착 프레임 강조색 1회",
+    "colors": "3색 — 바탕·글·강조 하나"
+  },
+  "sfx": [
+    {"at": "word:hit", "role": "gauge", "meaning": "긍정", "when": "숫자가 좋아지는 말(성과·증가)일 때만"},
+    {"at": "word:hit+1.0", "role": "big", "meaning": "중립", "when": "조건·기준·금액 — 축하음 금지"}
+  ],
+  "rules": [
+    "숫자는 말에 나온 것만 — 근거 자막 시각을 basis 로 적는다 (쇼츠 typography-remotion.md T7 · auto-pipeline.md 6-3)",
+    "조건·기준 숫자(미만·이상 등)에는 축하음·레벨업 금지 — 중립 big (10-08 22 «천만 원을 벌었다가 아니라 미만인 사람인데 왜 축하 효과음»)",
+    "막대·게이지·아이콘 도형으로 양을 흉내 내지 않는다 — 숫자만 + 단위 고정 (10-07 06 «도형으로 수준 낮은 짜깁기 원하지 않음»)",
+    "오버슈트 0, 등장 4~8프레임 감속, 새 요소는 0.6초 혼자 — motion-graphics.md 2-1장 원칙 3·13",
+    "html 계약: seek(t) 순수 함수 · EVENTS · data-box · PALETTE 3색 이하 (쇼츠 tools/html_motion.py)",
+    "차오르는 그림엔 차오르는 소리를 붙인다(10-02 «게이지는 왜 뺐어») — 단 뜻이 긍정일 때"
+  ],
+  "rejected": [],
+  "sample": {"value": 3000, "unit": "만원", "label": "하루 예산"},
+  "fallback": ["EM-04", "EM-01"],
+  "from": "쇼츠폴더 .claude/skills/shorts-ad/references/study/typography-remotion.md 5-2 T7 (읽기만)",
+  "basis": "auto-pipeline.md 4장 EM-05 «HTML — T7 카운트업 + 단위 고정 + 도착 점멸 · 신규» · 쇼츠 motion-typo.md 카드 A",
+  "todo": [
+    "쇼츠 html_motion.py 는 1080×1920·29.97fps 하드코딩 — 가로 1920×1080·59.94 로 인자화 필요. dur 의 프레임→초 환산(30프레임=1.0초, 4프레임=0.133초)은 29.97 기준이라 59.94 에서 다시 맞춘다",
+    "고정 폭 숫자: Pretendard·Noto Sans KR 의 tnum 지원은 쇼츠 문서에서 미확인 — 한 글자씩 같은 폭 칸에 그리는 방식으로 초기값 — 첫 견본에서 정함",
+    "카운트 시작 전 0 표시 여부, 쉼표·소수점 처리, 억·만 단위 변환은 정하지 않음 — 첫 견본에서 정함",
+    "T7 은 설계안이고 시험·통과 기록이 없다"
+  ]
+}

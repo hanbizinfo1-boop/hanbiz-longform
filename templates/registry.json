@@ -1,0 +1,9094 @@
+{
+  "generated": "2026-10-13",
+  "counts": {
+    "total": 200,
+    "rejected": 0,
+    "by_drawer": {
+      "GU": 9,
+      "CA": 14,
+      "EM": 63,
+      "SC": 64,
+      "TR": 18,
+      "OE": 21,
+      "SD": 11
+    },
+    "by_status": {
+      "통과": 17,
+      "대기": 46,
+      "시안": 4,
+      "신규": 131,
+      "폐기": 2
+    }
+  },
+  "templates": [
+    {
+      "id": "CA-01",
+      "name": "순간줌",
+      "drawer": "CA",
+      "version": 1,
+      "status": "통과",
+      "engine": "compose",
+      "subject": [
+        "녹화화면"
+      ],
+      "summary": "녹화 화면을 100%에서 196~226%로 거의 순간(0.034~0.067초)에 확대해 말하는 칸을 짚는다",
+      "use_when": [
+        "화면 속 특정 부분",
+        "설정·버튼"
+      ],
+      "avoid_when": [
+        "일상 상황",
+        "개념 비교"
+      ],
+      "tones": {
+        "TN-1": 1.0
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L1",
+      "moves_person": false,
+      "duration": [
+        0.1,
+        20
+      ],
+      "fallback": [
+        "CA-03",
+        "EM-02"
+      ],
+      "source_ref": [
+        "사장님 강의 편집 2강 «녹화 화면 확대» 4회 실측 (lecture-graphics.md 1장)"
+      ],
+      "folder": "CA-01_instant_zoom"
+    },
+    {
+      "id": "CA-02",
+      "name": "천천히밀기",
+      "drawer": "CA",
+      "version": 1,
+      "status": "신규",
+      "engine": "compose",
+      "subject": [
+        "사람"
+      ],
+      "summary": "풀샷에서 강조 문장 한 문장 동안 1.00→1.06 으로 감속하며 천천히 밀고 들어간다",
+      "use_when": [
+        "용어 제시",
+        "정의·조건",
+        "부연"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "화면 속 특정 부분"
+      ],
+      "tones": {
+        "TN-3": 1.0
+      },
+      "screens": [
+        "풀샷"
+      ],
+      "layer": "L1",
+      "moves_person": false,
+      "duration": [
+        0.1,
+        20
+      ],
+      "fallback": [
+        "CA-04",
+        "CA-06"
+      ],
+      "source_ref": [
+        "auto-pipeline.md 4장 CA-02 (설계안)",
+        "쇼츠 study/typography-remotion.md T5 «천천히 push-in 1.00→1.06» (설계안, 사장님 반응 없음)"
+      ],
+      "folder": "CA-02_slow_push"
+    },
+    {
+      "id": "CA-03",
+      "name": "녹화따라줌",
+      "drawer": "CA",
+      "version": 1,
+      "status": "통과",
+      "engine": "compose",
+      "subject": [
+        "녹화화면"
+      ],
+      "summary": "녹화 화면에서 지금 말하는 칸(커서·바뀐 영역)으로 카메라가 밀고 들어가 버티다 원위치. 자막·사람 PIP 는 영향 없음",
+      "use_when": [
+        "설정·버튼",
+        "화면 속 특정 부분"
+      ],
+      "avoid_when": [
+        "개념 비교",
+        "일상 상황",
+        "결론·센 말"
+      ],
+      "tones": {
+        "TN-1": 0.7,
+        "TN-2": 0.5,
+        "TN-3": 0.3,
+        "TN-4": 1.0
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L1",
+      "moves_person": false,
+      "duration": [
+        1.5,
+        20
+      ],
+      "fallback": [
+        "CA-01",
+        "EM-02"
+      ],
+      "source_ref": [
+        "빡이사DB 04",
+        "빡이사DB 08 2판",
+        "빡이사DB 13 2판"
+      ],
+      "folder": "CA-03_rec_zoom"
+    },
+    {
+      "id": "CA-04",
+      "name": "펀치인",
+      "drawer": "CA",
+      "version": 1,
+      "status": "신규",
+      "engine": "compose",
+      "subject": [
+        "사람"
+      ],
+      "summary": "풀샷에서 센 말·결론에 얼굴 중심으로 1.0→1.15 로 한 컷(자르듯) 들어갔다가 문장 끝에 복귀한다",
+      "use_when": [
+        "결론·센 말"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "화면 속 특정 부분"
+      ],
+      "tones": {
+        "TN-2": 1.0,
+        "TN-3": 0.0
+      },
+      "screens": [
+        "풀샷"
+      ],
+      "layer": "L1",
+      "moves_person": false,
+      "duration": [
+        0.1,
+        20
+      ],
+      "fallback": [
+        "CA-02",
+        "CA-06"
+      ],
+      "source_ref": [
+        "auto-pipeline.md 4장 CA-04 (설계안)",
+        "tools/rf3_ae.py punches (분양 쇼츠의 펀치 — 배율·시간이 달라 그대로 쓰지 않고 참고만)"
+      ],
+      "folder": "CA-04_punch_in"
+    },
+    {
+      "id": "CA-05",
+      "name": "따라가기",
+      "drawer": "CA",
+      "version": 1,
+      "status": "신규",
+      "engine": "compose",
+      "subject": [
+        "녹화화면"
+      ],
+      "summary": "녹화 줌 상태에서 커서·스크롤을 따라 같은 배율로 부드럽게 이동한다. 긴 조작 시연용",
+      "use_when": [
+        "설정·버튼",
+        "과정·단계"
+      ],
+      "avoid_when": [
+        "개념 비교",
+        "일상 상황",
+        "결론·센 말"
+      ],
+      "tones": {
+        "TN-4": 1.0
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L1",
+      "moves_person": false,
+      "duration": [
+        0.1,
+        20
+      ],
+      "fallback": [
+        "CA-03",
+        "CA-01"
+      ],
+      "source_ref": [
+        "빡이사DB 13 (bisa_ab_live.cam_at — 카메라가 말하는 칸으로 밀고 당김)",
+        "motion-graphics.md 5장 함정 «녹화가 중간에 스크롤되면 강조 위치가 어긋난다»(20)"
+      ],
+      "folder": "CA-05_follow_cursor"
+    },
+    {
+      "id": "CA-06",
+      "name": "원위치",
+      "drawer": "CA",
+      "version": 1,
+      "status": "신규",
+      "engine": "compose",
+      "subject": [
+        "녹화화면",
+        "사람"
+      ],
+      "summary": "확대된 카메라를 1.0 으로 감속하며 되돌린다. 챕터 끝·장면 시작 전에 공통으로 붙는다",
+      "use_when": [
+        "챕터 시작"
+      ],
+      "avoid_when": [],
+      "tones": {},
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L1",
+      "moves_person": false,
+      "duration": [
+        0.3,
+        0.45
+      ],
+      "fallback": [
+        "CA-03"
+      ],
+      "source_ref": [
+        "auto-pipeline.md 4장 CA-06",
+        "CA-03 의 복귀 구간(bisa_ab_live: 0.45초) — 통과 결"
+      ],
+      "folder": "CA-06_reset"
+    },
+    {
+      "id": "CA-07",
+      "name": "정지전진",
+      "drawer": "CA",
+      "version": 1,
+      "status": "대기",
+      "engine": "compose",
+      "subject": [
+        "자료이미지"
+      ],
+      "summary": "영상(또는 정지 자료)의 끝 프레임을 멈춰 두고 한 점을 향해 100→122% 로 3초 동안 전진한다. 끝 0.8초만 부드럽게 멈춘다",
+      "use_when": [
+        "현실 공간·사람",
+        "사례·후기",
+        "한 편 시작"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.3,
+        "TN-2": 0.4,
+        "TN-3": 1.0,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "사람없음",
+        "풀샷"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        3,
+        3
+      ],
+      "fallback": [
+        "CA-02",
+        "CA-09"
+      ],
+      "source_ref": [
+        "원#66 끝 프레임 정지 + 확대 전진 (분양4 06 b4_push06.py, 통과)",
+        "원#66 «V2 끝 프레임을 정지시키고 에펙 확대 효과로 전진하는 느낌» (10-01)"
+      ],
+      "folder": "CA-07_freeze_push"
+    },
+    {
+      "id": "CA-08",
+      "name": "락온디지털줌",
+      "drawer": "CA",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "녹화화면",
+        "글자"
+      ],
+      "summary": "하늘색 HUD(괄호·격자·스캔선)가 켜지고 조준선이 대상을 찾아 락온(찰칵) 한 뒤 3단 디지털 줌으로 빨려 들어가며 HUD 가 꺼진다. 화면 글자는 없다",
+      "use_when": [
+        "화면 속 특정 부분",
+        "알고리즘·시스템 행동"
+      ],
+      "avoid_when": [
+        "일상 상황",
+        "경고·실수"
+      ],
+      "tones": {
+        "TN-1": 0.2,
+        "TN-2": 0.8,
+        "TN-3": 0.4,
+        "TN-4": 0.5
+      },
+      "screens": [
+        "사람없음",
+        "PIP"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        2.2,
+        2.4
+      ],
+      "fallback": [
+        "CA-01",
+        "EM-01"
+      ],
+      "source_ref": [
+        "원#62 HUD 락온·디지털 줌 (분양4 05 b4_previz05.py, 통과 «락온은 찰칵»)"
+      ],
+      "folder": "CA-08_lockon_digital_zoom"
+    },
+    {
+      "id": "CA-09",
+      "name": "켄번스",
+      "drawer": "CA",
+      "version": 1,
+      "status": "신규",
+      "engine": "compose",
+      "subject": [
+        "자료이미지"
+      ],
+      "summary": "정지 자료 이미지(문서·사진·기사 캡처)를 천천히 밀거나 훑어 움직임이 없는 구간에 숨을 넣는다. 말하는 곳으로 방향을 잡는다",
+      "use_when": [
+        "자료 등장",
+        "사례·후기",
+        "현실 공간·사람"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.6,
+        "TN-2": 0.3,
+        "TN-3": 1.0,
+        "TN-4": 0.2
+      },
+      "screens": [
+        "사람없음",
+        "풀샷"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        2,
+        8
+      ],
+      "fallback": [
+        "CA-02",
+        "CA-07"
+      ],
+      "source_ref": [
+        "웹#14 켄 번스 효과 (web-research-1008.md 1장 «정지 자료 이미지 천천히 밀기·훑기» 계열, 출처 값 없음)"
+      ],
+      "folder": "CA-09_ken_burns"
+    },
+    {
+      "id": "CA-10",
+      "name": "패럴랙스",
+      "drawer": "CA",
+      "version": 1,
+      "status": "신규",
+      "engine": "ae",
+      "subject": [
+        "자료이미지"
+      ],
+      "summary": "한 장의 이미지를 앞·중간·뒤 층으로 나눠 카메라가 살짝 들어가면서 층별 속도 차로 깊이를 만든다. 한 편에 한두 번만",
+      "use_when": [
+        "현실 공간·사람",
+        "한 편 시작"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "숫자·금액",
+        "화면 속 특정 부분"
+      ],
+      "tones": {
+        "TN-1": 0.2,
+        "TN-2": 0.3,
+        "TN-3": 1.0,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        2,
+        6
+      ],
+      "fallback": [
+        "CA-09",
+        "CA-02"
+      ],
+      "source_ref": [
+        "웹#15 2.5D 패럴랙스 (web-research-1008.md 1장 주의 «다큐에서 클리셰 지적», motionarray 글)",
+        "쇼츠 index «이미지 한 장+코드 패럴랙스로 유료 줄이기» (다음에 해 볼 것)"
+      ],
+      "folder": "CA-10_parallax_25d"
+    },
+    {
+      "id": "CA-11",
+      "name": "PIP확대반반",
+      "drawer": "CA",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "사람"
+      ],
+      "summary": "녹화 위 PIP 사람(30%)이 커져 화면 왼쪽 절반(50%)을 차지하고 오른쪽에 판이 들어온다. 끝에 처음 모양으로 거꾸로 닫힌다",
+      "use_when": [
+        "정리·목차",
+        "소개·여러 항목",
+        "챕터 끝"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.8,
+        "TN-2": 0.5,
+        "TN-3": 0.3,
+        "TN-4": 0.4
+      },
+      "screens": [
+        "PIP"
+      ],
+      "layer": "L4",
+      "moves_person": true,
+      "duration": [
+        4,
+        20
+      ],
+      "fallback": [
+        "SC-02",
+        "EM-06"
+      ],
+      "source_ref": [
+        "원#20 본편형 반반 (PIP 커져 절반) — 빡이사DB 12 bisa_note_targeting.py, 대기",
+        "SC-02 노트손글씨 와 같은 도구 값"
+      ],
+      "folder": "CA-11_pip_half_swap"
+    },
+    {
+      "id": "CA-12",
+      "name": "원형PIP전환",
+      "drawer": "CA",
+      "version": 1,
+      "status": "통과",
+      "engine": "compose",
+      "subject": [
+        "사람"
+      ],
+      "summary": "풀샷 사람이 좌하단 원형 PIP 로 줄어 화면을 자료·녹화에 내주고, 말이 돌아오면 다시 풀샷으로 돌아온다",
+      "use_when": [
+        "자료 등장",
+        "화면 속 특정 부분",
+        "설정·버튼"
+      ],
+      "avoid_when": [
+        "감정·리액션"
+      ],
+      "tones": {
+        "TN-1": 1.0,
+        "TN-2": 0.3,
+        "TN-3": 0.5,
+        "TN-4": 0.9
+      },
+      "screens": [
+        "풀샷",
+        "PIP"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        2,
+        60
+      ],
+      "fallback": [
+        "CA-06",
+        "CA-03"
+      ],
+      "source_ref": [
+        "원#46 원형 PIP 좌하단 (강의 8강, 통과)",
+        "웹#21 Remotion Layouts PIP·Slide to Split (web-research-1008.md 2장 CA 시장 카테고리)",
+        "lecture-graphics.md 4장 원형 PIP 실측"
+      ],
+      "folder": "CA-12_circle_pip_shift"
+    },
+    {
+      "id": "CA-13",
+      "name": "와이드타이트교대",
+      "drawer": "CA",
+      "version": 1,
+      "status": "신규",
+      "engine": "compose",
+      "subject": [
+        "사람"
+      ],
+      "summary": "풀샷 사람을 와이드 ↔ 타이트(확대 크롭) 두 단계로 교대시키되 새 문장이 시작될 때만 바꾼다. 앵커는 얼굴",
+      "use_when": [
+        "보는 사람 시점",
+        "결론·센 말",
+        "감정·리액션"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.4,
+        "TN-2": 1.0,
+        "TN-3": 0.0,
+        "TN-4": 0.2
+      },
+      "screens": [
+        "풀샷"
+      ],
+      "layer": "L1",
+      "moves_person": false,
+      "duration": [
+        0,
+        0
+      ],
+      "fallback": [
+        "CA-04",
+        "CA-02"
+      ],
+      "source_ref": [
+        "웹#12·13 펀치인 (autocut·vizard, web-research-1008.md 1장 출처값)",
+        "웹#12·13 출처 «새 문장 시작에서만, 몇 초마다 바꾸지 않음»"
+      ],
+      "folder": "CA-13_wide_tight_alternate"
+    },
+    {
+      "id": "CA-14",
+      "name": "충격흔들림",
+      "drawer": "CA",
+      "version": 1,
+      "status": "폐기",
+      "engine": "ae",
+      "subject": [
+        "자료이미지",
+        "무대배경"
+      ],
+      "summary": "대상 한 점으로 빨려 들듯 1→1.32 로 커지며 방사 흐림, 잦아드는 흔들림, 반짝 별 9개, 시작에 살짝 번쩍한다. 한 편에 한 번",
+      "use_when": [
+        "결론·센 말",
+        "경고·실수",
+        "감정·리액션"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "숫자·금액",
+        "정의·조건"
+      ],
+      "tones": {
+        "TN-1": 0.1,
+        "TN-2": 1.0,
+        "TN-3": 0.0,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        1.4,
+        1.6
+      ],
+      "fallback": [
+        "CA-04",
+        "EM-05"
+      ],
+      "source_ref": [
+        "원#64 빨려 듦 + 지진 + 반짝 별 (분양4 02 b4_bg02_quake.py, 확정 — 사장님 요청 10-01)"
+      ],
+      "folder": "CA-14_impact_shake"
+    },
+    {
+      "id": "EM-01",
+      "name": "자료위박스",
+      "drawer": "EM",
+      "version": 1,
+      "status": "통과",
+      "engine": "ae",
+      "subject": [
+        "녹화화면",
+        "자료이미지"
+      ],
+      "summary": "녹화·자료 화면에서 강사가 말하는 줄·숫자를 빨간 네모(두 번째 대상 파랑·세 번째 초록)·타원·밑줄로 짚는다. 같은 화면 안에서는 쌓고, 대비면 옮긴다",
+      "use_when": [
+        "화면 속 특정 부분",
+        "숫자·금액",
+        "정의·조건"
+      ],
+      "avoid_when": [
+        "일상 상황",
+        "개념 비교"
+      ],
+      "tones": {
+        "TN-1": 1.0,
+        "TN-2": 0.6,
+        "TN-3": 0.2,
+        "TN-4": 1.0
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        1.5,
+        8
+      ],
+      "fallback": [
+        "EM-02",
+        "CA-01"
+      ],
+      "source_ref": [
+        "강사님 8강 35개 실측",
+        "강사님 2강"
+      ],
+      "folder": "EM-01_box_mark"
+    },
+    {
+      "id": "EM-02",
+      "name": "돋보기",
+      "drawer": "EM",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "녹화화면"
+      ],
+      "summary": "녹화 화면을 어둡게 덮고, 마우스가 가리키는 칸만 제자리에서 2.2배로 떠올린다. 돋보기 안을 빨간 테두리로 짚고 연결선 끝에 개념어 이름표를 단다. 끝에 제자리로 돌아간다",
+      "use_when": [
+        "화면 속 특정 부분",
+        "설정·버튼"
+      ],
+      "avoid_when": [
+        "일상 상황",
+        "개념 비교",
+        "한 편 시작"
+      ],
+      "tones": {
+        "TN-1": 0.6,
+        "TN-2": 0.4,
+        "TN-3": 0.3,
+        "TN-4": 1.0
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        2,
+        8
+      ],
+      "fallback": [
+        "EM-01",
+        "CA-03"
+      ],
+      "source_ref": [
+        "빡이사DB 20 (tools/examples/bisa_ref_analyze.py)",
+        "motion-graphics.md 0장 갈래 «실화면 돋보기»",
+        "사장님 10-08 20 지시 «마우스 포인트랑 대본 정합성 맞춰서 확대 및 강조 표현»"
+      ],
+      "folder": "EM-02_magnifier"
+    },
+    {
+      "id": "EM-03",
+      "name": "값타자",
+      "drawer": "EM",
+      "version": 1,
+      "status": "통과",
+      "engine": "ae",
+      "subject": [
+        "녹화화면",
+        "글자"
+      ],
+      "summary": "녹화 화면의 설정 칸으로 카메라가 밀고 들어가 커서가 실제로 누르고, 값이 왼쪽부터 타자로 바뀐다. 값이 뜰 때마다 반짝 선과 테두리 번짐, 값에 맞는 알약이 따라 나온다",
+      "use_when": [
+        "설정·버튼",
+        "화면 속 특정 부분",
+        "숫자·금액"
+      ],
+      "avoid_when": [
+        "개념 비교",
+        "일상 상황",
+        "결론·센 말"
+      ],
+      "tones": {
+        "TN-1": 0.7,
+        "TN-2": 0.4,
+        "TN-3": 0.2,
+        "TN-4": 1.0
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        5,
+        35
+      ],
+      "fallback": [
+        "CA-03",
+        "EM-02"
+      ],
+      "source_ref": [
+        "빡이사DB 04 (페이지 이름 타자)",
+        "빡이사DB 08 2판 (예산 칸 1만→2만→3만)",
+        "빡이사DB 13 2판 (tools/examples/bisa_ab_live.py — 커서·타자·CAM·강조 포인트)",
+        "쇼츠 techniques.md A표 «녹화 화면 확대 + 값 타자»"
+      ],
+      "folder": "EM-03_value_typing"
+    },
+    {
+      "id": "EM-04",
+      "name": "키워드타이포",
+      "drawer": "EM",
+      "version": 1,
+      "status": "시안",
+      "engine": "html",
+      "subject": [
+        "글자"
+      ],
+      "summary": "말하는 순간마다 한 줄씩 쌓이고 새 줄이 들어오면 블록이 재중앙하는 키워드 타이포(쌓기), 또는 단어 한 개를 영역 폭에 맞춰 크게 띄우는 카드(폭맞춤). 핵심어 하나만 강조색",
+      "use_when": [
+        "용어 제시",
+        "결론·센 말",
+        "챕터 시작"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "숫자·금액",
+        "일상 상황"
+      ],
+      "tones": {
+        "TN-1": 0.4,
+        "TN-2": 0.8,
+        "TN-3": 1.0,
+        "TN-4": 0.2
+      },
+      "screens": [
+        "풀샷",
+        "PIP"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        1.5,
+        8
+      ],
+      "fallback": [
+        "EM-07",
+        "EM-10"
+      ],
+      "source_ref": [
+        "쇼츠 motion-typo.md 카드 A «키네틱 타이포»",
+        "쇼츠 study/typography-remotion.md T1(말-시각 쌓기+재중앙) · T2(폭 맞춤 키워드 카드) · T4(음절 캐스케이드)",
+        "쇼츠 tools/scenes/html/hanbiz_typo_test.html (10-08 렌더 확인)"
+      ],
+      "folder": "EM-04_keyword_typo"
+    },
+    {
+      "id": "EM-05",
+      "name": "숫자카운트",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "데이터",
+        "글자"
+      ],
+      "summary": "말에 나온 숫자가 그 단어 시각에 0에서 올라가 도착한다. 숫자는 크게, 단위는 작게 고정, 도착 순간 강조색이 한 번 점멸. 막대·게이지 도형은 쓰지 않는다",
+      "use_when": [
+        "숫자·금액",
+        "결론·센 말"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "일상 상황",
+        "개념 비교"
+      ],
+      "tones": {
+        "TN-1": 0.5,
+        "TN-2": 0.5,
+        "TN-3": 1.0,
+        "TN-4": 0.3
+      },
+      "screens": [
+        "풀샷",
+        "PIP"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        2,
+        6
+      ],
+      "fallback": [
+        "EM-04",
+        "EM-01"
+      ],
+      "source_ref": [
+        "쇼츠 study/typography-remotion.md T7(숫자 카운트업 + 단위 고정 + 도착 점멸)",
+        "쇼츠 motion-typo.md 카드 A «카운트업: 말에 나온 숫자만»",
+        "쇼츠 study/typography-remotion.md 4-4(카운트업)"
+      ],
+      "folder": "EM-05_number_countup"
+    },
+    {
+      "id": "EM-06",
+      "name": "보조패널쌓기",
+      "drawer": "EM",
+      "version": 1,
+      "status": "통과",
+      "engine": "pil",
+      "subject": [
+        "글자",
+        "자료이미지"
+      ],
+      "summary": "인물 전체화면 옆에 작은 패널 하나를 두고, 강사가 말하는 순서대로 핵심 항목이 한 줄씩 쌓인다. 글자는 크게·적게, 패널 크기는 마지막 단계 기준으로 고정해 위치가 튀지 않는다",
+      "use_when": [
+        "정리·목차",
+        "소개·여러 항목",
+        "용어 제시"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "일상 상황"
+      ],
+      "tones": {
+        "TN-1": 1.0,
+        "TN-2": 0.3,
+        "TN-3": 0.4,
+        "TN-4": 0.4
+      },
+      "screens": [
+        "풀샷"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        5,
+        30
+      ],
+      "fallback": [
+        "EM-08",
+        "EM-07"
+      ],
+      "source_ref": [
+        "강사님 강의 09-23 보조 패널 (tools/side_panel_render.py · card_render.py)",
+        "lecture-graphics.md 3장 «화면 원칙 — 보조 패널»",
+        "lecture-graphics.md 3장 9강 피드백 #1·#2 (피드백-9강.md)",
+        "사장님 09-23 «1분 동안 말한 거 중 핵심들을 하나하나 정리하면서 들어가는 느낌 8강 참고해서»"
+      ],
+      "folder": "EM-06_side_panel_stack"
+    },
+    {
+      "id": "EM-07",
+      "name": "포토카드",
+      "drawer": "EM",
+      "version": 1,
+      "status": "통과",
+      "engine": "ae",
+      "subject": [
+        "글자",
+        "브랜드"
+      ],
+      "summary": "인물 오른쪽에 흰 카드(왼쪽 브랜드 띠·로고)가 아래서 올라오고, 강사 자막 시각마다 글자가 왼쪽에서 닦여 나오며 쌓인다. 결론 한 줄은 크게 떨어져 앉고 카드가 살짝 흔들린다",
+      "use_when": [
+        "정리·목차",
+        "용어 제시",
+        "정의·조건"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "개념 비교"
+      ],
+      "tones": {
+        "TN-1": 1.0,
+        "TN-2": 0.3,
+        "TN-3": 0.5,
+        "TN-4": 0.3
+      },
+      "screens": [
+        "풀샷"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        5,
+        12
+      ],
+      "fallback": [
+        "EM-06",
+        "EM-08"
+      ],
+      "source_ref": [
+        "강사님 강의 12강 자료01 «기관명 풀어보기» (tools/examples/lec12_card01.py)",
+        "lecture-graphics.md 5장 «포토카드 — 통과 틀»",
+        "시안 도구 tools/examples/photocard_drafts2.py · photocard_drafts3.py",
+        "사장님 09-29 «오케이 이런 느낌으로»"
+      ],
+      "folder": "EM-07_photo_card"
+    },
+    {
+      "id": "EM-08",
+      "name": "노트메모",
+      "drawer": "EM",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "글자"
+      ],
+      "summary": "자료도 패널도 없는 인물 구간에서 정리할 만한 말이 나올 때, 오른쪽에 한지 한 장이 놓이고 노란 제목 아래 흰 줄이 말하는 순간 하나씩 팝으로 생긴다",
+      "use_when": [
+        "정리·목차",
+        "소개·여러 항목"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "설정·버튼",
+        "개념 비교"
+      ],
+      "tones": {
+        "TN-1": 0.8,
+        "TN-2": 0.4,
+        "TN-3": 0.3,
+        "TN-4": 0.4
+      },
+      "screens": [
+        "풀샷"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        4,
+        20
+      ],
+      "fallback": [
+        "EM-06",
+        "SC-02"
+      ],
+      "source_ref": [
+        "강사님 강의 09-23 저녁 «메모(한지)» (lecture-graphics.md 3장)",
+        "lecture-graphics.md 1장 장면 A «노트» — 글자 규격·팝(세로 130→100%, 0.216초)",
+        "memo_build.py (원본에만 있음, 이 폴더에 없음)"
+      ],
+      "folder": "EM-08_note_memo"
+    },
+    {
+      "id": "EM-09",
+      "name": "도장",
+      "drawer": "EM",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "자료이미지",
+        "소리"
+      ],
+      "summary": "실물 도장 이미지가 크게 내려와 찍히고 도장 소리가 나는 한 컷. 추천·확정 같은 결론 순간, 또는 ✕ 도장으로 부정을 찍는다",
+      "use_when": [
+        "결론·센 말",
+        "경고·실수"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "일상 상황",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.3,
+        "TN-2": 1.0,
+        "TN-3": 0.2,
+        "TN-4": 0.2
+      },
+      "screens": [
+        "풀샷",
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        1.5,
+        5
+      ],
+      "fallback": [
+        "EM-04",
+        "EM-05"
+      ],
+      "source_ref": [
+        "빡이사DB 22 (tools/examples/bisa_pitch_mg.py — 추천 도장 slam·✕ 도장)",
+        "빡이사DB 12강 포토카드 결론 도장 (lecture-graphics.md 5장 «결론 도장 0dB»)",
+        "sfx-workflow.md 3장 stamp",
+        "사장님 10-08 22 «도장에는 왜 도장 효과음 안 쓰고»"
+      ],
+      "folder": "EM-09_stamp"
+    },
+    {
+      "id": "EM-10",
+      "name": "질문카드",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자"
+      ],
+      "summary": "강사가 던지는 «~?» 질문 한 줄이 골드로 떠 있다가, 답을 말하는 순간 «~!» 로 바뀌며 133% 로 튄다. 연속 질문은 아래에서 올라오며 차례로 선다",
+      "use_when": [
+        "질문",
+        "용어 제시"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.5,
+        "TN-2": 0.8,
+        "TN-3": 0.6,
+        "TN-4": 0.2
+      },
+      "screens": [
+        "풀샷"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        2,
+        8
+      ],
+      "fallback": [
+        "EM-04",
+        "EM-07"
+      ],
+      "source_ref": [
+        "강사님 강의 장면 B «풀샷 위 글자» 질문형 → 답 (lecture-graphics.md 1장)",
+        "lecture-graphics.md 2장 ⑥ 질문 유형(? 로 끝남, 골드) · 8강 연속 질문 3개 등장",
+        "쇼츠 study/typography-remotion.md T6(반전 카드) · T2(폭 맞춤)"
+      ],
+      "folder": "EM-10_question_card"
+    },
+    {
+      "id": "EM-11",
+      "name": "마커스윕",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자"
+      ],
+      "summary": "화면 글 속 핵심어 위로 형광 마커가 좌→우로 쓸고 지나간다. 단어를 말하는 순간 끝나고, 문장당 하나",
+      "use_when": [
+        "용어 제시",
+        "결론·센 말",
+        "정의·조건"
+      ],
+      "avoid_when": [
+        "가림",
+        "일상 상황"
+      ],
+      "tones": {
+        "TN-1": 0.7,
+        "TN-2": 0.6,
+        "TN-3": 0.6,
+        "TN-4": 0.8
+      },
+      "screens": [
+        "풀샷",
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        0.8,
+        4
+      ],
+      "fallback": [
+        "EM-28",
+        "EM-04"
+      ],
+      "source_ref": [
+        "웹#23 마커 스윕 하이라이트 [출처값] https://autoae.online/blog/how-to-make-highlight-text-animation-video",
+        "origin-session-1008.md #77 강조어 말하는 순간 색"
+      ],
+      "folder": "EM-11_marker_sweep"
+    },
+    {
+      "id": "EM-12",
+      "name": "블록리빌반전",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자"
+      ],
+      "summary": "핵심어 뒤에서 색 블록이 좌→우로 드러나며 블록이 지나간 글자는 색이 반전된다. 마커보다 묵직한 한 번",
+      "use_when": [
+        "용어 제시",
+        "결론·센 말"
+      ],
+      "avoid_when": [
+        "가림",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.5,
+        "TN-2": 0.5,
+        "TN-3": 0.9,
+        "TN-4": 0.4
+      },
+      "screens": [
+        "풀샷",
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        1,
+        4
+      ],
+      "fallback": [
+        "EM-28",
+        "EM-11"
+      ],
+      "source_ref": [
+        "웹#24 블록 리빌 반전 (웹 조사 EM 카테고리 Text)",
+        "쇼츠 B-7 핵심어 형광 상자 (study/shorts-notes-index-1008.md 타이포 묶음)",
+        "origin-session-1008.md #24·#26"
+      ],
+      "folder": "EM-12_block_reveal_invert"
+    },
+    {
+      "id": "EM-13",
+      "name": "애니밑줄",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자"
+      ],
+      "summary": "핵심어 아래로 밑줄이 좌→우로 그려진다. 형광이나 상자보다 가벼운 강조",
+      "use_when": [
+        "용어 제시",
+        "정의·조건",
+        "화면 속 특정 부분"
+      ],
+      "avoid_when": [
+        "가림"
+      ],
+      "tones": {
+        "TN-1": 0.9,
+        "TN-2": 0.4,
+        "TN-3": 0.7,
+        "TN-4": 0.8
+      },
+      "screens": [
+        "풀샷",
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        0.8,
+        4
+      ],
+      "fallback": [
+        "EM-11",
+        "EM-01"
+      ],
+      "source_ref": [
+        "웹#25 애니메이션 밑줄 (웹 조사 EM 카테고리 Highlighter·Circle/Strike marker)",
+        "origin-session-1008.md #45 휜 밑줄"
+      ],
+      "folder": "EM-13_animated_underline"
+    },
+    {
+      "id": "EM-14",
+      "name": "스크리블",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "ae",
+      "subject": [
+        "글자"
+      ],
+      "summary": "손으로 쓱쓱 동그라미·휘갈김을 쳐 핵심어를 묶는다. 손맛으로 사람 냄새를 더하는 강조",
+      "use_when": [
+        "용어 제시",
+        "감정·리액션",
+        "결론·센 말"
+      ],
+      "avoid_when": [
+        "가림",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.3,
+        "TN-2": 0.9,
+        "TN-3": 0.2,
+        "TN-4": 0.5
+      },
+      "screens": [
+        "풀샷",
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        0.8,
+        3
+      ],
+      "fallback": [
+        "EM-13",
+        "EM-01"
+      ],
+      "source_ref": [
+        "웹#27 스크리블 (웹 조사 EM 카테고리 Circle/Strike marker)"
+      ],
+      "folder": "EM-14_scribble"
+    },
+    {
+      "id": "EM-15",
+      "name": "취소선정정",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자"
+      ],
+      "summary": "틀린 말·옛 기준에 줄을 그어 지우고 옆(또는 아래)에 바른 말을 놓는다. «이렇게 말고 이렇게»",
+      "use_when": [
+        "경고·실수",
+        "개념 비교",
+        "정의·조건"
+      ],
+      "avoid_when": [
+        "가림",
+        "일상 상황"
+      ],
+      "tones": {
+        "TN-1": 0.8,
+        "TN-2": 0.6,
+        "TN-3": 0.4,
+        "TN-4": 0.8
+      },
+      "screens": [
+        "풀샷",
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        1.5,
+        5
+      ],
+      "fallback": [
+        "EM-16",
+        "EM-26"
+      ],
+      "source_ref": [
+        "웹#28 취소선 정정 (웹 조사 EM 카테고리 Circle/Strike marker)",
+        "origin-session-1008.md #34 줄 그은 금지 칩"
+      ],
+      "folder": "EM-15_strike_correct"
+    },
+    {
+      "id": "EM-16",
+      "name": "교정타자",
+      "drawer": "EM",
+      "version": 1,
+      "status": "통과",
+      "engine": "ae",
+      "subject": [
+        "녹화화면",
+        "글자"
+      ],
+      "summary": "녹화 화면의 칸이 1.5배로 확대 → 잘못된 이름 타자 → 빨간 줄 → 지움 → 바른 이름 재타자 → 형광펜 → 칩. «이렇게 말고 이렇게»",
+      "use_when": [
+        "설정·버튼",
+        "화면 속 특정 부분",
+        "경고·실수"
+      ],
+      "avoid_when": [
+        "일상 상황",
+        "개념 비교"
+      ],
+      "tones": {
+        "TN-1": 1.0,
+        "TN-2": 0.4,
+        "TN-3": 0.2,
+        "TN-4": 1.0
+      },
+      "screens": [
+        "PIP"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        5,
+        9
+      ],
+      "fallback": [
+        "EM-03",
+        "EM-01"
+      ],
+      "source_ref": [
+        "origin-session-1008.md #2 교정 타자 — 빡이사DB 04 «04 통과» (D:\\영상제작\\도구\\광고편집\\bisa_page_name.py)"
+      ],
+      "folder": "EM-16_correction_typing"
+    },
+    {
+      "id": "EM-17",
+      "name": "값따라안내문구",
+      "drawer": "EM",
+      "version": 1,
+      "status": "통과",
+      "engine": "ae",
+      "subject": [
+        "녹화화면",
+        "글자"
+      ],
+      "summary": "실제 설정 화면의 입력 칸이 1.8배 확대 → 값을 타자(₩1만→2만→3만) → 안내 문구가 계산식대로 값마다 바뀜 → 빨강(비추천)/파랑(권장) 테두리",
+      "use_when": [
+        "설정·버튼",
+        "숫자·금액",
+        "화면 속 특정 부분"
+      ],
+      "avoid_when": [
+        "일상 상황",
+        "개념 비교"
+      ],
+      "tones": {
+        "TN-1": 1.0,
+        "TN-2": 0.3,
+        "TN-3": 0.2,
+        "TN-4": 1.0
+      },
+      "screens": [
+        "PIP"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        10,
+        35
+      ],
+      "fallback": [
+        "EM-03",
+        "EM-01"
+      ],
+      "source_ref": [
+        "origin-session-1008.md #1 값 따라 바뀌는 안내 문구 — 빡이사DB 08 2판 «좋아 통과 다음» (D:\\영상제작\\도구\\광고편집\\bisa_budget_set.py)"
+      ],
+      "folder": "EM-17_value_guide_text"
+    },
+    {
+      "id": "EM-18",
+      "name": "질문칩답칩",
+      "drawer": "EM",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "녹화화면",
+        "글자"
+      ],
+      "summary": "녹화 화면의 트리(캠페인/세트/광고) 줄 옆에 파란 질문 칩이 하나씩 붙고, 한 번 반짝한 뒤 말이 끝나면 흰 체크 칩(답)으로 모양이 바뀐다",
+      "use_when": [
+        "질문",
+        "설정·버튼",
+        "소개·여러 항목"
+      ],
+      "avoid_when": [
+        "일상 상황"
+      ],
+      "tones": {
+        "TN-1": 0.9,
+        "TN-2": 0.3,
+        "TN-3": 0.2,
+        "TN-4": 1.0
+      },
+      "screens": [
+        "PIP"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        6,
+        12
+      ],
+      "fallback": [
+        "EM-01",
+        "EM-06"
+      ],
+      "source_ref": [
+        "origin-session-1008.md #3 질문 칩→답 체크 칩 — 빡이사DB 05 (D:\\영상제작\\도구\\광고편집\\bisa_purpose_qs.py)"
+      ],
+      "folder": "EM-18_question_answer_chip"
+    },
+    {
+      "id": "EM-19",
+      "name": "커서클릭포커스",
+      "drawer": "EM",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "녹화화면"
+      ],
+      "summary": "커서가 칸·줄·스위치를 실제로 누르고(클릭 고리) 포커스 테두리가 켜진 뒤 캐럿이 깜빡이며 이름이 타자로 바뀐다. 조작 재연",
+      "use_when": [
+        "설정·버튼",
+        "화면 속 특정 부분"
+      ],
+      "avoid_when": [
+        "일상 상황",
+        "개념 비교"
+      ],
+      "tones": {
+        "TN-1": 0.9,
+        "TN-2": 0.2,
+        "TN-3": 0.2,
+        "TN-4": 1.0
+      },
+      "screens": [
+        "PIP"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        3,
+        15
+      ],
+      "fallback": [
+        "EM-03",
+        "CA-05"
+      ],
+      "source_ref": [
+        "origin-session-1008.md #4 커서 클릭 고리+포커스 테두리+캐럿 타자 — 빡이사DB 13 2판 (D:\\영상제작\\도구\\광고편집\\bisa_ab_live.py)"
+      ],
+      "folder": "EM-19_cursor_click_focus"
+    },
+    {
+      "id": "EM-20",
+      "name": "강조포인트",
+      "drawer": "EM",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "글자"
+      ],
+      "summary": "글자·알약이 뜰 때 반짝 선 · 빛 훑기 · 테두리 번짐 중 하나를 붙인다(감속, 튕김 없음). 다른 템플릿이 부르는 부품",
+      "use_when": [
+        "용어 제시",
+        "정의·조건",
+        "결론·센 말"
+      ],
+      "avoid_when": [
+        "가림"
+      ],
+      "tones": {
+        "TN-1": 0.9,
+        "TN-2": 0.6,
+        "TN-3": 0.7,
+        "TN-4": 0.9
+      },
+      "screens": [
+        "풀샷",
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        0.4,
+        1.2
+      ],
+      "fallback": [
+        "EM-01",
+        "EM-11"
+      ],
+      "source_ref": [
+        "origin-session-1008.md #5 글자 강조 포인트 3종 — 빡이사DB 13 반려에서 규칙화 (D:\\영상제작\\도구\\광고편집\\bisa_ab_live.py)",
+        "motion-graphics.md 4장 13 반려"
+      ],
+      "folder": "EM-20_emphasis_point"
+    },
+    {
+      "id": "EM-21",
+      "name": "스위치켜끄기",
+      "drawer": "EM",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "녹화화면"
+      ],
+      "summary": "녹화 화면의 스위치를 눌러 켜고 끈다. 꺼진 줄은 불투명 회색판으로 교체해 «꺼짐»을 보여 준다. «이건 끄세요»",
+      "use_when": [
+        "설정·버튼",
+        "경고·실수"
+      ],
+      "avoid_when": [
+        "일상 상황",
+        "개념 비교"
+      ],
+      "tones": {
+        "TN-1": 0.9,
+        "TN-2": 0.2,
+        "TN-3": 0.1,
+        "TN-4": 1.0
+      },
+      "screens": [
+        "PIP"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        2,
+        8
+      ],
+      "fallback": [
+        "EM-19",
+        "EM-01"
+      ],
+      "source_ref": [
+        "origin-session-1008.md #8 스위치 켜기/끄기 + 불투명 회색판 — 빡이사DB 13 2판 (D:\\영상제작\\도구\\광고편집\\bisa_ab_live.py)"
+      ],
+      "folder": "EM-21_switch_toggle"
+    },
+    {
+      "id": "EM-22",
+      "name": "도장합계",
+      "drawer": "EM",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "자료이미지",
+        "데이터"
+      ],
+      "summary": "금액이 나올 때마다 도장 이미지가 찍히고, 말이 합치면 둘을 노란 괄호로 묶어 합계가 나온다",
+      "use_when": [
+        "숫자·금액",
+        "정의·조건"
+      ],
+      "avoid_when": [
+        "일상 상황",
+        "개념 비교"
+      ],
+      "tones": {
+        "TN-1": 0.8,
+        "TN-2": 0.5,
+        "TN-3": 0.2,
+        "TN-4": 0.7
+      },
+      "screens": [
+        "풀샷",
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        3,
+        10
+      ],
+      "fallback": [
+        "EM-09",
+        "EM-05"
+      ],
+      "source_ref": [
+        "origin-session-1008.md #9 금액 도장 둘→괄호 합계 — 빡이사DB 13 2판 (D:\\영상제작\\도구\\광고편집\\bisa_ab_live.py)",
+        "EM-09 도장 (도장 규칙)"
+      ],
+      "folder": "EM-22_stamp_total"
+    },
+    {
+      "id": "EM-23",
+      "name": "로고한묶음",
+      "drawer": "EM",
+      "version": 1,
+      "status": "통과",
+      "engine": "ae",
+      "subject": [
+        "브랜드"
+      ],
+      "summary": "플랫폼·서비스 로고 셋을 따로따로가 아니라 한 번에 한 묶음으로 띄운다. 말이 «메타, 유튜브, 구글»처럼 나열할 때",
+      "use_when": [
+        "소개·여러 항목",
+        "브랜드",
+        "자료 등장"
+      ],
+      "avoid_when": [
+        "가림"
+      ],
+      "tones": {
+        "TN-1": 0.9,
+        "TN-2": 0.5,
+        "TN-3": 0.7,
+        "TN-4": 0.7
+      },
+      "screens": [
+        "풀샷",
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        2,
+        6
+      ],
+      "fallback": [
+        "EM-07",
+        "EM-06"
+      ],
+      "source_ref": [
+        "origin-session-1008.md #13 실제 로고 한 묶음 — 빡이사DB 10 2판 통과 (D:\\영상제작\\도구\\광고편집\\bisa_cost_model.py)"
+      ],
+      "folder": "EM-23_logo_bundle"
+    },
+    {
+      "id": "EM-24",
+      "name": "게이지급락시간",
+      "drawer": "EM",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "데이터",
+        "캐릭터"
+      ],
+      "summary": "게이지가 꽉 찬 상태(신청 직후)에서 달력이 +1일 +2일 넘어가며 밤낮이 바뀌고 게이지가 빨강으로 뚝 떨어진다. «시간이 지나면 식는다»",
+      "use_when": [
+        "알고리즘·시스템 행동",
+        "사례·후기",
+        "숫자·금액"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "가림"
+      ],
+      "tones": {
+        "TN-1": 0.5,
+        "TN-2": 0.8,
+        "TN-3": 0.2,
+        "TN-4": 0.4
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        8,
+        15
+      ],
+      "fallback": [
+        "SC-07",
+        "EM-05"
+      ],
+      "source_ref": [
+        "origin-session-1008.md #14 게이지 참→뚝 + 달력 밤낮 — 빡이사DB 18 (D:\\영상제작\\도구\\광고편집\\bisa_need_drop.py)"
+      ],
+      "folder": "EM-24_gauge_drop_time"
+    },
+    {
+      "id": "EM-25",
+      "name": "체크해제연쇄",
+      "drawer": "EM",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "녹화화면"
+      ],
+      "summary": "실제 화면 3장이 차례로 꺼진다(체크 해제 연쇄). «이건 끄세요 · 이것도 끄세요 · 이것도»",
+      "use_when": [
+        "설정·버튼",
+        "경고·실수",
+        "과정·단계"
+      ],
+      "avoid_when": [
+        "일상 상황",
+        "가림"
+      ],
+      "tones": {
+        "TN-1": 0.9,
+        "TN-2": 0.3,
+        "TN-3": 0.1,
+        "TN-4": 1.0
+      },
+      "screens": [
+        "PIP"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        5,
+        15
+      ],
+      "fallback": [
+        "EM-21",
+        "EM-01"
+      ],
+      "source_ref": [
+        "origin-session-1008.md #18 실화면 체크 해제 셋 — 빡이사DB 22 (D:\\영상제작\\도구\\광고편집\\bisa_pitch_mg.py)"
+      ],
+      "folder": "EM-25_check_off_chain"
+    },
+    {
+      "id": "EM-26",
+      "name": "지움줄결론",
+      "drawer": "EM",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "글자",
+        "브랜드"
+      ],
+      "summary": "버릴 선택지에 줄을 그어 지우고, 남는 결론에 빛줄이 훑고, ✕/✓ 가 찍힌 뒤 도장이 쾅 찍힌다. «그래서 이걸 권장»",
+      "use_when": [
+        "결론·센 말",
+        "경고·실수",
+        "챕터 끝"
+      ],
+      "avoid_when": [
+        "일상 상황",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.6,
+        "TN-2": 0.8,
+        "TN-3": 0.3,
+        "TN-4": 0.5
+      },
+      "screens": [
+        "풀샷",
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        4,
+        10
+      ],
+      "fallback": [
+        "EM-09",
+        "EM-15"
+      ],
+      "source_ref": [
+        "origin-session-1008.md #19 지움 줄+빛줄 결론+추천 도장 — 빡이사DB 22 (D:\\영상제작\\도구\\광고편집\\bisa_pitch_mg.py)",
+        "EM-09 도장"
+      ],
+      "folder": "EM-26_strike_conclusion"
+    },
+    {
+      "id": "EM-27",
+      "name": "단어블러인",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자"
+      ],
+      "summary": "흐림 상태의 단어가 하나씩 말하는 순간 블러에서 선명해지며 줄이 완성된다. 핵심어 하나는 색이 켜진다",
+      "use_when": [
+        "용어 제시",
+        "한 편 시작",
+        "챕터 시작"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "가림"
+      ],
+      "tones": {
+        "TN-1": 0.5,
+        "TN-2": 0.4,
+        "TN-3": 0.9,
+        "TN-4": 0.3
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        1.5,
+        5
+      ],
+      "fallback": [
+        "EM-04",
+        "EM-11"
+      ],
+      "source_ref": [
+        "origin-session-1008.md #23 단어 단위 반 박 (학습분)",
+        "쇼츠 V3 단어 블러 인 (study/higgsfield-mg.md 00:05.8–00:08.0)"
+      ],
+      "folder": "EM-27_word_blur_in"
+    },
+    {
+      "id": "EM-28",
+      "name": "핵심어색상자",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자"
+      ],
+      "summary": "문장(헤드라인) 속 핵심어 하나에만 색 상자를 깔고 그 위 글자는 반전한다. «AI로 만들고, [디자인으로] 완성합니다»",
+      "use_when": [
+        "결론·센 말",
+        "용어 제시",
+        "정의·조건"
+      ],
+      "avoid_when": [
+        "가림"
+      ],
+      "tones": {
+        "TN-1": 0.7,
+        "TN-2": 0.4,
+        "TN-3": 0.9,
+        "TN-4": 0.6
+      },
+      "screens": [
+        "풀샷",
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        1.5,
+        6
+      ],
+      "fallback": [
+        "EM-04",
+        "EM-11"
+      ],
+      "source_ref": [
+        "origin-session-1008.md #24 핵심어 하나만 색 상자 (학습분)",
+        "쇼츠 B-7 핵심어 형광 상자 (study/typography-remotion.md 4-7)",
+        "shorts motion-graphics.md 원칙 6"
+      ],
+      "folder": "EM-28_keyword_color_box"
+    },
+    {
+      "id": "EM-29",
+      "name": "상자와이프",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자"
+      ],
+      "summary": "흰 상자가 글 위로 미끄러져 지나가며 뒤로 글자가 드러난다. 글이 등장하는 기본 한 가지",
+      "use_when": [
+        "용어 제시",
+        "챕터 시작",
+        "결론·센 말"
+      ],
+      "avoid_when": [
+        "가림",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.6,
+        "TN-2": 0.5,
+        "TN-3": 0.9,
+        "TN-4": 0.4
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        1.5,
+        5
+      ],
+      "fallback": [
+        "EM-04",
+        "EM-12"
+      ],
+      "source_ref": [
+        "origin-session-1008.md #26 상자 와이프로 글 드러남 (학습분)",
+        "쇼츠 A-2 상자 와이프 (shorts motion-graphics.md 7장 «상자 와이프 = 글자 등장의 기본기»)"
+      ],
+      "folder": "EM-29_box_wipe"
+    },
+    {
+      "id": "EM-30",
+      "name": "금지칩",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자"
+      ],
+      "summary": "칩 모양의 단어에 ✕ 줄이 그어져 «하지 마세요»를 보여 준다. 실수 항목을 하나씩",
+      "use_when": [
+        "경고·실수",
+        "소개·여러 항목"
+      ],
+      "avoid_when": [
+        "가림",
+        "일상 상황"
+      ],
+      "tones": {
+        "TN-1": 0.8,
+        "TN-2": 0.6,
+        "TN-3": 0.4,
+        "TN-4": 0.8
+      },
+      "screens": [
+        "풀샷",
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        1.5,
+        6
+      ],
+      "fallback": [
+        "EM-15",
+        "EM-09"
+      ],
+      "source_ref": [
+        "origin-session-1008.md #34 줄 그은 금지 칩 (학습분)",
+        "쇼츠 CM-12 금지 칩 (study/claude-motion-graphics.md)"
+      ],
+      "folder": "EM-30_ban_chip"
+    },
+    {
+      "id": "EM-31",
+      "name": "글리치한번",
+      "drawer": "EM",
+      "version": 1,
+      "status": "폐기",
+      "engine": "html",
+      "subject": [
+        "글자",
+        "녹화화면"
+      ],
+      "summary": "최강 악센트 한 번 — RGB 색이 어긋나는 글리치가 짧게 지나간다. 한 편에 딱 한 번",
+      "use_when": [
+        "결론·센 말",
+        "경고·실수"
+      ],
+      "avoid_when": [
+        "일상 상황",
+        "설정·버튼",
+        "가림"
+      ],
+      "tones": {
+        "TN-1": 0.1,
+        "TN-2": 0.8,
+        "TN-3": 0.3,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        0.3,
+        0.8
+      ],
+      "fallback": [
+        "EM-04",
+        "EM-09"
+      ],
+      "source_ref": [
+        "origin-session-1008.md #36 글리치 한 편 한 번 — 0.3초 (강의 2강 0.8초 1회)",
+        "쇼츠 E9 글리치는 한 번 (study/entry-reel-opus.md 09.2초 단 한 번 RGB 어긋남)",
+        "lecture-graphics.md 1장 «Glitch 2강 1회(0.8초)»"
+      ],
+      "folder": "EM-31_glitch_once"
+    },
+    {
+      "id": "EM-32",
+      "name": "칠판옆쌓기",
+      "drawer": "EM",
+      "version": 1,
+      "status": "통과",
+      "engine": "ae",
+      "subject": [
+        "글자"
+      ],
+      "summary": "풀샷의 칠판 옆 빈자리에 용어·번호·부연·정의·수식·질문을 하나씩 쌓는다. 질문(?)은 답(!)으로 바뀌며 100→133% 로 튄다",
+      "use_when": [
+        "용어 제시",
+        "리스트",
+        "부연",
+        "정의·조건",
+        "수식",
+        "질문"
+      ],
+      "avoid_when": [
+        "가림",
+        "일상 상황"
+      ],
+      "tones": {
+        "TN-1": 1.0,
+        "TN-2": 0.3,
+        "TN-3": 0.3,
+        "TN-4": 0.9
+      },
+      "screens": [
+        "풀샷"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        3,
+        28
+      ],
+      "fallback": [
+        "EM-04",
+        "EM-06"
+      ],
+      "source_ref": [
+        "origin-session-1008.md #42 풀샷 칠판 옆 목록 + 질문→답 튀김 (강사님 강의편집 §2)",
+        "origin-session-1008.md #44 강조 6유형 쌓기 (설계-그래픽자동배치.md)",
+        "lecture-graphics.md 1장 장면 B · 2장"
+      ],
+      "folder": "EM-32_board_side_stack"
+    },
+    {
+      "id": "EM-33",
+      "name": "대량선별",
+      "drawer": "EM",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "데이터",
+        "캐릭터"
+      ],
+      "summary": "수백 명이 차르르 등장하며 숫자가 0에서 오르다, 그중 일부만 노랗게 선별되고 «N명만 선정» 쾅. 노란 띠가 줄을 훑는다",
+      "use_when": [
+        "숫자·금액",
+        "사례·후기",
+        "알고리즘·시스템 행동"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "가림"
+      ],
+      "tones": {
+        "TN-1": 0.7,
+        "TN-2": 0.5,
+        "TN-3": 0.2,
+        "TN-4": 0.6
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        8,
+        20
+      ],
+      "fallback": [
+        "EM-05",
+        "SC-07"
+      ],
+      "source_ref": [
+        "origin-session-1008.md #51 대량 등장+카운트+선별 — 12강 자료04 (D:\\영상제작\\도구\\강의편집\\lec12_card04.py)"
+      ],
+      "folder": "EM-33_mass_select"
+    },
+    {
+      "id": "EM-34",
+      "name": "예전흐림지금",
+      "drawer": "EM",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "글자",
+        "데이터"
+      ],
+      "summary": "예전 방식 칩들이 하나씩 쌓이다 위 칸 전체가 흐려지고(지나간 방식), ▼ 와 함께 «지금» 방식이 쾅 하며 달 칩들이 차르르 나온다",
+      "use_when": [
+        "개념 비교",
+        "과정·단계",
+        "정의·조건"
+      ],
+      "avoid_when": [
+        "가림",
+        "일상 상황"
+      ],
+      "tones": {
+        "TN-1": 0.8,
+        "TN-2": 0.3,
+        "TN-3": 0.2,
+        "TN-4": 0.7
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        12,
+        22
+      ],
+      "fallback": [
+        "EM-06",
+        "SC-01"
+      ],
+      "source_ref": [
+        "origin-session-1008.md #54 지나간 방식 흐려짐 ▼ 지금 — 12강 자료03 (D:\\영상제작\\도구\\강의편집\\lec12_card03.py)"
+      ],
+      "folder": "EM-34_past_blur_now"
+    },
+    {
+      "id": "EM-35",
+      "name": "막대비교괄호",
+      "drawer": "EM",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "데이터"
+      ],
+      "summary": "회색 막대 둘이 자라고, 내 것 막대가 따로 자란 뒤 태그가 톡 붙고, 점선이 그어지며 노란 괄호가 차이를 표시한다. 말에 나온 숫자만",
+      "use_when": [
+        "개념 비교",
+        "숫자·금액"
+      ],
+      "avoid_when": [
+        "가림",
+        "일상 상황"
+      ],
+      "tones": {
+        "TN-1": 0.7,
+        "TN-2": 0.3,
+        "TN-3": 0.5,
+        "TN-4": 0.6
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        3,
+        8
+      ],
+      "fallback": [
+        "EM-05",
+        "SC-04"
+      ],
+      "source_ref": [
+        "origin-session-1008.md #59 막대 비교+점선+노란 괄호 — 분양4 07 «배경 없이 그래프만» 통과 (D:\\영상제작\\도구\\광고편집\\b4_ae07.py)"
+      ],
+      "folder": "EM-35_bar_compare_bracket"
+    },
+    {
+      "id": "EM-36",
+      "name": "포커스박스",
+      "drawer": "EM",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "자료이미지"
+      ],
+      "summary": "화면 가장자리가 어두워지며 모서리 괄호·3분할 안내선이 깔리고, 대상 둘레만 밝게 남긴 채 노란 포커스 박스가 조여 들어왔다 한 번 두근하고 사라진다",
+      "use_when": [
+        "화면 속 특정 부분",
+        "자료 등장"
+      ],
+      "avoid_when": [
+        "가림",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.5,
+        "TN-2": 0.4,
+        "TN-3": 0.8,
+        "TN-4": 0.4
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        1.5,
+        3
+      ],
+      "fallback": [
+        "EM-01",
+        "EM-02"
+      ],
+      "source_ref": [
+        "origin-session-1008.md #63 설계도 프레임→포커스 박스 — 분양4 02 확정 (D:\\영상제작\\도구\\광고편집\\b4_focus02.py)"
+      ],
+      "folder": "EM-36_focus_box"
+    },
+    {
+      "id": "EM-37",
+      "name": "서류그려짐배지",
+      "drawer": "EM",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "자료이미지"
+      ],
+      "summary": "서류·도면 카드가 아래에서 떠오르고, 서류가 위에서 아래로 그려지듯 나타난 뒤 이름표 배지가 톡 붙고 노랗게 맥동한다",
+      "use_when": [
+        "자료 등장",
+        "소개·여러 항목"
+      ],
+      "avoid_when": [
+        "가림"
+      ],
+      "tones": {
+        "TN-1": 0.7,
+        "TN-2": 0.3,
+        "TN-3": 0.6,
+        "TN-4": 0.6
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        1.3,
+        4
+      ],
+      "fallback": [
+        "EM-07",
+        "SC-11"
+      ],
+      "source_ref": [
+        "origin-session-1008.md #65 도면 그려짐+배지 맥동 — 분양4 06 v2 통과 (D:\\영상제작\\도구\\광고편집\\b4_card06.py)"
+      ],
+      "folder": "EM-37_doc_draw_badge"
+    },
+    {
+      "id": "EM-38",
+      "name": "라벨배지톡",
+      "drawer": "EM",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "자료이미지",
+        "글자"
+      ],
+      "summary": "장소·이름 배지가 톡 붙고 대상(출입구 등)이 아래에서 솟아오른다. 새 항목이 말에 나올 때마다 배지가 하나씩 붙고 맨 끝에 작은 주석",
+      "use_when": [
+        "소개·여러 항목",
+        "자료 등장"
+      ],
+      "avoid_when": [
+        "가림",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.6,
+        "TN-2": 0.4,
+        "TN-3": 0.6,
+        "TN-4": 0.5
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        2,
+        8
+      ],
+      "fallback": [
+        "EM-07",
+        "SC-11"
+      ],
+      "source_ref": [
+        "origin-session-1008.md #68 라벨 배지 톡+솟아오름 — 분양4 03 통과 (D:\\영상제작\\도구\\광고편집\\b4_subway.py)"
+      ],
+      "folder": "EM-38_label_badge_pop"
+    },
+    {
+      "id": "EM-39",
+      "name": "경로빛덩이레이더",
+      "drawer": "EM",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "자료이미지",
+        "데이터"
+      ],
+      "summary": "지도 위에 노선이 선으로 그려지고, 그 위를 빛덩이(이동 물체)가 지나간 뒤 목적지에 빨간 점과 퍼지는 원이 찍힌다",
+      "use_when": [
+        "현실 공간·사람",
+        "자료 등장",
+        "과정·단계"
+      ],
+      "avoid_when": [
+        "가림",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.4,
+        "TN-2": 0.4,
+        "TN-3": 0.6,
+        "TN-4": 0.3
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        3,
+        8
+      ],
+      "fallback": [
+        "SC-11",
+        "EM-02"
+      ],
+      "source_ref": [
+        "origin-session-1008.md #70 노선 그리기+빛덩이+레이더 — 분양과오2/분양1 통과 (D:\\영상제작\\도구\\광고편집\\ae_double.py · sg_ae_map.py)"
+      ],
+      "folder": "EM-39_route_glow_radar"
+    },
+    {
+      "id": "EM-40",
+      "name": "타원쾅",
+      "drawer": "EM",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "자료이미지",
+        "글자"
+      ],
+      "summary": "대상(아이콘+이름)을 통째로 감싸는 타원이 크게→작게→제자리로 박힌다. 깜빡이지 않고 박히듯이, 글자를 가리지 않게, 가까운 둘은 원 하나로",
+      "use_when": [
+        "화면 속 특정 부분",
+        "소개·여러 항목",
+        "자료 등장"
+      ],
+      "avoid_when": [
+        "가림",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.7,
+        "TN-2": 0.6,
+        "TN-3": 0.2,
+        "TN-4": 0.5
+      },
+      "screens": [
+        "풀샷",
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        1,
+        4
+      ],
+      "fallback": [
+        "EM-01",
+        "EM-14"
+      ],
+      "source_ref": [
+        "origin-session-1008.md #72 타원 쾅 박힘 — 분양과오2 28.33 «박히듯이·글자 안 가리게» 통과 (D:\\영상제작\\도구\\광고편집\\ae_school.py)"
+      ],
+      "folder": "EM-40_ellipse_slam"
+    },
+    {
+      "id": "EM-41",
+      "name": "돈다발분출",
+      "drawer": "EM",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "자료이미지"
+      ],
+      "summary": "자막이 커지는 순간 돈다발이 화면 아래에서 위로 터져 나온다. 금액·이익을 한껏 강조하는 단 한 번의 연출",
+      "use_when": [
+        "숫자·금액",
+        "결론·센 말"
+      ],
+      "avoid_when": [
+        "가림",
+        "경고·실수",
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.1,
+        "TN-2": 0.8,
+        "TN-3": 0.2,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        1,
+        2
+      ],
+      "fallback": [
+        "EM-05",
+        "EM-43"
+      ],
+      "source_ref": [
+        "origin-session-1008.md #74 돈다발 분출 — 분양과오2 «단 6억대 입니다» 통과, 한 편 한 번 (D:\\영상제작\\도구\\광고편집\\ae_money.py)"
+      ],
+      "folder": "EM-41_money_burst"
+    },
+    {
+      "id": "EM-42",
+      "name": "표떠오름박스",
+      "drawer": "EM",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "자료이미지"
+      ],
+      "summary": "표(자료)가 모션 블러로 아래에서 떠오른 뒤 느리게 확대되고, 박자에 맞춰 빨간 박스 셋이 차례로 팡 하고 짚는다",
+      "use_when": [
+        "자료 등장",
+        "숫자·금액",
+        "화면 속 특정 부분"
+      ],
+      "avoid_when": [
+        "가림"
+      ],
+      "tones": {
+        "TN-1": 0.7,
+        "TN-2": 0.4,
+        "TN-3": 0.4,
+        "TN-4": 0.7
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        3,
+        8
+      ],
+      "fallback": [
+        "EM-01",
+        "EM-37"
+      ],
+      "source_ref": [
+        "origin-session-1008.md #76 표 떠오름+박자에 빨간 박스 — 신규 분양1 4차 통과 (D:\\영상제작\\도구\\광고편집\\sg_motion.py)"
+      ],
+      "folder": "EM-42_table_rise_box"
+    },
+    {
+      "id": "EM-43",
+      "name": "금색숫자팝",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자",
+        "데이터"
+      ],
+      "summary": "말에 나온 숫자 하나가 금색으로 크게 팝 하며 도착한다. 카운트 없이 한 번에 «이 숫자»를 박는다",
+      "use_when": [
+        "숫자·금액",
+        "결론·센 말"
+      ],
+      "avoid_when": [
+        "가림",
+        "과정·단계"
+      ],
+      "tones": {
+        "TN-1": 0.4,
+        "TN-2": 0.7,
+        "TN-3": 0.9,
+        "TN-4": 0.3
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        1,
+        4
+      ],
+      "fallback": [
+        "EM-05",
+        "EM-04"
+      ],
+      "source_ref": [
+        "쇼츠 R6-2 금색 숫자 팝 (study/shorts-notes-index-1008.md 예전 묶음 — 원문 노트에서 값을 확인하지 못함)"
+      ],
+      "folder": "EM-43_gold_number_pop"
+    },
+    {
+      "id": "EM-44",
+      "name": "굵기램프",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자"
+      ],
+      "summary": "강조어가 말하는 순간 가는 글자(300)에서 굵은 글자(900)로 8프레임 동안 굵어지며 색이 켜진다. 한글은 전각이라 줄 폭이 변하지 않는다",
+      "use_when": [
+        "용어 제시",
+        "결론·센 말"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "가림"
+      ],
+      "tones": {
+        "TN-1": 0.5,
+        "TN-2": 0.4,
+        "TN-3": 0.9,
+        "TN-4": 0.3
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        1.5,
+        5
+      ],
+      "fallback": [
+        "EM-04",
+        "EM-11"
+      ],
+      "source_ref": [
+        "쇼츠 T3 굵기 램프 (study/typography-remotion.md 5-2 T3 — 설계안, 시험·통과 없음)"
+      ],
+      "folder": "EM-44_weight_ramp"
+    },
+    {
+      "id": "EM-45",
+      "name": "음절캐스케이드",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자"
+      ],
+      "summary": "한 줄의 음절이 2프레임 간격으로 파도처럼 켜진다(y +24px→0, 불투명 0→100%, 각 6프레임). 가장 센 말 한 줄에만",
+      "use_when": [
+        "결론·센 말",
+        "챕터 시작",
+        "한 편 시작"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "설정·버튼",
+        "가림"
+      ],
+      "tones": {
+        "TN-1": 0.3,
+        "TN-2": 0.6,
+        "TN-3": 0.9,
+        "TN-4": 0.2
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        1,
+        3
+      ],
+      "fallback": [
+        "EM-04",
+        "EM-27"
+      ],
+      "source_ref": [
+        "쇼츠 T4 음절 캐스케이드 (study/typography-remotion.md 5-2 T4 — 설계안)",
+        "EM-04 의 선택 옵션 «cascade» 를 독립 템플릿으로"
+      ],
+      "folder": "EM-45_syllable_cascade"
+    },
+    {
+      "id": "EM-46",
+      "name": "색반전카드컷",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자"
+      ],
+      "summary": "영상 사이에 핵심 주장 한 단어/한 줄 카드를 0.4~0.9초 끼우고, 2~3프레임 선형 디졸브로 바탕과 글자색이 뒤집힌다. «다음 단락»을 알리는 가장 싼 신호",
+      "use_when": [
+        "결론·센 말",
+        "챕터 시작"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "설정·버튼",
+        "가림"
+      ],
+      "tones": {
+        "TN-1": 0.2,
+        "TN-2": 0.7,
+        "TN-3": 0.8,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        0.4,
+        0.9
+      ],
+      "fallback": [
+        "TR-03",
+        "EM-04"
+      ],
+      "source_ref": [
+        "쇼츠 T6 색 반전 카드 컷 (study/typography-remotion.md 5-2 T6, 4-2)",
+        "쇼츠 B-3 한 단어 스왑 (study/shorts-notes-index-1008.md)"
+      ],
+      "folder": "EM-46_invert_card_cut"
+    },
+    {
+      "id": "EM-47",
+      "name": "에코스택",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자"
+      ],
+      "summary": "굵은 글자가 잔상(에코) 3~5겹으로 쌓여 모이며 정돈되고, 줄 간이 위아래로 어긋났다가 다음 줄로 슬라이드 교체된다",
+      "use_when": [
+        "결론·센 말",
+        "챕터 시작",
+        "한 편 시작"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "설정·버튼",
+        "가림"
+      ],
+      "tones": {
+        "TN-1": 0.1,
+        "TN-2": 0.6,
+        "TN-3": 0.6,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        1.5,
+        4
+      ],
+      "fallback": [
+        "EM-04",
+        "EM-45"
+      ],
+      "source_ref": [
+        "쇼츠 V9 에코 스택 (study/higgsfield-mg.md 00:20.0–00:22.6 · 4장 V8·V9)"
+      ],
+      "folder": "EM-47_echo_stack"
+    },
+    {
+      "id": "EM-48",
+      "name": "기울기입장",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자"
+      ],
+      "summary": "큰 글자가 비스듬히 기울어 들어왔다가 반대 기울기로 갈아타며 제자리에 선다. 줄 교체로 다음 줄이 이어진다",
+      "use_when": [
+        "결론·센 말",
+        "챕터 시작"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "설정·버튼",
+        "가림"
+      ],
+      "tones": {
+        "TN-1": 0.1,
+        "TN-2": 0.7,
+        "TN-3": 0.6,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        1.5,
+        4
+      ],
+      "fallback": [
+        "EM-04",
+        "EM-47"
+      ],
+      "source_ref": [
+        "쇼츠 V16 기울기 입장 (study/higgsfield-mg.md 00:35.5–00:37.7 · 4장 V16)"
+      ],
+      "folder": "EM-48_tilt_entry"
+    },
+    {
+      "id": "EM-49",
+      "name": "커서선택박스",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자"
+      ],
+      "summary": "검정 바탕에 커서가 깜빡이며 문장이 타자되고, 강조 단어를 선택 박스가 한 번 늘었다 줄며 둘러싼다. 한 편의 모티프를 «선택 박스» 하나로 통일",
+      "use_when": [
+        "용어 제시",
+        "한 편 시작",
+        "챕터 시작"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "가림"
+      ],
+      "tones": {
+        "TN-1": 0.4,
+        "TN-2": 0.4,
+        "TN-3": 0.8,
+        "TN-4": 0.6
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        1.5,
+        4
+      ],
+      "fallback": [
+        "EM-04",
+        "EM-11"
+      ],
+      "source_ref": [
+        "쇼츠 K4① 커서 타자 + 선택 박스 (study/2d-mg-newtake.md 4장 K4 · 샷 1 지시서 q_A 2.0~2.75초)",
+        "쇼츠 K3 4동사 문법(선택 박스가 단어를 둘러쌈)"
+      ],
+      "folder": "EM-49_cursor_select_box"
+    },
+    {
+      "id": "EM-50",
+      "name": "공고문형광",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "자료이미지"
+      ],
+      "summary": "공고문·공식 문서 페이지가 화면에 뜨고, 말하는 문장 쪽으로 스크롤되며 그 문장에 형광이 칠해진다. 정책자금 공고문 읽기의 핵심 연출",
+      "use_when": [
+        "자료 등장",
+        "정의·조건",
+        "화면 속 특정 부분"
+      ],
+      "avoid_when": [
+        "가림",
+        "일상 상황"
+      ],
+      "tones": {
+        "TN-1": 1.0,
+        "TN-2": 0.2,
+        "TN-3": 0.4,
+        "TN-4": 0.9
+      },
+      "screens": [
+        "풀샷",
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        3,
+        20
+      ],
+      "fallback": [
+        "EM-01",
+        "SC-11"
+      ],
+      "source_ref": [
+        "쇼츠 newtake «원문 스크롤 + 문장 형광» (study/2d-mg-newtake.md 02:37–04:12 프롬프트 결과 해설 — 원문 카드가 스크롤되고 해당 문장이 형광으로 짚임)",
+        "웹#38 Article/Comment highlight (웹 조사 EM 카테고리)"
+      ],
+      "folder": "EM-50_notice_highlight"
+    },
+    {
+      "id": "EM-51",
+      "name": "콜아웃지시선",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자"
+      ],
+      "summary": "화면 속 대상에서 지시선이 뻗어 나와 라벨을 붙인다. 지시선 방향(5분류)으로 화면 빈자리를 쓴다",
+      "use_when": [
+        "화면 속 특정 부분",
+        "소개·여러 항목",
+        "자료 등장"
+      ],
+      "avoid_when": [
+        "가림"
+      ],
+      "tones": {
+        "TN-1": 0.8,
+        "TN-2": 0.5,
+        "TN-3": 0.6,
+        "TN-4": 0.8
+      },
+      "screens": [
+        "풀샷",
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        1.5,
+        6
+      ],
+      "fallback": [
+        "EM-01",
+        "EM-53"
+      ],
+      "source_ref": [
+        "웹#36 콜아웃 (웹 조사 EM 카테고리 Callouts — 방향 5분류)"
+      ],
+      "folder": "EM-51_callout_leader"
+    },
+    {
+      "id": "EM-52",
+      "name": "인용카드",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자",
+        "자료이미지"
+      ],
+      "summary": "공고문 문구·후기·댓글처럼 외부 출처의 문장을 카드에 담아 띄우고 출처 줄을 붙인다. 강사의 말을 복사하는 카드가 아니다",
+      "use_when": [
+        "자료 등장",
+        "사례·후기"
+      ],
+      "avoid_when": [
+        "가림",
+        "일상 상황"
+      ],
+      "tones": {
+        "TN-1": 0.7,
+        "TN-2": 0.8,
+        "TN-3": 0.6,
+        "TN-4": 0.5
+      },
+      "screens": [
+        "풀샷",
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        2,
+        6
+      ],
+      "fallback": [
+        "EM-07",
+        "EM-50"
+      ],
+      "source_ref": [
+        "웹#35 인용 카드 (웹 조사 EM 카테고리 Quote card)",
+        "예능 자막 «짤·댓글 자막화» (web-research-1008.md 1장 국내 PD)"
+      ],
+      "folder": "EM-52_quote_card"
+    },
+    {
+      "id": "EM-53",
+      "name": "메트릭라벨",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "데이터",
+        "글자"
+      ],
+      "summary": "큰 숫자 하나와 작은 라벨(무슨 숫자인지)을 한 덩어리로 화면 구석이나 대상 옆에 붙인다. 카운트 없이 정리된 숫자 표지",
+      "use_when": [
+        "숫자·금액",
+        "정의·조건"
+      ],
+      "avoid_when": [
+        "가림",
+        "일상 상황"
+      ],
+      "tones": {
+        "TN-1": 0.9,
+        "TN-2": 0.4,
+        "TN-3": 0.6,
+        "TN-4": 0.8
+      },
+      "screens": [
+        "풀샷",
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        2,
+        8
+      ],
+      "fallback": [
+        "EM-05",
+        "EM-43"
+      ],
+      "source_ref": [
+        "웹#34 메트릭 라벨 (웹 조사 EM 카테고리 Metric label)"
+      ],
+      "folder": "EM-53_metric_label"
+    },
+    {
+      "id": "EM-54",
+      "name": "집중선",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자"
+      ],
+      "summary": "대상 둘레에서 가운데로 모이는 집중선(효과선)이 아주 짧게 번쩍인다. 한 편에 드물게",
+      "use_when": [
+        "감정·리액션",
+        "결론·센 말"
+      ],
+      "avoid_when": [
+        "가림",
+        "설정·버튼",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.1,
+        "TN-2": 0.1,
+        "TN-3": 0.1,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        0.3,
+        1.2
+      ],
+      "fallback": [
+        "EM-31",
+        "EM-04"
+      ],
+      "source_ref": [
+        "웹#37 집중선 (웹 조사 EM 카테고리 Speed lines)"
+      ],
+      "folder": "EM-54_speed_lines"
+    },
+    {
+      "id": "EM-55",
+      "name": "텍스트매치컷",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "compose",
+      "subject": [
+        "자료이미지"
+      ],
+      "summary": "같은 문구가 보이는 캡처 여러 장을 문구 위치를 중앙에 맞춰 빠르게 컷으로 넘긴다. 첫 컷이 약 8프레임, 점점 짧아지고 컷마다 셔터 소리",
+      "use_when": [
+        "자료 등장",
+        "사례·후기",
+        "소개·여러 항목"
+      ],
+      "avoid_when": [
+        "가림",
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.3,
+        "TN-2": 0.8,
+        "TN-3": 0.5,
+        "TN-4": 0.2
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        2,
+        6
+      ],
+      "fallback": [
+        "EM-52",
+        "SC-11"
+      ],
+      "source_ref": [
+        "웹#41 텍스트 매치컷 (JH식) [출처값] https://blog.motionarray.com/learn/premiere-pro/edit-documentary-in-premiere-pro/"
+      ],
+      "folder": "EM-55_text_match_cut"
+    },
+    {
+      "id": "EM-56",
+      "name": "사진슬라이드인",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "ae",
+      "subject": [
+        "자료이미지"
+      ],
+      "summary": "사진이 위에서 미끄러져 들어오며 블러가 풀리듯 자리 잡는다. 사진 한 장씩 «증거»를 쌓는 다큐 결",
+      "use_when": [
+        "자료 등장",
+        "사례·후기"
+      ],
+      "avoid_when": [
+        "가림"
+      ],
+      "tones": {
+        "TN-1": 0.5,
+        "TN-2": 0.5,
+        "TN-3": 0.7,
+        "TN-4": 0.3
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        2,
+        6
+      ],
+      "fallback": [
+        "EM-07",
+        "EM-57"
+      ],
+      "source_ref": [
+        "웹#42 사진 슬라이드인 + 블러 (JH식) [출처값] https://blog.motionarray.com/learn/premiere-pro/edit-documentary-in-premiere-pro/"
+      ],
+      "folder": "EM-56_photo_slide_in"
+    },
+    {
+      "id": "EM-57",
+      "name": "폴라로이드",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "자료이미지"
+      ],
+      "summary": "사진이 폴라로이드(흰 테두리+아래 캡션 칸) 카드로 살짝 기울어 놓인다. 사례·현장 사진 한 장을 «순간 기록»처럼",
+      "use_when": [
+        "사례·후기",
+        "현실 공간·사람",
+        "자료 등장"
+      ],
+      "avoid_when": [
+        "가림",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.4,
+        "TN-2": 0.8,
+        "TN-3": 0.6,
+        "TN-4": 0.3
+      },
+      "screens": [
+        "풀샷",
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        2,
+        6
+      ],
+      "fallback": [
+        "EM-07",
+        "EM-56"
+      ],
+      "source_ref": [
+        "웹#43 폴라로이드 (웹 조사 SC 카테고리 Polaroid → 짧은 강조용으로 EM 서랍)"
+      ],
+      "folder": "EM-57_polaroid"
+    },
+    {
+      "id": "EM-58",
+      "name": "경계지도색칠",
+      "drawer": "EM",
+      "version": 1,
+      "status": "대기",
+      "engine": "html",
+      "subject": [
+        "자료이미지"
+      ],
+      "summary": "대한민국 시·도 경계 지도에서 말하는 지역 하나만 색이 칠해진다. 지도는 AI 로 그리지 않고 실제 경계로",
+      "use_when": [
+        "현실 공간·사람",
+        "자료 등장",
+        "용어 제시"
+      ],
+      "avoid_when": [
+        "가림",
+        "개념 비교"
+      ],
+      "tones": {
+        "TN-1": 0.9,
+        "TN-2": 0.3,
+        "TN-3": 0.4,
+        "TN-4": 0.7
+      },
+      "screens": [
+        "풀샷",
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        2,
+        8
+      ],
+      "fallback": [
+        "EM-02",
+        "SC-11"
+      ],
+      "source_ref": [
+        "origin-session-1008.md #48 실제 경계 지도 한 지역 색칠 — 통계청 시·도 경계 SVG (D:\\영상제작\\도구\\강의편집\\korea_map_svg.py)"
+      ],
+      "folder": "EM-58_boundary_map_fill"
+    },
+    {
+      "id": "EM-59",
+      "name": "거대두줄헤드라인",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자"
+      ],
+      "summary": "한글 두 줄을 화면 폭 거의 꽉 차게 키우고, 강조어는 색 또는 검은 박스로 받친다. 아래에 작은 라벨 줄(HUD급)",
+      "use_when": [
+        "챕터 시작",
+        "결론·센 말",
+        "한 편 시작"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "설정·버튼",
+        "가림"
+      ],
+      "tones": {
+        "TN-1": 0.3,
+        "TN-2": 0.6,
+        "TN-3": 0.9,
+        "TN-4": 0.2
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        1.5,
+        4
+      ],
+      "fallback": [
+        "EM-04",
+        "EM-62"
+      ],
+      "source_ref": [
+        "쇼츠 E5 거대 2줄 헤드라인 + 영문 라벨 (study/entry-reel-opus.md 4장 · 01.8–03.8 «블록을 / 조립하면» → «코드가 / 된다»)"
+      ],
+      "folder": "EM-59_giant_two_line"
+    },
+    {
+      "id": "EM-60",
+      "name": "소용돌이링",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자",
+        "자료이미지"
+      ],
+      "summary": "소재(서류 카드 등)가 원형 링을 따라 소용돌이처럼 돌고, 가운데 큰 단어만 차례로 바뀐다. 혜택·특징 3단 나열",
+      "use_when": [
+        "소개·여러 항목",
+        "챕터 끝",
+        "한 편 끝"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "설정·버튼",
+        "가림"
+      ],
+      "tones": {
+        "TN-1": 0.2,
+        "TN-2": 0.5,
+        "TN-3": 0.9,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        3,
+        8
+      ],
+      "fallback": [
+        "OE-05",
+        "TR-01"
+      ],
+      "source_ref": [
+        "쇼츠 E7 소용돌이 링 + 단어 교체 (study/entry-reel-opus.md 11.2–13.1 «누구나 / 무료로 / 웹에서 바로» + 4장 E7)"
+      ],
+      "folder": "EM-60_swirl_ring"
+    },
+    {
+      "id": "EM-61",
+      "name": "블록조립포커스링",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자",
+        "자료이미지"
+      ],
+      "summary": "조각 카드(블록)가 옆에서 하나씩 날아와 스크립트처럼 쌓여 조립되고, 원형 포커스 링이 새 블록을 따라간다. 서비스 UI를 시각 언어로",
+      "use_when": [
+        "과정·단계",
+        "소개·여러 항목",
+        "한 편 시작"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "가림"
+      ],
+      "tones": {
+        "TN-1": 0.3,
+        "TN-2": 0.5,
+        "TN-3": 0.8,
+        "TN-4": 0.3
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        3,
+        10
+      ],
+      "fallback": [
+        "EM-06",
+        "SC-12"
+      ],
+      "source_ref": [
+        "쇼츠 E11 블록 조립 + 포커스 링 (study/entry-reel-opus.md 00.0–01.8 · 4장 E2·E8)"
+      ],
+      "folder": "EM-61_block_assemble_focus_ring"
+    },
+    {
+      "id": "EM-62",
+      "name": "굵기대비제목",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자"
+      ],
+      "summary": "제목에서 굵은 고딕 단어와 기울인 세리프 단어를 한 줄에 대비시킨다. 굵기·결의 대비로 위계를 만든다",
+      "use_when": [
+        "챕터 시작",
+        "용어 제시"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "설정·버튼",
+        "가림"
+      ],
+      "tones": {
+        "TN-1": 0.3,
+        "TN-2": 0.3,
+        "TN-3": 1.0,
+        "TN-4": 0.2
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        1.5,
+        5
+      ],
+      "fallback": [
+        "EM-04",
+        "EM-44"
+      ],
+      "source_ref": [
+        "origin-session-1008.md #25 굵기 대비 짝 (학습분) — 한글 굵게 크게+영문 가늘게, 제목만 고딕+기울인 세리프",
+        "쇼츠 A-4 고딕+세리프 (shorts motion-graphics.md 7장)"
+      ],
+      "folder": "EM-62_weight_contrast_title"
+    },
+    {
+      "id": "EM-63",
+      "name": "디자인인용판",
+      "drawer": "EM",
+      "version": 1,
+      "status": "신규",
+      "engine": "design",
+      "subject": [
+        "자료이미지",
+        "글자"
+      ],
+      "summary": "공고문·법령의 한 문장을 인용 판으로 띄운다. doc 이미지의 해당 부분을 잘라 놓고 그 문장을 형광펜으로 짚고 아래에 출처 줄. 한 장 마무리가 기본",
+      "use_when": [
+        "자료 등장",
+        "정의·조건"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 1.0,
+        "TN-2": 0.4,
+        "TN-3": 0.4,
+        "TN-4": 0.3
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        3,
+        10
+      ],
+      "fallback": [
+        "EM-12",
+        "SC-42"
+      ],
+      "source_ref": [
+        "motion-graphics.md 0장 B 경로 «클로드 디자인 + 애펙» 원칙·순서",
+        "tools/design_layers.py 독스트링 (data-layer · $preview 1920×1080)",
+        "lecture-graphics.md 정의·조건 (공고문·법령 인용)",
+        "templates/EM-12 · SC-42 (자료 고정 + 자막 교체)"
+      ],
+      "folder": "EM-63_design_quote_board"
+    },
+    {
+      "id": "GU-01",
+      "name": "강의표준",
+      "drawer": "GU",
+      "version": 1,
+      "status": "신규",
+      "engine": "compose",
+      "subject": [
+        "글자",
+        "브랜드"
+      ],
+      "summary": "로고 오프닝 → 목차 → [챕터 표지 → 본문 → 챕터 정리]×N → 전체 요약 → CTA → 로고 엔딩. 정책자금·세팅법 강의의 기본 뼈대",
+      "use_when": [
+        "한 편 시작",
+        "챕터 시작",
+        "정리·목차",
+        "한 편 끝"
+      ],
+      "avoid_when": [],
+      "tones": {},
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        0,
+        0
+      ],
+      "fallback": [
+        "GU-02"
+      ],
+      "source_ref": [
+        "auto-pipeline.md 4장 GU 표 (설계안)",
+        "lecture-graphics.md 1장 «화면은 네 가지 장면으로 돈다»"
+      ],
+      "folder": "GU-01_lecture_std"
+    },
+    {
+      "id": "GU-02",
+      "name": "따라하기",
+      "drawer": "GU",
+      "version": 1,
+      "status": "신규",
+      "engine": "compose",
+      "subject": [
+        "녹화화면",
+        "글자"
+      ],
+      "summary": "오프닝 → 완성 결과 먼저 보여 줌 → 단계 표지(01/05…)를 매 단계 → 체크리스트 요약. 화면 녹화 실습 위주",
+      "use_when": [
+        "설정·버튼",
+        "과정·단계",
+        "화면 속 특정 부분"
+      ],
+      "avoid_when": [
+        "일상 상황"
+      ],
+      "tones": {},
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        0,
+        0
+      ],
+      "fallback": [
+        "GU-01"
+      ],
+      "source_ref": [
+        "auto-pipeline.md 4장 GU 표 (설계안)",
+        "lecture-graphics.md 1장 «화면은 네 가지 장면으로 돈다»"
+      ],
+      "folder": "GU-02_follow_along"
+    },
+    {
+      "id": "GU-03",
+      "name": "N가지",
+      "drawer": "GU",
+      "version": 1,
+      "status": "신규",
+      "engine": "compose",
+      "subject": [
+        "글자"
+      ],
+      "summary": "오프닝 → «N가지» 목차 노트 → 항목 표지마다 번호 → 마지막 한 장 정리. «~하는 3가지» 형 강의",
+      "use_when": [
+        "소개·여러 항목",
+        "정리·목차"
+      ],
+      "avoid_when": [],
+      "tones": {},
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        0,
+        0
+      ],
+      "fallback": [
+        "GU-01"
+      ],
+      "source_ref": [
+        "auto-pipeline.md 4장 GU 표 (설계안)",
+        "lecture-graphics.md 1장 «화면은 네 가지 장면으로 돈다»"
+      ],
+      "folder": "GU-03_n_items"
+    },
+    {
+      "id": "GU-04",
+      "name": "문제해결",
+      "drawer": "GU",
+      "version": 1,
+      "status": "신규",
+      "engine": "compose",
+      "subject": [
+        "사람",
+        "글자"
+      ],
+      "summary": "후킹(문제 장면) → 원인 → 해결 챕터 → 결과 → CTA. 상담·사례형. 후킹은 요청에 «후킹 붙여» 가 있을 때만",
+      "use_when": [
+        "사례·후기",
+        "경고·실수"
+      ],
+      "avoid_when": [],
+      "tones": {},
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        0,
+        0
+      ],
+      "fallback": [
+        "GU-01"
+      ],
+      "source_ref": [
+        "auto-pipeline.md 4장 GU 표 (설계안)",
+        "lecture-graphics.md 1장 «화면은 네 가지 장면으로 돈다»"
+      ],
+      "folder": "GU-04_problem_solution"
+    },
+    {
+      "id": "GU-05",
+      "name": "비교선택",
+      "drawer": "GU",
+      "version": 1,
+      "status": "신규",
+      "engine": "compose",
+      "subject": [
+        "글자",
+        "데이터"
+      ],
+      "summary": "오프닝 → 두 쪽 소개(쪽마다 색) → 기준별 챕터 → 결론 표. A vs B 비교형",
+      "use_when": [
+        "개념 비교",
+        "소개·여러 항목"
+      ],
+      "avoid_when": [
+        "일상 상황"
+      ],
+      "tones": {},
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        0,
+        0
+      ],
+      "fallback": [
+        "GU-01"
+      ],
+      "source_ref": [
+        "auto-pipeline.md 4장 GU 표 (설계안)",
+        "lecture-graphics.md 1장 «화면은 네 가지 장면으로 돈다»"
+      ],
+      "folder": "GU-05_compare_pick"
+    },
+    {
+      "id": "GU-06",
+      "name": "오해교정",
+      "drawer": "GU",
+      "version": 1,
+      "status": "신규",
+      "engine": "compose",
+      "subject": [
+        "글자"
+      ],
+      "summary": "한 편(또는 한 챕터)을 «흔한 오해» 제시 → 교정 → 이유로 여는 구성 틀. 오해는 글자 한 줄로만 보이고 교정이 이어받는다",
+      "use_when": [
+        "한 편 시작",
+        "챕터 시작",
+        "경고·실수",
+        "질문"
+      ],
+      "avoid_when": [
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.9,
+        "TN-2": 0.7,
+        "TN-3": 0.4,
+        "TN-4": 0.6
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        0,
+        0
+      ],
+      "fallback": [
+        "GU-04",
+        "GU-01"
+      ],
+      "source_ref": [
+        "웹#2 흔한 오해로 열고 교정 (web-research-1008.md 3장 쇼츠 훅 유형 «놀라운 주장·정확한 질문» 계열)",
+        "situation-playbook.md PB-10 경고·실수 · PB-11 질문"
+      ],
+      "folder": "GU-06_misconception_fix"
+    },
+    {
+      "id": "GU-07",
+      "name": "주장근거실천",
+      "drawer": "GU",
+      "version": 1,
+      "status": "신규",
+      "engine": "compose",
+      "subject": [
+        "글자"
+      ],
+      "summary": "한 챕터를 주장 한 줄 → 근거(자료·숫자) → 실천 한 줄 세 층으로 짜는 구성 틀. 챕터 표지·정리가 같은 모양으로 반복된다",
+      "use_when": [
+        "챕터 시작",
+        "챕터 끝",
+        "정리·목차",
+        "결론·센 말"
+      ],
+      "avoid_when": [
+        "가림"
+      ],
+      "tones": {
+        "TN-1": 1.0,
+        "TN-2": 0.4,
+        "TN-3": 0.6,
+        "TN-4": 0.8
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        0,
+        0
+      ],
+      "fallback": [
+        "GU-01",
+        "GU-03"
+      ],
+      "source_ref": [
+        "웹#8 주장→근거→실천 (web-research-1008.md 3장 훅 유형 «직접 약속·놀라운 주장» 계열)",
+        "situation-playbook.md PB-03·PB-12"
+      ],
+      "folder": "GU-07_claim_proof_action"
+    },
+    {
+      "id": "GU-08",
+      "name": "HUD틀",
+      "drawer": "GU",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자"
+      ],
+      "summary": "한 편 내내 화면 구석에 같은 자리로 깔리는 잔글씨 틀 — 모서리 괄호·섹션 라벨·«02 / 05»·진행 눈금. 정보가 아니라 장면 번호 + 브랜딩 틀",
+      "use_when": [
+        "챕터 시작",
+        "정리·목차"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "화면 속 특정 부분"
+      ],
+      "tones": {
+        "TN-1": 0.5,
+        "TN-2": 0.1,
+        "TN-3": 1.0,
+        "TN-4": 0.3
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        0,
+        0
+      ],
+      "fallback": [
+        "TR-01",
+        "GU-01"
+      ],
+      "source_ref": [
+        "원#35 HUD 잔글씨 «02 / 05»·눈금 작고 연하게",
+        "쇼츠 E4 HUD 템플릿 (entry-reel-opus.md)",
+        "쇼츠 B-9 구석 크롬 (typography-remotion.md 4-9)",
+        "쇼츠 AS-2 라벨-제목-HUD (astra-branding.md 카드 2)"
+      ],
+      "folder": "GU-08_hud_frame"
+    },
+    {
+      "id": "GU-09",
+      "name": "챕터색코딩",
+      "drawer": "GU",
+      "version": 1,
+      "status": "신규",
+      "engine": "compose",
+      "subject": [
+        "글자",
+        "브랜드"
+      ],
+      "summary": "챕터마다 브랜드 색 집합 안의 색 하나를 정해 표지·HUD·강조 한 곳에 쓰는 구성 틀. 장면 안은 3색 그대로, 챕터가 바뀌면 강조색만 바뀐다",
+      "use_when": [
+        "챕터 시작",
+        "정리·목차"
+      ],
+      "avoid_when": [
+        "개념 비교"
+      ],
+      "tones": {
+        "TN-1": 0.7,
+        "TN-2": 0.5,
+        "TN-3": 0.8,
+        "TN-4": 0.6
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        0,
+        0
+      ],
+      "fallback": [
+        "GU-08",
+        "GU-01"
+      ],
+      "source_ref": [
+        "쇼츠 E3 장면별 단색 + 브랜드 팔레트 (entry-reel-opus.md)"
+      ],
+      "folder": "GU-09_chapter_color_code"
+    },
+    {
+      "id": "OE-01",
+      "name": "로고빛스침오프닝",
+      "drawer": "OE",
+      "version": 1,
+      "status": "신규",
+      "engine": "ae",
+      "subject": [
+        "브랜드"
+      ],
+      "summary": "가로 빛줄기 → 워드마크가 가운데서 양옆으로 열림(흐림→선명) → 보조 로고 떠오름 → 빛이 글자 안을 스치는 2.4초 로고 오프닝",
+      "use_when": [
+        "한 편 시작"
+      ],
+      "avoid_when": [],
+      "tones": {},
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        2.4,
+        2.4
+      ],
+      "fallback": [
+        "OE-02",
+        "OE-03"
+      ],
+      "source_ref": [
+        "분양4 04 건설사 로고(분양 통과, 쇼츠 motion-graphics.md 9장)",
+        "쇼츠 motion-graphics.md «로고 효과음 = 짧은 효과음만(휘익 → 맑은 종 한 번 → 반짝, 1.8초)»"
+      ],
+      "folder": "OE-01_logo_shine_open"
+    },
+    {
+      "id": "OE-02",
+      "name": "로고조립엔딩크림",
+      "drawer": "OE",
+      "version": 1,
+      "status": "시안",
+      "engine": "html",
+      "subject": [
+        "브랜드",
+        "글자"
+      ],
+      "summary": "로고 두 획이 날아와 S 로 맞물리고 한글·영문 줄이 드러난 뒤 CTA 버튼이 올라오며 파동(크림 바탕). 4.0초",
+      "use_when": [
+        "한 편 끝"
+      ],
+      "avoid_when": [],
+      "tones": {
+        "TN-1": 1.0,
+        "TN-2": 1.0
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        4.0,
+        4.0
+      ],
+      "fallback": [
+        "OE-03",
+        "OE-04"
+      ],
+      "source_ref": [
+        "쇼츠 납품/시안_로고엔딩_1008 읽어보기.txt «로고 조립 엔딩»",
+        "쇼츠 tools/scenes/html/hanbiz_logo_ending_paper.html",
+        "쇼츠 study/entry-reel-opus.md E8 로고 조립 엔딩 + CTA 파동"
+      ],
+      "folder": "OE-02_logo_assemble_cream"
+    },
+    {
+      "id": "OE-03",
+      "name": "로고조립엔딩남색",
+      "drawer": "OE",
+      "version": 1,
+      "status": "시안",
+      "engine": "html",
+      "subject": [
+        "브랜드",
+        "글자"
+      ],
+      "summary": "OE-02 와 같은 로고 조립 엔딩을 잉크 남색(#080D22) 바탕·흰 글자로 만든다. 4.0초",
+      "use_when": [
+        "한 편 끝"
+      ],
+      "avoid_when": [],
+      "tones": {
+        "TN-4": 1.0
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        4.0,
+        4.0
+      ],
+      "fallback": [
+        "OE-02",
+        "OE-04"
+      ],
+      "source_ref": [
+        "쇼츠 납품/시안_로고엔딩_1008 읽어보기.txt «로고 조립 엔딩»",
+        "쇼츠 tools/scenes/html/hanbiz_logo_ending_navy.html",
+        "쇼츠 study/entry-reel-opus.md E8 로고 조립 엔딩 + CTA 파동"
+      ],
+      "folder": "OE-03_logo_assemble_navy"
+    },
+    {
+      "id": "OE-04",
+      "name": "레이저드로우엔딩",
+      "drawer": "OE",
+      "version": 1,
+      "status": "시안",
+      "engine": "html",
+      "subject": [
+        "브랜드"
+      ],
+      "summary": "레이저가 로고 윤곽을 따라 그려지고(파랑→주황) 번쩍 점화되면 윤곽 안이 원본 로고로 채워진 뒤 한글·영문 줄이 드러나는 5.0초 엔딩. CTA 없음",
+      "use_when": [
+        "한 편 끝"
+      ],
+      "avoid_when": [],
+      "tones": {
+        "TN-3": 1.0
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        5.0,
+        5.0
+      ],
+      "fallback": [
+        "OE-02",
+        "OE-03"
+      ],
+      "source_ref": [
+        "쇼츠 납품/시안_로고엔딩_1008 읽어보기.txt «추가 엔딩 — S 자 레이저»",
+        "쇼츠 tools/scenes/html/hanbiz_logo_laser.html · hanbiz_logo_laser_dark.html",
+        "쇼츠 study/typography-remotion.md 4-5 윤곽선 드로우"
+      ],
+      "folder": "OE-04_logo_laser_draw"
+    },
+    {
+      "id": "OE-05",
+      "name": "전체요약카드",
+      "drawer": "OE",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자",
+        "브랜드"
+      ],
+      "summary": "챕터별 핵심을 한 장 카드에 한 줄씩 쌓아 정리하는 전체 요약. 한 편 끝 직전에 붙는다",
+      "use_when": [
+        "정리·목차",
+        "한 편 끝"
+      ],
+      "avoid_when": [],
+      "tones": {},
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        3,
+        30
+      ],
+      "fallback": [
+        "EM-06",
+        "EM-07"
+      ],
+      "source_ref": [
+        "lecture-graphics.md 3장 보조 패널(말 순서대로 쌓기)",
+        "lecture-graphics.md 5장 포토카드 통과 틀 (12강 자료01 «오케이 이런 느낌으로»)",
+        "tools/examples/lec12_card01.py",
+        "9강 피드백 #1·#2"
+      ],
+      "folder": "OE-05_summary_card"
+    },
+    {
+      "id": "OE-06",
+      "name": "후킹미리보기",
+      "drawer": "OE",
+      "version": 1,
+      "status": "신규",
+      "engine": "compose",
+      "subject": [
+        "사람"
+      ],
+      "summary": "본문의 센 장면 몇 개를 원문 앞에 몰아 붙인다. 길이가 바뀌므로 요청에 «후킹 붙여» 가 있을 때만",
+      "use_when": [
+        "한 편 시작",
+        "결론·센 말"
+      ],
+      "avoid_when": [],
+      "tones": {},
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        3,
+        30
+      ],
+      "fallback": [
+        "OE-01"
+      ],
+      "source_ref": [
+        "auto-pipeline.md 4장 GU 아래 «후킹 미리보기» 설명",
+        "feedback-log.md 장면 기록(후킹 본편)"
+      ],
+      "folder": "OE-06_hook_preview"
+    },
+    {
+      "id": "OE-07",
+      "name": "결과먼저오프닝",
+      "drawer": "OE",
+      "version": 1,
+      "status": "신규",
+      "engine": "compose",
+      "subject": [
+        "자료이미지",
+        "사람"
+      ],
+      "summary": "첫 문장 위에 이 영상으로 얻는 결과(완성된 화면·결과 장면)를 먼저 몇 컷 보여 주고 본문으로 들어간다. 첫 프레임이 소리 없이도 읽힌다",
+      "use_when": [
+        "한 편 시작",
+        "결론·센 말"
+      ],
+      "avoid_when": [
+        "가림"
+      ],
+      "tones": {
+        "TN-1": 0.5,
+        "TN-2": 0.9,
+        "TN-3": 0.7,
+        "TN-4": 0.8
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        3,
+        10
+      ],
+      "fallback": [
+        "OE-06",
+        "OE-01"
+      ],
+      "source_ref": [
+        "웹#76 결과 먼저 훅 (bytecap 훅 유형 7 중 «결과 먼저», web-research-1008.md 3장)",
+        "쇼츠 F-4 훅 = 결과물 몽타주 (flova-3d.md 4-5)"
+      ],
+      "folder": "OE-07_result_first_open"
+    },
+    {
+      "id": "OE-08",
+      "name": "첫주장한줄",
+      "drawer": "OE",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자"
+      ],
+      "summary": "한 편의 첫 2초 안에 이 영상이 말하는 주장을 개념어 한 줄로 크게 세운다. 원문 영상 위에 얹고, 바탕을 까맣게 덮지 않는다",
+      "use_when": [
+        "한 편 시작",
+        "결론·센 말"
+      ],
+      "avoid_when": [
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.9,
+        "TN-2": 0.6,
+        "TN-3": 0.8,
+        "TN-4": 0.5
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        2,
+        3
+      ],
+      "fallback": [
+        "EM-04",
+        "OE-01"
+      ],
+      "source_ref": [
+        "원#40 첫 2초 주장 한 줄 (쌩초 레퍼런스 — 검정 바탕 한 줄, 학습분)",
+        "웹#78 놀라운 주장 훅 (bytecap, web-research-1008.md 3장)"
+      ],
+      "folder": "OE-08_first_claim_line"
+    },
+    {
+      "id": "OE-09",
+      "name": "스타카토인트로",
+      "drawer": "OE",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자"
+      ],
+      "summary": "말이 없는 구간에서만 꽉 찬 단어를 박자마다 바꾸며 바탕을 흰·검·파랑으로 번갈아 뒤집는 키네틱 타이포. 장면 하나 1.0초 안팎, 새 요소 0.6초 이상",
+      "use_when": [
+        "한 편 시작"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.2,
+        "TN-2": 0.9,
+        "TN-3": 0.4,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        3,
+        8
+      ],
+      "fallback": [
+        "OE-01",
+        "OE-08"
+      ],
+      "source_ref": [
+        "원#27 키네틱 타이포 스타카토 (쌩초 레퍼런스 A 인트로, 학습분)",
+        "쇼츠 A-1 (motion-graphics.md 7장 — 0.6초 이상으로 바꿈)"
+      ],
+      "folder": "OE-09_staccato_intro"
+    },
+    {
+      "id": "OE-10",
+      "name": "자간타이틀플레어",
+      "drawer": "OE",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자",
+        "브랜드"
+      ],
+      "summary": "암전에서 빛이 터지며 타이틀 글자가 자간이 매우 넓게 벌어지며 놓인다. 라이저 → 빛 → 쿵이 한 마디. 한 편의 타이틀 한 곳에만",
+      "use_when": [
+        "한 편 시작",
+        "브랜드"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.2,
+        "TN-2": 0.4,
+        "TN-3": 1.0,
+        "TN-4": 0.0
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        1,
+        2
+      ],
+      "fallback": [
+        "OE-01",
+        "OE-08"
+      ],
+      "source_ref": [
+        "쇼츠 DY-8 자간이 벌어지는 타이틀 (dynamic-mg-sfx.md 6.5~6.8초 «S H I N E»)"
+      ],
+      "folder": "OE-10_tracking_title_flare"
+    },
+    {
+      "id": "OE-11",
+      "name": "끝카드버튼두근",
+      "drawer": "OE",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "브랜드"
+      ],
+      "summary": "끝 프레임을 정지시키고 12% 확대한 위에 판이 떠오르고, 로고가 놓이고, 버튼이 톡 나온 뒤 두 번 두근하며 빛 고리가 퍼진다. 3초",
+      "use_when": [
+        "한 편 끝",
+        "브랜드"
+      ],
+      "avoid_when": [],
+      "tones": {
+        "TN-1": 0.7,
+        "TN-2": 0.8,
+        "TN-3": 0.6,
+        "TN-4": 0.5
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        3,
+        3
+      ],
+      "fallback": [
+        "OE-02",
+        "OE-03"
+      ],
+      "source_ref": [
+        "원#61 끝 카드 (로고 + 버튼 두근 + 빛 고리) — 분양4 10 b4_ae10.py, 통과"
+      ],
+      "folder": "OE-11_endcard_button_pulse"
+    },
+    {
+      "id": "OE-12",
+      "name": "듀오톤고스트엔드",
+      "drawer": "OE",
+      "version": 1,
+      "status": "신규",
+      "engine": "compose",
+      "subject": [
+        "브랜드",
+        "자료이미지"
+      ],
+      "summary": "앞 장면 약 5초를 낮은 대비 + 파랑 그라디언트 오버레이로 다시 깔고, 작은 글씨와 로고를 좌하단에 놓는 엔드 카드. 새 영상을 만들지 않는다",
+      "use_when": [
+        "한 편 끝",
+        "브랜드"
+      ],
+      "avoid_when": [],
+      "tones": {
+        "TN-1": 0.8,
+        "TN-2": 0.3,
+        "TN-3": 0.9,
+        "TN-4": 0.7
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        5,
+        5
+      ],
+      "fallback": [
+        "OE-02",
+        "OE-13"
+      ],
+      "source_ref": [
+        "쇼츠 M6 엔드 카드 = 앞 장면 하이라이트의 듀오톤 고스트 + 좌하단 작은 글 (koba-maestro.md 34.03–39.11)"
+      ],
+      "folder": "OE-12_duotone_ghost_end"
+    },
+    {
+      "id": "OE-13",
+      "name": "북엔드끝무음",
+      "drawer": "OE",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "브랜드"
+      ],
+      "summary": "한 편의 처음과 끝에 같은 작은 모티프(로고의 가장 작은 부분)를 같은 자리에 놓고, 마지막 1초 남짓은 소리를 비운다",
+      "use_when": [
+        "한 편 끝",
+        "한 편 시작",
+        "브랜드"
+      ],
+      "avoid_when": [],
+      "tones": {
+        "TN-1": 0.6,
+        "TN-2": 0.2,
+        "TN-3": 1.0,
+        "TN-4": 0.4
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        1,
+        2
+      ],
+      "fallback": [
+        "OE-02",
+        "OE-12"
+      ],
+      "source_ref": [
+        "쇼츠 DY-7 북엔드 + 끝 무음 (dynamic-mg-sfx.md 카드 7, 0.0–1.0 / 21.2–22.4)",
+        "원#37 북엔드 (끝을 처음 모티프 거꾸로, 학습분)"
+      ],
+      "folder": "OE-13_bookend_silent_end"
+    },
+    {
+      "id": "OE-14",
+      "name": "워드마크아코디언",
+      "drawer": "OE",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "브랜드",
+        "글자"
+      ],
+      "summary": "워드마크의 글자 사이가 아코디언처럼 접혔다 펴지며 로고 이름이 자리 잡는다. 로고 엔딩의 변형",
+      "use_when": [
+        "한 편 끝",
+        "브랜드"
+      ],
+      "avoid_when": [],
+      "tones": {
+        "TN-1": 0.4,
+        "TN-2": 0.5,
+        "TN-3": 0.9,
+        "TN-4": 0.2
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        1.5,
+        3
+      ],
+      "fallback": [
+        "OE-02",
+        "OE-03"
+      ],
+      "source_ref": [
+        "쇼츠 CM-5 워드마크 아코디언 (claude-motion-graphics.md 학습 — 세부 수치 없음)"
+      ],
+      "folder": "OE-14_wordmark_accordion"
+    },
+    {
+      "id": "OE-15",
+      "name": "커튼막열림",
+      "drawer": "OE",
+      "version": 1,
+      "status": "신규",
+      "engine": "ae",
+      "subject": [
+        "무대배경"
+      ],
+      "summary": "가운데 이음선이 있는 커튼이 좌우로 벌어지며 어두운 무대가 드러나는 오프닝. 첫 컷의 크기 대비로 훅을 만든다. 정지 오프닝이라 사장님 요청 시",
+      "use_when": [
+        "한 편 시작"
+      ],
+      "avoid_when": [
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.1,
+        "TN-2": 0.6,
+        "TN-3": 0.8,
+        "TN-4": 0.0
+      },
+      "screens": [
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        1.4,
+        1.4
+      ],
+      "fallback": [
+        "OE-01",
+        "OE-08"
+      ],
+      "source_ref": [
+        "쇼츠 M1 막 열림 오프닝 (koba-maestro.md — 커튼 이음선 → 작은 무대 드러남, 0.0–1.4, 원작 1920×1080)"
+      ],
+      "folder": "OE-15_curtain_open"
+    },
+    {
+      "id": "OE-16",
+      "name": "사람뒤거대타이틀",
+      "drawer": "OE",
+      "version": 1,
+      "status": "신규",
+      "engine": "ae",
+      "subject": [
+        "글자",
+        "사람"
+      ],
+      "summary": "큰 타이틀 글자가 사람(또는 사물) 뒤에서 올라와 그 사람 앞에 가려진 채 3초 머문다. 정지 이미지 + 느린 push-in(1.00→1.06). 한 편 한 번",
+      "use_when": [
+        "한 편 시작",
+        "브랜드"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.1,
+        "TN-2": 0.4,
+        "TN-3": 1.0,
+        "TN-4": 0.0
+      },
+      "screens": [
+        "풀샷"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        3,
+        4
+      ],
+      "fallback": [
+        "OE-08",
+        "OE-10"
+      ],
+      "source_ref": [
+        "쇼츠 M5 거대 타이틀이 사람 뒤에서 솟고 3초 홀드 (koba-maestro.md 31.0–34.0)",
+        "쇼츠 T5 사물 뒤로 들어가는 큰 글자 (typography-remotion.md)"
+      ],
+      "folder": "OE-16_giant_title_behind_person"
+    },
+    {
+      "id": "OE-17",
+      "name": "기준선락업엔드",
+      "drawer": "OE",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "브랜드",
+        "글자"
+      ],
+      "summary": "모든 요소가 작은 사각형으로 줄어 한 기준선으로 모여 로고·문의 한 줄로 합쳐지는 엔드 카드. 마지막 0.85초는 새 요소 없이 정지",
+      "use_when": [
+        "한 편 끝",
+        "브랜드"
+      ],
+      "avoid_when": [],
+      "tones": {
+        "TN-1": 0.6,
+        "TN-2": 0.3,
+        "TN-3": 0.9,
+        "TN-4": 0.6
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        1.7,
+        3
+      ],
+      "fallback": [
+        "OE-02",
+        "OE-11"
+      ],
+      "source_ref": [
+        "쇼츠 K 샷5 기준선 락업 (2d-mg-newtake.md 샷 5 — 8.300–10.000초, 변형 C7)"
+      ],
+      "folder": "OE-17_baseline_lockup_end"
+    },
+    {
+      "id": "OE-18",
+      "name": "그라디언트워드마크",
+      "drawer": "OE",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "브랜드",
+        "글자"
+      ],
+      "summary": "큰 워드마크를 글자마다 다른 세로 그라디언트로 채우고 0.1~0.2초 간격으로 한 글자씩 올린다. 브랜드색 한 톤의 명도 단계(navy → blue)로만",
+      "use_when": [
+        "한 편 끝",
+        "한 편 시작",
+        "브랜드"
+      ],
+      "avoid_when": [],
+      "tones": {
+        "TN-1": 0.4,
+        "TN-2": 0.2,
+        "TN-3": 1.0,
+        "TN-4": 0.2
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        1,
+        3
+      ],
+      "fallback": [
+        "OE-02",
+        "OE-14"
+      ],
+      "source_ref": [
+        "쇼츠 AS-3 글자 단위 그라디언트 타이틀 (astra-branding.md 카드 3 — navy→blue, 13.5–14.2)"
+      ],
+      "folder": "OE-18_gradient_wordmark"
+    },
+    {
+      "id": "OE-19",
+      "name": "라인드로우점등",
+      "drawer": "OE",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "브랜드",
+        "글자"
+      ],
+      "summary": "윤곽선이 약 9프레임에 둥근 사각형을 그리고 → 글자가 켜지고 → 영문 태그라인이 자간이 넓은 데서 보통으로 수렴하며 → 사선 빛 띠가 좌→우로 한 번 스친다",
+      "use_when": [
+        "한 편 끝",
+        "한 편 시작",
+        "브랜드"
+      ],
+      "avoid_when": [],
+      "tones": {
+        "TN-1": 0.5,
+        "TN-2": 0.3,
+        "TN-3": 1.0,
+        "TN-4": 0.3
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        1.5,
+        2.5
+      ],
+      "fallback": [
+        "OE-01",
+        "OE-02"
+      ],
+      "source_ref": [
+        "쇼츠 B-5 윤곽선 드로우 → 글자 점등 → 자간 수렴 → 빛 스침 (typography-remotion.md 4-5)"
+      ],
+      "folder": "OE-19_line_draw_lightup"
+    },
+    {
+      "id": "OE-20",
+      "name": "디자인엔드보드",
+      "drawer": "OE",
+      "version": 1,
+      "status": "신규",
+      "engine": "design",
+      "subject": [
+        "글자",
+        "브랜드"
+      ],
+      "summary": "엔딩 요약 보드 + 로고 + CTA 를 한 장으로 마무리한다. 정지 판이고 OE-02(로고 엔딩) 앞에 붙는다",
+      "use_when": [
+        "한 편 끝",
+        "정리·목차",
+        "브랜드"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "개념 비교"
+      ],
+      "tones": {
+        "TN-1": 1.0,
+        "TN-2": 0.5,
+        "TN-3": 0.3,
+        "TN-4": 0.4
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        3,
+        10
+      ],
+      "fallback": [
+        "OE-05",
+        "OE-02"
+      ],
+      "source_ref": [
+        "motion-graphics.md 0장 B 경로 «클로드 디자인 + 애펙» 원칙·순서",
+        "tools/design_layers.py 독스트링 (data-layer · $preview 1920×1080)",
+        "templates/OE-05 (요약 카드)",
+        "templates/OE-02 (로고 엔딩)"
+      ],
+      "folder": "OE-20_design_end_board"
+    },
+    {
+      "id": "OE-21",
+      "name": "AI오프닝실사",
+      "drawer": "OE",
+      "version": 1,
+      "status": "신규",
+      "engine": "aivideo",
+      "subject": [
+        "무대배경",
+        "글자"
+      ],
+      "summary": "오프닝 3~5초 실사 숏 위에 코드 렌더 제목을 얹는다. 영상은 글자 없이 만들고, 제목은 렌더러(AE/html)가 그린다",
+      "use_when": [
+        "한 편 시작",
+        "브랜드"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.3,
+        "TN-2": 0.7,
+        "TN-3": 0.6,
+        "TN-4": 0.4
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        3,
+        5
+      ],
+      "fallback": [
+        "CA-09",
+        "CA-10",
+        "OE-06"
+      ],
+      "source_ref": [
+        "ai-video.md 0·1·3·4·5·6장 (사장님 10-01 정원 장면 반실사 실패 기록)",
+        "templates/SC-14 (AI실사컷 본보기)",
+        "쇼츠 ai-video.md · study/koba-*.md (크레딧 절약)",
+        "쇼츠 KP2·M 결 (실사 숏 위 코드 렌더 제목)",
+        "templates/OE-06 · OE-10 (오프닝 제목)"
+      ],
+      "folder": "OE-21_ai_opening_real"
+    },
+    {
+      "id": "SC-01",
+      "name": "반반판카드",
+      "drawer": "SC",
+      "version": 1,
+      "status": "통과",
+      "engine": "ae",
+      "subject": [
+        "사람",
+        "자료이미지"
+      ],
+      "summary": "빈 벽에 브랜드 로고가 톡 떠오르고 로고에서 파란 물결이 퍼지며 화면이 반반(사람 왼쪽·오른쪽 판)으로 열린다. 판 위 카드가 말하는 순간마다 하나씩 톡 나오고, 끝에 사람이 꽉 찬 화면으로 돌아온다",
+      "use_when": [
+        "소개·여러 항목",
+        "한 편 시작",
+        "챕터 시작"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.7,
+        "TN-2": 0.6,
+        "TN-3": 0.4,
+        "TN-4": 0.2
+      },
+      "screens": [
+        "풀샷"
+      ],
+      "layer": "L4",
+      "moves_person": true,
+      "duration": [
+        6,
+        12
+      ],
+      "fallback": [
+        "SC-02",
+        "SC-10"
+      ],
+      "source_ref": [
+        "빡이사DB 01 (tools/bisa_meta_cards.py — 메타 로고·업종 카드)",
+        "motion-graphics.md 2장 01 통과 «적당히 괜찮네, 볼륨만»",
+        "motion-graphics.md 2장 «같은 결로 갈 때의 틀 — 반반·카드형»"
+      ],
+      "folder": "SC-01_split_card"
+    },
+    {
+      "id": "SC-02",
+      "name": "노트손글씨",
+      "drawer": "SC",
+      "version": 1,
+      "status": "통과",
+      "engine": "ae",
+      "subject": [
+        "글자",
+        "사람"
+      ],
+      "summary": "사람이 왼쪽으로 비켜나며 화면 반반 → 오른쪽 스프링 노트에 손글씨가 한 줄씩 써지고, 핵심 줄에 형광펜 게이지가 차오른다. 끝에 처음 모양으로 닫힘",
+      "use_when": [
+        "정리·목차",
+        "소개·여러 항목",
+        "챕터 시작"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 1.0,
+        "TN-2": 0.6,
+        "TN-3": 0.3,
+        "TN-4": 0.5
+      },
+      "screens": [
+        "풀샷",
+        "PIP"
+      ],
+      "layer": "L4",
+      "moves_person": true,
+      "duration": [
+        5,
+        20
+      ],
+      "fallback": [
+        "EM-06",
+        "EM-08"
+      ],
+      "source_ref": [
+        "빡이사DB 02",
+        "빡이사DB 12"
+      ],
+      "folder": "SC-02_note_handwriting"
+    },
+    {
+      "id": "SC-03",
+      "name": "디자인판화면전체",
+      "drawer": "SC",
+      "version": 1,
+      "status": "통과",
+      "engine": "design",
+      "subject": [
+        "자료이미지",
+        "글자"
+      ],
+      "summary": "두 개념을 비교하는 말에서 화면 전체를 클로드 디자인 판으로 바꾼다. 쪽마다 색 하나(빨강 vs 파랑), Codex 사진과 읽히는 예시 글·녹화 실화면 잘라 낸 것으로 차이가 눈에 보이게. 단계·결과는 글자 디자인",
+      "use_when": [
+        "개념 비교"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "과정·단계",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 1.0,
+        "TN-2": 0.4,
+        "TN-3": 0.5,
+        "TN-4": 0.4
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        15,
+        32
+      ],
+      "fallback": [
+        "SC-06",
+        "SC-09"
+      ],
+      "source_ref": [
+        "빡이사DB 06 2판 «웹사이트 vs 인스턴트» (B 경로 첫 통과)",
+        "빡이사DB 07 «인스턴트 먼저» (쪽마다 색)",
+        "motion-graphics.md 0장 B 경로 «클로드 디자인 + 애펙» 원칙·순서",
+        "사장님 10-07 06 통과 때 «비교하는 건 색으로 각각 다름을 강조하면 좋을 것 같아»"
+      ],
+      "folder": "SC-03_design_board_full"
+    },
+    {
+      "id": "SC-04",
+      "name": "한무대상태변화",
+      "drawer": "SC",
+      "version": 1,
+      "status": "통과",
+      "engine": "ae",
+      "subject": [
+        "자료이미지",
+        "무대배경"
+      ],
+      "summary": "선택지가 많은 중에 하나로 바뀌는 말. 같은 무대 하나에서 선택지 이미지 24개가 떠오르고, 노출 물결이 닿는 순서대로 고리가 켜지고, 고른 값이 타자로 쓰인 뒤 나머지는 흐려진다 — 비교 판이 아닌 한 무대의 상태 변화",
+      "use_when": [
+        "설정·버튼",
+        "과정·단계"
+      ],
+      "avoid_when": [
+        "개념 비교",
+        "일상 상황"
+      ],
+      "tones": {
+        "TN-1": 0.5,
+        "TN-2": 0.4,
+        "TN-3": 0.4,
+        "TN-4": 1.0
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        10,
+        25
+      ],
+      "fallback": [
+        "EM-03",
+        "SC-05"
+      ],
+      "source_ref": [
+        "빡이사DB 09 «언어 설정» (bisa_lang_flags — 이 폴더에 없음)",
+        "쇼츠 techniques.md A표 «국기 한 무대 상태변화»",
+        "motion-graphics.md 2장 09 «통과 다음거 가자»",
+        "사장님 10-07 09 지시 «국기 같은 걸로 표현 · 움직임 모션그래픽 같은 거 해서 상호작용하는 느낌으로»"
+      ],
+      "folder": "SC-04_one_stage_change"
+    },
+    {
+      "id": "SC-05",
+      "name": "상호작용무대",
+      "drawer": "SC",
+      "version": 1,
+      "status": "통과",
+      "engine": "ae",
+      "subject": [
+        "캐릭터",
+        "브랜드"
+      ],
+      "summary": "돈·노출·사람이 오가는 말. 한 무대에서 광고 카드와 광고비 내역이 있고 사람 셋이 0.6초 간격으로 줄에 서며, 로고 셋은 한 묶음으로 나온다. 효과음은 자연 길이로 부드럽게",
+      "use_when": [
+        "숫자·금액",
+        "알고리즘·시스템 행동",
+        "과정·단계"
+      ],
+      "avoid_when": [
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.5,
+        "TN-2": 0.5,
+        "TN-3": 0.5,
+        "TN-4": 0.5
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        15,
+        25
+      ],
+      "fallback": [
+        "SC-04",
+        "SC-08"
+      ],
+      "source_ref": [
+        "빡이사DB 10 2판 «과금 방식» (bisa_cost_model — 이 폴더에 없음)",
+        "motion-graphics.md 2장 10 «통과 다음꺼 고고»",
+        "motion-graphics.md 4장 10 1판 반려",
+        "사장님 10-07 10 지시 «이것도 상호작용 느낌으로, 좀 부드럽고 자연스러운 상호작용을 중점으로»"
+      ],
+      "folder": "SC-05_interactive_stage"
+    },
+    {
+      "id": "SC-06",
+      "name": "실화면재현UI",
+      "drawer": "SC",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "녹화화면",
+        "캐릭터"
+      ],
+      "summary": "업체명·번호가 찍힌 실제 녹화 화면을 못 쓸 때 같은 결의 화면을 다시 만든다(업체 ○○). 카드들 중 하나에 초점을 맞추고, 왼쪽 칸에서 캐릭터가 표정·말풍선으로 해설하며 기준이 «내 눈»에서 «데이터»로 넘어간다",
+      "use_when": [
+        "화면 속 특정 부분",
+        "사례·후기"
+      ],
+      "avoid_when": [
+        "일상 상황",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.5,
+        "TN-2": 0.3,
+        "TN-3": 0.2,
+        "TN-4": 1.0
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        10,
+        25
+      ],
+      "fallback": [
+        "EM-02",
+        "SC-11"
+      ],
+      "source_ref": [
+        "빡이사DB 19 «광고 라이브러리» (tools/examples/bisa_ad_library.py)",
+        "빡이사DB 14 «흐림 위 목록 재현» (bisa_naming — 이 폴더에 없음)",
+        "motion-graphics.md 0장 갈래 «실화면 재현»",
+        "사장님 10-08 19 지시 «광고 관리자 실제 화면을 참고해서 임의로 만들어서 자막에 맞게 연출»"
+      ],
+      "folder": "SC-06_ui_recreate"
+    },
+    {
+      "id": "SC-07",
+      "name": "2D상황극",
+      "drawer": "SC",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "캐릭터",
+        "무대배경"
+      ],
+      "summary": "일상 상황을 같은 인물의 여러 동작(2D 플랫)으로 보여 준다. 말이 바뀔 때마다 동작이 딱 바뀌며 눌림·들썩임이 있고, 게이지·달력·전화·알림 같은 소품이 움직인다. 해설은 말풍선·개념어 알약으로",
+      "use_when": [
+        "일상 상황",
+        "사례·후기"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.4,
+        "TN-2": 1.0,
+        "TN-3": 0.3,
+        "TN-4": 0.2
+      },
+      "screens": [
+        "PIP",
+        "풀샷"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        12,
+        20
+      ],
+      "fallback": [
+        "SC-09",
+        "SC-11"
+      ],
+      "source_ref": [
+        "빡이사DB 18 «니즈 하락» (tools/examples/bisa_need_drop.py)",
+        "빡이사DB 21 «4차 콜» (tools/examples/bisa_crm_call.py)",
+        "쇼츠 techniques.md A표 «2D 플랫 애니» · «사람 PIP 전환 + 모니터 inset»",
+        "쇼츠 study/koba-lecture-part2.md 캐릭터 3면도 → 7요소 디렉팅",
+        "사장님 10-08 18 지시 «애니메이션 연출(3인칭 관찰자 시점) · 3D 보다는 2D 체로, 그냥 움직이는 느낌만 모션만»"
+      ],
+      "folder": "SC-07_2d_situation"
+    },
+    {
+      "id": "SC-08",
+      "name": "의인화인형",
+      "drawer": "SC",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "캐릭터"
+      ],
+      "summary": "광고·계정·알고리즘이 사람처럼 행동하는 말. 글자(예: Meta)가 적힌 팔다리 달린 인형 캐릭터가 설정을 입력받고 행동하는 모습을 모션그래픽처럼 역동적으로 보여 준다. 떨어져 착지·눌림·달리기",
+      "use_when": [
+        "알고리즘·시스템 행동",
+        "과정·단계"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.3,
+        "TN-2": 1.0,
+        "TN-3": 0.2,
+        "TN-4": 0.3
+      },
+      "screens": [
+        "PIP",
+        "풀샷"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        8,
+        25
+      ],
+      "fallback": [
+        "SC-05",
+        "SC-04"
+      ],
+      "source_ref": [
+        "빡이사DB 11 2판 «광고 의인화 인형» (bisa_ad_mascot — 이 폴더에 없음)",
+        "빡이사DB 16 «학습» (bisa_learning_b — 이 폴더에 없음)",
+        "쇼츠 techniques.md A표 «마스코트 의인화»",
+        "쇼츠 design-paths.md 4장",
+        "쇼츠 motion-typo.md 카드 F / study/koba-maestro.md"
+      ],
+      "folder": "SC-08_mascot_doll"
+    },
+    {
+      "id": "SC-09",
+      "name": "보는사람휴대폰",
+      "drawer": "SC",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "자료이미지",
+        "무대배경"
+      ],
+      "summary": "광고를 보는 사람 시점일 때만. 사람이 왼쪽 절반으로 비켜나고 오른쪽 판에 손에 든 휴대폰 사진이 놓이며, 화면 안에서 피드가 강사의 손짓 방향대로 넘어간다. 왼쪽 칸 방향 카드는 세로=파랑·가로=빨강",
+      "use_when": [
+        "보는 사람 시점",
+        "일상 상황",
+        "개념 비교"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.4,
+        "TN-2": 0.3,
+        "TN-3": 0.3,
+        "TN-4": 0.2
+      },
+      "screens": [
+        "풀샷"
+      ],
+      "layer": "L4",
+      "moves_person": true,
+      "duration": [
+        15,
+        25
+      ],
+      "fallback": [
+        "SC-07",
+        "SC-03"
+      ],
+      "source_ref": [
+        "빡이사DB 17 «위에서 아래로» (tools/examples/bisa_scroll_view.py)",
+        "빡이사DB 15 «프로필 보기» (bisa_profile_view — 이 폴더에 없음)",
+        "쇼츠 techniques.md A표 «보는 사람 휴대폰» · «트랙 매트 프리컴프»",
+        "사장님 10-08 17 지시 «이렇게라는 표현을 쓰면서 손가락으로 방향을 알려 주거든, 그런 거 정합성 맞춰서 핸드폰으로 보는 화면 연출»"
+      ],
+      "folder": "SC-09_viewer_phone"
+    },
+    {
+      "id": "SC-10",
+      "name": "모션그래픽무대",
+      "drawer": "SC",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "자료이미지",
+        "글자"
+      ],
+      "summary": "사람이 왼쪽 절반으로 비켜나고 오른쪽에 어두운 모션그래픽 무대가 열린다. 이 영상에서 만든 장면의 정지 화면·녹화 실화면이 말에 맞춰 날아들었다 날아가고, 큰 글이 쾅 앉는다",
+      "use_when": [
+        "결론·센 말",
+        "정리·목차",
+        "소개·여러 항목"
+      ],
+      "avoid_when": [
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.3,
+        "TN-2": 0.5,
+        "TN-3": 1.0,
+        "TN-4": 0.2
+      },
+      "screens": [
+        "풀샷"
+      ],
+      "layer": "L4",
+      "moves_person": true,
+      "duration": [
+        15,
+        30
+      ],
+      "fallback": [
+        "SC-01",
+        "SC-02"
+      ],
+      "source_ref": [
+        "빡이사DB 22 «실무 강조» (tools/examples/bisa_pitch_mg.py)",
+        "사장님 10-08 22 지시 «모션그래픽처럼 좀 화려하고 연출 좋게 시도 · 여러 자료 화면 띄워서 각각 날아다니면서 자막에 맞춰서 맞는 자료가 나오게»",
+        "쇼츠 study/higgsfield-mg.md V7a(3D 슬라이드 카드)",
+        "쇼츠 study/dynamic-mg-sfx.md 카드 2(큰 변화 앞 0.5초 숨)"
+      ],
+      "folder": "SC-10_motion_stage"
+    },
+    {
+      "id": "SC-11",
+      "name": "댓글캡처확대",
+      "drawer": "SC",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "자료이미지",
+        "글자"
+      ],
+      "summary": "댓글 캡처 여러 장이 차례로 넘어가다가 말하는 댓글 하나가 화면 속에서 쑥 나와 커지고, 하트·답글에 동그라미가 그려진다. 다른 사람의 아이디·프로필은 블러. 마지막은 댓글 쓰는 칸에서 커서가 깜빡인다",
+      "use_when": [
+        "사례·후기",
+        "화면 속 특정 부분"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.4,
+        "TN-2": 1.0,
+        "TN-3": 0.3,
+        "TN-4": 0.4
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        8,
+        12
+      ],
+      "fallback": [
+        "SC-06",
+        "EM-02"
+      ],
+      "source_ref": [
+        "빡이사DB 23 «댓글» (tools/examples/bisa_comments.py)",
+        "사장님 10-08 23 지시 «이런 곳에서(유튜브 댓글 캡처 3장) 아이디 같은 개인정보 블러 처리해서 저 화면 속에서 댓글이 쑥 나와서 확대되는 느낌으로 강조»"
+      ],
+      "folder": "SC-11_comment_zoom"
+    },
+    {
+      "id": "SC-12",
+      "name": "모핑단계도식",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자",
+        "데이터"
+      ],
+      "summary": "절차·단계를 컷 없이 한 무대에서 한 요소가 모양을 바꾸며 이어 간다. 모눈 바탕에 오른쪽 위로 오르는 계단 선, 단계가 하나씩 옆으로 흘러 들어오고 마지막에 줌아웃해 셋을 한눈에 보여 준다. 진행률·체크로 단계를 표시",
+      "use_when": [
+        "과정·단계",
+        "정리·목차"
+      ],
+      "avoid_when": [
+        "일상 상황",
+        "개념 비교"
+      ],
+      "tones": {
+        "TN-1": 0.4,
+        "TN-2": 0.3,
+        "TN-3": 1.0,
+        "TN-4": 0.4
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        8,
+        25
+      ],
+      "fallback": [
+        "SC-04",
+        "SC-02"
+      ],
+      "source_ref": [
+        "motion-graphics.md 2-1장 원칙 8(한 물체가 모양을 바꾸며 이어 가기)·9(단계 도식 = 계단)·10(HUD 잔글씨)",
+        "쇼츠 motion-typo.md 카드 D «자료 모션 — 정보·절차·숫자»",
+        "쇼츠 study/claude-motion-graphics.md UI 모핑(04:14–04:29)",
+        "쇼츠 study/higgsfield-mg.md V4·V6(입력·진행 알약)"
+      ],
+      "folder": "SC-12_morph_steps"
+    },
+    {
+      "id": "SC-13",
+      "name": "3D장표",
+      "drawer": "SC",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "자료이미지",
+        "무대배경"
+      ],
+      "summary": "흐린 실사 배경 위로 문서 장표가 3D 로 미끄러져 들어오고 카메라가 말하는 곳으로 밀고 들어가 노란 테두리가 그려지며 나머지는 어두워진다. 다음 말로 넘어가면 같은 장표 안에서 이어서 옮겨 가거나 옆 장표로 미끄러진다",
+      "use_when": [
+        "정의·조건",
+        "숫자·금액",
+        "화면 속 특정 부분"
+      ],
+      "avoid_when": [
+        "일상 상황",
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.4,
+        "TN-2": 0.3,
+        "TN-3": 1.0,
+        "TN-4": 0.3
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        8,
+        30
+      ],
+      "fallback": [
+        "EM-01",
+        "SC-11"
+      ],
+      "source_ref": [
+        "분양 쇼츠 rf3 (tools/rf3_ae.py — 사장님 2026-09-28 «에펙으로 고급지게, 연속성으로 내용을 챙기게»)",
+        "쇼츠 study/higgsfield-mg.md V7a(3D 슬라이드 카드, 뒷면 거울 글씨)",
+        "쇼츠 techniques.md A표 «3D 판 카드»",
+        "auto-pipeline.md 4장 SC-13 «분양 통과 · 가로화 필요»"
+      ],
+      "folder": "SC-13_3d_slides"
+    },
+    {
+      "id": "SC-14",
+      "name": "AI실사컷",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "aivideo",
+      "subject": [
+        "사람",
+        "무대배경"
+      ],
+      "summary": "그림으로 보여 줘야 하는 현실 공간·사람 장면(가게·공장·상담 장면 등)에서 Codex 가 만든 사진기 톤 시작프레임을 유료 AI 영상으로 한 컷 만든다. 요청의 유료 한도가 0이면 같은 시작프레임 정지 사진 + 느린 밀기로 대체한다",
+      "use_when": [
+        "현실 공간·사람",
+        "사례·후기"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "설정·버튼",
+        "개념 비교"
+      ],
+      "tones": {
+        "TN-1": 0.2,
+        "TN-2": 0.5,
+        "TN-3": 0.7,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        3,
+        5
+      ],
+      "fallback": [
+        "SC-07",
+        "SC-15"
+      ],
+      "source_ref": [
+        "ai-video.md 0·1·3·4·5·6장 (사장님 10-01 정원 장면 반실사 실패 기록)",
+        "쇼츠 ai-video.md (분양 AI 영상)",
+        "쇼츠 motion-typo.md 카드 H · study/koba-lecture-part1.md 크레딧 절약 6항목",
+        "쇼츠 techniques.md B표 «AI 영상»"
+      ],
+      "folder": "SC-14_ai_real_cut"
+    },
+    {
+      "id": "SC-15",
+      "name": "3D오브젝트",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "blender",
+      "subject": [
+        "자료이미지",
+        "무대배경"
+      ],
+      "summary": "제품·공간 구조처럼 3D 로 돌려 보여야 하는 말. 블렌더로 만든 3D 오브젝트(알파 렌더)가 카메라 이동과 함께 말에 맞춰 보여진다. 사물은 도형 흉내가 아니라 3D 렌더 이미지",
+      "use_when": [
+        "현실 공간·사람",
+        "소개·여러 항목"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "숫자·금액",
+        "일상 상황"
+      ],
+      "tones": {
+        "TN-1": 0.2,
+        "TN-2": 0.2,
+        "TN-3": 0.6,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        3,
+        10
+      ],
+      "fallback": [
+        "SC-14",
+        "SC-01"
+      ],
+      "source_ref": [
+        "쇼츠 blender.md (b4_previz05_scene.py — 카메라 프리비즈, look() 계산·smoothstep·렌즈 CONSTANT)",
+        "쇼츠 study/higgsfield-mg.md V7a·V15",
+        "쇼츠 study/flova-3d.md (제품 사진 → 샷 리스트 구조만, Flova 는 사장님 결정으로 제외)",
+        "쇼츠 motion-typo.md 카드 G"
+      ],
+      "folder": "SC-15_3d_object"
+    },
+    {
+      "id": "SC-16",
+      "name": "계단도식",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자",
+        "데이터"
+      ],
+      "summary": "모눈 미색 바탕에 오른쪽 위로 오르는 가는 선 계단, 01→02→03 단계가 차례로 올라앉고 끝에 줌아웃해 셋을 한눈에 보여 준다",
+      "use_when": [
+        "과정·단계",
+        "정리·목차"
+      ],
+      "avoid_when": [
+        "일상 상황",
+        "개념 비교"
+      ],
+      "tones": {
+        "TN-1": 0.4,
+        "TN-2": 0.3,
+        "TN-3": 1.0,
+        "TN-4": 0.4
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        8,
+        25
+      ],
+      "fallback": [
+        "SC-12",
+        "SC-04"
+      ],
+      "source_ref": [
+        "원#33",
+        "쇼츠 CM-11 (claude-motion-graphics.md 모눈 계단 도식)",
+        "motion-graphics.md 2-1장 원칙 9"
+      ],
+      "folder": "SC-16_stair_diagram"
+    },
+    {
+      "id": "SC-17",
+      "name": "진행상태모핑",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "데이터",
+        "글자"
+      ],
+      "summary": "신청→심사→승인을 컷 없이 한 도형이 상태를 바꾸며 보여 준다 — 진행률 29→100%, 체크, 커서 클릭으로 단계가 넘어간다",
+      "use_when": [
+        "과정·단계",
+        "알고리즘·시스템 행동"
+      ],
+      "avoid_when": [
+        "일상 상황",
+        "개념 비교"
+      ],
+      "tones": {
+        "TN-1": 0.3,
+        "TN-2": 0.3,
+        "TN-3": 1.0,
+        "TN-4": 0.6
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        6,
+        20
+      ],
+      "fallback": [
+        "SC-12",
+        "SC-06"
+      ],
+      "source_ref": [
+        "원#32",
+        "쇼츠 CM-7 (claude-motion-graphics.md 진행 상태 한 도형 모핑)",
+        "motion-graphics.md 2-1장 원칙 8"
+      ],
+      "folder": "SC-17_progress_morph"
+    },
+    {
+      "id": "SC-18",
+      "name": "UI한도형모핑",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "데이터",
+        "글자"
+      ],
+      "summary": "한 도형이 버튼→로더→체크→슬라이더→토글처럼 모양을 바꾸며 한도·설정값 조작 과정을 한 무대에서 보여 준다",
+      "use_when": [
+        "설정·버튼",
+        "숫자·금액",
+        "과정·단계"
+      ],
+      "avoid_when": [
+        "일상 상황",
+        "개념 비교"
+      ],
+      "tones": {
+        "TN-1": 0.3,
+        "TN-2": 0.3,
+        "TN-3": 0.9,
+        "TN-4": 1.0
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        6,
+        20
+      ],
+      "fallback": [
+        "EM-03",
+        "SC-06"
+      ],
+      "source_ref": [
+        "쇼츠 CM-2 (claude-motion-graphics.md 한 도형 UI 모핑, 간격 0.6초+)"
+      ],
+      "folder": "SC-18_ui_limit_morph"
+    },
+    {
+      "id": "SC-19",
+      "name": "한도그릇",
+      "drawer": "SC",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "데이터",
+        "캐릭터"
+      ],
+      "summary": "열린 그릇에 돈 덩어리가 쌓이다 한도선에 걸려 흔들리고 ✕/✓ 로 판정 — 한도 개념을 상황으로 재현한다",
+      "use_when": [
+        "숫자·금액",
+        "개념 비교",
+        "정의·조건"
+      ],
+      "avoid_when": [
+        "일상 상황"
+      ],
+      "tones": {
+        "TN-1": 0.6,
+        "TN-2": 0.6,
+        "TN-3": 0.8,
+        "TN-4": 0.3
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        6,
+        20
+      ],
+      "fallback": [
+        "SC-07",
+        "SC-04"
+      ],
+      "source_ref": [
+        "원#52 (lec13_card05, 강의 13강 «카드뉴스 말고 시각적으로 재현»)"
+      ],
+      "folder": "SC-19_limit_bowl"
+    },
+    {
+      "id": "SC-20",
+      "name": "2x2카드채움",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "ae",
+      "subject": [
+        "글자",
+        "자료이미지"
+      ],
+      "summary": "빈 카드 4칸이 말 순서대로 1~4 로 채워지고 도면을 덮은 뒤 빨간 선이 긋고 깜빡 두 번 짚는다",
+      "use_when": [
+        "소개·여러 항목",
+        "정리·목차",
+        "화면 속 특정 부분"
+      ],
+      "avoid_when": [
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.8,
+        "TN-2": 0.5,
+        "TN-3": 0.5,
+        "TN-4": 0.4
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        6,
+        18
+      ],
+      "fallback": [
+        "SC-01",
+        "EM-06"
+      ],
+      "source_ref": [
+        "원#60 (b4_ae08, 분양 쇼츠 통과 — 세로 → 가로 이식은 신규)"
+      ],
+      "folder": "SC-20_grid2x2_fill"
+    },
+    {
+      "id": "SC-21",
+      "name": "지도경첩펼침",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "ae",
+      "subject": [
+        "자료이미지",
+        "캐릭터"
+      ],
+      "summary": "배경이 흐려지고 지도 3쪽이 경첩처럼 양옆으로 펼쳐진 뒤 캐릭터가 0.15초 톡 짚으면 노란 테두리와 파동이 퍼지고 방사 흐림으로 빨려 든다",
+      "use_when": [
+        "현실 공간·사람",
+        "화면 속 특정 부분",
+        "챕터 시작"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.7,
+        "TN-2": 0.6,
+        "TN-3": 0.7,
+        "TN-4": 0.2
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        4,
+        12
+      ],
+      "fallback": [
+        "SC-10",
+        "SC-07"
+      ],
+      "source_ref": [
+        "원#57 (b4_cine, 분양 쇼츠 통과 «시안4로 고고» — 세로 → 가로 이식은 신규)"
+      ],
+      "folder": "SC-21_map_hinge_open"
+    },
+    {
+      "id": "SC-22",
+      "name": "지도리빌",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "ae",
+      "subject": [
+        "자료이미지",
+        "무대배경"
+      ],
+      "summary": "지도를 복제해 아래층에 패턴을 깔고 트랙매트로 위층을 서서히 걷어 내며 지역·범위를 드러낸다",
+      "use_when": [
+        "현실 공간·사람",
+        "자료 등장",
+        "개념 비교"
+      ],
+      "avoid_when": [
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.6,
+        "TN-2": 0.5,
+        "TN-3": 0.6,
+        "TN-4": 0.3
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        4,
+        15
+      ],
+      "fallback": [
+        "SC-21",
+        "EM-02"
+      ],
+      "source_ref": [
+        "웹#44·45 (Johnny Harris 지도 마스크 리빌, Adobe 커뮤니티 글)",
+        "web-research-1008.md 지도 리빌 [출처값]"
+      ],
+      "folder": "SC-22_map_reveal"
+    },
+    {
+      "id": "SC-23",
+      "name": "차트",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "데이터"
+      ],
+      "summary": "말·자료에 나온 실제 수치만으로 차트(막대·선·원 등)를 그리고 숫자가 따라 올라간다. 수치가 없으면 쓰지 않는다",
+      "use_when": [
+        "숫자·금액",
+        "개념 비교",
+        "사례·후기"
+      ],
+      "avoid_when": [
+        "일상 상황",
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.5,
+        "TN-2": 0.4,
+        "TN-3": 0.8,
+        "TN-4": 0.6
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        5,
+        20
+      ],
+      "fallback": [
+        "EM-05",
+        "SC-04"
+      ],
+      "source_ref": [
+        "웹#47 (시장 Data 카테고리 — 차트 5종·카운터)",
+        "web-research-1008.md §2",
+        "쇼츠 B-4 금지 쪽(더미 숫자 막대)"
+      ],
+      "folder": "SC-23_chart"
+    },
+    {
+      "id": "SC-24",
+      "name": "원인결과한화면",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "자료이미지",
+        "데이터"
+      ],
+      "summary": "원인 블록에서 점선 궤적이 결과 화면으로 이어지며 한 화면에서 인과를 보여 준다. 서류 → 심사 → 승인 카드",
+      "use_when": [
+        "알고리즘·시스템 행동",
+        "과정·단계",
+        "개념 비교"
+      ],
+      "avoid_when": [
+        "일상 상황",
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.5,
+        "TN-2": 0.4,
+        "TN-3": 0.9,
+        "TN-4": 0.5
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        5,
+        15
+      ],
+      "fallback": [
+        "SC-04",
+        "SC-12"
+      ],
+      "source_ref": [
+        "쇼츠 E6 (entry-reel-opus.md 원인→결과 한 화면, 03.8–05.5 · 07.5–09.4)"
+      ],
+      "folder": "SC-24_cause_effect_one_screen"
+    },
+    {
+      "id": "SC-25",
+      "name": "카드벽3D",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "자료이미지"
+      ],
+      "summary": "수십 장의 카드가 기울어진 3D 면으로 흐르며 확대·블러되고 가운데 띠에 한 문장이 얹힌다 — 사례가 많음을 한눈에",
+      "use_when": [
+        "사례·후기",
+        "소개·여러 항목",
+        "챕터 시작"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.8,
+        "TN-2": 0.6,
+        "TN-3": 0.4,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        3,
+        10
+      ],
+      "fallback": [
+        "SC-26",
+        "SC-10"
+      ],
+      "source_ref": [
+        "쇼츠 E13 (entry-reel-opus.md 커뮤니티 작품 카드 벽, 09.4–11.2)"
+      ],
+      "folder": "SC-25_card_wall_3d"
+    },
+    {
+      "id": "SC-26",
+      "name": "격자콜라주",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "자료이미지"
+      ],
+      "summary": "원 하나가 사진 원으로 바뀌고 십자로 피어나 격자(벤토) 콜라주가 되며 마지막에 한 칸으로 줌 — 사례를 나열한다",
+      "use_when": [
+        "사례·후기",
+        "소개·여러 항목"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.7,
+        "TN-2": 0.5,
+        "TN-3": 0.6,
+        "TN-4": 0.2
+      },
+      "screens": [
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        4,
+        12
+      ],
+      "fallback": [
+        "SC-25",
+        "EM-07"
+      ],
+      "source_ref": [
+        "원#30 (한 장 번식 → 격자 콜라주)",
+        "쇼츠 CM-6 (사진 그리드→벤토→타일 줌)"
+      ],
+      "folder": "SC-26_grid_collage"
+    },
+    {
+      "id": "SC-27",
+      "name": "카드부채꼴",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "ae",
+      "subject": [
+        "자료이미지",
+        "글자"
+      ],
+      "summary": "폴더에서 카드가 부채꼴로 펼쳐지고 화면 위·아래 띠 글자가 서로 반대 방향으로 흐른다 — 사례 몽타주",
+      "use_when": [
+        "사례·후기",
+        "소개·여러 항목",
+        "챕터 시작"
+      ],
+      "avoid_when": [
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.7,
+        "TN-2": 0.6,
+        "TN-3": 0.4,
+        "TN-4": 0.2
+      },
+      "screens": [
+        "사람없음",
+        "풀샷"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        4,
+        12
+      ],
+      "fallback": [
+        "SC-26",
+        "SC-10"
+      ],
+      "source_ref": [
+        "원#38 (카드 부채꼴 + 반대 방향 띠 글자)"
+      ],
+      "folder": "SC-27_card_fan"
+    },
+    {
+      "id": "SC-28",
+      "name": "군집핵심하나",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "자료이미지",
+        "브랜드"
+      ],
+      "summary": "서류 조각 군집이 중앙에서 0.2초에 커져 3초 천천히 회전하다 가운데 서류 한 장이 브랜드색으로 채워지며 앞으로 나온다",
+      "use_when": [
+        "소개·여러 항목",
+        "정리·목차",
+        "브랜드"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.8,
+        "TN-2": 0.5,
+        "TN-3": 0.6,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        4,
+        10
+      ],
+      "fallback": [
+        "SC-26",
+        "OE-05"
+      ],
+      "source_ref": [
+        "쇼츠 AS-5 (astra-branding.md 카드 5·시안 3 — 조각 군집이 한 조각으로)"
+      ],
+      "folder": "SC-28_cluster_one"
+    },
+    {
+      "id": "SC-29",
+      "name": "한줄N갈래",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자",
+        "브랜드"
+      ],
+      "summary": "한 줄(핵심 개념)에서 선이 N갈래로 갈라지며 항목들이 나온다 — 시작점은 로고 평면판",
+      "use_when": [
+        "소개·여러 항목",
+        "정리·목차",
+        "개념 비교"
+      ],
+      "avoid_when": [
+        "일상 상황"
+      ],
+      "tones": {
+        "TN-1": 0.6,
+        "TN-2": 0.5,
+        "TN-3": 0.8,
+        "TN-4": 0.3
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        5,
+        15
+      ],
+      "fallback": [
+        "SC-12",
+        "SC-04"
+      ],
+      "source_ref": [
+        "쇼츠 AS-7 (astra-branding.md 한 줄 → N갈래 분기)",
+        "astra-branding.md 6장 충돌표: 프리즘 도형 → 로고 평면판"
+      ],
+      "folder": "SC-29_one_to_many"
+    },
+    {
+      "id": "SC-30",
+      "name": "좌우대조분위기",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "compose",
+      "subject": [
+        "무대배경",
+        "자료이미지"
+      ],
+      "summary": "구도를 맞춘 두 장면을 좌우로 나란히 놓고 문제 쪽은 채도를 낮추고 푸르게, 해결 쪽은 따뜻하게 해 분위기로 대조한 뒤 따뜻한 쪽이 밀고 들어온다",
+      "use_when": [
+        "개념 비교",
+        "일상 상황",
+        "현실 공간·사람"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.8,
+        "TN-2": 0.6,
+        "TN-3": 0.5,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        5,
+        15
+      ],
+      "fallback": [
+        "SC-03",
+        "SC-07"
+      ],
+      "source_ref": [
+        "원#88 (ns_stack — 위 채도 −70%·푸르게 / 아래 따뜻하게, 아래가 밀고 올라옴)",
+        "쇼츠 나이키 «You Can't Stop Us» (구도 맞춰 한 화면처럼 / 상하 대조) — 가로는 좌우"
+      ],
+      "folder": "SC-30_side_contrast"
+    },
+    {
+      "id": "SC-31",
+      "name": "사진줄스크롤",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "자료이미지",
+        "글자"
+      ],
+      "summary": "카드 왼쪽에 사진, 오른쪽 글이 줄 단위로 위로 흘러가며 줄별로 블러에서 선명하게 — 후기·상담 문구를 읽어 준다",
+      "use_when": [
+        "사례·후기",
+        "소개·여러 항목",
+        "용어 제시"
+      ],
+      "avoid_when": [
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.6,
+        "TN-2": 0.4,
+        "TN-3": 0.5,
+        "TN-4": 0.4
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        3,
+        12
+      ],
+      "fallback": [
+        "EM-07",
+        "SC-11"
+      ],
+      "source_ref": [
+        "쇼츠 V11 (higgsfield-mg.md, 24.5–26.8)"
+      ],
+      "folder": "SC-31_photo_line_scroll"
+    },
+    {
+      "id": "SC-32",
+      "name": "3D카드회전",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "자료이미지"
+      ],
+      "summary": "카드가 비스듬히 입장해 Y 축으로 회전하고 뒷면까지 보인 뒤 정면에 정착한다 — 자료 한 장을 입체적으로 소개한다",
+      "use_when": [
+        "자료 등장",
+        "소개·여러 항목",
+        "브랜드"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.6,
+        "TN-2": 0.5,
+        "TN-3": 0.4,
+        "TN-4": 0.2
+      },
+      "screens": [
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        3,
+        10
+      ],
+      "fallback": [
+        "SC-13",
+        "SC-26"
+      ],
+      "source_ref": [
+        "쇼츠 V7a (higgsfield-mg.md 3D 카드 Y 회전, 16.2–18.0, 정착 0.4초 감속)"
+      ],
+      "folder": "SC-32_card_rotate_3d"
+    },
+    {
+      "id": "SC-33",
+      "name": "스크랩북콜라주",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "ae",
+      "subject": [
+        "자료이미지",
+        "무대배경"
+      ],
+      "summary": "종이 바탕 위에 사진·메모·테이프 조각이 하나씩 붙는 스크랩북 — 사례와 자료를 한 장에 모은다",
+      "use_when": [
+        "사례·후기",
+        "소개·여러 항목",
+        "자료 등장"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.9,
+        "TN-2": 0.6,
+        "TN-3": 0.3,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "사람없음",
+        "PIP"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        5,
+        20
+      ],
+      "fallback": [
+        "SC-02",
+        "EM-08"
+      ],
+      "source_ref": [
+        "웹#56 (시장 Backgrounds 종이·노트 / Polaroid 카테고리 — 수치 출처값 없음)"
+      ],
+      "folder": "SC-33_scrapbook_collage"
+    },
+    {
+      "id": "SC-34",
+      "name": "카드뉴스2쪽",
+      "drawer": "SC",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "자료이미지",
+        "글자"
+      ],
+      "summary": "1쪽 카드가 25% 로 줄어 (1172,118) 로 비켜나고 2쪽이 들어와 [칸]▼[칸]▼ 이 이어진 뒤 «= 결론» 이 쾅 박힌다",
+      "use_when": [
+        "정의·조건",
+        "정리·목차",
+        "결론·센 말"
+      ],
+      "avoid_when": [
+        "일상 상황"
+      ],
+      "tones": {
+        "TN-1": 0.6,
+        "TN-2": 0.6,
+        "TN-3": 0.7,
+        "TN-4": 0.3
+      },
+      "screens": [
+        "PIP",
+        "풀샷"
+      ],
+      "layer": "L4",
+      "moves_person": true,
+      "duration": [
+        8,
+        25
+      ],
+      "fallback": [
+        "EM-06",
+        "SC-01"
+      ],
+      "source_ref": [
+        "원#49 (lec13_card02~04, 강의 13강 — 검수 대기)"
+      ],
+      "folder": "SC-34_cardnews_two"
+    },
+    {
+      "id": "SC-35",
+      "name": "카드3장쌓기",
+      "drawer": "SC",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "자료이미지",
+        "글자"
+      ],
+      "summary": "카드1이 (1172,128) 로 비켜나고 카드2 가 들어와 (992,128) 로 비킨 뒤 카드3 이 와서 함께 퇴장 — 세 카드를 줄여 쌓는다",
+      "use_when": [
+        "소개·여러 항목",
+        "과정·단계",
+        "정리·목차"
+      ],
+      "avoid_when": [
+        "일상 상황"
+      ],
+      "tones": {
+        "TN-1": 0.6,
+        "TN-2": 0.6,
+        "TN-3": 0.7,
+        "TN-4": 0.3
+      },
+      "screens": [
+        "PIP",
+        "풀샷"
+      ],
+      "layer": "L4",
+      "moves_person": true,
+      "duration": [
+        8,
+        25
+      ],
+      "fallback": [
+        "EM-06",
+        "SC-34"
+      ],
+      "source_ref": [
+        "원#50 (lec12_card04, 강의 12강 — 검수 대기)"
+      ],
+      "folder": "SC-35_three_cards_stack"
+    },
+    {
+      "id": "SC-36",
+      "name": "검색결과클릭",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "compose",
+      "subject": [
+        "녹화화면",
+        "캐릭터"
+      ],
+      "summary": "검색창에 글자가 쳐지고 결과 목록이 뜬 뒤 손 표시가 한 결과를 클릭한다. 화면 녹화처럼 확대·패닝하되 실화면 대신 재현을 쓴다",
+      "use_when": [
+        "설정·버튼",
+        "화면 속 특정 부분",
+        "보는 사람 시점"
+      ],
+      "avoid_when": [
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.4,
+        "TN-2": 0.4,
+        "TN-3": 0.5,
+        "TN-4": 1.0
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        4,
+        12
+      ],
+      "fallback": [
+        "EM-03",
+        "CA-03"
+      ],
+      "source_ref": [
+        "쇼츠 F-6 (flova-3d.md 검색창 타자→결과 클릭)",
+        "쇼츠 F-3 (화면 녹화 줌·패닝 + 클릭 손 표시, 롱폼 핵심)"
+      ],
+      "folder": "SC-36_search_click"
+    },
+    {
+      "id": "SC-37",
+      "name": "입력알약타자",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자",
+        "데이터"
+      ],
+      "summary": "점이 알약으로 늘어나 어두운 입력창이 되고 글자가 한 글자씩 쳐진 뒤 버튼이 눌린다 — 질문·명령을 입력하는 장면",
+      "use_when": [
+        "질문",
+        "설정·버튼",
+        "용어 제시"
+      ],
+      "avoid_when": [
+        "일상 상황"
+      ],
+      "tones": {
+        "TN-1": 0.3,
+        "TN-2": 0.3,
+        "TN-3": 0.7,
+        "TN-4": 0.8
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        3,
+        10
+      ],
+      "fallback": [
+        "EM-03",
+        "SC-06"
+      ],
+      "source_ref": [
+        "쇼츠 V4 (higgsfield-mg.md, 8.2–9.8)",
+        "쇼츠 B-12 (typography-remotion.md 터미널 타자)"
+      ],
+      "folder": "SC-37_input_pill_typing"
+    },
+    {
+      "id": "SC-38",
+      "name": "강의설명카드틀",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자",
+        "데이터"
+      ],
+      "summary": "번호와 짧은 제목(왼쪽) + 도식 카드(오른쪽)를 한 틀로 반복하고 5분할 진행 바로 몇 번째인지 보여 주는 강의 설명 카드",
+      "use_when": [
+        "용어 제시",
+        "과정·단계",
+        "정의·조건"
+      ],
+      "avoid_when": [
+        "일상 상황",
+        "결론·센 말"
+      ],
+      "tones": {
+        "TN-1": 0.3,
+        "TN-2": 0.3,
+        "TN-3": 0.8,
+        "TN-4": 0.6
+      },
+      "screens": [
+        "PIP"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        5,
+        25
+      ],
+      "fallback": [
+        "EM-06",
+        "SC-01"
+      ],
+      "source_ref": [
+        "쇼츠 K10 (2d-mg-newtake.md — 강의 설명 카드 반복 틀, 가로 강의용 명시)",
+        "원#56 (전체화면 자료 카드는 반려 성격 → 보조 패널)"
+      ],
+      "folder": "SC-38_lecture_explainer_card"
+    },
+    {
+      "id": "SC-39",
+      "name": "마스코트가리킴",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "ae",
+      "subject": [
+        "캐릭터"
+      ],
+      "summary": "마스코트가 준비 동작 뒤 서류를 가리키고(큰 컷→작은 컷) 말풍선으로 짚어 준다 — 숨쉬기와 눌림만 쓰고 UI 는 튕기지 않는다",
+      "use_when": [
+        "용어 제시",
+        "경고·실수",
+        "일상 상황",
+        "감정·리액션"
+      ],
+      "avoid_when": [
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.8,
+        "TN-2": 0.8,
+        "TN-3": 0.3,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        4,
+        15
+      ],
+      "fallback": [
+        "SC-07",
+        "SC-08"
+      ],
+      "source_ref": [
+        "쇼츠 M2 (koba-maestro.md 준비 동작→인서트→반응)",
+        "쇼츠 KP1-a·b (koba-lecture 숨쉬기·스쿼시)"
+      ],
+      "folder": "SC-39_mascot_point"
+    },
+    {
+      "id": "SC-40",
+      "name": "흩뿌림한바",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자",
+        "자료이미지"
+      ],
+      "summary": "흩어진 폴더 카드와 칩이 폭발식으로 퍼졌다 정렬되어 하나의 바로 수렴한다 — 여러 개가 하나로 합쳐짐",
+      "use_when": [
+        "소개·여러 항목",
+        "정리·목차",
+        "결론·센 말"
+      ],
+      "avoid_when": [
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.4,
+        "TN-2": 0.4,
+        "TN-3": 0.9,
+        "TN-4": 0.4
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        3,
+        8
+      ],
+      "fallback": [
+        "SC-29",
+        "SC-26"
+      ],
+      "source_ref": [
+        "쇼츠 B-11 (typography-remotion.md 00:30.0~32.5 — 흩뿌림→한 바)"
+      ],
+      "folder": "SC-40_scatter_to_bar"
+    },
+    {
+      "id": "SC-41",
+      "name": "텍스처배경자료",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "ae",
+      "subject": [
+        "무대배경",
+        "자료이미지"
+      ],
+      "summary": "거친 텍스처 5~6장을 초당 2~3장씩 바꿔 약 10초 배경을 만들고 그 위에 자료·글자를 올린다",
+      "use_when": [
+        "자료 등장",
+        "챕터 시작",
+        "정리·목차"
+      ],
+      "avoid_when": [
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.6,
+        "TN-2": 0.6,
+        "TN-3": 0.4,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        5,
+        12
+      ],
+      "fallback": [
+        "SC-33",
+        "SC-03"
+      ],
+      "source_ref": [
+        "웹#51 (텍스처 모션 배경 — 텍스처 5~6장을 초당 2~3장, 2~3번 복제해 약 10초, Vox 출처 글 [출처값])"
+      ],
+      "folder": "SC-41_texture_bg"
+    },
+    {
+      "id": "SC-42",
+      "name": "자료고정자막교체",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "compose",
+      "subject": [
+        "자료이미지",
+        "글자"
+      ],
+      "summary": "자료 이미지는 한 장으로 고정해 두고 그 위·아래 자막만 말 따라 교체한다 — 자료를 늦게 띄우고 다음 줄까지 유지",
+      "use_when": [
+        "자료 등장",
+        "화면 속 특정 부분",
+        "정의·조건"
+      ],
+      "avoid_when": [
+        "일상 상황"
+      ],
+      "tones": {
+        "TN-1": 0.4,
+        "TN-2": 0.4,
+        "TN-3": 0.6,
+        "TN-4": 0.8
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        5,
+        25
+      ],
+      "fallback": [
+        "EM-01",
+        "SC-11"
+      ],
+      "source_ref": [
+        "원#80 (ad_build — 자료는 컷의 42%·이어지는 컷 38%·한 컷 22% 지점에 늦게 등장, 다음 줄까지 유지)",
+        "쇼츠 R6-4 (motion-graphics.md 7장 — 자료 고정·자막만 교체, 강의 자료 판)"
+      ],
+      "folder": "SC-42_doc_fixed_caption_swap"
+    },
+    {
+      "id": "SC-43",
+      "name": "샷6종교대",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "compose",
+      "subject": [
+        "캐릭터",
+        "자료이미지"
+      ],
+      "summary": "같은 캐릭터·자료로 샷 종류를 바꿔 가며(큰 컷↔작은 컷) 컷 리듬을 만든다 — 단조로운 한 컷을 샷 6종으로 쪼갠다",
+      "use_when": [
+        "일상 상황",
+        "사례·후기",
+        "현실 공간·사람"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.8,
+        "TN-2": 0.8,
+        "TN-3": 0.3,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        6,
+        25
+      ],
+      "fallback": [
+        "SC-07",
+        "SC-08"
+      ],
+      "source_ref": [
+        "쇼츠 K5 (koba-lecture-part2.md 샷 6종: Wide·Medium/CU·Detail·Insert·POV·Metaphor)",
+        "쇼츠 M8 (koba-maestro.md 2D 스타일 일관 + 광각 왜곡·더치 앵글)"
+      ],
+      "folder": "SC-43_six_shot_rhythm"
+    },
+    {
+      "id": "SC-44",
+      "name": "디자인비교표",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "design",
+      "subject": [
+        "데이터",
+        "글자"
+      ],
+      "summary": "기준 여러 개 × 두 대상을 표 한 장에 놓고, 말이 기준을 짚을 때마다 그 행이 켜진다. 두 대상은 서로 다른 색 하나씩. 행마다 data-layer 라 말 순서대로 등장",
+      "use_when": [
+        "개념 비교",
+        "소개·여러 항목"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 1.0,
+        "TN-2": 0.4,
+        "TN-3": 0.4,
+        "TN-4": 0.4
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        8,
+        30
+      ],
+      "fallback": [
+        "SC-03",
+        "GU-05"
+      ],
+      "source_ref": [
+        "motion-graphics.md 0장 B 경로 «클로드 디자인 + 애펙» 원칙·순서",
+        "tools/design_layers.py 독스트링 (data-layer · $preview 1920×1080)",
+        "빡이사DB 06 2판·07 (쪽마다 색 — 사장님 10-07 «비교하는 건 색으로 각각 다름을 강조하면 좋을 것 같아»)",
+        "templates/SC-03 (두 쪽 비교 판)"
+      ],
+      "folder": "SC-44_design_compare_table"
+    },
+    {
+      "id": "SC-45",
+      "name": "디자인목차판",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "design",
+      "subject": [
+        "글자"
+      ],
+      "summary": "한 편·챕터 목차를 한 장 판으로 보여 주고 지금 항목만 강조한다. 지나간 항목은 어둡게, 앞 항목은 흐리게. TR-02(목차 복귀)와 짝으로 쓴다",
+      "use_when": [
+        "정리·목차",
+        "챕터 시작"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 1.0,
+        "TN-2": 0.4,
+        "TN-3": 0.3,
+        "TN-4": 0.5
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        3,
+        10
+      ],
+      "fallback": [
+        "TR-02",
+        "OE-05"
+      ],
+      "source_ref": [
+        "motion-graphics.md 0장 B 경로 «클로드 디자인 + 애펙» 원칙·순서",
+        "tools/design_layers.py 독스트링 (data-layer · $preview 1920×1080)",
+        "빡이사DB 02 목차 (B 경로 첫 사례)",
+        "templates/TR-02 (목차 복귀)",
+        "lecture-graphics.md 정리·목차"
+      ],
+      "folder": "SC-45_design_toc_board"
+    },
+    {
+      "id": "SC-46",
+      "name": "디자인UI모형",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "design",
+      "subject": [
+        "녹화화면"
+      ],
+      "summary": "신청서·홈페이지·관리자 화면을 같은 결로 다시 그린 UI 판(업체 ○○). 칸이 말 순서대로 차례로 채워진다. 휴대폰·로고 같은 사물은 이미지, 입력칸·버튼·캐럿은 UI 위젯",
+      "use_when": [
+        "설정·버튼",
+        "화면 속 특정 부분",
+        "가림"
+      ],
+      "avoid_when": [
+        "개념 비교",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.8,
+        "TN-2": 0.5,
+        "TN-3": 0.2,
+        "TN-4": 0.6
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        6,
+        25
+      ],
+      "fallback": [
+        "SC-06",
+        "EM-03"
+      ],
+      "source_ref": [
+        "motion-graphics.md 0장 B 경로 «클로드 디자인 + 애펙» 원칙·순서",
+        "tools/design_layers.py 독스트링 (data-layer · $preview 1920×1080)",
+        "motion-graphics.md 0장 A 갈래 «실화면 재현» (업체명이 보여 녹화를 못 쓸 때)",
+        "templates/SC-06 (UI 재현)",
+        "빡이사DB 03 양식 폰 (도형 휴대폰 = 이제 하지 않는 방식)"
+      ],
+      "folder": "SC-46_design_ui_mockup"
+    },
+    {
+      "id": "SC-47",
+      "name": "디자인단계도식",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "design",
+      "subject": [
+        "글자",
+        "데이터"
+      ],
+      "summary": "3~5단계 흐름을 계단·화살표 대신 «도식 카드» 줄로 놓고 지금 단계만 강조한다. 단계마다 data-layer 로 말 순서대로 켜진다. 사물은 이미지 칸",
+      "use_when": [
+        "과정·단계"
+      ],
+      "avoid_when": [
+        "개념 비교",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 1.0,
+        "TN-2": 0.4,
+        "TN-3": 0.3,
+        "TN-4": 0.5
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        6,
+        25
+      ],
+      "fallback": [
+        "SC-16",
+        "SC-12"
+      ],
+      "source_ref": [
+        "motion-graphics.md 0장 B 경로 «클로드 디자인 + 애펙» 원칙·순서",
+        "tools/design_layers.py 독스트링 (data-layer · $preview 1920×1080)",
+        "templates/SC-16 (계단 도식)",
+        "lecture-graphics.md 정의·조건",
+        "templates/SC-12 (morph steps)"
+      ],
+      "folder": "SC-47_design_step_diagram"
+    },
+    {
+      "id": "SC-48",
+      "name": "디자인정리카드",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "design",
+      "subject": [
+        "글자"
+      ],
+      "summary": "움직임 없는 한 장 정리 카드. 캔버스에서 마무리해 이미지 한 장으로 얹고, 효과음은 등장 프레임 하나. design_layers.py 의 _all.png(또는 캔버스 내보내기)가 납품",
+      "use_when": [
+        "정리·목차",
+        "결론·센 말",
+        "챕터 끝"
+      ],
+      "avoid_when": [
+        "과정·단계",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 1.0,
+        "TN-2": 0.5,
+        "TN-3": 0.2,
+        "TN-4": 0.4
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        2,
+        8
+      ],
+      "fallback": [
+        "OE-05",
+        "SC-38"
+      ],
+      "source_ref": [
+        "motion-graphics.md 0장 B 경로 «클로드 디자인 + 애펙» 원칙·순서",
+        "tools/design_layers.py 독스트링 (data-layer · $preview 1920×1080)",
+        "motion-graphics.md 0장 B 경로 3 «움직임이 필요 없다 → 캔버스에서 마무리(한 장 납품, 효과음은 등장 프레임에 하나)»",
+        "lecture-graphics.md 5장 포토카드 통과 틀"
+      ],
+      "folder": "SC-48_design_summary_card"
+    },
+    {
+      "id": "SC-49",
+      "name": "디자인숫자대시보드",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "design",
+      "subject": [
+        "데이터",
+        "글자"
+      ],
+      "summary": "말에 나온 숫자 3~4개를 카드로 한 판에 놓는다. 카드마다 data-layer, 숫자가 나오는 말에 켜진다. 카운트업은 EM-05 와 결합",
+      "use_when": [
+        "숫자·금액",
+        "소개·여러 항목"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "개념 비교"
+      ],
+      "tones": {
+        "TN-1": 0.9,
+        "TN-2": 0.7,
+        "TN-3": 0.2,
+        "TN-4": 0.8
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        5,
+        20
+      ],
+      "fallback": [
+        "EM-05",
+        "SC-23"
+      ],
+      "source_ref": [
+        "motion-graphics.md 0장 B 경로 «클로드 디자인 + 애펙» 원칙·순서",
+        "tools/design_layers.py 독스트링 (data-layer · $preview 1920×1080)",
+        "templates/EM-05 (숫자 카운트업)",
+        "templates/SC-23 (차트)",
+        "lecture-graphics.md 숫자·금액"
+      ],
+      "folder": "SC-49_design_number_dashboard"
+    },
+    {
+      "id": "SC-50",
+      "name": "디자인체크리스트",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "design",
+      "subject": [
+        "글자"
+      ],
+      "summary": "서류·조건 체크리스트 판. 말할 때마다 체크 표시가 선으로 그려진다(글자 ✓ 를 쓰지 않고 선으로 그림). 항목·체크마다 data-layer",
+      "use_when": [
+        "리스트",
+        "정의·조건",
+        "소개·여러 항목"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "개념 비교"
+      ],
+      "tones": {
+        "TN-1": 1.0,
+        "TN-2": 0.5,
+        "TN-3": 0.3,
+        "TN-4": 0.5
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        5,
+        25
+      ],
+      "fallback": [
+        "EM-25",
+        "SC-38"
+      ],
+      "source_ref": [
+        "motion-graphics.md 0장 B 경로 «클로드 디자인 + 애펙» 원칙·순서",
+        "tools/design_layers.py 독스트링 (data-layer · $preview 1920×1080)",
+        "templates/EM-25 (체크 오프 체인)",
+        "lecture-graphics.md 정의·조건"
+      ],
+      "folder": "SC-50_design_checklist"
+    },
+    {
+      "id": "SC-51",
+      "name": "디자인사진보드",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "design",
+      "subject": [
+        "자료이미지",
+        "글자"
+      ],
+      "summary": "Codex·doc 사진 2~4장을 판에 배치하고 글자 디자인을 얹는다(06 결). 사진마다 data-layer 로 말 순서대로 켜진다",
+      "use_when": [
+        "자료 등장",
+        "소개·여러 항목",
+        "사례·후기"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.8,
+        "TN-2": 0.5,
+        "TN-3": 0.8,
+        "TN-4": 0.3
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        5,
+        25
+      ],
+      "fallback": [
+        "SC-03",
+        "SC-26"
+      ],
+      "source_ref": [
+        "motion-graphics.md 0장 B 경로 «클로드 디자인 + 애펙» 원칙·순서",
+        "tools/design_layers.py 독스트링 (data-layer · $preview 1920×1080)",
+        "빡이사DB 06 결 «Codex 사진 + 글자 디자인»",
+        "templates/SC-03 · SC-26 (사진 콜라주)"
+      ],
+      "folder": "SC-51_design_photo_board"
+    },
+    {
+      "id": "SC-52",
+      "name": "3D서류더미",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "blender",
+      "subject": [
+        "자료이미지",
+        "무대배경"
+      ],
+      "summary": "서류가 쌓여 더미가 되고 한 장이 앞으로 나온다. 서류 면은 doc/codex 텍스처를 3D 면에 입힌 것(도형 흉내 아님)",
+      "use_when": [
+        "자료 등장",
+        "소개·여러 항목"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.3,
+        "TN-2": 0.3,
+        "TN-3": 0.6,
+        "TN-4": 0.2
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        3,
+        10
+      ],
+      "fallback": [
+        "SC-15",
+        "SC-13"
+      ],
+      "source_ref": [
+        "쇼츠 blender.md (b4_previz05_scene.py — look()·smoothstep·CONSTANT 렌즈)",
+        "templates/SC-15 (3D 오브젝트 본보기)",
+        "motion-graphics.md 0장 원칙 1 (서류는 진짜 이미지)",
+        "쇼츠 study/flova-3d.md (제품 사진 → 샷 구조만)"
+      ],
+      "folder": "SC-52_3d_paper_stack"
+    },
+    {
+      "id": "SC-53",
+      "name": "3D미니어처공간",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "blender",
+      "subject": [
+        "무대배경"
+      ],
+      "summary": "사무실·가게 미니어처를 위에서 돌며 보여 준다. 톤은 CG 장난감이 아니라 실사 사진 결(반실사 반려 방지)",
+      "use_when": [
+        "현실 공간·사람",
+        "소개·여러 항목"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.2,
+        "TN-2": 0.2,
+        "TN-3": 0.7,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        4,
+        12
+      ],
+      "fallback": [
+        "SC-15",
+        "SC-07"
+      ],
+      "source_ref": [
+        "쇼츠 blender.md (b4_previz05_scene.py — look()·smoothstep·CONSTANT 렌즈)",
+        "templates/SC-15 (3D 오브젝트 본보기)",
+        "쇼츠 blender.md 0·4장 (공간 일관성·조감)",
+        "ai-video.md 0·1장 (톤은 실사 사진 결)"
+      ],
+      "folder": "SC-53_3d_miniature_space"
+    },
+    {
+      "id": "SC-54",
+      "name": "3D카메라프리비즈",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "blender",
+      "subject": [
+        "무대배경"
+      ],
+      "summary": "AI 실사 영상의 카메라 참조 영상(회색 단색 도형 장면에서 카메라만 움직임)을 만든다. 화면에 직접 나가지 않고 SC-14·SC-60 에 reference-to-video 로 들어간다. 길이는 대사 구간(3·4·5초)",
+      "use_when": [
+        "현실 공간·사람"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.1,
+        "TN-2": 0.1,
+        "TN-3": 0.5,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        3,
+        5
+      ],
+      "fallback": [
+        "SC-14",
+        "SC-15"
+      ],
+      "source_ref": [
+        "쇼츠 blender.md (b4_previz05_scene.py — look()·smoothstep·CONSTANT 렌즈)",
+        "templates/SC-15 (3D 오브젝트 본보기)",
+        "origin-session-1008.md #86 «블렌더 프리비즈→AI 실사» (Gemini/Seedance, 반실사 반려 이력)",
+        "쇼츠 blender.md 0·4장",
+        "templates/SC-14 · SC-60 (짝)"
+      ],
+      "folder": "SC-54_3d_camera_previz"
+    },
+    {
+      "id": "SC-55",
+      "name": "3D지도지형",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "blender",
+      "subject": [
+        "데이터",
+        "무대배경"
+      ],
+      "summary": "지역 지형·높이를 3D 판으로 보여 준다. 지역 경계는 통계청 실제 데이터, 높이는 실제 값에서. 카메라가 판 위를 이동",
+      "use_when": [
+        "숫자·금액",
+        "현실 공간·사람"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "개념 비교"
+      ],
+      "tones": {
+        "TN-1": 0.5,
+        "TN-2": 0.3,
+        "TN-3": 0.4,
+        "TN-4": 0.4
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        4,
+        12
+      ],
+      "fallback": [
+        "SC-21",
+        "SC-22"
+      ],
+      "source_ref": [
+        "쇼츠 blender.md (b4_previz05_scene.py — look()·smoothstep·CONSTANT 렌즈)",
+        "templates/SC-15 (3D 오브젝트 본보기)",
+        "templates/SC-21 · SC-22 (지도 열기·드러내기)",
+        "쇼츠 blender.md 3장 (계획도 → 지도 펼침)"
+      ],
+      "folder": "SC-55_3d_terrain_map"
+    },
+    {
+      "id": "SC-56",
+      "name": "3D제품턴테이블",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "blender",
+      "subject": [
+        "자료이미지"
+      ],
+      "summary": "실물(인증서·카드·기기) 한 바퀴 돌려 보여 준다. 텍스처는 실물 사진(doc/codex/real_capture)을 입힌다",
+      "use_when": [
+        "자료 등장",
+        "소개·여러 항목"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.4,
+        "TN-2": 0.3,
+        "TN-3": 0.6,
+        "TN-4": 0.2
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        3,
+        8
+      ],
+      "fallback": [
+        "SC-15",
+        "EM-07"
+      ],
+      "source_ref": [
+        "쇼츠 blender.md (b4_previz05_scene.py — look()·smoothstep·CONSTANT 렌즈)",
+        "templates/SC-15 (3D 오브젝트 본보기)",
+        "쇼츠 study/flova-3d.md (제품 사진 → 샷 리스트 구조만)",
+        "SC-15 camera «돌려 보기»"
+      ],
+      "folder": "SC-56_3d_product_turntable"
+    },
+    {
+      "id": "SC-57",
+      "name": "3D막대공간",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "blender",
+      "subject": [
+        "데이터"
+      ],
+      "summary": "데이터를 3D 기둥으로 세운다. 기둥 높이는 실제 수치만. SC-23 차트의 3D 판",
+      "use_when": [
+        "숫자·금액",
+        "소개·여러 항목"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "개념 비교"
+      ],
+      "tones": {
+        "TN-1": 0.5,
+        "TN-2": 0.4,
+        "TN-3": 0.2,
+        "TN-4": 0.7
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        5,
+        15
+      ],
+      "fallback": [
+        "SC-23",
+        "SC-40"
+      ],
+      "source_ref": [
+        "쇼츠 blender.md (b4_previz05_scene.py — look()·smoothstep·CONSTANT 렌즈)",
+        "templates/SC-15 (3D 오브젝트 본보기)",
+        "templates/SC-23 (차트)",
+        "templates/SC-40 (산점→막대)"
+      ],
+      "folder": "SC-57_3d_bar_space"
+    },
+    {
+      "id": "SC-58",
+      "name": "AI상담장면",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "aivideo",
+      "subject": [
+        "사람",
+        "무대배경"
+      ],
+      "summary": "상담실에서 대표와 상담사가 서류를 보는 실사 B롤. 성인 두 명, 책상 위 서류, 원테이크",
+      "use_when": [
+        "현실 공간·사람",
+        "사례·후기",
+        "일상 상황"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "설정·버튼",
+        "개념 비교"
+      ],
+      "tones": {
+        "TN-1": 0.2,
+        "TN-2": 0.5,
+        "TN-3": 0.8,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        3,
+        5
+      ],
+      "fallback": [
+        "CA-09",
+        "CA-10",
+        "SC-07"
+      ],
+      "source_ref": [
+        "ai-video.md 0·1·3·4·5·6장 (사장님 10-01 정원 장면 반실사 실패 기록)",
+        "templates/SC-14 (AI실사컷 본보기)",
+        "쇼츠 ai-video.md · study/koba-*.md (크레딧 절약)"
+      ],
+      "folder": "SC-58_ai_counsel_scene"
+    },
+    {
+      "id": "SC-59",
+      "name": "AI사업장현장",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "aivideo",
+      "subject": [
+        "무대배경",
+        "사람"
+      ],
+      "summary": "가게·공장·작업장 실사 B롤. 업종은 말에 근거한 것만",
+      "use_when": [
+        "현실 공간·사람",
+        "사례·후기"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "설정·버튼",
+        "개념 비교"
+      ],
+      "tones": {
+        "TN-1": 0.2,
+        "TN-2": 0.5,
+        "TN-3": 0.8,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        3,
+        5
+      ],
+      "fallback": [
+        "CA-09",
+        "CA-10",
+        "SC-07"
+      ],
+      "source_ref": [
+        "ai-video.md 0·1·3·4·5·6장 (사장님 10-01 정원 장면 반실사 실패 기록)",
+        "templates/SC-14 (AI실사컷 본보기)",
+        "쇼츠 ai-video.md · study/koba-*.md (크레딧 절약)"
+      ],
+      "folder": "SC-59_ai_workplace"
+    },
+    {
+      "id": "SC-60",
+      "name": "AI손클로즈업",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "aivideo",
+      "subject": [
+        "사람"
+      ],
+      "summary": "서류에 도장·서명하거나 키보드를 입력하는 손 클로즈업. 얼굴 없음, 손과 물건 위주",
+      "use_when": [
+        "일상 상황",
+        "설정·버튼",
+        "현실 공간·사람"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "개념 비교"
+      ],
+      "tones": {
+        "TN-1": 0.3,
+        "TN-2": 0.6,
+        "TN-3": 0.7,
+        "TN-4": 0.2
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        3,
+        4
+      ],
+      "fallback": [
+        "CA-09",
+        "CA-10",
+        "SC-14"
+      ],
+      "source_ref": [
+        "ai-video.md 0·1·3·4·5·6장 (사장님 10-01 정원 장면 반실사 실패 기록)",
+        "templates/SC-14 (AI실사컷 본보기)",
+        "쇼츠 ai-video.md · study/koba-*.md (크레딧 절약)",
+        "templates/SC-54 (프리비즈 카메라 짝)"
+      ],
+      "folder": "SC-60_ai_hand_closeup"
+    },
+    {
+      "id": "SC-61",
+      "name": "AI도시드론",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "aivideo",
+      "subject": [
+        "무대배경"
+      ],
+      "summary": "지역·도시 드론 숏. 지역은 말에 근거한 것만. 드론 시점 원테이크",
+      "use_when": [
+        "현실 공간·사람",
+        "소개·여러 항목"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.2,
+        "TN-2": 0.4,
+        "TN-3": 0.7,
+        "TN-4": 0.2
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        4,
+        5
+      ],
+      "fallback": [
+        "CA-09",
+        "CA-10",
+        "SC-22"
+      ],
+      "source_ref": [
+        "ai-video.md 0·1·3·4·5·6장 (사장님 10-01 정원 장면 반실사 실패 기록)",
+        "templates/SC-14 (AI실사컷 본보기)",
+        "쇼츠 ai-video.md · study/koba-*.md (크레딧 절약)",
+        "쇼츠 blender.md 3장 (드론 AI 영상으로 녹아듦)"
+      ],
+      "folder": "SC-61_ai_city_drone"
+    },
+    {
+      "id": "SC-62",
+      "name": "AI감정반응",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "aivideo",
+      "subject": [
+        "사람"
+      ],
+      "summary": "실사 인물의 표정 반응(놀람·안도) 2~3초. 어깨 위 정도의 컷",
+      "use_when": [
+        "감정·리액션",
+        "사례·후기"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "설정·버튼",
+        "개념 비교"
+      ],
+      "tones": {
+        "TN-1": 0.1,
+        "TN-2": 0.7,
+        "TN-3": 0.7,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        2,
+        3
+      ],
+      "fallback": [
+        "CA-09",
+        "CA-10",
+        "EM-07"
+      ],
+      "source_ref": [
+        "ai-video.md 0·1·3·4·5·6장 (사장님 10-01 정원 장면 반실사 실패 기록)",
+        "templates/SC-14 (AI실사컷 본보기)",
+        "쇼츠 ai-video.md · study/koba-*.md (크레딧 절약)"
+      ],
+      "folder": "SC-62_ai_reaction"
+    },
+    {
+      "id": "SC-63",
+      "name": "AI사진살리기",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "aivideo",
+      "subject": [
+        "자료이미지"
+      ],
+      "summary": "Codex 실사 한 장을 3~5초 영상화한다(카메라만 살짝). 무료 켄번스와 비교해 «유료로 바꿀 만한 자리»에만",
+      "use_when": [
+        "자료 등장",
+        "현실 공간·사람"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.2,
+        "TN-2": 0.3,
+        "TN-3": 0.8,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        3,
+        5
+      ],
+      "fallback": [
+        "CA-09",
+        "CA-10",
+        "SC-14"
+      ],
+      "source_ref": [
+        "ai-video.md 0·1·3·4·5·6장 (사장님 10-01 정원 장면 반실사 실패 기록)",
+        "templates/SC-14 (AI실사컷 본보기)",
+        "쇼츠 ai-video.md · study/koba-*.md (크레딧 절약)",
+        "templates/CA-09 (켄번스) — 무료 쪽 대체"
+      ],
+      "folder": "SC-63_ai_photo_alive"
+    },
+    {
+      "id": "SC-64",
+      "name": "AI캐릭터연기",
+      "drawer": "SC",
+      "version": 1,
+      "status": "신규",
+      "engine": "aivideo",
+      "subject": [
+        "캐릭터"
+      ],
+      "summary": "2D·3D 마스코트의 연기 덩어리 1건(키 연기만 유료). 들어옴·가리킴·퇴장 같은 나머지는 AE 로 처리한다",
+      "use_when": [
+        "일상 상황",
+        "알고리즘·시스템 행동",
+        "감정·리액션"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.2,
+        "TN-2": 0.7,
+        "TN-3": 0.3,
+        "TN-4": 0.3
+      },
+      "screens": [
+        "PIP",
+        "사람없음"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        3,
+        5
+      ],
+      "fallback": [
+        "CA-09",
+        "CA-10",
+        "SC-08"
+      ],
+      "source_ref": [
+        "ai-video.md 0·1·3·4·5·6장 (사장님 10-01 정원 장면 반실사 실패 기록)",
+        "templates/SC-14 (AI실사컷 본보기)",
+        "쇼츠 ai-video.md · study/koba-*.md (크레딧 절약)",
+        "templates/SC-08 (의인화 인형) · SC-39 (마스코트 가리킴)",
+        "motion-graphics.md 0장 A 갈래 «2D 플랫 캐릭터» · «의인화 인형»",
+        "README 8장 (캐릭터 스타일은 한 편에 하나)"
+      ],
+      "folder": "SC-64_ai_character_acting"
+    },
+    {
+      "id": "SD-01",
+      "name": "효과음기본",
+      "drawer": "SD",
+      "version": 1,
+      "status": "대기",
+      "engine": "compose",
+      "subject": [
+        "소리"
+      ],
+      "summary": "효과음 역할표 기본 — 뜻·그림에 따라 역할 이름 → 파일을 고정한다. 크기는 파일별 표를 따른다",
+      "use_when": [],
+      "avoid_when": [],
+      "tones": {
+        "TN-1": 1.0,
+        "TN-4": 1.0
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "audio",
+      "moves_person": false,
+      "duration": [
+        0,
+        0
+      ],
+      "fallback": [
+        "SD-03"
+      ],
+      "source_ref": [
+        "sfx-workflow.md 3장 뜻별 단골 (빡이사DB 후킹 13~23 SND_FIX)",
+        "sfx.md 2장 계기마다 맞는 소리 · 3장 크기",
+        "tools/sfx_find.py ROLES"
+      ],
+      "folder": "SD-01_sfx_default"
+    },
+    {
+      "id": "SD-02",
+      "name": "효과음예능",
+      "drawer": "SD",
+      "version": 1,
+      "status": "신규",
+      "engine": "compose",
+      "subject": [
+        "소리"
+      ],
+      "summary": "SD-01 과 같은 역할표에서 밀도를 올리고 뿅 계열을 허용하는 예능 텐션용 소리",
+      "use_when": [],
+      "avoid_when": [],
+      "tones": {
+        "TN-2": 1.0
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "audio",
+      "moves_person": false,
+      "duration": [
+        0,
+        0
+      ],
+      "fallback": [
+        "SD-01"
+      ],
+      "source_ref": [
+        "SD-01 과 같은 역할표",
+        "sfx.md 1장 정보 예능 실측(신비한 건축사전 8편)",
+        "SKILL.md 3장 «만화 계열 빼기는 폐기(10-02, 뿅 최다)»"
+      ],
+      "folder": "SD-02_sfx_variety"
+    },
+    {
+      "id": "SD-03",
+      "name": "효과음절제",
+      "drawer": "SD",
+      "version": 1,
+      "status": "신규",
+      "engine": "compose",
+      "subject": [
+        "소리"
+      ],
+      "summary": "SD-01 역할표에서 등장음만, 묵직한 계열로 줄이는 프리미엄 브랜드용 절제된 소리",
+      "use_when": [],
+      "avoid_when": [],
+      "tones": {
+        "TN-3": 1.0
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "audio",
+      "moves_person": false,
+      "duration": [
+        0,
+        0
+      ],
+      "fallback": [
+        "SD-01"
+      ],
+      "source_ref": [
+        "SD-01 과 같은 역할표",
+        "sfx.md 1장 «화면녹화 설명은 자료 카드·코너 전환에만»",
+        "쇼츠 로고 엔딩 효과음 «부드러운 스윕·울리는 벨·반짝·맑은 차임»"
+      ],
+      "folder": "SD-03_sfx_restrained"
+    },
+    {
+      "id": "SD-04",
+      "name": "성스러운순간",
+      "drawer": "SD",
+      "version": 1,
+      "status": "대기",
+      "engine": "compose",
+      "subject": [
+        "소리"
+      ],
+      "summary": "한 번뿐인 감동·신성한 순간에 띠링을 낮춘 소리와 띠로링을 겹쳐 잔향을 입히고, 그 순간 배경 소리를 낮추고 650Hz 아래만 남겨 먹먹하게 깐 뒤 복귀한다",
+      "use_when": [
+        "감정·리액션",
+        "결론·센 말"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.2,
+        "TN-2": 0.4,
+        "TN-3": 1.0,
+        "TN-4": 0.0
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "audio",
+      "moves_person": false,
+      "duration": [
+        2.5,
+        3.5
+      ],
+      "fallback": [
+        "SD-01",
+        "SD-03"
+      ],
+      "source_ref": [
+        "원#92 성스러운 순간 (분양4 03 b4_subway_sound.py, 통과 시안 C, 사장님 10-01 «이 순간엔 드론 소리 조금 줄여서 배경음 블러 느낌»)"
+      ],
+      "folder": "SD-04_holy_moment"
+    },
+    {
+      "id": "SD-05",
+      "name": "로고효과음",
+      "drawer": "SD",
+      "version": 1,
+      "status": "대기",
+      "engine": "compose",
+      "subject": [
+        "소리"
+      ],
+      "summary": "로고가 처음 나타날 때 따뜻한 공기 휙 → 종 한 번 → 반짝(치링) 순으로 1.8초 안팎의 로고 효과음만 깐다. 배경음이 아니다",
+      "use_when": [
+        "브랜드",
+        "한 편 끝",
+        "한 편 시작"
+      ],
+      "avoid_when": [],
+      "tones": {
+        "TN-1": 0.6,
+        "TN-2": 0.6,
+        "TN-3": 1.0,
+        "TN-4": 0.4
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "audio",
+      "moves_person": false,
+      "duration": [
+        1.8,
+        3.0
+      ],
+      "fallback": [
+        "SD-01",
+        "SD-03"
+      ],
+      "source_ref": [
+        "원#93 로고 효과음 (도구/소리/logo_sting.py, 분양4 04 로고, 통과 — 긴 휙 −6 · 치링 −5 · 윙크 +10 · 9kHz 저역통과)"
+      ],
+      "folder": "SD-05_logo_sting"
+    },
+    {
+      "id": "SD-06",
+      "name": "라이저",
+      "drawer": "SD",
+      "version": 1,
+      "status": "대기",
+      "engine": "compose",
+      "subject": [
+        "소리"
+      ],
+      "summary": "화면이 크게 바뀌기 0.0~0.3초 전에 라이저를 깔아 정점을 변화 시각에 닿게 하고, 같은 프레임에 쿵을 때린 뒤 어두운 정지를 둔다. 한 편 3~4곳만",
+      "use_when": [
+        "결론·센 말",
+        "한 편 시작",
+        "챕터 시작"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.2,
+        "TN-2": 0.9,
+        "TN-3": 0.7,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "audio",
+      "moves_person": false,
+      "duration": [
+        0.5,
+        1.5
+      ],
+      "fallback": [
+        "SD-01",
+        "SD-10"
+      ],
+      "source_ref": [
+        "원#94 후킹 라이저 + 이야기 시작 표지음 (통과 실측)",
+        "쇼츠 DY-1 라이저 → 쿵 → 정지 (dynamic-mg-sfx.md 카드 1)",
+        "웹#84 Riser: 피크를 리빌에 (web-research-1008.md 2장 SD 카테고리)"
+      ],
+      "folder": "SD-06_riser"
+    },
+    {
+      "id": "SD-07",
+      "name": "장면음",
+      "drawer": "SD",
+      "version": 1,
+      "status": "대기",
+      "engine": "compose",
+      "subject": [
+        "소리"
+      ],
+      "summary": "배경 장면(서울숲·정체·객실 같은 현장)에 맞는 환경음을 같은 파일·같은 크기로 이어 붙여 길이를 채운다. 루프 이음새는 크로스페이드로 감춘다",
+      "use_when": [
+        "현실 공간·사람",
+        "일상 상황"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.1,
+        "TN-2": 0.4,
+        "TN-3": 0.9,
+        "TN-4": 0.0
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "audio",
+      "moves_person": false,
+      "duration": [
+        3,
+        20
+      ],
+      "fallback": [
+        "SD-01",
+        "SD-03"
+      ],
+      "source_ref": [
+        "원#95 장면음 이어 붙이기 (v5_sound.py 장면음 표, 통과 — 같은 파일·같은 크기 루프 크로스페이드)"
+      ],
+      "folder": "SD-07_ambient_scene"
+    },
+    {
+      "id": "SD-08",
+      "name": "장면사이연결음",
+      "drawer": "SD",
+      "version": 1,
+      "status": "대기",
+      "engine": "compose",
+      "subject": [
+        "소리"
+      ],
+      "summary": "장면 사이 원본 구간이 길 때 종이 넘기는 소리를 연결음으로 깐다. 사장님이 직접 더하신 소리라 따로 고르지 않고 이 소리를 쓴다",
+      "use_when": [
+        "챕터 시작",
+        "자료 등장"
+      ],
+      "avoid_when": [],
+      "tones": {
+        "TN-1": 0.7,
+        "TN-2": 0.3,
+        "TN-3": 0.6,
+        "TN-4": 0.6
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "audio",
+      "moves_person": false,
+      "duration": [
+        0.5,
+        1.5
+      ],
+      "fallback": [
+        "SD-01",
+        "SD-03"
+      ],
+      "source_ref": [
+        "원#96 장면 사이 연결음 — 종이 넘김 (사장님 직접, 통과)"
+      ],
+      "folder": "SD-08_scene_link_sound"
+    },
+    {
+      "id": "SD-09",
+      "name": "BGM녹이기",
+      "drawer": "SD",
+      "version": 1,
+      "status": "대기",
+      "engine": "compose",
+      "subject": [
+        "소리"
+      ],
+      "summary": "BGM 을 말이 있는 구간에 −9dB 로 내리고(0.12초에 내리고 0.45초에 걸쳐 올림) 큰 효과음 순간엔 −3dB 로 더 내리며, 곡 끝을 영상 끝에 맞춘다. BGM 은 사장님이 오더할 때만",
+      "use_when": [
+        "한 편 시작",
+        "한 편 끝"
+      ],
+      "avoid_when": [],
+      "tones": {
+        "TN-1": 0.0,
+        "TN-2": 0.0,
+        "TN-3": 0.0,
+        "TN-4": 0.0
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "audio",
+      "moves_person": false,
+      "duration": [
+        0,
+        0
+      ],
+      "fallback": [
+        "SD-01",
+        "SD-03"
+      ],
+      "source_ref": [
+        "원#97 BGM 녹이기 (v5_sound.py, 대기)"
+      ],
+      "folder": "SD-09_bgm_melt"
+    },
+    {
+      "id": "SD-10",
+      "name": "쿵앞숨",
+      "drawer": "SD",
+      "version": 1,
+      "status": "신규",
+      "engine": "compose",
+      "subject": [
+        "소리"
+      ],
+      "summary": "큰 타격(쿵) 직전 0.45~0.5초는 소리를 꼬리만 남기고 비워 같은 쿵이 더 크게 들리게 한다. 화면은 같은 구간에서 정지 또는 어두워진다",
+      "use_when": [
+        "질문",
+        "결론·센 말"
+      ],
+      "avoid_when": [],
+      "tones": {
+        "TN-1": 0.2,
+        "TN-2": 0.8,
+        "TN-3": 0.9,
+        "TN-4": 0.0
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "audio",
+      "moves_person": false,
+      "duration": [
+        0.45,
+        0.5
+      ],
+      "fallback": [
+        "SD-06",
+        "SD-01"
+      ],
+      "source_ref": [
+        "쇼츠 DY-2 쿵 앞 0.5초 숨 (dynamic-mg-sfx.md 카드 2 — 7번 모두 0.45~0.5초 비움)"
+      ],
+      "folder": "SD-10_pre_hit_breath"
+    },
+    {
+      "id": "SD-11",
+      "name": "강의효과음규칙",
+      "drawer": "SD",
+      "version": 1,
+      "status": "통과",
+      "engine": "compose",
+      "subject": [
+        "소리"
+      ],
+      "summary": "강의 그래픽에 소리를 붙일 때 그래픽 길이로 소리를 정한다 — 2초 미만 띠딩2, 2~10초 도장, 10초 이상 휙２. 소리는 그래픽 등장 프레임에 붙는다",
+      "use_when": [
+        "자료 등장",
+        "소개·여러 항목",
+        "정의·조건"
+      ],
+      "avoid_when": [],
+      "tones": {
+        "TN-1": 1.0,
+        "TN-2": 0.3,
+        "TN-3": 0.3,
+        "TN-4": 1.0
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "audio",
+      "moves_person": false,
+      "duration": [
+        0,
+        0
+      ],
+      "fallback": [
+        "SD-01",
+        "SD-03"
+      ],
+      "source_ref": [
+        "원#98 강의 효과음 길이 규칙 (강의 재무제표 설계 실측 — 2초 미만 띠딩2 · 2~10초 도장 · 10초+ 휙２, 등장 프레임 97%)",
+        "sfx.md 3-4 · lecture-graphics.md 1·2장"
+      ],
+      "folder": "SD-11_lecture_sfx_rule"
+    },
+    {
+      "id": "TR-01",
+      "name": "챕터표지",
+      "drawer": "TR",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자"
+      ],
+      "summary": "챕터 첫 말 위에 라벨 → 큰 챕터 제목 → HUD «02 / 05» 를 얹는 표지. 원문 길이는 늘리지 않는다",
+      "use_when": [
+        "챕터 시작",
+        "정리·목차"
+      ],
+      "avoid_when": [
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-3": 1.0
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        1,
+        4
+      ],
+      "fallback": [
+        "TR-02",
+        "TR-03"
+      ],
+      "source_ref": [
+        "쇼츠 study/entry-reel-opus.md E4 HUD 템플릿 · E5 거대 2줄 헤드라인 + 영문 라벨",
+        "쇼츠 tools/scenes/html/hanbiz_logo_ending_paper.html (HUD: 모서리 괄호·상단 라벨·진행 대시)",
+        "쇼츠 study/typography-remotion.md T2 폭 맞춤 키워드 카드"
+      ],
+      "folder": "TR-01_chapter_cover"
+    },
+    {
+      "id": "TR-02",
+      "name": "목차복귀",
+      "drawer": "TR",
+      "version": 1,
+      "status": "신규",
+      "engine": "ae",
+      "subject": [
+        "글자",
+        "자료이미지"
+      ],
+      "summary": "목차 노트가 다시 나와 방금 끝난 항목에 손글씨 체크를 표시하고 닫힌다(SC-02 목차의 변형). 챕터가 끝나고 다음으로 넘어가는 자리",
+      "use_when": [
+        "챕터 시작",
+        "정리·목차"
+      ],
+      "avoid_when": [
+        "설정·버튼"
+      ],
+      "tones": {},
+      "screens": [
+        "풀샷",
+        "PIP"
+      ],
+      "layer": "L5",
+      "moves_person": true,
+      "duration": [
+        1.41,
+        4
+      ],
+      "fallback": [
+        "TR-01",
+        "TR-03"
+      ],
+      "source_ref": [
+        "SC-02 템플릿 변형 (빡이사DB 02 노트 손글씨 «좋아» 통과)",
+        "motion-graphics.md 2-1 원칙 12 북엔드"
+      ],
+      "folder": "TR-02_toc_return"
+    },
+    {
+      "id": "TR-03",
+      "name": "흰플래시",
+      "drawer": "TR",
+      "version": 1,
+      "status": "신규",
+      "engine": "compose",
+      "subject": [
+        "무대배경"
+      ],
+      "summary": "섹션이 바뀌는 컷의 첫 2프레임을 흰색으로 덮는 섹션 끊기. 합성기가 직접 처리한다",
+      "use_when": [
+        "챕터 시작"
+      ],
+      "avoid_when": [],
+      "tones": {},
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        0.033,
+        0.033
+      ],
+      "fallback": [
+        "TR-01",
+        "TR-02"
+      ],
+      "source_ref": [
+        "쇼츠 tools/edit_plan.py FLASH_FRAMES = 2 «섹션 바뀔 때만 흰 플래시 2프레임»",
+        "motion-graphics.md 2-1 원칙 11 글리치·흔들기는 한 편에 한 번"
+      ],
+      "folder": "TR-03_white_flash"
+    },
+    {
+      "id": "TR-04",
+      "name": "3D카메라풀백",
+      "drawer": "TR",
+      "version": 1,
+      "status": "신규",
+      "engine": "ae",
+      "subject": [
+        "자료이미지",
+        "무대배경"
+      ],
+      "summary": "두 장면을 3D 레이어로 놓고 편집점 몇 프레임 전부터 카메라를 뒤로 빼 앞 장면이 작아지며 다음 장면으로 넘어간다. 속도 그래프의 정점이 편집점",
+      "use_when": [
+        "챕터 시작",
+        "자료 등장"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "숫자·금액"
+      ],
+      "tones": {
+        "TN-1": 0.3,
+        "TN-2": 0.7,
+        "TN-3": 0.9,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        0.4,
+        1.2
+      ],
+      "fallback": [
+        "TR-01",
+        "TR-03"
+      ],
+      "source_ref": [
+        "웹#18 Vox식 3D 카메라 풀백 전환 (premiumbeat 글, web-research-1008.md 1장 출처값)"
+      ],
+      "folder": "TR-04_3d_camera_pullback"
+    },
+    {
+      "id": "TR-05",
+      "name": "원형아이리스",
+      "drawer": "TR",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "무대배경"
+      ],
+      "summary": "원이 한 점에서 커지거나 줄어들며 앞 화면을 닫고 다음 화면을 연다. 홀드는 0.3초 이하로 어두운 빈 프레임을 만들지 않는다",
+      "use_when": [
+        "챕터 시작",
+        "챕터 끝"
+      ],
+      "avoid_when": [
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.4,
+        "TN-2": 0.8,
+        "TN-3": 0.5,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        0.3,
+        1.0
+      ],
+      "fallback": [
+        "TR-03",
+        "TR-01"
+      ],
+      "source_ref": [
+        "원#31 원형 아이리스 (Jay Choi 레퍼런스, 학습분)",
+        "쇼츠 K4② 마침표→원 와이프 (2d-mg-newtake.md 샷 ①)",
+        "쇼츠 CM-3 플러드·홍채 전환 (claude-motion-graphics.md 4장 기법 카드)"
+      ],
+      "folder": "TR-05_iris_circle"
+    },
+    {
+      "id": "TR-06",
+      "name": "블롭삼킴",
+      "drawer": "TR",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "브랜드",
+        "무대배경"
+      ],
+      "summary": "한 가지 모티프(블롭)가 커져 화면을 삼키고 브랜드 카드로 넘어가며 섹션을 닫는다. 한 편의 시그니처 모티프로 쓴다",
+      "use_when": [
+        "챕터 끝",
+        "브랜드"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "화면 속 특정 부분"
+      ],
+      "tones": {
+        "TN-1": 0.2,
+        "TN-2": 0.9,
+        "TN-3": 0.3,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        0.5,
+        1.2
+      ],
+      "fallback": [
+        "TR-05",
+        "TR-03"
+      ],
+      "source_ref": [
+        "원#28 모티프가 화면을 삼키는 전환 (쌩초 레퍼런스, 학습분)",
+        "쇼츠 A-3 블롭 (motion-graphics.md 7장 «블롭으로 화면을 삼키며 장면 닫기»)"
+      ],
+      "folder": "TR-06_blob_swallow"
+    },
+    {
+      "id": "TR-07",
+      "name": "색반전디졸브",
+      "drawer": "TR",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자"
+      ],
+      "summary": "한 장면 안에서 다음 단락을 알리려 글자 패널의 바탕색과 글자색을 2~3프레임 선형 디졸브로 뒤집는다. 컷 대신 색만 뒤집는 가장 싼 신호",
+      "use_when": [
+        "챕터 시작",
+        "개념 비교"
+      ],
+      "avoid_when": [
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.5,
+        "TN-2": 0.8,
+        "TN-3": 0.3,
+        "TN-4": 0.2
+      },
+      "screens": [
+        "사람없음",
+        "풀샷"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        0.1,
+        0.1
+      ],
+      "fallback": [
+        "TR-03",
+        "TR-01"
+      ],
+      "source_ref": [
+        "쇼츠 B-2 색 반전 디졸브 (typography-remotion.md 4-2)"
+      ],
+      "folder": "TR-07_color_invert_dissolve"
+    },
+    {
+      "id": "TR-08",
+      "name": "블러암전점팽창",
+      "drawer": "TR",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자",
+        "무대배경"
+      ],
+      "summary": "화면의 주요 요소가 번지며 사라지고 0.15~0.2초 암전, 중앙의 작은 점에서 다음 장면이 팽창한다. 섹션 전환(문제 → 해결)용",
+      "use_when": [
+        "챕터 시작",
+        "결론·센 말"
+      ],
+      "avoid_when": [
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.2,
+        "TN-2": 0.5,
+        "TN-3": 0.9,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "사람없음",
+        "풀샷"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        0.5,
+        0.7
+      ],
+      "fallback": [
+        "TR-05",
+        "TR-03"
+      ],
+      "source_ref": [
+        "쇼츠 DY-3 글자 뭉개짐 → 암전 → 점에서 재시작 (dynamic-mg-sfx.md 카드 3)"
+      ],
+      "folder": "TR-08_blur_blackout_dot"
+    },
+    {
+      "id": "TR-09",
+      "name": "윤곽깜빡빨려듦",
+      "drawer": "TR",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "자료이미지"
+      ],
+      "summary": "자료(도면·표) 위에서 대상 윤곽이 빨간 테두리로 두 번 깜빡이고(띠링), 그 대상 쪽으로 빨려 들듯 확대되다 흰 번쩍으로 끝난다",
+      "use_when": [
+        "자료 등장",
+        "화면 속 특정 부분"
+      ],
+      "avoid_when": [
+        "일상 상황"
+      ],
+      "tones": {
+        "TN-1": 0.4,
+        "TN-2": 0.8,
+        "TN-3": 0.2,
+        "TN-4": 0.5
+      },
+      "screens": [
+        "사람없음",
+        "풀샷"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        3.4,
+        3.4
+      ],
+      "fallback": [
+        "EM-01",
+        "EM-02"
+      ],
+      "source_ref": [
+        "원#71 윤곽 깜빡 → 빨려 듦 → 흰 번쩍 (분양과오2 ae_comm.py, 통과 2차)",
+        "원#71 사장님 09-28 «빨간색 테두리 깜빡깜빡 두 번 하다가 8번 골프 쪽으로 빨려 들어가는 에펙 효과»"
+      ],
+      "folder": "TR-09_outline_blink_suck"
+    },
+    {
+      "id": "TR-10",
+      "name": "카드날아와비킴",
+      "drawer": "TR",
+      "version": 1,
+      "status": "대기",
+      "engine": "ae",
+      "subject": [
+        "자료이미지"
+      ],
+      "summary": "자료 카드가 좌하단에서 회전하며 날아오고, 둘째 카드가 우하단에서 오면 앞 카드는 좌상단으로 작아져 비킨다. 이어 X 가 살짝 크고 흐리게 나타나 진해지며 제자리",
+      "use_when": [
+        "자료 등장",
+        "소개·여러 항목"
+      ],
+      "avoid_when": [
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.8,
+        "TN-2": 0.7,
+        "TN-3": 0.2,
+        "TN-4": 0.4
+      },
+      "screens": [
+        "사람없음",
+        "PIP"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        3,
+        3.2
+      ],
+      "fallback": [
+        "EM-06",
+        "EM-07"
+      ],
+      "source_ref": [
+        "원#75 카드 날아와 앞 카드 비킴 + X (분양1 sg_motion.py cards(), 통과)",
+        "원#75 사장님 09-29 «X 자가 이상한데» → 오버슈트 없이 흐리게→진하게"
+      ],
+      "folder": "TR-10_card_fly_displace"
+    },
+    {
+      "id": "TR-11",
+      "name": "자료전환5종",
+      "drawer": "TR",
+      "version": 1,
+      "status": "신규",
+      "engine": "compose",
+      "subject": [
+        "자료이미지"
+      ],
+      "summary": "연달아 나오는 자료 이미지가 위로(70px)·왼쪽/오른쪽(90px)·와이프·페이드 다섯 가지 중 서로 다른 방식으로 바뀐다. 모두 ease-out",
+      "use_when": [
+        "자료 등장",
+        "소개·여러 항목"
+      ],
+      "avoid_when": [
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.9,
+        "TN-2": 0.5,
+        "TN-3": 0.3,
+        "TN-4": 0.7
+      },
+      "screens": [
+        "사람없음",
+        "PIP"
+      ],
+      "layer": "L2",
+      "moves_person": false,
+      "duration": [
+        0.3,
+        0.6
+      ],
+      "fallback": [
+        "TR-03",
+        "EM-07"
+      ],
+      "source_ref": [
+        "원#81 자료 전환 5종 돌려쓰기 (레퍼런스6-편집문법.md, 적용 — 쇼츠 분양 편)"
+      ],
+      "folder": "TR-11_material_transition5"
+    },
+    {
+      "id": "TR-12",
+      "name": "띠와이프섹션",
+      "drawer": "TR",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "브랜드",
+        "무대배경"
+      ],
+      "summary": "챕터 경계에서 0.2초 대각선 띠가 지나가며 바탕이 남색 ↔ 미색으로 반전된다. 박(BGM) 대신 챕터 쉼에 건다",
+      "use_when": [
+        "챕터 시작",
+        "챕터 끝"
+      ],
+      "avoid_when": [
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.3,
+        "TN-2": 0.4,
+        "TN-3": 0.9,
+        "TN-4": 0.1
+      },
+      "screens": [
+        "사람없음",
+        "풀샷"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        0.2,
+        0.3
+      ],
+      "fallback": [
+        "TR-03",
+        "TR-01"
+      ],
+      "source_ref": [
+        "쇼츠 AS-1 대각선 띠 와이프 + 바탕색 반전 (astra-branding.md 카드 1)",
+        "쇼츠 index «AS-1 띠 와이프(챕터 쉼)» — 박 대신 챕터 쉼"
+      ],
+      "folder": "TR-12_band_wipe_section"
+    },
+    {
+      "id": "TR-13",
+      "name": "알약카드모핑",
+      "drawer": "TR",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자"
+      ],
+      "summary": "입력 알약이 블러되며 사각 카드로 모핑한다. 폭·높이·모서리·불투명도가 보간된다. 단계를 컷 없이 이어 가는 전환",
+      "use_when": [
+        "과정·단계",
+        "소개·여러 항목"
+      ],
+      "avoid_when": [
+        "감정·리액션"
+      ],
+      "tones": {
+        "TN-1": 0.9,
+        "TN-2": 0.3,
+        "TN-3": 0.7,
+        "TN-4": 0.7
+      },
+      "screens": [
+        "사람없음",
+        "풀샷"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        0.4,
+        0.8
+      ],
+      "fallback": [
+        "TR-02",
+        "EM-04"
+      ],
+      "source_ref": [
+        "쇼츠 V10 알약 → 카드 모핑 (higgsfield-mg.md 해부표)"
+      ],
+      "folder": "TR-13_pill_card_morph"
+    },
+    {
+      "id": "TR-14",
+      "name": "정사각형매치컷",
+      "drawer": "TR",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자"
+      ],
+      "summary": "여러 글자 블록이 중앙으로 모여 하나의 정사각형이 되고, 그 정사각형 크기에 맞춘 매치 컷으로 다음 장면 안으로 넘어간다. 블록은 말의 단어 시각마다 하나씩",
+      "use_when": [
+        "과정·단계",
+        "소개·여러 항목"
+      ],
+      "avoid_when": [
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.7,
+        "TN-2": 0.4,
+        "TN-3": 0.8,
+        "TN-4": 0.5
+      },
+      "screens": [
+        "사람없음",
+        "풀샷"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        2.1,
+        4
+      ],
+      "fallback": [
+        "TR-13",
+        "TR-02"
+      ],
+      "source_ref": [
+        "쇼츠 K 샷2 정사각형 매치 컷 (2d-mg-newtake.md 샷 2 — 1.600~3.700초, 3.350초 모듈이 중앙으로 모여 정사각형)"
+      ],
+      "folder": "TR-14_square_match_cut"
+    },
+    {
+      "id": "TR-15",
+      "name": "리캡썸네일줄",
+      "drawer": "TR",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "자료이미지",
+        "글자"
+      ],
+      "summary": "방금 본 장면 카드들이 줄어 한 줄 썸네일로 나란히 서며 «지금까지 본 것»을 챕터 정리로 묶는다. 헤드라인의 핵심어에만 색 상자",
+      "use_when": [
+        "챕터 끝",
+        "정리·목차"
+      ],
+      "avoid_when": [
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 1.0,
+        "TN-2": 0.2,
+        "TN-3": 0.6,
+        "TN-4": 0.8
+      },
+      "screens": [
+        "사람없음",
+        "풀샷"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        2,
+        4
+      ],
+      "fallback": [
+        "OE-05",
+        "TR-02"
+      ],
+      "source_ref": [
+        "쇼츠 B-10 리캡 썸네일 한 줄 (typography-remotion.md 모션 05, 00:08.0~10.2)"
+      ],
+      "folder": "TR-15_recap_thumbnail_row"
+    },
+    {
+      "id": "TR-16",
+      "name": "로워서드",
+      "drawer": "TR",
+      "version": 1,
+      "status": "신규",
+      "engine": "html",
+      "subject": [
+        "글자"
+      ],
+      "summary": "인물·장소 이름 띠가 거친 텍스처 마스크로 불균일하게 펼쳐지며 나오고, 글자는 몇 프레임 늦게 따라온다. 자막 띠 위에 얹는다",
+      "use_when": [
+        "소개·여러 항목",
+        "한 편 시작",
+        "현실 공간·사람"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "가림"
+      ],
+      "tones": {
+        "TN-1": 0.9,
+        "TN-2": 0.6,
+        "TN-3": 0.5,
+        "TN-4": 0.4
+      },
+      "screens": [
+        "풀샷",
+        "PIP"
+      ],
+      "layer": "L4",
+      "moves_person": false,
+      "duration": [
+        2,
+        5
+      ],
+      "fallback": [
+        "EM-04",
+        "TR-01"
+      ],
+      "source_ref": [
+        "웹#75 거친 로워서드 마스크 리빌 (premiumbeat Vox 글, 출처값)",
+        "쇼츠 Vox 거친 마스크 (web-research-1008.md 1장)"
+      ],
+      "folder": "TR-16_lower_third"
+    },
+    {
+      "id": "TR-17",
+      "name": "전환7종순환",
+      "drawer": "TR",
+      "version": 1,
+      "status": "대기",
+      "engine": "compose",
+      "subject": [
+        "무대배경"
+      ],
+      "summary": "Zoom Blur · Directional Blur · Push · Ray · Lens Blur · Flare · Cross Zoom 일곱 가지 전환을 0.12~0.57초 길이로 돌려 쓴다. 연속 같은 종류 금지. 롱폼은 컷이 기본이라 예능 느낌에서만",
+      "use_when": [
+        "챕터 시작"
+      ],
+      "avoid_when": [
+        "설정·버튼",
+        "숫자·금액",
+        "정의·조건"
+      ],
+      "tones": {
+        "TN-1": 0.0,
+        "TN-2": 1.0,
+        "TN-3": 0.1,
+        "TN-4": 0.0
+      },
+      "screens": [
+        "사람없음",
+        "풀샷"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        0.12,
+        0.57
+      ],
+      "fallback": [
+        "TR-03",
+        "TR-05"
+      ],
+      "source_ref": [
+        "원#84 전환 7종 순환 (분양과오2 사장님 편집 read_motion → rf5_render.py TR_CYCLE, 통과 실측)"
+      ],
+      "folder": "TR-17_transition7_cycle"
+    },
+    {
+      "id": "TR-18",
+      "name": "3D공간통과전환",
+      "drawer": "TR",
+      "version": 1,
+      "status": "신규",
+      "engine": "blender",
+      "subject": [
+        "무대배경"
+      ],
+      "summary": "카메라가 3D 공간을 지나 다음 장면으로 넘어간다. 통과 끝에서 다음 장면(챕터 표지·본편)으로 이어진다",
+      "use_when": [
+        "챕터 시작",
+        "챕터 끝"
+      ],
+      "avoid_when": [
+        "숫자·금액",
+        "설정·버튼"
+      ],
+      "tones": {
+        "TN-1": 0.3,
+        "TN-2": 0.3,
+        "TN-3": 0.3,
+        "TN-4": 0.6
+      },
+      "screens": [
+        "PIP",
+        "풀샷",
+        "사람없음"
+      ],
+      "layer": "L5",
+      "moves_person": false,
+      "duration": [
+        0.4,
+        1.2
+      ],
+      "fallback": [
+        "TR-04",
+        "TR-01"
+      ],
+      "source_ref": [
+        "쇼츠 blender.md (b4_previz05_scene.py — look()·smoothstep·CONSTANT 렌즈)",
+        "templates/SC-15 (3D 오브젝트 본보기)",
+        "templates/TR-04 (3D 카메라 풀백 전환)",
+        "쇼츠 blender.md 1장 (구간별 카메라 pose)"
+      ],
+      "folder": "TR-18_3d_space_pass"
+    }
+  ]
+}

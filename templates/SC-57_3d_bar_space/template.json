@@ -1,0 +1,151 @@
+{
+  "id": "SC-57",
+  "name": "3D막대공간",
+  "drawer": "SC",
+  "version": 1,
+  "status": "신규",
+  "engine": "blender",
+  "subject": [
+    "데이터"
+  ],
+  "source_ref": [
+    "쇼츠 blender.md (b4_previz05_scene.py — look()·smoothstep·CONSTANT 렌즈)",
+    "templates/SC-15 (3D 오브젝트 본보기)",
+    "templates/SC-23 (차트)",
+    "templates/SC-40 (산점→막대)"
+  ],
+  "summary": "데이터를 3D 기둥으로 세운다. 기둥 높이는 실제 수치만. SC-23 차트의 3D 판",
+  "use_when": [
+    "숫자·금액",
+    "소개·여러 항목"
+  ],
+  "avoid_when": [
+    "설정·버튼",
+    "개념 비교"
+  ],
+  "tones": {
+    "TN-1": 0.5,
+    "TN-2": 0.4,
+    "TN-3": 0.2,
+    "TN-4": 0.7
+  },
+  "screens": [
+    "PIP",
+    "사람없음"
+  ],
+  "layer": "L2",
+  "moves_person": false,
+  "duration": [
+    5,
+    15
+  ],
+  "slots": {
+    "bars_render": {
+      "kind": "image",
+      "source": [
+        "render3d"
+      ],
+      "style": "3D 비닐",
+      "alpha": false,
+      "desc": "블렌더로 렌더한 3D 기둥 공간(수치는 values 에서)"
+    },
+    "values": {
+      "kind": "number",
+      "many": true,
+      "desc": "말에 나온 실제 수치 — 기둥 높이의 근거"
+    },
+    "labels": {
+      "kind": "text",
+      "max_chars": 8,
+      "rule": "기둥 이름표 — 개념어",
+      "many": true
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "오브젝트가 나오고 카메라가 움직이는 단어 시각"
+    }
+  },
+  "drawn_allowed": [
+    "글자",
+    "차트",
+    "HUD"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "word:hit[0]",
+      "do": "기둥 공간 등장",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[i]",
+      "do": "i번째 기둥이 솟음 + 카메라 이동",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "ez"
+    },
+    {
+      "at": "t1",
+      "do": "끝",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "render": "Eevee 가정, 1920×1080 59.94 (요청 설계 — 블렌더 미설치라 확인 안 됨)",
+    "camera": "yaw=atan2(−dx, dy), pitch=atan2(dz, hypot(dx,dy)), rotation_euler=(π/2+pitch, 0, yaw)",
+    "render_split": "힉스필드 클라우드 블렌더는 한 조작 300초 제한 — 30~36프레임씩 쪼개 렌더 (blender.md 1장)"
+  },
+  "sfx": [
+    {
+      "at": "word:hit[0]",
+      "role": "in",
+      "meaning": "중립"
+    },
+    {
+      "at": "word:hit[i]",
+      "role": "gauge",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "기둥 높이는 실제 수치만 — 지어낸 데이터 금지 (README 5장 차트 규칙)",
+    "비교가 목적이면 SC-23(평면 차트)이 더 읽힐 수 있다 — 3D 는 공간감이 필요할 때만 (요청 설계, 판정 기준은 첫 견본에서)",
+    "사물·공간은 3D 렌더 이미지(render3d) — 도형을 쌓아 형상을 흉내 내는 짜깁기 금지 (10-07 06)",
+    "카메라 각도는 눈대중이 아니라 look(p,q) 로 목표점을 보게 계산한다: yaw=atan2(−dx,dy), pitch=atan2(dz,hypot(dx,dy)), rotation_euler=(π/2+pitch,0,yaw) (쇼츠 blender.md 1장 09-30 함정)",
+    "구간 보간은 smoothstep u²(3−2u), 렌즈 키는 CONSTANT (쇼츠 blender.md 1장)",
+    "렌더 길이는 대사 구간 길이에 맞춘다 — 나중에 구간별 배속 변경 금지 (blender.md 1장 · ai-video.md 4장)",
+    "글자는 3D 모델에 박지 않는다 — 렌더러(PIL·AE)가 위에 얹는다 (SC-15 rules)",
+    "Flova 는 쓰지 않는다 (사장님 10-08 «오케이 일단 플로바는 제외하고»)"
+  ],
+  "sample": {
+    "values": [
+      30,
+      55,
+      80
+    ],
+    "labels": [
+      "1월",
+      "2월",
+      "3월"
+    ]
+  },
+  "fallback": [
+    "SC-23",
+    "SC-40"
+  ],
+  "from": "코드 없음 — 쇼츠 blender.md 의 b4_previz05_scene.py 구조만 참고(로컬 블렌더 실행은 확인된 바 없음)",
+  "basis": "auto-pipeline.md 4장 블렌더 · SC-23",
+  "todo": [
+    "이 PC 에 블렌더 미설치",
+    "3D 기둥의 눈금·축을 어떻게 읽히게 할지(HUD 눈금) 정하지 않음",
+    "쇼츠 blender.md 는 코드를 이 PC 에서 다시 돌려 확인하지 않았다 — 힉스필드 클라우드 블렌더(3D Jutsu) 기록뿐, 로컬 bpy 실행 여부 미확인(한 조작 300초 제한이라 30~36프레임씩 쪼개 렌더)",
+    "duration·카메라 종류·등장 모션 수치는 문서에 근거 없음 → 초기값 — 첫 견본에서 정함",
+    "R4 로드맵 항목(블렌더 설치 후)"
+  ],
+  "rejected": []
+}

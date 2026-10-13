@@ -1,0 +1,120 @@
+{
+  "id": "GU-07",
+  "name": "주장근거실천",
+  "drawer": "GU",
+  "version": 1,
+  "status": "신규",
+  "engine": "compose",
+  "subject": [
+    "글자"
+  ],
+  "source_ref": [
+    "웹#8 주장→근거→실천 (web-research-1008.md 3장 훅 유형 «직접 약속·놀라운 주장» 계열)",
+    "situation-playbook.md PB-03·PB-12"
+  ],
+  "summary": "한 챕터를 주장 한 줄 → 근거(자료·숫자) → 실천 한 줄 세 층으로 짜는 구성 틀. 챕터 표지·정리가 같은 모양으로 반복된다",
+  "use_when": [
+    "챕터 시작",
+    "챕터 끝",
+    "정리·목차",
+    "결론·센 말"
+  ],
+  "avoid_when": [
+    "가림"
+  ],
+  "tones": {
+    "TN-1": 1.0,
+    "TN-2": 0.4,
+    "TN-3": 0.6,
+    "TN-4": 0.8
+  },
+  "screens": [
+    "PIP",
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "L5",
+  "moves_person": false,
+  "duration": [
+    0,
+    0
+  ],
+  "slots": {
+    "claim": {
+      "kind": "text",
+      "desc": "주장을 받치는 개념어 한 줄",
+      "max_chars": 14,
+      "rule": "말 복사·«» 금지"
+    },
+    "proof": {
+      "kind": "choice",
+      "desc": "근거 자리에 쓸 템플릿 — 자료 짚기·숫자·무대·포토카드 — ③짜기가 박자마다 고른다",
+      "options": [
+        "EM-01",
+        "EM-05",
+        "SC-04",
+        "EM-07"
+      ]
+    },
+    "action": {
+      "kind": "text",
+      "desc": "실천 한 줄(해야 할 행동 개념어)",
+      "max_chars": 14,
+      "rule": "말 복사·«» 금지"
+    },
+    "claim_t": {
+      "kind": "words",
+      "desc": "주장 단어 시각"
+    },
+    "action_t": {
+      "kind": "words",
+      "desc": "실천 단어 시각"
+    }
+  },
+  "drawn_allowed": [
+    "글자",
+    "구분선"
+  ],
+  "keepout": [
+    "자막띠",
+    "사람PIP"
+  ],
+  "timeline": [
+    {
+      "at": "word:claim_t",
+      "do": "주장 한 줄 등장(챕터 표지 TR-01 과 겹치지 않게 표지 뒤)",
+      "dur": 0.216,
+      "ease": "eo"
+    },
+    {
+      "at": "주장 뒤",
+      "do": "근거는 proof 칸의 템플릿이 원문 말 위에서 받는다"
+    },
+    {
+      "at": "word:action_t",
+      "do": "실천 한 줄 등장 — 챕터 정리(EM-06)가 이어받는다",
+      "dur": 0.216,
+      "ease": "eo"
+    }
+  ],
+  "look": {},
+  "sfx": [],
+  "rules": [
+    "화면 글은 말 따라 쓰지 않는다 — 말을 받치는 개념어, «» 따옴표 대사 금지 — 10-08 17·19 (SKILL.md 3장)",
+    "원문의 컷·자막·순서를 바꾸지 않는다 (auto-pipeline.md 0장)",
+    "새 요소는 혼자 0.6초 이상 — 10-07 10 «급해서 정신없는 느낌» (SKILL.md 3장)",
+    "챕터가 둘 미만이면 쓰지 않는다 — 자리를 채우려고 끼워 넣지 않는다 (motion-graphics.md 한눈에 6)",
+    "숫자는 말에 나온 것만 — 근거 칸에 지어낸 수치 금지 (SKILL.md 3장, 쇼츠 typography-remotion.md T7)"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "GU-01",
+    "GU-03"
+  ],
+  "from": "web-research-1008.md (출처 값 없음) — 설계안",
+  "basis": "auto-pipeline.md 4장 GU · situation-playbook.md PB-03·12",
+  "todo": [
+    "웹#8 은 구조 이름만 있고 수치가 없다 — 층별 비중·간격은 초기값, 첫 견본에서 정함"
+  ]
+}

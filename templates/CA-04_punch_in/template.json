@@ -1,0 +1,90 @@
+{
+  "id": "CA-04",
+  "name": "펀치인",
+  "drawer": "CA",
+  "version": 1,
+  "status": "신규",
+  "engine": "compose",
+  "subject": [
+    "사람"
+  ],
+  "source_ref": [
+    "auto-pipeline.md 4장 CA-04 (설계안)",
+    "tools/rf3_ae.py punches (분양 쇼츠의 펀치 — 배율·시간이 달라 그대로 쓰지 않고 참고만)"
+  ],
+  "summary": "풀샷에서 센 말·결론에 얼굴 중심으로 1.0→1.15 로 한 컷(자르듯) 들어갔다가 문장 끝에 복귀한다",
+  "use_when": [
+    "결론·센 말"
+  ],
+  "avoid_when": [
+    "설정·버튼",
+    "화면 속 특정 부분"
+  ],
+  "tones": {
+    "TN-2": 1.0,
+    "TN-3": 0.0
+  },
+  "screens": [
+    "풀샷"
+  ],
+  "layer": "L1",
+  "moves_person": false,
+  "duration": [
+    0.1,
+    20
+  ],
+  "slots": {
+    "face": {
+      "kind": "box",
+      "from": "해부.얼굴상자",
+      "desc": "펀치인 중심(얼굴 상자). 흔들림 거른 값"
+    },
+    "zoom": {
+      "kind": "number",
+      "default": 1.15,
+      "desc": "도착 배율(설계안 값)"
+    }
+  },
+  "drawn_allowed": [],
+  "keepout": [
+    "자막띠"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "풀샷(L1+L3) 1.0 → zoom, 한 컷(자르듯, 보간 없음)",
+      "to": "zoom",
+      "ease": "hold"
+    },
+    {
+      "at": "t1",
+      "do": "문장 끝에 1.0 복귀 — CA-06 이 받는다"
+    }
+  ],
+  "look": {
+    "zoom_from": 1.0,
+    "zoom_to": 1.15
+  },
+  "sfx": [],
+  "rules": [
+    "목소리 에너지 상위 문장·결론에만 쓴다 — 아무 데나 쓰면 급해서 정신없다 (auto-pipeline.md 2-3 «목소리 에너지», 10-07 10 «급해서 정신없는 느낌»)",
+    "느낌 TN-3 프리미엄에서는 쓰지 않는다(펀치인 없음) — auto-pipeline.md 5장 표",
+    "얼굴 중심을 유지한다 — 얼굴이 잘리지 않게 (auto-pipeline.md 2-3 얼굴 상자)",
+    "컷마다 전환음을 깔지 않는다 — 09-22 (sfx.md 핵심). 소리를 붙일지는 첫 견본에서 정함",
+    "카메라는 L1(녹화)에만 건다 — 자막(L6)·사람 PIP 는 영향을 받지 않는다 (auto-pipeline.md 2-2·4장 CA)",
+    "카메라가 움직이는 동안 SC 장면을 시작하지 않는다 — auto-pipeline.md 6-3 «시간 겹침»",
+    "같은 템플릿은 3박자 안에 다시 쓰지 않는다 — auto-pipeline.md 6-2·6-3"
+  ],
+  "rejected": [],
+  "fallback": [
+    "CA-02",
+    "CA-06"
+  ],
+  "from": "auto-pipeline.md 4장 CA-04 (코드 출처 없음)",
+  "basis": "auto-pipeline.md 4장 CA-04 · 5장 느낌 표 (설계안)",
+  "todo": [
+    "1.15 는 설계안 값이다(실측 없음) — 초기값, 첫 견본에서 정함",
+    "한 컷으로 들어간 뒤 복귀 시점·유지 시간 — 초기값, 첫 견본에서 정함",
+    "duration 은 서랍 범위(auto-pipeline.md 3-1장) — 이 템플릿 고유 값은 초기값, 첫 견본에서 정함"
+  ]
+}

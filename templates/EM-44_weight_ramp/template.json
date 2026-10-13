@@ -1,0 +1,118 @@
+{
+  "id": "EM-44",
+  "name": "굵기램프",
+  "drawer": "EM",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "글자"
+  ],
+  "source_ref": [
+    "쇼츠 T3 굵기 램프 (study/typography-remotion.md 5-2 T3 — 설계안, 시험·통과 없음)"
+  ],
+  "summary": "강조어가 말하는 순간 가는 글자(300)에서 굵은 글자(900)로 8프레임 동안 굵어지며 색이 켜진다. 한글은 전각이라 줄 폭이 변하지 않는다",
+  "use_when": [
+    "용어 제시",
+    "결론·센 말"
+  ],
+  "avoid_when": [
+    "숫자·금액",
+    "가림"
+  ],
+  "tones": {
+    "TN-1": 0.5,
+    "TN-2": 0.4,
+    "TN-3": 0.9,
+    "TN-4": 0.3
+  },
+  "screens": [
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "L4",
+  "moves_person": false,
+  "duration": [
+    1.5,
+    5
+  ],
+  "slots": {
+    "line": {
+      "kind": "text",
+      "max_chars": 12,
+      "rule": "화면 글은 말을 받치는 개념어 — 말 복사·«» 대사 금지, 숫자는 말에 근거 (사장님 10-08 17·19)"
+    },
+    "key": {
+      "kind": "choice",
+      "desc": "굵어질 단어 하나"
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "그 단어를 말하는 시각"
+    },
+    "area": {
+      "kind": "box",
+      "desc": "안전영역"
+    }
+  },
+  "drawn_allowed": [
+    "글자"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "word:key",
+      "do": "Weight 300→900 으로 8프레임(@29.97 ≈ 0.27초) 굵어짐 + 색 켜짐",
+      "dur": 0.27,
+      "ease": "eo"
+    },
+    {
+      "at": "t1",
+      "do": "컷에서 같이 끝",
+      "dur": 0.15,
+      "ease": "lin"
+    }
+  ],
+  "look": {
+    "weight_from": 300,
+    "weight_to": 900,
+    "frames_orig": 8,
+    "font": "Noto Sans KR VF(Weight 100~900) 또는 가변 Pretendard — 소재/fonts 확인"
+  },
+  "sfx": [
+    {
+      "at": "word:key",
+      "role": "st1",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "강조어만 색 — 핵심어 하나 (원칙 6)",
+    "바운스 없음 (오버슈트 0)",
+    "한 편 안에서 글꼴을 섞지 않는다 — Noto Sans KR 와 Pretendard 혼용 금지 (typography-remotion 5-3)",
+    "화면 글은 말을 받치는 개념어 — 말 복사·«» 대사 금지, 숫자는 말에 근거 (사장님 10-08 17·19)",
+    "움직임은 그 말의 단어 시각(±2프레임)에 건다 — 타이머 간격 금지 (상황 강령 0장 2 · SKILL 3장)",
+    "html 계약(쇼츠 tools/html_motion.py): window.W/H/FPS/DURATION · seek(t) 는 t 만의 순수 함수(CSS transition·타이머·Math.random 금지) · PALETTE 3색 이하 (EM-04 와 같은 틀)"
+  ],
+  "rejected": [],
+  "sample": {
+    "line": "정책자금 한도",
+    "key": 0
+  },
+  "fallback": [
+    "EM-04",
+    "EM-11"
+  ],
+  "from": "쇼츠 study/typography-remotion.md T3",
+  "basis": "shorts-notes-index-1008.md 타이포 묶음 T3",
+  "todo": [
+    "이 PC 의 Pretendard 는 Bold·ExtraLight 만 설치(가변 아님) — 중간 굵기 램프는 Noto Sans KR VF 만 가능. 소재/fonts 사본의 HM PretendardVar 존재 확인 필요",
+    "쇼츠 노트는 세로 1080×1920 기준 — 가로 1920×1080 재배치 필요",
+    "T3 은 설계안이라 시험·통과 이력 없음"
+  ]
+}

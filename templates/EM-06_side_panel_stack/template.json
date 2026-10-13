@@ -1,0 +1,70 @@
+{
+  "id": "EM-06", "name": "보조패널쌓기", "drawer": "EM", "version": 1, "status": "통과",
+  "engine": "pil",
+  "subject": ["글자", "자료이미지"],
+  "source_ref": ["강사님 강의 09-23 보조 패널 (tools/side_panel_render.py · card_render.py)", "lecture-graphics.md 3장 «화면 원칙 — 보조 패널»", "lecture-graphics.md 3장 9강 피드백 #1·#2 (피드백-9강.md)", "사장님 09-23 «1분 동안 말한 거 중 핵심들을 하나하나 정리하면서 들어가는 느낌 8강 참고해서»"],
+  "summary": "인물 전체화면 옆에 작은 패널 하나를 두고, 강사가 말하는 순서대로 핵심 항목이 한 줄씩 쌓인다. 글자는 크게·적게, 패널 크기는 마지막 단계 기준으로 고정해 위치가 튀지 않는다",
+  "use_when": ["정리·목차", "소개·여러 항목", "용어 제시"],
+  "avoid_when": ["설정·버튼", "일상 상황"],
+  "tones": {"TN-1": 1.0, "TN-2": 0.3, "TN-3": 0.4, "TN-4": 0.4},
+  "screens": ["풀샷"],
+  "layer": "L4", "moves_person": false,
+  "duration": [5, 30],
+  "slots": {
+    "kind":  {"kind": "choice", "options": ["list", "table", "lines", "big", "visual"], "desc": "패널 종류 — 번호·체크 목록 / 표(행·열 쌓기) / 큰 글 줄 / 큰 숫자 한 개 / 지도·그림 + 목록"},
+    "title": {"kind": "text", "optional": true, "max_chars": 10, "rule": "말을 받치는 개념어, 말 복사·«» 따옴표 대사 금지"},
+    "items": {"kind": "text", "many": true, "max_chars": 10, "rule": "한 항목 10자 안팎(넘치면 자동 축소). 문안은 강사가 한 말에서만 — 말에 없는 말·틀린 말을 붙이지 않는다. 숫자는 말에 근거"},
+    "descs": {"kind": "text", "many": true, "optional": true, "max_chars": 16, "rule": "항목 아래 부연 한 줄"},
+    "note":  {"kind": "text", "optional": true, "max_chars": 14, "rule": "맨 아래 주황 띠 한 줄(결론)"},
+    "reveal": {"kind": "choice", "optional": true, "options": ["rows", "cols"], "desc": "table 일 때 쌓는 방향 — 비교는 대상 단위(cols)"},
+    "hit":   {"kind": "words", "desc": "항목마다 강사가 말하는 단어 시각 — 쌓기 단계 k 가 이 시각에 켜진다"},
+    "logo":  {"kind": "image", "source": ["brand"], "style": "2D 플랫", "alpha": true, "desc": "패널 머리 로고(소재/브랜드 원본)"},
+    "icons": {"kind": "image", "many": true, "optional": true, "source": ["codex", "crawl"], "style": "2D 플랫", "alpha": true, "desc": "항목 앞 아이콘 96px(visual/list·icon). 글자 없음"},
+    "map":   {"kind": "image", "optional": true, "source": ["crawl", "codex"], "style": "2D 플랫", "alpha": true, "desc": "지명이면 연상 그림(실제 경계 지도)"}
+  },
+  "drawn_allowed": ["카드바탕", "구분선", "글자", "UI위젯"],
+  "keepout": ["자막띠", "얼굴+16px", "판밖"],
+  "timeline": [
+    {"at": "word:hit[0]", "do": "패널 틀(로고 머리·브랜드 띠·제목)과 첫 항목 등장", "dur": "초기값 — 첫 견본에서 정함", "ease": "eo"},
+    {"at": "word:hit[i]", "do": "항목 i 가 자기 자리에 나타남 — 아직 안 나온 항목은 자리만 차지(보이지 않음)해서 위치가 튀지 않는다", "dur": "초기값 — 첫 견본에서 정함", "ease": "eo"},
+    {"at": "t1", "do": "사장님 «자료» 화면 구간이 시작되면 같이 사라짐 — 끝 0.03~0.32초 페이드", "dur": "0.03~0.32 (8강 실측 범위)", "ease": "lin"}
+  ],
+  "look": {
+    "panel_px": {"x": 1192, "y": 96, "w": 680, "radius": 28, "padding": [30, 40, 40]},
+    "subtitle_top_px": 970,
+    "text_px": {"title": 50, "item": 44, "table": 38, "desc": 28, "note": 38},
+    "item_gap_px": 16, "item_min_h_px": 100, "logo_h_px": 34,
+    "colors": {"navy": "#0B2A7A", "blue": "#2F5BD0", "orange": "#F28C1C", "red": "#E8452C"},
+    "fonts": "Gmarket Sans Bold/Medium · Noto Sans KR VF",
+    "origin": "강사님 강의(1920×1080 · 59.94) 13~15강 카메라: 강사 x 350~1150, 오른쪽은 모니터 자리"
+  },
+  "sfx": [
+    {"at": "word:hit[0]", "role": "page", "meaning": "중립"},
+    {"at": "word:hit[i]", "role": "st1", "meaning": "중립"}
+  ],
+  "rules": [
+    "자체 자료를 전체화면으로 띄우지 않는다 — 화면 이동이 계속 생겨 정신없다 (09-23 «계속 화면이동이 일어나니까 오히려 정신없어»)",
+    "글자는 크게 — 작게 넣을 거면 안 넣는다 (09-23 «글자는 크게, 작게 하면 의미 없다»)",
+    "항목은 말 순서대로 쌓이고, 쌓기 단계마다 «지금 보이는 모든 글자를 강사가 이미 말했나?»를 확인 — 안 한 말이 떠 있으면 그 단계는 틀린 것 (lecture-graphics.md 3장)",
+    "비교(A vs B)는 말하는 대상이 나올 때 그 대상만 등장 — 아직 말 안 한 쪽의 칸·머리줄·값이 미리 보이면 안 된다 (9강 피드백 #1)",
+    "자료 화면 구간에서 이미 말한 항목을 인물 화면에서 한꺼번에 띄우지 않는다 — 패널은 1단계부터, 말하는 순간에만 (9강 피드백 #2)",
+    "패널이 자막 윗선(y 970)을 넘으면 렌더러가 오류로 멈춘다 — 레이아웃 겹침 없게 (09-23)",
+    "화면 글은 말을 받쳐 주는 개념어로 줄인다 — 말에 없는 말은 붙이지 않되 문장 복사도 하지 않는다 (10-08 17 + 09-23 문안 규칙)",
+    "아이콘·로고·지도는 이미지 칸 — 도형으로 사물을 흉내 내지 않는다 (10-07 06)"
+  ],
+  "rejected": [
+    "09-23 9강 3:12 v2 직접_vs_대리 «직접이랑 대리를 독립적으로 하나씩 나오게 해야 하는데, 직접 얘기하는데 대리도 같이 나온다» (삭제)",
+    "09-23 9강 10:00 정리_소진공_3 — 인물 화면으로 돌아온 순간 패널이 마지막 단계(3줄 다)로 한꺼번에 떴고 직접·대리가 구분 안 됨 (삭제)"
+  ],
+  "sample": {"kind": "list", "title": "자금 종류", "items": ["운전자금", "시설자금", "정책자금"]},
+  "fallback": ["EM-08", "EM-07"],
+  "from": "tools/side_panel_render.py · tools/card_render.py (CSS 틀·색·자막 침범 검사) — 영상 길이·박자 도구 side_panel_place.py 는 이 폴더에 없음",
+  "basis": "lecture-graphics.md 3장 보조 패널 · 3장 9강 피드백 · SKILL.md 3장 «강의 자료는 말을 쌓아 정리한다»",
+  "todo": [
+    "범위: 이 규칙은 강사님 강의 건 한정(SKILL.md 4장 «보조 패널은 강사님 강의, 후킹은 반반 판»). 빡이사DB 같은 롱폼 건에 쓸 때 사장님 확인 필요 — 설계자 판단",
+    "패널 x 1192~1872 는 강사가 x 350~1150 에 있는 강의 카메라 기준 — 빡이사 풀샷(사람 50% 가운데, 약 x 480~1440)에서는 사람과 겹치므로 건마다 사람 상자를 재서 x 를 다시 정한다",
+    "렌더는 side_panel_render.py 가 크롬(HTML)으로 단계별 PNG 를 뽑는 방식 — 이 템플릿의 engine 을 pil 로 적었으나 실제는 HTML 캡처 + 투명 PNG. 알파 mov 로 묶는 단계(side_panel_place·overlay_xml)는 이 폴더에 없음",
+    "등장·퇴장 시간은 문서에 없음 — 초기값 — 첫 견본에서 정함",
+    "map(실제 경계 지도) 생성기 korea_map_svg.py 는 이 폴더에 없음"
+  ]
+}

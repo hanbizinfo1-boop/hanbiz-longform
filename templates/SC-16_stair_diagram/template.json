@@ -1,0 +1,158 @@
+{
+  "id": "SC-16",
+  "name": "계단도식",
+  "drawer": "SC",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "글자",
+    "데이터"
+  ],
+  "source_ref": [
+    "원#33",
+    "쇼츠 CM-11 (claude-motion-graphics.md 모눈 계단 도식)",
+    "motion-graphics.md 2-1장 원칙 9"
+  ],
+  "summary": "모눈 미색 바탕에 오른쪽 위로 오르는 가는 선 계단, 01→02→03 단계가 차례로 올라앉고 끝에 줌아웃해 셋을 한눈에 보여 준다",
+  "use_when": [
+    "과정·단계",
+    "정리·목차"
+  ],
+  "avoid_when": [
+    "일상 상황",
+    "개념 비교"
+  ],
+  "tones": {
+    "TN-1": 0.4,
+    "TN-2": 0.3,
+    "TN-3": 1.0,
+    "TN-4": 0.4
+  },
+  "screens": [
+    "PIP",
+    "사람없음"
+  ],
+  "layer": "L2",
+  "moves_person": false,
+  "duration": [
+    8,
+    25
+  ],
+  "slots": {
+    "steps": {
+      "kind": "text",
+      "rule": "단계 이름 — 말을 받치는 개념어. 번호·단계 수는 말에 나온 것만. 3단계가 근거(원#33), 4~5단계는 todo",
+      "many": true,
+      "max_chars": 10
+    },
+    "label": {
+      "kind": "text",
+      "rule": "무대 구석 HUD 라벨(분류 라벨) — 업체명·실적 숫자 금지",
+      "max_chars": 12,
+      "optional": true
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "단계마다 말하는 단어 시각"
+    },
+    "hit_zoomout": {
+      "kind": "words",
+      "desc": "마지막 줌아웃을 거는 말",
+      "optional": true
+    }
+  },
+  "drawn_allowed": [
+    "판",
+    "구분선",
+    "카드바탕",
+    "HUD",
+    "글자"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "모눈·미색 판 등장",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[i]",
+      "do": "계단 선 한 칸 그려지고 단계 01→02→03 이 올라앉음",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit_zoomout",
+      "do": "줌아웃해 계단 전체를 한눈에",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "ez"
+    },
+    {
+      "at": "t1-0.36",
+      "do": "판이 빠지며 닫힘(북엔드)",
+      "dur": 0.36,
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "bg": "모눈 + 미색, 가는 선 (원#33)",
+    "steps": "3단계가 근거 · 4~5는 초기값 — 첫 견본에서 정함",
+    "colors": "3색 이하(바탕·글·강조 하나)"
+  },
+  "sfx": [
+    {
+      "at": "t0",
+      "role": "in",
+      "meaning": "중립"
+    },
+    {
+      "at": "word:hit[i]",
+      "role": "st1",
+      "meaning": "중립"
+    },
+    {
+      "at": "word:hit_zoomout",
+      "role": "sweep",
+      "meaning": "중립"
+    },
+    {
+      "at": "t1-0.36",
+      "role": "back",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "계단은 가는 선 그림 — 막대 도형으로 양을 흉내 내지 않는다 (쇼츠 motion-typo.md 카드 D)",
+    "사물·아이콘 카드 나열 금지 — 단계마다 글자와 번호만 (06 반려)",
+    "화면 글은 말을 받치는 개념어 — 말 복사·«» 금지(10-08 17·19, SKILL.md 3장)",
+    "새 요소는 0.6초 이상 혼자, 한 문장 새 요소 3개 이하 (10-07 10, motion-graphics.md 2-1장 원칙 13)",
+    "SC-12(모핑 단계도식)과 연달아 쓰지 않는다 — 구도는 장면마다 다르게 (10-07 08)"
+  ],
+  "rejected": [],
+  "sample": {
+    "steps": [
+      "광고 만들기",
+      "예산 정하기",
+      "게재 시작"
+    ],
+    "label": "진행 순서"
+  },
+  "fallback": [
+    "SC-12",
+    "SC-04"
+  ],
+  "from": "코드 없음 — 쇼츠 claude-motion-graphics.md 계단 도식 서술에서 설계. 렌더는 html_motion 사본",
+  "basis": "origin-session-1008.md 원#33 · shorts-notes-index CM-11",
+  "todo": [
+    "html 렌더 도구 tools/html_motion.py 는 1080×1920·29.97fps 하드코딩 사본 — 가로 1920×1080·59.94 인자화가 먼저(쇼츠 claude-motion-graphics.md 5-4)",
+    "계단 각도·간격·카드 크기·줌아웃 배율·시간: 근거 노트에 수치 없음 — 시간·간격·배율·크기는 초기값, 첫 견본에서 정함",
+    "SC-12 와 차이: 이쪽은 계단 구도 자체가 주인공(정적 도식+줌아웃), SC-12 는 한 요소 모핑 — 겹치면 병합 검토"
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "id": "SC-41",
+  "name": "텍스처배경자료",
+  "drawer": "SC",
+  "version": 1,
+  "status": "신규",
+  "engine": "ae",
+  "subject": [
+    "무대배경",
+    "자료이미지"
+  ],
+  "source_ref": [
+    "웹#51 (텍스처 모션 배경 — 텍스처 5~6장을 초당 2~3장, 2~3번 복제해 약 10초, Vox 출처 글 [출처값])"
+  ],
+  "summary": "거친 텍스처 5~6장을 초당 2~3장씩 바꿔 약 10초 배경을 만들고 그 위에 자료·글자를 올린다",
+  "use_when": [
+    "자료 등장",
+    "챕터 시작",
+    "정리·목차"
+  ],
+  "avoid_when": [
+    "설정·버튼"
+  ],
+  "tones": {
+    "TN-1": 0.6,
+    "TN-2": 0.6,
+    "TN-3": 0.4,
+    "TN-4": 0.1
+  },
+  "screens": [
+    "사람없음"
+  ],
+  "layer": "L2",
+  "moves_person": false,
+  "duration": [
+    5,
+    12
+  ],
+  "slots": {
+    "textures": {
+      "kind": "image",
+      "source": [
+        "codex"
+      ],
+      "style": "손글씨 종이",
+      "alpha": false,
+      "desc": "텍스처 5~6장(종이·거친 결) — 질감만, 글자·사물 없음",
+      "many": true
+    },
+    "material": {
+      "kind": "image",
+      "source": [
+        "doc",
+        "codex"
+      ],
+      "style": "실사 사진",
+      "alpha": false,
+      "desc": "위에 올릴 자료 이미지",
+      "optional": true
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "자료가 나오는 말",
+      "optional": true
+    }
+  },
+  "drawn_allowed": [
+    "어둡게덮기"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "텍스처 순환 시작",
+      "dur": 10,
+      "ease": "lin"
+    },
+    {
+      "at": "word:hit",
+      "do": "자료 이미지 등장",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "texture_count": [
+      5,
+      6
+    ],
+    "change_per_sec": [
+      2,
+      3
+    ],
+    "repeat": [
+      2,
+      3
+    ],
+    "total_sec": 10,
+    "source": "웹#51 출처값 (Vox 따라 하기 글)"
+  },
+  "sfx": [
+    {
+      "at": "t0",
+      "role": "in",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "텍스처는 질감만 — 글자·사물이 들어간 이미지 금지",
+    "배경이 말보다 튀지 않게 — 대비 낮게",
+    "한 편에서 배경 텍스처 스타일은 하나"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "SC-33",
+    "SC-03"
+  ],
+  "from": "코드 없음 — 웹 조사 Vox 따라 하기 글",
+  "basis": "web-research-1008.md §1 텍스처 모션 배경",
+  "todo": [
+    "5~6장/초당 2~3장/2~3복제/10초는 출처 글 값 — 한비즈 가로 시안에서 눈으로 확인",
+    "텍스처 대비·색: 초기값 — 첫 견본에서 정함"
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "id": "CA-10",
+  "name": "패럴랙스",
+  "drawer": "CA",
+  "version": 1,
+  "status": "신규",
+  "engine": "ae",
+  "subject": [
+    "자료이미지"
+  ],
+  "source_ref": [
+    "웹#15 2.5D 패럴랙스 (web-research-1008.md 1장 주의 «다큐에서 클리셰 지적», motionarray 글)",
+    "쇼츠 index «이미지 한 장+코드 패럴랙스로 유료 줄이기» (다음에 해 볼 것)"
+  ],
+  "summary": "한 장의 이미지를 앞·중간·뒤 층으로 나눠 카메라가 살짝 들어가면서 층별 속도 차로 깊이를 만든다. 한 편에 한두 번만",
+  "use_when": [
+    "현실 공간·사람",
+    "한 편 시작"
+  ],
+  "avoid_when": [
+    "설정·버튼",
+    "숫자·금액",
+    "화면 속 특정 부분"
+  ],
+  "tones": {
+    "TN-1": 0.2,
+    "TN-2": 0.3,
+    "TN-3": 1.0,
+    "TN-4": 0.1
+  },
+  "screens": [
+    "사람없음"
+  ],
+  "layer": "L2",
+  "moves_person": false,
+  "duration": [
+    2,
+    6
+  ],
+  "slots": {
+    "layers": {
+      "kind": "image",
+      "source": [
+        "codex",
+        "render3d"
+      ],
+      "style": "실사 사진",
+      "alpha": true,
+      "desc": "앞·중간·뒤 층으로 분리한 이미지 2~3장(알파 PNG) — 사물은 이미지",
+      "many": true
+    }
+  },
+  "drawn_allowed": [],
+  "keepout": [
+    "자막띠",
+    "사람PIP"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "카메라가 천천히 들어가며 층마다 이동 속도를 다르게(뒤는 느리게, 앞은 빠르게)",
+      "dur": "구간 길이",
+      "ease": "ez"
+    }
+  ],
+  "look": {},
+  "sfx": [],
+  "rules": [
+    "클리셰라는 지적이 있다 — 한 편에 한두 번만 (web-research-1008.md 1장 주의)",
+    "층 분리는 Codex 이미지 또는 블렌더 — 도형 짜깁기 금지 (10-07 06)",
+    "AI 영상 위에는 쓰지 않는다 — 프레임별 분리가 필요 (typography-remotion.md T5)",
+    "자막 띠(y 967~1041)·사람 PIP(원형 중심 (126,964) 반지름 약 123px)를 가리지 않는다 — lecture-graphics.md 1·4장, 10-08 18 겹침 없음",
+    "같은 템플릿은 3박자 안에 다시 쓰지 않는다 — auto-pipeline.md 6-2·6-3"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "CA-09",
+    "CA-02"
+  ],
+  "from": "web-research-1008.md 주의 항목 (수치 없음)",
+  "basis": "web-research-1008.md 1장 · 쇼츠 study/README.md 다음에 해 볼 것",
+  "todo": [
+    "층 수·속도 비·카메라 이동 거리는 근거 값이 없다 — 초기값, 첫 견본에서 정함",
+    "층 분리(알파)를 Codex 로 어떻게 만드는지(한 장 + 마스크 vs 층별 생성) 시험 전 — 초기값, 첫 견본에서 정함"
+  ]
+}

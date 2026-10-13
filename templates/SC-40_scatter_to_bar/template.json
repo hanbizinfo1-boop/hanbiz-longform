@@ -1,0 +1,146 @@
+{
+  "id": "SC-40",
+  "name": "흩뿌림한바",
+  "drawer": "SC",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "글자",
+    "자료이미지"
+  ],
+  "source_ref": [
+    "쇼츠 B-11 (typography-remotion.md 00:30.0~32.5 — 흩뿌림→한 바)"
+  ],
+  "summary": "흩어진 폴더 카드와 칩이 폭발식으로 퍼졌다 정렬되어 하나의 바로 수렴한다 — 여러 개가 하나로 합쳐짐",
+  "use_when": [
+    "소개·여러 항목",
+    "정리·목차",
+    "결론·센 말"
+  ],
+  "avoid_when": [
+    "설정·버튼"
+  ],
+  "tones": {
+    "TN-1": 0.4,
+    "TN-2": 0.4,
+    "TN-3": 0.9,
+    "TN-4": 0.4
+  },
+  "screens": [
+    "PIP",
+    "사람없음"
+  ],
+  "layer": "L2",
+  "moves_person": false,
+  "duration": [
+    3,
+    8
+  ],
+  "slots": {
+    "folders": {
+      "kind": "image",
+      "source": [
+        "codex"
+      ],
+      "style": "2D 플랫",
+      "alpha": true,
+      "desc": "흩어질 폴더 카드 몇 장(투명 배경)",
+      "many": true
+    },
+    "chips": {
+      "kind": "text",
+      "rule": "칩 글 — 개념어 3~5개",
+      "many": true,
+      "max_chars": 8
+    },
+    "bar": {
+      "kind": "text",
+      "rule": "수렴할 바 글 — 결론 개념어(‘여러 개 → 하나’ 형식은 말에 근거할 때만)",
+      "max_chars": 14
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "흩어지는 말 / 하나로 모으는 말"
+    }
+  },
+  "drawn_allowed": [
+    "카드바탕",
+    "글자"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "word:hit[0]",
+      "do": "폴더 카드가 흩어짐(3D 기울임)",
+      "dur": 0.2,
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[0]+0.2",
+      "do": "칩이 폭발식으로 흩뿌려진 뒤 정렬",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit[1]",
+      "do": "하나의 바로 수렴",
+      "dur": 1.2,
+      "ease": "ez"
+    },
+    {
+      "at": "t1-0.36",
+      "do": "닫힘",
+      "dur": 0.36,
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "scatter_sec": 0.2,
+    "converge_sec": 1.2,
+    "total_sec": 2.5,
+    "hint": "30.0~32.5: 흩어짐 00:30.0~30.2 · 수렴 ≈1.2초 · 칩=흰 알약 · 바=주황 (세로 관찰)"
+  },
+  "sfx": [
+    {
+      "at": "word:hit[0]",
+      "role": "sweep",
+      "meaning": "중립"
+    },
+    {
+      "at": "word:hit[1]",
+      "role": "impact",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "폴더는 이미지 칸 — 폴더 도형 짜깁기 금지",
+    "칩 3~5 이상 늘리지 않는다 — 글자가 읽히는 수",
+    "화면 글은 말을 받치는 개념어 — 말 복사·«» 금지(10-08 17·19, SKILL.md 3장)",
+    "새 요소는 0.6초 이상 혼자, 한 문장 새 요소 3개 이하 (10-07 10, motion-graphics.md 2-1장 원칙 13)"
+  ],
+  "rejected": [],
+  "sample": {
+    "chips": [
+      "서류",
+      "조건",
+      "일정"
+    ],
+    "bar": "한 번에 정리"
+  },
+  "fallback": [
+    "SC-29",
+    "SC-26"
+  ],
+  "from": "코드 없음 — 쇼츠 typography-remotion.md B-11 서술",
+  "basis": "shorts-notes-index-1008.md B-11",
+  "todo": [
+    "html 렌더 도구 tools/html_motion.py 는 1080×1920·29.97fps 하드코딩 사본 — 가로 1920×1080·59.94 인자화가 먼저(쇼츠 claude-motion-graphics.md 5-4)",
+    "칩 수·바 크기·색(주황은 쇼츠 색): 한비즈 브랜드색으로 대체 여부 설계자 결정"
+  ]
+}

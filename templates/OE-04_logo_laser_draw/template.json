@@ -1,0 +1,175 @@
+{
+  "id": "OE-04",
+  "name": "레이저드로우엔딩",
+  "drawer": "OE",
+  "version": 1,
+  "status": "시안",
+  "engine": "html",
+  "subject": [
+    "브랜드"
+  ],
+  "source_ref": [
+    "쇼츠 납품/시안_로고엔딩_1008 읽어보기.txt «추가 엔딩 — S 자 레이저»",
+    "쇼츠 tools/scenes/html/hanbiz_logo_laser.html · hanbiz_logo_laser_dark.html",
+    "쇼츠 study/typography-remotion.md 4-5 윤곽선 드로우"
+  ],
+  "summary": "레이저가 로고 윤곽을 따라 그려지고(파랑→주황) 번쩍 점화되면 윤곽 안이 원본 로고로 채워진 뒤 한글·영문 줄이 드러나는 5.0초 엔딩. CTA 없음",
+  "use_when": [
+    "한 편 끝"
+  ],
+  "avoid_when": [],
+  "tones": {
+    "TN-3": 1.0
+  },
+  "screens": [
+    "PIP",
+    "풀샷",
+    "사람없음"
+  ],
+  "layer": "L5",
+  "moves_person": false,
+  "duration": [
+    5.0,
+    5.0
+  ],
+  "slots": {
+    "logo": {
+      "kind": "image",
+      "source": [
+        "brand"
+      ],
+      "alpha": true,
+      "desc": "로고 원본(윤곽 안을 채우는 이미지) — 소재/브랜드"
+    },
+    "word_ko": {
+      "kind": "image",
+      "source": [
+        "brand"
+      ],
+      "alpha": true,
+      "desc": "한글 줄 — logo_word_ko.png"
+    },
+    "word_en": {
+      "kind": "image",
+      "source": [
+        "brand"
+      ],
+      "alpha": true,
+      "desc": "영문 줄 — logo_word_en.png"
+    },
+    "paths": {
+      "kind": "choice",
+      "options": [
+        "소재/브랜드/logo_paths.json"
+      ],
+      "desc": "레이저 경로 — 로고 알파 윤곽에서 뽑은 것(임의 곡선 아님)"
+    },
+    "bg": {
+      "kind": "choice",
+      "options": [
+        "회백 #E9EAEC (사장님 10-08 변경)",
+        "잉크 남색 #080D22 (원래 시안, hanbiz_logo_laser_dark.html)"
+      ],
+      "desc": "바탕 판"
+    }
+  },
+  "drawn_allowed": [
+    "판",
+    "효과선",
+    "반짝선",
+    "테두리번짐",
+    "빛훑기",
+    "HUD",
+    "글자"
+  ],
+  "keepout": [],
+  "timeline": [
+    {
+      "at": "t0+0.30",
+      "do": "레이저가 파랑 획 윤곽을 따라 그려짐(시작 빠르게 → 끝 감속)",
+      "dur": 1.05,
+      "ease": "eo"
+    },
+    {
+      "at": "t0+1.15",
+      "do": "주황 획 윤곽 이어서 그려짐(파랑이 끝나기 전에 이어 붙음)",
+      "dur": 0.85,
+      "ease": "eo"
+    },
+    {
+      "at": "t0+2.00",
+      "do": "점화 — 전체가 한 번 번쩍"
+    },
+    {
+      "at": "t0+2.08",
+      "do": "윤곽 안이 원본 로고 이미지로 채워짐(빛에서 색으로)",
+      "dur": 0.4,
+      "ease": "eo"
+    },
+    {
+      "at": "t0+2.25",
+      "do": "레이저 선 서서히 사라짐",
+      "dur": 0.65,
+      "ease": "eo"
+    },
+    {
+      "at": "t0+2.65",
+      "do": "사선 빛 줄기가 로고를 훑음 + 심볼이 위로",
+      "dur": 0.55,
+      "ease": "eo"
+    },
+    {
+      "at": "t0+2.90",
+      "do": "한글 줄이 왼→오로 와이프(경계에 밝은 선)",
+      "dur": 0.6,
+      "ease": "eo"
+    },
+    {
+      "at": "t0+3.50",
+      "do": "영문 줄 페이드. 3.8초부터 정지",
+      "dur": 0.3,
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "bg_light": "#E9EAEC",
+    "bg_dark": "#080D22",
+    "ink": "#060606",
+    "laser_blue": [
+      "#0639A4",
+      "#1857D1"
+    ],
+    "laser_warm": [
+      "#FA630F",
+      "#EB2320"
+    ],
+    "core": "흰 코어 + 색 번짐 + 머리의 십자 빛 + 불꽃 입자",
+    "fps_ref": 29.97,
+    "canvas_ref": "1080x1920 (세로 쇼츠 시안)"
+  },
+  "sfx": [],
+  "rules": [
+    "로고는 새로 그리지 않고 원본 그대로 — 조각으로 쓸 때도 원본 이미지를 잘라 쓴다(조각을 다시 합치면 원본과 픽셀 차이 최대 7) — 쇼츠 납품/시안_로고엔딩_1008/읽어보기.txt, motion-typo.md C «로고를 AI 로 다시 그림 금지»",
+    "로고는 사물이라 반드시 image 칸(source brand)이다 — README 4장",
+    "레이저 경로는 로고 알파 윤곽에서 뽑는다 — 임의 곡선 금지 (쇼츠 읽어보기.txt «임의 곡선 아님», 소재/브랜드/logo_paths.json)",
+    "점화 번쩍은 한 번만 — 글리치·흔들기·번쩍 남발 금지 (motion-graphics.md 2-1 원칙 11)",
+    "엔딩은 원문 뒤에 붙는다 — 원문 본문 길이는 불변 (auto-pipeline.md 3-1 OE)"
+  ],
+  "rejected": [
+    "10-08 사장님 요청으로 바탕을 어두운 잉크 남색에서 회백색(#E9EAEC)으로 바꿈 — 쇼츠 읽어보기.txt «10-08 바탕 회백색으로 변경(사장님 요청)». 어두운 판은 hanbiz_logo_laser_dark.html 로 보존"
+  ],
+  "fallback": [
+    "OE-02",
+    "OE-03"
+  ],
+  "from": "쇼츠 tools/scenes/html/hanbiz_logo_laser.html (밝은 판) · hanbiz_logo_laser_dark.html (어두운 판) — 1080×1920",
+  "basis": "auto-pipeline.md 4장 OE-04 · 쇼츠 읽어보기.txt «추가 엔딩 — S 자 레이저»",
+  "todo": [
+    "이 엔딩은 CTA 가 없다 — GU-01 의 CTA 단계를 따로 둘지 첫 견본에서 정함",
+    "느낌 TN-3 팔레트(잉크 남색·크림)는 어두운 판인데 사장님은 10-08 에 밝은 회백 판으로 바꾸셨다 — 롱폼 기본 판을 설계자가 정해야 한다",
+    "레이저에는 아직 효과음이 없다(쇼츠 읽어보기.txt «레이저는 아직 소리 없음») — 소리를 붙일지 첫 견본에서 정함",
+    "시각(초)은 쇼츠 시안(29.97fps)의 값이다. px·경로 좌표는 1080×1920 세로 기준 — 1920×1080 으로 다시 배치",
+    "롱폼 소재/브랜드 에는 logo_paths.json·로고 조각이 아직 없다 — 쇼츠에서 읽어 와야 한다",
+    "쇼츠에서 렌더된 시안 mp4 가 있어 status 는 시안(롱폼 가로 견본은 아직 없음)"
+  ]
+}

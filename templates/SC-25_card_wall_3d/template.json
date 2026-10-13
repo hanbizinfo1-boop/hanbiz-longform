@@ -1,0 +1,128 @@
+{
+  "id": "SC-25",
+  "name": "카드벽3D",
+  "drawer": "SC",
+  "version": 1,
+  "status": "신규",
+  "engine": "html",
+  "subject": [
+    "자료이미지"
+  ],
+  "source_ref": [
+    "쇼츠 E13 (entry-reel-opus.md 커뮤니티 작품 카드 벽, 09.4–11.2)"
+  ],
+  "summary": "수십 장의 카드가 기울어진 3D 면으로 흐르며 확대·블러되고 가운데 띠에 한 문장이 얹힌다 — 사례가 많음을 한눈에",
+  "use_when": [
+    "사례·후기",
+    "소개·여러 항목",
+    "챕터 시작"
+  ],
+  "avoid_when": [
+    "설정·버튼",
+    "숫자·금액"
+  ],
+  "tones": {
+    "TN-1": 0.8,
+    "TN-2": 0.6,
+    "TN-3": 0.4,
+    "TN-4": 0.1
+  },
+  "screens": [
+    "사람없음"
+  ],
+  "layer": "L2",
+  "moves_person": false,
+  "duration": [
+    3,
+    10
+  ],
+  "slots": {
+    "cards": {
+      "kind": "image",
+      "source": [
+        "codex",
+        "doc"
+      ],
+      "style": "실사 사진",
+      "alpha": false,
+      "desc": "카드 속 사진 수십 장 — 같은 결의 가짜 사례(○○), 실제 고객·업체명 금지",
+      "many": true
+    },
+    "band": {
+      "kind": "text",
+      "rule": "가운데 띠 문구 — 개념어 한 줄, 핵심어 한 단어만 색",
+      "max_chars": 14
+    },
+    "hit": {
+      "kind": "words",
+      "desc": "띠 문구가 나오는 말"
+    }
+  },
+  "drawn_allowed": [
+    "카드바탕",
+    "어둡게덮기",
+    "글자"
+  ],
+  "keepout": [
+    "사람PIP",
+    "자막띠",
+    "얼굴+16px",
+    "판밖"
+  ],
+  "timeline": [
+    {
+      "at": "t0",
+      "do": "카드 벽이 기울어진 3D 면으로 흐르기 시작",
+      "dur": "초기값 — 첫 견본에서 정함",
+      "ease": "eo"
+    },
+    {
+      "at": "word:hit",
+      "do": "확대·블러되며 가운데 띠 문구 등장",
+      "dur": 1.8,
+      "ease": "ez"
+    },
+    {
+      "at": "t1-0.36",
+      "do": "닫힘",
+      "dur": 0.36,
+      "ease": "eo"
+    }
+  ],
+  "look": {
+    "hint": "원본(세로) 09.4–11.2 = 1.8초 흐름. 카드 수 «수십 장». 가로 값은 초기값 — 첫 견본에서 정함"
+  },
+  "sfx": [
+    {
+      "at": "t0",
+      "role": "sweep",
+      "meaning": "중립"
+    },
+    {
+      "at": "word:hit",
+      "role": "in",
+      "meaning": "중립"
+    }
+  ],
+  "rules": [
+    "카드 속 사진·글은 실제 고객·업체명 금지 — 같은 결의 가짜 카드(○○) (entry-reel-opus.md 5장)",
+    "자동 모드에선 실제 업체·개인정보가 보이는 실자료를 쓰지 않는다 — 재현·Codex, 업체명 ○○ (README 8장, CLAUDE.md 4)",
+    "3D 카드 위 글자는 흐름 중엔 배경, 띠 문구만 읽힌다",
+    "한 편 안에서 카드벽은 한 번 (클리셰)"
+  ],
+  "rejected": [],
+  "sample": {
+    "band": "사례 모음"
+  },
+  "fallback": [
+    "SC-26",
+    "SC-10"
+  ],
+  "from": "코드 없음 — 쇼츠 E13 서술",
+  "basis": "shorts-notes-index-1008.md E13",
+  "todo": [
+    "html 렌더 도구 tools/html_motion.py 는 1080×1920·29.97fps 하드코딩 사본 — 가로 1920×1080·59.94 인자화가 먼저(쇼츠 claude-motion-graphics.md 5-4)",
+    "카드 수·기울기 각도·블러 크기: 근거 노트에 수치 없음 — 시간·간격·배율·크기는 초기값, 첫 견본에서 정함",
+    "카드 사진 수십 장 Codex 생성 시간 — 몇 장으로 줄일지"
+  ]
+}

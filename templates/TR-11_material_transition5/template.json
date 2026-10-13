@@ -1,0 +1,100 @@
+{
+  "id": "TR-11",
+  "name": "자료전환5종",
+  "drawer": "TR",
+  "version": 1,
+  "status": "신규",
+  "engine": "compose",
+  "subject": [
+    "자료이미지"
+  ],
+  "source_ref": [
+    "원#81 자료 전환 5종 돌려쓰기 (레퍼런스6-편집문법.md, 적용 — 쇼츠 분양 편)"
+  ],
+  "summary": "연달아 나오는 자료 이미지가 위로(70px)·왼쪽/오른쪽(90px)·와이프·페이드 다섯 가지 중 서로 다른 방식으로 바뀐다. 모두 ease-out",
+  "use_when": [
+    "자료 등장",
+    "소개·여러 항목"
+  ],
+  "avoid_when": [
+    "설정·버튼"
+  ],
+  "tones": {
+    "TN-1": 0.9,
+    "TN-2": 0.5,
+    "TN-3": 0.3,
+    "TN-4": 0.7
+  },
+  "screens": [
+    "사람없음",
+    "PIP"
+  ],
+  "layer": "L2",
+  "moves_person": false,
+  "duration": [
+    0.3,
+    0.6
+  ],
+  "slots": {
+    "next_material": {
+      "kind": "image",
+      "source": [
+        "doc",
+        "codex",
+        "crawl",
+        "real_capture"
+      ],
+      "style": "실사 사진",
+      "alpha": false,
+      "desc": "다음 자료 이미지"
+    },
+    "kind": {
+      "kind": "choice",
+      "desc": "전환 방식 — up 70px · left/right 90px · wipe · fade — 연달아 같은 방식 금지",
+      "options": [
+        "up",
+        "left",
+        "right",
+        "wipe",
+        "fade"
+      ],
+      "default": "fade"
+    }
+  },
+  "drawn_allowed": [],
+  "keepout": [
+    "자막띠",
+    "사람PIP"
+  ],
+  "timeline": [
+    {
+      "at": "cut_t",
+      "do": "다음 자료가 kind 방식으로 들어온다(up 70px·left/right 90px·wipe·fade), ease-out",
+      "dur": 0.3,
+      "ease": "eo"
+    }
+  ],
+  "look": {},
+  "sfx": [],
+  "rules": [
+    "연달아 같은 방식을 쓰지 않고 돌려 쓴다 — origin #81 «돌려쓰기»",
+    "ease-out 만 — 바운스 없음 (origin #81, 등장은 감속(eo), 오버슈트 없음 — motion-graphics.md 2-1 원칙 3)",
+    "사장님 롱폼 편집 실측은 «장면 전환은 트랜지션 없이 컷» — lecture-graphics.md 1장. 이 템플릿은 쇼츠·학습분 문법이라 쓸 곳을 좁게 잡는다",
+    "자료는 업체명·번호 노출 금지 — CLAUDE.md 4",
+    "자막 띠(y 967~1041)·사람 PIP(원형 중심 (126,964) 반지름 약 123px)를 가리지 않는다 — lecture-graphics.md 1·4장, 10-08 18 겹침 없음"
+  ],
+  "rejected": [],
+  "sample": {},
+  "fallback": [
+    "TR-03",
+    "EM-07"
+  ],
+  "from": "origin-session-1008.md 4장 #81 «레퍼런스6-편집문법.md» (쇼츠 분양)",
+  "basis": "origin-session-1008.md 4장 #81",
+  "todo": [
+    "px·좌표·길이는 1080×1920 세로 노트 값이거나 없음 — 1920×1080 가로 재배치는 초기값, 첫 견본에서 정함 — 70px·90px 는 1080×1920 값",
+    "전환 길이는 노트에 없다 — 초기값, 첫 견본에서 정함",
+    "원본 상태 «적용» — 사장님 통과 평가는 노트에 없다 → 신규",
+    "duration 은 서랍 범위(auto-pipeline.md 3-1장) 안의 초기값 — 첫 견본에서 정함"
+  ]
+}
