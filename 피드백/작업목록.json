@@ -10,6 +10,16 @@
       "delivery": "납품/파트너센터_자동/",
       "rules_changed": 3,
       "feedback_received": false
+    },
+    {
+      "date": "2026-10-14",
+      "job": "성제관 레퍼런스 정독 분석(AI 4·컨설팅 4·형식 1) → 영상 구성 규칙 v1",
+      "mode": "C",
+      "status": "사장님 확인 대기",
+      "record": "피드백/작업/2026-10-14_성제관_레퍼런스.md",
+      "delivery": null,
+      "rules_changed": 1,
+      "feedback_received": false
     }
   ]
 }

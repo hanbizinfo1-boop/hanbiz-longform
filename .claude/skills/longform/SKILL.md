@@ -33,6 +33,7 @@ description: 한비즈 롱폼(강의형 가로 1920×1080, 사장님이 말하�
 | **AI 이미지·영상 생성** | `ai-video.md` 전체 | 유료 영상화 직전 «영상화 직전 점검»(6장) | `checklist.md` E표 |
 | **사장님 말씀 기록 · 새 건 틀** | `feedback-log.md` 1장 | 맨 아래에 원문 그대로 | — |
 | **B. 자동 연출 모드**(원문 한 편 통째로) | `auto-pipeline.md` 0·1장 → 13장(이 SKILL 과 다른 점) → `situation-playbook.md` 0·0-1장 | `templates/카탈로그.md` · `templates/README.md` · `tones/` | `auto-pipeline.md` 10장 + `checklist.md` G표 |
+| **C. 채널 콘텐츠**(성제관 — 목소리 + 연출, 10-13) | `study/sjk-channel-1013.md` 1~5장 | `study/sjk-data-1013/`(롱폼 38·쇼츠 162 목록, 15편 해부, 자막 전문) | (기획 틀 정한 뒤) |
 | **내용 컷(더듬기·다시 말함)** 요청 | `content-cut.md` 0장 — 자동으로 하지 않는다 | — | — |
 | **원본 세션 학습 근거** | `references/study/bisa-learning.md`(빡이사 23장면 정독 결론) | 상세 `study/bisa-logs/` | — |
 | **자동 압축·세션 재개 직후** | SessionStart 훅이 3장·7장·작업기록 맨 위를 자동 주입(`tools/resume_guide.py`) — 발췌만 믿지 말고 문서를 다시 연다 | | |

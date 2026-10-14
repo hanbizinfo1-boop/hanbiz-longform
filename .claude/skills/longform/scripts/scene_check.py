@@ -1,0 +1,76 @@
+# -*- coding: utf-8 -*-
+"""연출표 반복 검사 — «같은 배경·같은 분위기·비슷한 장면 반복 = AI 자동화 느낌»(사장님 10-14).
+
+    python .claude/skills/longform/scripts/scene_check.py <20_연출표.md>
+
+연출표 = 마크다운 표, 머리줄에 «배경 · 매체 · 구도» 칸이 있어야 한다(카메라 칸은 있으면 같이 본다).
+- ERROR: 연속 두 장면이 배경·매체·구도 중 둘 이상 같다
+- ERROR: 같은 장면 틀(배경+매체+구도)이 한 편에 3번 이상
+- ERROR: 매체 종류가 5가지 미만
+- WARN : 같은 카메라가 3장면 연속
+매체는 괄호·«+» 앞의 큰 갈래로 묶어 센다(«실제 자료(화면 녹화)» → «실제 자료»).
+종료 코드: ERROR 있으면 1.
+"""
+
+import re
+import sys
+from collections import Counter
+
+
+def cells(line):
+    return [c.strip() for c in line.strip().strip("|").split("|")]
+
+
+def main_kind(m):
+    return re.split(r"[(+]", m)[0].strip()
+
+
+def main():
+    if len(sys.argv) < 2:
+        print(__doc__)
+        sys.exit(2)
+    rows, head = [], None
+    for line in open(sys.argv[1], encoding="utf-8"):
+        if not line.lstrip().startswith("|"):
+            continue
+        c = cells(line)
+        if head is None:
+            head = c
+            continue
+        if set("".join(c)) <= set("-: "):
+            continue
+        rows.append(dict(zip(head, c)))
+    need = ["배경", "매체", "구도"]
+    if not head or any(k not in head for k in need):
+        print("연출표 머리줄에 배경 · 매체 · 구도 칸이 없다")
+        sys.exit(2)
+    errs, warns = [], []
+    for a, b in zip(rows, rows[1:]):
+        same = [k for k in need if (main_kind(a[k]) if k == "매체" else a[k]) == (main_kind(b[k]) if k == "매체" else b[k])]
+        if len(same) >= 2:
+            errs.append(f"{a.get('#', '?')}→{b.get('#', '?')} 연속 장면이 {'·'.join(same)} 같음")
+    combo = Counter((r["배경"], main_kind(r["매체"]), r["구도"]) for r in rows)
+    for k, n in combo.items():
+        if n >= 3:
+            errs.append(f"같은 장면 틀 {n}번: {' / '.join(k)}")
+    kinds = Counter(main_kind(r["매체"]) for r in rows)
+    if len(kinds) < 5:
+        errs.append(f"매체 {len(kinds)}종 — 5종 이상이어야")
+    if "카메라" in head:
+        for x, y, z in zip(rows, rows[1:], rows[2:]):
+            if x["카메라"] == y["카메라"] == z["카메라"]:
+                warns.append(f"{x.get('#')}~{z.get('#')} 카메라 «{x['카메라']}» 3연속")
+    print(f"# 연출표 반복 검사 — 장면 {len(rows)}개")
+    print("매체:", " · ".join(f"{k} {n}" for k, n in kinds.most_common()))
+    print("배경 종류:", len(set(r["배경"] for r in rows)), "· 구도 종류:", len(set(r["구도"] for r in rows)))
+    for w in warns:
+        print("WARN", w)
+    for e in errs:
+        print("ERROR", e)
+    if errs:
+        sys.exit(1)
+    print("ERROR 0 — 반복 없음")
+
+
+if __name__ == "__main__":
+    main()
