@@ -20,6 +20,16 @@
       "delivery": null,
       "rules_changed": 1,
       "feedback_received": false
+    },
+    {
+      "date": "2026-10-15",
+      "job": "성제관 썸네일(1·2편 확정)·2편 대본 손질 비교·숏폼 세션 분리·길라잡이 충돌 정리",
+      "mode": "C",
+      "status": "사장님 확인 대기",
+      "record": "피드백/작업/2026-10-15_성제관_썸네일·대본·숏폼분리.md",
+      "delivery": "납품/성제관02_썸네일/",
+      "rules_changed": 7,
+      "feedback_received": true
     }
   ]
 }
