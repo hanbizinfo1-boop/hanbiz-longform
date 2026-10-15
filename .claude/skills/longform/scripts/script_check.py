@@ -95,6 +95,7 @@ def structure(text, sents):
         ("첫 700자 안에 약속·시청 지시(끝까지·바로 시작·오늘 ~ 알려 드릴게요)", bool(re.search(PROMISE, head)), "있음" if re.search(PROMISE, head) else "없음", "있어야"),
         ("끝 700자 안에 성장 마무리(다음 편·댓글·좋아요·구독)", bool(re.search(GROWTH_END, tail)), "있음" if re.search(GROWTH_END, tail) else "없음", "있어야"),
         ("판매 멘트 없음(성장 채널 — 수강·상담 권유 X)", not re.search(SALES, text), "없음" if not re.search(SALES, text) else "있음", "없어야"),
+        ("호칭은 «대표님»만(«사장님» 없음 — 10-15 «우리는 무조건 대표님으로 호칭 통일»)", "사장님" not in text, "없음" if "사장님" not in text else f"사장님 {text.count('사장님')}번", "없어야"),
         ("다음 편 내용 약속 없음(끝은 인사로 — 10-14)", not re.search(NEXT_PROMISE, text), "없음" if not re.search(NEXT_PROMISE, text) else "있음: " + re.search(NEXT_PROMISE, text).group(0), "없어야"),
     ]
 
