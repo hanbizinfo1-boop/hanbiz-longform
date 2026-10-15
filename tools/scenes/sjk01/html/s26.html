@@ -15,10 +15,11 @@
 </style></head>
 <body><div id="stage">
   <div class="bg tex-paper"></div>
+  <div id="cam" style="position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px">
   <div id="chart" class="abs" style="left:0;top:0;width:1920px;height:1080px"></div>
-  <div id="reflab" class="abs mono" data-box="reflab">주 15시간 · 주휴수당</div>
-  <div id="dec" class="abs mono" data-box="dec">결정 = 사장님</div>
-</div>
+  <div id="reflab" class="abs mono">주 15시간 · 주휴수당</div>
+  <div id="dec" class="abs mono">결정 = 사장님</div>
+</div></div>
 <script src="../data/s26.js"></script>
 <script src="../lib/sjk.js"></script>
 <script>
@@ -35,11 +36,17 @@ ROWS.forEach((r, i) => {
 });
 h += '<div id="ref"></div><div id="ring"></div>';
 S.$('#chart').innerHTML = h;
-const T = { bars: S.at('주에') + 0.1, ref: S.at('15시간'), calc: S.at('계산을'), pick: S.at('15시간', 1), dec: S.at('AI가') };
-S.ev(T.bars, 'gauge', 'bars'); S.ev(T.ref, 'marker', 'ref'); S.ev(T.calc, 'shine', 'val'); S.ev(T.pick, 'marker', 'b4'); S.ev(T.dec, 'msg_in', 'dec');
+const T = { bars: S.at('주에') + 0.1, f1: S.at('15시간') - 0.05, ref: S.at('주휴수당이'), calc: S.at('계산을'), f2: S.at('15시간', 1) - 0.05, pick: S.at('15시간', 1) + 1.0, z1: S.at('계산을'), z2: S.at('근데'), dec: S.at('AI가') };
+S.focus([{ t0: T.f1, t1: T.ref - 0.05, big: '15시간', small: '주휴수당', color: '#F2C230' }, { t0: T.f2, t1: T.pick - 0.05, big: '15시간', small: '넘길까', color: '#F2C230' }]);
+S.ev(T.bars, 'gauge', 'bars'); S.ev(T.z1 - 0.05, 'in', 'zoom'); S.ev(T.z2, 'sweep', 'zoomout'); S.ev(T.ref, 'marker', 'ref'); S.ev(T.calc, 'shine', 'val'); S.ev(T.pick, 'marker', 'b4'); S.ev(T.dec, 'msg_in', 'dec');
+const L = (a, b, k) => a + (b - a) * k;
+const K = [{ t: -9, s: 1, x: 960, y: 540 }, { t: T.z1, s: 1.3, x: 1250, y: 480 }, { t: T.z2, s: 1, x: 960, y: 540 }];
+function cam(tau) { let i = 0; for (let j = 1; j < K.length; j++) if (tau >= K[j].t) i = j; if (i === 0) return K[0]; const k = S.cam(tau, K[i].t, K[i].t + 0.34), a = K[i - 1], b = K[i]; return { s: L(a.s, b.s, k), x: L(a.x, b.x, k), y: L(a.y, b.y, k) }; }
 const ring = S.$('#ring');
 ring.style.left = (X0 - 8) + 'px'; ring.style.top = (Y0 + 4 * PITCH - 8) + 'px'; ring.style.width = (20 * PXH + 16) + 'px'; ring.style.height = '100px';
 S.scene(tau => {
+  const cc = cam(tau);
+  S.css('#cam', { transform: `translate(${-cc.s * (cc.x - 960)}px,${-cc.s * (cc.y - 540)}px) scale(${cc.s})` });
   ROWS.forEach((r, i) => {
     const k = S.cam(tau, T.bars + i * 0.14, T.bars + i * 0.14 + 0.9);
     S.css('#b' + i, { transform: `scaleX(${k})` });
@@ -54,7 +61,7 @@ S.scene(tau => {
   S.css('#ref', { height: (690 * rk) + 'px' });
   S.css('#reflab', { opacity: S.ent(tau, T.ref + 0.3, 0.15) });
   // 준호 막대: 노랑 테두리가 한 번 숨쉬듯
-  const br = Math.sin(Math.PI * S.P(tau, T.pick, T.pick + 1.8));
+  const br = Math.sin(Math.PI * S.P(tau, T.pick, T.pick + 1.2));
   S.css('#ring', { opacity: Math.max(0, br), boxShadow: `0 0 ${24 * br}px ${6 * br}px rgba(242,194,48,${0.6 * br})` });
   const kd = S.ent(tau, T.dec, 0.14); S.css('#dec', { opacity: kd, transform: `translateY(${(1 - kd) * 16}px)` });
 });

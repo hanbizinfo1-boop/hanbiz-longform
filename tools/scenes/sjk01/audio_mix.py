@@ -31,11 +31,16 @@ CHAPTERS = [(0.0, "P1/Mixkit_Crying_Sea.mp3"), (66.6, "P1/Mixkit_Dreamy_Jazz.mp3
 
 # 역할 → [(파일, 원음 대비 구울 dB, 정렬)] 변형 순서
 VAR = {
-    "in": [("휙２.mp3", 4, "peak"), ("휙1.mp3", 8, "peak")],
-    "sweep": [("ML_Fast sweep transition", 5, "attack"), ("air sweep", 5, "attack"), ("small sweep", 5, "attack")],
-    "card": [("ML_Cartoon bubbles popping", 5, "attack"), ("KN_pepSound1", 8, "attack"), ("KN_pepSound2", 8, "attack"), ("20. 카툰 팝", 5, "attack")],
-    "msg": [("채팅 효과음", 5, "attack"), ("7. 뿅", 5, "attack"), ("ML_Bell notification", 5, "attack")],
-    "big": [("SEL_文字表示の衝撃音1", 5, "attack"), ("SEL_文字表示の衝撃音2", 5, "attack"), ("SEL_文字表示の衝撃音3", 5, "attack")],
+    # v2(10-15): 효과음이 2초에 하나꼴이라 «3초 사슬 같은 파일 3번» 을 지키려면 변형이 더 필요 — 휙·스윕·팝 변형 추가
+    "in": [("휙２.mp3", 4, "peak"), ("휙1.mp3", 8, "peak"), ("ML_Fast whoosh transition", 5, "attack"),
+           ("ML_Fast transitions swoosh", 5, "attack"), ("ML_Flying fast swoosh", 5, "attack"), ("ML_Speeding swoosh", 5, "attack")],
+    "sweep": [("ML_Fast sweep transition", 5, "attack"), ("air sweep", 5, "attack"), ("small sweep", 5, "attack"),
+              ("ML_Fast sweeping transition", 5, "attack"), ("ML_Swirling whoosh", 5, "attack"), ("ML_Vacuum swoosh transition", 5, "attack")],
+    "card": [("ML_Cartoon bubbles popping", 5, "attack"), ("KN_pepSound1", 8, "attack"), ("KN_pepSound2", 8, "attack"), ("20. 카툰 팝", 5, "attack"),
+             ("ML_Egg bubble pop", 5, "attack"), ("ML_Cartoon bubble pop", 5, "attack"), ("pop-up_02", 5, "attack")],
+    "msg": [("채팅 효과음", 5, "attack"), ("7. 뿅", 5, "attack"), ("ML_Bell notification", 5, "attack"), ("ML_Bubble pop up alert", 5, "attack")],
+    "big": [("SEL_文字表示の衝撃音1", 5, "attack"), ("SEL_文字表示の衝撃音2", 5, "attack"), ("SEL_文字表示の衝撃音3", 5, "attack"),
+            ("ML_Movie whoosh impact", 5, "attack")],
     "ok": [("맑은소리", 7, "attack"), ("SEL_キラッ2", 0, "attack")],
     "no": [("KN_error_003", 5, "attack"), ("KN_lowDown", 5, "attack")],
     "miss": [("KN_lowDown", 5, "attack")],
@@ -73,25 +78,32 @@ def collect():
             if t < s["t0"] - s["pre"] or t > s["t1"] + s["post"]:
                 continue
             cues.append({"t": round(t, 3), "k": k, "scene": s["scene"]})
+    # v2(10-15): 조립기가 쓴 전환 표(_tmp/sjk01/final/v2_plan.json)의 모든 전환에 «휙» — 휙(in)과 스윕(sweep)을 번갈아
+    plan_p = ROOT / "_tmp/sjk01/final/v2_plan.json"
+    trans = json.load(open(plan_p, encoding="utf-8"))["trans"] if plan_p.exists() else [s["trans_in"] for s in TL]
+    alt = 0
     for k, s in enumerate(TL):
-        if k and s["trans_in"] in ("push", "zoom", "split", "wipe"):
-            cues.append({"t": round(s["t0"] - 0.12, 3), "k": "sweep", "scene": s["scene"], "trans": True})
+        if k and trans[k] not in ("cut", "cont"):
+            alt += 1
+            cues.append({"t": round(s["t0"] - 0.05, 3), "k": "sweep" if alt % 2 else "in", "scene": s["scene"], "trans": True})
     cues.sort(key=lambda c: c["t"])
     return cues, unknown
 
 
 def assign(cues):
     """같은 파일 3초 안 반복 → 변형 돌리기 · 0.25초 안 겹친 큐는 뒤 것 뺌."""
-    out, dropped, last = [], [], {}
+    out, dropped, last, run = [], [], {}, {}
     for c in cues:
         if out and c["t"] - out[-1]["t"] < 0.25:
             dropped.append((c["t"], c["k"], "0.25초 안 앞 소리")); continue
-        # 변형이 여럿이면 가장 오래전에 쓴 것부터(같은 소리 단조 반복 줄이기), 3초 안 같은 파일은 금지
-        cand = [v for v in VAR[c["k"]] if c["t"] - last.get(v[0], -99) >= 3.0]
+        if out and c["t"] - out[-1]["t"] > 3.0:
+            run = {}          # 3초 넘게 비면 사슬이 끊긴다(sfx_bus 점검과 같은 기준)
+        # 변형이 여럿이면 가장 오래전에 쓴 것부터(같은 소리 단조 반복 줄이기), 3초 안 같은 파일 금지 · 한 사슬에서 같은 파일 3번까지
+        cand = [v for v in VAR[c["k"]] if c["t"] - last.get(v[0], -99) >= 3.0 and run.get(v[0], 0) < 3]
         pick = min(cand, key=lambda v: last.get(v[0], -99)) if cand else None
         if not pick:
             dropped.append((c["t"], c["k"], "3초 안 같은 소리 — 변형 없음")); continue
-        last[pick[0]] = c["t"]
+        last[pick[0]] = c["t"]; run[pick[0]] = run.get(pick[0], 0) + 1
         out.append(dict(c, file=pick[0], db=pick[1], al=pick[2]))
     return out, dropped
 

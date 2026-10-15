@@ -16,7 +16,7 @@
 #ad{left:1530px;top:198px;font-size:34px;color:#D8402F;border:4px solid #D8402F;background:rgba(244,241,234,.92);transform-origin:50% 50%}
 </style></head>
 <body><div id="stage">
-  <div id="mapwrap">
+  <div id="cam" style="position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px"><div id="mapwrap">
     <div class="bg tex-map"></div>
     <svg id="svg" viewBox="0 0 1920 1080">
       <defs><mask id="pm"><path id="pmask" d="" fill="none" stroke="#fff" stroke-width="30" stroke-linecap="round"/></mask>
@@ -28,13 +28,14 @@
       <circle id="ring" cx="1180" cy="470" r="30" fill="none" stroke="#15181C" stroke-width="4" opacity="0"/>
       <circle id="dot" cx="1180" cy="470" r="20" fill="#F2C230" stroke="#15181C" stroke-width="5" opacity="0"/>
     </svg>
-    <div id="shoplab" class="abs mono" data-box="shoplab">우리 가게</div>
-    <div id="chap" class="abs print" data-box="chap"><div class="n mono">04</div><div class="t serif">단골 문자</div></div>
-    <div id="c1" class="chip mono" data-box="c1">광고</div><div id="c2" class="chip mono" data-box="c2">리뷰</div><div id="c3" class="chip mono" data-box="c3">방문</div>
-    <div id="one" class="chip mono" data-box="one">문자 한 통</div>
-    <div id="bub" class="abs" data-box="bub" data-box-group="bub"><span id="bt">…</span></div>
-    <div id="ad" class="chip mono" data-box="ad" data-box-group="bub">광고?</div>
-  </div>
+    <div id="shoplab" class="abs mono">우리 가게</div>
+    <div id="chap" class="abs print"><div class="n mono">04</div><div class="t serif">단골 문자</div></div>
+    <div id="c1" class="chip mono">광고</div><div id="c2" class="chip mono">리뷰</div><div id="c3" class="chip mono">방문</div>
+    <div id="one" class="chip mono">문자 한 통</div>
+    <div id="bub" class="abs"><span id="bt">…</span></div>
+    <div id="ad" class="chip mono">광고?</div>
+    <div id="qq" class="chip mono" style="left:1040px;top:262px;border-radius:50%;width:66px;height:66px;padding:0;display:flex;align-items:center;justify-content:center;font-size:40px;opacity:0">?</div>
+  </div></div>
 </div>
 <script src="../data/s20.js"></script>
 <script src="../lib/sjk.js"></script>
@@ -58,13 +59,19 @@ S.$('#route').setAttribute('d', ROUTE); S.$('#pmask').setAttribute('d', ROUTE);
 const rp = S.$('#route'), RL = rp.getTotalLength();
 const mp = S.$('#pmask'); mp.setAttribute('stroke-dasharray', RL);
 const at = f => rp.getPointAtLength(RL * f);
-const T = { ch: S.at('네'), chOut: S.at('장사') - 0.1, shop: S.at('장사'), ring: S.at('이미'), start: S.at('처음'), ad: S.at('광고도'), rv: S.at('리뷰도'), vs: S.at('오기까지'), line: S.at('왔던'), one: S.at('문자한통'), bub: S.at('문자를'), txt: S.at('오랜만이에요'), stamp: S.at('광고', 1) };
+const T = { ch: S.at('네'), chOut: S.at('장사') - 0.1, shop: S.at('장사'), ring: S.at('이미'), start: S.at('처음'), ad: S.at('광고도'), rv: S.at('리뷰도'), vs: S.at('오기까지'), line: S.at('왔던'), one: S.at('문자한통'), bub: S.at('문자를'), txt: S.at('오랜만이에요'), stamp: S.at('광고', 1), q: S.at('모르겠단'), z1: S.at('왔던') - 0.1, z2: S.at('오랜만이에요') - 0.2 };
 S.ev(T.ch, 'big_in', 'chap'); S.ev(T.start, 'marker', 'route'); S.ev(T.ad, 'card_in', 'c1'); S.ev(T.line + 0.5, 'marker', 'oneline');
-S.ev(T.bub, 'msg_in', 'bub'); S.ev(T.txt, 'type', 'bt'); S.ev(T.stamp, 'no', 'ad');
+S.ev(T.bub, 'msg_in', 'bub'); S.ev(T.q, 'card_in', 'qq'); S.ev(T.vs, 'click', 'c2'); S.ev(T.z2 - 0.05, 'sweep', 'zoom2'); S.ev(T.txt, 'type', 'bt'); S.ev(T.stamp, 'no', 'ad');
 const pos = (el, f, dx, dy) => { const p = at(f); const e = S.$(el); e.style.left = (p.x + dx) + 'px'; e.style.top = (p.y + dy) + 'px'; };
 pos('#c1', 0.2, -40, -80); pos('#c2', 0.52, -50, -90); pos('#c3', 0.84, -215, -12);
+const L = (a, b, k) => a + (b - a) * k;
+const K = [{ t: -9, s: 1, x: 960, y: 540 }, { t: T.z2, s: 1.35, x: 1270, y: 420 }];
+function cam(tau) { let i = 0; for (let j = 1; j < K.length; j++) if (tau >= K[j].t) i = j; if (i === 0) return K[0]; const k = S.cam(tau, K[i].t, K[i].t + 0.34), a = K[i - 1], b = K[i]; return { s: L(a.s, b.s, k), x: L(a.x, b.x, k), y: L(a.y, b.y, k) }; }
 const BT = '오랜만이에요, 한번 오세요';
 S.scene(tau => {
+  const cc = cam(tau);
+  S.css('#cam', { transform: `translate(${-cc.s * (cc.x - 960)}px,${-cc.s * (cc.y - 540)}px) scale(${cc.s})` });
+  S.css('#qq', { opacity: S.ent(tau, T.q, 0.12) * (1 - S.ent(tau, T.txt - 0.05, 0.12)) });
   const tot = S.SC.dur + S.SC.pre + S.SC.post;
   const ang = -3 + 6 * (tau + S.SC.pre) / tot;
   S.css('#mapwrap', { transform: `rotate(${ang}deg) scale(1.12)` });

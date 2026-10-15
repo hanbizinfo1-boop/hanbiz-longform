@@ -1,37 +1,38 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s15 한 달 치를 한 번에 — 출력 달력</title>
+<title>s15 한 달 치를 한 번에 — 출력 달력 · v2</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
+#rig{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
 #cal{left:110px;top:70px;width:1700px;height:840px;transform-origin:50% 50%}
 #cal .hd{position:absolute;top:0;height:80px;display:flex;align-items:center;justify-content:center;font-size:26px;color:#5A5650}
 .vl{position:absolute;top:0;bottom:0;width:2px;background:rgba(21,24,28,.14)}
 .hl{position:absolute;left:0;right:0;height:2px;background:rgba(21,24,28,.18)}
 .wk{position:absolute;left:0;width:120px;font-size:32px;color:#15181C;display:flex;align-items:center;justify-content:center;height:190px}
-.pc{position:absolute;width:740px;height:170px;background:#FBFAF6;border-radius:6px;box-shadow:0 10px 22px rgba(0,0,0,.22),0 1px 3px rgba(0,0,0,.25);padding:16px 20px 0 160px}
+.pc{position:absolute;width:740px;height:170px;background:#FBFAF6;border-radius:12px;box-shadow:0 10px 22px rgba(0,0,0,.22),0 1px 3px rgba(0,0,0,.25);padding:14px 20px 0 160px}
+.pc .top{display:flex;align-items:center;gap:10px}
 .pc .tag{display:inline-block;font-size:23px;padding:1px 12px;border:2px solid #15181C;border-radius:999px;color:#15181C}
 .pc .tag.is{background:#15181C;color:#ECE8E0}
-.pc .tx{margin-top:8px;font-size:24px;line-height:1.5;font-family:"UI";color:#222}
-.ph{position:absolute;left:18px;top:16px;width:122px;height:122px;border:2px dashed rgba(21,24,28,.4);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#8A857C}
-.ph .im{position:absolute;inset:0;background-size:cover;background-position:center;border-radius:2px;opacity:0}
+.pc .av{width:30px;height:30px;border-radius:50%;background:#D5D8DE}
+.pc .acc{font-family:"UI";font-weight:700;font-size:23px}
+.pc .icn{margin-left:auto;display:flex;gap:12px}
+.pc .tx{margin-top:6px;font-size:24px;line-height:1.45;font-family:"UI";color:#222}
+.ph{position:absolute;left:18px;top:16px;width:136px;height:136px;border:2px dashed rgba(21,24,28,.4);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:22px;color:#8A857C}
+.ph .im{position:absolute;inset:0;background-size:cover;background-position:center;border-radius:4px;opacity:0}
 .ul{position:absolute;height:9px;background:#F2C230;width:0;left:140px}
-#chat{left:410px;top:190px;width:1100px;height:560px;display:flex;flex-direction:column}
-#chat .body{flex:1;padding:30px 36px;display:flex;flex-direction:column;gap:16px;font-size:30px}
-#chat .bubble-me{line-height:1.6;min-width:100%;align-self:stretch}
-#p2{font-size:27px;color:#6B7280;padding:0 8px}
-#input{margin:0 36px 28px;height:70px;border:2px solid #D7DBE2;border-radius:35px;display:flex;align-items:center;padding:0 26px;font-size:26px;color:#9AA1AC}
+#win{left:330px;top:150px;width:1260px;height:640px}
+#win .ms{padding:22px 34px}
 </style></head>
 <body><div id="stage">
   <div class="bg tex-paper"></div>
-  <div id="cal" class="abs print" data-box="cal" data-box-group="cal"></div>
-  <div id="chat" class="abs chat" data-box="chat" data-box-group="cal">
-    <div class="bar"><div class="dot" style="background:#E5594F"></div><div class="dot" style="background:#E9B43F"></div><div class="dot" style="background:#58B84F"></div><span style="margin-left:16px">새 대화</span></div>
-    <div class="body"><div class="bubble-me" id="p1"></div><div id="p2"></div></div>
-    <div id="input">무엇이든 물어보세요</div>
+  <div id="rig">
+    <div id="cal" class="abs print"></div>
+    <div id="win" class="aic"></div>
   </div>
 </div>
 <script src="../data/s15.js"></script>
 <script src="../lib/sjk.js"></script>
+<script src="../lib/cards_v2_a.js"></script>
 <script>
 window.PALETTE = ['#ECE8E0', '#15181C', '#F2C230'];
 const PHOTO = "url('../../../../소재/sjk01/codex/c18_gukbap_bowl.png')";
@@ -49,16 +50,18 @@ const cal = S.$('#cal');
 let h = '';
 ['월', '화', '수', '목', '금', '토', '일'].forEach((d, i) => { h += `<div class="hd mono" style="left:${130 + i * 222.86}px;width:222px">${d}</div>`; if (i) h += `<div class="vl" style="left:${130 + i * 222.86}px"></div>`; });
 h += '<div class="vl" style="left:130px"></div>';
-for (let r = 0; r < 4; r++) {
-  h += `<div class="hl" style="top:${80 + r * 190}px"></div><div class="wk mono" style="top:${80 + r * 190}px">${r + 1}주</div>`;
-}
+for (let r = 0; r < 4; r++) h += `<div class="hl" style="top:${80 + r * 190}px"></div><div class="wk mono" style="top:${80 + r * 190}px">${r + 1}주</div>`;
 h += `<div class="hl" style="top:${80 + 4 * 190}px"></div>`;
 POSTS.forEach((p, i) => {
   const r = i >> 1, c = i & 1;
-  h += `<div class="pc" id="pc${i}" style="left:${150 + c * 780}px;top:${88 + r * 190}px"><div class="ph mono"><span>사진</span><div class="im" style="background-image:${PHOTO}"></div></div><span class="tag${c ? ' is' : ''} mono">${p[0]}</span><div class="tx">${S.esc(p[1])}</div></div>`;
+  const head = c ? `<div class="av"></div><span class="acc">○○국밥</span>` : `<span class="tag mono">${p[0]}</span>`;
+  h += `<div class="pc" id="pc${i}" style="left:${150 + c * 780}px;top:${85 + r * 190}px"><div class="ph mono"><span>사진</span><div class="im" style="background-image:${PHOTO}"></div></div><div class="top">${c ? head + '<span class="tag is mono" style="margin-left:6px">인스타</span>' : head}<span class="icn">${V2.ic.heart}${V2.ic.chat}</span></div><div class="tx">${S.esc(p[1])}</div></div>`;
 });
-h += '<div class="ul" id="ul1" style="top:' + (80 + 0 * 190 + 175) + 'px"></div><div class="ul" id="ul2" style="top:' + (80 + 190 + 175) + 'px"></div>';
+h += '<div class="ul" id="ul1" style="top:' + (80 + 175) + 'px"></div><div class="ul" id="ul2" style="top:' + (80 + 190 + 175) + 'px"></div>';
 cal.innerHTML = h;
+const win = S.$('#win');
+win.innerHTML = V2.chat({ id: 'ms', titles: ['한 달 치 소식 글'] });
+S.$('#ms').innerHTML = '<div class="me" id="p1" style="max-width:100%;align-self:stretch"></div><div id="p2" style="font-size:27px;color:#6B7280;padding:0 8px"></div>';
 const ln = i => S.line(i);
 const SEG = [
   ['우리 가게는 ○○동 국밥집이야.', ln(2).t0, ln(2).t1],
@@ -68,35 +71,44 @@ const SEG = [
   ['한 편은 200자 안으로.', ln(8).t0, ln(8).t1],
 ];
 const NEW = '(신메뉴: 얼큰 순대국 — 청양고추 다대기, 10,500원)', NEWT0 = S.at('신메뉴는') + 0.1, NEWT1 = S.at('저녁에');
-const T = { chat: S.at('한 번에') - 0.1, fall: S.at('날짜별로') - 0.45, f1: S.at('첫 주는'), f2: S.at('저녁을'), ph: S.at('사진만') };
+const T = { chat: S.at('한 번에') - 0.1, fall: S.at('날짜별로') - 0.45, f1: S.at('첫 주는'), f2: S.at('저녁을'), wide: S.at('이런식으로요'), ph: S.at('사진만'), c4: S.at('4개'), c200: S.at('200자') };
+S.focus([{ t0: T.c4, t1: T.c4 + 1.15, big: '4 + 4', small: '한 달 치', color: '#F2C230' }, { t0: T.c200, t1: T.c200 + 1.0, big: '200자', small: '한 편', color: '#F2C230' }]);
 S.ev(0.12, 'page', 'cal'); S.ev(T.chat, 'msg_in', 'chat'); S.ev(SEG[0][1], 'type', 'p1'); S.ev(T.fall, 'sweep', 'cards');
-S.ev(T.f1, 'marker', 'ul1'); S.ev(T.ph, 'card_in', 'photos');
+S.ev(T.f1, 'marker', 'ul1'); S.ev(T.f1 + 0.35, 'in', 'zoom1'); S.ev(T.f2, 'marker', 'ul2'); S.ev(T.wide, 'sweep', 'wide'); S.ev(T.ph, 'card_in', 'photos'); S.ev(T.ph + 1.2, 'ok', 'photos2');
 const L = (a, b, k) => a + (b - a) * k;
+const K = [{ t: -9, s: 1, x: 960, y: 540 }, { t: T.f1, s: 1.38, x: 960, y: 340 }, { t: T.wide, s: 1, x: 960, y: 540 }];
+function cam(tau) {
+  let i = 0; for (let j = 1; j < K.length; j++) if (tau >= K[j].t) i = j;
+  if (i === 0) return K[0];
+  const k = S.cam(tau, K[i].t, K[i].t + 0.34), a = K[i - 1], b = K[i];
+  return { s: L(a.s, b.s, k), x: L(a.x, b.x, k), y: L(a.y, b.y, k) };
+}
 S.scene(tau => {
+  const c = cam(tau);
+  S.css('#rig', { transform: `translate(${-c.s * (c.x - 960)}px,${-c.s * (c.y - 540)}px) scale(${c.s})` });
   const kc = S.ent(tau, 0.12, 0.2);
-  const push = 1 + 0.035 * S.P(tau, T.fall, S.SC.dur);
-  S.css('#cal', { opacity: kc, transform: `scale(${push}) translateY(${(1 - kc) * 20}px)` });
+  S.css('#cal', { opacity: kc, transform: `translateY(${(1 - kc) * 20}px)` });
   // 대화창: 프롬프트가 말 따라 타자
-  const ck = S.ent(tau, T.chat, 0.14) * (1 - S.ent(tau, T.fall - 0.1, 0.2));
-  S.css('#chat', { opacity: ck, transform: `translateY(${(1 - S.ent(tau, T.chat, 0.14)) * 22 - S.ent(tau, T.fall - 0.1, 0.2) * 30}px)` });
-  let txt = '', last = false;
-  SEG.forEach((s, i) => {
+  const ent = S.ent(tau, T.chat, 0.12), out = S.ent(tau, T.fall - 0.1, 0.2);
+  S.css('#win', { opacity: ent * (1 - out), transform: `translateY(${(1 - ent) * 22 - out * 30}px)` });
+  let txt = '';
+  SEG.forEach(s => {
     const n = Math.floor(S.clamp((tau - s[1]) / Math.max(0.2, s[2] - s[1]), 0, 1) * [...s[0]].length);
     if (n > 0) txt += (txt ? ' ' : '') + [...s[0]].slice(0, n).join('');
   });
-  const done = txt.length >= SEG.map(s => s[0]).join(' ').length;
   S.$('#p1').innerHTML = S.esc(txt) + (tau >= SEG[0][1] && tau < SEG[4][2] + 0.2 ? '<span class="caret"></span>' : '');
   const n2 = Math.floor(S.clamp((tau - NEWT0) / Math.max(0.2, NEWT1 - NEWT0), 0, 1) * [...NEW].length);
   S.$('#p2').textContent = [...NEW].slice(0, n2).join('');
   // 글 카드 8장: 위에서 0.25초 간격으로 내려앉음
   for (let i = 0; i < 8; i++) {
     const k = S.ent(tau, T.fall + i * 0.25, 0.22);
-    S.css('#pc' + i, { opacity: Math.min(1, k * 3), transform: `translateY(${(1 - k) * -240}px)` });
-    const kp = S.ent(tau, T.ph + i * 0.12, 0.2);
-    const im = S.$('#pc' + i + ' .im'); im.style.opacity = kp; im.style.transform = `scale(${1.08 - 0.08 * kp})`; const ph = S.$('#pc' + i + ' .ph'); ph.style.borderColor = `rgba(21,24,28,${0.4 * (1 - kp)})`; ph.firstChild.style.opacity = 1 - kp;
+    S.css('#pc' + i, { opacity: k, transform: `translateY(${(1 - k) * -240}px)` });
+    const kp = S.ent(tau, T.ph + i * 0.12, 0.14);
+    const im = S.$('#pc' + i + ' .im'); im.style.opacity = kp; im.style.transform = `scale(${1.08 - 0.08 * kp})`;
+    const ph = S.$('#pc' + i + ' .ph'); ph.style.borderColor = `rgba(21,24,28,${0.4 * (1 - kp)})`; ph.firstChild.style.opacity = 1 - kp;
   }
-  S.css('#ul1', { width: (S.cam(tau, T.f1, T.f1 + 0.55) * 1500) + 'px' });
-  S.css('#ul2', { width: (S.cam(tau, T.f2, T.f2 + 0.55) * 1500) + 'px' });
+  S.css('#ul1', { width: (S.cam(tau, T.f1, T.f1 + 0.5) * 1500) + 'px' });
+  S.css('#ul2', { width: (S.cam(tau, T.f2, T.f2 + 0.5) * 1500) + 'px' });
 });
 </script>
 </body></html>

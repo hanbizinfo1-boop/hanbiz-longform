@@ -12,13 +12,15 @@
 #c2{border:3px solid #D8402F}
 #fog{position:absolute;left:0;top:0;width:1920px;height:1080px;background:#fff;opacity:0}
 </style></head>
-<body><div id="stage">
+<body><div id="stage"><div id="w" style="position:absolute;left:0;top:0;width:1920px;height:1080px">
   <img id="a" class="seq" alt="">
   <div id="n" class="abs mono" data-box="n">08–10</div>
   <div id="m" class="abs serif" data-box="m">돈</div>
   <div id="u" class="abs"></div>
   <div id="c1" class="abs chip mono" data-box="c1">잘하는 것 1</div>
   <div id="c2" class="abs chip mono" data-box="c2">못하는 것 1</div>
+  <div id="ai" class="abs chip mono" data-box="ai" style="border:3px solid #6F93FF;color:#6F93FF">AI</div>
+</div>
   <div id="fog"></div>
 </div>
 <script src="../data/s34.js"></script>
@@ -28,16 +30,25 @@
 // 열린 문(파란 빛) — «마지막 주제» 에 08–10 · 돈, 양옆에 칩 둘, «믿어야 되는지» 에 칩이 흐려지며 빛 속으로(끝 1초 흰빛 30%).
 window.PALETTE = ['#15181C', '#2E55D9', '#D8402F'];
 const T = { n: S.at('마지막'), c1: S.at('잘하는'), c2: S.at('못 하는'), dim: S.at('어디까지'), end: S.SC.dur };
-S.ev(T.n, 'card_in', 'door'); S.ev(T.c1, 'msg_in', 'c1'); S.ev(T.c2, 'card_in', 'c2'); S.ev(T.end - 1.0, 'shine', 'fog');
+T.d = S.at('돈이에요'); T.s = S.at('숫자잖아요'); T.ai = S.at('AI가');
+S.focus([{ t0: T.d, t1: T.d + 0.9, big: '돈', color: '#F2C230' }, { t0: T.s, t1: T.s + 0.9, big: '숫자' }]);
+S.ev(T.n, 'card_in', 'door'); S.ev(T.ai, 'msg_in', 'ai'); S.ev(T.c1, 'ok', 'c1'); S.ev(T.c2, 'card_in', 'c2'); S.ev(T.dim, 'in', 'dim'); S.ev(T.end - 1.0, 'shine', 'fog');
 const FPSV = 60000 / 1001, N = 934, BASE = '../../../../_tmp/sjk01/blender/s34/';
 const pad = n => String(n).padStart(4, '0');
 const img = document.getElementById('a');
-const scene = fn => { window.seek = async t => { await fn(t - S.SC.pre); }; };
+const scene = fn => { window.seek = async t => { await fn(t - S.SC.pre); S.focusDraw(t - S.SC.pre); }; };
 scene(async tau => {
   const k = Math.min(N, Math.max(1, Math.round(tau * FPSV) + 1));
   const src = BASE + 'f_' + pad(k) + '.png';
   if (img.dataset.src !== src) { img.dataset.src = src; img.src = src; try { await img.decode(); } catch (e) { } }
   const [x, y] = window.TRACK[Math.min(window.TRACK.length, k) - 1][0];
+  // 컷 줌: 문 → «잘하는» 칩 → «못 하는» 칩 → 빛 속으로
+  const pl = (a, d) => S.cam(tau, a, a + 0.32) * (1 - S.cam(tau, a + d, a + d + 0.35));
+  const pA = pl(T.c1 - 0.2, 1.0), pB = pl(T.c2 - 0.2, 1.0), pD = S.cam(tau, T.dim, T.dim + 0.6);
+  let ox = x, oy = y + 100, sc = 1 + 0.22 * pD;
+  S.css('#w', { transformOrigin: ox.toFixed(1) + 'px ' + oy.toFixed(1) + 'px', transform: `scale(${sc.toFixed(4)})` });
+  const ai = S.ent(tau, T.ai, 0.12) * (1 - S.cam(tau, T.c1 - 0.2, T.c1));
+  S.css('#ai', { left: (x - 410).toFixed(1) + 'px', top: (y - 70).toFixed(1) + 'px', opacity: ai, transform: `translateX(${((1 - ai) * -16).toFixed(2)}px)` });
   const a = S.ent(tau, T.n, 0.16);
   S.css('#n', { left: (x - 150).toFixed(1) + 'px', top: (y - 36).toFixed(1) + 'px', opacity: a, transform: `translateY(${((1 - a) * 12).toFixed(2)}px)` });
   S.css('#m', { left: (x - 150).toFixed(1) + 'px', top: (y + 24).toFixed(1) + 'px', opacity: a, transform: `translateY(${((1 - a) * 16).toFixed(2)}px)` });

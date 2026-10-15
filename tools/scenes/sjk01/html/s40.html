@@ -5,14 +5,14 @@
 <style>
 #stage{color:#ECE8E0}
 #cap{left:200px;top:90px;font-size:26px;color:#9FB0CC;white-space:nowrap}
-#cap2{left:1470px;top:90px;font-size:26px;color:#9FB0CC;white-space:nowrap}
+#cap2{left:1560px;top:90px;font-size:26px;color:#9FB0CC;white-space:nowrap}
 #rows{left:0;top:150px;width:1920px;height:760px}
 .r{position:absolute;left:0;width:1920px;height:62px}
 .r .nm{position:absolute;left:200px;width:260px;height:62px;line-height:62px;text-align:right;font-size:34px;font-weight:600}
-.r .tr{position:absolute;left:490px;width:900px;top:11px;height:40px;border-radius:5px;background:rgba(236,232,224,.09)}
+.r .tr{position:absolute;left:490px;width:800px;top:11px;height:40px;border-radius:5px;background:rgba(236,232,224,.09)}
 .r .fl{position:absolute;left:0;top:0;bottom:0;border-radius:5px;background:#2E55D9}
 .r .pc{position:absolute;top:0;height:62px;line-height:62px;font-size:34px;color:#ECE8E0}
-.r .co{position:absolute;left:1470px;height:62px;line-height:62px;font-size:26px;color:#9FB0CC;white-space:nowrap}
+.r .co{position:absolute;left:1560px;height:62px;line-height:62px;font-size:26px;color:#9FB0CC;white-space:nowrap}
 #q{font-size:60px;color:#F2C230;line-height:62px;height:62px}
 </style></head>
 <body><div id="stage">
@@ -27,17 +27,20 @@
 window.PALETTE = ['#ECE8E0', '#2E55D9', '#F2C230'];
 const M = [['수육(소)', 70.0, 14000, 20000], ['수육(대)', 65.0, 19500, 30000], ['모둠순대', 46.0, 6900, 15000], ['내장국밥', 43.0, 4300, 10000], ['순대국 특', 42.5, 5100, 12000],
   ['섞어국밥', 41.9, 4400, 10500], ['돼지국밥', 40.0, 4000, 10000], ['순대국', 38.0, 3800, 10000], ['김치찌개', 36.7, 3300, 9000], ['공깃밥 추가', 35.0, 350, 1000]];
-const TRK = 900, SC100 = 1.0;   // 트랙 900px = 100%
+const TRK = 800, SC100 = 1.0;   // 트랙 900px = 100%
 let h = '';
 M.forEach((m, i) => {
   h += `<div class="r" id="r${i}" style="top:${i * 78}px"><div class="nm">${m[0]}</div><div class="tr"><div class="fl" id="f${i}"></div></div>` +
     `<div class="pc mono" id="p${i}">0.0%</div><div class="co mono">${S.fmt(m[2])} / ${S.fmt(m[3])}</div></div>`;
 });
 S.$('#rows').innerHTML = h;
+const T0 = { n: S.at('열') - 0.05, up: S.at('올릴지') - 0.05, dn: S.at('뺄지') - 0.05, dec: S.at('결정해야') - 0.05, p70: S.at('수육') - 0.05, z: S.at('이게') - 0.05 };
 const T = { fill: S.at('줄') - 0.15, step: 0.27, hl: S.at('수육') - 0.05, q: S.at('이따가') - 0.1, calm: S.at('제일') + 0.5 };
 T.fill = S.at('줄세워') - 0.15;
-S.ev(T.fill, 'gauge', 'f0'); S.ev(T.hl, 'marker', 'f0'); S.ev(T.q, 'card_in', 'q');
-const qEl = document.createElement('div'); qEl.id = 'q'; qEl.className = 'abs mono'; qEl.textContent = '?'; qEl.dataset.box = 'q'; qEl.style.cssText = 'left:0;top:0;opacity:0';
+S.focus([{ t0: T0.p70, t1: T0.p70 + 1.1, big: '70%', small: '수육(소) 원가율', color: '#F2C230' }, { t0: T0.dec, t1: T0.dec + 0.95, big: '결정', small: '사장님이 하는 것', color: '#F2C230' }]);
+S.ev(0.0, 'in', 'rows'); S.ev(T.fill, 'gauge', 'f0'); S.ev(T0.up + 0.0, 'card_in', 'c1'); S.ev(T0.dn, 'no', 'c2'); S.ev(T.q, 'card_in', 'q'); S.ev(T0.z, 'sweep', 'rows');
+for (const [id, tx, ey] of [['c1', '가격 ↑', 1230], ['c2', '메뉴 ✕', 1390]]) { const d = document.createElement('div'); d.id = id; d.className = 'abs mono'; d.textContent = tx; d.style.cssText = `left:${ey}px;top:8px;font-size:26px;color:#F2C230;border:2px solid #F2C230;border-radius:8px;padding:6px 16px;opacity:0;background:rgba(15,27,46,.9)`; S.$('#rows').appendChild(d); }
+const qEl = document.createElement('div'); qEl.id = 'q'; qEl.className = 'abs mono'; qEl.textContent = '?'; qEl.style.cssText = 'left:0;top:0;opacity:0';
 S.$('#rows').appendChild(qEl);
 S.scene(tau => {
   M.forEach((m, i) => {
@@ -57,10 +60,11 @@ S.scene(tau => {
   });
   // «이따가 말씀드릴게요» — 수육 막대 옆 물음표
   const q = S.ent(tau, T.q, 0.16);
-  S.css('#q', { opacity: q, transform: `translateX(${(1 - q) * 12}px)`, left: (490 + 0.7 * TRK + 190) + 'px' });
-  // 마지막 문장에서 수육 줄만 살짝 앞으로(카메라)
-  const c = S.cam(tau, T.calm, T.calm + 1.6);
-  S.css('#r0', { transformOrigin: '400px 31px', transform: `translateY(${(1 - S.ent(tau, -0.2, 0.18)) * -14}px) scale(${1 + 0.04 * c})` });
+  S.css('#q', { opacity: q, transform: `translateX(${(1 - q) * 12}px)`, left: (490 + 0.7 * TRK + 150) + 'px' });
+  const z = S.cam(tau, T0.z, T0.z + 0.35);
+  S.css('#rows', { transformOrigin: '700px 60px', transform: `scale(${1 + 0.3 * z})` });
+  const cg = 1 - S.P(tau, T.q - 0.1, T.q + 0.1);
+  S.css('#c1', { opacity: S.ent(tau, T0.up, 0.12) * cg }); S.css('#c2', { opacity: S.ent(tau, T0.dn, 0.12) * cg });
 });
 </script>
 </body></html>

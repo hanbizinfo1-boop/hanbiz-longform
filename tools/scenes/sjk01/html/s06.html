@@ -1,91 +1,73 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s06 여섯 번째 — 클로즈업에서 뒤집힌 카드로</title>
+<title>s06 6번째 활용법 — 내용 가린 카드(스포일러 없음) · v2</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#board{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
-.card{position:absolute;left:0;top:0;width:304px;height:330px;transform-origin:50% 50%}
-.face{position:absolute;inset:0;border-radius:6px;padding:22px}
-.num{font-size:22px;color:#5A5650;letter-spacing:.08em}
-.ttl{font-size:40px;line-height:1.15;margin:6px 0 16px;color:#15181C}
-.txt{font-family:"UI";font-size:22px;line-height:1.5;color:#2A2A2A;font-weight:400}
-.edge{position:absolute;inset:0;border-radius:6px;border:6px solid #F2C230;opacity:0;pointer-events:none}
-.qback{display:flex;align-items:center;justify-content:center;font-size:150px;color:#15181C;opacity:.85}
-.qback:after{content:"";position:absolute;inset:14px;border:2px solid rgba(21,24,28,.35);border-radius:3px}
-#big{left:1090px;top:330px;font-size:168px;line-height:1.1;color:#ECE8E0;white-space:nowrap}
-#big .ul{position:absolute;left:0;bottom:6px;height:22px;background:#F2C230;width:0}
+#bgA{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background:url("../../../../소재/sjk01/codex/d14_phone_on_table_morning_clean.png") center/100% 100% no-repeat}
+#dimA{position:absolute;left:0;top:0;width:1920px;height:1080px;background:#10100c;opacity:.5}
+#bgB{position:absolute;left:0;top:0;width:1920px;height:1080px;background:url("../../../../소재/sjk01/codex/e24_table_daylight.png") center/cover}
+#shotA,#shotB{position:absolute;left:0;top:0;width:1920px;height:1080px}
+#num{left:150px;top:170px;font-size:76px;color:#F2C230}
+#ttl{left:150px;top:260px;font-size:150px;line-height:1.12;color:#ECE8E0;text-shadow:0 6px 30px rgba(0,0,0,.6)}
+#chipd{left:150px;top:660px;font-size:82px;padding:6px 36px;background:#F2C230;color:#15181C;border-radius:10px;box-shadow:0 10px 26px rgba(0,0,0,.4)}
+#mk{position:absolute;left:1005px;top:197px;width:570px;height:646px;transform-origin:50% 50%}
+#mk .inner{position:absolute;inset:0;transform:scale(1.9);transform-origin:0 0;width:300px;height:340px}
+#mk .inner .v2c{filter:blur(6px)}
+#mk .sk{margin:14px 16px 0;height:22px;border-radius:11px;background:#DDE0E6}
+#lock{position:absolute;left:0;right:0;top:230px;display:flex;justify-content:center}
+#edge{position:absolute;left:-12px;top:-12px;width:594px;height:670px;overflow:visible}
+#qb{position:absolute;left:660px;top:130px;width:600px;height:680px;border-radius:30px;display:flex;align-items:center;justify-content:center;font-size:300px;color:#15181C;opacity:0}
+#qb:after{content:"";position:absolute;inset:26px;border:3px solid rgba(21,24,28,.35);border-radius:16px}
+#glow{position:absolute;left:652px;top:122px;width:616px;height:696px;border-radius:34px;border:8px solid #F2C230;opacity:0}
+.chp{position:absolute;font-size:62px;padding:6px 34px;border-radius:10px;opacity:0;white-space:nowrap}
+#cAI{left:260px;top:420px;background:#2E55D9;color:#fff}
+#cBad{left:1340px;top:420px;background:#D8402F;color:#fff;font-family:"Serif";font-weight:900}
+#cEnd{left:690px;top:850px;background:#F2C230;color:#15181C;font-family:"Serif";font-weight:900;font-size:68px}
 </style></head>
 <body><div id="stage">
-  <div class="bg tex-desk"></div>
-  <div id="board"></div>
-  <div id="big" class="abs serif" data-box="big"><span style="position:relative;z-index:1">내일 당장</span><div class="ul" id="ul" style="z-index:0"></div></div>
+  <div id="shotA">
+    <div id="bgA"></div><div id="dimA"></div>
+    <div id="num" class="abs mono">00</div>
+    <div id="ttl" class="abs serif">6번째<br>활용법</div>
+    <div id="chipd" class="abs serif">내일 당장</div>
+    <div id="mk">
+      <div class="inner"><div class="v2c"><div class="hd" style="background:#F1F2F4"><div style="width:120px;height:20px;border-radius:10px;background:#C9CED6"></div></div><div class="sk" style="margin-top:20px"></div><div class="sk" style="width:70%"></div><div class="sk"></div><div class="sk" style="width:55%"></div><div class="sk" style="margin-top:26px"></div><div class="sk" style="width:80%"></div></div></div>
+      <div id="lock"><svg width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="#15181C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="filter:drop-shadow(0 2px 6px rgba(255,255,255,.9))"><rect x="5" y="11" width="14" height="9" rx="2" fill="#F2C230"/><path d="M8 11V8a4 4 0 018 0v3"/><path d="M12 14.5v2.5"/></svg></div>
+      <svg id="edge" viewBox="0 0 594 670"><rect id="er" x="6" y="6" width="582" height="658" rx="26" fill="none" stroke="#F2C230" stroke-width="12" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>
+    </div>
+  </div>
+  <div id="shotB">
+    <div id="bgB"></div>
+    <div id="qb" class="print mono">?</div><div id="glow"></div>
+    <div id="cAI" class="chp mono">AI</div><div id="cBad" class="chp">큰일</div><div id="cEnd" class="chp">끝까지</div>
+  </div>
 </div>
 <script src="../data/s06.js"></script>
 <script src="../lib/sjk.js"></script>
+<script src="../lib/cards_v2_a.js"></script>
 <script>
-window.PALETTE = ["#ECE8E0", "#15181C", "#F2C230"];
-const CARDS = [
-  ['01', '리뷰 답글', '짜게 느끼셨다니 죄송합니다. 다음에 오시면 말씀해 주세요. 싱겁게 따로 말아 드릴게요.'],
-  ['02', '소식 글', '[신메뉴] 얼큰 순대국이 나왔습니다. 진한 순대국에 청양고추 다대기를 올려 칼칼하게 끓였어요.'],
-  ['03', '메뉴 설명', '사골을 12시간 고아서 국물이 뽀얗고, 앞다리살이 한 숟갈마다 올라와요.'],
-  ['04', '단골 문자', '사장입니다. 날이 쌀쌀해졌네요. 국밥 생각나실 때 다음 주 평일 점심에 들러 주세요.'],
-  ['05', '근무표', '민지 · 주 32.5시간\n준호 · 주 20시간\n서연 · 주 34.5시간\n현우 · 주 32.5시간'],
-  ['06', '알바 매뉴얼', '위험한 것 먼저\n1. 가스 잠그기 — 주방 뒤쪽 노란 밸브를 옆으로 돌린다\n2. 바닥은 물 뿌리지 않기'],
-  ['07', '채용 공고', '저녁 알바 구해요 (평일 주 3일)\n시간: 17:30 ~ 21:00 · 시급 10,500원\n밥 줘요.'],
-  ['08', '매출 분석', '제일 안 팔리는 시간\n화요일 15시(평균 2명)\n수요일 15시(3명)'],
-  ['09', '메뉴 원가', '원가 4,000원\n판매가 10,000원\n원가율 40%'],
-  ['10', '계약서', '제11조 자동 연장 — 1개월 전 서면 통지를 놓치면 1년이 그대로 연장돼요.'],
-];
-const board = S.$('#board');
-CARDS.forEach((c, i) => {
-  const el = document.createElement('div'); el.className = 'card'; el.id = 'c' + i;
-  el.innerHTML = `<div class="face print"><div class="num mono">${c[0]}</div><div class="ttl serif">${c[1]}</div><div class="txt">${S.esc(c[2]).replace(/\n/g, '<br>')}</div></div>` + (i === 5 ? '<div class="edge" id="edge"></div>' : '');
-  board.appendChild(el);
-});
-const bk = document.createElement('div'); bk.className = 'card'; bk.id = 'c10';
-bk.innerHTML = '<div class="face print qback mono">?</div>'; board.appendChild(bk);
-// 보드 좌표(중심 0,0): 4열 4+4+3 — 마지막 줄은 가운데 정렬
-const PX = 344, PY = 370;
-const pos = i => i < 8 ? { x: (i % 4 - 1.5) * PX, y: (Math.floor(i / 4) - 1) * PY } : { x: (i - 9) * PX, y: PY };
-const T = {
-  six: S.at('여섯'), day: S.at('내일'), dang: S.at('당장'), pull: S.at('그리고') - 0.25, last: S.at('마지막에는') + 0.3,
-  ai: S.at('AI한테'), end: S.at('꼭'),
-};
-S.ev(0.3, 'card_in', 'c5'); S.ev(T.six, 'marker', 'edge'); S.ev(T.day, 'big_in', 'big'); S.ev(T.pull, 'sweep', 'pull');
-S.ev(T.last, 'card_in', 'c10'); S.ev(T.end, 'shine', 'c10');
-const L = (a, b, k) => a + (b - a) * k;
+window.PALETTE = ['#ECE8E0', '#15181C', '#F2C230', '#D8402F'];
+const T = { six: S.at('여섯'), day: S.at('내일'), cut: S.at('그리고') - 0.05, last: S.at('마지막에는') + 0.3, ai: S.at('AI한테'), big: S.at('큰일'), gl: S.at('그거'), end: S.at('꼭') };
+S.ev(0.3, 'big_in', 'ttl'); S.ev(0.7, 'card_in', 'mk'); S.ev(T.six + 0.15, 'marker', 'edge'); S.ev(T.day, 'card_in', 'chipd'); S.ev(T.cut, 'in', 'cut');
+S.ev(T.last, 'card_in', 'qb'); S.ev(T.ai, 'msg_in', 'cAI'); S.ev(T.big, 'card_in', 'cBad'); S.ev(T.gl, 'shine', 'glow'); S.ev(T.end, 'big_in', 'cEnd');
+const pop = (id, t0, tau, dy) => { const k = S.ent(tau, t0, 0.12); S.css(id, { opacity: k, transform: `translateY(${(1 - k) * dy}px)` }); return k; };
 S.scene(tau => {
-  const p = pos(5);
-  const kp = S.cam(tau, T.pull, T.pull + 1.6);
-  const drift = 0.78 + 0.1 * S.P(tau, T.pull + 1.8, S.SC.dur);
-  // 클로즈업(2.6배, 06 카드가 왼쪽) → 와이드 → 마지막에 뒤집힌 카드 쪽으로 천천히 밀기
-  const s0 = 2.6, s1 = 0.78;
-  const push = S.cam(tau, T.end - 0.1, S.SC.dur);
-  const bp = pos(10);
-  let s = L(s0, s1, kp), tx = L(620 - 960 - p.x * s0, 0, kp), ty = L(520 - 540 - p.y * s0, 0, kp);
-  s = L(s, drift, 0) ; 
-  // 마지막 밀기: 뒤집힌 카드를 화면 가운데로
-  const sE = L(s, 1.5, push);
-  tx = L(tx, -bp.x * 1.5 + 0, push); ty = L(ty, -bp.y * 1.5 - 10, push);
-  S.css('#board', { transform: `translate(${tx}px,${ty}px) scale(${sE})` });
-  const dim = S.cam(tau, T.end, T.end + 0.6);
-  CARDS.concat([0]).forEach((c, i) => {
-    const q = pos(i), el = S.$('#c' + i);
-    let op;
-    if (i === 5) op = S.ent(tau, 0.3, 0.2);
-    else if (i === 10) op = S.ent(tau, T.last, 0.14);
-    else op = 0.5 * S.cam(tau, T.pull + 0.2, T.pull + 1.2) * (1 - dim * 0.82);
-    if (i === 5) op *= 1 - 0.8 * dim;
-    el.style.opacity = op;
-    const drop = i === 10 ? (1 - S.ent(tau, T.last, 0.14)) * -60 : 0;
-    el.style.transform = `translate(${960 + q.x - 152}px,${540 + q.y - 165 + drop}px)`;
-    // 노랑 줄은 카드 둘레: 크기는 카드 그대로
-  });
-  S.css('#edge', { opacity: S.ent(tau, T.six, 0.15) });
-  // 큰 글: 06 카드 곁에, 와이드로 빠질 때 사라짐
-  const b = S.ent(tau, T.day, 0.16) * (1 - S.ent(tau, T.pull + 0.1, 0.25));
-  S.css('#big', { opacity: b, transform: `translateY(${(1 - S.ent(tau, T.day, 0.16)) * 24}px)` });
-  S.css('#ul', { width: (S.cam(tau, T.dang, T.dang + 0.45) * 100) + '%' });
+  const A = tau < T.cut ? 1 : 0;
+  S.css('#shotA', { opacity: A }); S.css('#shotB', { opacity: 1 - A });
+  // 06 카운트
+  const n = Math.round(6 * S.EO(S.P(tau, T.six, T.six + 0.5)));
+  S.$('#num').textContent = '0' + n;
+  pop('#num', 0.25, tau, 14); pop('#ttl', 0.3, tau, 24);
+  const km = S.ent(tau, 0.7, 0.14);
+  S.css('#mk', { opacity: km, transform: `translateX(${(1 - km) * 50}px)` });
+  S.$('#er').setAttribute('stroke-dashoffset', 1 - S.cam(tau, T.six + 0.15, T.six + 0.85));
+  pop('#chipd', T.day, tau, 18);
+  // 장면 B: 다른 구도로 탁 끊어 — 뒤집힌 카드
+  const kq = S.ent(tau, T.last, 0.12);
+  S.css('#qb', { opacity: kq, transform: `translateY(${(1 - kq) * -70}px)` });
+  pop('#cAI', T.ai, tau, 16); pop('#cBad', T.big, tau, 16); pop('#cEnd', T.end, tau, 16);
+  const g = Math.sin(Math.PI * S.P(tau, T.gl, T.gl + 1.0));
+  S.css('#glow', { opacity: Math.max(0, g), boxShadow: `0 0 ${30 * g}px ${6 * g}px rgba(242,194,48,${0.55 * g})` });
 });
 </script>
 </body></html>

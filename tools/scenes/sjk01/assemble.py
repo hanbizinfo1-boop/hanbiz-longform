@@ -23,7 +23,24 @@ from tools.auto.compose import Captions  # noqa: E402
 W, H = 1920, 1080
 FN, FD = 60000, 1001
 FPS = FN / FD
-D = 0.6
+D = 0.36                                  # v2(10-15 «속도감»): 0.6 → 0.36초
+# v2 전환 표 — 원테이크(cont)만 그대로, 나머지 경계는 모두 빠른 전환. 원래 정한 전환(dissolve·push·zoom·split·wipe)은 살리고
+# «cut» 이던 경계에 아래 순서로 돌려 넣는다(같은 전환 연달아 금지).
+ROT = ["whip", "zoom", "push", "whipup", "zoomout", "split", "whip", "wipe", "zoom", "whipup"]
+def _plan():
+    out, prev, r = [], None, 0
+    for k, sc in enumerate(TL):
+        tr = sc["trans_in"]
+        if k == 0 or tr == "cont":
+            out.append(tr if k else "cut"); prev = out[-1]; continue
+        if tr == "cut" or tr == prev:
+            while True:
+                tr = ROT[r % len(ROT)]; r += 1
+                if tr != prev:
+                    break
+        out.append(tr); prev = tr
+    return out
+TRANS = None
 TL = json.load(open(ROOT / "_tmp/sjk01/timeline.json", encoding="utf-8"))
 REND = ROOT / "_tmp/sjk01/render"
 CAP_STYLE = {"font": "C:/Users/user/AppData/Local/Microsoft/Windows/Fonts/GmarketSansMedium.otf",
@@ -78,8 +95,31 @@ def scale_about(img, s, cx=W / 2, cy=H / 2):
     return cv2.warpAffine(img, M, (W, H), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT)
 
 
+def mblur(img, px, axis):
+    px = int(abs(px))
+    if px < 3:
+        return img
+    k = (1, px) if axis == 1 else (px, 1)
+    return cv2.blur(img, k)
+
+
 def transition(kind, a, b, p):
     e = ease(p)
+    if a is not None and b is not None and kind in ("whip", "whipup"):
+        ax = 1 if kind == "whip" else 0
+        L = W if ax == 1 else H
+        sh = int(round(e * L))
+        A = np.roll(a, -sh, axis=ax); B = np.roll(b, L - sh, axis=ax)
+        out = A.copy()
+        if ax == 1:
+            out[:, L - sh:] = B[:, L - sh:]
+        else:
+            out[L - sh:] = B[L - sh:]
+        return mblur(out, 140 * np.sin(np.pi * p), ax)
+    if a is not None and b is not None and kind == "zoomout":
+        A = scale_about(a, 1 - 0.3 * e)
+        B = scale_about(b, 1.25 - 0.25 * e)
+        return cv2.addWeighted(A, 1 - e, B, e, 0)
     if a is None:
         return b
     if b is None:
@@ -118,6 +158,40 @@ def transition(kind, a, b, p):
     return b
 
 
+PUNCH = []
+
+
+PUNCH_ON = False   # 10-15 2차 «한 이미지 여러 번 키프레임 별로 — 최대 두 번»: 같은 그림 반복 당김 없앰(SPEC_V2 8장)
+
+
+def build_punch(lines):
+    if not PUNCH_ON:
+        return []
+    out, last, lvl = [], -9, 0
+    for sc in TL:
+        lvl = 0
+        for ln in sc["lines"]:
+            t = sc["t0"] + ln["t0"]
+            if t < sc["t0"] + 1.0 or t > sc["t1"] - 0.8 or t - last < 3.0:
+                continue
+            lvl = 1 - lvl; last = t
+            out.append((t, 1.05 if lvl else 1.0, sc["t1"]))
+    return out
+
+
+def punch_scale(t):
+    import bisect
+    i = bisect.bisect_right([q[0] for q in PUNCH], t) - 1
+    if i < 0:
+        return 1.0
+    t0, z, end = PUNCH[i]
+    if t >= end:                      # 장면이 끝나면 원래 크기
+        return 1.0
+    prev = PUNCH[i - 1][1] if i > 0 and PUNCH[i - 1][2] == end else 1.0
+    k = ease(min(1.0, (t - t0) / 0.14))
+    return prev + (z - prev) * k
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--from", dest="t_from", type=float, default=0.0)
@@ -130,6 +204,11 @@ def main():
     json.dump([{"t0": r["sub_t0"], "t1": r["sub_t1"], "text": r["text"]} for r in lines], open(capf, "w", encoding="utf-8"), ensure_ascii=False)
     caps = Captions(str(capf), CAP_STYLE)
     t0s = [c["t0"] for c in caps.caps]
+    global TRANS, PUNCH
+    TRANS = _plan()
+    PUNCH = build_punch(lines)
+    json.dump({"trans": TRANS, "punch": PUNCH}, open(ROOT / "_tmp/sjk01/final/v2_plan.json", "w", encoding="utf-8"), ensure_ascii=False)
+    print("전환:", " ".join(TRANS), "· 컷 줌", len(PUNCH), flush=True)
     clips = [Clip(s) for s in TL]
     miss = [s["scene"] for s, c in zip(TL, clips) if not c.n]
     print("빠진 장면 클립:", miss or "없음", flush=True)
@@ -153,13 +232,17 @@ def main():
         cur = clips[k].frame(t)
         fr = cur
         # 다음 장면으로 넘어가는 전환(경계 앞쪽 절반)
-        if k + 1 < len(TL) and TL[k + 1]["trans_in"] not in ("cut", "cont") and t >= TL[k + 1]["t0"] - D / 2:
+        if k + 1 < len(TL) and TRANS[k + 1] not in ("cut", "cont") and t >= TL[k + 1]["t0"] - D / 2:
             b = TL[k + 1]["t0"]; p = (t - (b - D / 2)) / D
-            fr = transition(TL[k + 1]["trans_in"], cur, clips[k + 1].frame(t), p)
+            fr = transition(TRANS[k + 1], cur, clips[k + 1].frame(t), p)
         # 이 장면으로 들어온 전환(경계 뒤쪽 절반)
-        elif TL[k]["trans_in"] not in ("cut", "cont") and k > 0 and t < TL[k]["t0"] + D / 2:
+        elif k > 0 and TRANS[k] not in ("cut", "cont") and t < TL[k]["t0"] + D / 2:
             b = TL[k]["t0"]; p = (t - (b - D / 2)) / D
-            fr = transition(TL[k]["trans_in"], clips[k - 1].frame(t), cur, p)
+            fr = transition(TRANS[k], clips[k - 1].frame(t), cur, p)
+        if fr is not None and PUNCH:
+            z = punch_scale(t)
+            if z != 1.0:
+                fr = scale_about(fr, z)
         if fr is None:
             fr = last                      # 클립이 없으면 앞 그림 유지(보고에 «빠진 장면»)
         last = fr

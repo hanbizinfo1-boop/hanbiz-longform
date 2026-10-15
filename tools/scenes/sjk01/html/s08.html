@@ -1,73 +1,76 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s08 01 리뷰 답글 — 하루 15분이 한 달 7시간 30분</title>
+<title>s08 01 리뷰 답글 — 하루 15분이 한 달 7시간 30분 (v2)</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#ph{position:absolute;left:-80px;top:-170px;width:2080px;height:1387px;background:url("../../../../소재/sjk01/codex/c02_counter_night.png") center/cover;filter:blur(18px) brightness(.35);transform-origin:50% 50%}
-#ch{left:140px;top:330px;transform-origin:0 0;color:#ECE8E0;text-shadow:0 4px 24px rgba(0,0,0,.5);white-space:nowrap}
+#ph{position:absolute;left:-80px;top:-170px;width:2080px;height:1387px;background:url("../../../../소재/sjk01/codex/c02_counter_night.png") center/cover;filter:blur(12px) brightness(.34);transform-origin:50% 50%}
+#ch{left:140px;top:330px;color:#ECE8E0;text-shadow:0 4px 24px rgba(0,0,0,.5);white-space:nowrap}
 #ch .no{font-size:150px;line-height:1;color:#F2C230}
 #ch .tt{font-size:180px;line-height:1.1;margin-top:10px}
-.eq{color:#ECE8E0;font-size:56px;text-shadow:0 3px 18px rgba(0,0,0,.55);white-space:nowrap}
-#l1{left:130px;top:340px}
-#l2{left:130px;top:440px}
-#rule{left:130px;top:535px;height:4px;width:0;background:rgba(236,232,224,.7)}
-#ring{left:780px;top:120px;width:800px;height:800px}
-#num{left:830px;top:330px;width:700px;height:380px;display:flex;align-items:center;justify-content:center;text-align:center;color:#ECE8E0;text-shadow:0 4px 30px rgba(0,0,0,.55);line-height:1.05}
-#eve{left:130px;top:760px;white-space:nowrap}
+#list{left:120px;top:96px;width:780px;display:flex;flex-direction:column;gap:8px;transform-origin:0 0}
+.rv{position:relative;background:#fff;border-radius:14px;padding:12px 18px 12px;font-family:"UI";color:#1A1A1A;box-shadow:0 10px 30px rgba(0,0,0,.4);opacity:0}
+.rv .r1{display:flex;align-items:center;gap:10px;font-size:24px}
+.rv .av{width:40px;height:40px;border-radius:50%;color:#fff;font-weight:700;font-size:22px;display:flex;align-items:center;justify-content:center}
+.rv .nk{font-weight:700}
+.rv .dt{margin-left:auto;color:#8A9099;font-size:22px}
+.rv .tx{margin-top:4px;font-size:24px;line-height:1.4}
+.rv .rp{margin-top:8px;background:#F1F3F6;border-radius:8px;padding:6px 12px;font-size:22px;color:#8A9099;min-height:36px;white-space:nowrap;overflow:hidden}
+.rv .rp b{color:#3A3F47;margin-right:8px}
+.rv .tg{position:absolute;right:16px;top:50px;font-size:22px;background:#15181C;color:#F2C230;border-radius:999px;padding:2px 14px;opacity:0}
+.eq{color:#ECE8E0;font-size:60px;text-shadow:0 3px 18px rgba(0,0,0,.55);white-space:nowrap}
+#l1{left:1010px;top:330px}
+#l2{left:1010px;top:430px}
+#eve{left:1010px;top:690px}
 #uline{position:absolute;left:0;bottom:-10px;height:9px;width:0;background:#F2C230}
 </style></head>
 <body><div id="stage">
   <div id="ph"></div>
   <div id="ch" class="abs" data-box="ch"><div class="no mono">01</div><div class="tt serif">리뷰 답글</div></div>
+  <div id="list" class="abs"></div>
   <div id="l1" class="abs eq mono" data-box="l1">리뷰 5개 / 일</div>
   <div id="l2" class="abs eq mono" data-box="l2">× 3분</div>
-  <div id="rule" class="abs"></div>
-  <svg id="ring" class="abs" viewBox="0 0 800 800">
-    <circle id="track" cx="400" cy="400" r="380" fill="none" stroke="rgba(236,232,224,.28)" stroke-width="3"/>
-    <circle id="arc" cx="400" cy="400" r="380" fill="none" stroke="#F2C230" stroke-width="6" stroke-linecap="round" stroke-dasharray="2387.6" stroke-dashoffset="2387.6" transform="rotate(-90 400 400)"/>
-    <line id="hand" x1="400" y1="20" x2="400" y2="-30" stroke="#F2C230" stroke-width="5" stroke-linecap="round" transform="rotate(0 400 400)"/>
-  </svg>
-  <div id="num" class="abs serif" data-box="num"></div>
-  <div id="eve" class="abs eq mono" data-box="eve"><span style="position:relative;display:inline-block">= 저녁 장사 하루<span id="uline"></span></span></div>
+  <div id="eve" class="abs eq mono" data-box="eve"><span style="position:relative;display:inline-block;color:#F2C230">= 저녁 장사 하루<span id="uline"></span></span></div>
 </div>
 <script src="../data/s08.js"></script>
 <script src="../lib/sjk.js"></script>
 <script>
 window.PALETTE = ['#ECE8E0', '#15181C', '#F2C230'];
-const T = {
-  five: S.at('하루에') - 0.05, m3: S.at('3분') - 0.05, m15: S.at('15분'), seven: S.at('일곱'), eve: S.at('저녁'),
-};
-S.ev(0.1, 'in', 'ch'); S.ev(T.five, 'card_in', 'l1'); S.ev(T.m3, 'type', 'l2'); S.ev(T.m15, 'big_in', 'num');
-S.ev(T.seven, 'gauge', 'ring'); S.ev(T.eve, 'marker', 'uline');
+const star = (on, sz) => `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24"><path d="M12 2l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 18l-6.4 3.6L7 14.5 1.7 9.5l7.2-.9z" fill="${on ? '#F5A800' : '#D5D8DE'}"/></svg>`;
+const REV = [['맛집탐**', 1, '오늘', '국물이 너무 짜요. 다시는 안 갑니다.', '#E5594F'], ['점심한그릇', 5, '어제', '혼밥했는데 양이 많아서 좋았어요', '#4A90D9'], ['ㅎㅇ**', 3, '어제', '맛은 괜찮은데 기다리는 시간이 길었어요', '#7C6BC4'],
+  ['국밥러버', 4, '2일 전', '깍두기가 진짜 맛있어요. 국밥은 무난', '#3FA66B'], ['dlwl**', 5, '2일 전', '부모님 모시고 갔는데 수육 부드럽다고 좋아하셨어요', '#D98A2B']];
+S.$('#list').innerHTML = REV.map((r, i) => `<div class="rv" id="rv${i}"><div class="r1"><div class="av" style="background:${r[4]}">${r[0][0]}</div><span class="nk">${r[0]}</span><span style="display:flex">${[1, 2, 3, 4, 5].map(k => star(k <= r[1], 20)).join('')}</span><span class="dt">${r[2]}</span></div><div class="tx">${r[3]}</div><div class="rp" id="rp${i}"><b>사장님 답글</b><span id="rpt${i}">답글을 입력하세요</span></div><div class="tg mono" id="tg${i}">3분</div></div>`).join('');
+const REPLY = '짜게 느끼셨다니 죄송합니다.';
+const T = { c: [S.at('리뷰답글그거') - 0.05, S.at('하나하나') - 0.05, S.at('생각보다') - 0.05], five: S.at('하루에') - 0.05, m3: S.at('3분') - 0.05, tag: S.at('걸린다'), m15: S.at('15분'), seven: S.at('일곱'), eve: S.at('저녁'), fin: S.at('쓰는', 0) };
+const C45 = [S.at('리뷰다섯') - 0.05, S.at('리뷰다섯') + 0.3];
+S.focus([{ t0: T.m15, t1: T.m15 + 1.5, big: '15분', small: '하루', color: '#ECE8E0' }, { t0: T.seven, t1: T.seven + 1.9, big: '7시간 30분', small: '한 달', color: '#F2C230', size: 190 }]);
+S.ev(0.1, 'in', 'ch'); S.ev(T.c[0], 'card_in', 'rv0'); S.ev(T.c[0] + 0.45, 'type', 'rpt0'); S.ev(T.c[1], 'msg_in', 'rv1'); S.ev(T.c[2], 'card_in', 'rv2');
+S.ev(4.97, 'marker', 'rp0'); S.ev(C45[0], 'msg_in', 'rv3'); S.ev(T.m3, 'click', 'l2'); S.ev(T.tag, 'card_in', 'tg0'); S.ev(T.eve, 'marker', 'uline'); S.ev(T.fin + 0.2, 'ok', 'rp0');
 S.scene(tau => {
-  // 사진: 아주 느린 밀기
   S.css('#ph', { transform: `scale(${1 + 0.05 * S.P(tau, 0, S.SC.dur)})` });
-  // 장 카드: 0.1초에 들어와 2초 놓였다가 왼쪽 위 작은 표지로
-  const ci = S.ent(tau, 0.05, 0.16), co = S.cam(tau, 2.6, 3.0);
+  const ci = S.ent(tau, 0.05, 0.12), co = S.cam(tau, 1.85, 2.15);
   S.css('#ch', { opacity: ci * (1 - co), transform: `translate(${-30 * co}px,${(1 - ci) * 24}px)` });
-  // 계산 두 줄
-  const a = S.ent(tau, T.five, 0.14), b = S.ent(tau, T.m3, 0.14);
-  S.css('#l1', { opacity: a, transform: `translateX(${(1 - a) * -30}px)` });
-  S.css('#l2', { opacity: b, transform: `translateX(${(1 - b) * -30}px)` });
-  S.css('#rule', { width: (S.ent(tau, T.m15 - 0.2, 0.2) * 520) + 'px' });
-  // 15분 → 7시간 30분 (숫자 + 둘레 원호)
-  const nIn = S.ent(tau, T.m15, 0.14);
-  const mA = S.count(tau, T.m15, T.m15 + 0.8, 0, 15);
-  const kB = S.EZ(S.P(tau, T.seven, T.seven + 1.5));
-  const m = kB > 0 ? S.lerp(15, 450, kB) : mA;
-  let html, fs;
-  if (m < 60) { html = Math.round(m) + '분'; fs = 230; }
-  else { const mm = Math.round(m); html = Math.floor(mm / 60) + '시간<br>' + String(mm % 60).padStart(2, '0') + '분'; fs = 230 - 70 * S.P(m, 40, 90); }
-  const nm = S.$('#num'); nm.innerHTML = html;
-  S.css(nm, { opacity: nIn, fontSize: fs + 'px', transform: `translateY(${(1 - nIn) * 24}px)` });
-  const prog = Math.max(0.008, m / 450) * (nIn > 0 ? 1 : 0);
-  S.css('#arc', { strokeDashoffset: 2387.6 * (1 - prog), opacity: nIn });
-  S.$('#hand').setAttribute('transform', `rotate(${prog * 360} 400 400)`);
-  S.css('#hand', { opacity: nIn }); S.css('#track', { opacity: nIn });
-  // 저녁 장사 하루
-  const e = S.ent(tau, T.eve, 0.14);
+  const starts = [T.c[0], T.c[1], T.c[2], C45[0], C45[1]];
+  starts.forEach((t, i) => { const k = S.ent(tau, t, 0.12); S.css('#rv' + i, { opacity: k, transform: `translateX(${(1 - k) * -50}px)` }); });
+  // 1번: 답글 타자 / 시간 잡아먹는 느낌의 노랑 밑줄
+  const n = Math.floor(S.clamp((tau - (T.c[0] + 0.45)) * 14, 0, REPLY.length));
+  S.$('#rpt0').textContent = n > 0 ? REPLY.slice(0, n) : '답글을 입력하세요';
+  const mk = S.ent(tau, 4.97, 0.15);
+  S.css('#rp0', { background: `linear-gradient(transparent 55%,rgba(242,194,48,${0.85 * mk}) 55%)` });
+  S.$('#rp0').style.backgroundColor = '#F1F3F6';
+  // 장면 카메라: 목록이 말에 맞춰 살짝 줌
+  const z = S.cam(tau, C45[0] - 0.1, C45[0] + 0.3) * 0.0;
+  // 계산 줄
+  const a = S.ent(tau, T.five, 0.12), b = S.ent(tau, T.m3, 0.12);
+  S.css('#l1', { opacity: a, transform: `translateX(${(1 - a) * 40}px)` });
+  S.css('#l2', { opacity: b, transform: `translateX(${(1 - b) * 40}px)` });
+  // 3분 태그: 카드마다 한 박자
+  for (let i = 0; i < 5; i++) { const t = S.ent(tau, T.tag + i * 0.16, 0.12); S.css('#tg' + i, { opacity: t, transform: `scale(${0.8 + 0.2 * t})` }); }
+  // 저녁 장사 하루 / 마무리: 목록 정리
+  const e = S.ent(tau, T.eve, 0.12);
   S.css('#eve', { opacity: e, transform: `translateY(${(1 - e) * 16}px)` });
-  S.css('#uline', { width: (S.cam(tau, T.eve + 0.15, T.eve + 0.75) * 100) + '%' });
+  S.css('#uline', { width: (S.cam(tau, T.eve + 0.1, T.eve + 0.5) * 100) + '%' });
+  const fin = S.cam(tau, T.fin, T.fin + 0.3);
+  S.css('#list', { transform: `scale(${1 + 0.05 * fin})` });
 });
 </script>
 </body></html>

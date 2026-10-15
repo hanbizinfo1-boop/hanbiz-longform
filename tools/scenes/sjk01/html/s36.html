@@ -53,20 +53,24 @@ for (const d in data) {
     return `<div${id} class="c" style="background:rgba(96,156,255,${(0.12 + a * 0.78).toFixed(2)});color:${a > 0.55 ? '#0F1B2E' : '#E8EDF5'}">${v}</div>`;
   }).join('') + '</div>';
 }
-S.$('#hm').innerHTML = html;
-const hot = S.$('#hot'); const hot0 = { bg: hot.style.background, col: hot.style.color };
+S.$('#hm').innerHTML = html + '<svg id="ring" style="position:absolute;left:0;top:0;width:1010px;height:700px;overflow:visible;pointer-events:none"><rect id="rr" rx="26" fill="none" stroke="#F2C230" stroke-width="6" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>';
+const cells = [...document.querySelectorAll('#hm .c')];
+const hot = S.$('#hot');
+{ const rowEl = hot.parentElement, cs = [...rowEl.querySelectorAll('.c')], a = cs[3], b = cs[5];
+  const rr = S.$('#rr'); rr.setAttribute('x', a.offsetLeft - 10); rr.setAttribute('y', rowEl.offsetTop - 6); rr.setAttribute('width', b.offsetLeft + 78 - a.offsetLeft + 20); rr.setAttribute('height', 90); } const hot0 = { bg: hot.style.background, col: hot.style.color };
 const cx = hot.offsetLeft + 39, cy = hot.offsetTop + 39;     // #hm 안 좌표
 const BASE = (1920 - 1010) / 2 - 120;                          // 처음엔 가운데
 const T = {
-  z0: S.at('화요일') - 0.05, hot: S.at('오후세') - 0.05, b0: S.at('이런') - 0.2, card: S.at('이런') + 0.15,
-  s2: S.at('이런') + 0.65, s3: S.at('사장님도') + 0.1, hl: S.at('아셨을') - 0.1,
+  z0: S.at('화요일') - 0.05, f0: S.at('오후세') - 0.1, f1: S.at('이런') - 0.3, ring: S.at('화요일', 1) - 0.1, hot: S.at('오후세') - 0.05, b0: S.at('이런') - 0.2, card: S.at('이런') + 0.15,
+  s2: S.at('이런') + 0.65, s3: S.at('사장님도') + 0.1, hl: S.at('감으로는') - 0.1,
 };
-S.ev(T.hot, 'marker', 'hot'); S.ev(T.card, 'card_in', 'card'); S.ev(T.s3, 'msg_in', 's3');
+S.focus([{ t0: T.f0, t1: T.f1, big: '화 15시', small: '석 달 평균 손님', color: '#F2C230' }]);
+S.ev(0.0, 'in', 'hm'); S.ev(T.hot, 'marker', 'hot'); S.ev(T.b0 + 0.1, 'sweep', 'hm'); S.ev(T.hl, 'shine', 'hl'); S.ev(T.ring, 'marker', 'rr'); S.ev(T.z0, 'click', 'hot'); S.ev(T.card, 'card_in', 'card'); S.ev(T.s3, 'msg_in', 's3');
 const pop = (id, t0, dx = 0) => { const k = S.ent(t, t0, 0.16); S.css(id, { opacity: k, transform: `translate(${(1 - k) * dx}px, ${(1 - k) * 16}px)` }); };
 let t = 0;
 S.scene(tau => {
   t = tau;
-  const z = S.cam(tau, T.z0, T.z0 + 0.8), back = S.cam(tau, T.b0, T.b0 + 0.55);
+  const z = S.cam(tau, T.z0, T.z0 + 0.35), back = S.cam(tau, T.b0, T.b0 + 0.55);
   const ze = z * (1 - back);
   const tx = BASE * (1 - back) + ze * (960 - 120 - cx - BASE * (1 - back)), ty = ze * (540 - 210 - cy);
   S.css('#hm', { transformOrigin: `${cx}px ${cy}px`, transform: `translate(${tx}px, ${ty}px) scale(${1 + 0.95 * ze})` });
@@ -74,6 +78,8 @@ S.scene(tau => {
   // 화 15 칸 — 노랑 테두리
   const h = S.ent(tau, T.hot, 0.16);
   S.css(hot, { background: h > 0 ? `rgba(15,27,46,${h})` : hot0.bg, border: h > 0 ? `3px solid rgba(242,194,48,${h})` : '1px solid rgba(255,255,255,.06)', color: h > 0.5 ? '#F2C230' : hot0.col, boxShadow: `0 0 ${24 * h}px rgba(242,194,48,${0.45 * h})` });
+  cells.forEach((c, i) => { c.style.opacity = c === hot ? 1 : S.ent(tau, -0.3 + (i % 11) * 0.045 + Math.floor(i / 11) * 0.03, 0.15); });
+  S.$('#rr').setAttribute('stroke-dashoffset', 1 - S.EIO(S.P(tau, T.ring, T.ring + 0.4)));
   // AI 답 카드
   const c = S.ent(tau, T.card, 0.16);
   S.css('#card', { opacity: c, transform: `translateX(${(1 - c) * 40}px)` });

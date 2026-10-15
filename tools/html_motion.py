@@ -401,8 +401,14 @@ async def render(args):
     out = Path(args.out) if args.out else C.WORK / "html_motion"
     out.mkdir(parents=True, exist_ok=True)
     t_all = time.time()
-    base_port = 9400 + (os.getpid() % 300)
-    workers = [Worker(i, scene, C.W, C.H, args.alpha, base_port + i) for i in range(args.workers)]
+    # 포트는 OS 가 비어 있다고 준 것만 — pid 로 고르면 동시 렌더끼리 겹쳐 남의 장면 프레임이 섞인다(10-15 장면 43)
+    import socket
+    ports, socks = [], []
+    for _ in range(args.workers):
+        sk = socket.socket(); sk.bind(("127.0.0.1", 0)); socks.append(sk); ports.append(sk.getsockname()[1])
+    for sk in socks:
+        sk.close()
+    workers = [Worker(i, scene, C.W, C.H, args.alpha, ports[i]) for i in range(args.workers)]
     try:
         print(f"[html_motion] Chrome {args.workers}개 기동 …", flush=True)
         await asyncio.gather(*[w.start() for w in workers])

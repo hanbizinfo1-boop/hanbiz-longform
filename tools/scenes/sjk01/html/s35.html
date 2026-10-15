@@ -7,40 +7,65 @@
 #space{position:absolute;left:0;top:0;width:1920px;height:1080px;perspective:1200px;perspective-origin:50% 50%}
 #world{position:absolute;left:960px;top:540px;width:0;height:0;transform-style:preserve-3d}
 .tile{position:absolute;left:-690px;top:-350px;width:1380px;height:700px;background:#fff;overflow:hidden;font-family:"UI";color:#1A1A1A;box-shadow:0 0 0 2px #C9D1DE}
-.tile .tb{height:48px;background:#E8EDF5;border-bottom:1px solid #C9D1DE;display:flex;align-items:center;padding:0 20px;font-size:24px;color:#4B5563;gap:14px}
-.tile .tb i{display:inline-block;width:14px;height:14px;border-radius:50%;background:#C3CAD6}
-.tile .hd{display:flex;height:40px;background:#F3F5F9;border-bottom:2px solid #9FB0CC}
-.tile .hd div{box-sizing:border-box;border-right:1px solid #D5DAE2;line-height:40px;padding:0 14px;font-size:24px;font-weight:700;color:#2B3445}
-.tile .cols{display:flex;height:612px;overflow:hidden}
-.tile .col{box-sizing:border-box;height:612px;overflow:hidden;border-right:1px solid #D5DAE2;position:relative}
-.tile .in{position:absolute;left:0;top:0;width:100%;white-space:pre;font-size:24px;line-height:36px;padding:0 14px;box-sizing:border-box;background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 35px,#E1E5EB 35px,#E1E5EB 36px)}
-.tile .in.r{text-align:right}
+.tile .tb{height:40px;background:#F1F3F4;border-bottom:1px solid #DADCE0;display:flex;align-items:center;padding:0 18px;font-size:22px;color:#3C4043;gap:12px}
+.tile .tb i{display:inline-block;width:13px;height:13px;border-radius:50%;background:#C3CAD6}
+.tile .tb b{font-weight:500;padding:0 6px;border-radius:3px}
+.tile .lt{display:flex;height:28px;background:#F8F9FA;border-bottom:1px solid #C0C4CC}
+.tile .lt div{box-sizing:border-box;border-right:1px solid #C0C4CC;text-align:center;line-height:28px;font-size:22px;color:#5F6368}
+.tile .hd{display:flex;height:36px;background:#F1F3F4;border-bottom:2px solid #80868B}
+.tile .hd div{box-sizing:border-box;border-right:1px solid #C0C4CC;line-height:36px;padding:0 12px;font-size:22px;font-weight:700;color:#202124;white-space:nowrap}
+.tile .hd .g,.tile .col.g{background:#F8F9FA;color:#5F6368;text-align:center;padding:0}
 .tile .hd .r{text-align:right}
+.tile .cols{display:flex;height:560px;overflow:hidden}
+.tile .col{box-sizing:border-box;height:560px;overflow:hidden;border-right:1px solid #DADCE0;position:relative}
+.tile .in{position:absolute;left:0;top:0;width:100%;white-space:pre;font-size:22px;line-height:36px;padding:0 12px;box-sizing:border-box;background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 35px,#E3E5E8 35px,#E3E5E8 36px)}
+.tile .col.g .in{padding:0;text-align:center;color:#5F6368}
+.tile .in.r{text-align:right}
+.tile .tabs{height:36px;background:#F1F3F4;border-top:1px solid #C0C4CC;display:flex;align-items:flex-end;padding-left:60px;font-size:22px}
+.tile .tabs span{background:#fff;border-bottom:3px solid #1A73E8;color:#1A73E8;padding:2px 22px;font-weight:700}
+#sel{position:absolute;left:56px;top:176px;width:1324px;height:360px;border:3px solid #1A73E8;background:rgba(26,115,232,.10);opacity:0}
 #card1{left:360px;top:250px;width:1200px;text-align:center}
 #n08{font-size:200px;color:#F2C230;line-height:1}
 #t08{margin-top:14px;font-size:172px;color:#ECE8E0;line-height:1.1}
-#chat{left:360px;top:170px;width:1200px;height:620px;display:flex;flex-direction:column}
-#chat .body{flex:1;padding:36px 44px;display:flex;flex-direction:column;gap:26px;font-size:30px}
-#chat .file{align-self:flex-end;background:#EEF1F6;border-radius:18px;padding:16px 26px;font-size:27px;color:#374151;border:2px solid #D5DAE2}
-#chat .bubble-me{max-width:1000px;line-height:1.65;min-height:60px}
-#input{margin:0 40px 34px;height:74px;border:2px solid #D7DBE2;border-radius:37px;display:flex;align-items:center;padding:0 30px;font-size:26px;color:#9AA1AC}
+#chat{left:260px;top:130px;width:1400px;height:700px;display:flex;flex-direction:row;overflow:hidden;border-radius:18px;background:#fff;box-shadow:0 40px 80px rgba(0,0,0,.5);font-family:"UI";color:#1A1A1A}
+#chat .side{width:300px;background:#F4F4F5;border-right:1px solid #E4E4E7;padding:22px 16px;display:flex;flex-direction:column;gap:8px}
+#chat .nb{display:flex;align-items:center;gap:10px;border:1px solid #D4D4D8;border-radius:12px;padding:12px 16px;font-size:22px;font-weight:700;background:#fff;margin-bottom:12px}
+#chat .nb svg{width:22px;height:22px}
+#chat .si{font-size:22px;color:#3F3F46;padding:11px 14px;border-radius:10px;white-space:nowrap;overflow:hidden}
+#chat .si.on{background:#E4E4E7;font-weight:700}
+#chat .mainc{flex:1;display:flex;flex-direction:column;position:relative}
+#chat .top{height:60px;border-bottom:1px solid #EDEDF0;display:flex;align-items:center;padding:0 28px;font-size:22px;color:#52525B;gap:8px}
+#chat .top .pill{border:1px solid #D4D4D8;border-radius:20px;padding:4px 16px;font-weight:700;color:#27272A;display:flex;align-items:center;gap:6px}
+#chat .body{flex:1;padding:30px 40px;display:flex;flex-direction:column;gap:22px;font-size:28px}
+#chat .file{align-self:flex-end;background:#F4F4F5;border-radius:14px;padding:14px 22px;font-size:24px;color:#3F3F46;border:1px solid #D4D4D8;display:flex;align-items:center;gap:10px}
+#chat .file svg{width:24px;height:24px}
+#chat .bubble-me{max-width:900px;line-height:1.6;min-height:60px;align-self:flex-end}
+#chips{display:flex;flex-wrap:wrap;gap:12px;align-self:flex-start;max-width:1000px}
+#chips .cp{font-size:24px;font-weight:700;color:#1D4ED8;background:#E8EEFF;border-radius:20px;padding:8px 20px;opacity:0}
+#input{margin:0 36px 26px;height:70px;border:1px solid #D4D4D8;border-radius:35px;display:flex;align-items:center;padding:0 22px;gap:16px;font-size:24px;color:#8A8F98}
+#input svg{width:28px;height:28px;flex:none}
 </style></head>
 <body><div id="stage">
   <div class="bg tex-navy"></div>
   <div id="space"><div id="world"></div></div>
   <div id="card1" class="abs"><div id="n08" class="mono" data-box="n08">08</div><div id="t08" class="serif" data-box="t08">매출 분석</div></div>
-  <div id="chat" class="abs chat" data-box="chat" style="opacity:0">
-    <div class="bar"><div class="dot" style="background:#E5594F"></div><div class="dot" style="background:#E9B43F"></div><div class="dot" style="background:#58B84F"></div><span style="margin-left:16px">새 대화</span></div>
-    <div class="body"><div id="file" class="file ui">매출_석달.xlsx</div><div id="msg" class="bubble-me"></div></div>
-    <div id="input">무엇이든 물어보세요</div>
+  <div id="chat" class="abs" data-box="chat" style="opacity:0">
+    <div class="side"><div class="nb"><svg viewBox="0 0 24 24" fill="none" stroke="#27272A" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>새 채팅</div>
+      <div class="si on">매출 분석</div><div class="si">리뷰 답글 써 줘</div><div class="si">소식 글 한 달 치</div><div class="si">메뉴 설명 두 줄</div><div class="si">단골 문자 세 가지</div><div class="si">근무표 짜 줘</div></div>
+    <div class="mainc">
+      <div class="top"><div class="pill">AI <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#27272A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></div></div>
+      <div class="body"><div id="file" class="file"><svg viewBox="0 0 24 24" fill="none" stroke="#3F3F46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/></svg>매출_석달.xlsx</div><div id="msg" class="bubble-me"></div><div id="chips"></div></div>
+      <div id="input"><svg viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.5l-8.6 8.6a5 5 0 01-7-7l9-9a3.3 3.3 0 014.7 4.7l-9 9a1.7 1.7 0 01-2.4-2.4l8.3-8.3"/></svg><span style="flex:1">메시지 입력</span><svg viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></div>
+    </div>
   </div>
+</div>
 </div>
 <script src="../data/s35.js"></script>
 <script src="../lib/sjk.js"></script>
 <script>
 window.PALETTE = ['#ECE8E0', '#F2C230', '#2E55D9'];
-// ── 엑셀 판 만들기(결정적 숫자) ──
-const COLW = [190, 90, 120, 210, 280, 100, 190, 200], HEADS = ['날짜', '요일', '시각', '영수증 번호', '메뉴', '수량', '금액', '결제 수단'], RIGHT = [0, 0, 0, 0, 0, 1, 1, 0];
+// ── 엑셀 판 만들기(결정적 숫자) — 스프레드시트 모양(열 머리 A~H · 행 번호 · 머리줄 · 시트 탭)
+const COLW = [180, 80, 110, 200, 260, 90, 180, 224], HEADS = ['날짜', '요일', '시각', '영수증 번호', '메뉴', '수량', '금액', '결제 수단'], RIGHT = [0, 0, 0, 0, 0, 1, 1, 0], GUT = 56;
 const MENU = [['돼지국밥', 10000, 2940], ['순대국', 10000, 2210], ['순대국 특', 12000, 186], ['내장국밥', 10000, 760], ['섞어국밥', 10500, 1320], ['김치찌개', 9000, 241], ['수육(소)', 20000, 655], ['수육(대)', 30000, 402], ['모둠순대', 15000, 518], ['공깃밥 추가', 1000, 205]];
 const WSUM = MENU.reduce((a, m) => a + m[2], 0), WD = ['일', '월', '화', '수', '목', '금', '토'];
 function genRows(n, seed) {
@@ -64,15 +89,19 @@ function genRows(n, seed) {
 }
 function makeSheet(n, seed, name) {
   const rows = genRows(n, seed), t = document.createElement('div'); t.className = 'tile';
-  let h = `<div class="tb"><i></i><i></i><i></i><span>${name}</span></div><div class="hd">` + HEADS.map((x, i) => `<div style="width:${COLW[i]}px" class="${RIGHT[i] ? 'r' : ''}">${x}</div>`).join('') + '</div><div class="cols">';
+  const L = 'ABCDEFGH';
+  let h = `<div class="tb"><i></i><i></i><i></i><b class="fn">${name}</b></div><div class="lt"><div style="width:${GUT}px"></div>` + COLW.map((w, i) => `<div style="width:${w}px">${L[i]}</div>`).join('') + '</div>';
+  h += `<div class="hd"><div class="g" style="width:${GUT}px">1</div>` + HEADS.map((x, i) => `<div style="width:${COLW[i]}px" class="${RIGHT[i] ? 'r' : ''}">${x}</div>`).join('') + '</div><div class="cols">';
+  h += `<div class="col g" style="width:${GUT}px"><div class="in">${rows.map((_, i) => i + 2).join('\n')}</div></div>`;
   COLW.forEach((w, c) => { h += `<div class="col" style="width:${w}px"><div class="in ${RIGHT[c] ? 'r' : ''}">${rows.map(r => r[c]).join('\n')}</div></div>`; });
-  t.innerHTML = h + '</div>'; return t;
+  t.innerHTML = h + '</div><div class="tabs"><span>시트1</span></div>'; return t;
 }
 const world = S.$('#world');
 const hero = makeSheet(330, 7, '매출_석달.xlsx'); world.appendChild(hero);
-const heroIns = [...hero.querySelectorAll('.in')];
+const sel = document.createElement('div'); sel.id = 'sel'; hero.appendChild(sel);
+const heroIns = [...hero.querySelectorAll('.in')], fn = hero.querySelector('.fn');
 const walls = [];
-function addWall(t, tf, k, step) { t.style.transform = tf; t.style.opacity = Math.max(0.12, 1 - k * 0.095); t.style.display = 'none'; world.appendChild(t); walls.push(t); }
+function addWall(t, tf, k) { t.style.transform = tf; t.style.opacity = Math.max(0.12, 1 - k * 0.095); t.style.display = 'none'; world.appendChild(t); walls.push(t); }
 for (let k = 0; k < 9; k++) {
   const zc = -690 - 1380 * k;
   const l = makeSheet(20, 100 + k * 7, '매출_석달.xlsx'), r = makeSheet(20, 300 + k * 11, '매출_석달.xlsx');
@@ -86,41 +115,55 @@ for (let k = 0; k < 18; k++) {
 }
 // ── 시각 ──
 const T = {
-  hero: S.at('엑셀로') - 0.12, dup: S.at('칸이') - 0.05, imp: S.at('통째로') - 0.15, chat: S.at('통째로') + 0.1,
+  hero: S.at('포스기에서') - 0.05, fn: S.at('엑셀로'), z0: S.at('근데') - 0.05, w0: S.at('안'), sel: S.at('숫자가'), z1: S.at('엑셀', 1) - 0.1,
+  dup: S.at('칸이') - 0.05, tilt: S.at('그걸') - 0.05, imp: S.at('통째로') - 0.15, chat: S.at('통째로') + 0.1,
+  f1: S.at('몇천') - 0.05, f2: S.at('석달') - 0.05, f3: S.at('세개만') - 0.05,
 };
 T.dollyEnd = T.imp;
 const SEG = [8, 9, 10, 11].map(i => S.line(i)), PROMPT = ['이건 우리 가게 석 달 치 매출이야.', '요일별로, 시간대별로, 메뉴별로 정리해 주고', '제일 안 팔리는 시간이랑', '제일 안 팔리는 메뉴 세 개만 뽑아 줘.'];
-S.ev(0.05, 'big_in', 'n08'); S.ev(T.hero, 'card_in', 'hero'); S.ev(T.dup, 'sweep', 'walls'); S.ev(T.imp, 'in', 'world'); S.ev(T.chat, 'card_in', 'chat'); S.ev(SEG[0].t0, 'type', 'msg');
-let shown = false;
+const CHIPS = [['요일별', S.at('요일별로')], ['시간대별', S.at('시간대별로')], ['메뉴별', S.at('메뉴별로')], ['안 팔리는 시간', S.line(10).t0 + 0.3], ['안 팔리는 메뉴 3개', S.line(11).t0 + 0.6]];
+const chipsEl = S.$('#chips'); CHIPS.forEach(c => { const d = document.createElement('div'); d.className = 'cp'; d.textContent = c[0]; chipsEl.appendChild(d); });
+const cpEls = [...chipsEl.children];
+S.focus([{ t0: T.f1, t1: T.f1 + 0.9, big: '몇천 칸', small: '엑셀', color: '#ECE8E0' }, { t0: T.f3, t1: S.SC.dur + 0.4, big: '3개', small: '안 팔리는 메뉴', color: '#F2C230' }]);
+S.ev(0.05, 'big_in', 'n08'); S.ev(T.hero, 'card_in', 'hero'); S.ev(T.fn, 'marker', 'fn'); S.ev(T.z0, 'in', 'hero'); S.ev(T.w0, 'sweep', 'hero'); S.ev(T.sel, 'marker', 'sel'); S.ev(T.z1, 'ok', 'hero');
+S.ev(T.dup, 'sweep', 'walls'); S.ev(T.tilt, 'in', 'walls'); S.ev(T.imp, 'sweep', 'world'); S.ev(T.chat, 'card_in', 'chat'); S.ev(SEG[0].t0 - 0.3, 'type', 'msg');
+CHIPS.forEach((c, i) => S.ev(c[1], i % 2 ? 'ok' : 'card_in', 'cp' + i));
 S.scene(tau => {
   // 장 카드
-  const c = S.ent(tau, -0.3, 0.3), cx = 1 - S.ent(tau, T.hero - 0.12, 0.25);
+  const c = S.ent(tau, -0.3, 0.3), cx = 1 - S.ent(tau, T.hero - 0.05, 0.2);
   S.css('#card1', { opacity: c * cx, transform: `translateY(${(1 - c) * 20 - (1 - cx) * 40}px) scale(${1 + 0.03 * S.cam(tau, 0, T.hero)})` });
-  // 엑셀 한 장 — 스크롤
-  const h = S.ent(tau, T.hero, 0.16);
+  // 엑셀 한 장 — 컷 줌(말에 맞춰)과 스크롤
+  const h = S.ent(tau, T.hero, 0.12);
   const out = S.cam(tau, T.dup, T.dup + 0.35);
   hero.style.display = out >= 1 ? 'none' : 'block';
   hero.style.opacity = h * (1 - S.P(tau, T.dup + 0.2, T.dup + 0.35));
-  hero.style.transform = `translateY(${(1 - h) * 34}px) translateZ(${out * 1050}px)`;
-  const tt = Math.max(0, tau - T.hero), sy = 40 * tt + 22 * tt * tt;
+  const zz = S.cam(tau, T.z0, T.z0 + 0.3);
+  hero.style.transformOrigin = '420px 250px';
+  hero.style.transform = `translateY(${(1 - h) * 34}px) translateZ(${out * 1050}px) scale(${1 + 0.35 * zz})`;
+  const tt = Math.max(0, tau - T.hero), sy = 40 * tt + 22 * tt * tt + 120 * S.ent(tau, T.z1, 0.5);
   heroIns.forEach(e => e.style.transform = `translateY(${-sy}px)`);
-  // 복도 — 벽이 나타나고 카메라가 흐름
+  fn.style.background = `rgba(242,194,48,${S.ent(tau, T.fn, 0.14)})`;
+  const hr = S.ent(tau, T.w0 + 0.4, 0.14), sl = S.ent(tau, T.sel, 0.2);
+  hero.querySelector('.hd').style.background = `rgba(242,194,48,${0.55 * hr})`;
+  sel.style.opacity = sl; sel.style.transform = `scaleY(${0.2 + 0.8 * sl})`; sel.style.transformOrigin = '0 0';
+  // 복도 — 벽이 나타나고 카메라가 흐름(기울기 한 번)
   const on = tau >= T.dup + 0.1;
-  walls.forEach((w, i) => { w.style.display = on ? 'block' : 'none'; });
+  walls.forEach(w => { w.style.display = on ? 'block' : 'none'; });
   const dolly = S.EIO(S.P(tau, T.dup + 0.3, T.dollyEnd)), Z = 9600 * dolly;
   const imp = S.EIO(S.P(tau, T.imp, T.imp + 0.5)), sc = Math.max(0.0001, 1 - imp);
-  world.style.transform = `scale3d(${sc},${sc},${sc}) translateZ(${Z}px)`;
+  const tl = S.cam(tau, T.tilt, T.tilt + 0.4) * (1 - S.cam(tau, T.tilt + 0.9, T.tilt + 1.4));
+  world.style.transform = `scale3d(${sc},${sc},${sc}) rotateZ(${0 * tl}deg) translateZ(${Z}px)`;
   S.$('#space').style.opacity = tau >= T.imp + 0.5 ? 0 : 1 - 0.8 * S.P(tau, T.imp + 0.3, T.imp + 0.5);
-  // 대화창 + 프롬프트 타자(말 시각에 맞춰)
+  // 대화창(점에서 커지며) + 프롬프트 타자(말 시각) + 항목 칩
   const ch = S.ent(tau, T.chat, 0.38);
   S.css('#chat', { opacity: Math.min(1, ch * 3), transform: `scale(${0.04 + 0.96 * ch})` });
-  const fi = S.ent(tau, T.chat + 0.15, 0.14);
-  S.css('#file', { opacity: fi });
+  S.css('#file', { opacity: S.ent(tau, T.chat + 0.15, 0.14) });
   let txt = '';
   SEG.forEach((sg, i) => { const p = S.clamp((tau - sg.t0) / (sg.t1 - sg.t0)), n = Math.floor(p * PROMPT[i].length + 0.0001); if (p > 0) txt += (txt ? ' ' : '') + [...PROMPT[i]].slice(0, n).join(''); });
   const typing = tau >= SEG[0].t0 && tau < SEG[3].t1;
   S.$('#msg').innerHTML = S.esc(txt) + (typing ? '<span class="caret"></span>' : '');
   S.css('#msg', { opacity: tau >= SEG[0].t0 ? 1 : 0 });
+  cpEls.forEach((e, i) => { const k = S.ent(tau, CHIPS[i][1], 0.12); e.style.opacity = k; e.style.transform = `translateY(${(1 - k) * 10}px)`; });
 });
 </script>
 </body></html>

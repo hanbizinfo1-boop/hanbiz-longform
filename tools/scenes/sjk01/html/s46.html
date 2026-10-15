@@ -14,7 +14,7 @@
 #ers{position:absolute;top:-6px;bottom:-6px;width:26px;background:rgba(190,188,178,.32);filter:blur(5px)}
 .chip{position:absolute;white-space:nowrap;font-size:32px;line-height:1;padding:9px 16px 8px;border-radius:8px;background:rgba(21,24,28,.92);color:#ECE8E0;border:2px solid #ECE8E0}
 </style></head>
-<body><div id="stage">
+<body><div id="stage"><div id="w" style="position:absolute;left:0;top:0;width:1920px;height:1080px">
   <svg width="0" height="0" style="position:absolute"><filter id="rough" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.6"/></filter></svg>
   <img id="a" class="seq" alt="">
   <div id="g0" class="reg"><img alt=""></div><div id="g1" class="reg"><img alt=""></div><div id="g2" class="reg"><img alt=""></div><div id="g3" class="reg"><img alt=""></div>
@@ -29,6 +29,7 @@
   <div id="lab" class="abs chip mono" data-box="lab">수육 1 · 소주 3</div>
   <div id="no" class="abs chip mono" data-box="no" style="color:#ECE8E0;border:3px solid #D8402F">빼세요</div>
 </div>
+</div>
 <script src="../data/s46.js"></script>
 <script src="../../../../_tmp/sjk01/blender/st45/track.js"></script>
 <script src="../lib/sjk.js"></script>
@@ -37,12 +38,14 @@
 // 45 의 메뉴판 글을 이어받는다. «수육(소)» 줄이 지우개로 지워지고 → 단골 실루엣이 테이블마다(왼→오) 사라져 빈 테이블만 남는다.
 // st45(사람 있음) 위에 st46(빈 테이블)을 테이블 영역별 마스크(가장자리 60px 페더)로 0→1 로 섞는다. 두 연번은 같은 카메라.
 window.PALETTE = ['#ECE8E0', '#F2C230', '#D8402F'];
-const T = { lab: S.at('수육하나'), er: S.at('수육빼는'), v: S.at('통째로') - 0.42 };
+const T = { lab: S.at('수육하나'), so: S.at('세 병'), er: S.at('수육빼는'), v: S.at('통째로') - 0.42 };
 const VT = [0, 1, 2, 3].map(i => T.v + i * 0.42);                   // 테이블마다 0.42초 간격
-S.ev(T.lab, 'card_in', 'lab'); S.ev(T.er, 'no', 'erase'); S.ev(VT[0], 'sweep', 'vanish');
+S.focus([{ t0: T.so, t1: T.so + 1.0, big: '소주 3병', size: 170, color: '#F2C230' }]);
+S.ev(T.lab, 'card_in', 'lab'); S.ev(T.so + 1.15, 'ok', 'lab2'); S.ev(T.er + 0.1, 'no', 'erase');
+S.ev(VT[0], 'sweep', 'v0'); S.ev(VT[1], 'shine', 'v1'); S.ev(VT[2], 'sweep', 'v2'); S.ev(VT[3], 'shine', 'v3');
 const img = document.getElementById('a');
 const gi = [0, 1, 2, 3].map(i => document.querySelector('#g' + i + ' img'));
-const scene = fn => { window.seek = async t => { await fn(t - S.SC.pre); }; };
+const scene = fn => { window.seek = async t => { await fn(t - S.SC.pre); S.focusDraw(t - S.SC.pre); }; };
 scene(async tau => {
   const G = ST.geo(tau), k = G.k, pk = ST.pad(k);
   await ST.set(img, ST.BASE + 'st45/f_' + pk + '.png');
@@ -58,6 +61,16 @@ scene(async tau => {
     if (o > 0.001) await ST.set(gi[i], ST.BASE + 'st46/f_' + pk + '.png');
   }
   S.css('#board', { left: (G.cx - 90).toFixed(1) + 'px', top: (G.cy - 120).toFixed(1) + 'px', transform: `scale(${G.g.toFixed(4)})` });
+  // 컷 줌: 라벨(테이블) → 메뉴판(지우개) → 넓게
+  const KF = [[-9, 1, 'b']];
+  let sc = 1, ox = G.cx, oy = G.cy;
+  for (let i = 1; i < KF.length; i++) {
+    const k = S.cam(tau, KF[i][0], KF[i][0] + 0.3); if (k <= 0) break;
+    const o = KF[i][2] === 'b' ? [G.cx, G.cy] : [G.t[1][0], G.t[1][1]];
+    sc = S.lerp(KF[i - 1][1], KF[i][1], k); ox = o[0]; oy = o[1];
+  }
+  S.css('#w', { transformOrigin: ox.toFixed(1) + 'px ' + oy.toFixed(1) + 'px', transform: `scale(${sc.toFixed(4)})` });
+  S.$('#lab').textContent = tau < T.so + 1.15 ? '수육 1' : '수육 1 · 소주 3';
   // 지우개 와이프 — «수육(소)» 줄이 왼→오 로 지워진다(경계에 뿌연 자국 한 줄)
   const p = S.cam(tau, T.er, T.er + 0.5);
   S.css('#sy', { clipPath: `inset(-10px 0 -10px ${(p * 100).toFixed(2)}%)` });
@@ -65,7 +78,7 @@ scene(async tau => {
   // 45 끝의 «빼세요» 칩은 지우개가 지나가며 함께 사라진다
   S.css('#no', { left: (G.cx + 100 * G.g + 22).toFixed(1) + 'px', top: (G.cy + 4 * G.g - 26).toFixed(1) + 'px', opacity: 1 - S.ent(tau, T.er, 0.25) });
   // «수육 1 · 소주 3» — 테이블 한 곳 위(track 1)
-  const l = S.ent(tau, T.lab, 0.14) * (1 - S.cam(tau, VT[0] + 0.1, VT[0] + 0.5));
+  const l = S.ent(tau, T.lab, 0.12) * (1 - S.cam(tau, T.er - 0.2, T.er + 0.1));
   S.css('#lab', { left: (G.t[1][0] - 235).toFixed(1) + 'px', top: (G.t[1][1] - 150 * G.g).toFixed(1) + 'px', opacity: l, transform: `translateY(${((1 - l) * 12).toFixed(2)}px)` });
 });
 </script>

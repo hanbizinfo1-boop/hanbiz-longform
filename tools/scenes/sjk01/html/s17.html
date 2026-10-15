@@ -21,16 +21,20 @@
 .mr .pr{font-size:32px;font-weight:700;margin-top:6px}
 .mr .ds{display:inline-block;margin-top:22px;font-size:30px;color:#4A4F57;min-width:240px;min-height:50px;padding:4px 10px;margin-left:-10px;outline:4px dashed rgba(216,64,47,0);outline-offset:6px;border-radius:4px}
 .mr .th{position:absolute;right:0;top:34px;width:200px;height:200px;border-radius:18px;background-image:url("../../../../소재/sjk01/codex/c18_gukbap_bowl.png");background-repeat:no-repeat;outline:7px solid rgba(242,194,48,0);outline-offset:0}
+#cur{position:absolute;left:0;top:0;width:44px;height:52px;opacity:0;z-index:5;overflow:visible}
+#rip{position:absolute;width:90px;height:90px;border:6px solid #F2C230;border-radius:50%;opacity:0;z-index:4}
+.bdg{display:inline-block;margin-left:10px;font-size:22px;font-weight:700;color:#D8402F;border:2px solid #D8402F;border-radius:6px;padding:0 8px;vertical-align:6px}
+.mr .ds.ye{outline-color:#F2C230}
 </style></head>
 <body><div id="stage">
   <div id="ph"></div>
   <div id="ch" class="abs" data-box="ch"><div class="no mono">03</div><div class="tt serif">메뉴 설명</div></div>
   <div id="panel" class="abs" data-box="panel">
-    <div id="inner">
+    <div id="inner"><svg id="cur" viewBox="0 0 44 52"><path d="M4 2 L4 40 L14 31 L21 47 L28 44 L21 28 L34 28 Z" fill="#1A1A1A" stroke="#fff" stroke-width="3" stroke-linejoin="round"/></svg><div id="rip"></div>
       <div class="top"><b>○○국밥</b><span>배달 · 최소주문 12,000원</span></div>
       <div class="tabs"><i class="on">대표 메뉴</i><i>국밥</i><i>수육·사이드</i></div>
       <div class="sec">대표 메뉴</div>
-      <div class="mr"><div class="nm">돼지국밥</div><div class="pr">10,000원</div><div class="ds" id="d0">맛있는 국밥</div><div class="th" id="t0" style="background-size:230%;background-position:60% 55%"></div></div>
+      <div class="mr"><div class="nm">돼지국밥<span class="bdg">대표</span></div><div class="pr">10,000원</div><div class="ds" id="d0">맛있는 국밥</div><div class="th" id="t0" style="background-size:230%;background-position:60% 55%"></div></div>
       <div class="mr"><div class="nm">순대국</div><div class="pr">10,000원</div><div class="ds" id="d1">맛있는 순대국</div><div class="th" id="t1" style="background-size:300%;background-position:92% 62%"></div></div>
       <div class="mr"><div class="nm">섞어국밥</div><div class="pr">10,500원</div><div class="ds" id="d2"></div><div class="th" id="t2" style="background-size:300%;background-position:34% 52%"></div></div>
     </div>
@@ -40,26 +44,35 @@
 <script src="../lib/sjk.js"></script>
 <script>
 window.PALETTE = ['#ECE8E0', '#F2C230', '#D8402F'];
-const T = { p: S.at('배달앱', 1) - 0.2, red: S.at('이렇게'), th: S.at('사진이랑'), s0: S.at('냄새도') - 0.1, s1: S.at('배달손님은') };
-S.ev(0.1, 'big_in', 'ch'); S.ev(T.p, 'in', 'panel'); S.ev(T.red, 'marker', 'd0'); S.ev(T.th, 'shine', 't0');
+const T = { p: S.at('배달앱', 1) - 0.2, red: S.at('이렇게'), cur: S.at('손님은', 0) , th: S.at('사진이랑'), ds: S.at('설명', 2), s0: S.at('가게에') - 0.05, e1: S.at('냄새도'), e2: S.at('테이블도'), s1: S.at('배달손님은'), no: S.at('없어요'), gl: S.at('글이') };
+S.focus([{ t0: T.gl, t1: T.gl + 0.8, big: '글', small: '메뉴 설명', color: '#F2C230', size: 300 }]);
+S.ev(0.1, 'big_in', 'ch'); S.ev(T.p, 'in', 'panel'); S.ev(3.7, 'marker', 'd0'); S.ev(4.6, 'sweep', 'inner'); S.ev(T.red, 'marker', 'd0'); S.ev(T.red + 0.64, 'no', 'd2');
+S.ev(T.cur + 0.1, 'in', 'cur'); S.ev(8.25, 'click', 'rip'); S.ev(T.th, 'shine', 't0'); S.ev(T.ds, 'marker', 'd1'); S.ev(T.s0, 'sweep', 'panel'); S.ev(T.e1, 'in', 'ph'); S.ev(T.s1, 'card_in', 'panel'); S.ev(T.no, 'no', 'd0');
 S.scene(tau => {
-  // 배경 국밥 사진: 흐리고 어둡게 → «냄새도 맡고 옆 테이블도» 에 선명 → «배달 손님은 그게 없어요» 에 다시 흐려짐
-  const sh = S.cam(tau, T.s0, T.s0 + 0.55) - S.cam(tau, T.s1, T.s1 + 0.4);
-  S.css('#ph', { filter: `blur(${18 * (1 - sh)}px) brightness(${0.35 + 0.5 * sh})`, transform: `scale(${1 + 0.04 * S.P(tau, 0, S.SC.dur)})` });
-  // 장 카드(가운데) → 위로 사라짐
-  const a = S.ent(tau, 0.08, 0.16), o = 1 - S.cam(tau, T.p - 0.2, T.p + 0.25);
+  // 배경 국밥 사진: 흐리고 어둡게 → «가게에 오신 손님» 에 선명 → «배달 손님은» 에 다시 흐려짐
+  const sh = S.cam(tau, T.s0, T.s0 + 0.5) - S.cam(tau, T.s1, T.s1 + 0.35);
+  const ze = 0.12 * S.cam(tau, T.e1, T.e1 + 0.3), pn = 0;
+  S.css('#ph', { filter: `blur(${18 * (1 - sh)}px) brightness(${0.35 + 0.5 * sh})`, transform: `translate(${pn * (1 - S.cam(tau, T.s1, T.s1 + 0.3))}px,0) scale(${1 + 0.03 * S.P(tau, 0, S.SC.dur) + ze * (1 - S.cam(tau, T.s1, T.s1 + 0.3))})` });
+  const a = S.ent(tau, 0.08, 0.12), o = 1 - S.cam(tau, T.p - 0.2, T.p + 0.2);
   S.css('#ch', { opacity: a * o, transform: `translateY(${(1 - a) * 24 - (1 - o) * 60}px)` });
-  // 앱 판: 아래에서 올라옴 · 줄 따라 내려감(스크롤) · 사진 보여 줄 땐 왼쪽으로 비킴
-  const pk = S.ent(tau, T.p, 0.2);
-  const k1 = S.cam(tau, T.s0 - 0.05, T.s0 + 0.55), k2 = S.cam(tau, T.s1 - 0.05, T.s1 + 0.45);
+  const pk = S.ent(tau, T.p, 0.14);
+  const k1 = S.cam(tau, T.s0, T.s0 + 0.45), k2 = S.cam(tau, T.s1, T.s1 + 0.35);
+  const zz = 1;
   S.css('#panel', { opacity: pk, transform: `translate(${-430 * (k1 - k2)}px,${(1 - pk) * 90}px)` });
-  S.css('#inner', { transform: `translateY(${-230 * S.cam(tau, 3.9, 6.3)}px)` });
-  // 설명 줄 빨강 점선 박스
+  S.css('#inner', { transformOrigin: '300px 330px', transform: `translateY(${-230 * S.cam(tau, 4.6, 5.15)}px) scale(${zz})` });
+  // 설명 줄: 3.7 노랑 표시 → 5.2 빨강 점선 → 설명 말에 노랑
   [0, 1, 2].forEach(i => {
-    const r = S.ent(tau, T.red + i * 0.32, 0.16), y = S.ent(tau, T.th + i * 0.15, 0.16);
-    S.css('#d' + i, { outlineColor: `rgba(216,64,47,${r})` });
+    const r = S.ent(tau, T.red + i * 0.32, 0.12), y = S.ent(tau, T.th + i * 0.15, 0.12), yd = S.ent(tau, T.ds + i * 0.15, 0.12);
+    const first = i === 0 ? S.ent(tau, 3.7, 0.15) * (1 - S.ent(tau, T.red, 0.1)) : 0;
+    const rc = yd > 0 ? `rgba(242,194,48,${yd})` : `rgba(216,64,47,${r})`;
+    S.css('#d' + i, { outlineColor: first > 0 ? `rgba(242,194,48,${first})` : rc });
     S.css('#t' + i, { outlineColor: `rgba(242,194,48,${y})` });
   });
+  // 손님은 뭘 보고 고를까요 — 커서가 사진을 짚고 누름
+  const cx = S.lerp(300, 640, S.cam(tau, T.cur, T.cur + 0.7)), cy = S.lerp(560, 400, S.cam(tau, T.cur, T.cur + 0.7));
+  S.css('#cur', { opacity: S.ent(tau, T.cur, 0.1) * (1 - S.ent(tau, T.th + 0.3, 0.15)), transform: `translate(${cx}px,${cy - 230 * S.cam(tau, 4.6, 5.15) * 0 }px)` });
+  const rp = S.P(tau, 8.25, 8.65);
+  S.css('#rip', { left: (640 - 45) + 'px', top: (400 - 45 + 0) + 'px', opacity: rp > 0 && rp < 1 ? 1 - rp : 0, transform: `scale(${0.4 + rp})` });
 });
 </script>
 </body></html>

@@ -1,29 +1,39 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s12 별점 낮은 리뷰는 사람이 한 번 읽기</title>
+<title>s12 별점 낮은 리뷰는 사람이 한 번 읽기 (v2)</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background:url("../../../../소재/sjk01/codex/c12_hand_phone_night.png") center/100% 100% no-repeat;transform-origin:1000px 480px}
+#ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background:url("../../../../소재/sjk01/codex/c12_hand_phone_night.png") center/100% 100% no-repeat;transform-origin:0 0}
 #l1{left:110px;top:100px;font-size:46px;padding:12px 30px;background:rgba(21,24,28,.9);color:#ECE8E0;border-radius:6px;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,.45)}
 #y1{left:110px;top:620px;font-size:50px;font-weight:700;padding:14px 32px;background:#F2C230;color:#15181C;border-radius:6px;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+#ck{position:absolute;left:660px;top:612px;width:90px;height:80px;overflow:visible}
 #c1{left:110px;top:770px;font-size:40px;padding:14px 30px;background:rgba(46,85,217,.94);color:#ECE8E0;border-radius:6px;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+#qm{left:830px;top:740px;font-size:110px;color:#F2C230;line-height:1;text-shadow:0 4px 20px rgba(0,0,0,.6)}
 </style></head>
 <body><div id="stage">
   <div id="ph"></div>
   <div id="l1" class="abs mono" data-box="l1">★1 · ★2</div>
   <div id="y1" class="abs" data-box="y1">사람이 한 번 읽기</div>
+  <svg id="ck" viewBox="0 0 90 80"><path id="ckp" d="M8 42 L32 66 L82 10" fill="none" stroke="#F2C230" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>
   <div id="c1" class="abs mono" data-box="c1">AI : 왜 화났는지 모름</div>
+  <div id="qm" class="abs serif" data-box="qm">?</div>
 </div>
 <script src="../data/s12.js"></script>
 <script src="../lib/sjk.js"></script>
 <script>
 window.PALETTE = ['#ECE8E0', '#F2C230', '#2E55D9'];
-const T = { l: S.at('별점') - 0.05, y: S.at('꼭') - 0.05, c: S.at('AI는') - 0.05 };
-S.ev(T.l, 'card_in', 'l1'); S.ev(T.y, 'big_in', 'y1'); S.ev(T.c, 'msg_in', 'c1');
+const T = { l: S.at('별점') - 0.05, z1: S.at('사장님이') - 0.1, y: S.at('꼭') - 0.05, ck: S.at('올리셔야'), z2: S.at('화났는지') - 0.9, c: S.at('AI는') - 0.05, q: S.at('모르거든요') };
+S.ev(T.l, 'card_in', 'l1'); S.ev(T.z1, 'sweep', 'ph'); S.ev(T.y, 'big_in', 'y1'); S.ev(T.ck, 'ok', 'ckp'); S.ev(T.z2, 'in', 'ph'); S.ev(T.c, 'msg_in', 'c1'); S.ev(T.q, 'shine', 'qm');
+const mixp = (a, b, k) => a.map((v, i) => v + (b[i] - v) * k);
 S.scene(tau => {
-  S.css('#ph', { transform: `scale(${1 + 0.06 * S.P(tau, 0, S.SC.dur)})` });
-  const f = (id, t0, dx) => { const k = S.ent(tau, t0, 0.15); S.css(id, { opacity: k, transform: `translateX(${(1 - k) * dx}px)` }); };
-  f('#l1', T.l, -30); f('#y1', T.y, -30); f('#c1', T.c, -30);
+  const A = [1, 960, 540, 960, 540], P = [1.5, 1087, 545, 1000, 560], F = [1.4, 1436, 181, 1050, 420];
+  let p = mixp(A, [1.04, 960, 540, 960, 540], S.P(tau, 0, T.z1));
+  p = mixp(p, P, S.cam(tau, T.z1, T.z1 + 0.35));
+  p = mixp(p, F, S.cam(tau, T.z2, T.z2 + 0.35));
+  S.css('#ph', { transform: `translate(${p[3] - p[0] * p[1]}px,${p[4] - p[0] * p[2]}px) scale(${p[0]})` });
+  const f = (id, t0, dx) => { const k = S.ent(tau, t0, 0.12); S.css(id, { opacity: k, transform: `translateX(${(1 - k) * dx}px)` }); };
+  f('#l1', T.l, -30); f('#y1', T.y, -30); f('#c1', T.c, -30); f('#qm', T.q, -20);
+  S.css('#ck', { opacity: tau >= T.ck ? 1 : 0 }); S.css('#ckp', { strokeDashoffset: 1 - S.cam(tau, T.ck, T.ck + 0.3) });
 });
 </script>
 </body></html>

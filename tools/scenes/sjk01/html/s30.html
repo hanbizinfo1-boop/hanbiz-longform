@@ -14,27 +14,34 @@
 #cover{position:absolute;width:600px;height:710px;left:660px;top:185px;padding:0 50px 0 90px;display:flex;flex-direction:column;justify-content:center}
 #cover .c1{font-size:58px;line-height:1.15;color:#15181C;white-space:nowrap}
 #cover .c2{font-size:42px;line-height:1.35;color:#15181C;margin-top:26px}
+#newb{left:1360px;top:250px;font-size:44px;padding:8px 30px;border-radius:6px;border:4px solid #ECE8E0;color:#ECE8E0;background:rgba(21,24,28,.55);opacity:0}
 #band{position:absolute;left:80px;top:560px;height:78px;width:0;background:#F2C230}
 </style></head>
 <body><div id="stage">
   <div class="bg tex-desk"></div>
-  <div id="persp"><div id="book">
+  <div id="persp" style="transform-origin:960px 250px"><div id="book">
     <div id="s0" class="sheet print"><div class="hole" style="top:150px"></div><div class="tt">오픈</div><div class="it">간판 불 켜기</div><div class="it">육수 데우기</div><div class="it">포스기 켜기</div><div class="it">반찬 채우기</div></div>
     <div id="s1" class="sheet print"><div class="hole" style="top:150px"></div><div class="tt">마감</div><div class="it">가스 잠그기 — 노란 밸브를 옆으로</div><div class="it">바닥은 물 뿌리지 않기</div><div class="it">간판 불 끄기</div><div class="it">육수 덜기 — 냉장고 맨 아래 칸</div><div class="it">포스기 마감 버튼</div></div>
     <div id="s2" class="sheet print"><div class="hole" style="top:150px"></div><div class="tt">손님 응대</div><div class="it">문 열리면 인사 먼저</div><div class="it">물과 반찬 먼저 내기</div><div class="it">주문은 한 번 더 확인</div><div class="it">나가실 때 인사하기</div></div>
     <div id="s3" class="sheet print"><div class="hole" style="top:150px"></div><div class="tt">전화 받기</div><div class="it">인사 — ○○국밥입니다</div><div class="it">예약은 이름 · 인원 · 시간</div><div class="it">배달 문의는 사장님께</div><div class="it">끊기 전에 한 번 더 확인</div></div>
     <div id="cover" class="print" data-box="cover"><div class="hole" style="top:150px"></div><div class="hole" style="top:350px"></div><div class="hole" style="top:550px"></div><div class="c1 serif">○○국밥 일 순서</div><div class="c2 serif">오픈 · 마감<br>손님 응대 · 전화 받기</div><div id="band"></div></div>
   </div></div>
+  <div id="newb" class="abs mono">새 알바</div>
 </div>
 <script src="../data/s30.js"></script>
 <script src="../lib/sjk.js"></script>
 <script>
 window.PALETTE = ['#15181C', '#ECE8E0', '#F2C230'];
-const T = { s0: S.at('오픈'), s1: S.at('마감'), s2: S.at('손님'), s3: S.at('전화'), cov: S.at('한권'), band: S.at('이거한번') };
-S.ev(T.s0, 'page', 's0'); S.ev(T.s2, 'card_in', 's2'); S.ev(T.s3, 'page', 's3'); S.ev(T.cov, 'big_in', 'cover'); S.ev(T.band, 'marker', 'band');
+const T = { nb: S.at('새알바'), s0: S.at('오픈'), s1: S.at('마감'), s2: S.at('손님'), s3: S.at('전화'), cov: S.at('한권'), band: S.at('이거한번') };
+S.focus([{ t0: S.at('한권') + 0.0, t1: S.at('한권') + 1.0, big: '한 권', small: '매뉴얼', color: '#ECE8E0' }]);
+S.ev(T.nb + 0.3, 'card_in', 'newb'); S.ev(T.s0, 'page', 's0'); S.ev(T.s2, 'card_in', 's2'); S.ev(T.s3, 'page', 's3'); S.ev(T.cov, 'big_in', 'cover'); S.ev(T.band, 'marker', 'band');
 const SH = [[-2.5, -70, 10], [1.5, 24, -14], [-1, -26, 6], [2, 56, -8]];
 const hole = (el, i) => { el.style.left = '22px'; };
+const Lp = (a, b, k) => a + (b - a) * k;
 S.scene(tau => {
+  const zk = S.cam(tau, T.nb - 0.05, T.nb + 0.35) * (1 - S.cam(tau, T.band + 0.9, T.band + 1.25)), zs = 1;
+  S.css('#persp', { transform: `scale(${zs})` });
+  const nk = S.ent(tau, T.nb + 0.3, 0.12); S.css('#newb', { opacity: nk * (1 - S.ent(tau, T.band + 0.9, 0.2)), transform: `translateX(${(1 - nk) * 30}px)` });
   [T.s0, T.s1, T.s2, T.s3].forEach((t0, i) => {
     const k = S.ent(tau, t0, 0.22);
     S.css('#s' + i, { opacity: k, transform: `translate(${SH[i][1]}px,${SH[i][2] + (1 - k) * -320}px) rotate(${SH[i][0]}deg)` });
@@ -42,7 +49,7 @@ S.scene(tau => {
   // 표지: 위에서 덮고, 책이 비스듬히 돌아 정면으로
   const kc = S.ent(tau, T.cov, 0.22);
   S.css('#cover', { opacity: kc, transform: `translateY(${(1 - kc) * -320}px)` });
-  const rot = 48 * (S.cam(tau, T.cov - 0.35, T.cov) - S.cam(tau, T.cov + 0.2, T.cov + 1.4));
+  const rot = 48 * (1 - S.cam(tau, T.cov + 0.15, T.cov + 1.35));
   const push = 1 + 0.05 * S.P(tau, T.band, S.SC.dur);
   S.css('#book', { transform: `rotateY(${rot}deg) scale(${push})` });
   S.$('#band').style.width = (470 * S.cam(tau, T.band, T.band + 0.5)) + 'px';

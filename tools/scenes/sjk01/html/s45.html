@@ -12,7 +12,7 @@
 #q{color:#F2C230;border:2px solid #F2C230}
 #no{color:#ECE8E0;border:3px solid #D8402F}
 </style></head>
-<body><div id="stage">
+<body><div id="stage"><div id="w" style="position:absolute;left:0;top:0;width:1920px;height:1080px">
   <svg width="0" height="0" style="position:absolute"><filter id="rough" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.6"/></filter></svg>
   <img id="a" class="seq" alt="">
   <div id="board" class="abs">
@@ -24,7 +24,9 @@
   </div>
   <div id="q" class="abs chip mono" data-box="q">단골?</div>
   <div id="no" class="abs chip mono" data-box="no">빼세요</div>
-</div>
+  <div id="gap" class="abs" style="border:3px dashed #F2C230;border-radius:6px;opacity:0"></div>
+  <div id="gq" class="abs chip mono" data-box="gq" style="color:#F2C230;border:2px solid #F2C230;font-size:34px">?</div>
+</div></div>
 <script src="../data/s45.js"></script>
 <script src="../../../../_tmp/sjk01/blender/st45/track.js"></script>
 <script src="../lib/sjk.js"></script>
@@ -32,14 +34,27 @@
 <script>
 // 이젤 위 빈 메뉴판에 분필 메뉴 다섯 줄(장면 시작부터) — 단골이 누군지 / 수육(소) 밑줄 / «빼세요»
 window.PALETTE = ['#F1EDDF', '#F2C230', '#D8402F'];
-const T = { q: S.at('단골이'), u: S.at('수육'), no: S.at('60%') };
-S.ev(T.q, 'card_in', 'q'); S.ev(T.u, 'marker', 'ul'); S.ev(T.no, 'no', 'no');
+const T = { g: S.at('하나가'), q: S.at('단골이'), u: S.at('수육'), f: S.at('60%'), no: S.at('빼라고') };
+S.focus([{ t0: T.f, t1: T.f + 1.0, big: '60%', color: '#F2C230', small: '수육 원가율' }]);
+S.ev(T.g, 'card_in', 'gap'); S.ev(T.q, 'msg_in', 'q'); S.ev(T.u, 'marker', 'ul'); S.ev(T.no, 'no', 'no');
 const img = document.getElementById('a');
 // sjk.js 의 S.scene 은 async 장면 함수를 기다리지 않는다 — 여기서는 seek 가 끝까지 기다린다.
-const scene = fn => { window.seek = async t => { await fn(t - S.SC.pre); }; };
+const scene = fn => { window.seek = async t => { await fn(t - S.SC.pre); S.focusDraw(t - S.SC.pre); }; };
 scene(async tau => {
   const G = ST.geo(tau);
   await ST.set(img, ST.BASE + 'st45/f_' + ST.pad(G.k) + '.png');
+  // 컷 줌: 하나가 없어요(메뉴판) → 단골이(테이블) → 수육(메뉴판 다시)
+  const KF = [[-9, 1, 'b'], [T.g, 1.4, 'b'], ];
+  let sc = 1, ox = G.cx, oy = G.cy;
+  for (let i = 1; i < KF.length; i++) {
+    const k = S.cam(tau, KF[i][0], KF[i][0] + 0.3); if (k <= 0) break;
+    const o = KF[i][2] === 'b' ? [G.cx, G.cy] : [G.t[2][0], G.t[2][1]];
+    sc = S.lerp(KF[i - 1][1], KF[i][1], k); ox = o[0]; oy = o[1];
+  }
+  S.css('#w', { transformOrigin: ox.toFixed(1) + 'px ' + oy.toFixed(1) + 'px', transform: `scale(${sc.toFixed(4)})` });
+  const gk = S.ent(tau, T.g, 0.12);
+  S.css('#gap', { left: (G.cx - 100 * G.g).toFixed(1) + 'px', top: (G.cy - 130 * G.g).toFixed(1) + 'px', width: (200 * G.g).toFixed(1) + 'px', height: (260 * G.g).toFixed(1) + 'px', opacity: gk * (1 - S.cam(tau, T.q - 0.3, T.q)) });
+  S.css('#gq', { left: (G.cx + 100 * G.g + 16).toFixed(1) + 'px', top: (G.cy - 130 * G.g).toFixed(1) + 'px', opacity: gk * (1 - S.cam(tau, T.q - 0.3, T.q)) });
   S.css('#board', { left: (G.cx - 90).toFixed(1) + 'px', top: (G.cy - 120).toFixed(1) + 'px', transform: `scale(${G.g.toFixed(4)})` });
   S.css('#ul', { transform: `scaleX(${S.ent(tau, T.u, 0.3).toFixed(3)})` });
   // «단골?» — 메뉴판 뒤 테이블 쪽(track 2)

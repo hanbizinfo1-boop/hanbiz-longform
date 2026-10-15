@@ -99,12 +99,51 @@
     return M.map((r, i) => r[n] / r[i]);
   }
 
+  // ── 부각(10-15 사장님 «시간이 부각 이되게 가운데서 배경 살짝 불투명도처리하면서»)
+  // S.focus([{t0, t1, big:'23:50', small:'밤 11시 50분'?, color:'#F2C230'?}]) — 장면 맨 위에서 한 번 적는다.
+  // 그 동안 장면 전체가 흐려지고 어두워지며(backdrop-filter) 가운데에 큰 글(Serif 900)이 튀어 오른다. 효과음 big_in 자동.
+  // 큰 글은 시간·숫자·개념어 몇 글자만(말 따라 쓰기 금지 그대로). 한 번 0.9~2.5초.
+  let FOC = [];
+  S.focus = list => {
+    FOC = list;
+    list.forEach((f, i) => S.ev(f.t0, 'big_in', 'focus' + i));
+  };
+  function focusEl() {
+    let o = document.getElementById('__focus');
+    if (o) return o;
+    o = document.createElement('div'); o.id = '__focus';
+    o.style.cssText = 'position:absolute;left:0;top:0;width:' + window.W + 'px;height:' + window.H + 'px;pointer-events:none;z-index:9000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;opacity:0';
+    o.innerHTML = '<div class="__fs mono" style="font-size:34px;color:#ECE8E0;letter-spacing:.08em;text-shadow:0 2px 12px rgba(0,0,0,.6)"></div>' +
+      '<div class="__fb serif" style="font-size:210px;line-height:1;color:#ECE8E0;text-shadow:0 8px 40px rgba(0,0,0,.55)"></div>';
+    document.body.appendChild(o);
+    return o;
+  }
+  S.focusDraw = tau => {
+    if (!FOC.length) return;
+    const o = focusEl();
+    const f = FOC.find(f => tau >= f.t0 - 0.2 && tau <= f.t1 + 0.25);
+    if (!f) { o.style.opacity = 0; o.style.backdropFilter = 'none'; return; }
+    const kin = S.EO(S.P(tau, f.t0 - 0.12, f.t0 + 0.06)), kout = 1 - S.P(tau, f.t1, f.t1 + 0.2);
+    const k = Math.min(kin, kout);
+    o.style.opacity = 1;
+    o.style.background = `rgba(10,12,16,${0.42 * k})`;
+    o.style.backdropFilter = `blur(${(9 * k).toFixed(2)}px)`;
+    const fb = o.querySelector('.__fb'), fs = o.querySelector('.__fs');
+    fb.textContent = f.big; fs.textContent = f.small || '';
+    fb.style.color = f.color || '#ECE8E0';
+    fb.style.fontSize = (f.size || 210) + 'px';
+    const pop = S.EO(S.P(tau, f.t0, f.t0 + 0.14));
+    fb.style.opacity = k; fs.style.opacity = k;
+    fb.style.transform = `scale(${(1.35 - 0.35 * pop).toFixed(4)})`;
+  };
+
   // 장면 등록
   S.scene = fn => {
     let first = true;
     window.seek = async t => {
       if (first) { first = false; if (S.init) await S.init(); }
       await fn(t - SC.pre);
+      S.focusDraw(t - SC.pre);
     };
   };
 })();

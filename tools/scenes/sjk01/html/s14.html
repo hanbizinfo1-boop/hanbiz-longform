@@ -1,67 +1,75 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s14 칠판이 소식 카드로</title>
+<title>s14 칠판이 소식 카드로 — v2</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
+#rig{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
 #paperbg{clip-path:inset(0 100% 0 0)}
-#news{left:0;top:0;width:400px;height:400px;transform-origin:50% 50%}
-#news .face{position:absolute;inset:0;border-radius:0;padding:26px 28px;overflow:hidden}
-#chalk{display:flex;flex-direction:column;justify-content:center;font-family:"Pen";color:#F3F1EA;text-shadow:0 0 3px rgba(255,255,255,.55),1px 1px 0 rgba(255,255,255,.2),-1px 0 0 rgba(255,255,255,.12)}
-#chalk .l1{font-size:70px;line-height:1.15;opacity:.92}
-#chalk .l2{font-size:96px;line-height:1.15;margin-top:6px}
-#chalk .ln{height:3px;background:rgba(243,241,234,.7);margin:12px 0 6px;width:100%}
-#cardui{background:#fff;font-family:"UI";color:#1A1A1A;box-shadow:0 26px 54px rgba(0,0,0,.28),0 2px 6px rgba(0,0,0,.18)}
-#cardui .hd{display:flex;align-items:center;gap:10px;font-size:22px;color:#5A5650}
-#cardui .hd i{display:inline-block;width:12px;height:12px;border-radius:50%;background:#2E55D9}
-#cardui .tt{font-size:27px;font-weight:700;line-height:1.35;margin:16px 0 12px}
-#cardui .bd{font-size:23px;line-height:1.55;color:#333}
-.slot{width:400px;height:400px;top:340px;border-radius:18px;background:#fff;box-shadow:0 20px 44px rgba(0,0,0,.2),0 2px 5px rgba(0,0,0,.14);display:flex;flex-direction:column;padding:24px 28px}
-.slot .wk{font-size:23px;color:#5A5650}
-.slot .q{flex:1;display:flex;align-items:center;justify-content:center;font-size:130px;color:#C9C5BC}
-#chip{top:236px;left:0;padding:8px 26px;border-radius:999px;background:#F2C230;color:#15181C;font-size:32px;white-space:nowrap}
+#news{position:absolute;left:0;top:0;width:300px;height:340px;transform-origin:50% 50%}
+#news .face{position:absolute;inset:0}
+#chalk{display:flex;flex-direction:column;justify-content:center;padding:0 12px;font-family:"Pen";color:#F3F1EA;text-shadow:0 0 3px rgba(255,255,255,.55),1px 1px 0 rgba(255,255,255,.2)}
+#chalk .l1{font-size:56px;line-height:1.15;opacity:.92}
+#chalk .l2{font-size:76px;line-height:1.15;margin-top:4px}
+#chalk .ln{height:3px;background:rgba(243,241,234,.7);margin:10px 0 4px;width:100%}
+.slot{position:absolute;width:300px;height:340px;transform-origin:50% 50%}
+.slot .v2c .sk{margin:0 14px;border-radius:8px;background:#EEF0F3}
+.slot .q{position:absolute;left:0;right:0;top:52px;line-height:1.1;text-align:center;font-size:76px;color:#B8BDC7}
+#chip,#chip2,#chip3{opacity:0}
+#chip,#chip2,#chip3{top:236px;left:0;padding:8px 26px;border-radius:999px;background:#F2C230;color:#15181C;font-size:34px;white-space:nowrap}
+#hl{position:absolute;left:14px;top:150px;height:26px;width:0;background:rgba(242,194,48,.8);z-index:0}
 </style></head>
 <body><div id="stage">
   <div class="bg tex-chalk"></div>
   <div id="paperbg" class="bg tex-paper"></div>
-  <div id="news" class="abs">
-    <div id="chalk" class="face"><div class="l1">오늘의 메뉴</div><div class="ln" id="cln"></div><div class="l2">얼큰 순대국</div></div>
-    <div id="cardui" class="face"><div class="hd"><i></i><span class="mono">1주 · 플레이스</span></div><div class="tt">[신메뉴] 얼큰 순대국이 나왔습니다.</div><div class="bd">진한 순대국에 청양고추 다대기를 올려 칼칼하게 끓였어요. 매운 거 좋아하시는 분, 해장 필요하신 분께 추천드려요. 10,500원.</div></div>
+  <div id="rig">
+    <div id="news">
+      <div id="chalk" class="face"><div class="l1">오늘의 메뉴</div><div class="ln"></div><div class="l2">얼큰 순대국</div></div>
+      <div id="cardui" class="face"></div>
+    </div>
+    <div id="s2" class="slot"></div><div id="s3" class="slot"></div><div id="s4" class="slot"></div>
+    <div id="chip" class="abs mono">월</div><div id="chip2" class="abs mono">금</div><div id="chip3" class="abs mono">다음 주</div>
   </div>
-  <div id="s2" class="abs slot" style="left:540px"><div class="wk mono">2주</div><div class="q mono">?</div></div>
-  <div id="s3" class="abs slot" style="left:980px"><div class="wk mono">3주</div><div class="q mono">?</div></div>
-  <div id="s4" class="abs slot" style="left:1420px"><div class="wk mono">4주</div><div class="q mono">?</div></div>
-  <div id="chip" class="abs mono" data-box="chip">월</div>
 </div>
 <script src="../data/s14.js"></script>
 <script src="../lib/sjk.js"></script>
+<script src="../lib/cards_v2_a.js"></script>
 <script>
 window.PALETTE = ['#15181C', '#ECE8E0', '#F2C230'];
-const T = { w: S.at('네이버랑'), ch: S.at('칠판') - 0.35, mv: S.at('근데') - 0.1, blank: S.at('막막하단'), mon: S.at('월요일에'), fri: S.at('금요일'), nxt: S.at('다음') };
-S.ev(T.w, 'marker', 'chalk'); S.ev(T.ch, 'in', 'paper'); S.ev(T.blank, 'card_in', 'slots');
+const nc = V2.cards[1].html().replace('[신메뉴] 얼큰 순대국이 나왔습니다.</div><div class="t22 gr">진한 순대국에 청양고추 다대기를 올려…', '[신메뉴] 얼큰 순대국이 나왔습니다.</div><div class="t22 gr">진한 순대국에 청양고추 다대기를 올려…');
+S.$('#cardui').innerHTML = nc;
+const skel = w => `<div class="v2c"><div class="hd"><span style="border-bottom:3px solid #1A1A1A;padding:8px 2px">소식</span><span class="gr" style="font-weight:400">${w}</span></div><div class="sk" style="height:110px;margin-top:0;margin-left:0;margin-right:0;border-radius:0"></div><div class="sk" style="height:20px;margin-top:16px"></div><div class="sk" style="height:20px;width:60%;margin-top:10px"></div><div class="q mono">?</div></div>`;
+['2주', '3주', '4주'].forEach((w, i) => { S.$('#s' + (i + 2)).innerHTML = skel(w); });
+const T = { w: S.at('네이버랑'), ul: S.at('소식'), ch: S.at('칠판') - 0.35, mv: S.at('근데') - 0.1, blank: S.at('막막하단'), mon: S.at('월요일에'), fri: S.at('금요일'), nxt: S.at('다음') };
+S.ev(T.w, 'marker', 'chalk'); S.ev(T.ul, 'type', 'chalk2'); S.ev(T.ch, 'in', 'paper'); S.ev(T.mv, 'sweep', 'move'); S.ev(T.blank, 'card_in', 'slots');
 S.ev(T.mon, 'msg_in', 'chip'); S.ev(T.fri, 'click', 'chip'); S.ev(T.nxt, 'shine', 'chip');
 const L = (a, b, k) => a + (b - a) * k;
+const CX = [300, 740, 1180, 1620], SC = 1.333;
+const K = [{ t: -9, s: 1, x: 960, y: 540 }];
+function cam(tau) {
+  let i = 0; for (let j = 1; j < K.length; j++) if (tau >= K[j].t) i = j;
+  if (i === 0) return K[0];
+  const k = S.cam(tau, K[i].t, K[i].t + 0.34), a = K[i - 1], b = K[i];
+  return { s: L(a.s, b.s, k), x: L(a.x, b.x, k), y: L(a.y, b.y, k) };
+}
 S.scene(tau => {
-  const kw = S.P(tau, T.w, T.w + 1.3);
+  const c = cam(tau);
+  S.css('#rig', { transform: `translate(${-c.s * (c.x - 960)}px,${-c.s * (c.y - 540)}px) scale(${c.s})` });
+  const kw = S.P(tau, T.w, T.w + 1.0);
   S.css('#chalk', { clipPath: `inset(0 ${100 - S.EIO(kw) * 100}% 0 0)` });
-  const km = S.cam(tau, T.ch, T.ch + 0.6);   // 칠판 → 종이 와이프
+  const km = S.cam(tau, T.ch, T.ch + 0.5);   // 칠판 → 종이 와이프
   S.css('#paperbg', { clipPath: `inset(0 ${100 - km * 100}% 0 0)` });
   S.css('#chalk', { opacity: 1 - S.P(km, 0.2, 0.7) });
   const cu = S.$('#cardui'); cu.style.opacity = S.P(km, 0.35, 0.9);
-  cu.style.borderRadius = (18 * km) + 'px';
-  // 한가운데(1.7배) → «그 칠판 같은 거예요» 뒤 왼쪽 칸으로
-  const kv = S.cam(tau, T.mv, T.mv + 0.7);
-  const sc = L(1.7, 1, kv), cx = L(960, 300, kv), cy = L(540, 540, kv);
-  S.css('#news', { transform: `translate(${cx - 200}px,${cy - 200}px) scale(${sc})` });
-  // 빈 칸 3장
-  ['#s2', '#s3', '#s4'].forEach((id, i) => { const k = S.ent(tau, T.blank + i * 0.14, 0.16); S.css(id, { opacity: k, transform: `translateY(${(1 - k) * 22}px)` }); });
-  // 요일 라벨 — 월 → 금 → 다음 주 (칸 위에서 오른쪽으로 넘어감)
-  const k1 = S.cam(tau, T.fri - 0.3, T.fri + 0.2), k2 = S.cam(tau, T.nxt - 0.3, T.nxt + 0.2);
-  const cxp = L(L(740, 1180, k1), 1620, k2);
-  const lab = tau < T.fri ? '월' : tau < T.nxt ? '금' : '다음 주';
-  const chip = S.$('#chip'); chip.textContent = lab;
-  const w = chip.offsetWidth;
-  const ck = S.ent(tau, T.mon, 0.14);
-  S.css(chip, { opacity: ck, transform: `translate(${cxp - w / 2}px,${(1 - ck) * -16}px)` });
+  // 가운데 큰 판(2.2배) → 왼쪽 칸(1.333배)
+  const kv = S.cam(tau, T.mv, T.mv + 0.45);
+  const sc = L(2.2, SC, kv), cx = L(960, CX[0], kv);
+  S.css('#news', { transform: `translate(${cx - 150}px,${540 - 170}px) scale(${sc})` });
+  ['#s2', '#s3', '#s4'].forEach((id, i) => { const k = S.ent(tau, T.blank + i * 0.14, 0.12); S.css(id, { opacity: k, transform: `translate(${CX[i + 1] - 150}px,${540 - 170 + (1 - k) * 24}px) scale(${SC})` }); });
+  // 요일 라벨 — 칸마다 새로 붙음: 월 → 금 → 다음 주
+  [['#chip', CX[1], T.mon], ['#chip2', CX[2], T.fri], ['#chip3', CX[3], T.nxt]].forEach(([id, x, t0]) => {
+    const el = S.$(id), w = el.offsetWidth, k = S.ent(tau, t0, 0.12);
+    S.css(el, { opacity: k, transform: `translate(${x - w / 2}px,${(1 - k) * -16}px)` });
+  });
 });
 </script>
 </body></html>

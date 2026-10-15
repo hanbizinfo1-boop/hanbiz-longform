@@ -8,7 +8,7 @@
 .nm{width:240px;text-align:center;font-size:96px;line-height:1;color:#ECE8E0;text-shadow:0 3px 16px rgba(0,0,0,.85),0 0 4px rgba(0,0,0,.9)}
 .ul{height:8px;width:190px;transform-origin:50% 50%}
 </style></head>
-<body><div id="stage">
+<body><div id="stage"><div id="w" style="position:absolute;left:0;top:0;width:1920px;height:1080px">
   <img id="a" class="seq" alt="">
   <div id="n0" class="abs mono num" data-box="n0">01–04</div>
   <div id="n1" class="abs mono num" data-box="n1">05–07</div>
@@ -19,7 +19,8 @@
   <div id="u0" class="abs ul" style="background:#E8913A"></div>
   <div id="u1" class="abs ul" style="background:#6CCB8A"></div>
   <div id="u2" class="abs ul" style="background:#6FA0FF"></div>
-</div>
+  <svg id="br" class="abs" style="left:0;top:0" width="1920" height="1080" viewBox="0 0 1920 1080"></svg>
+</div></div>
 <script src="../data/s07.js"></script>
 <script src="../../../../_tmp/sjk01/blender/s07/track.js"></script>
 <script src="../lib/sjk.js"></script>
@@ -27,19 +28,20 @@
 // 복도 끝 문 셋(블렌더 연번) — 문 위에 번호 · 이름. track 0·1·2 = 왼·가운데·오른 문 윗부분.
 window.PALETTE = ['#ECE8E0', '#E8913A', '#6CCB8A', '#6FA0FF'];
 const T = {
-  n: [S.at('덩이로'), S.at('덩이로') + 0.34, S.at('덩이로') + 0.68],
+  n: [S.at('덩이로') + 0.4, S.at('덩이로') + 0.58, S.at('덩이로') + 0.76], z0: S.at('헷갈리'), br: S.at('세 개거든요'),
   m: [S.at('손님'), S.at('직원'), S.at('돈')],
   h: [S.at('손님', 1), S.at('사람'), S.at('돈', 1)],
   go: S.at('바로', 0), end: S.SC.dur,
 };
-S.ev(T.n[0], 'card_in', 'nums'); S.ev(T.m[0], 'big_in', 'm0'); S.ev(T.m[1], 'card_in', 'm1'); S.ev(T.m[2], 'big_in', 'm2');
-S.ev(T.h[0], 'shine', 'hi'); S.ev(T.go, 'marker', 'door0');
+S.focus([{ t0: S.at('열'), t1: S.at('열') + 1.0, big: '10가지', color: '#F2C230' }, { t0: S.at('세 덩이'), t1: S.at('세 덩이') + 0.85, big: '세 덩이', color: '#F2C230' }]);
+S.ev(T.z0, 'sweep', 'zoom0'); S.ev(T.n[0], 'card_in', 'nums'); S.ev(T.m[0], 'big_in', 'm0'); S.ev(T.m[1], 'card_in', 'm1'); S.ev(T.m[2], 'big_in', 'm2');
+S.ev(T.br, 'marker', 'bracket'); S.ev(T.h[0], 'shine', 'hi0'); S.ev(T.h[1], 'marker', 'hi1'); S.ev(T.h[2], 'shine', 'hi2'); S.ev(T.go, 'sweep', 'door0');
 const FPSV = 60000 / 1001, N = 857, BASE = '../../../../_tmp/sjk01/blender/s07/';
 const pad = n => String(n).padStart(4, '0');
 const img = document.getElementById('a');
 const COL = ['#E8913A', '#6CCB8A', '#6FA0FF'];
 // sjk.js 의 S.scene 은 async 장면 함수를 기다리지 않는다(연번 decode 전에 캡처될 수 있음) — 여기서는 seek 가 끝까지 기다린다.
-const scene = fn => { window.seek = async t => { await fn(t - S.SC.pre); }; };
+const scene = fn => { window.seek = async t => { await fn(t - S.SC.pre); S.focusDraw(t - S.SC.pre); }; };
 scene(async tau => {
   const k = Math.min(N, Math.max(1, Math.round(tau * FPSV) + 1));
   const src = BASE + 'f_' + pad(k) + '.png';
@@ -49,6 +51,16 @@ scene(async tau => {
   const act = tau < T.h[0] ? -1 : tau < T.h[1] ? 0 : tau < T.h[2] ? 1 : 2;
   const dimIn = S.ent(tau, T.h[0] - 0.05, 0.2);
   const goK = S.ent(tau, T.go - 0.05, 0.3);
+  // 컷 줌: 헷갈리잖아요(가운데) · 이름마다 그 문 · 시작할게요(왼쪽 문)
+  const pulse = (a, d, h) => S.cam(tau, a, a + 0.3) * (1 - S.cam(tau, a + d, a + d + 0.3));
+  const zs = [[T.z0, 0.8, 1, 1.28]];
+  let sc = 1, ox = 960, oy = 540;
+  for (const [a, d, di, f] of zs) { const p = pulse(a, d); if (p > 0.001) { sc = 1 + (f - 1) * p; ox = tr[di][0]; oy = tr[di][1] + 40; } }
+  S.css('#w', { transformOrigin: ox.toFixed(1) + 'px ' + oy.toFixed(1) + 'px', transform: `scale(${sc.toFixed(4)})` });
+  // 세 문을 한 줄로 묶는 괄호선(세 개거든요)
+  const bk = S.cam(tau, T.br, T.br + 0.4);
+  const by = Math.max(tr[0][1], tr[2][1]) + 150;
+  S.$('#br').innerHTML = bk > 0.01 ? `<path d="M ${tr[0][0] - 90} ${by - 14} V ${by} H ${tr[2][0] + 90} V ${by - 14}" fill="none" stroke="#ECE8E0" stroke-width="4" stroke-dasharray="${(2 * (tr[2][0] - tr[0][0] + 200) + 28).toFixed(0)}" stroke-dashoffset="${((1 - bk) * (2 * (tr[2][0] - tr[0][0] + 200) + 28)).toFixed(0)}"/>` : '';
   for (let i = 0; i < 3; i++) {
     const [x, y] = tr[i];
     const a = S.ent(tau, T.n[i], 0.14), b = S.ent(tau, T.m[i], 0.14);

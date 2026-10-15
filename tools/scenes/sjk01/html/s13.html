@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s13 02 소식 글 — 칠판 옆 골목</title>
+<title>s13 02 소식 글 — 칠판 옆 골목 (v2)</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
 #rig{position:absolute;left:0;top:0;width:1920px;height:1280px;transform-origin:0 0}
@@ -12,13 +12,15 @@
 #chalk{position:absolute;left:0;top:0;width:400px;height:630px;font-family:"Pen";color:#F1EDDF;filter:url(#rough)}
 #chalk .ln{position:absolute;left:0;width:400px;text-align:center;white-space:nowrap;line-height:1.1}
 #chalk .ln span{display:inline-block;text-shadow:0 0 3px rgba(255,255,255,.4)}
+#chalk svg{position:absolute;left:0;top:0;width:400px;height:630px;overflow:visible}
 </style></head>
 <body><div id="stage">
   <svg width="0" height="0" style="position:absolute"><filter id="rough" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="2.6"/></filter></svg>
   <div id="rig">
     <div id="ph"></div>
     <div id="glow"></div>
-    <div id="chalk"><div class="ln" style="top:78px;font-size:82px"><span id="c1">오늘의 메뉴</span></div><div class="ln" style="top:236px;font-size:104px"><span id="c2">얼큰 순대국</span></div><div class="ln" style="top:420px;font-size:66px"><span id="c3">청양고추 다대기</span></div></div>
+    <div id="chalk"><div class="ln" style="top:78px;font-size:82px"><span id="c1">오늘의 메뉴</span></div><div class="ln" style="top:236px;font-size:104px"><span id="c2">얼큰 순대국</span></div><div class="ln" style="top:420px;font-size:66px"><span id="c3">청양고추 다대기</span></div>
+      <svg viewBox="0 0 400 630"><path id="cr" d="M30 34 C 140 28, 260 40, 370 32" fill="none" stroke="#F1EDDF" stroke-width="5" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/><path id="ch1" d="M30 250 C 40 190, 200 175, 370 215 C 392 262, 340 330, 190 336 C 60 340, 12 300, 28 250" fill="none" stroke="#F2C230" stroke-width="6" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" opacity=".95"/></svg></div>
     <div id="card" class="print" data-box="card"><div class="no mono">02</div><div class="tt serif">소식 글</div></div>
   </div>
 </div>
@@ -26,25 +28,28 @@
 <script src="../lib/sjk.js"></script>
 <script>
 window.PALETTE = ['#ECE8E0', '#15181C', '#2E55D9'];
-// 칠판 검은 면 네 꼭짓점(사진 좌표를 눈으로 잼 → 판 1.25배) — 안쪽으로 조금
 const BQ = [[398, 262], [706, 264], [744, 764], [416, 766]].map(p => [p[0] * 1.25, p[1] * 1.25]);
 S.fitQuad(S.$('#chalk'), 400, 630, BQ);
-const T = { c1: S.at('칠판'), c2: S.at('매일'), c3: S.at('바꿔'), glow: S.at('살아') - 0.1 };
-S.ev(0.1, 'in', 'card'); S.ev(T.c1, 'marker', 'c1'); S.ev(T.glow, 'shine', 'glow');
+const T = { c1: S.at('칠판'), c2: S.at('매일'), c3: S.at('바꿔'), z: S.at('왜') - 0.1, out: S.at('있잖아요') - 0.05, ring: S.at('그거', 0), glow: S.at('살아') - 0.1, last: S.at('이런') };
+S.ev(0.1, 'in', 'card'); S.ev(2.0, 'in', 'rig'); S.ev(3.4, 'marker', 'cr'); S.ev(4.5, 'sweep', 'rig'); S.ev(T.c1, 'marker', 'c1'); S.ev(T.c2, 'type', 'c2'); S.ev(T.c3, 'marker', 'c3');
+S.ev(T.out, 'in', 'ch1'); S.ev(T.ring, 'click', 'ch1'); S.ev(T.ring + 0.1, 'marker', 'ch1'); S.ev(10.9, 'sweep', 'glow'); S.ev(T.glow, 'shine', 'glow'); S.ev(T.last, 'sweep', 'rig');
 const D = S.SC.dur;
+const mixp = (a, b, k) => a.map((v, i) => v + (b[i] - v) * k);
 S.scene(tau => {
-  // 옆 흐름: 골목 오른쪽 → 가게·칠판 쪽으로 천천히 이동
-  const p = S.cam(tau, 0.15, D);
-  const s = 1.3 + 0.04 * p, vx = S.lerp(330, 0, p);
-  S.css('#rig', { transform: `translate(${-vx}px,-230px) scale(${s})` });
-  // 장 카드: 벽에 붙은 종이(고정 1.5°) 2초 → 사라짐
-  const a = S.ent(tau, 0.1, 0.16), o = 1 - S.cam(tau, 2.35, 2.8);
+  // 키프레임 2번(칠판 쪽 한 번 더 밀기 · 마지막 가게 창 밀기) — 나머지는 컷
+  let p;
+  if (tau < 2.0) p = [1.3 + 0.02 * S.P(tau, 0, 2.0), 330, 230];
+  else if (tau < T.out) p = mixp([1.75, 282, 620], [1.95, 300, 650], S.cam(tau, 4.5, 4.85));
+  else if (tau < 10.9) p = [1.34, 40, 230];
+  else p = mixp([1.5, 0, 250], [1.9, 0, 420], S.cam(tau, T.last, T.last + 0.35));
+  S.css('#rig', { transform: `translate(${-p[1]}px,${-p[2]}px) scale(${p[0]})` });
+  const a = S.ent(tau, 0.1, 0.12), o = 1 - S.cam(tau, 1.7, 2.0);
   S.css('#card', { opacity: a * o, transform: `translateY(${(1 - a) * 20 - (1 - o) * 26}px) rotate(1.5deg)` });
-  // 분필 글: 왼→오 와이프
   const w = (id, t0, d) => S.css(id, { clipPath: `inset(-10px ${(1 - S.cam(tau, t0, t0 + d)) * 100}% -10px -10px)`, opacity: tau >= t0 ? 1 : 0 });
-  w('#c1', T.c1, 0.6); w('#c2', T.c2, 0.7); w('#c3', T.c3, 0.7);
-  // 이 집 살아 있네? — 가게 유리창 쪽 따뜻한 빛
-  S.css('#glow', { opacity: S.cam(tau, T.glow, T.glow + 0.8) });
+  w('#c1', T.c1, 0.5); w('#c2', T.c2, 0.6); w('#c3', T.c3, 0.6);
+  S.css('#cr', { strokeDashoffset: 1 - S.cam(tau, 3.4, 3.9) });
+  S.css('#ch1', { opacity: tau >= T.ring ? 0.95 : 0, strokeDashoffset: 1 - S.cam(tau, T.ring, T.ring + 0.5) });
+  S.css('#glow', { opacity: S.cam(tau, T.glow, T.glow + 0.5) });
 });
 </script>
 </body></html>

@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s41 10 계약서 — 작은 글씨</title>
+<title>s41 10 계약서 — 작은 글씨 (v2)</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
 #cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
@@ -8,14 +8,19 @@
 #title{left:460px;top:330px;width:1000px;text-align:center}
 #title .no{font-size:54px;color:#F2C230;display:block;margin-bottom:0}
 #title .tt{font-size:230px;line-height:1.15;color:#ECE8E0;display:block;text-shadow:0 8px 34px rgba(0,0,0,.6)}
-#paper{left:640px;top:150px;width:640px;height:770px;padding:40px 40px;color:#15181C}
-#paper .h{font-family:"Serif";font-weight:900;font-size:30px;text-align:center}
-#paper .s{font-size:18px;text-align:center;margin:6px 0 22px;color:#3A3732}
-#paper .c{font-size:18px;line-height:1.55;margin-bottom:12px;font-weight:400}
+#paper{left:640px;top:130px;width:640px;height:800px;padding:44px 42px;color:#15181C}
+#paper .h{font-family:"Serif";font-weight:900;font-size:32px;text-align:center;letter-spacing:.3em}
+#paper .s{font-size:18px;text-align:center;margin:8px 0 20px;color:#3A3732;padding-bottom:12px;border-bottom:2px solid #15181C}
+#paper .c{font-size:18px;line-height:1.55;margin:0 -6px 10px;padding:1px 6px;font-weight:400}
 #paper .c b{font-weight:700}
-#sig{position:absolute;left:40px;right:40px;bottom:36px;display:flex;justify-content:space-between;font-size:18px}
-#sig div{width:250px}
-#sig i{display:block;height:2px;background:#15181C;margin-top:44px}
+#paper .c .mk{background:linear-gradient(#F2C230,#F2C230) no-repeat 0 90%/0% 50%}
+#pg{position:absolute;left:0;right:0;bottom:14px;text-align:center;font-size:18px;color:#6B665E}
+#sig{position:absolute;left:42px;right:42px;bottom:56px;display:flex;justify-content:space-between;font-size:18px}
+#sig div{width:250px;position:relative}
+#sig i{display:block;height:2px;background:#15181C;margin-top:50px}
+#sig .in{position:absolute;right:0;top:-6px;width:44px;height:44px;border:2px dashed #9A958C;border-radius:50%;font-size:16px;line-height:40px;text-align:center;color:#9A958C}
+#sg{position:absolute;left:4px;top:22px;width:230px;height:60px}
+.chip{position:absolute;left:110px;top:110px;padding:12px 32px 16px;font-size:46px;white-space:nowrap;background:rgba(21,24,28,.92);color:#ECE8E0;border-radius:6px;box-shadow:0 14px 34px rgba(0,0,0,.45);border-left:8px solid #F2C230}
 #lab{left:560px;top:430px;width:800px;text-align:center;padding:14px 0 16px;font-size:46px;background:rgba(66,70,76,.93);color:#E8E4DB;border-radius:4px;box-shadow:0 14px 34px rgba(0,0,0,.4)}
 </style></head>
 <body><div id="stage">
@@ -28,35 +33,42 @@
       <div class="c"><b>제5조(최소 발주)</b> 갑은 월 300만 원 이상을 발주한다. 미달 시 차액의 10%를 을에게 지급한다.</div>
       <div class="c"><b>제7조(반품)</b> 품질 불량은 납품 후 6시간 안에 알린 경우에만 반품한다.</div>
       <div class="c"><b>제9조(대금 지급)</b> 월말 마감, 다음 달 5일까지 지급한다. 늦어지면 연 20%의 지연 이자를 더한다.</div>
-      <div class="c"><b>제11조(계약 기간)</b> 계약 기간은 1년으로 한다. 끝나기 1개월 전까지 서면 통지가 없으면 같은 조건으로 1년씩 자동 연장된다.</div>
+      <div class="c"><b>제11조(계약 기간)</b> 계약 기간은 1년으로 한다. 끝나기 1개월 전까지 서면 통지가 없으면 <span class="mk" id="mk">같은 조건으로 1년씩 자동 연장된다.</span></div>
       <div class="c"><b>제12조(중도 해지)</b> 갑이 기간 중 해지하면 남은 기간 월평균 납품액의 30%를 위약금으로 지급한다.</div>
-      <div id="sig"><div>갑 ○○국밥 (서명)<i></i></div><div>을 ○○유통 (서명)<i></i></div></div>
+      <div id="sig"><div>갑 ○○국밥 (서명)<span class="in">인</span><i></i><svg id="sg" viewBox="0 0 230 60"><path id="sgp" d="M6 42 C26 4, 40 56, 60 28 S98 8, 112 38 S150 52, 172 20 S206 22, 224 36" fill="none" stroke="#1B2A6B" stroke-width="3.2" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg></div><div>을 ○○유통 (서명)<span class="in">인</span><i></i></div></div>
+      <div id="pg">- 1 -</div>
     </div>
   </div>
   <div id="title" class="abs"><span class="no mono">10</span><span class="tt serif">계약서</span></div>
+  <div id="k1" class="chip mono" data-box="k1">임대차 계약서</div>
+  <div id="k2" class="chip mono" data-box="k2">납품 계약서</div>
   <div id="lab" class="abs mono" data-box="lab">다들 이렇게 써요</div>
 </div>
 <script src="../data/s41.js"></script>
 <script src="../lib/sjk.js"></script>
 <script>
 window.PALETTE = ['#ECE8E0', '#15181C', '#F2C230'];
-const T = { title: 0.12, pin: S.at('임대차') - 0.2, small: S.at('글씨가'), sign: S.at('그냥사인하시는'), lab: S.at('다들') };
-S.ev(T.title, 'big_in', 'title'); S.ev(T.pin, 'page', 'paper'); S.ev(T.small, 'sweep', 'cam'); S.ev(T.lab - 0.05, 'msg_in', 'lab');
+const T = { title: 0.12, pin: S.at('임대차') - 0.35, k1: S.at('임대차'), k2: S.at('납품'), rec: S.at('이런거'), small: S.at('글씨가'), mk: S.at('말이'), sign: S.at('그냥사인하시는'), sg: S.at('그냥사인하시는', 1), lab: S.at('다들'), last: S.at('이말만') };
+S.focus([{ t0: T.sign + 0.15, t1: T.sign + 1.4, big: '사인', small: '내용 확인 없이', color: '#F2C230' }]);
+S.ev(T.title, 'big_in', 'title'); S.ev(T.pin, 'page', 'paper'); S.ev(T.k1 + 0.05, 'card_in', 'k1'); S.ev(T.k2, 'msg_in', 'k2'); S.ev(T.small - 0.3, 'in', 'cam'); S.ev(T.mk, 'marker', 'mk');
+S.ev(T.sign - 0.4, 'sweep', 'cam'); S.ev(T.sg + 0.1, 'type', 'sgp'); S.ev(T.lab - 0.05, 'msg_in', 'lab'); S.ev(T.last - 0.3, 'in', 'cam');
 const camSet = (sel, s, cx, cy) => {
   const tx = S.clamp(960 - cx * s, 1920 - 1920 * s, 0), ty = S.clamp(540 - cy * s, 1080 - 1180 * s, 100 * s);
   S.css(sel, { transform: `translate(${tx}px,${ty}px) scale(${s})` });
 };
+const KF = (tau, keys) => { let [, s, cx, cy] = keys[0]; for (let i = 1; i < keys.length; i++) { const [t, s2, x2, y2, d = 0.3] = keys[i]; const k = S.cam(tau, t - d, t); s = S.lerp(s, s2, k); cx = S.lerp(cx, x2, k); cy = S.lerp(cy, y2, k); } return [s, cx, cy]; };
 S.scene(tau => {
-  const a = S.cam(tau, 0, T.small - 0.2), b = S.cam(tau, T.small - 0.2, T.small + 0.7), c = S.cam(tau, T.sign - 0.2, T.sign + 0.9);
-  let s = S.lerp(1.0, 1.1, a), cy = S.lerp(540, 500, a);
-  s = S.lerp(s, 2.2, b); cy = S.lerp(cy, 400, b);
-  s = S.lerp(s, 2.0, c); cy = S.lerp(cy, 770, c);
-  camSet('#cam', s, 960, cy);
-  const t = S.ent(tau, T.title, 0.16) * (1 - S.ent(tau, T.pin + 0.1, 0.2));
-  S.css('#title', { opacity: t, transform: `translateY(${(1 - S.ent(tau, T.title, 0.16)) * 24}px)` });
-  const p = S.ent(tau, T.pin, 0.28);
+  const [s, cx, cy] = KF(tau, [[0, 1.0, 960, 540], [T.small, 2.2, 960, 400, 0.35], [T.sign, 2.0, 960, 770, 0.35], [T.last, 1.05, 960, 520, 0.001]]);
+  camSet('#cam', s, cx, cy);
+  const t = S.ent(tau, T.title, 0.14) * (1 - S.ent(tau, T.pin + 0.05, 0.16));
+  S.css('#title', { opacity: t, transform: `translateY(${(1 - S.ent(tau, T.title, 0.14)) * 24}px)` });
+  const p = S.ent(tau, T.pin, 0.25);
   S.css('#paper', { opacity: Math.min(1, p * 2.5), transform: `translateY(${(1 - p) * 140}px)` });
-  const l = S.ent(tau, T.lab - 0.05, 0.14);
+  S.css('#mk', { backgroundSize: (S.cam(tau, T.mk, T.mk + 0.6) * 100) + '% 50%' });
+  S.$('#sgp').style.strokeDashoffset = 1 - S.cam(tau, T.sg + 0.1, T.sg + 0.9);
+  const a = S.ent(tau, T.k1 + 0.05, 0.12) * (1 - S.P(tau, T.k2 - 0.05, T.k2)), b = S.ent(tau, T.k2, 0.12) * (1 - S.P(tau, T.rec + 0.9, T.rec + 1.05));
+  S.css('#k1', { opacity: a, transform: `translateX(${(1 - a) * -24}px)` }); S.css('#k2', { opacity: b, transform: `translateX(${(1 - b) * -24}px)` });
+  const l = S.ent(tau, T.lab - 0.05, 0.12);
   S.css('#lab', { opacity: l, transform: `translateY(${(1 - l) * 14}px)` });
 });
 </script>

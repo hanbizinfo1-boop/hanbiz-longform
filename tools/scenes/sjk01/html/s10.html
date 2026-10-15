@@ -1,99 +1,118 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s10 그래서 이렇게 시키는 거예요 — 리뷰 열 개 답글</title>
+<title>s10 그래서 이렇게 시키는 거예요 — 리뷰 열 개 답글 (v2)</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#rig{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:981px 487px}
+#rig{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
 #ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background:url("../../../../소재/sjk01/codex/d10_laptop_counter_clean.png") center/100% 100% no-repeat}
 #app{position:absolute;left:0;top:0;width:895px;height:543px;background:#fff;overflow:hidden;font-family:"UI";color:#1A1A1A}
 #app .bar{position:absolute;left:0;top:0;right:0;height:40px;background:#F1F2F4;border-bottom:1px solid #E3E5E8;display:flex;align-items:center;gap:8px;padding:0 16px;font-size:16px;color:#6B7280;z-index:3}
 #app .dot{width:11px;height:11px;border-radius:50%}
-#vp{position:absolute;left:0;top:40px;right:0;height:437px;overflow:hidden}
-#sc{position:absolute;left:0;top:0;width:895px}
-#pb{position:absolute;left:28px;right:28px;top:14px;height:180px;background:#EEF1F6;border-radius:16px;padding:14px 20px;font-size:24px;line-height:1.55}
+#app .md{position:absolute;left:50%;top:6px;transform:translateX(-30%);background:#fff;border:1px solid #D7DBE2;border-radius:14px;padding:0 14px;font-size:16px;color:#3A3F47;height:26px;display:flex;align-items:center}
+#sb{position:absolute;left:0;top:40px;bottom:0;width:150px;background:#F4F5F7;border-right:1px solid #E3E5E8;padding:12px 10px;z-index:2}
+#nc{border:1px solid #CFD4DC;border-radius:8px;background:#fff;font-size:22px;padding:5px 10px;font-weight:700;white-space:nowrap}
+#sb .ti{font-size:22px;color:#3A3F47;margin-top:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 4px}
+#vp{position:absolute;left:150px;top:40px;right:0;height:437px;overflow:hidden}
+#sc{position:absolute;left:0;top:0;width:745px}
+.ub{position:absolute;right:28px;background:#EEF1F6;border-radius:16px;padding:10px 18px;font-size:22px}
+.pa{position:absolute;left:28px;right:28px;display:flex;gap:12px;font-size:22px;line-height:1.5;color:#222}
+.pa .ava{flex:none;width:32px;height:32px;border-radius:50%;background:#2E55D9;margin-top:2px}
+#pb{position:absolute;left:28px;right:28px;top:150px;height:222px;background:#EEF1F6;border-radius:16px;padding:12px 18px;font-size:24px;line-height:1.5}
 #pb .chip{display:block;margin-top:4px;font-size:22px;color:#6B7280}
-.rp{position:absolute;left:28px;right:28px;height:110px;display:flex;gap:14px;align-items:flex-start;font-size:22px;line-height:1.5;color:#222;overflow:hidden}
-.rp .no{flex:none;width:34px;height:34px;border-radius:50%;background:#2E55D9;color:#fff;font-size:20px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.mk{background-repeat:no-repeat;background-position:0 90%;background-size:0% 40%;background-image:linear-gradient(rgba(242,194,48,.95),rgba(242,194,48,.95))}
+.rp{position:absolute;left:28px;right:28px;height:132px;display:flex;gap:12px;align-items:flex-start;font-size:22px;line-height:1.5;color:#222;overflow:hidden}
+.rp .no{flex:none;width:32px;height:32px;border-radius:50%;background:#2E55D9;color:#fff;font-size:20px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:2px}
 .rp b{display:block;font-size:22px;color:#1A1A1A}
-#inp{position:absolute;left:28px;right:28px;bottom:10px;height:44px;border:2px solid #D7DBE2;border-radius:22px;display:flex;align-items:center;padding:0 20px;font-size:21px;color:#9AA1AC;background:#fff;z-index:3}
-#bd{right:70px;top:56px;font-size:46px;padding:10px 26px;background:#15181C;color:#F2C230;border-radius:6px;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+#inp{position:absolute;left:178px;right:28px;bottom:10px;height:44px;border:2px solid #D7DBE2;border-radius:22px;display:flex;align-items:center;padding:0 20px;font-size:21px;color:#9AA1AC;background:#fff;z-index:3}
 </style></head>
 <body><div id="stage">
   <div id="rig">
     <div id="ph"></div>
     <div id="app">
-      <div class="bar"><div class="dot" style="background:#E5594F"></div><div class="dot" style="background:#E9B43F"></div><div class="dot" style="background:#58B84F"></div><span style="margin-left:12px">새 대화</span></div>
-      <div id="vp"><div id="sc"><div id="pb"><span id="ptx"></span><span class="chip" id="pchip"></span></div></div></div>
+      <div class="bar"><div class="dot" style="background:#E5594F"></div><div class="dot" style="background:#E9B43F"></div><div class="dot" style="background:#58B84F"></div><div class="md">AI ▾</div></div>
+      <div id="sb"><div id="nc">＋ 새 채팅</div><div class="ti">돼지국밥 칼로리</div><div class="ti">기사 요약</div></div>
+      <div id="vp"><div id="sc">
+        <div class="ub" style="top:10px">돼지국밥 칼로리 알려 줘</div>
+        <div class="pa" style="top:60px"><div class="ava"></div><div>돼지국밥 한 그릇(밥 포함)은 보통 600~800kcal 정도예요.</div></div>
+        <div id="pb"><span id="ptx"></span><span class="chip" id="pchip"></span></div>
+      </div></div>
       <div id="inp">무엇이든 물어보세요</div>
     </div>
   </div>
-  <div id="bd" class="abs mono" data-box="bd">10개 · 1분</div>
 </div>
 <script src="../data/s10.js"></script>
 <script src="../lib/sjk.js"></script>
 <script>
 window.PALETTE = ['#ECE8E0', '#15181C', '#F2C230'];
-// 사진 속 노트북 화면 네 모서리(quads.json d10 stage) — 안쪽으로 1.5% 줄임
 const Q0 = [[527.3, 210.6], [1436.2, 212.5], [1435.0, 764.4], [526.2, 762.4]];
 const cx = Q0.reduce((a, p) => a + p[0], 0) / 4, cy = Q0.reduce((a, p) => a + p[1], 0) / 4;
 const Q = Q0.map(p => [cx + (p[0] - cx) * 0.985, cy + (p[1] - cy) * 0.985]);
 const W = Math.round(Math.hypot(Q[1][0] - Q[0][0], Q[1][1] - Q[0][1])), H = Math.round(Math.hypot(Q[3][0] - Q[0][0], Q[3][1] - Q[0][1]));
 const APP = S.$('#app'); APP.style.width = W + 'px'; APP.style.height = H + 'px';
-S.$('#sc').style.width = W + 'px';
+S.$('#sc').style.width = (W - 150) + 'px';
 const VH = H - 40 - 62; S.$('#vp').style.height = VH + 'px';
 S.fitQuad(APP, W, H, Q);
 const REPLY = [
-  ['★1 국물이 너무 짜요', '짜게 느끼셨다니 죄송합니다. 다음에 오시면 말씀해 주세요. 싱겁게 따로 말아 드릴게요.'],
-  ['★5 혼밥 양 많아서', '혼자 오셔도 편하게 드실 수 있게 늘 넉넉히 담고 있어요. 다음 점심도 든든하게 챙겨 드릴게요!'],
-  ['★3 기다리는 시간', '기다리시게 해서 죄송해요. 손님 몰리는 시간엔 주방에 한 명 더 붙여서 더 빨리 내 드릴게요.'],
-  ['★4 깍두기 맛있어요', '깍두기는 매주 직접 담가요. 다음엔 국밥도 깍두기만큼 기억에 남게 끓여 볼게요!'],
-  ['★5 부모님 수육', '부모님 모시고 와 주셔서 감사해요. 수육은 매일 아침 삶아서 부드럽게 내고 있어요. 또 모시고 오세요!'],
-  ['★2 테이블 끈적', '불편하셨겠어요, 죄송합니다. 손님 나가실 때마다 테이블을 두 번 닦도록 바로 바꿨어요.'],
-  ['★5 퇴근길에 생각나는 집', '퇴근길에 생각나는 집이라니 그 말이 제일 힘이 돼요. 오늘도 따뜻하게 끓여 두겠습니다.'],
-  ['★4 순대국 특 가격', '양 넉넉하게 느끼셨다니 다행이에요. 가격 말씀도 잘 새겨들을게요. 다음에도 든든하게 담아 드릴게요.'],
-  ['★3 포장 국물 샘', '봉투까지 젖게 해 드려 죄송합니다. 포장 국물은 이제 뚜껑 위에 랩을 한 번 더 씌워 드려요.'],
-  ['★5 늦게까지', '늦은 시간에도 찾아 주셔서 감사해요. 섞어국밥 추천까지! 다음에도 따뜻하게 기다릴게요.'],
+  ['★1 국물이 너무 짜요', ['짜게 느끼셨다니 죄송합니다.', '다음에 오시면 말씀해 주세요.', '싱겁게 따로 말아 드릴게요.']],
+  ['★5 혼밥 양 많아서', ['혼자 오셔도 편하게 드실 수 있게 늘 넉넉히 담고 있어요. 다음 점심도 든든하게 챙겨 드릴게요!']],
+  ['★3 기다리는 시간', ['기다리시게 해서 죄송해요. 손님 몰리는 시간엔 주방에 한 명 더 붙여서 더 빨리 내 드릴게요.']],
+  ['★4 깍두기 맛있어요', ['깍두기는 매주 직접 담가요. 다음엔 국밥도 깍두기만큼 기억에 남게 끓여 볼게요!']],
+  ['★5 부모님 수육', ['부모님 모시고 와 주셔서 감사해요. 수육은 매일 아침 삶아서 부드럽게 내고 있어요. 또 모시고 오세요!']],
+  ['★2 테이블 끈적', ['불편하셨겠어요, 죄송합니다. 손님 나가실 때마다 테이블을 두 번 닦도록 바로 바꿨어요.']],
+  ['★5 퇴근길에 생각나는 집', ['퇴근길에 생각나는 집이라니 그 말이 제일 힘이 돼요. 오늘도 따뜻하게 끓여 두겠습니다.']],
+  ['★4 순대국 특 가격', ['양 넉넉하게 느끼셨다니 다행이에요. 가격 말씀도 잘 새겨들을게요. 다음에도 든든하게 담아 드릴게요.']],
+  ['★3 포장 국물 샘', ['봉투까지 젖게 해 드려 죄송합니다. 포장 국물은 이제 뚜껑 위에 랩을 한 번 더 씌워 드려요.']],
+  ['★5 늦게까지', ['늦은 시간에도 찾아 주셔서 감사해요. 섞어국밥 추천까지! 다음에도 따뜻하게 기다릴게요.']],
 ];
-const PITCH = 122, TOP0 = 206;
+const PITCH = 140, TOP0 = 392;
 const sc = S.$('#sc'); sc.style.height = (TOP0 + REPLY.length * PITCH + 20) + 'px';
 REPLY.forEach((r, i) => {
-  sc.insertAdjacentHTML('beforeend', `<div class="rp" id="rp${i}" style="top:${TOP0 + i * PITCH}px"><div class="no">${i + 1}</div><div><b>${r[0]}</b><span id="rt${i}">${r[1]}</span></div></div>`);
+  const body = r[1].map((t, j) => `<span class="mk" id="rs${i}_${j}">${t}</span>`).join(' ');
+  sc.insertAdjacentHTML('beforeend', `<div class="rp" id="rp${i}" style="top:${TOP0 + i * PITCH}px"><div class="no">${i + 1}</div><div><b>${r[0]}</b>${body}</div></div>`);
 });
-const SEG = [['아래 리뷰 열 개에 답글 써 줘.', 1], ['우리 가게는 동네 국밥집이고,', 2], ['말투는 친근하게,', 3], ['이름은 부르지 말고,', 4], ['별점 낮은 건 변명하지 말고', 5], ['고칠 거 하나만 말해 줘.', 6]].map(a => [a[0], S.line(a[1]).t0, S.line(a[1]).t1 - 0.05]);
-const T = { chip: S.at('이렇게넣으면') - 0.05, pour: S.at('열개가') - 0.05, back: S.at('아까') + 0.05, hl: S.at('짜다는'), after: S.at('예쁘게'), bd: S.at('1분이면') };
-S.ev(0.1, 'card_in', 'app'); S.ev(SEG[0][1], 'type', 'ptx'); S.ev(T.chip, 'msg_in', 'pchip'); S.ev(T.pour, 'sweep', 'rp0');
-S.ev(T.hl, 'marker', 'rt0'); S.ev(T.bd - 0.05, 'big_in', 'bd');
-const ZS = 2.2;
+const L = i => S.line(i);
+const SEG = [['아래 리뷰 열 개에 답글 써 줘.', 1], ['우리 가게는 동네 국밥집이고,', 2], ['말투는 친근하게,', 3], ['이름은 부르지 말고,', 4], ['별점 낮은 건 변명하지 말고', 5], ['고칠 거 하나만 말해 줘.', 6]].map(a => [a[0], L(a[1]).t0, L(a[1]).t1 - 0.05]);
+const T = { nc: 1.15, chip: S.at('이렇게넣으면') - 0.05, pour: S.at('열개가') - 0.05, back: S.at('아까') + 0.05, hl: S.at('짜다는'), s1: S.at('짜게'), s2: S.at('다음에'), s3: S.at('싱겁게'), after: S.at('예쁘게'), all: S.at('열개하는'), bd: S.at('1분이면') };
+S.focus([{ t0: S.at('열개에'), t1: S.at('열개에') + 0.8, big: '열 개', small: '리뷰', color: '#ECE8E0' }, { t0: T.bd, t1: T.bd + 1.3, big: '1분', small: '열 개 답글', color: '#F2C230' }]);
+S.ev(0.1, 'card_in', 'app'); S.ev(T.nc, 'click', 'nc'); S.ev(SEG[0][1], 'type', 'ptx'); S.ev(SEG[3][1], 'marker', 'sn3');
+S.ev(SEG[5][1] + 0.4, 'marker', 'sn5'); S.ev(T.chip, 'msg_in', 'pchip'); S.ev(T.pour, 'sweep', 'rp0');
+S.ev(T.back, 'in', 'rig'); S.ev(T.hl, 'marker', 'rp0'); S.ev(T.s1, 'shine', 'rs0_0'); S.ev(T.s2, 'ok', 'rs0_1'); S.ev(T.s3, 'marker', 'rs0_2'); S.ev(T.all - 0.05, 'card_in', 'rp1'); S.ev(T.after, 'in', 'rp1');
+let PBC = [780, 380];
+S.init = async () => { const r = S.$('#pb').getBoundingClientRect(); PBC = [r.left + r.width / 2, r.top + r.height / 2]; };
+const mixp = (a, b, k) => a.map((v, i) => v + (b[i] - v) * k);
 S.scene(tau => {
-  // 프롬프트: 말 따라 타자
-  let txt = '';
-  SEG.forEach(s => { const n = Math.floor(S.clamp((tau - s[1]) / Math.max(0.2, s[2] - s[1]), 0, 1) * [...s[0]].length); if (n > 0) txt += (txt ? ' ' : '') + [...s[0]].slice(0, n).join(''); });
+  // 프롬프트: 말 따라 타자 (문장별 span — 밑줄 표시용)
+  let html = '';
+  const done = [];
+  SEG.forEach((s, i) => { const n = Math.floor(S.clamp((tau - s[1]) / Math.max(0.2, s[2] - s[1]), 0, 1) * [...s[0]].length); if (n > 0) html += (html ? ' ' : '') + `<span class="mk" id="sn${i}">${S.esc([...s[0]].slice(0, n).join(''))}</span>`; });
   const typing = tau >= SEG[0][1] && tau < SEG[5][2] + 0.1;
-  S.$('#ptx').innerHTML = S.esc(txt) + (typing ? '<span class="caret"></span>' : '');
-  const ck = S.ent(tau, T.chip, 0.14);
+  S.$('#ptx').innerHTML = html + (typing ? '<span class="caret"></span>' : '');
+  [3, 5].forEach(i => { const e = S.$('#sn' + i); if (e) e.style.backgroundSize = (S.cam(tau, SEG[i][2] - 0.1, SEG[i][2] + 0.3) * 100) + '% 40%'; });
+  const ck = S.ent(tau, T.chip, 0.12);
   S.$('#pchip').textContent = ck > 0 ? '(리뷰 10개 붙여 넣음)' : '';
-  S.css('#pchip', { opacity: ck });
-  // 답글 열 개 — 한 번에 쏟아짐(0.14초 간격)
+  S.css('#pb', { opacity: tau >= SEG[0][1] - 0.05 ? 1 : 0 });
+  S.css('#nc', { background: tau >= T.nc && tau < T.nc + 0.3 ? '#DDE5FF' : '#fff', boxShadow: tau >= T.nc && tau < T.nc + 0.3 ? '0 0 0 3px rgba(46,85,217,.5)' : 'none' });
+  // 답글 열 개 — 한 번에 쏟아짐
   let vis = 0;
-  for (let i = 0; i < REPLY.length; i++) {
-    const k = S.ent(tau, T.pour + i * 0.14, 0.16); vis += k;
-    S.css('#rp' + i, { opacity: k * (i ? 1 : 1), transform: `translateY(${(1 - k) * 22}px)` });
-  }
+  for (let i = 0; i < REPLY.length; i++) { const k = S.ent(tau, T.pour + i * 0.12, 0.14); vis += k; }
   const sPour = Math.max(0, TOP0 + vis * PITCH - VH);
-  const kb = S.cam(tau, T.back, T.back + 0.9);
-  const sRead = 100 + 60 * S.cam(tau, T.after, T.bd - 0.2);
-  S.css('#sc', { transform: `translateY(${-(S.lerp(sPour, 100, kb) + (kb >= 1 ? sRead - 100 : 0))}px)` });
-  // 카메라: 화면 안으로 밀고 들어가 화면이 판 전체가 됨
-  const z = S.cam(tau, T.back - 0.1, T.back + 1.1);
-  S.css('#rig', { transform: `translate(${-21 * z}px,${53 * z}px) scale(${1 + (ZS - 1) * z + 0.1 * S.cam(tau, T.hl + 1.2, T.bd + 0.6)})` });
-  // 1번 답글만 노랑 형광펜, 나머지 흐림
-  S.css('#inp', { opacity: 1 - S.P(z, 0, 0.4) });
-  const h = S.ent(tau, T.hl, 0.18);
-  for (let i = 0; i < REPLY.length; i++) S.css('#rp' + i, { opacity: i ? Math.min(1, S.ent(tau, T.pour + i * 0.14, 0.16)) * (1 - 0.68 * h) : S.ent(tau, T.pour, 0.16) });
-  S.css('#pb', { opacity: (tau >= SEG[0][1] - 0.05 ? 1 : 0) * (1 - 0.68 * h) });
-  S.$('#rt0').style.background = h > 0 ? `linear-gradient(transparent 52%,rgba(242,194,48,${0.9 * h}) 52%)` : 'none';
-  const b = S.ent(tau, T.bd, 0.14);
-  S.css('#bd', { opacity: b, transform: `translateY(${(1 - b) * -16}px)` });
+  const kb = S.cam(tau, T.back, T.back + 0.8);
+  const kq = S.cam(tau, T.all, T.all + 0.9);
+  const scroll = S.lerp(sPour, 190, kb) + 60 * S.cam(tau, T.after, T.all) + 520 * kq;
+  S.css('#sc', { transform: `translateY(${-scroll}px)` });
+  // 읽는 박자: 1번 답글 강조 → 문장마다 밑줄
+  const h = S.ent(tau, T.hl, 0.15), un = 1 - S.ent(tau, T.all, 0.2);
+  for (let i = 0; i < REPLY.length; i++) {
+    const k = S.ent(tau, T.pour + i * 0.12, 0.14);
+    S.css('#rp' + i, { opacity: i ? k * (1 - 0.68 * h * un) : k, transform: `translateY(${(1 - k) * 22}px)` });
+  }
+  S.css('#pb', { opacity: (tau >= SEG[0][1] - 0.05 ? 1 : 0) * (1 - 0.68 * h * un) });
+  [T.s1, T.s2, T.s3].forEach((t, j) => S.css('#rs0_' + j, { backgroundSize: (S.cam(tau, t, t + 0.45) * 100) + '% 40%' }));
+  // 카메라: 와이드 → 프롬프트로 컷 줌 → 와이드 → 화면 전체
+  const A = [1, 981, 487, 981, 487], Z1 = [1.5, PBC[0], PBC[1], 960, 520], F = [2.2, 981, 487, 960, 540];
+  const p = mixp(A, F, S.cam(tau, T.back - 0.1, T.back + 1.1));
+  S.css('#rig', { transform: `translate(${p[3] - p[0] * p[1]}px,${p[4] - p[0] * p[2]}px) scale(${p[0]})` });
+  S.css('#inp', { opacity: 1 - S.P(S.cam(tau, T.back - 0.1, T.back + 1.1), 0, 0.4) });
 });
 </script>
 </body></html>

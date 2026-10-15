@@ -8,25 +8,33 @@
 #scr{left:508.8px;top:112.5px;width:898.7px;height:472.5px;overflow:hidden;background:#F6F6F3;font-family:"UI";color:#1A1A1A}
 #off{left:508.8px;top:112.5px;width:898.7px;height:472.5px;background:#1c1f25}
 #glow{left:508.8px;top:112.5px;width:898.7px;height:472.5px}
-#body{position:absolute;left:0;top:0;width:898.7px;padding:22px 26px 0;display:flex;flex-direction:column;gap:16px}
-.um{align-self:flex-end;background:#E6EAF2;border-radius:16px;padding:12px 18px;line-height:1.5;font-size:24px;max-width:720px}
-#m1{display:flex;align-items:center;gap:14px;font-size:22px;color:#444}
+#side{position:absolute;left:0;top:0;width:176px;height:472.5px;background:#EDEEF1;border-right:1px solid #DADDE3;padding:12px 10px;font-size:20px;color:#333}
+#side .nb{border:1.5px solid #C5CAD3;border-radius:9px;padding:8px 10px;background:#fff;font-weight:600;display:flex;align-items:center;gap:8px}
+#side .it{padding:7px 8px;margin-top:5px;border-radius:7px;white-space:nowrap;overflow:hidden;color:#555;font-size:19px}
+#side .it.on{background:#DDE3F3;color:#1A1A1A;font-weight:600}
+#top{position:absolute;left:176px;top:0;right:0;height:38px;border-bottom:1px solid #E3E5E8;display:flex;align-items:center;padding:0 16px;font-size:19px;color:#555;gap:8px;background:#fff}
+#inp{position:absolute;left:196px;right:20px;bottom:8px;height:36px;border:1.5px solid #D0D4DB;border-radius:18px;background:#fff;display:flex;align-items:center;padding:0 14px;font-size:19px;color:#9AA1AC;justify-content:space-between}
+#clip{position:absolute;left:176px;top:38px;right:0;bottom:50px;overflow:hidden}
+#body{position:absolute;left:0;top:0;width:722px;padding:14px 20px 0;display:flex;flex-direction:column;gap:14px}
+.um{align-self:flex-end;background:#E6EAF2;border-radius:16px;padding:10px 16px;line-height:1.45;font-size:22px;max-width:560px}
+#m1{display:flex;align-items:center;gap:12px;font-size:21px;color:#444}
+#ring{position:absolute;border:3px solid #6F93FF;border-radius:9px;opacity:0}
 .thumb{width:76px;height:54px;border:2px solid #9AA1AC;border-radius:4px;background:#fff;display:grid;grid-template-columns:1.2fr 1fr 1fr;grid-template-rows:repeat(5,1fr);gap:2px;padding:3px}
 .thumb i{background:#C9CED6;display:block}
 .thumb i.h{background:#8A92A0}
 .ai{display:flex;gap:14px;align-items:flex-start}
 .ai .av{flex:none;width:34px;height:34px;border-radius:50%;background:#2E55D9;margin-top:6px}
 #dots{font-size:52px;font-weight:900;letter-spacing:.12em;color:#5A5650;height:48px;line-height:34px}
-#tbl{border:2px solid #D7DBE2;border-radius:10px;background:#fff;width:778px;overflow:hidden}
+#tbl{border:2px solid #D7DBE2;border-radius:10px;background:#fff;width:630px;overflow:hidden}
 .tr{display:flex;align-items:center;min-height:46px;padding:6px 14px;border-top:1px solid #E3E5E8;font-size:22px;line-height:1.35}
 .tr.hd{min-height:36px;background:#EEF1F6;border-top:0;color:#5A5650;font-size:21px;font-weight:600}
-.tr .c1{flex:none;width:136px;font-weight:600}
-.tr .c2{flex:none;width:96px;font-family:"Mono";font-weight:500}
+.tr .c1{flex:none;width:112px;font-weight:600}
+.tr .c2{flex:none;width:84px;font-family:"Mono";font-weight:500}
 .tr .c3{flex:1}
 .chip{display:inline-block;padding:0 10px;border-radius:7px;font-weight:700;margin-right:4px}
 .chip.no{background:#FBE3DF;color:#D8402F;border:2px solid #D8402F}
 .chip.up{background:#E4EAFB;color:#2E55D9;border:2px solid #2E55D9}
-#fin{font-size:22px;line-height:1.5;color:#1A1A1A;padding-left:48px}
+#fin{margin-bottom:30px;font-size:21px;line-height:1.5;color:#1A1A1A;padding-left:48px}
 </style></head>
 <body><div id="stage">
   <div id="cam">
@@ -34,8 +42,11 @@
     <div id="off" class="abs"></div>
     <div id="glow" class="abs"></div>
     <div id="scr" class="abs" data-box="scr">
-      <div id="body">
-        <div id="m1" class="um"><div class="thumb"><i class="h"></i><i class="h"></i><i class="h"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>(원가표 붙여 넣음)</div>
+      <div id="side"><div class="nb"><svg width="18" height="18" viewBox="0 0 18 18"><path d="M9 3v12M3 9h12" stroke="#333" stroke-width="2" fill="none"/></svg>새 채팅</div><div class="it">리뷰 답글 써 줘</div><div class="it">근무표 짜 줘</div><div class="it">계약서 위험 조항</div><div class="it on">원가 비율 질문</div></div>
+      <div id="top"><b style="color:#2E55D9">AI</b> 모델 ▾</div>
+      <div id="inp"><span>메시지를 입력하세요</span><svg width="20" height="20" viewBox="0 0 20 20"><path d="M3 10l14-7-5 14-2-6z" stroke="#9AA1AC" stroke-width="1.6" fill="none"/></svg></div>
+      <div id="clip"><div id="body">
+        <div id="m1" class="um" style="position:relative"><div id="ring" style="left:11px;top:5px;width:86px;height:64px"></div><div class="thumb" id="th"><i class="h"></i><i class="h"></i><i class="h"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>(원가표 붙여 넣음)</div>
         <div id="m2" class="um"><span id="qt"></span></div>
         <div id="a1" class="ai"><div class="av"></div>
           <div>
@@ -51,8 +62,8 @@
             <div id="fin" style="padding-left:0;margin-top:12px">위처럼 바꾸면 메뉴 평균 원가율이 <b id="fn">45.8% → 41.9%</b>로 내려가요.</div>
           </div>
         </div>
-      </div>
-    </div>
+      </div></div>
+          </div>
   </div>
 </div>
 <script src="../data/s44.js"></script>
@@ -67,15 +78,17 @@ const T = {
 };
 T.r[2] = (T.r[1] + T.r[3]) / 2;
 const Q = '원가 비율 높은 메뉴 가격을 올릴까, 아니면 메뉴를 뺄까?';
-S.ev(T.L, 'shine', 'light'); S.ev(T.m1, 'msg_in', 'm1'); S.ev(T.q, 'type', 'm2'); S.ev(T.dots, 'msg_in', 'dots');
-S.ev(T.r[0], 'card_in', 'tbl'); S.ev(T.r[4], 'no', 'r5'); S.ev(T.sh, 'shine', 'tbl'); S.ev(T.fin, 'marker', 'fin');
+S.focus([{ t0: S.at('열'), t1: S.at('열') + 1.0, big: '열 가지', color: '#F2C230' }, { t0: T.fin, t1: T.fin + 1.7, big: '45.8% → 41.9%', size: 150, color: '#F2C230', small: '평균 원가율' }]);
+S.ev(T.L + 0.35, 'in', 'side'); S.ev(T.m1 + 0.05, 'sweep', 'zoom'); S.ev(T.L, 'shine', 'light'); S.ev(T.m1 + 0.3, 'marker', 'ring'); S.ev(T.q, 'type', 'm2'); S.ev(T.dots, 'msg_in', 'dots');
+S.ev(T.r[0], 'card_in', 'tbl'); S.ev(T.r[4], 'no', 'r5'); S.ev(T.sh, 'shine', 'tbl'); 
 const pop = (id, t0) => { const k = S.ent(t, t0, 0.14); S.css(id, { opacity: k, transform: `translateY(${((1 - k) * 18).toFixed(2)}px)` }); return k; };
 let t = 0;
-S.scene(tau => {
+const scene = fn => { window.seek = async tt => { const tau = tt - S.SC.pre; fn(tau); S.focusDraw(tau); }; };
+scene(tau => {
   t = tau;
   // 카메라 — 스크린으로 천천히 다가감
-  const z = S.cam(tau, 0, S.SC.dur);
-  S.css('#cam', { transform: `scale(${(1 + 0.18 * z).toFixed(5)})` });
+  const z = S.cam(tau, 0, T.L) * 0.08 + 0.3 * S.cam(tau, T.m1 - 0.05, T.m1 + 0.3) + 0.0 * tau;
+  S.css('#cam', { transform: `scale(${(1 + z).toFixed(5)})` });
   // 조명
   const lit = S.ent(tau, T.L - 0.1, 0.5);
   S.css('#photo', { filter: `brightness(${(0.6 + 0.4 * lit).toFixed(3)})` });
@@ -83,7 +96,8 @@ S.scene(tau => {
   S.css('#glow', { boxShadow: `0 0 ${(110 * lit).toFixed(1)}px ${(14 * lit).toFixed(1)}px rgba(255,238,205,${(0.32 * lit).toFixed(3)})` });
   S.css('#scr', { opacity: lit });
   // 대화
-  pop('#m1', T.m1);
+  S.css('#m1', { opacity: 1 });
+  const rg = S.ent(tau, T.m1 + 0.3, 0.12) * (1 - S.cam(tau, T.m1 + 1.5, T.m1 + 1.8)); S.css('#ring', { opacity: rg });
   const m2 = S.ent(tau, T.q - 0.1, 0.14); S.css('#m2', { opacity: m2, transform: `translateY(${((1 - m2) * 18).toFixed(2)}px)` });
   S.type('#qt', Q, tau, T.q, 10, true);
   const ai = S.ent(tau, T.dots - 0.05, 0.14);
@@ -106,7 +120,7 @@ S.scene(tau => {
   S.css('#fin', { opacity: f, transform: `translateY(${((1 - f) * 10).toFixed(2)}px)` });
   S.css('#fn', { background: `linear-gradient(transparent 55%, rgba(46,85,217,${(0.22 * f).toFixed(3)}) 55%)` });
   // 표가 나오면 위로 스크롤(붙여 넣은 줄이 밀려 올라감)
-  const sc = 76 * S.cam(tau, T.r[0] - 0.1, T.r[0] + 0.5);
+  const sc = 110 * S.cam(tau, T.r[0] - 0.1, T.r[0] + 0.5) + 70 * S.cam(tau, T.fin - 0.1, T.fin + 0.3);
   S.css('#body', { transform: `translateY(${(-sc).toFixed(2)}px)` });
 });
 </script>

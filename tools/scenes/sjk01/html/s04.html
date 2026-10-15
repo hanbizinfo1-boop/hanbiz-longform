@@ -1,67 +1,72 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s04 검색창처럼만 쓰는 AI</title>
+<title>s04 검색창처럼만 쓰는 AI — v2 AI 대화창</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#chat{left:150px;top:110px;width:1060px;height:760px;display:flex;flex-direction:column}
-#chat .body{flex:1;padding:40px 48px;display:flex;flex-direction:column;gap:26px;font-size:27px}
-.ai{display:flex;gap:16px;align-items:flex-start;line-height:1.6;color:#222}
-.ai .av{flex:none;width:40px;height:40px;border-radius:50%;background:#2E55D9;margin-top:4px}
-#input{margin:0 40px 34px;height:74px;border:2px solid #D7DBE2;border-radius:37px;display:flex;align-items:center;padding:0 30px;font-size:24px;color:#9AA1AC}
-#gauge{left:1290px;top:250px;width:520px}
-#gauge .lab{font-size:24px;color:#5A5650}
-#num{font-size:190px;line-height:1;margin:18px 0 26px;color:#15181C}
-#bar{position:relative;height:30px;border:3px solid #15181C;border-radius:4px;background:#F7F4EE}
-#fill{position:absolute;left:0;top:0;bottom:0;background:#2E55D9}
-#rest{margin-top:20px;font-size:26px;color:#5A5650}
+#rig{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#tb{position:absolute;left:-300px;top:-300px;width:2520px;height:1680px;background:url("../../../../소재/sjk01/codex/e24_table_daylight.png") center/cover}
+#win{left:150px;top:90px;width:1620px;height:820px}
+#meter{position:absolute;right:34px;top:11px;display:flex;align-items:center;gap:12px;font-size:24px;opacity:0}
+#meter .bar{width:170px;height:16px;border-radius:8px;background:#E3E5E8;position:relative;overflow:hidden}
+#meter .fill{position:absolute;left:0;top:0;bottom:0;background:#2E55D9;width:0}
+#inpwrap{position:absolute}
 </style></head>
 <body><div id="stage">
-  <div class="bg tex-paper"></div>
-  <div id="chat" class="abs chat" data-box="chat">
-    <div class="bar"><div class="dot" style="background:#E5594F"></div><div class="dot" style="background:#E9B43F"></div><div class="dot" style="background:#58B84F"></div><span style="margin-left:16px">새 대화</span></div>
-    <div class="body">
-      <div id="m1" class="bubble-me">돼지국밥 칼로리 알려 줘</div>
-      <div id="a1" class="ai"><div class="av"></div><div>돼지국밥 한 그릇(밥 포함)은 보통 600~800kcal 정도예요. 고기 양과 밥 양에 따라 달라집니다.</div></div>
-      <div id="m2" class="bubble-me">이 기사 요약해 줘 <span style="color:#6B7280;font-size:22px">(링크 붙여 넣음)</span></div>
-      <div id="a2" class="ai"><div class="av"></div><div>기사 핵심은 세 줄입니다. ① 외식 물가가 올랐다 ② 손님 방문 횟수가 줄었다 ③ 점심 할인 경쟁이 늘었다.</div></div>
-    </div>
-    <div id="input">무엇이든 물어보세요</div>
-  </div>
-  <div id="gauge" class="abs" data-box="gauge">
-    <div class="lab mono">AI 쓰는 만큼</div>
-    <div id="num" class="serif">0%</div>
-    <div id="bar"><div id="fill"></div></div>
-    <div id="rest" class="mono">나머지 90% — 비어 있음</div>
+  <div id="rig">
+    <div id="tb"></div>
+    <div id="win" class="aic"></div>
   </div>
 </div>
 <script src="../data/s04.js"></script>
 <script src="../lib/sjk.js"></script>
+<script src="../lib/cards_v2_a.js"></script>
 <script>
-window.PALETTE = ['#ECE8E0', '#15181C', '#2E55D9'];
-const T = {
-  m1: S.at('알려') - 0.15, m2: S.at('요약') - 0.15,
-  g: S.at('10'), gs: S.at('검색창'),
-};
-T.a1 = T.m1 + 0.75; T.a2 = T.m2 + 0.7;
-S.ev(T.m1, 'msg_in', 'm1'); S.ev(T.a1, 'card_in', 'a1'); S.ev(T.m2, 'msg_in', 'm2'); S.ev(T.a2, 'card_in', 'a2');
-S.ev(T.g - 0.1, 'in_in', 'gauge'); S.ev(T.g + 0.2, 'gauge', 'fill'); S.ev(T.gs, 'marker', 'input');
-const pop = (id, t0) => { const k = S.ent(t, t0, 0.14); S.css(id, { opacity: k, transform: `translateY(${(1 - k) * 18}px)` }); };
-let t = 0;
+window.PALETTE = ['#ECE8E0', '#15181C', '#2E55D9', '#F2C230'];
+const win = S.$('#win');
+win.innerHTML = V2.chat({ id: 'ms', titles: ['돼지국밥 칼로리 알려 줘', '이 기사 요약해 줘'] }) ;
+win.querySelector('.tp').insertAdjacentHTML('beforeend', '<div id="meter" class="mono"><span>AI 활용</span><span class="bar"><span class="fill" id="mfill"></span></span><b id="mnum">10%</b></div>');
+const ms = S.$('#ms'), tx = S.$('#ms_tx'), inp = win.querySelector('.inp'), its = win.querySelectorAll('.sb .it');
+ms.innerHTML = `<div id="m1" class="me">돼지국밥 칼로리 알려 줘</div><div id="a1" class="ai"><div class="a"></div><div>돼지국밥 한 그릇(밥 포함)은 보통 600~800kcal 정도예요. 고기 양과 밥 양에 따라 달라집니다.</div></div><div id="m2" class="me">이 기사 요약해 줘 <span style="color:#6B7280;font-size:24px">(링크 붙여 넣음)</span></div><div id="a2" class="ai"><div class="a"></div><div>기사 핵심은 세 줄입니다. ① 외식 물가가 올랐다 ② 손님 방문 횟수가 줄었다 ③ 점심 할인 경쟁이 늘었다.</div></div>`;
+const T = { m1: S.at('알려') - 0.15, m2: S.at('요약') - 0.15, z1: S.at('이정도만'), g: S.at('10'), gs: S.at('검색창'), back: S.at('쓰고', 1) - 0.1 };
+T.a1 = T.m1 + 0.4; T.a2 = T.m2 + 0.55;
+S.focus([{ t0: T.g, t1: T.g + 1.5, big: '10%', small: 'AI 쓰는 만큼', color: '#F2C230' }]);
+S.ev(-0.28, 'type', 'in1'); S.ev(T.m1 - 0.12, 'click', 'send'); S.ev(T.m1, 'msg_in', 'm1'); S.ev(T.a1, 'card_in', 'a1');
+S.ev(T.m2, 'msg_in', 'm2'); S.ev(T.a2, 'card_in', 'a2'); S.ev(T.z1, 'marker', 'mark2'); S.ev(T.g + 1.6, 'gauge', 'meter');
+S.ev(T.gs - 0.1, 'in', 'zoom2'); S.ev(T.gs + 0.25, 'marker', 'inp');
+const pop = (id, t0, tau) => { const k = S.ent(tau, t0, 0.12); S.css(id, { opacity: k, transform: `translateY(${(1 - k) * 18}px)` }); };
+const L = (a, b, k) => a + (b - a) * k;
+// 첫 프레임: 빈 대화창 대신 입력창 타자 클로즈업 → 보내는 순간 넓게(10-15 «빈 대화창» 지적)
+// 10-15 2차: 카메라 키프레임 2번만 — ① 입력창 클로즈업 → 전체(보낼 때) ② «검색창»에 입력창으로 밀고 들어가 끝까지(되돌아오지 않음)
+const K = [{ t: -9, s: 2.4, x: 720, y: 846 }, { t: T.m1 - 0.22, s: 1, x: 960, y: 540 }, { t: T.gs - 0.1, s: 1.45, x: 960, y: 740 }];
+function cam(tau) {
+  let i = 0; for (let j = 1; j < K.length; j++) if (tau >= K[j].t) i = j;
+  if (i === 0) return K[0];
+  const k = S.cam(tau, K[i].t, K[i].t + 0.34), a = K[i - 1], b = K[i];
+  return { s: L(a.s, b.s, k), x: L(a.x, b.x, k), y: L(a.y, b.y, k) };
+}
 S.scene(tau => {
-  t = tau;
-  pop('#m1', T.m1); pop('#a1', T.a1); pop('#m2', T.m2); pop('#a2', T.a2);
-  // 게이지가 들어오며 대화창은 왼쪽으로 물러남(카메라 대신 무대 이동)
-  const k = S.cam(tau, T.g - 0.35, T.g + 0.35);
-  S.css('#chat', { transform: `translateX(${-60 * k}px) scale(${1 - 0.06 * k})`, transformOrigin: '0 50%' });
-  const g = S.ent(tau, T.g - 0.1, 0.16);
-  S.css('#gauge', { opacity: g, transform: `translateX(${(1 - g) * 50}px)` });
-  const v = S.count(tau, T.g, T.g + 0.9, 0, 10);
-  S.$('#num').textContent = Math.round(v) + '%';
-  S.css('#fill', { width: v + '%' });
-  S.css('#rest', { opacity: S.ent(tau, T.g + 1.1, 0.2) });
-  // «검색창» — 입력창이 노랑 테두리로(사람이 봐야 할 것 = 노랑)
-  const s = S.ent(tau, T.gs, 0.15);
-  S.css('#input', { borderColor: s > 0 ? `rgba(242,194,48,${s})` : '#D7DBE2', boxShadow: `0 0 0 ${6 * s}px rgba(242,194,48,${0.35 * s})`, color: s > 0.5 ? '#15181C' : '#9AA1AC' });
+  const c = cam(tau);
+  S.css('#rig', { transform: `translate(${-c.s * (c.x - 960)}px,${-c.s * (c.y - 540)}px) scale(${c.s})` });
+  pop('#m1', T.m1, tau); pop('#a1', T.a1, tau); pop('#m2', T.m2, tau); pop('#a2', T.a2, tau);
+  its[0].style.opacity = S.ent(tau, T.m1, 0.12); its[1].style.opacity = S.ent(tau, T.m2, 0.12);
+  its[0].classList.toggle('on', tau < T.m2); its[1].classList.toggle('on', tau >= T.m2);
+  // 입력창: 첫 프레임부터 타자 중 → 보내면 비워짐 → 두 번째 질문 타자
+  const Q1 = '돼지국밥 칼로리 알려 줘', Q2 = '이 기사 요약해 줘';
+  if (tau < T.m1 - 0.1) { S.type(tx, Q1, tau, -0.3, Q1.length / (T.m1 - 0.1 + 0.3)); tx.style.color = '#1A1A1A'; }
+  else if (tau < T.m1 + 0.25) { tx.textContent = '무엇이든 물어보세요'; tx.style.color = '#9AA1AC'; }
+  else if (tau < T.m2 - 0.1) { S.type(tx, Q2, tau, T.m1 + 0.3, Q2.length / (T.m2 - 0.1 - T.m1 - 0.3)); tx.style.color = '#1A1A1A'; }
+  else { tx.textContent = '무엇이든 물어보세요'; tx.style.color = '#9AA1AC'; }
+  // «이 정도만»: 두 질문에 노랑 테두리(카메라 대신 짚기)
+  const q = S.ent(tau, T.z1, 0.14);
+  ['#m1', '#m2'].forEach(id => { S.$(id).style.boxShadow = `0 0 0 ${4 * q}px rgba(242,194,48,${q})`; });
+  // 검색창 — 입력창이 노랑 테두리로(사람이 봐야 할 것)
+  const s = S.ent(tau, T.gs, 0.12);
+  inp.style.borderColor = s > 0 ? `rgba(242,194,48,${s})` : '#D7DBE2';
+  inp.style.boxShadow = `0 0 0 ${7 * s}px rgba(242,194,48,${0.4 * s})`;
+  // 10% 부각이 끝난 뒤 위 막대에 10% 가 남음
+  const mk = S.ent(tau, T.g + 1.6, 0.15);
+  S.css('#meter', { opacity: mk });
+  S.$('#mfill').style.width = (10 * S.cam(tau, T.g + 1.6, T.g + 2.3)) + '%';
 });
 </script>
 </body></html>

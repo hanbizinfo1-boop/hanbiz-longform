@@ -1,14 +1,20 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s16 쓰는 사람이 아니라 고르는 사람</title>
+<title>s16 쓰는 사람이 아니라 고르는 사람 (v2)</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
 #rig{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
 #ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background:url("../../../../소재/sjk01/codex/c41_desk_topdown.png") center/100% 100% no-repeat}
-.pc{position:absolute;width:420px;height:230px;padding:22px 28px 0;border-radius:4px}
-.pc .tag{display:inline-block;font-size:22px;padding:1px 12px;border:2px solid #15181C;border-radius:999px;color:#15181C}
-.pc .tag.is{background:#15181C;color:#ECE8E0}
-.pc .tx{margin-top:12px;font-size:25px;line-height:1.48;font-family:"UI";color:#222}
+.pc{position:absolute;width:420px;height:240px;padding:16px 22px 0;border-radius:3px;background:#FDFDFB;font-family:"UI";color:#1A1A1A;overflow:hidden}
+.pc .hd{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:700}
+.pc .pf{width:34px;height:34px;border-radius:50%;background:#C9CED6;color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center}
+.pc .pf.in{background:linear-gradient(135deg,#F2A33A,#D8402F 60%,#8C3FC4)}
+.pc .kd{margin-left:auto;font-size:22px;font-weight:500;color:#6B7280}
+.pc .tx{margin-top:8px;font-size:24px;line-height:1.42;color:#222}
+.pc .tx i{font-style:normal;color:#2E6BD9}
+.pc .ic{position:absolute;left:22px;bottom:12px;display:flex;gap:14px}
+#ck2{position:absolute}
+.mk{background-repeat:no-repeat;background-position:0 90%;background-size:0% 44%;background-image:linear-gradient(rgba(242,194,48,.95),rgba(242,194,48,.95))}
 #ck{position:absolute;left:1215px;top:285px;width:190px;height:150px;overflow:visible;z-index:9}
 </style></head>
 <body><div id="stage">
@@ -23,39 +29,43 @@
 <script>
 window.PALETTE = ['#ECE8E0', '#15181C', '#F2C230'];
 const POSTS = [
-  ['플레이스', '[신메뉴] 얼큰 순대국이 나왔습니다. 진한 순대국에…'],
-  ['인스타', '이번 달 새 메뉴, 얼큰 순대국. 국물 한 숟갈에…'],
-  ['플레이스', '퇴근길 저녁 한 그릇 어떠세요. 저녁 6시부터 8시…'],
-  ['인스타', '저녁 7시, 가게가 제일 시끄러운 시간. 수육 한 접시에…'],
-  ['플레이스', '우리 집 깍두기는 매주 직접 담급니다. 국밥만큼…'],
-  ['인스타', '깍두기 담그는 날. 무 40개, 고춧가루 한 통…'],
-  ['플레이스', '한 달 동안 얼큰 순대국 찾아 주셔서 감사합니다…'],
-  ['인스타', '한 달 사이 제일 많이 들은 말…'],
+  ['소식', '<span class="mk" id="hl0">[신메뉴] 얼큰 순대국이</span> 나왔습니다. 진한 순대국에 청양고추 다대기를…'],
+  ['게시물', '이번 달 새 메뉴, 얼큰 순대국. 국물 한 숟갈에 땀 한 방울. <i>#순대국</i>'],
+  ['소식', '퇴근길 저녁 한 그릇 어떠세요. 저녁 6시부터 8시 사이가…'],
+  ['게시물', '저녁 7시, 가게가 제일 시끄러운 시간. 수육 한 접시에 <i>#퇴근길</i>'],
+  ['소식', '우리 집 깍두기는 매주 직접 담급니다. 국밥만큼 깍두기 칭찬을…'],
+  ['게시물', '깍두기 담그는 날. 무 40개, 고춧가루 한 통. <i>#깍두기</i>'],
+  ['소식', '한 달 동안 얼큰 순대국 찾아 주셔서 감사합니다. 다음 달에도…'],
+  ['게시물', '한 달 사이 제일 많이 들은 말. <i>#얼큰순대국</i> <i>#○○동</i>'],
 ];
-// 흩어진 자리(가운데 x·y, 기울기 — 고정 각도)
+const heart = '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3A3F47" stroke-width="2" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg>';
+const bub = '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#3A3F47" stroke-width="2" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/></svg>';
 const POS = [[300, 330, -4], [740, 310, 3], [1190, 335, -2], [1630, 315, 5], [340, 700, 3], [780, 715, -5], [1210, 695, 4], [1620, 710, -3]];
-S.$('#cards').innerHTML = POSTS.map((p, i) => `<div class="pc print" id="pc${i}" data-box="pc${i}" data-box-group="cards"><span class="tag${i & 1 ? ' is' : ''} mono">${p[0]}</span><div class="tx">${S.esc(p[1])}</div></div>`).join('');
-const T = { lift: S.at('고르는') - 0.06, ck: S.at('고르는') + 0.55 };
-S.ev(0.08, 'sweep', 'cards'); S.ev(T.lift, 'card_in', 'pc0'); S.ev(T.ck, 'ok', 'ckp');
+S.$('#cards').innerHTML = POSTS.map((p, i) => `<div class="pc" id="pc${i}" data-box="pc${i}" data-box-group="cards"><div class="hd"><div class="pf${i & 1 ? ' in' : ''}">○</div>○○국밥<span class="kd">${p[0]}</span></div><div class="tx">${p[1]}</div><div class="ic">${heart}${bub}</div></div>`).join('');
+const T = { lift: S.at('고르는') - 0.06, ck: S.at('고르는') + 0.55, z: S.at('쓰는', 1) - 0.1, back: S.at('금방이거든요') - 0.1 };
+S.ev(0.08, 'sweep', 'cards'); S.ev(0.7, 'page', 'pc3'); S.ev(T.lift, 'card_in', 'pc0'); S.ev(T.ck, 'ok', 'ckp'); S.ev(T.z, 'marker', 'hl0'); S.ev(4.6, 'sweep', 'pc3'); S.ev(T.back, 'shine', 'pc0');
+const mixp = (a, b, k) => a.map((v, i) => v + (b[i] - v) * k);
 S.scene(tau => {
-  S.css('#rig', { transform: `scale(${1 + 0.04 * S.P(tau, 0, S.SC.dur)})` });
-  const L = S.cam(tau, T.lift, T.lift + 0.55);
+  const z = S.cam(tau, T.z, T.z + 0.35) * (1 - S.cam(tau, T.back, T.back + 0.3));
+  S.css('#rig', { transform: `scale(${1 + 0.015 * S.P(tau, 0, S.SC.dur)})` });
+  const L = S.cam(tau, T.lift, T.lift + 0.4);
+  const pulse = S.cam(tau, T.back, T.back + 0.25);
   for (let i = 0; i < 8; i++) {
-    const k = S.ent(tau, i * 0.13, 0.2);
+    const k = S.ent(tau, i * 0.12, 0.16);
     let [x, y, r] = POS[i], sc = 1, tx = 0, ty = (1 - k) * -260;
-    let filt = 'none', op = Math.min(1, k * 3), sh = '0 18px 40px rgba(0,0,0,.35),0 2px 6px rgba(0,0,0,.25)', ring = 0;
+    let filt = 'none', op = Math.min(1, k * 3), sh = '0 14px 30px rgba(0,0,0,.35),0 2px 5px rgba(0,0,0,.25)', ring = 0;
     if (i === 0) {
       tx = (960 - x) * L; ty += (540 - y) * L; r = S.lerp(r, 0, L); sc = 1 + 0.72 * L; ring = L;
-      sh = `0 ${18 + 52 * L}px ${40 + 60 * L}px rgba(0,0,0,${0.35 + 0.2 * L}),0 2px 6px rgba(0,0,0,.25)`;
-    } else { filt = `blur(${2.2 * L}px) brightness(${1 - 0.42 * L})`; }
+      sh = `0 ${14 + 52 * L}px ${30 + 60 * L}px rgba(0,0,0,${0.35 + 0.2 * L}),0 2px 5px rgba(0,0,0,.25)`;
+    } else { filt = `blur(${2.2 * L}px) brightness(${1 - 0.42 * L - 0.2 * S.cam(tau, 4.6, 4.9)})`; }
     S.css('#pc' + i, {
-      left: (x - 210) + 'px', top: (y - 115) + 'px', opacity: op, filter: filt, zIndex: i === 0 ? 5 : 1,
+      left: (x - 210) + 'px', top: (y - 120) + 'px', opacity: op, filter: filt, zIndex: i === 0 ? 5 : 1,
       transform: `translate(${tx}px,${ty}px) rotate(${r}deg) scale(${sc})`,
-      boxShadow: sh + (ring > 0 ? `,0 0 0 ${7 * ring}px rgba(242,194,48,${ring})` : '')
+      boxShadow: sh + (ring > 0 ? `,0 0 0 ${(7 + 5 * pulse) * ring}px rgba(242,194,48,${ring})` : '')
     });
   }
-  // 노랑 체크(손글씨 SVG)
-  S.css('#ckp', { strokeDashoffset: 1 - S.cam(tau, T.ck, T.ck + 0.4) });
+  S.css('#hl0', { backgroundSize: (S.cam(tau, T.z, T.z + 0.45) * 100) + '% 44%' });
+  S.css('#ckp', { strokeDashoffset: 1 - S.cam(tau, T.ck, T.ck + 0.35) });
 });
 </script>
 </body></html>

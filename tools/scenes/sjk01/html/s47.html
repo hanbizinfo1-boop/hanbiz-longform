@@ -15,31 +15,34 @@
 .vd{font-size:32px;font-weight:700;line-height:1.3}
 .vd i{font-style:normal;padding:0 6px;margin:0 -6px;border-radius:3px}
 .ex{font-size:28px;color:#4B5563;margin-top:4px}
-#hum{left:1320px;top:290px;font-size:160px;line-height:1.18;white-space:nowrap}
+#humx{left:1320px;top:290px;font-size:160px;line-height:1.18;white-space:nowrap}
 </style></head>
 <body><div id="stage">
   <div class="bg tex-paper"></div>
-  <div id="tbl" class="abs" data-box="tbl">
+  <div id="cam" class="abs" style="left:0;top:0;width:1920px;height:1080px;transform-origin:0 0"><div id="tbl" class="abs">
+    <div id="nochip" class="mono" style="position:absolute;left:1150px;top:-58px;width:250px;text-align:center;font-size:26px;background:#F2C230;color:#15181C;border-radius:8px;padding:8px 0;opacity:0">표에 없음</div>
     <div class="tr h"><div class="c1">메뉴</div><div class="c2">원가율</div><div class="c3">추천</div><div class="c4x" id="hd4">단골</div></div>
     <div class="tr"><div class="c1">수육(소)</div><div class="c2">70.0%</div><div class="c3"><div class="vd"><i class="m2">빼세요</i></div><div class="ex">수육(대)와 겹치고 원가율이 가장 높아요</div></div><div class="c4 emp"></div></div>
     <div class="tr"><div class="c1">수육(대)</div><div class="c2">65.0%</div><div class="c3"><div class="vd"><i class="m1">가격을 올리세요</i></div><div class="ex">30,000 → 34,000원</div></div><div class="c4 emp"></div></div>
     <div class="tr"><div class="c1">모둠순대</div><div class="c2">46.0%</div><div class="c3"><div class="vd"><i class="m1">가격을 올리세요</i></div><div class="ex">15,000 → 16,000원</div></div><div class="c4 emp"></div></div>
     <div class="tr"><div class="c1">내장국밥</div><div class="c2">43.0%</div><div class="c3"><div class="vd">그대로 두세요</div><div class="ex">재료 단가 협상 권장</div></div><div class="c4 emp"></div></div>
     <div class="tr"><div class="c1">순대국 특</div><div class="c2">42.5%</div><div class="c3"><div class="vd"><i class="m2">빼세요</i></div><div class="ex">석 달 186그릇으로 판매도 낮아요</div></div><div class="c4 emp"></div></div>
-  </div>
-  <div id="hum" class="abs serif" data-box="hum">사람이<br>정한다</div>
+  </div></div>
 </div>
 <script src="../data/s47.js"></script>
 <script src="../lib/sjk.js"></script>
 <script>
 window.PALETTE = ['#ECE8E0', '#15181C', '#F2C230', '#D8402F'];
-const T = { tbl: -0.2, col: S.at('그걸'), emp: S.at('표에'), m1: S.at('가격이랑'), m2: S.at('메뉴'), slide: S.at('사람이') - 0.35 };
-S.ev(0.0, 'in', 'tbl'); S.ev(T.col, 'card_in', 'col'); S.ev(T.emp, 'shine', 'emp'); S.ev(T.m1, 'marker', 'm1'); S.ev(T.slide + 0.3, 'big_in', 'hum');
+const T = { z0: S.at('이건') - 0.05, nc: S.at('이건') + 0.4, w0: S.at('AI가') - 0.05, mn: S.at('숫자를'), tbl: -0.2, col: S.at('그걸'), emp: S.at('표에'), m1: S.at('가격이랑'), m2: S.at('메뉴'), slide: S.at('사람이') - 0.35 };
+S.focus([{ t0: T.slide + 0.3, t1: S.SC.dur + 0.4, big: '사람이 정한다', color: '#F2C230', size: 190 }]);
+S.ev(0.0, 'in', 'tbl'); S.ev(T.col, 'card_in', 'col'); S.ev(T.emp, 'shine', 'emp'); S.ev(T.m1, 'marker', 'm1'); S.ev(T.m2, 'shine', 'm2'); S.ev(T.nc, 'card_in', 'nochip'); S.ev(T.z0 + 0.9, 'no', 'nochip'); S.ev(T.mn, 'marker', 'c2'); S.ev(T.slide, 'sweep', 'tbl');
+const KEYS = [{ t: 0, s: 1, x: 960, y: 540 }];
+function camState(tau, keys) { let prev = keys[0], cur = prev; for (let i = 1; i < keys.length; i++) { const k = keys[i]; if (tau < k.t) break; const p = S.cam(tau, k.t, k.t + 0.32); cur = { s: S.lerp(prev.s, k.s, p), x: S.lerp(prev.x, k.x, p), y: S.lerp(prev.y, k.y, p) }; if (p < 1) break; prev = k; cur = k; } return cur; }
 const emps = [...document.querySelectorAll('.emp')], hd4 = S.$('#hd4');
 S.scene(tau => {
   const k = S.ent(tau, T.tbl, 0.3);
   const sl = S.cam(tau, T.slide, T.slide + 0.6);
-  S.css('#tbl', { opacity: k, transform: `translate(${-80 * sl}px, ${(1 - k) * 40 + 50 * sl}px) scale(${(1 - 0.2 * sl) * (1 + 0.035 * S.cam(tau, 0.3, T.slide))})` });
+  S.css('#tbl', { opacity: k, transform: `translate(${-80 * sl}px, ${(1 - k) * 40 + 50 * sl}px) scale(${(1 - 0.2 * sl) })` });
   // 단골 칸 — 머리 글자와 빈 칸(빨강 점선)이 들어옴
   const c = S.ent(tau, T.col, 0.18);
   hd4.style.opacity = c; emps.forEach((e, i) => { const q = S.ent(tau, T.col + i * 0.06, 0.16); e.style.opacity = q; });
@@ -50,9 +53,11 @@ S.scene(tau => {
   const a = S.ent(tau, T.m1, 0.2), b = S.ent(tau, T.m2, 0.2);
   document.querySelectorAll('.m1').forEach(e => e.style.background = `rgba(242,194,48,${0.75 * a})`);
   document.querySelectorAll('.m2').forEach(e => e.style.background = `rgba(242,194,48,${0.75 * b})`);
-  // 사람이 정한다
-  const h = S.ent(tau, T.slide + 0.3, 0.16);
-  S.css('#hum', { opacity: h, transform: `translateX(${(1 - h) * 60}px)` });
+  const cc = camState(tau, KEYS);
+  S.css('#cam', { transform: `translate(960px,540px) scale(${cc.s}) translate(${-cc.x}px,${-cc.y}px)` });
+  S.css('#nochip', { opacity: S.ent(tau, T.nc, 0.12), background: tau > T.z0 + 0.9 ? '#D8402F' : '#F2C230', color: tau > T.z0 + 0.9 ? '#ECE8E0' : '#15181C' });
+  const mm = S.ent(tau, T.mn, 0.2);
+  document.querySelectorAll('.c2').forEach(e => { e.style.background = `rgba(242,194,48,${0.7 * mm})`; });
 });
 </script>
 </body></html>

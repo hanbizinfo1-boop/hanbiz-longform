@@ -1,14 +1,16 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s33 대기업 공고 — 성장할 수 있는 기회가 지워진다</title>
+<title>s33 v2 대기업 공고 — 성장할 수 있는 기회가 지워진다</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#cam{position:absolute;left:0;top:0;width:1920px;height:1080px}
-#tag{left:360px;top:130px;font-size:34px;color:#15181C;padding:8px 20px;border:2px solid #15181C;border-radius:4px;background:#F7F4EE}
-#paper{left:360px;top:210px;width:1200px;height:560px;padding:64px 80px;transform:rotate(-0.8deg)}
+#cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#paper{left:360px;top:190px;width:1200px;height:600px;padding:64px 80px;transform:rotate(-0.8deg)}
 #paper .reveal{position:relative}
 #head{font-size:56px;font-weight:700;line-height:1.3;margin-bottom:34px;color:#15181C}
+#hd{padding:0 8px;margin:0 -8px;border-radius:4px}
 #body{font-size:46px;line-height:1.75;color:#15181C;font-weight:500}
+#p3{padding:0 6px;margin:0 -6px;border-radius:4px}
+#p2{padding:0 6px;margin:0 -6px;border-radius:4px}
 #ph{position:relative;display:inline-block;white-space:nowrap;padding:0 10px;margin:0 -10px;border-radius:6px}
 #phText{position:relative;display:inline-block}
 #smudge{position:absolute;left:0;top:6px;bottom:6px;border-radius:10px;background:radial-gradient(ellipse at 25% 40%,rgba(110,100,86,.26),transparent 60%),radial-gradient(ellipse at 75% 65%,rgba(110,100,86,.2),transparent 55%),rgba(110,100,86,.08);filter:blur(6px)}
@@ -16,11 +18,10 @@
 <body><div id="stage">
   <div class="bg tex-paper"></div>
   <div id="cam">
-    <div id="tag" class="abs mono" data-box="tag">대기업 공고?</div>
-    <div id="paper" class="abs print" data-box="paper">
+    <div id="paper" class="abs print">
       <div class="reveal" id="rev">
-        <div id="head">[함께 성장할 인재를 찾습니다]</div>
-        <div id="body">열정과 책임감을 갖춘 당신에게 <span id="ph"><span id="smudge"></span><span id="phText">성장할 수 있는 기회</span></span>를 드립니다. 체계적인 교육 시스템과 가족 같은 분위기 속에서 최고의 서비스 전문가로 거듭나세요.</div>
+        <div id="head"><span id="hd">[함께 성장할 인재를 찾습니다]</span></div>
+        <div id="body">열정과 책임감을 갖춘 당신에게 <span id="ph"><span id="smudge"></span><span id="phText">성장할 수 있는 기회</span></span>를 드립니다. <span id="p2">체계적인 교육 시스템</span>과 가족 같은 분위기 속에서 <span id="p3">최고의 서비스 전문가</span>로 거듭나세요.</div>
       </div>
     </div>
   </div>
@@ -28,40 +29,37 @@
 <script src="../data/s33.js"></script>
 <script src="../lib/sjk.js"></script>
 <script>
-window.PALETTE = ['#ECE8E0', '#15181C', '#D8402F'];
+window.PALETTE = ['#ECE8E0', '#15181C', '#D8402F', '#F2C230'];
+function camState(tau, keys) { let prev = keys[0], cur = prev; for (let i = 1; i < keys.length; i++) { const k = keys[i]; if (tau < k.t) break; const p = S.cam(tau, k.t, k.t + 0.32); cur = { s: S.lerp(prev.s, k.s, p), x: S.lerp(prev.x, k.x, p), y: S.lerp(prev.y, k.y, p) }; if (p < 1) break; prev = k; cur = k; } return cur; }
+const ctr = id => { const r = S.$(id).getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; };
+const cHd = ctr('#hd'), cPh = ctr('#ph'), cP2 = ctr('#p2');
 const T = {
-  paper: 0.1,
-  big: S.at('대기업처럼') - 0.1,
-  box: S.at('성장할'),
-  push0: S.at('성장할') + 0.3,
-  erase0: S.at('도망가요') - 0.3,
-  erase1: S.at('도망가요') + 0.35,
+  paper: 0.05, zHd: S.at('이거') - 0.05, mHd: S.at('꼭') , wide: S.at('안') + 0.0,
+  big: S.at('대기업처럼') - 0.05, zPh: S.at('성장할') - 0.1, box: S.at('성장할') + 0.35,
+  zP2: S.at('막') - 0.1, mP2: S.at('막') + 0.2, wide2: S.at('국밥집') - 0.05,
+  pulse: S.at('성장', 1) + 0.0, erase0: S.at('도망가요') - 0.3, erase1: S.at('도망가요') + 0.35,
 };
-S.ev(T.paper, 'page', 'paper');
-S.ev(T.big, 'card_in', 'tag');
-S.ev(T.box, 'marker', 'ph');
-S.ev(T.erase0, 'no', 'ph');
+const KEYS = [{ t: 0, s: 1, x: 960, y: 540 }, { t: T.zPh, s: 1.4, x: cPh.x, y: cPh.y + 30 }];
+S.focus([{ t0: T.big, t1: T.big + 1.05, big: '대기업?', small: 'AI 가 쓴 공고 말투', color: '#F2C230' }]);
+T.m3 = S.at('국밥집');
+S.ev(T.paper, 'page', 'paper'); S.ev(T.mHd, 'marker', 'hd'); S.ev(T.wide, 'card_in', 'p2'); S.ev(T.zPh + 0.05, 'in', 'cam'); S.ev(T.box, 'marker', 'ph'); S.ev(T.mP2, 'sweep', 'p2'); S.ev(T.m3, 'marker', 'p3'); S.ev(T.pulse, 'shine', 'ph'); S.ev(T.erase0, 'no', 'ph');
 S.scene(tau => {
-  // 출력 종이가 아래에서 올라오며 위에서부터 인쇄되듯 드러남
   const k = S.ent(tau, T.paper - 0.3, 0.5);
   S.css('#paper', { opacity: S.P(tau, T.paper - 0.3, T.paper - 0.1), transform: `translateY(${(1 - k) * 90}px) rotate(-0.8deg)` });
-  const r = S.cam(tau, -0.1, 1.9);
-  S.css('#rev', { clipPath: `inset(0 0 ${(1 - r) * 100}% 0)` });
-  // «대기업처럼» — 문단 위 라벨
-  const b = S.ent(tau, T.big, 0.14);
-  S.css('#tag', { opacity: b, transform: `translateY(${(1 - b) * 14}px)` });
-  // «성장할 수 있는 기회» — 굵게 + 빨강 테두리
-  const m = S.ent(tau, T.box, 0.16);
+  S.css('#rev', { clipPath: `inset(0 0 ${(1 - S.cam(tau, -0.1, 1.6)) * 100}% 0)` });
+  const c = camState(tau, KEYS);
+  S.css('#cam', { transform: `translate(960px,540px) scale(${c.s}) translate(${-c.x}px,${-c.y}px)` });
+  // 머리 줄 형광, 체계적인 교육 시스템 형광
+  S.css('#hd', { background: `rgba(242,194,48,${0.8 * S.ent(tau, T.mHd, 0.14)})` });
+  S.css('#p3', { background: `rgba(242,194,48,${0.8 * S.ent(tau, T.m3, 0.14)})` });
+  S.css('#p2', { background: `rgba(242,194,48,${0.8 * S.ent(tau, T.mP2, 0.14)})` });
+  // 빨강 테두리(굵게) + 한 번 더 숨쉬듯 굵어짐
+  const m = S.ent(tau, T.box, 0.12), pu = S.ent(tau, T.pulse, 0.12) * (1 - S.P(tau, T.pulse + 0.3, T.pulse + 0.7));
   S.css('#phText', { webkitTextStroke: (m * 1.3) + 'px #15181C' });
-  S.css('#ph', { boxShadow: `inset 0 0 0 ${3 * m}px rgba(216,64,47,${m})`, background: `rgba(216,64,47,${0.08 * m})` });
-  // 카메라: 문단 쪽으로 천천히 밀기
-  const c = S.cam(tau, T.push0, T.push0 + 3.4) - S.cam(tau, T.erase0 + 0.6, T.erase0 + 1.4) * 0;
-  S.css('#cam', { transformOrigin: '960px 500px', transform: `scale(${1 + 0.1 * c})` });
-  // 지우개 와이프: 왼→오 로 글자가 사라지고 지운 자국이 남음
   const e = S.EIO(S.P(tau, T.erase0, T.erase1));
   S.css('#phText', { webkitMaskImage: `linear-gradient(to right, transparent ${e * 108 - 8}%, #000 ${e * 108}%)`, maskImage: `linear-gradient(to right, transparent ${e * 108 - 8}%, #000 ${e * 108}%)` });
   S.css('#smudge', { width: (e * 100) + '%', opacity: e > 0 ? 1 : 0 });
-  S.css('#ph', { boxShadow: `inset 0 0 0 ${3 * m * (1 - e)}px rgba(216,64,47,${m * (1 - e)})`, background: `rgba(216,64,47,${0.08 * m * (1 - e)})` });
+  S.css('#ph', { boxShadow: `inset 0 0 0 ${(3 + 3 * pu) * m * (1 - e)}px rgba(216,64,47,${m * (1 - e)})`, background: `rgba(216,64,47,${(0.08 + 0.12 * pu) * m * (1 - e)})` });
 });
 </script>
 </body></html>

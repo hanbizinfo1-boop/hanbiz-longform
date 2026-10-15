@@ -5,23 +5,24 @@
 <style>
 #stage{color:#ECE8E0}
 #cam{position:absolute;left:0;top:0;width:1920px;height:1080px}
-#lab{left:100px;top:300px;font-size:40px;color:#ECE8E0;background:#2E55D9;padding:8px 24px;border-radius:6px}
-#ground{left:100px;top:772px;width:960px;height:3px;background:rgba(236,232,224,.35)}
-.prow{position:absolute;left:100px;display:flex;gap:16px}
-.chip{height:96px;line-height:92px;padding:0 30px;font-size:58px;font-weight:700;white-space:nowrap;background:#242A33;border:3px solid rgba(236,232,224,.6);border-radius:14px;color:#ECE8E0;box-shadow:0 10px 22px rgba(0,0,0,.45)}
-#slot{left:1120px;top:330px;width:680px;height:442px;border:3px dashed rgba(236,232,224,.28);border-radius:20px}
-#dec{left:1120px;top:330px;width:680px;height:442px;line-height:420px;text-align:center;font-size:310px;color:#F2C230}
+#lab{left:60px;top:130px;font-size:50px;color:#ECE8E0;background:#2E55D9;padding:8px 30px;border-radius:8px}
+#ground{left:90px;top:884px;width:900px;height:4px;background:rgba(236,232,224,.4)}
+.prow{position:absolute;display:flex;gap:16px}
+.chip{height:130px;line-height:122px;padding:0 30px;font-size:68px;font-weight:700;white-space:nowrap;background:#242A33;border:3px solid rgba(236,232,224,.6);border-radius:18px;color:#ECE8E0;box-shadow:0 12px 26px rgba(0,0,0,.5)}
+#ped{left:1000px;top:330px;width:780px;height:554px;transform:rotate(-1deg)}
+#own{left:1170px;top:520px;font-size:96px;font-weight:700;background:#F2C230;color:#15181C;padding:0 44px;height:160px;line-height:152px;border-radius:22px;box-shadow:0 14px 30px rgba(0,0,0,.45);opacity:0;white-space:nowrap}
 </style></head>
 <body><div id="stage">
   <div class="bg tex-ink"></div>
   <div id="cam">
     <div id="lab" class="abs mono" data-box="lab">도구</div>
     <div id="ground" class="abs"></div>
-    <div id="p0" class="prow" style="top:664px"></div>
-    <div id="p1" class="prow" style="top:554px;left:160px"></div>
-    <div id="p2" class="prow" style="top:444px;left:220px"></div>
-    <div id="slot" class="abs"></div>
-    <div id="dec" class="abs serif" data-box="dec">결정</div>
+    <div id="p0" class="prow" style="top:744px;left:90px"></div>
+    <div id="p1" class="prow" style="top:614px;left:140px"></div>
+    <div id="p2" class="prow" style="top:484px;left:190px"></div>
+    <div id="p3" class="prow" style="top:354px;left:240px"></div>
+    <div id="ped" class="abs print" data-box="ped" data-box-group="ped"></div>
+    <div id="own" class="abs mono" data-box="own" data-box-group="ped">사장님</div>
   </div>
 </div>
 <script src="../data/s50.js"></script>
@@ -29,27 +30,27 @@
 <script>
 window.PALETTE = ['#15181C', '#ECE8E0', '#2E55D9', '#F2C230'];
 const W10 = [['리뷰', '리뷰'], ['소식 글', '소식'], ['메뉴 설명', '메뉴'], ['문자', '문자'], ['근무표', '근무표'], ['매뉴얼', '매뉴얼'], ['공고', '공고'], ['매출', '매출'], ['원가', '원가'], ['계약서', '계약서']];
-const ROWS = [[0, 1, 2, 3], [4, 5, 6], [7, 8, 9]], ANG = [-1.5, 1.2, -0.8, 1.6, -1.1, 0.9, -1.4, 1.0, -0.6, 1.3];
+const ROWS = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]], ANG = [-1.5, 1.2, -0.8, 1.6, -1.1, 0.9, -1.4, 1.0, -0.6, 1.3];
 const chips = [];
 ROWS.forEach((r, ri) => r.forEach(i => {
   const d = document.createElement('div'); d.className = 'chip'; d.textContent = W10[i][0]; d.dataset.box = 'chip' + i; d.dataset.boxGroup = 'pile';
   S.$('#p' + ri).appendChild(d); chips[i] = d;
 }));
 const T = W10.map(w => S.at(w[1]) - 0.1);
-const T2 = { tool: S.at('도구가') - 0.1, dec: S.at('결정하는') - 0.05 };
-S.ev(T[0], 'card_in', 'chip0'); S.ev(T[4], 'sweep', 'chip4'); S.ev(T[7], 'card_in', 'chip7'); S.ev(T2.tool, 'shine', 'lab'); S.ev(T2.dec, 'big_in', 'dec');
+const T2 = { tool: S.at('도구가') + 0.0, dec: S.at('결정하는') - 0.05, ten: S.at('열') - 0.05, own: S.at('시간') };
+S.focus([{ t0: T2.tool + 0.05, t1: T2.tool + 1.1, big: '도구', small: 'AI 가 하는 일', color: '#6F93FF' }, { t0: T2.dec, t1: S.SC.dur + 0.4, big: '결정', small: '사장님이 하는 일', color: '#F2C230' }]);
+T.forEach((t, i) => S.ev(t, i % 2 ? 'in' : 'card_in', 'chip' + i)); S.ev(T2.ten + 0.75, 'shine', 'lab'); S.ev(T2.own, 'card_in', 'own');
 S.scene(tau => {
   chips.forEach((c, i) => {
     const k = S.ent(tau, T[i], 0.32), o = S.P(tau, T[i], T[i] + 0.08);
-    const bl = S.ent(tau, T2.tool, 0.3);
+    const bl = S.ent(tau, T2.ten + 0.75, 0.3);
     c.style.opacity = o;
-    c.style.transform = `translateY(${-(1 - k) * 380}px) rotate(${ANG[i] * k}deg)`;
+    c.style.transform = `translateY(${-(1 - k) * 260}px) rotate(${ANG[i] * k}deg)`;
     c.style.borderColor = `rgba(${Math.round(236 - 190 * bl)},${Math.round(232 - 147 * bl)},${Math.round(224 - 7 * bl)},${0.6 + 0.4 * bl})`;
   });
-  const d = S.ent(tau, T2.dec, 0.16);
-  S.css('#dec', { opacity: d, transform: `translateY(${(1 - d) * 24}px)` });
-  S.css('#slot', { borderColor: `rgba(${Math.round(236 + 6 * d)},${Math.round(232 - 38 * d)},${Math.round(224 - 176 * d)},${0.28 + 0.72 * d})`, borderStyle: d > 0.5 ? 'solid' : 'dashed' });
-  S.css('#cam', { transformOrigin: '960px 540px', transform: `scale(${1 + 0.03 * S.cam(tau, 5.0, S.SC.dur)})` });
+  const ok = S.ent(tau, T2.own, 0.3);
+  S.css('#own', { opacity: S.P(tau, T2.own, T2.own + 0.08), transform: `translateY(${-(1 - ok) * 330}px) rotate(${-2 * ok}deg)` });
+  S.css('#cam', { transformOrigin: '960px 540px', transform: `scale(${1 + 0.04 * S.cam(tau, 0, 5.5)})` });
 });
 </script>
 </body></html>

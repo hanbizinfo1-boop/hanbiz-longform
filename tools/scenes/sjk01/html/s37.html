@@ -18,7 +18,7 @@
 #sms{left:150px;top:330px;width:700px}
 #sms .b{background:#E9E9EB;border-radius:30px;padding:30px 36px;font-family:"UI";font-size:30px;line-height:1.65;color:#1A1A1A}
 #sms .b i{font-style:normal;border-radius:3px;padding:0 4px;margin:0 -4px}
-#sms .n{margin:14px 0 0 12px;font-family:"UI";font-size:22px;color:#6B7280}
+#sms .hdr{text-align:center;font-family:"UI";font-size:22px;color:#4B5563;margin-bottom:12px}#sms .tm{margin:6px 0 0 12px;font-family:"UI";font-size:22px;color:#8A8A8A}#sms .n{margin:14px 0 0 12px;font-family:"UI";font-size:22px;color:#6B7280}
 #mini{left:1230px;top:330px;width:520px;background:rgba(15,27,46,.94);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:22px 24px 26px;box-shadow:0 24px 50px rgba(0,0,0,.45)}
 #mini .hr{display:flex;gap:8px;padding-left:62px;margin-bottom:8px}
 #mini .hr div{width:120px;text-align:center;font-family:"Mono";font-size:24px;color:#8FA3C4}
@@ -31,13 +31,14 @@
   <div id="hl" class="half"><div class="bg tex-paper"></div></div>
   <div id="hr" class="half"><div class="bg tex-navy"></div></div>
   <div id="seam"></div>
-  <div id="kam" class="abs serif big" data-box="kam">감</div>
-  <div id="pen" class="abs pen" data-box="pen">화요일 오후는<br>좀 한가하다</div>
-  <div id="num" class="abs serif big" data-box="num">숫자</div>
+  <div id="kam" class="abs serif big">감</div>
+  <div id="pen" class="abs pen">화요일 오후는<br>좀 한가하다</div>
+  <div id="num" class="abs serif big">숫자</div>
   <div id="nl" class="abs mono" data-box="nl"><div id="n0"></div><div id="n1"></div><div id="n2"></div><div id="n3"></div><div id="n4" class="last serif"></div></div>
-  <div id="sms" class="abs" data-box="sms"><div class="b">사장입니다. 날이 쌀쌀해졌네요. 국밥 생각나실 때 다음 주 평일 점심에 들러 주세요. <i id="smk">오시면 계란찜 하나 서비스로 내 드릴게요.</i></div><div class="n">무료 수신 거부 080-000-0000</div></div>
+  <div id="sms" class="abs" data-box="sms"><div class="hdr">010-0000-0000</div><div class="b">사장입니다. 날이 쌀쌀해졌네요. 국밥 생각나실 때 다음 주 평일 점심에 들러 주세요. <i id="smk">오시면 계란찜 하나 서비스로 내 드릴게요.</i></div><div class="n">무료 수신 거부 080-000-0000</div><div class="tm">오후 12:20</div></div>
   <div id="mini" class="abs" data-box="mini"></div>
-  <svg id="link" viewBox="0 0 1920 1080"><path id="lp" d="M 856 500 C 1060 500, 1140 566, 1226 566" fill="none" stroke="#F2C230" stroke-width="6" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/><circle id="ld" cx="856" cy="500" r="9" fill="#F2C230" opacity="0"/></svg>
+  <div id="bar" class="abs" style="left:1000px;top:260px;width:8px;height:520px;background:#F2C230;transform-origin:50% 0;opacity:0"></div><div id="chip" class="abs mono" data-box="chip" style="left:900px;top:650px;font-size:30px;color:#F2C230;border:2px solid #F2C230;border-radius:8px;padding:8px 20px;background:rgba(15,27,46,.92);opacity:0">혜택 × 화 15시</div>
+  <svg id="link" viewBox="0 0 1920 1080"><path id="lp" d="M 856 500 C 1060 500, 1140 566, 1226 566" fill="none" stroke="#F2C230" stroke-width="6" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/><rect id="rc" x="1012" y="368" width="470" height="96" rx="20" fill="none" stroke="#F2C230" stroke-width="5" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/><circle id="ld" cx="856" cy="500" r="9" fill="#F2C230" opacity="0"/></svg>
 </div></div>
 <script src="../data/s37.js"></script>
 <script src="../lib/sjk.js"></script>
@@ -58,19 +59,23 @@ const hot = S.$('#hot'), hot0 = { bg: hot.style.background, col: hot.style.color
 const T = {
   k: S.at('감은') - 0.05, n: S.at('숫자는', 1) - 0.05,
   l: [S.at('석'), S.at('화요일'), S.at('시에'), S.at('손님이'), S.at('몇')],
-  dim: S.at('뭘') - 0.1, sms: S.at('단골') - 0.1, hm: S.at('혜택을'), mini: S.at('단골') + 0.65, line: S.at('거는'),
+  dim: S.at('아까') - 0.1, num: S.at('숫자는') - 0.05, mk: S.at('정확하게'), z0: S.at('이걸로') - 0.05, rc: S.at('뭘') - 0.05, f2: S.at('감이', 1) - 0.1, w0: S.at('바로') - 0.05, chip: S.at('이렇게') + 0.05, z1: S.at('거는') - 0.1, w1: S.at('이어지는') - 0.1, sms: S.at('단골') - 0.1, hm: S.at('혜택을'), mini: S.at('단골') + 0.65, line: S.at('거는'),
 };
 const LINES = ['석 달', '화요일 15시', '13번', '손님 합계 26명', '평균 2명'];
-S.ev(0.0, 'big_in', 'kam'); S.ev(T.k + 0.45, 'marker', 'pen'); S.ev(T.l[0], 'type', 'nl'); S.ev(T.sms, 'msg_in', 'sms'); S.ev(T.hm, 'marker', 'smk'); S.ev(T.mini, 'card_in', 'mini'); S.ev(T.line + 0.4, 'shine', 'lp');
+S.focus([{ t0: T.l[0] - 0.05, t1: T.l[0] + 0.95, big: '석 달', small: '화요일 15시', color: '#F2C230' }, { t0: T.f2, t1: T.f2 + 1.0, big: '?', small: '숫자 다음', color: '#F2C230' }]);
+S.ev(0.2, 'card_in', 'kam'); S.ev(T.num, 'in', 'num'); S.ev(T.k + 0.45, 'marker', 'pen'); S.ev(T.l[0] + 0.45, 'type', 'nl'); S.ev(T.mk, 'marker', 'bar'); S.ev(T.z0, 'sweep', 'wrap'); S.ev(T.rc, 'shine', 'rc'); S.ev(T.w0, 'in', 'wrap');
+S.ev(T.sms, 'msg_in', 'sms'); S.ev(T.hm, 'marker', 'smk'); S.ev(T.mini, 'card_in', 'mini'); S.ev(T.z1, 'ok', 'lp'); S.ev(T.line + 0.4, 'shine', 'lp'); S.ev(T.chip, 'card_in', 'chip');
+const KEYS = [{ t: 0, s: 1, x: 960, y: 540 }, { t: T.z0, s: 1.15, x: 1100, y: 520 }, { t: T.w0, s: 1, x: 960, y: 540 }, ];
+function camState(tau, keys) { let prev = keys[0], cur = prev; for (let i = 1; i < keys.length; i++) { const k = keys[i]; if (tau < k.t) break; const p = S.cam(tau, k.t, k.t + 0.32); cur = { s: S.lerp(prev.s, k.s, p), x: S.lerp(prev.x, k.x, p), y: S.lerp(prev.y, k.y, p) }; if (p < 1) break; prev = k; cur = k; } return cur; }
 const ids = ['#n0', '#n1', '#n2', '#n3', '#n4'];
 let tt = 0;
 S.scene(tau => {
   tt = tau;
   // 큰 글자 «감» «숫자» → 구석 라벨로
   const k = S.cam(tau, T.k, T.k + 0.4), n = S.cam(tau, T.n, T.n + 0.4);
-  const ent0 = S.ent(tau, -0.3, 0.3);
-  S.css('#kam', { opacity: ent0, transform: `translate(${-290 * k}px, ${-360 * k}px) scale(${1 - 0.7 * k})` });
-  S.css('#num', { opacity: ent0, transform: `translate(${290 * n}px, ${-360 * n}px) scale(${1 - 0.7 * n})` });
+  const ent0 = S.ent(tau, 0.2, 0.14), ent1 = S.ent(tau, T.num - 0.0, 0.14);
+  S.css('#kam', { opacity: ent0, transform: `translate(${-290 * k}px, ${-360 * k}px) scale(${(1 - 0.7 * k) * (1.2 - 0.2 * ent0)})` });
+  S.css('#num', { opacity: ent1, transform: `translate(${290 * n}px, ${-360 * n}px) scale(${(1 - 0.7 * n) * (1.2 - 0.2 * ent1)})` });
   // 손글씨 — 왼→오 로 써짐
   const p = S.P(tau, T.k + 0.45, T.k + 1.6);
   S.css('#pen', { clipPath: `inset(-10% ${(1 - S.lerp(0, 1, p)) * 100}% -10% -2%)` });
@@ -79,7 +84,7 @@ S.scene(tau => {
   // «뭘 해야 하는지» — 둘 다 흐려짐
   const d = S.cam(tau, T.dim, T.dim + 0.4);
   const o = (1 - 0.9 * d) * (1 - S.ent(tau, T.sms - 0.1, 0.35));
-  ['#kam', '#pen', '#num', '#nl'].forEach(s => { const e = S.$(s); e.style.opacity = s === '#kam' || s === '#num' ? ent0 * o : (s === '#pen' ? (tau > T.k + 0.4 ? o : 0) : (tau > T.l[0] - 0.05 ? o : 0)); });
+  ['#kam', '#pen', '#num', '#nl'].forEach(s => { const e = S.$(s); e.style.opacity = s === '#kam' ? ent0 * o : (s === '#num' ? ent1 * o : (s === '#pen' ? (tau > T.k + 0.4 ? o : 0) : (tau > T.l[0] - 0.05 ? o : 0))); });
   // 문자 카드, 형광, 작은 히트맵, 이어지는 선
   const sm = S.ent(tau, T.sms, 0.16);
   S.css('#sms', { opacity: sm, transform: `translateY(${(1 - sm) * 22}px)` });
@@ -91,7 +96,12 @@ S.scene(tau => {
   const lp = S.EIO(S.P(tau, T.line, T.line + 0.6));
   S.$('#lp').setAttribute('stroke-dashoffset', 1 - lp); S.$('#lp').setAttribute('opacity', lp > 0.001 ? 1 : 0);
   S.$('#ld').setAttribute('opacity', S.ent(tau, T.sms + 0.3, 0.2) * (tau > T.line ? 1 : 0));
-  S.css('#wrap', { transformOrigin: '960px 540px', transform: `scale(${1 + 0.035 * S.cam(tau, 8.5, S.SC.dur)})` });
+  const c = camState(tau, KEYS);
+  S.css('#wrap', { transformOrigin: '0 0', transform: `translate(960px,540px) scale(${c.s}) translate(${-c.x}px,${-c.y}px)` });
+  S.css('#bar', { opacity: tau > T.mk ? 1 - S.P(tau, T.dim - 0.1, T.dim + 0.3) : 0, transform: `scaleY(${S.EIO(S.P(tau, T.mk, T.mk + 0.4))})` });
+  S.$('#rc').setAttribute('stroke-dashoffset', 1 - S.EIO(S.P(tau, T.rc, T.rc + 0.4)));
+  S.$('#rc').setAttribute('opacity', (tau > T.rc ? 1 : 0) * (1 - S.P(tau, T.dim - 0.1, T.dim + 0.3)));
+  S.css('#chip', { opacity: S.ent(tau, T.chip, 0.14) });
 });
 </script>
 </body></html>

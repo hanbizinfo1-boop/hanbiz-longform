@@ -1,103 +1,109 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s05 오늘은 열 가지 — 책상 위 결과 카드</title>
+<title>s05 오늘은 열 가지 — 탁자 위 결과 화면 열 장이 휴대폰 속으로</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#board{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
-.card{position:absolute;left:0;top:0;width:304px;height:330px;perspective:1600px;transform-origin:50% 50%}
+#rig{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:972px 524px}
+#ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background:url("../../../../소재/sjk01/codex/d14_phone_on_table_morning_clean.png") center/100% 100% no-repeat}
+#dimph{position:absolute;left:0;top:0;width:1920px;height:1080px;background:#10100c;opacity:.30}
+#scr{position:absolute;left:0;top:0;width:360px;height:700px;background:#EEF0F3;border-radius:30px;overflow:hidden;opacity:0}
+#feed{position:absolute;left:15px;top:46px;width:330px}
+#feed .fc{width:330px;height:374px;margin-bottom:14px;position:relative}
+#feed .fc .v2c{transform-origin:0 0;transform:scale(1.1);box-shadow:0 4px 12px rgba(0,0,0,.18)}
+.card{position:absolute;left:0;top:0;width:300px;height:340px;perspective:1600px;transform-origin:50% 50%}
 .flip{position:absolute;inset:0;transform-style:preserve-3d}
-.face{position:absolute;inset:0;border-radius:6px;padding:22px 22px;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden}
-.face.back{transform:rotateY(180deg);background:#F7F4EC;box-shadow:0 18px 40px rgba(0,0,0,.35)}
-.num{font-size:22px;color:#2E55D9;letter-spacing:.08em}
-.ttl{font-size:40px;line-height:1.15;margin:6px 0 16px;color:#15181C}
-.txt{font-family:"UI";font-size:22px;line-height:1.5;color:#2A2A2A;font-weight:400}
-.chk{position:absolute;right:16px;top:16px;width:40px;height:40px;border-radius:50%;background:#2E55D9;display:flex;align-items:center;justify-content:center}
-.back .num{font-size:12px}
-.back .ttl{font-size:19px;margin:4px 0 10px}
-.back .txt{font-size:17px;line-height:1.55;color:#15181C}
-.back .rule{height:2px;background:#15181C;opacity:.85;margin:0 0 12px}
-.sel{background:linear-gradient(rgba(46,85,217,.30),rgba(46,85,217,.30)) no-repeat;background-size:0% 100%}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.face.back{transform:rotateY(180deg)}
+.chk{position:absolute;right:8px;top:5px;width:36px;height:36px;border-radius:50%;background:#2E55D9;display:flex;align-items:center;justify-content:center;z-index:5}
+.sel{background:linear-gradient(rgba(46,85,217,.32),rgba(46,85,217,.32)) no-repeat;background-size:0% 100%}
+#sheen{position:absolute;top:100px;left:0;width:260px;height:880px;background:linear-gradient(100deg,rgba(255,255,255,0),rgba(255,255,255,.55),rgba(255,255,255,0));transform:skewX(-14deg);opacity:0;z-index:300;pointer-events:none}
 #cur{position:absolute;left:0;top:0;width:44px;height:44px;opacity:0;z-index:400}
-#copied{position:absolute;left:0;top:0;z-index:300;font-size:24px;padding:12px 22px;border-radius:999px;background:#2E55D9;color:#fff;opacity:0}
+#copied{position:absolute;left:0;top:0;z-index:300;font-size:30px;padding:12px 26px;border-radius:999px;background:#2E55D9;color:#fff;opacity:0}
 </style></head>
 <body><div id="stage">
-  <div class="bg tex-desk"></div>
-  <div id="board"></div>
+  <div id="rig">
+    <div id="ph"></div><div id="dimph"></div>
+    <div id="scr"><div id="feed"></div></div>
+    <div id="board"></div><div id="sheen"></div>
+  </div>
   <svg id="cur" viewBox="0 0 24 24"><path d="M3 2 L3 19 L8 14.5 L11.5 22 L14.5 20.6 L11 13.2 L18 13 Z" fill="#fff" stroke="#15181C" stroke-width="1.6" stroke-linejoin="round"/></svg>
   <div id="copied" class="mono" data-box="copied">복사됨</div>
 </div>
 <script src="../data/s05.js"></script>
 <script src="../lib/sjk.js"></script>
+<script src="../lib/cards_v2_a.js"></script>
 <script>
 window.PALETTE = ['#ECE8E0', '#15181C', '#2E55D9'];
-const CARDS = [
-  ['01', '리뷰 답글', '짜게 느끼셨다니 죄송합니다. 다음에 오시면 말씀해 주세요. 싱겁게 따로 말아 드릴게요.'],
-  ['02', '소식 글', '[신메뉴] 얼큰 순대국이 나왔습니다. 진한 순대국에 청양고추 다대기를 올려 칼칼하게 끓였어요.'],
-  ['03', '메뉴 설명', '사골을 12시간 고아서 국물이 뽀얗고, 앞다리살이 한 숟갈마다 올라와요.'],
-  ['04', '단골 문자', '사장입니다. 날이 쌀쌀해졌네요. 국밥 생각나실 때 다음 주 평일 점심에 들러 주세요.'],
-  ['05', '근무표', '민지 · 주 32.5시간\n준호 · 주 20시간\n서연 · 주 34.5시간\n현우 · 주 32.5시간'],
-  ['06', '알바 매뉴얼', '위험한 것 먼저\n1. 가스 잠그기 — 주방 뒤쪽 노란 밸브를 옆으로 돌린다'],
-  ['07', '채용 공고', '저녁 알바 구해요 (평일 주 3일)\n시간: 17:30 ~ 21:00 · 시급 10,500원\n밥 줘요.'],
-  ['08', '매출 분석', '제일 안 팔리는 시간\n화요일 15시(평균 2명)\n수요일 15시(3명)'],
-  ['09', '메뉴 원가', '원가 4,000원\n판매가 10,000원\n원가율 40%'],
-  ['10', '계약서', '제11조 자동 연장 — 1개월 전 서면 통지를 놓치면 1년이 그대로 연장돼요.'],
-];
 const PROMPT = '아래 리뷰 열 개에 답글 써 줘. 우리 가게는 ○○동 ○○집이고, 말투는 친근하게, 이름은 부르지 말고, 별점 낮은 건 변명하지 말고 고칠 거 하나만 말해 줘.';
-const board = S.$('#board');
-CARDS.forEach((c, i) => {
+const CK = '<div class="chk"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M5 12.5 L10 17.5 L19 7" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>';
+const board = S.$('#board'), feed = S.$('#feed');
+V2.cards.forEach((c, i) => {
   const el = document.createElement('div'); el.className = 'card'; el.id = 'c' + i;
-  el.innerHTML = `<div class="flip"><div class="face front print"><div class="num mono">${c[0]}</div><div class="ttl serif">${c[1]}</div><div class="txt">${S.esc(c[2]).replace(/\n/g, '<br>')}</div><div class="chk"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M5 12.5 L10 17.5 L19 7" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>` +
-    (i === 0 ? `<div class="face back"><div class="num mono">01 · 고정 댓글</div><div class="ttl serif">리뷰 답글</div><div class="rule"></div><div class="txt"><span id="sel" class="sel">${S.esc(PROMPT)}</span></div></div>` : '') + `</div>`;
+  el.innerHTML = `<div class="flip"><div class="face front">${c.html()}${CK}<div class="ulh" style="position:absolute;left:12px;top:42px;height:5px;width:0;background:#F2C230;z-index:6"></div></div>` +
+    (i === 0 ? `<div class="face back"><div class="v2c"><div class="hd"><div class="av" style="width:34px;height:34px"></div>성제관 <span class="pill" style="background:#E5E7EB;color:#374151;font-weight:500">고정됨</span></div><div class="bd"><div class="t22"><span id="sel" class="sel">${S.esc(PROMPT)}</span></div></div></div></div>` : '') + '</div>';
   board.appendChild(el);
+  const fc = document.createElement('div'); fc.className = 'fc'; fc.innerHTML = c.html() + CK.replace('right:8px', 'right:8px'); feed.appendChild(fc);
 });
-const T = {
-  spread: S.at('열 가지'), chk: S.at('직접'), hero: S.at('프롬프트는') - 0.1, flip: S.at('고정'), cur: S.at('복사해서') - 0.6,
-  sel: S.at('복사해서'), back: S.at('넣기만') + 0.4, col: S.at('휴대폰으로') - 0.1,
-};
-const SL = [S.at('장사하시는'), S.at('AI한테'), S.at('넘길')];
-S.ev(0.3, 'card_in', 'pile'); S.ev(T.spread, 'sweep', 'grid'); S.ev(T.chk, 'ok', 'chk');
-S.ev(T.hero + 0.1, 'card_in', 'hero'); S.ev(T.flip, 'page', 'flip'); S.ev(T.sel, 'click', 'copy'); S.ev(T.col, 'sweep', 'col');
+const RP = '짜게 느끼셨다니 죄송합니다. 다음에 오시면 말씀해 주세요.';
+const rpEl = S.$('#c0 .reply');
+// 휴대폰 화면(사진 속 초록 화면 네 모서리 = quads.json d14 stage, 안쪽 1.5% 줄임)
+const Q0 = [[692.2, 251.6], [1025.9, 137.5], [1251.1, 796.1], [917.3, 910.2]];
+const qc = Q0.reduce((a, p) => [a[0] + p[0] / 4, a[1] + p[1] / 4], [0, 0]);
+S.fitQuad(S.$('#scr'), 360, 700, Q0.map(p => [qc[0] + (p[0] - qc[0]) * 0.985, qc[1] + (p[1] - qc[1]) * 0.985]));
+const T = { spread: S.at('열 가지'), chk: S.at('직접') + 0.15, z1: S.at('되는'), z2: S.at('시킨'), hero: S.at('프롬프트는') - 0.1, flip: S.at('고정'), cur: S.at('복사해서') - 0.6, sel: S.at('복사해서'), back: S.at('넣기만') + 0.4, push: S.at('컴퓨터'), fly: S.at('휴대폰으로') - 0.05 };
+const LAND = i => 0.3 + i * 0.42;
+S.focus([{ t0: T.spread, t1: T.spread + 1.15, big: '10가지', small: '사장님 업무' }]);
+S.ev(LAND(0), 'card_in', 'c0'); S.ev(LAND(2), 'sweep', 'c2'); S.ev(LAND(4), 'card_in', 'c4'); S.ev(LAND(6), 'sweep', 'c6'); S.ev(LAND(8), 'card_in', 'c8');
+S.ev(T.chk, 'ok', 'chk'); S.ev(T.z1, 'marker', 'hdline'); S.ev(T.z2, 'type', 'reply'); S.ev(T.hero, 'card_in', 'hero'); S.ev(T.flip, 'page', 'flip');
+S.ev(T.sel, 'click', 'copy'); S.ev(T.sel + 1.0, 'ok', 'copied'); S.ev(T.push, 'sweep', 'sheen'); S.ev(T.fly, 'sweep', 'fly'); S.ev(T.fly + 0.7, 'marker', 'feed');
 const L = (a, b, k) => a + (b - a) * k;
-const gridPos = i => ({ x: 282 + 339 * (i % 5), y: i < 5 ? 355 : 725, r: 0, s: 1 });
-const colPos = i => ({ x: 960, y: 300 + 510 * i, r: 0, s: 1.447 });
-const pilePos = (i, tau) => {
-  let x = 960 + ((i * 37) % 11 - 5) * 3, y = 540 + ((i * 29) % 9 - 4) * 3, r = ((i * 53) % 9 - 4) * 0.9;
-  if (i < 3) { const k = S.cam(tau, SL[i], SL[i] + 0.4), d = i % 2 ? 1 : -1; x += d * 300 * k; r += d * 5 * k; y += 10 * k; }
-  return { x, y, r, s: 1 };
-};
-const mix = (a, b, k) => ({ x: L(a.x, b.x, k), y: L(a.y, b.y, k), r: L(a.r, b.r, k), s: L(a.s, b.s, k) });
+const gridPos = i => ({ x: 960 + (i % 5 - 2) * 340, y: i < 5 ? 340 : 720 });
+// 카메라 키: (s, 초점 x, y) — 0.32초 EZ 로 옮김
+const OX = 972, OY = 524;
+const K = [{ t: -9, s: 1, x: 960, y: 540 }, { t: T.fly, s: 1.35, x: 972, y: 524 }];
+function cam(tau) {
+  let i = 0; for (let j = 1; j < K.length; j++) if (tau >= K[j].t) i = j;
+  if (i === 0) return K[0];
+  const k = S.cam(tau, K[i].t, K[i].t + 0.34), a = K[i - 1], b = K[i];
+  return { s: L(a.s, b.s, k), x: L(a.x, b.x, k), y: L(a.y, b.y, k) };
+}
 S.scene(tau => {
-  // 책상 클로즈업(1.9배)에서 시작해 «열 가지»에 빠르게 줌아웃
-  const zk = S.cam(tau, T.spread - 0.05, T.spread + 0.7);
-  const drift = 1 + 0.12 * S.P(tau, 0, T.spread);
-  const scroll = 470 * S.cam(tau, T.col + 0.6, S.SC.dur + 0.2);
-  const bs = L(1.9 * drift, 1, zk);
-  const k0 = S.ent(tau, 0.3, 0.3);
-  S.css('#board', { transform: `translateY(${-scroll}px) scale(${bs})`, opacity: k0 });
-  const hero = S.cam(tau, T.hero, T.hero + 0.5) * (1 - S.cam(tau, T.back + 0.1, T.back + 0.6));
-  const fl = S.cam(tau, T.flip, T.flip + 0.55) - S.cam(tau, T.back, T.back + 0.5);
-  CARDS.forEach((c, i) => {
-    const kg = S.cam(tau, T.spread + i * 0.045, T.spread + i * 0.045 + 0.55);
-    const kc = S.cam(tau, T.col + i * 0.03, T.col + i * 0.03 + 0.6);
-    let st = mix(mix(pilePos(i, tau), gridPos(i), kg), colPos(i), kc);
+  const c = cam(tau);
+  { const n = Math.floor(S.clamp((tau - T.z2) / 1.1, 0, 1) * RP.length); rpEl.innerHTML = '<b>사장님 답글</b>' + RP.slice(0, n) + (tau >= T.z2 && n < RP.length ? '<span class="caret"></span>' : ''); }
+  V2.cards.forEach((cd, i) => { S.$('#c' + i + ' .ulh').style.width = (276 * S.cam(tau, T.z1 + i * 0.12, T.z1 + i * 0.12 + 0.3)) + 'px'; });
+  { const sk = S.P(tau, T.push, T.push + 1.3); S.css('#sheen', { opacity: sk > 0 && sk < 1 ? 0.9 : 0, transform: `translateX(${-200 + 2200 * S.EIO(sk)}px) skewX(-14deg)` }); }
+  const tx = 960 - OX - c.s * (c.x - OX), ty = 540 - OY - c.s * (c.y - OY);
+  S.css('#rig', { transform: `translate(${tx}px,${ty}px) scale(${c.s})` });
+  const hero = S.cam(tau, T.hero, T.hero + 0.45) * (1 - S.cam(tau, T.back + 0.1, T.back + 0.55));
+  const fl = S.cam(tau, T.flip, T.flip + 0.5) - S.cam(tau, T.back, T.back + 0.45);
+  V2.cards.forEach((cd, i) => {
+    const g = gridPos(i);
+    const k = S.ent(tau, LAND(i), 0.14);
+    let x = g.x, y = g.y, s = 1 + (1 - k) * 0.08, op = k;
+    // 열 장이 휴대폰 화면으로 빨려 들어감
+    const kf = S.cam(tau, T.fly + i * 0.045, T.fly + i * 0.045 + 0.55);
+    x = L(x, 972, kf); y = L(y, 524, kf); s = L(s, 0.34, kf); op = k * (1 - S.P(kf, 0.55, 1));
+    if (i === 0) { x = L(x, 960, hero); y = L(y, 520, hero); s = L(s, 2.0, hero); }
     const el = S.$('#c' + i);
-    if (i === 0) st = mix(st, { x: 960, y: 505, r: 0, s: 2.2 }, hero);
-    el.style.transform = `translate(${st.x - 152}px,${st.y - 165}px) rotate(${st.r}deg) scale(${st.s})`;
+    el.style.transform = `translate(${x - 150}px,${y - 170 + (1 - k) * -40}px) scale(${s})`;
+    el.style.opacity = i === 0 ? op : op * (1 - 0.72 * hero);
     el.style.zIndex = i === 0 && hero > 0 ? 200 : 60 - i;
-    el.style.opacity = i === 0 ? 1 : 1 - 0.72 * hero;
     S.$('#c' + i + ' .flip').style.transform = i === 0 ? `rotateY(${180 * fl}deg)` : 'none';
-    const ck = S.ent(tau, T.chk + i * 0.09, 0.14);
-    const ch = S.$('#c' + i + ' .chk'); ch.style.opacity = ck; ch.style.transform = `scale(${0.6 + 0.4 * ck})`;
+    const ck = S.ent(tau, T.chk + i * 0.09, 0.12), ce = S.$('#c' + i + ' .chk');
+    ce.style.opacity = ck; ce.style.transform = `scale(${0.5 + 0.5 * ck})`;
   });
-  // 복사: 커서가 글 첫머리로 가서 끌어 선택 → «복사됨»
-  const ck1 = S.cam(tau, T.cur, T.sel);
-  const dr = S.P(tau, T.sel, T.sel + 0.9);
-  const cx = L(L(1480, 692, ck1), 1010, dr), cy = L(L(800, 350, ck1), 590, dr);
+  // 휴대폰 화면 속 피드: 카드들이 들어온 뒤 화면 안에서 스크롤
+  const sf = S.ent(tau, T.fly + 0.3, 0.2);
+  S.css('#scr', { opacity: sf });
+  S.css('#feed', { transform: `translateY(${-760 * S.cam(tau, T.fly + 0.9, S.SC.dur + 0.5)}px)` });
+  // 복사: 커서 → 끌어 선택 → «복사됨»
+  const ck1 = S.cam(tau, T.cur, T.sel), dr = S.P(tau, T.sel, T.sel + 0.9);
+  const cx = L(L(1420, 700, ck1), 1050, dr), cy = L(L(840, 312, ck1), 780, dr);
   const cv = S.ent(tau, T.cur, 0.15) * (1 - S.ent(tau, T.back - 0.1, 0.2));
   S.css('#cur', { opacity: cv, transform: `translate(${cx}px,${cy}px)` });
   S.css('#sel', { backgroundSize: (S.EIO(dr) * 100) + '% 100%' });
-  const cp = S.ent(tau, T.sel + 0.95, 0.15) * (1 - S.ent(tau, T.back - 0.1, 0.2));
-  S.css('#copied', { opacity: cp, transform: `translate(1300px,800px) translateY(${(1 - cp) * 14}px)` });
+  const cp = S.ent(tau, T.sel + 1.0, 0.12) * (1 - S.ent(tau, T.back - 0.1, 0.2));
+  S.css('#copied', { opacity: cp, transform: `translate(1330px,800px) translateY(${(1 - cp) * 14}px)` });
 });
 </script>
 </body></html>

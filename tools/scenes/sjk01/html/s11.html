@@ -1,36 +1,24 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s11 7시간 30분이 한 달에 30분으로</title>
+<title>s11 7시간 30분이 한 달에 30분으로 (v2)</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
 #ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background:url("../../../../소재/sjk01/codex/c11_hourglass.png") center/100% 100% no-repeat;transform-origin:520px 660px}
-#scrim{position:absolute;left:0;top:0;width:1920px;height:1080px;background:radial-gradient(ellipse 980px 640px at 1520px 260px,rgba(14,10,6,.78),rgba(14,10,6,.5) 55%,transparent 80%)}
-#old{left:1150px;top:90px;font-size:136px;line-height:1.1;color:#ECE8E0;white-space:nowrap;text-shadow:0 4px 26px rgba(0,0,0,.55)}
-#strike{position:absolute;left:1130px;top:90px;width:760px;height:160px;overflow:visible}
-#new{left:1150px;top:285px;font-size:200px;line-height:1.1;color:#F2C230;white-space:nowrap;text-shadow:0 4px 26px rgba(0,0,0,.5)}
 </style></head>
 <body><div id="stage">
   <div id="ph"></div>
-  <div id="scrim"></div>
-  <div id="old" class="abs serif" data-box="old">7시간 30분</div>
-  <svg id="strike" viewBox="0 0 760 160"><line id="sl" x1="4" y1="86" x2="756" y2="78" stroke="#D8402F" stroke-width="12" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>
-  <div id="new" class="abs serif" data-box="new">30분</div>
 </div>
 <script src="../data/s11.js"></script>
 <script src="../lib/sjk.js"></script>
 <script>
-window.PALETTE = ['#ECE8E0', '#F2C230', '#D8402F'];
-const T = { old: 0.12, s: S.at('30분') - 0.12, n: S.at('30분') + 0.05 };
-S.ev(T.old, 'big_in', 'old'); S.ev(T.s, 'no', 'sl'); S.ev(T.n + 0.12, 'shine', 'new');
+window.PALETTE = ['#ECE8E0', '#F2C230'];
+const T = { a: S.at('일곱') - 0.05, b: S.at('30분') - 0.1 };
+S.focus([{ t0: T.a, t1: T.a + 1.05, big: '7시간 30분', small: '한 달 리뷰 답글', color: '#ECE8E0', size: 190 }, { t0: T.b, t1: S.SC.dur + 0.3, big: '30분', small: '한 달', color: '#F2C230', size: 260 }]);
+S.ev(T.a + 1.05, 'sweep', 'ph'); S.ev(2.35, 'shine', 'ph');
 S.scene(tau => {
-  S.css('#ph', { transform: `scale(${1 + 0.08 * S.P(tau, 0, S.SC.dur)})` });
-  const a = S.ent(tau, T.old, 0.16);
-  S.css('#old', { opacity: a, transform: `translateY(${(1 - a) * 22}px)` });
-  S.css('#scrim', { opacity: S.ent(tau, T.old - 0.1, 0.3) });
-  S.css('#sl', { strokeDashoffset: 1 - S.cam(tau, T.s, T.s + 0.3) });
-  S.css('#strike', { opacity: a });
-  const b = S.ent(tau, T.n, 0.16);
-  S.css('#new', { opacity: b, transform: `translateY(${(1 - b) * 26}px)` });
+  // 와이드 → 모래시계로 컷 줌(0.3초) → 더 가까이
+  const k = S.cam(tau, T.a + 1.05, T.a + 1.4);
+  S.css('#ph', { transform: `scale(${1 + 0.06 * S.P(tau, 0, T.a + 1.05) + 0.3 * k + 0.08 * S.P(tau, T.a + 1.4, S.SC.dur)})` });
 });
 </script>
 </body></html>

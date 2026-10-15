@@ -1,35 +1,53 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s25 근무표 — 프롬프트 → 주방 벽 출력</title>
+<title>s25 근무표 — 프롬프트 → 주방 벽 출력 (v2)</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
 #cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
 #ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background:url("../../../../소재/sjk01/codex/c25_kitchen_wall.png") 0 0/100% 100% no-repeat}
-#sheet{left:300px;top:140px;width:1330px;height:690px;padding:30px 36px;transform:rotate(-0.4deg);color:#15181C}
-#sheet .h{font-family:"Serif";font-weight:900;font-size:36px;margin-bottom:14px}
-#sheet table{border-collapse:collapse;width:1258px;table-layout:fixed;font-size:24px}
-#sheet th,#sheet td{border:1.5px solid rgba(21,24,28,.28);height:64px;text-align:center;padding:0 4px;white-space:nowrap}
-#sheet th{height:54px;font-weight:600;background:rgba(21,24,28,.06)}
-#sheet td.n{font-weight:600;background:rgba(21,24,28,.04)}
-#sheet td.tt{font-weight:700;font-size:28px}
-#sheet .ai{margin-top:20px;font-size:25px;line-height:1.5}
-#sheet .ai div{margin-bottom:4px}
-#chat{left:340px;top:150px;width:1240px;height:600px;display:flex;flex-direction:column}
-#chat .body{flex:1;padding:36px 46px;display:flex;flex-direction:column;gap:20px;font-size:32px}
-#chat .bubble-me{line-height:1.65;align-self:stretch}
-#fold{font-size:28px;color:#6B7280;padding:10px 20px;border:2px dashed #C9CDD4;border-radius:12px;align-self:flex-start}
-#input{margin:0 46px 34px;height:70px;border:2px solid #D7DBE2;border-radius:35px;display:flex;align-items:center;padding:0 30px;font-size:24px;color:#9AA1AC}
+#svg{position:absolute;left:0;top:0;width:1920px;height:1080px}
+#sheet{left:300px;top:130px;width:1330px;height:735px;padding:26px 40px;transform:rotate(-0.4deg);color:#15181C}
+#sheet .h{font-family:"UI";font-weight:700;font-size:28px;margin-bottom:12px;color:#1F2933}
+#sheet table{border-collapse:collapse;width:1250px;table-layout:fixed;font-family:"UI";font-size:24px;background:#fff}
+#sheet td,#sheet th{border:1px solid #C9CDD2;height:62px;text-align:center;padding:0 4px;white-space:nowrap;font-weight:400}
+#sheet tr.L th{height:36px;background:#E9EAED;color:#5F6368;font-size:22px}
+#sheet td.rn{background:#E9EAED;color:#5F6368;font-size:22px}
+#sheet tr.H td{background:#F1F3F4;font-weight:700;border-bottom:3px solid #8A8F96}
+#sheet td.n{font-weight:700;background:#F8F9FA;border-right:3px solid #8A8F96}
+#sheet td.tt{font-weight:700;font-size:27px}
+#sheet .ai{margin-top:18px;font-size:24px;line-height:1.5;font-family:"UI"}
+#sheet .ai div{margin-bottom:3px}
+.aiw{display:flex;background:#fff;border-radius:14px;overflow:hidden;font-family:"UI";color:#1A1A1A;box-shadow:0 40px 80px rgba(0,0,0,.5)}
+.aiw .sb{width:236px;background:#F4F5F7;border-right:1px solid #E3E5E8;padding:18px 12px;display:flex;flex-direction:column;gap:6px;font-size:22px}
+.aiw .sb .nw{display:flex;align-items:center;gap:8px;border:1.5px solid #D7DBE2;border-radius:10px;padding:10px 12px;background:#fff;font-weight:600;margin-bottom:10px}
+.aiw .sb .it{padding:9px 12px;border-radius:8px;color:#4A4F57;white-space:nowrap;overflow:hidden}
+.aiw .sb .it.on{background:#E3E7EE;color:#111;font-weight:600}
+.aiw .mn{flex:1;display:flex;flex-direction:column;min-width:0}
+.aiw .tp{height:58px;border-bottom:1px solid #E8EAED;display:flex;align-items:center;padding:0 22px;font-size:23px;font-weight:600;gap:8px}
+.aiw .bd2{flex:1;padding:24px 30px;display:flex;flex-direction:column;gap:16px;font-size:32px}
+.aiw .me{align-self:flex-end;background:#EEF1F6;border-radius:18px 18px 4px 18px;padding:16px 22px;line-height:1.55;max-width:100%}
+.aiw .me.old{font-size:26px;padding:10px 18px;opacity:.75}
+.aiw .ai{display:flex;gap:12px;font-size:26px;color:#555;line-height:1.4;white-space:nowrap;overflow:hidden}
+.aiw .ai i{flex:none;width:34px;height:34px;border-radius:50%;background:#15181C;margin-top:2px}
+.aiw .in{margin:0 22px 22px;border:1.5px solid #D7DBE2;border-radius:16px;min-height:62px;padding:0 16px;display:flex;align-items:center;gap:12px;font-size:23px;color:#9AA1AC}
+.aiw .in span{flex:1}
+#chat{left:500px;top:170px;width:1240px;height:680px}
+#fold{font-size:26px;color:#6B7280;padding:8px 18px;border:1.5px dashed #C9CDD4;border-radius:12px;align-self:flex-end}
+.chip{position:absolute;left:36px;top:60px;padding:12px 32px 16px;font-size:44px;white-space:nowrap;background:rgba(21,24,28,.92);color:#ECE8E0;border-radius:6px;box-shadow:0 14px 34px rgba(0,0,0,.45);border-left:8px solid #F2C230}
 </style></head>
 <body><div id="stage">
   <div id="cam">
     <div id="ph"></div>
     <div id="sheet" class="abs print"><div class="h">다음 주 근무표</div><div id="tbl"></div><div class="ai"><div>모든 칸이 필요 인원(평일 점심 2 · 저녁 3 · 주말 3)을 채웠어요.</div><div>다섯 명 모두 주 15시간을 넘어서 주휴수당 대상이에요.</div><div>준호 님은 주말 두 번(20시간)이라, 일요일 오전을 빼면 주 15시간이 돼요. 그 자리는 민지 님이 대신할 수 있어요.</div></div></div>
+    <svg id="svg" viewBox="0 0 1920 1080"><ellipse id="e1" cx="1487" cy="430" rx="140" ry="235" fill="none" stroke="#15181C" stroke-width="6" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>
   </div>
-  <div id="chat" class="abs chat" data-box="chat">
-    <div class="bar"><div class="dot" style="background:#E5594F"></div><div class="dot" style="background:#E9B43F"></div><div class="dot" style="background:#58B84F"></div><span style="margin-left:16px">새 대화</span></div>
-    <div class="body"><div class="bubble-me" id="p1"></div><div id="fold">(알바 다섯 명 조건)</div></div>
-    <div id="input">무엇이든 물어보세요</div>
+  <div id="chat" class="abs aiw" data-box="chat">
+    <div class="sb"><div class="nw"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2.4" stroke-linecap="round"><path d="M12 4v16M4 12h16"/></svg>새 채팅</div><div class="it on">근무표 짜기</div><div class="it">알바 공고</div><div class="it">한 달 치 소식 글</div><div class="it">메뉴 설명 다섯 줄</div></div>
+    <div class="mn"><div class="tp">AI<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></div>
+      <div class="bd2"><div class="me old">우리 가게 알바 공고 써 줘.</div><div class="ai"><i></i><span>저녁 알바 구해요 (평일 주 3일) · 시간: 17:30 ~ 21:00 …</span></div><div class="me" id="p1"></div><div id="fold">(알바 다섯 명 조건)</div></div>
+      <div class="in"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#9AA1AC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12l-9 9a6 6 0 0 1-8.5-8.5l9-9a4 4 0 0 1 5.7 5.7l-9 9a2 2 0 0 1-2.8-2.8l8.5-8.5"/></svg><span>메시지 보내기</span><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#9AA1AC" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></div></div>
   </div>
+  <div id="k1" class="chip mono" data-box="k1">주 시간 표시</div>
 </div>
 <script src="../data/s25.js"></script>
 <script src="../lib/sjk.js"></script>
@@ -40,43 +58,44 @@ const ROWS = [['민지', '저녁', '점심·저녁', '—', '—', '점심·저�
   ['서연', '점심·저녁', '—', '점심·저녁', '점심·저녁', '점심', '오전', '오전', '34.5'],
   ['현우', '저녁', '저녁', '저녁', '저녁', '저녁', '오후', '오전·오후', '32.5'],
   ['지은', '점심', '점심·저녁', '점심·저녁', '점심·저녁', '저녁', '—', '—', '28']];
-let h = '<table><colgroup><col style="width:118px">' + '<col style="width:140px">'.repeat(7) + '<col style="width:160px"></colgroup><tr><th></th>' + ['월', '화', '수', '목', '금', '토', '일'].map(d => `<th>${d}</th>`).join('') + '<th class="tt" id="th8">주 시간</th></tr>';
-ROWS.forEach((r, i) => { h += '<tr>' + r.map((c, j) => j === 0 ? `<td class="n">${c}</td>` : j === 8 ? `<td class="tt" id="tt${i}">${c}</td>` : `<td>${c}</td>`).join('') + '</tr>'; });
+let h = '<table><colgroup><col style="width:52px"><col style="width:110px">' + '<col style="width:126px">'.repeat(7) + '<col style="width:206px"></colgroup>';
+h += '<tr class="L"><th></th>' + 'ABCDEFGHI'.split('').map(c => `<th>${c}</th>`).join('') + '</tr>';
+h += '<tr class="H"><td class="rn">1</td><td class="n">이름</td>' + ['월', '화', '수', '목', '금', '토', '일'].map(d => `<td>${d}</td>`).join('') + '<td id="th8">주 시간</td></tr>';
+ROWS.forEach((r, i) => { h += `<tr><td class="rn">${i + 2}</td>` + r.map((c, j) => j === 0 ? `<td class="n">${c}</td>` : j === 8 ? `<td class="tt" id="tt${i}">${c}</td>` : `<td>${c}</td>`).join('') + '</tr>'; });
 S.$('#tbl').innerHTML = h + '</table>';
 const SEG = [['우리 가게 알바 다섯 명이야.', S.at('우리가게알바'), S.at('각자안') - 0.05],
   ['각자 안 되는 요일이랑 시간을 적어 줄게.', S.at('각자안'), S.at('평일점심') - 0.05],
   ['평일 점심 두 명, 저녁 세 명, 주말은 하루 종일 세 명이 필요해.', S.at('평일점심'), S.at('다음주근무표') - 0.05],
   ['다음 주 근무표를 표로 짜 주고 한 사람이 주 몇 시간인지도 같이 보여 줘.', S.at('다음주근무표'), S.at('이렇게') - 0.3]];
-const T = { chat: 1.3, fold: S.at('이렇게') - 0.3, tbl: S.at('표가') - 0.2, end: S.at('맨끝'), who: S.at('한사람이주에') };
-S.ev(T.chat, 'msg_in', 'chat'); S.ev(SEG[0][1], 'type', 'p1'); S.ev(T.fold, 'card_in', 'fold');
-S.ev(T.tbl, 'page', 'sheet'); S.ev(T.end, 'marker', 'th8'); S.ev(T.who, 'shine', 'tt');
+const T = { fold: S.at('시간을') + 0.1, cnt: S.at('평일점심') + 0.05, k1: S.at('한사람이주몇'), tbl: S.at('표가') - 0.2, end: S.at('맨끝'), who: S.at('한사람이주에'), imp: S.at('이거중요') };
+S.focus([{ t0: T.cnt, t1: T.cnt + 1.5, big: '2 · 3 · 3', small: '점심 · 저녁 · 주말 인원', color: '#F2C230', size: 190 }, { t0: T.end + 0.3, t1: T.who - 0.1, big: '주 시간', small: '한 사람당', color: '#F2C230' }]);
+S.ev(0.1, 'msg_in', 'chat'); S.ev(SEG[0][1], 'type', 'p1'); S.ev(T.fold, 'card_in', 'fold'); S.ev(T.k1 + 0.1, 'msg_in', 'k1');
+S.ev(T.tbl - 0.35, 'sweep', 'cam'); S.ev(T.tbl, 'page', 'sheet'); S.ev(T.end - 0.1, 'marker', 'th8'); S.ev(T.who, 'shine', 'tt'); S.ev(T.who + 0.5, 'in', 'cam'); S.ev(T.imp, 'marker', 'e1');
 const camSet = (sel, s, cx, cy) => {
   const tx = S.clamp(960 - cx * s, 1920 - 1920 * s, 0), ty = S.clamp(540 - cy * s, 1080 - 1180 * s, 100 * s);
   S.css(sel, { transform: `translate(${tx}px,${ty}px) scale(${s})` });
 };
+const KF = (tau, keys) => { let [, s, cx, cy] = keys[0]; for (let i = 1; i < keys.length; i++) { const [t, s2, x2, y2, d = 0.3] = keys[i]; const k = S.cam(tau, t - d, t); s = S.lerp(s, s2, k); cx = S.lerp(cx, x2, k); cy = S.lerp(cy, y2, k); } return [s, cx, cy]; };
 S.scene(tau => {
-  // 카메라: 처음엔 느린 밀기, 표가 붙은 뒤 «주 시간» 칸으로
-  const a = S.P(tau, -0.3, T.tbl), b = S.cam(tau, T.end - 0.2, T.end + 1.0), c = S.P(tau, T.end + 1.0, S.SC.dur);
-  let s = S.lerp(1.04, 1.1, a); let cx = 960, cy = 540;
-  s = S.lerp(s, 2.1, b) + 0.08 * c; cx = S.lerp(cx, 1514, b); cy = S.lerp(cy, 423, b);
+  const [s, cx, cy] = KF(tau, [[0, 1.04, 960, 540], [T.tbl - 0.1, 1.1, 960, 540, 3.0], [T.end + 0.4, 2.0, 1500, 430, 1.0], [T.who + 0.5, 2.5, 1514, 360, 0.35]]);
   camSet('#cam', s, cx, cy);
-  // 사진: 흐림 → 선명
   const bl = 1 - S.cam(tau, T.tbl - 0.25, T.tbl + 0.4);
   S.css('#ph', { filter: `blur(${10 * bl}px) brightness(${0.62 + 0.38 * (1 - bl)})` });
-  // 대화창
-  const ci = S.ent(tau, T.chat, 0.14), co = S.ent(tau, T.tbl - 0.02, 0.2);
+  const ci = S.ent(tau, 0.1, 0.12), co = S.ent(tau, T.tbl - 0.02, 0.2);
   S.css('#chat', { opacity: ci * (1 - co), transform: `translateY(${(1 - ci) * 24 - co * 20}px)` });
   let txt = '';
   SEG.forEach(sg => { const n = Math.floor(S.clamp((tau - sg[1]) / Math.max(0.2, sg[2] - sg[1]), 0, 1) * [...sg[0]].length); if (n > 0) txt += (txt ? ' ' : '') + [...sg[0]].slice(0, n).join(''); });
   S.$('#p1').innerHTML = S.esc(txt) + (tau >= SEG[0][1] && tau < SEG[3][2] + 0.1 ? '<span class="caret"></span>' : '');
-  S.css('#fold', { opacity: S.ent(tau, T.fold, 0.16) });
-  // 근무표 종이
+  S.css('#p1', { display: tau >= SEG[0][1] - 0.05 ? 'block' : 'none' });
+  S.css('#fold', { opacity: S.ent(tau, T.fold, 0.12) });
   const p = S.ent(tau, T.tbl, 0.2);
   S.css('#sheet', { opacity: Math.min(1, p * 2.5), transform: `rotate(-0.4deg) translateY(${(1 - p) * -40}px)` });
-  // «주 시간» 칸 노랑 형광펜: 머리 → 값이 위에서부터
-  const hh = S.ent(tau, T.end, 0.2);
-  S.$('#th8').style.background = `rgba(242,194,48,${0.85 * hh})`;
-  for (let i = 0; i < 5; i++) S.$('#tt' + i).style.background = `rgba(242,194,48,${0.75 * S.ent(tau, i === 0 ? T.end + 0.1 : T.who + (i - 1) * 0.2, 0.2)})`;
+  const hh = S.ent(tau, T.end, 0.15);
+  S.$('#th8').style.background = `rgba(242,194,48,${0.9 * hh})`;
+  for (let i = 0; i < 5; i++) S.$('#tt' + i).style.background = `rgba(242,194,48,${0.8 * S.ent(tau, i === 0 ? T.end + 0.1 : T.who + (i - 1) * 0.2, 0.15)})`;
+  S.$('#e1').style.strokeDashoffset = 1 - S.cam(tau, T.imp, T.imp + 0.5);
+  const k = S.ent(tau, T.k1 + 0.1, 0.12) * (1 - S.ent(tau, T.tbl - 0.1, 0.12));
+  S.css('#k1', { opacity: k, transform: `translateX(${(1 - k) * -24}px)` });
 });
 </script>
 </body></html>

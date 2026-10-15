@@ -8,12 +8,13 @@
 #l1{top:210px;color:#2E55D9}
 #l2{top:510px;color:#15181C}
 #l2 span{position:relative;display:inline-block}
+#ul1{position:absolute;left:0;right:0;bottom:-6px;height:22px;background:#2E55D9;transform-origin:0 50%}
 #ul{position:absolute;left:0;right:0;bottom:-6px;height:22px;background:#F2C230;transform-origin:0 50%}
 </style></head>
 <body><div id="stage">
   <div class="bg tex-paper"></div>
   <div id="cam">
-    <div id="l1" class="abs serif ln" data-box="l1">AI = 도구</div>
+    <div id="l1" class="abs serif ln" data-box="l1"><span id="sp1" style="position:relative;display:inline-block">AI = 도구<i id="ul1"></i></span></div>
     <div id="l2" class="abs serif ln" data-box="l2"><span id="sp">결정 = 사장님<i id="ul"></i></span></div>
   </div>
 </div>
@@ -22,13 +23,14 @@
 <script>
 window.PALETTE = ['#ECE8E0', '#15181C', '#2E55D9', '#F2C230'];
 const T = { a: S.at('AI는') - 0.05, b: S.at('결정자는') - 0.05, u: S.at('사장님이에요') };
-S.ev(T.a, 'big_in', 'l1'); S.ev(T.b, 'card_in', 'l2'); S.ev(T.u, 'marker', 'ul');
+T.d = S.at('도구이고'); S.ev(T.a, 'big_in', 'l1'); S.ev(T.d, 'marker', 'ul1'); S.ev(T.b, 'card_in', 'l2'); S.ev(T.u, 'marker', 'ul'); S.ev(T.u + 0.35, 'shine', 'l2');
 S.scene(tau => {
   const a = S.ent(tau, T.a, 0.16), b = S.ent(tau, T.b, 0.16), u = S.ent(tau, T.u, 0.28);
   S.css('#l1', { opacity: a, transform: `translateY(${(1 - a) * 26}px)` });
   S.css('#l2', { opacity: b, transform: `translateY(${(1 - b) * 26}px)` });
+  S.css('#ul1', { transform: `scaleX(${S.ent(tau, T.d, 0.22)})`, opacity: tau > T.d ? 1 : 0 });
   S.css('#ul', { transform: `scaleX(${u})`, opacity: u > 0 ? 1 : 0 });
-  S.css('#cam', { transformOrigin: '960px 520px', transform: `scale(${1 + 0.03 * S.cam(tau, 0, S.SC.dur)})` });
+  S.css('#cam', { transformOrigin: '960px 520px', transform: `scale(${1 + 0.05 * S.cam(tau, T.b, T.b + 0.3) + 0.04 * S.cam(tau, T.u, T.u + 0.3)})` });
 });
 </script>
 </body></html>

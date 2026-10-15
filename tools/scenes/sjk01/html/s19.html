@@ -1,16 +1,25 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s19 마지막 문장 «내가 안 적은 재료는 넣지 마» — 없는 재료를 지어낸다</title>
+<title>s19 마지막 문장 «내가 안 적은 재료는 넣지 마» — 없는 재료를 지어낸다 (v2)</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
 #A,#B{position:absolute;left:0;top:0;width:1920px;height:1080px}
-#chat{left:260px;top:210px;width:1400px;height:600px;display:flex;flex-direction:column;transform-origin:50% 50%}
-#chat .body{flex:1;padding:36px 52px;display:flex;flex-direction:column;gap:26px}
-.ai{display:flex;gap:16px;align-items:center;font-size:30px;color:#222}
-.ai .av{flex:none;width:44px;height:44px;border-radius:50%;background:#2E55D9}
-#bub{align-self:stretch;font-size:38px;line-height:1.6;padding:24px 30px}
-#fold{display:none;margin-top:10px;font-size:26px;color:#8A9099;background:#E3E6EC;border-radius:999px;padding:4px 22px}
-#input{margin:0 52px 36px;height:76px;border:2px solid #D7DBE2;border-radius:38px;display:flex;align-items:center;padding:0 32px;font-size:27px;color:#9AA1AC}
+#chat{left:150px;top:110px;width:1620px;height:760px;display:flex;flex-direction:row;transform-origin:50% 50%}
+#sb{width:300px;background:#F4F5F7;border-right:1px solid #E3E5E8;padding:22px 18px;flex:none}
+#nc{border:2px solid #CFD4DC;border-radius:10px;background:#fff;font-size:28px;padding:10px 18px;font-weight:700;white-space:nowrap;font-family:"UI"}
+#sb .ti{font-size:26px;color:#3A3F47;margin-top:22px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 6px;font-family:"UI"}
+#mn{flex:1;display:flex;flex-direction:column;position:relative;font-family:"UI"}
+#mn .top{height:60px;border-bottom:1px solid #E3E5E8;display:flex;align-items:center;justify-content:center}
+#md{border:2px solid #D7DBE2;border-radius:18px;padding:2px 20px;font-size:24px;color:#3A3F47}
+#mn .body{flex:1;padding:26px 52px;display:flex;flex-direction:column;gap:22px}
+#ub0{align-self:flex-end;background:#EEF1F6;border-radius:18px;padding:12px 22px;font-size:30px}
+.ai{display:flex;gap:16px;align-items:flex-start;font-size:30px;color:#222;line-height:1.5}
+.ai .av{flex:none;width:44px;height:44px;border-radius:50%;background:#2E55D9;margin-top:2px}
+#bub{align-self:stretch;font-size:36px;line-height:1.55;padding:20px 30px}
+.mk{background-repeat:no-repeat;background-position:0 90%;background-size:0% 40%;background-image:linear-gradient(rgba(242,194,48,.95),rgba(242,194,48,.95))}
+#fold{display:none;margin-top:8px;font-size:26px;color:#8A9099;background:#E3E6EC;border-radius:999px;padding:4px 22px}
+#input{margin:0 52px 30px;height:76px;border:2px solid #D7DBE2;border-radius:38px;display:flex;align-items:center;padding:0 28px;font-size:27px;color:#9AA1AC;gap:18px}
+#input svg{flex:none}
 #ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background:url("../../../../소재/sjk01/codex/c19_steel_worktable.png") center/100% 100% no-repeat;transform-origin:960px 600px}
 .pp{position:absolute;border-radius:2px;transform-origin:0 0;font-family:"Plex"}
 .pp .nm{font-size:36px;font-weight:700;color:#15181C;line-height:1.3}
@@ -21,6 +30,7 @@
 #pb .nm{font-size:30px}
 #pb .ds{font-size:26px;line-height:1.45}
 #pb .it{margin-bottom:12px}
+.ckb{display:inline-block;width:28px;height:28px;margin-left:12px;vertical-align:-5px;opacity:0}
 .rm{position:relative;white-space:nowrap}
 .rm i{position:absolute;left:0;bottom:2px;height:11px;width:0;background:#D8402F;opacity:.9;border-radius:6px}
 #xm{position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none}
@@ -29,27 +39,31 @@
   <div id="A">
     <div class="bg tex-ink"></div>
     <div id="chat" class="abs chat" data-box="chat">
-      <div class="bar"><div class="dot" style="background:#E5594F"></div><div class="dot" style="background:#E9B43F"></div><div class="dot" style="background:#58B84F"></div><span style="margin-left:16px">새 대화</span></div>
-      <div class="body">
-        <div id="gr" class="ai"><div class="av"></div><div>무엇을 도와드릴까요?</div></div>
-        <div id="bub" class="bubble-me"><span id="ptx"></span><span id="fold">(재료 적어 줌)</span></div>
+      <div id="sb"><div id="nc">＋ 새 채팅</div><div class="ti">돼지국밥 칼로리</div><div class="ti">기사 요약</div></div>
+      <div id="mn">
+        <div class="top"><div id="md">AI ▾</div></div>
+        <div class="body">
+          <div id="ub0">돼지국밥 칼로리 알려 줘</div>
+          <div id="gr" class="ai"><div class="av"></div><div>돼지국밥 한 그릇(밥 포함)은 보통 600~800kcal 정도예요.</div></div>
+          <div id="bub" class="bubble-me"><span id="ptx"></span><span id="fold">(재료 적어 줌)</span></div>
+        </div>
+        <div id="input"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#8A9099" stroke-width="2" stroke-linecap="round"><path d="M20 11l-8 8a5 5 0 0 1-7-7l9-9a3.5 3.5 0 0 1 5 5l-9 9a2 2 0 0 1-3-3l8-8"/></svg><span id="inT">무엇이든 물어보세요</span><svg style="margin-left:auto" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#8A9099" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 17V8M8 12l4-4 4 4"/></svg></div>
       </div>
-      <div id="input">무엇이든 물어보세요</div>
     </div>
   </div>
   <div id="B">
     <div id="ph"></div>
-    <div id="pa" class="pp print" data-box="pa" data-box-group="pp">
+    <div id="pa" class="pp print" data-box="pa" data-box-group="pp" data-box-bleed>
       <div class="it"><div class="nm">돼지국밥</div><div class="ds">사골을 12시간 고아 낸 뽀얀 국물에, <span class="rm">트러플 오일<i id="r0"></i></span>을 한 방울 더해 풍미가 깊어요. 앞다리살이 한 숟갈마다 올라옵니다.</div></div>
       <div class="it"><div class="nm">순대국</div><div class="ds">쫄깃한 순대 8조각과 머릿고기, <span class="rm">표고버섯<i id="r1"></i></span>으로 낸 감칠맛까지. 들깨가루를 풀면 고소함이 두 배.</div></div>
       <div class="it" style="margin-bottom:0"><div class="nm">섞어국밥</div><div class="ds">순대·고기·내장을 한 그릇에. <span class="rm">직접 뽑은 수제 당면<i id="r2"></i></span>까지 들어가 든든해요.</div></div>
     </div>
     <div id="pb" class="pp print" data-box="pb" data-box-group="pp" data-box-bleed>
-      <div class="it"><div class="nm">돼지국밥</div><div class="ds">사골을 12시간 고아서 국물이 뽀얗고, 앞다리살이 한 숟갈마다 올라와요. 부추·다대기는 따로 와서 내 입맛대로 넣어 먹었어요.</div></div>
-      <div class="it"><div class="nm">순대국</div><div class="ds">순대 여덟 조각에 머릿고기까지 꽉 차 있어요. 들깨가루 풀면 고소해져서 마지막 국물까지 마셨어요.</div></div>
-      <div class="it"><div class="nm">섞어국밥</div><div class="ds">순대·고기·내장이 한 그릇에 다 들어 있어요. 뭘 먹을지 못 고를 때 시키면 실패가 없어요.</div></div>
-      <div class="it"><div class="nm">수육(소)</div><div class="ds">앞다리랑 삼겹이 반반이라 담백한 맛, 고소한 맛 둘 다 있어요. 새우젓 찍어 먹으면 딱입니다.</div></div>
-      <div class="it"><div class="nm">얼큰 순대국</div><div class="ds">순대국에 청양고추 다대기를 올려 칼칼해요. 맵기 조절이 돼서 매운 거 약한 사람도 시켜 먹었어요.</div></div>
+      <div class="it"><div class="nm">돼지국밥<svg class="ckb" id="ck0" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#F2C230"/><path d="M6 12.5l4 4 8-9" fill="none" stroke="#15181C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="ds">사골을 12시간 고아서 국물이 뽀얗고, 앞다리살이 한 숟갈마다 올라와요. 부추·다대기는 따로 와서 내 입맛대로 넣어 먹었어요.</div></div>
+      <div class="it"><div class="nm">순대국<svg class="ckb" id="ck1" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#F2C230"/><path d="M6 12.5l4 4 8-9" fill="none" stroke="#15181C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="ds">순대 여덟 조각에 머릿고기까지 꽉 차 있어요. 들깨가루 풀면 고소해져서 마지막 국물까지 마셨어요.</div></div>
+      <div class="it"><div class="nm">섞어국밥<svg class="ckb" id="ck2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#F2C230"/><path d="M6 12.5l4 4 8-9" fill="none" stroke="#15181C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="ds">순대·고기·내장이 한 그릇에 다 들어 있어요. 뭘 먹을지 못 고를 때 시키면 실패가 없어요.</div></div>
+      <div class="it"><div class="nm">수육(소)<svg class="ckb" id="ck3" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#F2C230"/><path d="M6 12.5l4 4 8-9" fill="none" stroke="#15181C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="ds">앞다리랑 삼겹이 반반이라 담백한 맛, 고소한 맛 둘 다 있어요. 새우젓 찍어 먹으면 딱입니다.</div></div>
+      <div class="it"><div class="nm">얼큰 순대국<svg class="ckb" id="ck4" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#F2C230"/><path d="M6 12.5l4 4 8-9" fill="none" stroke="#15181C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="ds">순대국에 청양고추 다대기를 올려 칼칼해요. 맵기 조절이 돼서 매운 거 약한 사람도 시켜 먹었어요.</div></div>
     </div>
     <svg id="xm" viewBox="0 0 1920 1080"><path id="x1" d="M150 195 C 380 290, 640 440, 870 590" fill="none" stroke="#D8402F" stroke-width="26" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/><path id="x2" d="M880 190 C 650 300, 400 440, 140 600" fill="none" stroke="#D8402F" stroke-width="26" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>
   </div>
@@ -61,54 +75,59 @@ window.PALETTE = ['#15181C', '#F2C230', '#D8402F'];
 const L = i => S.line(i);
 const SEN = [['우리 메뉴 다섯 개야.', L(3).t0, L(3).t1 - 0.05], ['재료랑 양이랑 맛을 적어 줄게.', L(4).t0, L(4).t1 - 0.05],
   ['배달앱 메뉴 설명을 메뉴마다 두 줄로 먹어 본 사람이 쓴 것처럼 써 줘.', L(5).t0, L(7).t1 - 0.05], ['내가 안 적은 재료는 넣지 마.', L(8).t0, L(8).t1 - 0.05]];
-const T = { gr: S.at('챗GPT') - 0.05, fold: L(8).t1 + 0.05, hl: S.at('마지막') - 0.1, out: S.at('안 넣으면') - 0.45, tr: S.at('트러플이') - 0.1,
-  b: S.at('진짜있는') - 0.3, x: S.at('절대') - 0.1 };
-S.ev(0.05, 'in', 'chat'); S.ev(T.gr, 'msg_in', 'gr'); S.ev(SEN[0][1], 'type', 'ptx'); S.ev(T.fold, 'card_in', 'fold'); S.ev(T.hl, 'marker', 'sn3');
-S.ev(T.out + 0.25, 'page', 'pa'); S.ev(T.tr, 'no', 'r0'); S.ev(T.tr + 0.75, 'marker', 'r1'); S.ev(T.tr + 1.5, 'no', 'r2');
-S.ev(T.b, 'sweep', 'pb'); S.ev(T.x, 'no', 'x1');
+const T = { nc: 0.9, md: S.at('챗GPT') - 0.05, inp: S.at('켜시고'), fold: L(8).t1 + 0.05, hl: S.at('마지막') - 0.1, out: S.at('안넣으면') - 0.45, tr: S.at('트러플이') + 0.75,
+  b: S.at('진짜있는') - 0.3, bz: S.at('남기셔야'), x: S.at('절대') - 0.1, big: S.at('큰일') };
+S.focus([{ t0: S.at('다섯'), t1: S.at('다섯') + 0.75, big: '5개', small: '메뉴', color: '#ECE8E0' }, { t0: S.at('트러플이') - 0.05, t1: S.at('트러플이') + 0.75, big: '트러플', small: '안 적은 재료', color: '#FF8A7A', size: 230 }]);
+S.ev(0.05, 'in', 'chat'); S.ev(T.nc, 'click', 'nc'); S.ev(T.md, 'shine', 'md'); S.ev(T.inp + 0.1, 'in', 'input'); S.ev(SEN[0][1], 'type', 'ptx'); S.ev(SEN[1][2], 'marker', 'sn1'); S.ev(SEN[2][2], 'ok', 'sn2');
+S.ev(SEN[3][1], 'type', 'sn3'); S.ev(T.fold, 'card_in', 'fold'); S.ev(T.hl, 'marker', 'sn3'); S.ev(T.out + 0.25, 'page', 'pa');
+S.ev(T.tr, 'no', 'r0'); S.ev(T.tr + 0.45, 'marker', 'r1'); S.ev(T.tr + 0.9, 'no', 'r2'); S.ev(T.b, 'sweep', 'pb'); S.ev(T.b + 0.8, 'ok', 'ck0'); S.ev(T.b + 1.7, 'shine', 'ck2'); S.ev(T.x, 'no', 'x1'); S.ev(T.big, 'shine', 'pa');
 const D = S.SC.dur;
+const mixp = (a, b, k) => a.map((v, i) => v + (b[i] - v) * k);
 S.scene(tau => {
-  // ① 대화창
-  const cin = S.ent(tau, -0.2, 0.3);
-  const outk = S.cam(tau, T.out, T.out + 0.45);
-  const push = 1 + 0.045 * S.P(tau, 0, T.out) + 0.2 * outk;
-  S.css('#A', { opacity: 1 - S.P(tau, T.out + 0.2, T.out + 0.6) });
-  S.css('#chat', { opacity: cin, transform: `scale(${push})` });
-  const g = S.ent(tau, T.gr, 0.14);
-  S.css('#gr', { opacity: g, transform: `translateY(${(1 - g) * 14}px)` });
-  S.css('#input', { borderColor: tau >= T.gr ? '#2E55D9' : '#D7DBE2' });
+  const cin = S.ent(tau, -0.2, 0.2);
+  const outk = S.cam(tau, T.out, T.out + 0.4);
+  const zc = 1 + 0.02 * S.cam(tau, 3.0, 3.3) + 0.03 * S.cam(tau, 4.2, 4.55) + 0.04 * S.cam(tau, 9.0, 9.35) - 0.0 * S.cam(tau, 13.55, 13.9) + 0.02 * S.cam(tau, T.hl, T.hl + 0.3) + 0.02 * outk;
+  S.css('#A', { opacity: 1 - S.P(tau, T.out + 0.2, T.out + 0.55) });
+  S.css('#chat', { opacity: cin, transform: `scale(${zc})` });
+  const nc = tau >= T.nc && tau < T.nc + 0.35;
+  S.css('#nc', { background: nc ? '#DDE5FF' : '#fff', boxShadow: nc ? '0 0 0 4px rgba(46,85,217,.5)' : 'none' });
+  const md = tau >= T.md && tau < T.md + 0.5;
+  S.css('#md', { background: md ? '#DDE5FF' : '#fff', borderColor: md ? '#2E55D9' : '#D7DBE2' });
+  S.css('#input', { borderColor: tau >= T.inp ? '#2E55D9' : '#D7DBE2' });
+  S.$('#inT').textContent = tau >= SEN[0][1] ? '' : '무엇이든 물어보세요';
   let html = '';
   SEN.forEach((s, i) => {
     const n = Math.floor(S.clamp((tau - s[1]) / Math.max(0.2, s[2] - s[1]), 0, 1) * [...s[0]].length);
-    if (n > 0) html += (html ? ' ' : '') + `<span class="sn" id="sn${i}">${S.esc([...s[0]].slice(0, n).join(''))}</span>`;
+    if (n > 0) html += (html ? ' ' : '') + `<span class="sn mk" id="sn${i}">${S.esc([...s[0]].slice(0, n).join(''))}</span>`;
   });
   const typing = tau >= SEN[0][1] && tau < SEN[3][2] + 0.05;
   S.$('#ptx').innerHTML = html + (typing ? '<span class="caret"></span>' : '');
   S.css('#bub', { opacity: tau >= SEN[0][1] - 0.1 ? 1 : 0 });
-  const f = S.ent(tau, T.fold, 0.14);
+  const f = S.ent(tau, T.fold, 0.12);
   const fold = S.$('#fold'); fold.style.display = tau >= T.fold ? 'inline-block' : 'none';
-  const h = S.ent(tau, T.hl, 0.18);
+  const h = S.ent(tau, T.hl, 0.15);
   for (let i = 0; i < 4; i++) {
     const e = S.$('#sn' + i); if (!e) continue;
-    if (i === 3) { e.style.background = `linear-gradient(transparent 52%,rgba(242,194,48,${0.9 * h}) 52%)`; e.style.color = '#1A1A1A'; }
-    else { e.style.color = `rgba(26,26,26,${1 - 0.68 * h})`; }
+    if (i === 3) { e.style.backgroundSize = (S.cam(tau, T.hl, T.hl + 0.35) * 100) + '% 40%'; e.style.color = '#1A1A1A'; }
+    else { e.style.color = `rgba(26,26,26,${1 - 0.68 * h})`; if (i === 1 || i === 2) e.style.backgroundSize = (S.cam(tau, SEN[i][2] - 0.1, SEN[i][2] + 0.3) * 100) + '% 40%'; }
   }
   S.css(fold, { opacity: f * (1 - 0.6 * h) });
-  // ② 작업대 위 출력 종이 A 클로즈업
-  const bin = S.ent(tau, T.out + 0.1, 0.4);
-  S.css('#B', { opacity: bin });
-  S.css('#ph', { transform: `scale(${1 + 0.04 * S.P(tau, T.out, D)})` });
-  const bk = S.cam(tau, T.b, T.b + 0.75);
-  const pk = S.ent(tau, T.out + 0.15, 0.3);
-  const a = S.P(tau, T.out + 0.15, T.b);
-  const as = (1 + 0.035 * a) * (1 - 0.18 * bk) / (1 + 0.035 * a * bk);
-  S.css('#pa', { opacity: pk, transform: `translate(${-360 * bk}px,${-20 * bk + (1 - pk) * 36}px) rotate(-0.8deg) scale(${as})` });
+  // ② 작업대 위 출력 종이 A 클로즈업 → B 나란히
+  S.css('#B', { opacity: S.ent(tau, T.out + 0.1, 0.35) });
+  const bz = [1, 700, 450], bA = [1.14, 650, 430], bB = [1.14, 1380, 480];
+  let p = mixp(bz, bA, S.cam(tau, T.tr - 0.25, T.tr));
+  p = mixp(p, bz, S.cam(tau, T.b - 0.25, T.b + 0.1));
+  S.css('#ph', { transform: `scale(${1 + 0.03 * S.P(tau, T.out, D)})` });
+  S.css('#B', { transformOrigin: `${p[1]}px ${p[2]}px`, transform: `scale(${p[0]})` });
+  const bk = S.cam(tau, T.b, T.b + 0.4);
+  const pk = S.ent(tau, T.out + 0.15, 0.25);
+  const as = 1 - 0.18 * bk;
+  S.css('#pa', { opacity: pk, transform: `translate(${-360 * bk}px,${-20 * bk + (1 - pk) * 36}px) rotate(-0.8deg) scale(${as})`, filter: `brightness(${1 - 0.25 * S.cam(tau, T.big, T.big + 0.3)})` });
   S.css('#pb', { opacity: bk > 0 ? 1 : 0, transform: `translate(${(1 - bk) * 900}px,0) rotate(0.6deg)` });
-  // ③ 빨강 줄 — 트러플 오일 · 표고버섯 · 수제 당면
-  [0, 1, 2].forEach(i => S.css('#r' + i, { width: (S.cam(tau, T.tr + i * 0.75, T.tr + i * 0.75 + 0.35) * 100) + '%' }));
-  // ④ 절대 그냥 올리시면 안 돼요 — 종이 A 위 빨강 ✕
-  S.css('#x1', { strokeDashoffset: 1 - S.cam(tau, T.x, T.x + 0.28) });
-  S.css('#x2', { strokeDashoffset: 1 - S.cam(tau, T.x + 0.3, T.x + 0.58) });
+  [0, 1, 2, 3, 4].forEach(i => S.css('#ck' + i, { opacity: S.ent(tau, T.b + 0.8 + i * 0.45, 0.12) }));
+  [0, 1, 2].forEach(i => S.css('#r' + i, { width: (S.cam(tau, T.tr + i * 0.45, T.tr + i * 0.45 + 0.3) * 100) + '%' }));
+  S.css('#x1', { strokeDashoffset: 1 - S.cam(tau, T.x, T.x + 0.25) });
+  S.css('#x2', { strokeDashoffset: 1 - S.cam(tau, T.x + 0.27, T.x + 0.52) });
 });
 </script>
 </body></html>

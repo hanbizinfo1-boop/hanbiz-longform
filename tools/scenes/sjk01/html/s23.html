@@ -13,6 +13,9 @@
 .lab{position:absolute;top:812px;height:84px;display:flex;align-items:center;justify-content:center;font-size:44px;border-radius:6px;padding:0 34px;white-space:nowrap}
 #lday{left:260px;width:520px;border:4px solid #15181C;color:#15181C;background:rgba(251,250,246,.6)}
 #lemp{left:1140px;width:520px;background:#F2C230;color:#15181C;border:4px solid #15181C}
+#lu{position:absolute;left:660px;top:566px;height:8px;width:0;background:#F2C230}
+.chp{position:absolute;top:96px;height:76px;display:flex;align-items:center;padding:0 30px;font-size:44px;border-radius:6px;border:4px solid #15181C;color:#15181C;background:rgba(251,250,246,.7);opacity:0}
+#ch1{left:430px}#ch2{left:1360px;background:#F2C230}
 #chap{left:0;top:0;width:1920px;height:1080px}
 #cn{position:absolute;left:300px;top:160px;font-size:130px;color:#F2C230}
 #ct{position:absolute;left:0;top:300px;width:1920px;text-align:center;font-size:380px;line-height:1.1;color:#ECE8E0}
@@ -23,6 +26,7 @@
   <div id="paperbg" class="bg tex-paper"></div>
   <div id="lead" class="abs mono" data-box="lead">손님 쪽 일보다 —</div>
   <div id="ppl" class="dual serif" data-box="ppl"><div class="a">사람</div><div class="b">사람</div></div>
+  <div id="lu"></div><div id="ch1" class="chp mono">알바</div><div id="ch2" class="chp mono">직원</div>
   <div id="lday" class="lab mono" data-box="lday">손님 — 하루</div>
   <div id="lemp" class="lab mono" data-box="lemp">직원 — 매일</div>
   <div id="chap" class="abs">
@@ -33,9 +37,9 @@
 <script src="../lib/sjk.js"></script>
 <script>
 window.PALETTE = ['#15181C', '#ECE8E0', '#F2C230'];
-const T = { lead: S.at('손님'), ppl: S.at('알바와') - 0.12, d: S.at('손님은'), e: S.at('매일'), back: S.at('여기서부터가'), w2: S.at('자바로다섯') - 0.1, ch: S.at('다섯', 1) - 0.0, ul: S.at('근무표예요') };
+const T = { mk: S.at('머리'), lead: S.at('손님'), ppl: S.at('알바와') - 0.12, d: S.at('손님은'), e: S.at('매일'), back: S.at('여기서부터가'), w2: S.at('자바로다섯') - 0.1, ch: S.at('다섯', 1) - 0.0, ul: S.at('근무표예요') };
 T.ch = S.at('다섯번째는') - 0.05;
-S.ev(T.lead, 'card_in', 'lead'); S.ev(T.ppl, 'big_in', 'ppl'); S.ev(T.d, 'card_in', 'lday'); S.ev(T.e, 'msg_in', 'lemp');
+S.ev(T.lead, 'card_in', 'lead'); S.ev(T.mk, 'marker', 'lu'); S.ev(T.ppl + 0.3, 'card_in', 'ch1'); S.ev(T.ppl + 0.75, 'msg_in', 'ch2'); S.ev(T.ppl, 'big_in', 'ppl'); S.ev(T.d, 'card_in', 'lday'); S.ev(T.e, 'msg_in', 'lemp');
 S.ev(T.w2, 'in', 'inv2'); S.ev(T.ch + 0.1, 'big_in', 'ct'); S.ev(T.ul, 'marker', 'cul');
 const L = (a, b, k) => a + (b - a) * k;
 S.scene(tau => {
@@ -51,6 +55,8 @@ S.scene(tau => {
   // «사람» 등장 → 위로 물러남
   const e = S.ent(tau, T.ppl, 0.14), back = S.cam(tau, T.back, T.back + 0.6);
   S.css('#ppl', { opacity: e, transform: `translateY(${L((1 - e) * 20, -330, back)}px) scale(${L(1.06 - 0.06 * e, 0.34, back)})` });
+  S.css('#lu', { width: (S.cam(tau, T.mk, T.mk + 0.4) * 560) * (1 - S.ent(tau, T.ppl - 0.3, 0.2)) + 'px' });
+  [['#ch1', T.ppl + 0.3], ['#ch2', T.ppl + 0.75]].forEach(([id, t0]) => { const k = S.ent(tau, t0, 0.12) * (1 - S.ent(tau, T.back, 0.2)); S.css(id, { opacity: k, transform: `translateY(${(1 - S.ent(tau, t0, 0.12)) * -14}px)` }); });
   // 첫 Mono 줄
   const lead = S.ent(tau, T.lead, 0.16) * (1 - S.ent(tau, T.ppl - 0.3, 0.2));
   S.css('#lead', { opacity: lead, transform: `translateY(${(1 - S.ent(tau, T.lead, 0.16)) * 14}px)` });

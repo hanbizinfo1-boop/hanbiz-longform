@@ -18,19 +18,22 @@
 // 장면 2 와 같은 거리 — 이번엔 뒤로 빠지며 올라간다. 화면 글은 «몇 개였는지» 에 작은 시계 하나(00:24)뿐.
 window.PALETTE = ['#ECE8E0', '#F2C230'];
 const T = { c: S.at('개였는지') - 0.1 };
-S.ev(T.c, 'card_in', 'clock');
+T.c = S.at('몇 개였는지') - 0.1;
+T.k = S.at('몇 개였는지'); T.o = S.at('오늘 배운');
+S.focus([{ t0: T.o, t1: T.o + 1.1, big: '배운 것', color: '#F2C230' }, { t0: T.k, t1: T.k + 1.3, big: '00:24', color: '#F2C230', small: '문 닫고 집 가는 길' }]);
+S.ev(T.c + 1.35, 'card_in', 'clock'); S.ev(0.9, 'in', 'street');
 const FPSV = 60000 / 1001, N = 449, BASE = '../../../../_tmp/sjk01/blender/s52/';
 const pad = n => String(n).padStart(4, '0');
 const img = document.getElementById('a');
 // sjk.js 의 S.scene 은 async 장면 함수를 기다리지 않는다(연번 decode 전에 캡처될 수 있음) — 여기서는 seek 가 끝까지 기다린다.
-const scene = fn => { window.seek = async t => { await fn(t - S.SC.pre); }; };
+const scene = fn => { window.seek = async t => { await fn(t - S.SC.pre); S.focusDraw(t - S.SC.pre); }; };
 scene(async tau => {
   const k = Math.min(N, Math.max(1, Math.round(tau * FPSV) + 1));
   const src = BASE + 'f_' + pad(k) + '.png';
   if (img.dataset.src !== src) { img.dataset.src = src; img.src = src; try { await img.decode(); } catch (e) { } }
-  const c = S.ent(tau, T.c, 0.16);
+  const c = S.ent(tau, T.c + 1.45, 0.14);
   S.css('#clock', { opacity: c, transform: `translateY(${((1 - c) * 14).toFixed(2)}px)` });
-  S.css('#cu', { transform: `scaleX(${S.ent(tau, T.c + 0.15, 0.3)})` });
+  S.css('#cu', { transform: `scaleX(${S.ent(tau, T.c + 1.6, 0.3)})` });
 });
 </script>
 </body></html>

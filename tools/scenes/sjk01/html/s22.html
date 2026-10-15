@@ -22,15 +22,16 @@
 </style></head>
 <body><div id="stage">
   <div class="bg tex-paper"></div>
+  <div id="cam" style="position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px">
   <div id="chart" class="abs">
-    <div id="ttl" class="abs mono" data-box="ttl">평일 시간대별 손님 수</div>
+    <div id="ttl" class="abs mono">평일 시간대별 손님 수</div>
     <div id="base"></div>
   </div>
-  <div id="busy" class="abs mono" data-box="busy">주말 = 이미 바쁨</div>
-  <div id="legend" class="abs mono" data-box="legend">토요일</div>
-  <div id="agree" class="abs mono" data-box="agree">수신 동의한 번호만</div>
+  <div id="busy" class="abs mono">주말 = 이미 바쁨</div>
+  <div id="legend" class="abs mono">토요일</div>
+  <div id="agree" class="abs mono">수신 동의한 번호만</div>
   <div id="rowwrap" class="abs"></div>
-</div>
+</div></div>
 <script src="../data/s22.js"></script>
 <script src="../lib/sjk.js"></script>
 <script>
@@ -55,11 +56,17 @@ const rw = S.$('#rowwrap');
 let r = '';
 for (let i = 0; i < 10; i++) r += `<div class="cell" id="ce${i}" style="left:${120 + i * 170}px"><div class="fill" id="cf${i}" style="transform:scaleY(0)"></div><div class="no mono" id="cn${i}">${String(i + 1).padStart(2, '0')}</div>${i < 4 ? `<div class="nm" id="cm${i}">${NAMES[i]}</div>` : ''}</div>`;
 rw.innerHTML = r;
-const T = { bars: S.at('혜택은'), badge: S.at('한가한'), sat: S.at('바쁜'), busy: S.at('사장님만'), agree: S.at('동의받은'), row: S.at('자여기까지가') - 0.05 };
+const T = { bars: S.at('혜택은'), foc: S.at('한가한') - 0.1, badge: S.at('한가한') + 0.9, z1: S.at('손님은'), z2: S.at('그리고'), sat: S.at('바쁜'), busy: S.at('사장님만'), agree: S.at('동의받은'), row: S.at('자여기까지가') - 0.05 };
 const FILL = [S.at('여기까지가'), S.at('손님', 1), S.at('관련'), S.at('업무였어요')];
-S.ev(T.bars, 'gauge', 'bars'); S.ev(T.badge, 'card_in', 'bd'); S.ev(T.sat + 0.2, 'gauge', 'sat'); S.ev(T.busy, 'msg_in', 'busy');
-S.ev(T.agree, 'card_in', 'agree'); S.ev(T.row, 'in', 'row'); S.ev(FILL[0], 'ok', 'cf0');
+S.focus([{ t0: T.foc, t1: T.badge - 0.05, big: '혜택', small: '한가한 시간', color: '#F2C230' }]);
+S.ev(T.bars, 'gauge', 'bars'); S.ev(T.z1, 'in', 'zoom'); S.ev(T.z2, 'sweep', 'zoomout'); S.ev(T.badge, 'card_in', 'bd'); S.ev(T.sat + 0.2, 'gauge', 'sat'); S.ev(T.busy, 'msg_in', 'busy');
+S.ev(T.agree, 'card_in', 'agree'); S.ev(T.row, 'in', 'row'); S.ev(FILL[0], 'ok', 'cf0'); S.ev(FILL[1], 'click', 'cf1'); S.ev(FILL[2], 'ok', 'cf2'); S.ev(FILL[3], 'click', 'cf3');
+const L = (a, b, k) => a + (b - a) * k;
+const K = [{ t: -9, s: 1, x: 960, y: 540 }, { t: T.z1, s: 1.3, x: 1260, y: 470 }, { t: T.z2, s: 1, x: 960, y: 540 }];
+function cam(tau) { let i = 0; for (let j = 1; j < K.length; j++) if (tau >= K[j].t) i = j; if (i === 0) return K[0]; const k = S.cam(tau, K[i].t, K[i].t + 0.34), a = K[i - 1], b = K[i]; return { s: L(a.s, b.s, k), x: L(a.x, b.x, k), y: L(a.y, b.y, k) }; }
 S.scene(tau => {
+  const cc = cam(tau);
+  S.css('#cam', { transform: `translate(${-cc.s * (cc.x - 960)}px,${-cc.s * (cc.y - 540)}px) scale(${cc.s})` });
   // 평일 막대 11개
   HRS.forEach((hr, i) => {
     const k = S.cam(tau, T.bars + i * 0.07, T.bars + i * 0.07 + 0.6);
