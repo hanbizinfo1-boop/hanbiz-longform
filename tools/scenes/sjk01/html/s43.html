@@ -8,6 +8,8 @@
 #svg{position:absolute;left:0;top:0;width:1920px;height:1080px}
 .chip{position:absolute;left:110px;padding:12px 30px 14px;font-size:44px;line-height:1.3;white-space:nowrap;border-radius:4px;box-shadow:0 14px 34px rgba(0,0,0,.4)}
 .k{background:rgba(21,24,28,.92);color:#ECE8E0;border-left:8px solid #6F93FF}
+/* 10-15 4차: 순간 확대 컷 2번 → 카메라 고정(바탕 흐름만) + 도장 돋보기 인셋(같은 사진 확대 창) */
+#i1{position:absolute;left:1380px;top:100px;width:480px;height:480px;border:6px solid #F2C230;border-radius:10px;box-shadow:0 18px 40px rgba(0,0,0,.5);background:url("../../../../소재/sjk01/codex/c43_stamp_hand.png") no-repeat;background-size:2304px 1536px;background-position:-1182px -414px;transform-origin:0 50%}
 #c0{top:200px;color:#9DB5FF}
 #c1{top:300px;border-left-color:#ECE8E0}
 #c2{top:400px;border-left-color:#F2C230}
@@ -15,7 +17,8 @@
 </style></head>
 <body><div id="stage">
   <div id="cam"><div id="ph"></div>
-    <svg id="svg" viewBox="0 0 1920 1080"><ellipse id="e1" cx="1140" cy="430" rx="190" ry="250" fill="none" stroke="#F2C230" stroke-width="7" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>
+    <svg id="svg" viewBox="0 0 1920 1080"><ellipse id="e1" cx="1185" cy="420" rx="150" ry="230" fill="none" stroke="#F2C230" stroke-width="7" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/><g id="g"></g></svg>
+    <div id="i1"></div>
   </div>
   <div id="c0" class="chip k mono" data-box="c0">AI : 이상 없음</div>
   <div id="c1" class="chip k mono" data-box="c1">AI 답 ≠ 법률 판단</div>
@@ -28,17 +31,19 @@
 window.PALETTE = ['#ECE8E0', '#15181C', '#F2C230'];
 const T = { a: S.at('조심'), b: S.at('AI가'), c: S.at('법률'), d: S.at('질문거리'), e: S.at('도장'), f: S.at('사람한테'), g: S.at('마지막판단은') };
 S.focus([{ t0: T.e, t1: T.f - 0.25, big: '도장 전', small: '사람 확인', color: '#F2C230', size: 200 }, { t0: T.g, t1: S.SC.dur, big: '사람', small: '마지막 판단', color: '#F2C230' }]);
-S.ev(T.a - 0.3, 'in', 'cam'); S.ev(T.a + 0.1, 'marker', 'e1'); S.ev(T.b, 'card_in', 'c0'); S.ev(T.c - 0.05, 'msg_in', 'c1');
-S.ev(T.c + 0.7, 'sweep', 'cam'); S.ev(T.d, 'card_in', 'c2'); S.ev(T.f, 'msg_in', 'c3'); S.ev(T.g + 0.6, 'shine', 'ph');
+S.ev(T.a + 0.1, 'marker', 'e1'); S.ev(T.a + 0.35, 'card_in', 'i1'); S.ev(T.b, 'card_in', 'c0'); S.ev(T.c - 0.05, 'msg_in', 'c1');
+S.ev(T.d, 'card_in', 'c2'); S.ev(T.f, 'msg_in', 'c3'); S.ev(T.g + 0.6, 'shine', 'ph');
 const camSet = (sel, s, cx, cy) => {
   const tx = S.clamp(960 - cx * s, 1920 - 1920 * s, 0), ty = S.clamp(540 - cy * s, 1080 - 1180 * s, 100 * s);
   S.css(sel, { transform: `translate(${tx}px,${ty}px) scale(${s})` });
 };
-const KF = (tau, keys) => { let [, s, cx, cy] = keys[0]; for (let i = 1; i < keys.length; i++) { const [t, s2, x2, y2, d = 0.3] = keys[i]; const k = S.cam(tau, t - d, t); s = S.lerp(s, s2, k); cx = S.lerp(cx, x2, k); cy = S.lerp(cy, y2, k); } return [s, cx, cy]; };
 S.scene(tau => {
-  const [s, cx, cy] = KF(tau, [[0, 1.0, 960, 540], [T.a + 0.1, 1.4, 1130, 440, 0.001], [T.c + 0.9, 1.06, 1040, 520, 0.001], [T.g, 1.16, 1060, 500, 0.8]]);
-  camSet('#cam', s + 0.02 * S.P(tau, T.g, S.SC.dur), cx, cy);
-  S.$('#e1').style.strokeDashoffset = 1 - S.cam(tau, T.a + 0.1, T.a + 0.5); S.$('#e1').style.opacity = 1 - S.P(tau, T.c + 0.6, T.c + 0.9);
+  camSet('#cam', 1.0 + 0.04 * S.P(tau, 0, S.SC.dur), 960, 540);
+  S.$('#e1').style.strokeDashoffset = 1 - S.cam(tau, T.a + 0.1, T.a + 0.5); const o1 = 1 - S.P(tau, T.c + 0.6, T.c + 0.9), k1 = S.ent(tau, T.a + 0.3, 0.14) * o1, l1 = S.cam(tau, T.a + 0.25, T.a + 0.5);
+  S.$('#e1').style.opacity = o1;
+  S.css('#i1', { opacity: k1, transform: `scale(${0.92 + 0.08 * k1})` });
+  // 지시선: 동그라미 오른쪽 끝(1330,430) → 인셋 왼쪽 테두리(1380,430)
+  S.$('#g').innerHTML = `<line x1="1335" y1="420" x2="${(1335 + 45 * l1).toFixed(1)}" y2="420" stroke="#F2C230" stroke-width="4" opacity="${o1}"/><circle cx="1335" cy="420" r="8" fill="#F2C230" opacity="${l1 * o1}"/>`;
   S.css('#ph', { filter: `brightness(${1 + 0.13 * S.ent(tau, T.g + 0.6, 0.9)})` });
   [['#c0', T.b], ['#c1', T.c - 0.05], ['#c2', T.d], ['#c3', T.f]].forEach(([id, t]) => { const c = S.ent(tau, t, 0.12); S.css(id, { opacity: c, transform: `translateX(${(1 - c) * -26}px)` }); });
 });

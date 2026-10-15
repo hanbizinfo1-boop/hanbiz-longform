@@ -206,7 +206,7 @@ def main():
     ap.add_argument("--out", default="성제관01")
     ap.add_argument("--preview", action="store_true", help="960x540 확인본만")
     a = ap.parse_args()
-    lines = json.load(open(ROOT / "_tmp/sjk01/audio/lines.json", encoding="utf-8"))
+    lines = json.load(open(ROOT / "_tmp/sjk01/audio/lines_cut.json", encoding="utf-8"))
     capf = ROOT / "_tmp/sjk01/sub/captions.json"
     json.dump([{"t0": r["sub_t0"], "t1": r["sub_t1"], "text": cap_text(r["text"])} for r in lines], open(capf, "w", encoding="utf-8"), ensure_ascii=False)
     caps = Captions(str(capf), CAP_STYLE)

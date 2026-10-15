@@ -80,7 +80,7 @@ const SEG = [['이건 우리 가게 마감 순서를', S.at('이건우리가게�
   ['내가 말로 한 거야.', S.at('내가말로'), S.at('처음온') - 0.05],
   ['처음 온 알바가 보고 따라 할 수 있게', S.at('처음온'), S.at('번호붙은') - 0.05],
   ['번호 붙은 체크리스트로 정리해 줘.', S.at('번호붙은'), S.at('위험한건') - 0.05],
-  ['위험한 건 맨 위에 넣어주고', S.at('위험한건'), S.at('위험한건', 1) - 0.05]];
+  ['위험한 건 맨 위에 넣어주고', S.at('위험한건'), S.at('이러면') - 0.05]];   // 10-15: 다시 한 두 번째 «위험한 건…» 뺌 → 끝은 «이러면» 앞
 S.focus([{ t0: T.tm, t1: T.tm + 1.2, big: '내일 아침', small: '마감 매뉴얼 완성', color: '#F2C230', size: 180 }, { t0: T.top - 0.1, t1: S.SC.dur, big: '맨 위', small: '가스 잠그기', color: '#F2C230' }]);
 S.ev(T.rec + 0.3, 'click', 'btn'); ['marker', 'click', 'marker', 'click'].forEach((r, i) => S.ev(T.bm[i], r, 'bm' + i));
 S.ev(T.txt - 0.35, 'sweep', 'cam'); S.ev(T.txt, 'type', 'btx'); S.ev(T.txt + 0.4, 'gauge', 'bu'); S.ev(T.chat, 'msg_in', 'pm'); S.ev(SEG[0][1] + 0.3, 'ok', 'pm');

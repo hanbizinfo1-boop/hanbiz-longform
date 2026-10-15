@@ -63,12 +63,13 @@ const win = S.$('#win');
 win.innerHTML = V2.chat({ id: 'ms', titles: ['한 달 치 소식 글'] });
 S.$('#ms').innerHTML = '<div class="me" id="p1" style="max-width:100%;align-self:stretch"></div><div id="p2" style="font-size:27px;color:#6B7280;padding:0 8px"></div>';
 const ln = i => S.line(i);
+// 10-15: 녹음에서 같은 말을 다시 한 줄(«우리 가게는 ○○동 국밥집이야.» 두 번째)을 뺐다 → 줄 번호 하나씩 당김
 const SEG = [
   ['우리 가게는 ○○동 국밥집이야.', ln(2).t0, ln(2).t1],
-  ['이번 달 신메뉴는 이거고,', ln(4).t0, ln(4).t1 - 0.1],
-  ['저녁에 손님이 많아.', ln(5).t0, ln(5).t1],
-  ['이걸로 네이버 플레이스 소식 4개, 인스타 글 4개를 한 달 치로 짜 줘.', ln(6).t0, ln(7).t1],
-  ['한 편은 200자 안으로.', ln(8).t0, ln(8).t1],
+  ['이번 달 신메뉴는 이거고,', ln(3).t0, ln(3).t1 - 0.1],
+  ['저녁에 손님이 많아.', ln(4).t0, ln(4).t1],
+  ['이걸로 네이버 플레이스 소식 4개, 인스타 글 4개를 한 달 치로 짜 줘.', ln(5).t0, ln(6).t1],
+  ['한 편은 200자 안으로.', ln(7).t0, ln(7).t1],
 ];
 const NEW = '(신메뉴: 얼큰 순대국 — 청양고추 다대기, 10,500원)', NEWT0 = S.at('신메뉴는') + 0.1, NEWT1 = S.at('저녁에');
 const T = { chat: S.at('한 번에') - 0.1, fall: S.at('날짜별로') - 0.45, f1: S.at('첫 주는'), f2: S.at('저녁을'), wide: S.at('이런식으로요'), ph: S.at('사진만'), c4: S.at('4개'), c200: S.at('200자') };

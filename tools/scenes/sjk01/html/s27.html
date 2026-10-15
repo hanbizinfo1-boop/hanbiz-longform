@@ -7,40 +7,39 @@
 #ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background:url("../../../../소재/sjk01/codex/c27_kitchen_watch.png") 0 0/100% 100% no-repeat}
 #svg{position:absolute;left:0;top:0;width:1920px;height:1080px}
 .chip{position:absolute;top:84px;padding:12px 34px 16px;font-size:48px;white-space:nowrap;background:rgba(21,24,28,.92);color:#ECE8E0;border-radius:6px;box-shadow:0 14px 34px rgba(0,0,0,.45);border-left:8px solid #F2C230}
-#c1{left:1500px}#c2{left:110px}
+#c1{left:1500px}#c2{left:70px}#c3{left:70px;top:860px}
 </style></head>
 <body><div id="stage">
   <div id="cam"><div id="ph"></div>
     <svg id="svg" viewBox="0 0 1920 1080">
       <ellipse id="e1" cx="1215" cy="470" rx="250" ry="370" fill="none" stroke="#F2C230" stroke-width="7" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>
-      <ellipse id="e2" cx="470" cy="540" rx="300" ry="440" fill="none" stroke="#F2C230" stroke-width="7" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>
+      <ellipse id="e2" cx="500" cy="470" rx="340" ry="330" fill="none" stroke="#F2C230" stroke-width="7" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>
     </svg>
   </div>
   <div id="c1" class="chip mono" data-box="c1">실력</div>
   <div id="c2" class="chip mono" data-box="c2">인연</div>
+  <div id="c3" class="chip mono" data-box="c3">사장님 눈</div>
 </div>
 <script src="../data/s27.js"></script>
 <script src="../lib/sjk.js"></script>
 <script>
 window.PALETTE = ['#ECE8E0', '#15181C', '#F2C230'];
-const T = { z1: S.at('일을') + 0.1, z2: S.at('오래') + 0.1, z3: S.at('판단은') - 0.1, p: S.at('판단은') };
+const T = { z1: S.at('일을') + 0.1, z2: S.at('오래') + 0.1, z3: S.at('판단은') - 0.1, p: S.at('판단은'), z4: S.at('사장님이') };
 S.focus([{ t0: T.p, t1: S.SC.dur, big: '판단', small: '사장님의 몫', color: '#F2C230' }]);
-S.ev(T.z1 - 0.35, 'in', 'cam'); S.ev(T.z1 + 0.05, 'marker', 'e1'); S.ev(T.z1 + 0.35, 'card_in', 'c1');
-S.ev(T.z2 - 0.35, 'sweep', 'cam'); S.ev(T.z2 + 0.05, 'marker', 'e2'); S.ev(T.z2 + 0.35, 'msg_in', 'c2');
-S.ev(T.z3 - 0.1, 'in', 'cam');
+// 10-15 4차: 순간 확대 컷 없앰 — 한 샷 유지(느린 드리프트만), 짚는 건 동그라미·칩을 얹음
+S.ev(T.z1 + 0.05, 'marker', 'e1'); S.ev(T.z1 + 0.35, 'card_in', 'c1');
+S.ev(T.z2 + 0.05, 'marker', 'e2'); S.ev(T.z2 + 0.35, 'msg_in', 'c2'); S.ev(T.z4, 'card_in', 'c3');
 const camSet = (sel, s, cx, cy) => {
   const tx = S.clamp(960 - cx * s, 1920 - 1920 * s, 0), ty = S.clamp(540 - cy * s, 1080 - 1180 * s, 100 * s);
   S.css(sel, { transform: `translate(${tx}px,${ty}px) scale(${s})` });
 };
 const KF = (tau, keys) => { let [, s, cx, cy] = keys[0]; for (let i = 1; i < keys.length; i++) { const [t, s2, x2, y2, d = 0.3] = keys[i]; const k = S.cam(tau, t - d, t); s = S.lerp(s, s2, k); cx = S.lerp(cx, x2, k); cy = S.lerp(cy, y2, k); } return [s, cx, cy]; };
 S.scene(tau => {
-  const [s, cx, cy] = KF(tau, [[0, 1.03, 960, 540], [T.z1, 1.55, 1230, 480, 0.001], [T.z2, 1.5, 500, 540, 0.001], [T.z3 + 0.2, 1.05, 1000, 520, 0.4]]);
-  camSet('#cam', s + 0.01 * S.P(tau, 0, S.SC.dur), cx, cy);
-  const d1 = S.cam(tau, T.z1 + 0.05, T.z1 + 0.5) * (1 - S.P(tau, T.z2 - 0.3, T.z2 - 0.1));
-  S.$('#e1').style.strokeDashoffset = 1 - S.cam(tau, T.z1 + 0.05, T.z1 + 0.5); S.$('#e1').style.opacity = 1 - S.P(tau, T.z2 - 0.3, T.z2 - 0.1);
-  S.$('#e2').style.strokeDashoffset = 1 - S.cam(tau, T.z2 + 0.05, T.z2 + 0.5); S.$('#e2').style.opacity = 1 - S.P(tau, T.z3 - 0.2, T.z3);
-  const a = S.ent(tau, T.z1 + 0.3, 0.12) * (1 - S.P(tau, T.z2 - 0.3, T.z2 - 0.1)), b = S.ent(tau, T.z2 + 0.35, 0.12) * (1 - S.P(tau, T.z3 - 0.2, T.z3));
-  S.css('#c1', { opacity: a, transform: `translateY(${(1 - a) * 14}px)` }); S.css('#c2', { opacity: b, transform: `translateY(${(1 - b) * 14}px)` });
+  camSet('#cam', 1.03 + 0.03 * S.P(tau, 0, S.SC.dur), 960, 540);
+  S.$('#e1').style.strokeDashoffset = 1 - S.cam(tau, T.z1 + 0.05, T.z1 + 0.5);
+  S.$('#e2').style.strokeDashoffset = 1 - S.cam(tau, T.z2 + 0.05, T.z2 + 0.5);
+  const a = S.ent(tau, T.z1 + 0.3, 0.12), b = S.ent(tau, T.z2 + 0.35, 0.12), c = S.ent(tau, T.z4, 0.12);
+  S.css('#c1', { opacity: a, transform: `translateY(${(1 - a) * 14}px)` }); S.css('#c2', { opacity: b, transform: `translateY(${(1 - b) * 14}px)` }); S.css('#c3', { opacity: c, transform: `translateY(${(1 - c) * 14}px)` });
 });
 </script>
 </body></html>

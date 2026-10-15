@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
 from tools.scenes.sjk01.assemble import cap_text  # noqa: E402
 CASE = ROOT / "핸드오프/2026-10-14_성제관01_AI10가지"
-LINES = ROOT / "_tmp/sjk01/audio/lines.json"
+LINES = ROOT / "_tmp/sjk01/audio/lines_cut.json"   # 10-15 같은 말 다시 한 줄 뺀 판
 SRT_OUT = ROOT / "_tmp/sjk01/sub/성제관01.srt"
 
 

@@ -11,16 +11,17 @@
 #title .tt{font-size:100px;line-height:1.15;color:#ECE8E0;display:block}
 .lab{position:absolute;padding:8px 22px 10px;font-size:34px;white-space:nowrap;background:rgba(21,24,28,.92);color:#ECE8E0;border-radius:4px;transform:translate(-50%,-100%);box-shadow:0 8px 20px rgba(0,0,0,.4)}
 .chip{position:absolute;left:110px;top:110px;padding:12px 32px 16px;font-size:46px;white-space:nowrap;background:rgba(21,24,28,.92);color:#ECE8E0;border-radius:6px;box-shadow:0 14px 34px rgba(0,0,0,.45);border-left:8px solid #F2C230}
-.bb{position:absolute;width:640px;height:92px;line-height:92px;text-align:center;font-size:36px;font-weight:600;background:#FBFAF6;border-radius:24px;box-shadow:0 12px 28px rgba(0,0,0,.4);color:#15181C}
-.bb:after{content:"";position:absolute;left:392px;bottom:-26px;width:40px;height:28px;background:#FBFAF6;clip-path:polygon(0 0,100% 0,30% 100%)}
+/* 10-15 4차: 겹친 말풍선 3장 → 한 장(되풀이는 다시 튀어 오름 + ×2·×3), 꼬리 끝 = 알바 머리(사진 좌표 1320,206) — 말풍선은 #cam 안이라 사진과 같이 움직임 */
+#bb{position:absolute;left:1000px;top:76px;width:640px;height:92px;line-height:92px;text-align:center;font-size:36px;font-weight:600;background:#FBFAF6;border-radius:24px;box-shadow:0 12px 28px rgba(0,0,0,.4);color:#15181C;transform-origin:320px 130px}
+#bb:after{content:"";position:absolute;left:300px;top:90px;width:40px;height:40px;background:#FBFAF6;clip-path:polygon(0 0,100% 0,50% 100%)}
+#bb .n{position:absolute;right:16px;top:24px;height:44px;line-height:44px;padding:0 12px;border-radius:22px;background:#F2C230;color:#15181C;font-size:26px;font-family:"Mono";font-weight:500}
 </style></head>
 <body><div id="stage">
-  <div id="cam"><div id="ph"></div><svg id="svg" viewBox="0 0 1920 1080"><ellipse id="e1" cx="1310" cy="640" rx="250" ry="420" fill="none" stroke="#F2C230" stroke-width="7" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/><g id="g"></g></svg><div id="labs"></div></div>
+  <div id="cam"><div id="ph"></div><svg id="svg" viewBox="0 0 1920 1080"><ellipse id="e1" cx="1310" cy="640" rx="250" ry="420" fill="none" stroke="#F2C230" stroke-width="7" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/><g id="g"></g></svg><div id="labs"></div><div id="bb" data-box="bb">사장님, 이거 어떻게 해요?<span class="n" id="bn"></span></div></div>
   <div id="title" class="abs" data-box="title"><span class="no mono">06</span><span class="tt serif">알바 매뉴얼</span></div>
   <div id="k1" class="chip mono" data-box="k1">새 알바</div>
   <div id="k2" class="chip mono" data-box="k2">구두 설명</div>
   <div id="k3" class="chip mono" data-box="k3">알바 교체</div>
-  <div id="bubs"></div>
 </div>
 <script src="../data/s28.js"></script>
 <script src="../lib/sjk.js"></script>
@@ -29,22 +30,19 @@ window.PALETTE = ['#ECE8E0', '#15181C', '#F2C230'];
 const TG = [['불', 462, 744], ['가스', 752, 792], ['육수', 419, 414]];
 let lh = ''; TG.forEach((g, i) => { lh += `<div class="lab mono" id="lb${i}" style="left:${g[1]}px;top:${g[2] - 40}px">${g[0]}</div>`; });
 S.$('#labs').innerHTML = lh;
-let bh = ''; for (let i = 0; i < 3; i++) bh += `<div class="bb" id="bb${i}" data-box="bb${i}" data-box-group="bub" style="left:${880 + i * 24}px;top:${30 + i * 16}px">사장님, 이거 어떻게 해요?</div>`;
-S.$('#bubs').innerHTML = bh;
 const T = { t: 0.2, tOut: S.at('새알바') - 0.45, nw: S.at('새알바') + 0.1, k: S.at('옆에붙어서'), l: [S.at('불은'), S.at('가스는'), S.at('육수는')], lOut: S.at('일주일') - 0.15, wk: S.at('일주일'),
   b: [S.at('이거어떻게'), S.at('또처음부터', 0), S.at('또처음부터', 1)], q: S.at('그만두면'), yr: S.at('몇년째'), fix: S.at('이렇게바꾸는') };
 S.focus([{ t0: T.wk, t1: T.b[0] - 0.2, big: '일주일 뒤', small: '또 같은 질문', color: '#F2C230', size: 190 }, { t0: T.yr, t1: T.fix - 0.15, big: '몇 년째', small: '같은 설명 반복', color: '#F2C230', size: 200 }]);
-S.ev(T.t, 'card_in', 'title'); S.ev(T.nw - 0.35, 'in', 'cam'); S.ev(T.nw + 0.05, 'marker', 'e1'); S.ev(T.nw + 0.35, 'card_in', 'k1'); S.ev(T.k, 'msg_in', 'k2');
-S.ev(T.l[0] - 0.35, 'sweep', 'cam'); S.ev(T.l[0], 'card_in', 'lb0'); S.ev(T.l[1], 'marker', 'lb1'); S.ev(T.l[2], 'card_in', 'lb2'); S.ev(T.lOut, 'in', 'cam');
-T.b.forEach((t, i) => S.ev(t - 0.05, i === 1 ? 'card_in' : 'msg_in', 'bb' + i)); S.ev(T.q, 'type', 'k3'); S.ev(T.fix, 'sweep', 'bubs');
+S.ev(T.t, 'card_in', 'title'); S.ev(T.nw + 0.05, 'marker', 'e1'); S.ev(T.nw + 0.35, 'card_in', 'k1'); S.ev(T.k, 'msg_in', 'k2');
+S.ev(T.l[0], 'card_in', 'lb0'); S.ev(T.l[1], 'marker', 'lb1'); S.ev(T.l[2], 'card_in', 'lb2');
+T.b.forEach((t, i) => S.ev(t - 0.05, i === 1 ? 'card_in' : 'msg_in', 'bb' + i)); S.ev(T.q, 'type', 'k3'); S.ev(T.fix, 'sweep', 'bb');
 const camSet = (sel, s, cx, cy) => {
   const tx = S.clamp(960 - cx * s, 1920 - 1920 * s, 0), ty = S.clamp(540 - cy * s, 1080 - 1180 * s, 100 * s);
   S.css(sel, { transform: `translate(${tx}px,${ty}px) scale(${s})` });
 };
-const KF = (tau, keys) => { let [, s, cx, cy] = keys[0]; for (let i = 1; i < keys.length; i++) { const [t, s2, x2, y2, d = 0.3] = keys[i]; const k = S.cam(tau, t - d, t); s = S.lerp(s, s2, k); cx = S.lerp(cx, x2, k); cy = S.lerp(cy, y2, k); } return [s, cx, cy]; };
+// 10-15 4차: 순간 확대 컷 4번 삭제 → 카메라는 바탕 흐름(1.02→1.05)만. 동그라미·라벨·말풍선은 #cam 안이라 사진 좌표 그대로 맞는다.
 S.scene(tau => {
-  const [s, cx, cy] = KF(tau, [[0, 1.02, 960, 540], [T.nw + 0.15, 1.5, 1300, 560, 0.001], [T.k + 0.2, 1.02, 960, 540, 0.001], [T.l[0] - 0.1, 1.35, 580, 620, 0.001], [T.lOut, 1.0, 960, 540, 0.001]]);
-  camSet('#cam', s + (tau > T.lOut ? 0.03 * S.P(tau, T.lOut, S.SC.dur) : 0), cx, cy);
+  camSet('#cam', 1.02 + 0.03 * S.P(tau, 0, S.SC.dur), 960, 540);
   const t = S.ent(tau, T.t, 0.14) * (1 - S.ent(tau, T.tOut, 0.16));
   S.css('#title', { opacity: t, transform: `translateX(${(1 - S.ent(tau, T.t, 0.14)) * -30}px)` });
   S.$('#e1').style.strokeDashoffset = 1 - S.cam(tau, T.nw + 0.05, T.nw + 0.45); S.$('#e1').style.opacity = 1 - S.P(tau, T.k, T.k + 0.2);
@@ -54,7 +52,11 @@ S.scene(tau => {
     sv += `<line x1="${g[1]}" y1="${g[2] - 40}" x2="${g[1]}" y2="${g[2] - 8}" stroke="#ECE8E0" stroke-width="3" opacity="${k * lo}"/><circle cx="${g[1]}" cy="${g[2]}" r="7" fill="#F2C230" opacity="${k * lo}"/>`; });
   S.$('#g').innerHTML = sv;
   const f = S.cam(tau, T.fix, T.fix + 0.5);
-  for (let i = 0; i < 3; i++) { const k = S.ent(tau, T.b[i] - 0.05, 0.12); S.css('#bb' + i, { opacity: k * (1 - S.P(f, 0.55, 1)), transform: `translate(${f * (1 - i) * 24}px,${f * (1 - i) * 16 + (1 - k) * 14}px) scale(${1 - 0.06 * f})` }); }
+  // 되풀이할 때마다 같은 말풍선이 다시 튀어 오르고 오른쪽에 ×2·×3(겹쳐 쌓지 않는다)
+  let n = -1; T.b.forEach((t, i) => { if (tau >= t - 0.05) n = i; });
+  const k = n < 0 ? 0 : S.ent(tau, T.b[n] - 0.05, 0.12);
+  S.css('#bb', { opacity: (n < 0 ? 0 : 1) * (1 - S.P(f, 0.55, 1)), transform: `scale(${n < 0 ? 1 : 0.9 + 0.1 * k})` });
+  S.$('#bn').textContent = n > 0 ? '×' + (n + 1) : ''; S.$('#bn').style.display = n > 0 ? 'block' : 'none';
 });
 </script>
 </body></html>

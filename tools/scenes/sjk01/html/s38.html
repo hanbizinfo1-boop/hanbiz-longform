@@ -11,14 +11,19 @@
 #title .no{font-size:44px;color:#F2C230;display:block;margin-bottom:6px}
 #title .tt{font-size:168px;line-height:1.15;color:#ECE8E0;display:block;text-shadow:0 6px 26px rgba(0,0,0,.5)}
 .chip{position:absolute;left:1150px;padding:12px 30px 16px;font-size:44px;white-space:nowrap;background:rgba(21,24,28,.92);color:#ECE8E0;border-radius:4px;box-shadow:0 14px 34px rgba(0,0,0,.45);border-left:8px solid #F2C230}
+/* 10-15 4차: 순간 확대 컷 4번 → 카메라 고정(바탕 흐름만) + 돋보기 인셋 2개(사진 같은 url 을 확대해 보여 줌) */
+.ins{position:absolute;left:1380px;top:250px;width:460px;height:380px;border:6px solid #F2C230;border-radius:10px;box-shadow:0 18px 40px rgba(0,0,0,.5);background:url("../../../../소재/sjk01/codex/c38_market_basket.png") no-repeat;transform-origin:0 50%}
+#i1{background-size:3840px 2560px;background-position:-1296px -1616px}
+#i2{background-size:4224px 2816px;background-position:-2658px -1972px}
 #c1{top:96px}#c2{top:96px}#c3{top:96px;background:#F2C230;color:#15181C;font-weight:700}
 </style></head>
 <body><div id="stage">
   <div id="cam"><div id="ph"></div>
     <svg id="svg" viewBox="0 0 1920 1080">
       <ellipse id="e1" cx="760" cy="800" rx="420" ry="340" fill="none" stroke="#F2C230" stroke-width="7" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>
-      <ellipse id="e2" cx="1310" cy="960" rx="300" ry="190" fill="none" stroke="#F2C230" stroke-width="7" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>
+      <g id="g"></g><ellipse id="e2" cx="1310" cy="880" rx="300" ry="150" fill="none" stroke="#F2C230" stroke-width="7" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>
     </svg>
+    <div id="i1" class="ins"></div><div id="i2" class="ins"></div>
   </div>
   <div id="scrim"></div>
   <div id="title" class="abs" data-box="title"><span class="no mono">09</span><span class="tt serif">메뉴 원가</span></div>
@@ -32,21 +37,24 @@
 window.PALETTE = ['#ECE8E0', '#15181C', '#F2C230'];
 const T = { t: 0.15, out: S.at('요즘') - 0.1, z1: S.at('재료값') + 0.05, a2: S.at('작년'), f: S.at('팔수록'), z4: S.at('어느'), c3: S.at('어느') + 0.2 };
 S.focus([{ t0: T.f, t1: T.f + 1.4, big: '손해', small: '팔수록', color: '#F2C230' }]);
-S.ev(T.t, 'card_in', 'title'); S.ev(T.z1 - 0.3, 'in', 'cam'); S.ev(T.z1 + 0.1, 'marker', 'e1'); S.ev(T.z1 + 0.4, 'msg_in', 'c1');
-S.ev(T.a2 - 0.35, 'sweep', 'cam'); S.ev(T.a2, 'msg_in', 'c2');
-S.ev(T.z4 - 0.3, 'in', 'cam'); S.ev(T.z4 + 0.1, 'marker', 'e2'); S.ev(T.c3 + 0.1, 'card_in', 'c3');
+S.ev(T.t, 'card_in', 'title'); S.ev(T.z1 + 0.1, 'marker', 'e1'); S.ev(T.z1 + 0.4, 'msg_in', 'c1'); S.ev(T.z1 + 1.0, 'card_in', 'i1');
+S.ev(T.a2, 'msg_in', 'c2');
+S.ev(T.z4 + 0.1, 'marker', 'e2'); S.ev(T.c3 + 0.1, 'card_in', 'c3'); S.ev(T.z4 + 0.9, 'msg_in', 'i2');
 const camSet = (sel, s, cx, cy) => {
   const tx = S.clamp(960 - cx * s, 1920 - 1920 * s, 0), ty = S.clamp(540 - cy * s, 1080 - 1180 * s, 100 * s);
   S.css(sel, { transform: `translate(${tx}px,${ty}px) scale(${s})` });
 };
-const KF = (tau, keys) => { let [, s, cx, cy] = keys[0]; for (let i = 1; i < keys.length; i++) { const [t, s2, x2, y2, d = 0.3] = keys[i]; const k = S.cam(tau, t - d, t); s = S.lerp(s, s2, k); cx = S.lerp(cx, x2, k); cy = S.lerp(cy, y2, k); } return [s, cx, cy]; };
 S.scene(tau => {
-  const [s, cx, cy] = KF(tau, [[0, 1.22, 960, 343], [T.z1, 1.7, 760, 780, 0.001], [T.a2, 1.35, 1050, 560, 0.001], [T.f + 1.6, 1.22, 960, 740, 0.001], [T.z4, 1.6, 1260, 900, 0.001]]);
-  camSet('#cam', s, cx, cy);
+  camSet('#cam', 1.05 + 0.05 * S.P(tau, 0, S.SC.dur), 960, 600);
   const t = S.ent(tau, T.t, 0.16) * (1 - S.ent(tau, T.out, 0.2));
   S.css('#title', { opacity: t, transform: `translateX(${(1 - S.ent(tau, T.t, 0.16)) * -30}px)` }); S.css('#scrim', { opacity: t });
-  S.$('#e1').style.strokeDashoffset = 1 - S.cam(tau, T.z1 + 0.1, T.z1 + 0.5); S.$('#e1').style.opacity = 1 - S.P(tau, T.a2 - 0.3, T.a2 - 0.1);
+  S.$('#e1').style.strokeDashoffset = 1 - S.cam(tau, T.z1 + 0.1, T.z1 + 0.5); const o1 = 1 - S.P(tau, T.f - 0.3, T.f - 0.1); S.$('#e1').style.opacity = o1;
   S.$('#e2').style.strokeDashoffset = 1 - S.cam(tau, T.z4 + 0.1, T.z4 + 0.5);
+  // 인셋 + 지시선(끝 = 동그라미 가장자리 점 → 인셋 테두리)
+  const k1 = S.ent(tau, T.z1 + 0.8, 0.14) * o1, k2 = S.ent(tau, T.z4 + 0.8, 0.14), l1 = S.cam(tau, T.z1 + 0.6, T.z1 + 0.85), l2 = S.cam(tau, T.z4 + 0.6, T.z4 + 0.85);
+  S.css('#i1', { opacity: k1, transform: `scale(${0.92 + 0.08 * k1})` }); S.css('#i2', { opacity: k2, transform: `scale(${0.92 + 0.08 * k2})` });
+  S.$('#g').innerHTML = `<line x1="1082" y1="581" x2="${(1082 + 298 * l1).toFixed(1)}" y2="${(581 - 141 * l1).toFixed(1)}" stroke="#F2C230" stroke-width="4" opacity="${o1}"/><circle cx="1082" cy="581" r="8" fill="#F2C230" opacity="${l1 * o1}"/>` +
+    `<line x1="1460" y1="750" x2="1460" y2="${(750 - 120 * l2).toFixed(1)}" stroke="#F2C230" stroke-width="4"/><circle cx="1460" cy="750" r="8" fill="#F2C230" opacity="${l2}"/>`;
   const c1 = S.ent(tau, T.z1 + 0.4, 0.12) * (1 - S.P(tau, T.a2 - 0.1, T.a2)), c2 = S.ent(tau, T.a2, 0.12) * (1 - S.P(tau, T.f - 0.3, T.f - 0.1)), c3 = S.ent(tau, T.c3 + 0.1, 0.12);
   [['#c1', c1], ['#c2', c2], ['#c3', c3]].forEach(([id, v]) => S.css(id, { opacity: v, transform: `translateY(${(1 - v) * 14}px)` }));
 });

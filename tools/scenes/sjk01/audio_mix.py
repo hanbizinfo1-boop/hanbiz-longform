@@ -21,13 +21,18 @@ sys.path.insert(0, str(ROOT))
 from tools.auto import sfx_bus as SB  # noqa: E402
 
 SR = 48000
-VOICE = r"D:\성제관 1편\성제관 1편.wav"
+VOICE = str(ROOT / "_tmp/sjk01/audio/voice_cut.wav")   # 10-15 같은 말 다시 한 곳 3군데 뺀 목소리(cut_repeats.py) — 원본 D:\성제관 1편\성제관 1편.wav
 TL = json.load(open(ROOT / "_tmp/sjk01/timeline.json", encoding="utf-8"))
 OUT = ROOT / "_tmp/sjk01/final"
 BGM_DIR = Path(r"C:\Users\user\Desktop\한비즈-쇼츠광고\소재\BGM후보")
 # 장(세계) → 곡. 1~4 손님(휴대폰 속) · 5~7 사람(주방) · 8~10 돈(숫자의 방) · 실험·마무리
-CHAPTERS = [(0.0, "P1/Mixkit_Crying_Sea.mp3"), (66.6, "P1/Mixkit_Dreamy_Jazz.mp3"), (295.3, "P1/Mixkit_Lo-Fi_04.mp3"),
-            (463.2, "P1/Mixkit_Coffee_or_Tea.mp3"), (617.3, "P1/Mixkit_Crying_Sea.mp3")]
+# 장(이야기 국면) → 곡(소재/bgm, Mixkit 무료 — 목록.md). 10-15 BGM 규칙 «분위기 5종»: 도입·문제 / 설명 / 따뜻함·사람 / 숫자 / 마무리
+BGM_NEW = ROOT / "소재/bgm"
+BGM_GAP = 24          # 목소리 말 중앙 − BGM 중앙(dB). 레퍼런스 9채널 실측 중앙값 24.8(범위 18~29), 이전 판 17.6 은 BGM 이 큰 쪽
+CHAPTERS = [(0.0, BGM_NEW / "1_Piano_Reflections.mp3"), (66.6, BGM_NEW / "2_Lo-Fi_05.mp3"), (295.3, BGM_NEW / "3_My_Little_Prince.mp3"),
+            (463.2, BGM_NEW / "4_Relaxation_2.mp3"), (617.3, BGM_NEW / "5_PlaceIt_World_02.mp3")]
+CUT = json.load(open(ROOT / "_tmp/sjk01/audio/cut_report.json", encoding="utf-8"))
+CHAPTERS = [(round(t - sum(c["dur"] for c in CUT["cuts"] if t >= c["b"]), 3), f) for t, f in CHAPTERS]   # 컷 전 시각 → 컷 뒤
 
 # 역할 → [(파일, 원음 대비 구울 dB, 정렬)] 변형 순서
 VAR = {
@@ -90,19 +95,64 @@ def collect():
     return cues, unknown
 
 
+_ALEN = {}
+
+
+def audible_len(v, k):
+    """변형 v 를 큐 시각에 맞춰 놓았을 때 «큐 시각 → 들리는 끝»(20ms RMS 가 피크 −15dB 아래로 내려가는 곳) 초.
+    그 뒤 꼬리는 sfx_bus 가 다음 소리 앞에서 0.2초에 걸쳐 줄인다(자연 감쇠처럼 — 뚝 끊김 아님)."""
+    key = (v[0], v[2], DUR.get(k))
+    if key not in _ALEN:
+        x, att, pk = SB.prep(SB.find(v[0]), 0, -20.0, DUR.get(k))
+        f20 = SB.rms_db(x, 0.02)
+        ae = (int(np.where(f20 >= f20.max() - 15)[0][-1]) + 1) * 0.02
+        lead = pk if v[2] == "peak" else min(att, 0.08)
+        _ALEN[key] = ae - lead
+    return _ALEN[key]
+
+
 def assign(cues):
-    """같은 파일 3초 안 반복 → 변형 돌리기 · 0.25초 안 겹친 큐는 뒤 것 뺌."""
+    """같은 파일 3초 안 반복 → 변형 돌리기 · 0.25초 안 겹친 큐는 뒤 것 뺌.
+    10-15 «효과음이 나오는 도중에 짤리는 듯한 지점» → 다음 큐 전에 들리는 끝까지 나오는 변형만 고른다.
+    맞는 변형이 없으면 가장 짧은 것 — 그래도 0.12초 넘게 잘리면 그 큐를 뺀다(잘라 넣지 않는다, 절대금지 10-07 «자연 길이»)."""
     out, dropped, last, run = [], [], {}, {}
+    # 부각(big — S.focus)은 먼저 자리 잡는다: 변형을 미리 정하고, 그 소리가 들리는 동안 오는 다른 큐는 뺀다(부각음을 자르지 않는다)
+    hold, bigpick, blast = [], {}, {}
     for c in cues:
+        if c["k"] != "big":
+            continue
+        if hold and c["t"] < hold[-1][1]:
+            continue                                   # 앞 부각음이 울리는 중 — 아래에서 뺀다
+        vs = [v for v in VAR["big"] if c["t"] - blast.get(v[0], -99) >= 3.0] or VAR["big"]
+        v = min(vs, key=lambda v: blast.get(v[0], -99))
+        blast[v[0]] = c["t"]; bigpick[id(c)] = v
+        hold.append((c["t"], c["t"] + audible_len(v, "big") + 0.03))
+    keep = []
+    for c in cues:
+        if id(c) not in bigpick and any(a < c["t"] < b for a, b in hold):
+            dropped.append((c["t"], c["k"], "부각음이 울리는 중")); continue
+        keep.append(c)
+    cues = keep
+    for i, c in enumerate(cues):
         if out and c["t"] - out[-1]["t"] < 0.25:
             dropped.append((c["t"], c["k"], "0.25초 안 앞 소리")); continue
         if out and c["t"] - out[-1]["t"] > 3.0:
             run = {}          # 3초 넘게 비면 사슬이 끊긴다(sfx_bus 점검과 같은 기준)
+        nxt = next((d["t"] for d in cues[i + 1:] if d["t"] - c["t"] >= 0.25), None)
+        gap = (nxt - c["t"] - 0.03) if nxt is not None else 99
         # 변형이 여럿이면 가장 오래전에 쓴 것부터(같은 소리 단조 반복 줄이기), 3초 안 같은 파일 금지 · 한 사슬에서 같은 파일 3번까지
         cand = [v for v in VAR[c["k"]] if c["t"] - last.get(v[0], -99) >= 3.0 and run.get(v[0], 0) < 3]
-        pick = min(cand, key=lambda v: last.get(v[0], -99)) if cand else None
-        if not pick:
+        if id(c) in bigpick:
+            cand = [bigpick[id(c)]]; gap = 99      # 부각음은 미리 정한 변형 그대로(뒤 큐는 이미 비웠다)
+        if not cand:
             dropped.append((c["t"], c["k"], "3초 안 같은 소리 — 변형 없음")); continue
+        fit = [v for v in cand if audible_len(v, c["k"]) <= gap]
+        if fit:
+            pick = min(fit, key=lambda v: last.get(v[0], -99))
+        else:
+            pick = min(cand, key=lambda v: audible_len(v, c["k"]))
+            if audible_len(pick, c["k"]) - gap > 0.12:
+                dropped.append((c["t"], c["k"], f"다음 소리 전에 안 끝남({audible_len(pick, c['k']):.2f}>{gap:.2f}초)")); continue
         last[pick[0]] = c["t"]; run[pick[0]] = run.get(pick[0], 0) + 1
         out.append(dict(c, file=pick[0], db=pick[1], al=pick[2]))
     return out, dropped
@@ -131,46 +181,71 @@ def main():
     json.dump(rep, open(OUT / "sfx_report.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print("효과음 큐", len(cues), "→ 배치", len(placed), "· 뺌", len(dropped), "· 모르는 역할", len(unknown), "· sfx_bus 종료", rc)
 
-    total = 711.93
-    # BGM: 장마다 곡을 이어 붙이고(곡이 짧으면 반복) 2초 교차
+    total = CUT["total_out"]
+    # BGM(10-15 규칙 — tools/data/bgm-rules-1015.md, 레퍼런스 9채널 실측 _tmp/bgm_ref/측정.md):
+    # 장(이야기 국면)마다 분위기 맞는 곡 하나 · 곡 안 반복과 곡 바뀜 모두 3초 같은 힘 교차 · 곡마다 크기 먼저 맞춤 ·
+    # 목소리 말 중앙보다 BGM_GAP dB 아래로 «고르게»(말할 때 누르는 덕킹 없음 — 레퍼런스 쉼 레벨 평탄 ±2dB).
+    import soundfile as sf
+
+    def mdb(x, w=0.05):
+        m = x.mean(1) if x.ndim > 1 else x
+        n = int(w * SR); k = len(m) // n
+        return 20 * np.log10(np.sqrt((m[:k * n].reshape(k, n) ** 2).mean(1)) + 1e-9)
+
     parts = []
     for i, (t0, f) in enumerate(CHAPTERS):
         t1 = CHAPTERS[i + 1][0] if i + 1 < len(CHAPTERS) else total
-        parts.append((t0, t1, str(BGM_DIR / f)))
+        parts.append((t0, t1, str(f)))
+    XF = 3.0
+    xs = int(XF * SR)
+    eq = lambda n: (np.sqrt(np.linspace(0, 1, n))[:, None], np.sqrt(np.linspace(1, 0, n))[:, None])
     bgm = np.zeros((int(total * SR) + SR, 2), np.float32)
-    XF = 2.0
     for i, (t0, t1, f) in enumerate(parts):
         a = SB.load(f)
+        d = mdb(a); live = np.where(d > d.max() - 40)[0]               # 앞뒤 무음 잘라 반복 이음매에 빈틈 없게
+        a = a[live[0] * int(0.05 * SR):(live[-1] + 1) * int(0.05 * SR)]
+        d = mdb(a); a = a * 10 ** ((-30 - np.median(d[d > d.max() - 30])) / 20)   # 곡마다 크기 맞춤(50ms RMS 중앙 −30)
         need = int((t1 - t0 + XF) * SR)
-        reps = int(np.ceil(need / len(a)))
-        seg = np.concatenate([a] * reps)[:need]
-        fi = int(XF * SR) if i else int(1.5 * SR)
-        seg[:fi] *= np.linspace(0, 1, fi)[:, None]
+        seg = a.copy()
+        while len(seg) < need:                                          # 곡 반복도 3초 교차(뚝 이어짐 없음)
+            fin, fout = eq(xs)
+            seg = np.concatenate([seg[:-xs], seg[-xs:] * fout + a[:xs] * fin, a[xs:]])
+        seg = seg[:need].copy()
+        fin, fout = eq(xs)
+        if i:
+            seg[:xs] *= fin
+        else:
+            f0 = int(1.5 * SR); seg[:f0] *= np.linspace(0, 1, f0)[:, None]
         if i + 1 < len(parts):
-            seg[-int(XF * SR):] *= np.linspace(1, 0, int(XF * SR))[:, None]
+            seg[-xs:] *= fout
         else:
             fo = int(3.0 * SR); seg[-fo:] *= np.linspace(1, 0, fo)[:, None]
         s0 = int(max(0, t0 - (XF if i else 0)) * SR)
         e = min(len(bgm), s0 + len(seg))
         bgm[s0:e] += seg[: e - s0]
-    import wave
-
-    def wr(p, x):
-        with wave.open(str(p), "wb") as w:
-            w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR)
-            w.writeframes((np.clip(x, -1, 1) * 32767).astype("<i2").tobytes())
-    wr(OUT / "bgm_raw.wav", bgm[: int(total * SR)])
-    # 섞기: 목소리 +0 · BGM 은 목소리 아래(사이드체인 압축으로 말할 때 더 낮게) · 효과음 버스 → loudnorm −14 LUFS · 트루피크 −1.5
-    fc = ("[0:a]aformat=sample_fmts=fltp:sample_rates=48000:channel_layouts=stereo,asplit=2[v][vk];"
-          "[1:a]volume=-21dB[b0];[b0][vk]sidechaincompress=threshold=0.03:ratio=4:attack=60:release=500[b];"
-          "[2:a]volume=0dB[s];[v][b][s]amix=inputs=3:normalize=0:duration=first[m];"
-          "[m]loudnorm=I=-14:TP=-1.7:LRA=11[o]")
+    bgm = bgm[: int(total * SR)]
+    v, _ = sf.read(VOICE, dtype="float32")
+    dv = mdb(v); sp = float(np.median(dv[dv > np.percentile(dv, 90) - 20]))
+    db = mdb(bgm); bm = float(np.median(db[db > -80]))
+    g = sp - BGM_GAP - bm
+    bgm *= 10 ** (g / 20)
+    print(f"BGM: 목소리 말 중앙 {sp:.1f}dB · BGM 중앙 {bm + g:.1f}dB(목소리 −{BGM_GAP}dB) · 곡 {[Path(p[2]).name for p in parts]}")
+    sf.write(OUT / "bgm_raw.wav", bgm, SR, subtype="FLOAT")
+    # 섞기: 목소리 + BGM(이미 크기 맞춤, 덕킹 없음) + 효과음 → 2번 재는 loudnorm(linear — 소리끼리 비율 그대로) −14 LUFS · 트루피크 −1.5
+    pre = OUT / "mix_pre.wav"
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", VOICE, "-i", str(OUT / "bgm_raw.wav"), "-i", str(OUT / "sfx_bus.wav"),
-                    "-filter_complex", fc, "-map", "[o]", "-ar", "48000", "-c:a", "pcm_s16le", str(OUT / "성제관01_소리.wav")], check=True)
+                    "-filter_complex", "[0:a]aformat=sample_fmts=fltp:sample_rates=48000:channel_layouts=stereo[v];"
+                    "[v][1:a][2:a]amix=inputs=3:normalize=0:duration=first[m]", "-map", "[m]", "-c:a", "pcm_f32le", str(pre)], check=True)
+    r = subprocess.run(["ffmpeg", "-nostats", "-i", str(pre), "-af", "loudnorm=I=-14:TP=-1.5:LRA=20:print_format=json", "-f", "null", "-"],
+                       capture_output=True, text=True, encoding="utf-8", errors="replace")
+    js = json.loads(r.stderr[r.stderr.rindex("{"):r.stderr.rindex("}") + 1])
+    ln = ("loudnorm=I=-14:TP=-1.5:LRA=20:linear=true:measured_I={input_i}:measured_TP={input_tp}:measured_LRA={input_lra}:"
+          "measured_thresh={input_thresh}:offset={target_offset}").format(**js)
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(pre), "-af", ln, "-ar", "48000", "-c:a", "pcm_s16le",
+                    str(OUT / "성제관01_소리.wav")], check=True)
     r = subprocess.run(["ffmpeg", "-nostats", "-i", str(OUT / "성제관01_소리.wav"), "-af", "ebur128=peak=true", "-f", "null", "-"],
                        capture_output=True, text=True, encoding="utf-8", errors="replace")
     print("\n".join(r.stderr.strip().splitlines()[-12:]))
-
 
 if __name__ == "__main__":
     main()

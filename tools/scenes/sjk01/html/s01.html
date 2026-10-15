@@ -5,9 +5,8 @@
 <style>
 .seq{position:absolute;left:0;top:0;width:1920px;height:1080px}
 .shot{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden}
-#hall,#hall2{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background:url("../../../../소재/sjk01/codex/h01_empty_hall.png") 0 0/100% 100% no-repeat}
+#hall{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background:url("../../../../소재/sjk01/codex/h01_empty_hall.png") 0 0/100% 100% no-repeat}
 #hall{transform-origin:960px 640px}
-#hall2{transform-origin:0 0;transform:translate(-1150px,-700px) scale(1.75)}
 /* 매출 앱 카드(흔한 가게 관리 앱 모양, 회사 이름 X) */
 #sales{left:120px;top:110px;width:700px;background:#fff;border-radius:16px;box-shadow:0 30px 60px rgba(0,0,0,.45);font-family:"UI";color:#1E2024;overflow:hidden}
 #sales .hd{display:flex;align-items:center;justify-content:space-between;padding:22px 28px 10px}
@@ -20,22 +19,18 @@
 #sales .xl{display:flex;justify-content:space-between;padding:0 44px 20px 60px;font-size:22px;color:#8A9099}
 #down{position:absolute;right:26px;top:96px;background:#FDECEA;color:#D8402F;font-size:26px;font-weight:800;border-radius:10px;padding:6px 16px;opacity:0}
 /* 손님 줄 */
-#guests{left:120px;top:690px;background:rgba(255,255,255,.96);border-radius:16px;padding:18px 26px;box-shadow:0 24px 50px rgba(0,0,0,.45);font-family:"UI"}
+#guests{left:120px;top:110px;background:rgba(255,255,255,.96);border-radius:16px;padding:18px 26px;box-shadow:0 24px 50px rgba(0,0,0,.45);font-family:"UI"}
 #guests .lb{font-size:24px;font-weight:700;color:#5A5F68;margin-bottom:10px}
 #guests .row{display:flex;gap:12px}
 #guests svg{width:58px;height:58px}
-/* 휴대폰 알림 */
-#ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background:url("../../../../소재/sjk01/codex/d01_phone_counter_dusk_clean.png") 0 0/100% 100% no-repeat}
-#scr{position:absolute;left:0;top:0;width:459px;height:620px;overflow:hidden;font-family:"UI";background:linear-gradient(170deg,#1B2333,#0E1118);color:#F2F3F5}
-#scr .tm{text-align:center;font-size:76px;font-weight:300;margin-top:26px;letter-spacing:.02em}
-#scr .dt{text-align:center;font-size:22px;color:#AEB4BF;margin-top:-4px}
-#nl{position:absolute;left:14px;right:14px;top:170px;display:flex;flex-direction:column-reverse;gap:10px}
-.nt{display:flex;gap:12px;align-items:center;background:rgba(255,255,255,.14);border-radius:16px;padding:12px 14px}
-.nt .ic{flex:none;width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center}
+/* 알림 배너(휴대폰 잠금화면 알림 모양) — 거리 위 오른쪽 위 */
+#nl{position:absolute;left:1220px;top:60px;width:640px;display:flex;flex-direction:column-reverse;gap:12px;font-family:"UI"}
+.nt{display:flex;gap:14px;align-items:center;background:rgba(246,247,249,.97);color:#1E2024;border-radius:18px;padding:14px 18px;box-shadow:0 14px 30px rgba(0,0,0,.45)}
+.nt .ic{flex:none;width:52px;height:52px;border-radius:13px;display:flex;align-items:center;justify-content:center}
 .nt .ic svg{width:26px;height:26px;stroke:#fff;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .nt .tx{flex:1;min-width:0}
-.nt .t1{font-size:22px;color:#C9CED6;display:flex;justify-content:space-between}
-.nt .t2{font-size:24px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nt .t1{font-size:22px;color:#6B7280;display:flex;justify-content:space-between}
+.nt .t2{font-size:27px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 </style></head>
 <body><div id="stage">
   <!-- 샷 1·2: 빈 홀 -->
@@ -51,77 +46,69 @@
       <div class="xl"><span>7월</span><span>8월</span><span>9월</span><span>10월</span></div>
       <div id="down">▼ 뚝</div>
     </div>
-  </div>
-  <div class="shot" id="s2"><div id="hall2"></div>
     <div id="guests" class="abs" data-box="guests"><div class="lb">오늘 손님</div><div class="row" id="grow"></div></div>
   </div>
-  <!-- 샷 3: 계산대 위 휴대폰 알림 -->
-  <div class="shot" id="s3"><div id="ph"></div>
-    <div id="scr">
-      <div class="tm">9:41</div><div class="dt">화요일 저녁</div>
-      <div id="nl">
-        <div class="nt" id="n1"><div class="ic" style="background:#E8833A"><svg viewBox="0 0 24 24"><path d="M3 7h13v10H3zM16 10h3l2 3v4h-5"/><circle cx="7" cy="18" r="1.6"/><circle cx="18" cy="18" r="1.6"/></svg></div><div class="tx"><div class="t1"><span>재고</span><span>방금</span></div><div class="t2">깍두기 재고가 얼마 안 남았어요</div></div></div>
-        <div class="nt" id="n2"><div class="ic" style="background:#2E55D9"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h7"/></svg></div><div class="tx"><div class="t1"><span>세금계산서</span><span>방금</span></div><div class="t2">발행 요청이 들어왔어요</div></div></div>
-        <div class="nt" id="n3"><div class="ic" style="background:#2FA36B"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div><div class="tx"><div class="t1"><span>예약</span><span>1분 전</span></div><div class="t2">토요일 6명 예약 문의</div></div></div>
-        <div class="nt" id="n4"><div class="ic" style="background:#7A5AF0"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg></div><div class="tx"><div class="t1"><span>문자</span><span>3분 전</span></div><div class="t2">010-0000-0000 · 내일 배송 몇 시에…</div></div></div>
-      </div>
+  <!-- 샷 4: 밤 거리(블렌더 2.5D) — 장면 2 유리문으로 이어짐 -->
+  <div class="shot" id="s4"><img id="a" class="seq" alt="">
+    <div id="nl" data-box="nl">
+      <div class="nt" id="n1"><div class="ic" style="background:#E8833A"><svg viewBox="0 0 24 24"><path d="M3 7h13v10H3zM16 10h3l2 3v4h-5"/><circle cx="7" cy="18" r="1.6"/><circle cx="18" cy="18" r="1.6"/></svg></div><div class="tx"><div class="t1"><span>재고</span><span>방금</span></div><div class="t2">깍두기 재고가 얼마 안 남았어요</div></div></div>
+      <div class="nt" id="n2"><div class="ic" style="background:#2E55D9"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h7"/></svg></div><div class="tx"><div class="t1"><span>세금계산서</span><span>방금</span></div><div class="t2">발행 요청이 들어왔어요</div></div></div>
+      <div class="nt" id="n3"><div class="ic" style="background:#2FA36B"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div><div class="tx"><div class="t1"><span>예약</span><span>1분 전</span></div><div class="t2">토요일 6명 예약 문의</div></div></div>
+      <div class="nt" id="n4"><div class="ic" style="background:#7A5AF0"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg></div><div class="tx"><div class="t1"><span>문자</span><span>3분 전</span></div><div class="t2">010-0000-0000 · 내일 배송 몇 시에…</div></div></div>
     </div>
   </div>
-  <!-- 샷 4: 밤 거리(블렌더 2.5D) — 장면 2 유리문으로 이어짐 -->
-  <div class="shot" id="s4"><img id="a" class="seq" alt=""></div>
 </div>
 <script src="../data/s01.js"></script>
 <script src="../lib/sjk.js"></script>
 <script src="op_seq.js"></script>
 <script>
-// 10-15 3차 «초반 5초가 천천히 키프레임 확대인게 아쉬움» → 한 화면 확대 대신 말마다 다른 숏으로 끊는다(키프레임 0 — 새 요소·그리기·회색 처리·알림 쌓임).
-// ① «요즘 장사 진짜 안 되잖아요» 빈 홀 + 매출 선이 그려지다 뚝 ② «손님은 줄었는데» 빈 의자 쪽 컷 + 손님 아이콘 꺼짐 ③ «할 일은 그대로» 계산대 휴대폰에 알림 쌓임 ④ «가게 문 닫고 나서도» 밤 거리 → 장면 2.
+// 10-15 3차 «초반 5초가 천천히 키프레임 확대인게 아쉬움» → 말마다 요소가 치고 들어오고 빠지게(키프레임 0).
+// 10-15 4차 «장면인식하기도 전에 전체화면전환은하지마 … 짧은시간에 [카드]가 치고들어오거나 없어지는 연출은 괜찮은데 전체로 돌리면 어지러워»
+//   → 전체 화면은 두 번만: 빈 홀(0~3.3초) → 밤 거리(3.3초~, 장면 2 유리문으로 이어짐). 바뀌는 건 위에 얹은 카드뿐.
+// ① «요즘 장사 진짜 안 되잖아요» 매출 카드 — 선이 그려지다 뚝 ② «손님은 줄었는데» 매출 카드 빠지고 같은 자리에 손님 카드 — 아이콘 꺼짐
+// ③ «할 일은 그대로고요» 밤 거리 위 알림 배너 쌓임 ④ «가게 문 닫고 나서도» 배너 빠지고 거리만 → 장면 2.
 window.PALETTE = ['#ECE8E0', '#2E55D9', '#D8402F'];
-const T = { yo: S.at('요즘'), jin: S.at('진짜'), an: S.at('안'), son: S.at('손님은') - 0.06, jul: S.at('줄었는데'), hal: S.at('할') - 0.06, geu: S.at('그대로고요'), ga: S.at('가게') - 0.06 };
-const NOTE = [T.hal + 0.04, T.hal + 0.26, T.hal + 0.50, T.hal + 0.74];
+const T = { yo: S.at('요즘'), jin: S.at('진짜'), an: S.at('안'), son: S.at('손님은') - 0.06, jul: S.at('줄었는데'), hal: S.at('할') - 0.06, ga: S.at('가게') - 0.06 };
+const NOTE = [T.hal + 0.04, T.hal + 0.30, T.hal + 0.56, T.hal + 0.82];
 S.ev(0.0, 'in', 'hall'); S.ev(T.yo, 'card_in', 'sales'); S.ev(T.jin, 'marker', 'ln'); S.ev(T.an + 0.2, 'no', 'down');
 S.ev(T.son + 0.04, 'card_in', 'guests'); S.ev(T.jul + 0.1, 'no', 'grey');
 ['msg_in', 'pop', 'msg_in', 'pop'].forEach((r, i) => S.ev(NOTE[i], r, 'n' + (i + 1)));
-S.ev(T.ga, 'in', 'street');
 // 매출 선: 7~9월은 잔잔히 내려가고 «진짜 안»에서 뚝
 const P = [[60, 70], [160, 64], [260, 82], [360, 76], [460, 98], [520, 104], [580, 150], [660, 214]];
-const SP = [0, 1, 2, 3, 4, 5, 5, 5];   // 0~5 = 그려지기, 6·7 = 뚝
 function path(n) { const pts = P.slice(0, Math.floor(n) + 1); const f = n - Math.floor(n); if (f > 0 && Math.floor(n) + 1 < P.length) { const a = P[Math.floor(n)], b = P[Math.floor(n) + 1]; pts.push([a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f]); } return pts; }
-const QD = [[698.8, 318.8], [1157.5, 318.8], [1157.5, 938.8], [698.8, 938.8]];
-S.fitQuad(S.$('#scr'), 459, 620, QD);
 let gh = ''; for (let i = 0; i < 10; i++) gh += `<svg viewBox="0 0 24 24" id="g${i}"><circle cx="12" cy="8" r="4" fill="#2E55D9"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8z" fill="#2E55D9"/></svg>`;
 S.$('#grow').innerHTML = gh;
 S.scene(async tau => {
-  const shot = tau < T.son ? 1 : tau < T.hal ? 2 : tau < T.ga ? 3 : 4;
-  ['s1', 's2', 's3', 's4'].forEach((id, i) => S.$('#' + id).style.display = shot === i + 1 ? 'block' : 'none');
-  if (shot === 4) { await OP.draw(tau + S.SC.t0); return; }
-  if (shot === 1) {
-    S.css('#hall', { transform: `scale(${(1 + 0.02 * S.P(tau, 0, T.son)).toFixed(4)})` });   // 바탕 흐름(되돌아오지 않음)
-    const k = S.ent(tau, T.yo, 0.12);
-    S.css('#sales', { opacity: k, transform: `translateY(${(1 - k) * 30}px)` });
-    const n = S.lerp(0, 5, S.P(tau, T.yo + 0.1, T.jin - 0.05)) + S.lerp(0, 2, S.EO(S.P(tau, T.jin, T.jin + 0.4)));
-    const pts = path(Math.min(7, n)), d = 'M' + pts.map(p => p.join(',')).join(' L');
-    S.$('#ln').setAttribute('d', d);
-    S.$('#ln').setAttribute('stroke', n > 5.2 ? '#D8402F' : '#2E55D9');
-    const last = pts[pts.length - 1];
-    S.$('#area').setAttribute('d', d + ` L${last[0]},230 L60,230 Z`);
-    const dk = S.ent(tau, T.jin + 0.4, 0.1);
-    S.$('#dot').setAttribute('cx', dk > 0 ? last[0] : -50); S.$('#dot').setAttribute('cy', dk > 0 ? last[1] : -50);
-    const dn = S.ent(tau, T.an + 0.2, 0.12);
-    S.css('#down', { opacity: dn, transform: `scale(${1.25 - 0.25 * dn})` });
-  } else if (shot === 2) {
-    const k = S.ent(tau, T.son + 0.04, 0.12);
-    S.css('#guests', { opacity: k, transform: `translateY(${(1 - k) * 24}px)` });
-    for (let i = 0; i < 10; i++) {   // 오른쪽부터 6명 꺼짐
-      const off = i >= 4 ? S.ent(tau, T.jul + 0.1 + (9 - i) * 0.07, 0.08) : 0;
-      S.$('#g' + i).style.opacity = 1 - 0.8 * off;
-      S.$('#g' + i).style.filter = `grayscale(${off})`;
-    }
-  } else {
+  const hall = tau < T.hal;
+  S.$('#s1').style.display = hall ? 'block' : 'none'; S.$('#s4').style.display = hall ? 'none' : 'block';
+  if (!hall) {
+    await OP.draw(tau + S.SC.t0);
+    const out = S.ent(tau, T.ga, 0.18);
     NOTE.forEach((t, i) => {
       const k = S.ent(tau, t, 0.12);
-      S.css('#n' + (i + 1), { opacity: k, transform: `translateY(${(1 - k) * -26}px)`, display: tau < t - 0.01 ? 'none' : 'flex' });
+      S.css('#n' + (i + 1), { opacity: k * (1 - out), transform: `translateY(${(1 - k) * -26 - out * 20}px)`, display: tau < t - 0.01 ? 'none' : 'flex' });
     });
+    return;
+  }
+  S.css('#hall', { transform: `scale(${(1 + 0.02 * S.P(tau, 0, T.hal)).toFixed(4)})` });   // 바탕 흐름(되돌아오지 않음)
+  const k = S.ent(tau, T.yo, 0.12), ko = S.ent(tau, T.son - 0.1, 0.14);
+  S.css('#sales', { opacity: k * (1 - ko), transform: `translateY(${(1 - k) * 30 - ko * 30}px)` });
+  const n = S.lerp(0, 5, S.P(tau, T.yo + 0.1, T.jin - 0.05)) + S.lerp(0, 2, S.EO(S.P(tau, T.jin, T.jin + 0.4)));
+  const pts = path(Math.min(7, n)), d = 'M' + pts.map(p => p.join(',')).join(' L');
+  S.$('#ln').setAttribute('d', d);
+  S.$('#ln').setAttribute('stroke', n > 5.2 ? '#D8402F' : '#2E55D9');
+  const last = pts[pts.length - 1];
+  S.$('#area').setAttribute('d', d + ` L${last[0]},230 L60,230 Z`);
+  const dk = S.ent(tau, T.jin + 0.4, 0.1);
+  S.$('#dot').setAttribute('cx', dk > 0 ? last[0] : -50); S.$('#dot').setAttribute('cy', dk > 0 ? last[1] : -50);
+  const dn = S.ent(tau, T.an + 0.2, 0.12);
+  S.css('#down', { opacity: dn, transform: `scale(${1.25 - 0.25 * dn})` });
+  const g = S.ent(tau, T.son + 0.04, 0.12);
+  S.css('#guests', { opacity: g, transform: `translateY(${(1 - g) * 24}px)` });
+  for (let i = 0; i < 10; i++) {   // 오른쪽부터 6명 꺼짐
+    const off = i >= 4 ? S.ent(tau, T.jul + 0.1 + (9 - i) * 0.07, 0.08) : 0;
+    S.$('#g' + i).style.opacity = 1 - 0.8 * off;
+    S.$('#g' + i).style.filter = `grayscale(${off})`;
   }
 });
 </script>

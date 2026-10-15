@@ -19,7 +19,7 @@ from tools.scenes.sjk01.assemble import CAP_STYLE, W, H, FN, FD, cap_text  # noq
 
 def main():
     src, wav, out = sys.argv[1:4]
-    lines = json.load(open(ROOT / "_tmp/sjk01/audio/lines.json", encoding="utf-8"))
+    lines = json.load(open(ROOT / "_tmp/sjk01/audio/lines_cut.json", encoding="utf-8"))
     capf = ROOT / "_tmp/sjk01/sub/captions.json"
     json.dump([{"t0": r["sub_t0"], "t1": r["sub_t1"], "text": cap_text(r["text"])} for r in lines], open(capf, "w", encoding="utf-8"), ensure_ascii=False)
     caps = Captions(str(capf), CAP_STYLE)

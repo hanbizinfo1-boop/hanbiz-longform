@@ -8,7 +8,7 @@ cues.json: [{"t": 초, "role": "zoom_in"|…, "file": "이름(선택 — 없으�
 규칙
 - 크기: 사장님 최종값(FILE_DB, 목소리 «원음» 대비) − 7 = 완성본 목소리 대비 «들리는 크기». 기준은 그 큐 앞뒤 3초 목소리(50ms RMS 상위 25dB 중앙).
 - 들리는 시각: 어택(20ms RMS 가 피크 −20dB 에 처음 닿는 곳)을 큐 시각에(앞당김 최대 80ms) · 휙(peak)은 정점을 큐 시각에.
-- 겹침: 앞 소리 꼬리가 다음 소리 어택에 걸치면 어택 10ms 전에서 끊고 60ms 페이드. 큐 간격 0.12초 미만이면 뒤 것을 뺀다(우선순위 낮은 쪽).
+- 겹침: 앞 소리 꼬리가 다음 소리 어택에 걸치면 어택 10ms 전에서 끝나게 0.2초 감쇠 — 들리는 끝(피크 −15dB) 0.12초 전보다 앞에서 끊기면 «들리는 중 잘림» WARN(10-15, 큐 고르는 쪽에서 0 으로 맞출 것). 큐 간격 0.12초 미만이면 뒤 것을 뺀다(우선순위 낮은 쪽).
 - 금지: 마림바·실로폰·합성 벨(SYN_) · 모음1~6 → ERROR.
 - 자연 길이 최대 2.5초, 끝 min(길이/3, 0.25초) 페이드. 피크 −6dBFS 상한(짧은 클릭 과증폭 방지).
 """
@@ -141,16 +141,22 @@ def main():
         st = int((c["t"] - lead) * SR)
         placed.append(dict(t=c["t"], role=c["role"], file=path.name, st=st, x=x.copy(), att=st + int(att * SR), rel=rel))
     # 겹침: 다음 소리 어택 10ms 전에서 끊고 60ms 페이드
+    cut_audible = 0
     for a, b in zip(placed, placed[1:]):
         cut = b["att"] - int(0.010 * SR)
         if a["st"] + len(a["x"]) > cut:
             keepn = max(0, cut - a["st"])
+            f20 = rms_db(a["x"], 0.02)                      # 들리는 끝(피크 −15dB) 전에 끊기면 «들리는 중 잘림»
+            ae = (int(np.where(f20 >= f20.max() - 15)[0][-1]) + 1) * int(0.02 * SR)
+            if keepn < ae - int(0.12 * SR):
+                cut_audible += 1
+                warns.append(f"{a['t']:.2f} {a['role']} 들리는 중 잘림({keepn / SR:.2f}초 / 들리는 끝 {ae / SR:.2f}초)")
             if keepn < int(0.15 * SR):
                 warns.append(f"{a['t']:.2f} {a['role']} 0.15초 안에서 잘림({keepn / SR:.2f}초) — 큐 배치 확인")
             a["x"] = a["x"][:keepn]
-            fo = min(len(a["x"]), int(0.06 * SR))
+            fo = min(len(a["x"]) // 2, int(0.20 * SR))   # 10-15: 60ms 뚝 끊김 → 0.2초 감쇠(꼬리가 자연스럽게 줄어듦)
             if fo:
-                a["x"][-fo:] *= np.linspace(1, 0, fo)[:, None]
+                a["x"][-fo:] *= (np.linspace(1, 0, fo) ** 2)[:, None]
     # 같은 파일 연속 · 3초 사슬 3번
     for a, b in zip(placed, placed[1:]):
         if a["file"] == b["file"] and b["t"] - a["t"] < 3.0:      # 5-2 «바로 연달아»(3초 안)
@@ -177,12 +183,12 @@ def main():
         w.setnchannels(2); w.setsampwidth(2); w.setframerate(SR)
         w.writeframes((np.clip(bus, -1, 1) * 32767).astype("<i2").tobytes())
     rels = [p["rel"] for p in placed]
-    rep = dict(cues=len(cues), placed=len(placed), errors=errs, warnings=warns,
+    rep = dict(cues=len(cues), placed=len(placed), errors=errs, warnings=warns, cut_audible=cut_audible,
                rel_spread_db=(max(rels) - min(rels)) if rels else 0,
                list=[dict(t=p["t"], role=p["role"], file=p["file"], rel=p["rel"], len=round(len(p["x"]) / SR, 2)) for p in placed])
     if rep_p:
         json.dump(rep, open(rep_p, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
-    print(f"큐 {len(cues)} → 배치 {len(placed)} · ERROR {len(errs)} · WARN {len(warns)} · 크기 폭 {rep['rel_spread_db']:.1f}dB")
+    print(f"큐 {len(cues)} → 배치 {len(placed)} · ERROR {len(errs)} · WARN {len(warns)} · 들리는 중 잘림 {cut_audible} · 크기 폭 {rep['rel_spread_db']:.1f}dB")
     for e in errs:
         print("  ERROR", e)
     return 1 if errs else 0

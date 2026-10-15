@@ -21,7 +21,16 @@
 #sig .in{position:absolute;right:0;top:-6px;width:44px;height:44px;border:2px dashed #9A958C;border-radius:50%;font-size:16px;line-height:40px;text-align:center;color:#9A958C}
 #sg{position:absolute;left:4px;top:22px;width:230px;height:60px}
 .chip{position:absolute;left:110px;top:110px;padding:12px 32px 16px;font-size:46px;white-space:nowrap;background:rgba(21,24,28,.92);color:#ECE8E0;border-radius:6px;box-shadow:0 14px 34px rgba(0,0,0,.45);border-left:8px solid #F2C230}
-#lab{left:560px;top:430px;width:800px;text-align:center;padding:14px 0 16px;font-size:46px;background:rgba(66,70,76,.93);color:#E8E4DB;border-radius:4px;box-shadow:0 14px 34px rgba(0,0,0,.4)}
+/* 10-15 4차: 확대 2.2·2.0 + 빠지기(키프레임 3번) 삭제 → 카메라 고정(바탕 흐름만) + 작은 글씨를 크게 다시 보여 주는 인셋 카드 2장(조항·서명) */
+.ins{position:absolute;background:#F4F1EA;border:6px solid #F2C230;border-radius:10px;box-shadow:0 18px 40px rgba(0,0,0,.5);color:#15181C;transform-origin:50% 50%}
+.ins .tg{font-size:24px;color:#8A6A00;margin-bottom:10px}
+#i1{left:1350px;top:200px;width:520px;padding:20px 26px 26px;font-size:32px;line-height:1.5}
+#i1 b{font-weight:700}
+#i1 .m{background:linear-gradient(transparent 55%,rgba(242,194,48,.9) 55%)}
+#i2{left:60px;top:620px;width:520px;padding:20px 26px 22px}
+#i2 .nm{font-size:28px;margin-bottom:6px}
+/* 10-15 4차: 계약서 글자를 덮던 띠 → 종이(left 640) 왼쪽 바깥 */
+#lab{left:60px;top:430px;width:540px;text-align:center;padding:14px 0 16px;font-size:46px;background:rgba(66,70,76,.93);color:#E8E4DB;border-radius:4px;box-shadow:0 14px 34px rgba(0,0,0,.4)}
 </style></head>
 <body><div id="stage">
   <div id="cam">
@@ -33,11 +42,14 @@
       <div class="c"><b>제5조(최소 발주)</b> 갑은 월 300만 원 이상을 발주한다. 미달 시 차액의 10%를 을에게 지급한다.</div>
       <div class="c"><b>제7조(반품)</b> 품질 불량은 납품 후 6시간 안에 알린 경우에만 반품한다.</div>
       <div class="c"><b>제9조(대금 지급)</b> 월말 마감, 다음 달 5일까지 지급한다. 늦어지면 연 20%의 지연 이자를 더한다.</div>
-      <div class="c"><b>제11조(계약 기간)</b> 계약 기간은 1년으로 한다. 끝나기 1개월 전까지 서면 통지가 없으면 <span class="mk" id="mk">같은 조건으로 1년씩 자동 연장된다.</span></div>
+      <div class="c" id="c11"><b>제11조(계약 기간)</b> 계약 기간은 1년으로 한다. 끝나기 1개월 전까지 서면 통지가 없으면 <span class="mk" id="mk">같은 조건으로 1년씩 자동 연장된다.</span></div>
       <div class="c"><b>제12조(중도 해지)</b> 갑이 기간 중 해지하면 남은 기간 월평균 납품액의 30%를 위약금으로 지급한다.</div>
-      <div id="sig"><div>갑 ○○국밥 (서명)<span class="in">인</span><i></i><svg id="sg" viewBox="0 0 230 60"><path id="sgp" d="M6 42 C26 4, 40 56, 60 28 S98 8, 112 38 S150 52, 172 20 S206 22, 224 36" fill="none" stroke="#1B2A6B" stroke-width="3.2" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg></div><div>을 ○○유통 (서명)<span class="in">인</span><i></i></div></div>
+      <div id="sig"><div id="sigL">갑 ○○국밥 (서명)<span class="in">인</span><i></i><svg id="sg" viewBox="0 0 230 60"><path id="sgp" d="M6 42 C26 4, 40 56, 60 28 S98 8, 112 38 S150 52, 172 20 S206 22, 224 36" fill="none" stroke="#1B2A6B" stroke-width="3.2" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg></div><div>을 ○○유통 (서명)<span class="in">인</span><i></i></div></div>
       <div id="pg">- 1 -</div>
     </div>
+    <svg id="osv" style="position:absolute;left:0;top:0;width:1920px;height:1080px" viewBox="0 0 1920 1080"></svg>
+    <div id="i1" class="ins"><div class="tg mono">제11조 확대</div><b>제11조(계약 기간)</b> 계약 기간은 1년으로 한다. 끝나기 1개월 전까지 서면 통지가 없으면 <span class="m">같은 조건으로 1년씩 자동 연장된다.</span></div>
+    <div id="i2" class="ins"><div class="tg mono">서명 칸 확대</div><div class="nm">갑 ○○국밥 (서명)</div><svg viewBox="0 0 230 60" width="466" height="122" style="display:block;border-bottom:3px solid #15181C"><path id="sgp2" d="M6 42 C26 4, 40 56, 60 28 S98 8, 112 38 S150 52, 172 20 S206 22, 224 36" fill="none" stroke="#1B2A6B" stroke-width="3.2" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg></div>
   </div>
   <div id="title" class="abs"><span class="no mono">10</span><span class="tt serif">계약서</span></div>
   <div id="k1" class="chip mono" data-box="k1">임대차 계약서</div>
@@ -48,18 +60,30 @@
 <script src="../lib/sjk.js"></script>
 <script>
 window.PALETTE = ['#ECE8E0', '#15181C', '#F2C230'];
-const T = { title: 0.12, pin: S.at('임대차') - 0.35, k1: S.at('임대차'), k2: S.at('납품'), rec: S.at('이런거'), small: S.at('글씨가'), mk: S.at('말이'), sign: S.at('그냥사인하시는'), sg: S.at('그냥사인하시는', 1), lab: S.at('다들'), last: S.at('이말만') };
-S.focus([{ t0: T.sign + 0.15, t1: T.sign + 1.4, big: '사인', small: '내용 확인 없이', color: '#F2C230' }]);
-S.ev(T.title, 'big_in', 'title'); S.ev(T.pin, 'page', 'paper'); S.ev(T.k1 + 0.05, 'card_in', 'k1'); S.ev(T.k2, 'msg_in', 'k2'); S.ev(T.small - 0.3, 'in', 'cam'); S.ev(T.mk, 'marker', 'mk');
-S.ev(T.sign - 0.4, 'sweep', 'cam'); S.ev(T.sg + 0.1, 'type', 'sgp'); S.ev(T.lab - 0.05, 'msg_in', 'lab'); S.ev(T.last - 0.3, 'in', 'cam');
+const T = { title: 0.12, pin: S.at('임대차') - 0.35, k1: S.at('임대차'), k2: S.at('납품'), rec: S.at('이런거'), small: S.at('글씨가'), mk: S.at('말이'), sign: S.at('그냥사인하시는'), sg: S.at('그냥사인하시는') + 1.0,   /* 10-15: 다시 한 두 번째 «그냥 사인하시는 분들 진짜 많아요» 뺌 → 서명 확대는 «사인» 부각이 끝나자마자 */ lab: S.at('다들'), last: S.at('이말만') };
+S.focus([{ t0: T.sign + 0.15, t1: T.sign + 0.95, big: '사인', small: '내용 확인 없이', color: '#F2C230' }]);
+S.ev(T.title, 'big_in', 'title'); S.ev(T.pin, 'page', 'paper'); S.ev(T.k1 + 0.05, 'card_in', 'k1'); S.ev(T.k2, 'msg_in', 'k2'); S.ev(T.small, 'marker', 'ol1'); S.ev(T.small + 0.3, 'card_in', 'i1'); S.ev(T.mk, 'marker', 'mk');
+S.ev(T.sign - 0.1, 'marker', 'ol2'); S.ev(T.sg - 0.05, 'card_in', 'i2'); S.ev(T.sg + 0.1, 'type', 'sgp'); S.ev(T.lab - 0.05, 'msg_in', 'lab');
 const camSet = (sel, s, cx, cy) => {
   const tx = S.clamp(960 - cx * s, 1920 - 1920 * s, 0), ty = S.clamp(540 - cy * s, 1080 - 1180 * s, 100 * s);
   S.css(sel, { transform: `translate(${tx}px,${ty}px) scale(${s})` });
 };
-const KF = (tau, keys) => { let [, s, cx, cy] = keys[0]; for (let i = 1; i < keys.length; i++) { const [t, s2, x2, y2, d = 0.3] = keys[i]; const k = S.cam(tau, t - d, t); s = S.lerp(s, s2, k); cx = S.lerp(cx, x2, k); cy = S.lerp(cy, y2, k); } return [s, cx, cy]; };
+// 종이 안 조항·서명 칸 자리를 재서(카메라 고정이라 그대로 쓴다) 테두리·지시선을 그린다
+const R = {};
+S.init = async () => {
+  S.css('#paper', { transform: 'none' });
+  const c = S.$('#cam').getBoundingClientRect();
+  const m = sel => { const b = S.$(sel).getBoundingClientRect(); return { x: b.left - c.left, y: b.top - c.top, w: b.width, h: b.height }; };
+  R.c = m('#c11'); R.s = m('#sigL'); R.i1 = m('#i1'); R.i2 = m('#i2');
+  const o = (r, id) => `<rect id="${id}" x="${(r.x - 8).toFixed(1)}" y="${(r.y - 6).toFixed(1)}" width="${(r.w + 16).toFixed(1)}" height="${(r.h + 12).toFixed(1)}" rx="8" fill="none" stroke="#F2C230" stroke-width="5" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>`;
+  // 지시선: 조항 테두리 오른쪽 가운데 → 인셋1 왼쪽 가운데 / 서명 테두리 왼쪽 가운데 → 인셋2 오른쪽 가운데
+  R.a = [R.c.x + R.c.w + 8, R.c.y + R.c.h / 2, R.i1.x, R.i1.y + R.i1.h / 2];
+  R.b = [R.s.x - 8, R.s.y + R.s.h / 2, R.i2.x + R.i2.w, R.i2.y + R.i2.h / 2];
+  S.$('#osv').innerHTML = o(R.c, 'ol1') + o(R.s, 'ol2') + `<line id="ld1" x1="${R.a[0]}" y1="${R.a[1]}" x2="${R.a[2]}" y2="${R.a[3]}" stroke="#F2C230" stroke-width="4" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/><circle cx="${R.a[0]}" cy="${R.a[1]}" r="8" fill="#F2C230" id="dt1"/>` +
+    `<line id="ld2" x1="${R.b[0]}" y1="${R.b[1]}" x2="${R.b[2]}" y2="${R.b[3]}" stroke="#F2C230" stroke-width="4" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/><circle cx="${R.b[0]}" cy="${R.b[1]}" r="8" fill="#F2C230" id="dt2"/>`;
+};
 S.scene(tau => {
-  const [s, cx, cy] = KF(tau, [[0, 1.0, 960, 540], [T.small, 2.2, 960, 400, 0.35], [T.sign, 2.0, 960, 770, 0.35], [T.last, 1.05, 960, 520, 0.001]]);
-  camSet('#cam', s, cx, cy);
+  camSet('#cam', 1.0 + 0.03 * S.P(tau, 0, S.SC.dur), 960, 540);
   const t = S.ent(tau, T.title, 0.14) * (1 - S.ent(tau, T.pin + 0.05, 0.16));
   S.css('#title', { opacity: t, transform: `translateY(${(1 - S.ent(tau, T.title, 0.14)) * 24}px)` });
   const p = S.ent(tau, T.pin, 0.25);
@@ -68,6 +92,18 @@ S.scene(tau => {
   S.$('#sgp').style.strokeDashoffset = 1 - S.cam(tau, T.sg + 0.1, T.sg + 0.9);
   const a = S.ent(tau, T.k1 + 0.05, 0.12) * (1 - S.P(tau, T.k2 - 0.05, T.k2)), b = S.ent(tau, T.k2, 0.12) * (1 - S.P(tau, T.rec + 0.9, T.rec + 1.05));
   S.css('#k1', { opacity: a, transform: `translateX(${(1 - a) * -24}px)` }); S.css('#k2', { opacity: b, transform: `translateX(${(1 - b) * -24}px)` });
+  // 인셋 1(조항 확대: 글씨가 작고 말이 어렵다) · 인셋 2(서명 칸 확대: 사인하는 모습)
+  const o1 = 1 - S.P(tau, T.sign - 0.4, T.sign - 0.2), o2 = 1 - S.P(tau, T.last - 0.35, T.last - 0.15);   // 10-15: 서명 확대가 짧아져(0.6초) «이 말만» 앞까지 둔다 — «다들 이렇게 써요» 띠(왼쪽 위)와 자리 안 겹침
+  const d1 = S.cam(tau, T.small, T.small + 0.4), d2 = S.cam(tau, T.sign - 0.1, T.sign + 0.3), e1 = S.ent(tau, T.small + 0.3, 0.14) * o1, e2 = S.ent(tau, T.sg - 0.05, 0.14) * o2;
+  const lk1 = S.cam(tau, T.small + 0.2, T.small + 0.45), lk2 = S.cam(tau, T.sg - 0.15, T.sg + 0.05);
+  const ro = S.$('#ol1'); if (ro) {
+    ro.style.strokeDashoffset = 1 - d1; ro.style.opacity = o1;
+    S.$('#ol2').style.strokeDashoffset = 1 - d2; S.$('#ol2').style.opacity = o2;
+    S.$('#ld1').style.strokeDashoffset = 1 - lk1; S.$('#ld1').style.opacity = o1; S.$('#dt1').style.opacity = d1 * o1;
+    S.$('#ld2').style.strokeDashoffset = 1 - lk2; S.$('#ld2').style.opacity = o2; S.$('#dt2').style.opacity = d2 * o2;
+  }
+  S.css('#i1', { opacity: e1, transform: `scale(${0.92 + 0.08 * e1})` }); S.css('#i2', { opacity: e2, transform: `scale(${0.92 + 0.08 * e2})` });
+  S.$('#sgp2').style.strokeDashoffset = 1 - S.cam(tau, T.sg + 0.1, T.sg + 0.9);
   const l = S.ent(tau, T.lab - 0.05, 0.12);
   S.css('#lab', { opacity: l, transform: `translateY(${(1 - l) * 14}px)` });
 });

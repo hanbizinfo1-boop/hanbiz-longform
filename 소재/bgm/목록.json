@@ -1,0 +1,297 @@
+{
+ "1": [
+  {
+   "file": "1_The_Journey.mp3",
+   "title": "The Journey",
+   "author": "Ahjay Stelino",
+   "id": 79,
+   "url": "https://assets.mixkit.co/music/79/79.mp3",
+   "lufs": -10.5,
+   "tp": 0.2,
+   "dur": 108.2,
+   "bands": {
+    "low": 0.573,
+    "mid": 0.423,
+    "high": 0.004
+   },
+   "lu_swing": 3.9,
+   "bpm": 89.1,
+   "note": "피아노·말렛 영화음악, 차분하고 쓸쓸",
+   "license": "Mixkit Stock Music Free License — 유튜브 허용·크레딧 불필요, 확인 2026-10-15"
+  },
+  {
+   "file": "1_Piano_Reflections.mp3",
+   "title": "Piano Reflections",
+   "author": "Ahjay Stelino",
+   "id": 22,
+   "url": "https://assets.mixkit.co/music/22/22.mp3",
+   "lufs": -13.0,
+   "tp": 0.7,
+   "dur": 198.9,
+   "bands": {
+    "low": 0.464,
+    "mid": 0.536,
+    "high": 0.0
+   },
+   "lu_swing": 2.2,
+   "bpm": 123.0,
+   "note": "느린 피아노 회상, 약한 드럼",
+   "license": "Mixkit Stock Music Free License — 유튜브 허용·크레딧 불필요, 확인 2026-10-15"
+  },
+  {
+   "file": "1_A_Memory__Of_Louis.mp3",
+   "title": "A Memory  Of Louis",
+   "author": "Eugenio Mininni",
+   "id": 603,
+   "url": "https://assets.mixkit.co/music/603/603.mp3",
+   "lufs": -9.7,
+   "tp": 0.1,
+   "dur": 253.6,
+   "bands": {
+    "low": 0.227,
+    "mid": 0.772,
+    "high": 0.001
+   },
+   "lu_swing": 3.9,
+   "bpm": 99.4,
+   "note": "분위기 있는 앰비언트 반추, 저역 적음",
+   "license": "Mixkit Stock Music Free License — 유튜브 허용·크레딧 불필요, 확인 2026-10-15"
+  }
+ ],
+ "2": [
+  {
+   "file": "2_Lo-Fi_02.mp3",
+   "title": "Lo-Fi 02",
+   "author": "Lily J",
+   "id": 764,
+   "url": "https://assets.mixkit.co/music/764/764.mp3",
+   "lufs": -11.2,
+   "tp": 0.1,
+   "dur": 98.2,
+   "bands": {
+    "low": 0.593,
+    "mid": 0.406,
+    "high": 0.0
+   },
+   "lu_swing": 0.4,
+   "bpm": 83.4,
+   "note": "가볍고 반복적인 로파이, 변화 거의 없음",
+   "license": "Mixkit Stock Music Free License — 유튜브 허용·크레딧 불필요, 확인 2026-10-15"
+  },
+  {
+   "file": "2_Lo-Fi_05.mp3",
+   "title": "Lo-Fi 05",
+   "author": "Lily J",
+   "id": 767,
+   "url": "https://assets.mixkit.co/music/767/767.mp3",
+   "lufs": -11.1,
+   "tp": 0.3,
+   "dur": 125.6,
+   "bands": {
+    "low": 0.717,
+    "mid": 0.278,
+    "high": 0.004
+   },
+   "lu_swing": 1.3,
+   "bpm": 86.1,
+   "note": "느긋한 로파이, 일정한 음량",
+   "license": "Mixkit Stock Music Free License — 유튜브 허용·크레딧 불필요, 확인 2026-10-15"
+  },
+  {
+   "file": "2_Relaxation_04.mp3",
+   "title": "Relaxation 04",
+   "author": "Lily J",
+   "id": 750,
+   "url": "https://assets.mixkit.co/music/750/750.mp3",
+   "lufs": -10.3,
+   "tp": 0.5,
+   "dur": 129.6,
+   "bands": {
+    "low": 0.616,
+    "mid": 0.38,
+    "high": 0.004
+   },
+   "lu_swing": 0.8,
+   "bpm": 95.7,
+   "note": "부드러운 칠아웃, 평탄",
+   "license": "Mixkit Stock Music Free License — 유튜브 허용·크레딧 불필요, 확인 2026-10-15"
+  }
+ ],
+ "3": [
+  {
+   "file": "3_My_Little_Prince.mp3",
+   "title": "My Little Prince",
+   "author": "Michael Ramir C.",
+   "id": 815,
+   "url": "https://assets.mixkit.co/music/815/815.mp3",
+   "lufs": -11.5,
+   "tp": 0.1,
+   "dur": 132.0,
+   "bands": {
+    "low": 0.392,
+    "mid": 0.607,
+    "high": 0.0
+   },
+   "lu_swing": 0.5,
+   "bpm": 89.1,
+   "note": "어쿠스틱 기타 위주 감성, 부드러움",
+   "license": "Mixkit Stock Music Free License — 유튜브 허용·크레딧 불필요, 확인 2026-10-15"
+  },
+  {
+   "file": "3_Dont_Leave_Me_Tonight.mp3",
+   "title": "Don't Leave Me Tonight",
+   "author": "Michael Ramir C.",
+   "id": 1058,
+   "url": "https://assets.mixkit.co/music/1058/1058.mp3",
+   "lufs": -21.4,
+   "tp": -6.0,
+   "dur": 142.7,
+   "bands": {
+    "low": 0.018,
+    "mid": 0.982,
+    "high": 0.0
+   },
+   "lu_swing": 1.8,
+   "bpm": 69.8,
+   "note": "조용한 기타 아르페지오, 가장 작은 음량",
+   "license": "Mixkit Stock Music Free License — 유튜브 허용·크레딧 불필요, 확인 2026-10-15"
+  },
+  {
+   "file": "3_Touch_of_YourSkin.mp3",
+   "title": "Touch of YourSkin",
+   "author": "Michael Ramir C.",
+   "id": 819,
+   "url": "https://assets.mixkit.co/music/819/819.mp3",
+   "lufs": -14.0,
+   "tp": 0.3,
+   "dur": 140.2,
+   "bands": {
+    "low": 0.191,
+    "mid": 0.809,
+    "high": 0.0
+   },
+   "lu_swing": 2.5,
+   "bpm": 89.1,
+   "note": "기타 두 대의 따뜻한 서정",
+   "license": "Mixkit Stock Music Free License — 유튜브 허용·크레딧 불필요, 확인 2026-10-15"
+  }
+ ],
+ "4": [
+  {
+   "file": "4_Infinity.mp3",
+   "title": "Infinity",
+   "author": "Arulo",
+   "id": 440,
+   "url": "https://assets.mixkit.co/music/440/440.mp3",
+   "lufs": -12.2,
+   "tp": 0.1,
+   "dur": 102.9,
+   "bands": {
+    "low": 0.341,
+    "mid": 0.651,
+    "high": 0.007
+   },
+   "lu_swing": 1.9,
+   "bpm": 112.3,
+   "note": "전자음+피아노, 미니멀하고 담백",
+   "license": "Mixkit Stock Music Free License — 유튜브 허용·크레딧 불필요, 확인 2026-10-15"
+  },
+  {
+   "file": "4_Relaxation_2.mp3",
+   "title": "Relaxation 2",
+   "author": "Arulo",
+   "id": 253,
+   "url": "https://assets.mixkit.co/music/253/253.mp3",
+   "lufs": -12.2,
+   "tp": -0.6,
+   "dur": 113.2,
+   "bands": {
+    "low": 0.43,
+    "mid": 0.569,
+    "high": 0.001
+   },
+   "lu_swing": 0.5,
+   "bpm": 92.3,
+   "note": "앰비언트 신스 패드, 박자 거의 없음",
+   "license": "Mixkit Stock Music Free License — 유튜브 허용·크레딧 불필요, 확인 2026-10-15"
+  },
+  {
+   "file": "4_Pilates_and_Yoga.mp3",
+   "title": "Pilates and Yoga",
+   "author": "Arulo",
+   "id": 419,
+   "url": "https://assets.mixkit.co/music/419/419.mp3",
+   "lufs": -13.9,
+   "tp": -0.2,
+   "dur": 96.0,
+   "bands": {
+    "low": 0.42,
+    "mid": 0.579,
+    "high": 0.001
+   },
+   "lu_swing": 1.0,
+   "bpm": 117.5,
+   "note": "피아노+신스 앰비언트, 조용",
+   "license": "Mixkit Stock Music Free License — 유튜브 허용·크레딧 불필요, 확인 2026-10-15"
+  }
+ ],
+ "5": [
+  {
+   "file": "5_Better_Times_are_Coming.mp3",
+   "title": "Better Times are Coming",
+   "author": "Alejandro Magaña (A. M.)",
+   "id": 173,
+   "url": "https://assets.mixkit.co/music/173/173.mp3",
+   "lufs": -12.3,
+   "tp": 0.4,
+   "dur": 100.1,
+   "bands": {
+    "low": 0.693,
+    "mid": 0.292,
+    "high": 0.015
+   },
+   "lu_swing": 0.6,
+   "bpm": 117.5,
+   "note": "신스웨이브 희망, 음량 변화 거의 없음(빌드업 없음)",
+   "license": "Mixkit Stock Music Free License — 유튜브 허용·크레딧 불필요, 확인 2026-10-15"
+  },
+  {
+   "file": "5_PlaceIt_World_02.mp3",
+   "title": "PlaceIt World 02",
+   "author": "Lily J",
+   "id": 725,
+   "url": "https://assets.mixkit.co/music/725/725.mp3",
+   "lufs": -11.7,
+   "tp": 0.0,
+   "dur": 96.0,
+   "bands": {
+    "low": 0.476,
+    "mid": 0.524,
+    "high": 0.0
+   },
+   "lu_swing": 2.8,
+   "bpm": 103.4,
+   "note": "피아노+기타 희망, 완만",
+   "license": "Mixkit Stock Music Free License — 유튜브 허용·크레딧 불필요, 확인 2026-10-15"
+  },
+  {
+   "file": "5_Jump_into_Hope.mp3",
+   "title": "Jump into Hope",
+   "author": "Diego Nava",
+   "id": 516,
+   "url": "https://assets.mixkit.co/music/516/516.mp3",
+   "lufs": -13.9,
+   "tp": 0.0,
+   "dur": 107.8,
+   "bands": {
+    "low": 0.828,
+    "mid": 0.167,
+    "high": 0.005
+   },
+   "lu_swing": 2.0,
+   "bpm": 80.7,
+   "note": "신스 앰비언트 희망, 잔잔",
+   "license": "Mixkit Stock Music Free License — 유튜브 허용·크레딧 불필요, 확인 2026-10-15"
+  }
+ ]
+}

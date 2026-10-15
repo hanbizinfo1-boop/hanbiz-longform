@@ -19,7 +19,7 @@
   <div id="aPct" class="lab serif" data-box="aPct">40%</div>
   <div id="lineLab" class="lab mono" data-box="lineLab">보통 35~40%</div>
   <div id="bBase" class="lab mono" data-box="bBase">수육(소) 14,000 / 20,000</div>
-  <div id="bBox" class="lab" data-box="bBox" style="text-align:center"><div id="bPct" class="serif">70%</div><div id="bRest" class="mono" style="font-size:30px;margin-top:6px;color:#ECE8E0">남는 것 30%</div></div>
+  <div id="bBox" class="lab" data-box="bBox"><div id="bPct" class="serif">70%</div><div id="bRest" class="mono" style="font-size:30px;margin-top:6px;color:#ECE8E0">남는 것 30%</div></div>
   <div id="sA" class="lab mono" data-box="sA">판매가 10,000</div><div id="sB" class="lab mono" data-box="sB">판매가 20,000</div><div id="ai" class="lab mono" data-box="ai" style="color:#6F93FF;font-size:30px">AI 계산</div><div id="up" class="lab mono" data-box="up" style="color:#F2C230;font-size:30px">판매량 ↑</div>
 </div></div>
 <script src="../data/s39.js"></script>
@@ -68,7 +68,8 @@ scene(async tau => {
   const a = S.ent(tau, T.a, 0.14) * (1 - S.ent(tau, T.p40 - 0.02, 0.1));
   place('#aTop', P.A_top[0] - 190, P.A_top[1] - 78, { width: '380px', textAlign: 'center', opacity: a });
   const p = S.ent(tau, T.p40 + 1.3, 0.14);
-  place('#aPct', P.A_top[0] - 190, P.A_top[1] - 120, { width: '380px', textAlign: 'center', opacity: p, transform: `translateY(${((1 - p) * 20).toFixed(2)}px)` });
+  // 10-15 4차: 40% 가 기준선·막대에 걸쳐 겹쳤다 → 기준선 왼쪽 끝 바깥, 선 높이 가운데(겹침 0)
+  place('#aPct', P.line_l[0] - 24 - 260, P.line_l[1] - 46, { width: '260px', textAlign: 'right', opacity: p, transform: `translateX(${((1 - p) * -20).toFixed(2)}px)` });
   // ③ 기준선 끝 라벨
   const l = S.ent(tau, T.ln, 0.14);
   place('#lineLab', P.line_r[0] + 18, P.line_r[1] - 14, { opacity: l, transform: `translateX(${((1 - l) * 16).toFixed(2)}px)` });
@@ -76,7 +77,8 @@ scene(async tau => {
   const b = S.ent(tau, T.b, 0.14);
   place('#bBase', P.B_base[0] - 200, P.B_base[1] + 34, { width: '400px', textAlign: 'center', opacity: b });
   const q = S.ent(tau, T.p70 + 1.3, 0.14), r = S.ent(tau, T.rest, 0.14);
-  place('#bBox', P.B_top[0] - 190, P.B_top[1] - 160, { width: '380px', opacity: q, transform: `translateY(${((1 - q) * 20).toFixed(2)}px)` });
+  // 10-15 4차: 70% 가 유리 상자 테두리선과 겹쳤다 → 상자 오른쪽 바깥, 금색 막대 윗면 높이
+  place('#bBox', P.B_top[0] + 110, P.B_top[1] - 210, { width: '320px', textAlign: 'left', opacity: q, transform: `translateX(${((1 - q) * 20).toFixed(2)}px)` });
   S.css('#bRest', { opacity: r });
   // 추가 보조 라벨 + 컷 줌
   const e1 = S.ent(tau, T.s10, 0.12), e2 = S.ent(tau, T.b + 0.65, 0.12), e3 = S.ent(tau, T.ai, 0.12), e4 = S.ent(tau, T.up, 0.12);
