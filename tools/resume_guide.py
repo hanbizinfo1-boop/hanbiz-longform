@@ -11,6 +11,8 @@
   3. references/checklist.md — A표(말하는 사람 위 애펙 장면) 점검표 줄
   4. SKILL.md «사장님 상시 규칙» — 굵은 머리말만
   5. 읽을 순서 안내(꼬리말)
+숏폼 세션(핸드오프/역할.local.json «숏폼», 10-15)이면 롱폼 상시 규칙·점검표 대신: shorts/SKILL.md 1~4장 머리줄 · 절대금지 전부 ·
+  handoff.py 상태(숏폼 줄) · «롱폼 규격·모드 표는 쓰지 않는다» 한 줄.
 """
 import re
 import sys
@@ -108,8 +110,42 @@ def handoff():
         return f"## 두 컴퓨터 분업\n(상태 확인 실패: {e})"
 
 
+def is_shorts():
+    import json
+    p = ROOT / "핸드오프" / "역할.local.json"
+    try:
+        return json.load(open(p, encoding="utf-8-sig")).get("역할") == "숏폼"
+    except Exception:
+        return False
+
+
+def shorts_skill():
+    """shorts/SKILL.md 1~4장 — 절 제목 + 단계·불릿 줄."""
+    t = read(ROOT / ".claude" / "skills" / "shorts" / "SKILL.md")
+    out = ["## .claude/skills/shorts/SKILL.md 1~4장 (머리줄 — 전문을 다시 열 것)"]
+    for m in re.finditer(r"^## ([1-4]\.[^\n]*)\n([\s\S]*?)(?=\n## |\Z)", t, re.M):
+        out.append(f"### {m.group(1).strip()}")
+        body = [ln for ln in m.group(2).splitlines() if re.match(r"(\d+\. |- )", ln)]
+        body = body or [ln for ln in m.group(2).splitlines() if ln.strip()][:2]   # 불릿 없는 장은 첫 줄들
+        out += [clip(re.sub(r"[`*]", "", ln), 150) for ln in body]
+    return "\n".join(out)
+
+
+def main_shorts():
+    head = ("# 한비즈 숏폼 전용 세션 — 세션 재개 자동 안내 (D:\숏폼전용 · 역할 «숏폼»)\n"
+            "숏폼 세션 — 롱폼 규격·모드 A/B/C 표·longform/SKILL.md 는 쓰지 않는다. CLAUDE.md 는 최상위 규칙·하드 규칙 1~14·절대금지만, "
+            "길라잡이는 .claude/skills/shorts/SKILL.md. 쓰는 파일은 건 폴더 40_* · tools_shorts/ · 핸드오프/숏폼로그.md 뿐(롱폼 저장소는 읽기만).\n")
+    foot = ("\n---\n읽을 순서: 피드백/절대금지.md 전문([10-12 쇼츠] 줄 전부) → 피드백/원하는영상.md → 그 건의 20_쇼츠기획.md 전부 → "
+            "20_대본·20_고정댓글·20_재현자료 → 롱폼 30_결과.md → study/sjk-ref-1014.md 8장 → shorts/SKILL.md 2~4장. 발췌만 믿지 말고 파일을 다시 연다.")
+    body = "\n\n".join([handoff(), forbidden(), shorts_skill()])
+    keep = LIMIT - len(head) - len(foot) - 4
+    print(head + (body if len(body) <= keep else body[:keep].rstrip() + " …") + foot)
+
+
 def main():
     sys.stdout.reconfigure(encoding="utf-8")
+    if is_shorts():
+        return main_shorts()
     head = ("# 한비즈 롱폼 자동화 — 세션 재개 자동 안내 (장면을 만들기 전에 아래를 다시 읽는다)\n"
             "최상위 규칙(10-13): 작업 시작 때 길라잡이(CLAUDE.md·SKILL.md·references·피드백/)를 전문 정독하고, "
             "바뀐 규칙은 매 작업 길라잡이에 반영 — 충돌·병목은 최신으로 정리(폐기는 취소선+날짜, 보존, 갱신). 절대금지는 폐기 없음.\n")

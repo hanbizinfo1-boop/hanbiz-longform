@@ -12,9 +12,14 @@ r"""두 컴퓨터 분업 — 기획(이 PC) ↔ 제작(새 PC). 건 폴더 하�
   20_연출표.md      기획   장면표(자막 글로 시각을 잡고, OCR 글자로 위치를 잡는다) — 제작이 그대로 만든다
   20_연출표.py      기획   (선택) tools/scenes 형식 연출표 코드
   30_결과.md        제작   만든 것·검수(넣을 때 1번·끝나고 1번) 결과·받은 피드백 원문·길라잡이 반영 요청
+  20_쇼츠기획.md    기획   (쇼츠가 있는 건만) 쇼츠 기획 — 숏폼 세션이 그대로 만든다
+  40_쇼츠결과.md    숏폼   쇼츠 납품·검수·받은 피드백 원문·반영 요청
 그 밖에 쓰는 쪽
   기획: CLAUDE.md · .claude/ · templates/ · tones/ · 피드백/ · 기록/ · 핸드오프/*/00_*·20_*
   제작: tools/ · 핸드오프/*/10_분석/ · 핸드오프/*/30_* · 핸드오프/제작로그.md
+  숏폼: 핸드오프/*/40_* · tools_shorts/ · 핸드오프/숏폼로그.md
+숏폼(10-15): 제작 PC 의 두 번째 받은 폴더(D:\숏폼전용)에서만 연다. 그 폴더의 핸드오프/역할.local.json(git 제외)
+  {"역할": "숏폼", "롱폼경로": "<롱폼 저장소 절대경로>"} 가 있으면 역할 «숏폼»이 먼저다. 롱폼 제작 세션은 쇼츠를 만들지 않는다.
 (큰 파일 — 원문·렌더·납품 영상 — 은 git 에 넣지 않는다. 납품은 제작 PC 의 납품/ 에 생기고 사장님이 그 컴퓨터에서 본다.)
 """
 import datetime
@@ -26,11 +31,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 HO = ROOT / "핸드오프"
 ROLE_FILE = HO / "역할.json"
+LOCAL_ROLE = HO / "역할.local.json"   # 숏폼 폴더에만(git 제외)
 
 OWN = {
     "기획": ["CLAUDE.md", ".claude/", "templates/", "tones/", "피드백/", "기록/", "README.md", ".gitignore", "핸드오프/README.md",
            "핸드오프/역할.json", "핸드오프/*/00_", "핸드오프/*/20_"],
     "제작": ["tools/", "핸드오프/*/10_분석/", "핸드오프/*/30_", "핸드오프/제작로그.md", "소재/"],
+    "숏폼": ["핸드오프/*/40_", "tools_shorts/", "핸드오프/숏폼로그.md"],
 }
 
 
@@ -42,10 +49,20 @@ def sh(*a, check=True):
     return r.stdout
 
 
+def local_role():
+    """역할.local.json(숏폼 폴더) → dict, 없으면 None."""
+    if not LOCAL_ROLE.exists():
+        return None
+    return json.load(open(LOCAL_ROLE, encoding="utf-8-sig"))
+
+
 def role():
     import os
-    d = json.load(open(ROLE_FILE, encoding="utf-8"))
     me = os.environ.get("COMPUTERNAME", "")
+    lr = local_role()
+    if lr and lr.get("역할") == "숏폼":
+        return "숏폼", me
+    d = json.load(open(ROLE_FILE, encoding="utf-8"))
     return ("기획" if me == d["기획"] else "제작"), me
 
 
@@ -81,6 +98,22 @@ def stage(job):
     return "제작 대기", "제작"
 
 
+def stage_shorts(job):
+    """쇼츠 단계 → (단계, 다음에 할 쪽), 쇼츠 기획이 없는 건은 None."""
+    if not (job / "20_쇼츠기획.md").exists():
+        return None
+    sr = job / "40_쇼츠결과.md"
+    if sr.exists():
+        txt = sr.read_text(encoding="utf-8")
+        if "상태: 완료" in txt:
+            fb = "받은 피드백" in txt and "(없음)" not in txt.split("받은 피드백", 1)[1][:80]
+            return ("쇼츠 완료 · 피드백 → 기획", "기획") if fb else ("쇼츠 완료 — 사장님 확인 대기", "사장님")
+    lr = job / "30_결과.md"
+    if not (lr.exists() and "상태: 완료" in lr.read_text(encoding="utf-8")):
+        return "쇼츠 — 롱폼 대기", "제작"
+    return "숏폼 대기", "숏폼"
+
+
 def cmd_status(pull=True):
     if pull:
         sh("pull", "--rebase", "--autostash", check=False)
@@ -89,10 +122,17 @@ def cmd_status(pull=True):
     jobs = sorted(p for p in HO.iterdir() if p.is_dir() and p.name[:2] == "20") if HO.exists() else []
     if not jobs:
         print("건 없음")
+    if r == "숏폼":
+        lr = local_role() or {}
+        print(f"롱폼 저장소(읽기만): {lr.get('롱폼경로', '(역할.local.json 에 롱폼경로 없음)')}")
     for j in jobs:
         st, who = stage(j)
         mark = "  ← 내 차례" if who == r else ""
         print(f"- {j.name}: {st} (다음: {who}){mark}")
+        ss = stage_shorts(j)
+        if ss:
+            mark = "  ← 내 차례" if ss[1] == r else ""
+            print(f"    쇼츠: {ss[0]} (다음: {ss[1]}){mark}")
 
 
 def cmd_new(name):
