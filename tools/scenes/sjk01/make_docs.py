@@ -8,6 +8,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(ROOT))
+from tools.scenes.sjk01.assemble import cap_text  # noqa: E402
 CASE = ROOT / "핸드오프/2026-10-14_성제관01_AI10가지"
 LINES = ROOT / "_tmp/sjk01/audio/lines.json"
 SRT_OUT = ROOT / "_tmp/sjk01/sub/성제관01.srt"
@@ -48,7 +50,7 @@ def main():
     SRT_OUT.parent.mkdir(parents=True, exist_ok=True)
     with open(SRT_OUT, "w", encoding="utf-8", newline="\n") as f:
         for k, r in enumerate(rows):
-            f.write(f"{k + 1}\n{ts(r['sub_t0'])} --> {ts(r['sub_t1'])}\n{r['text']}\n\n")
+            f.write(f"{k + 1}\n{ts(r['sub_t0'])} --> {ts(r['sub_t1'])}\n{cap_text(r['text'])}\n\n")
 
     # 녹음원고.md
     md = ["# 성제관01 — 녹음 원고 (녹음 정본에서 실제로 한 말 · 한 줄 = 자막 한 줄)", "",

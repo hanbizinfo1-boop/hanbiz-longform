@@ -19,6 +19,13 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
 from tools.auto.compose import Captions  # noqa: E402
+import re  # noqa: E402
+
+
+def cap_text(t):
+    """자막 글 — 끝 마침표 하나만 뺀다(10-15 «자막에 마지막 마침표 다 제거해줘», 말줄임표·물음표는 그대로)."""
+    return re.sub(r"(?<!\.)\.\s*$", "", t.strip())
+
 
 W, H = 1920, 1080
 FN, FD = 60000, 1001
@@ -201,7 +208,7 @@ def main():
     a = ap.parse_args()
     lines = json.load(open(ROOT / "_tmp/sjk01/audio/lines.json", encoding="utf-8"))
     capf = ROOT / "_tmp/sjk01/sub/captions.json"
-    json.dump([{"t0": r["sub_t0"], "t1": r["sub_t1"], "text": r["text"]} for r in lines], open(capf, "w", encoding="utf-8"), ensure_ascii=False)
+    json.dump([{"t0": r["sub_t0"], "t1": r["sub_t1"], "text": cap_text(r["text"])} for r in lines], open(capf, "w", encoding="utf-8"), ensure_ascii=False)
     caps = Captions(str(capf), CAP_STYLE)
     t0s = [c["t0"] for c in caps.caps]
     global TRANS, PUNCH

@@ -19,6 +19,7 @@ ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
 from tools.auto import sfx_bus as SB  # noqa: E402
 from tools.scenes.sjk01.audio_mix import VAR, role_key, BGM_DIR  # noqa: E402
+from tools.scenes.sjk01.assemble import cap_text  # noqa: E402
 
 W, H = 1080, 1920
 SHORTS_DIR = ROOT / "_tmp/sjk01/shorts"
@@ -69,7 +70,7 @@ def srt(sc, path):
         ms = int(round(t * 1000)); return f"{ms // 3600000:02d}:{ms // 60000 % 60:02d}:{ms // 1000 % 60:02d},{ms % 1000:03d}"
     with open(path, "w", encoding="utf-8", newline="\n") as fo:
         for k, L in enumerate(sc["lines"]):
-            fo.write(f"{k + 1}\n{ts(L['t0'])} --> {ts(L['end'])}\n" + "\n".join(split2(L["text"])) + "\n\n")
+            fo.write(f"{k + 1}\n{ts(L['t0'])} --> {ts(L['end'])}\n" + "\n".join(split2(cap_text(L["text"]))) + "\n\n")
 
 
 def audio(name, sc, outwav):
@@ -115,7 +116,7 @@ def main():
             print("화면 없음", name); continue
         wav = SHORTS_DIR / f"{name}_소리.wav"
         placed, dropped = audio(name, sc, wav)
-        caps = [(L["t0"], L["end"], cap_img(L["text"])) for L in sc["lines"]]
+        caps = [(L["t0"], L["end"], cap_img(cap_text(L["text"]))) for L in sc["lines"]]
         FN, FD = 60000, 1001
         n = int(round(sc["dur"] * FN / FD))
         rd = subprocess.Popen(["ffmpeg", "-v", "error", "-i", str(src), "-f", "rawvideo", "-pix_fmt", "bgr24", "-s", f"{W}x{H}", "-"], stdout=subprocess.PIPE)
