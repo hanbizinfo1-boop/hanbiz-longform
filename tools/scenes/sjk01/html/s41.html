@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s41 10 계약서 — 작은 글씨</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background:url("../../../../소재/sjk01/codex/c41_desk_topdown.png") 0 0/100% 100% no-repeat}
+#title{left:460px;top:330px;width:1000px;text-align:center}
+#title .no{font-size:54px;color:#F2C230;display:block;margin-bottom:0}
+#title .tt{font-size:230px;line-height:1.15;color:#ECE8E0;display:block;text-shadow:0 8px 34px rgba(0,0,0,.6)}
+#paper{left:640px;top:150px;width:640px;height:770px;padding:40px 40px;color:#15181C}
+#paper .h{font-family:"Serif";font-weight:900;font-size:30px;text-align:center}
+#paper .s{font-size:18px;text-align:center;margin:6px 0 22px;color:#3A3732}
+#paper .c{font-size:18px;line-height:1.55;margin-bottom:12px;font-weight:400}
+#paper .c b{font-weight:700}
+#sig{position:absolute;left:40px;right:40px;bottom:36px;display:flex;justify-content:space-between;font-size:18px}
+#sig div{width:250px}
+#sig i{display:block;height:2px;background:#15181C;margin-top:44px}
+#lab{left:560px;top:430px;width:800px;text-align:center;padding:14px 0 16px;font-size:46px;background:rgba(66,70,76,.93);color:#E8E4DB;border-radius:4px;box-shadow:0 14px 34px rgba(0,0,0,.4)}
+</style></head>
+<body><div id="stage">
+  <div id="cam">
+    <div id="ph"></div>
+    <div id="paper" class="abs print">
+      <div class="h">식자재 납품 계약서</div>
+      <div class="s">(갑: ○○국밥 / 을: ○○유통)</div>
+      <div class="c"><b>제3조(납품 단가)</b> 을은 원재료 시세가 변동한 경우 갑에게 통보하고 단가를 조정할 수 있다.</div>
+      <div class="c"><b>제5조(최소 발주)</b> 갑은 월 300만 원 이상을 발주한다. 미달 시 차액의 10%를 을에게 지급한다.</div>
+      <div class="c"><b>제7조(반품)</b> 품질 불량은 납품 후 6시간 안에 알린 경우에만 반품한다.</div>
+      <div class="c"><b>제9조(대금 지급)</b> 월말 마감, 다음 달 5일까지 지급한다. 늦어지면 연 20%의 지연 이자를 더한다.</div>
+      <div class="c"><b>제11조(계약 기간)</b> 계약 기간은 1년으로 한다. 끝나기 1개월 전까지 서면 통지가 없으면 같은 조건으로 1년씩 자동 연장된다.</div>
+      <div class="c"><b>제12조(중도 해지)</b> 갑이 기간 중 해지하면 남은 기간 월평균 납품액의 30%를 위약금으로 지급한다.</div>
+      <div id="sig"><div>갑 ○○국밥 (서명)<i></i></div><div>을 ○○유통 (서명)<i></i></div></div>
+    </div>
+  </div>
+  <div id="title" class="abs"><span class="no mono">10</span><span class="tt serif">계약서</span></div>
+  <div id="lab" class="abs mono" data-box="lab">다들 이렇게 써요</div>
+</div>
+<script src="../data/s41.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#ECE8E0', '#15181C', '#F2C230'];
+const T = { title: 0.12, pin: S.at('임대차') - 0.2, small: S.at('글씨가'), sign: S.at('그냥사인하시는'), lab: S.at('다들') };
+S.ev(T.title, 'big_in', 'title'); S.ev(T.pin, 'page', 'paper'); S.ev(T.small, 'sweep', 'cam'); S.ev(T.lab - 0.05, 'msg_in', 'lab');
+const camSet = (sel, s, cx, cy) => {
+  const tx = S.clamp(960 - cx * s, 1920 - 1920 * s, 0), ty = S.clamp(540 - cy * s, 1080 - 1180 * s, 100 * s);
+  S.css(sel, { transform: `translate(${tx}px,${ty}px) scale(${s})` });
+};
+S.scene(tau => {
+  const a = S.cam(tau, 0, T.small - 0.2), b = S.cam(tau, T.small - 0.2, T.small + 0.7), c = S.cam(tau, T.sign - 0.2, T.sign + 0.9);
+  let s = S.lerp(1.0, 1.1, a), cy = S.lerp(540, 500, a);
+  s = S.lerp(s, 2.2, b); cy = S.lerp(cy, 400, b);
+  s = S.lerp(s, 2.0, c); cy = S.lerp(cy, 770, c);
+  camSet('#cam', s, 960, cy);
+  const t = S.ent(tau, T.title, 0.16) * (1 - S.ent(tau, T.pin + 0.1, 0.2));
+  S.css('#title', { opacity: t, transform: `translateY(${(1 - S.ent(tau, T.title, 0.16)) * 24}px)` });
+  const p = S.ent(tau, T.pin, 0.28);
+  S.css('#paper', { opacity: Math.min(1, p * 2.5), transform: `translateY(${(1 - p) * 140}px)` });
+  const l = S.ent(tau, T.lab - 0.05, 0.14);
+  S.css('#lab', { opacity: l, transform: `translateY(${(1 - l) * 14}px)` });
+});
+</script>
+</body></html>

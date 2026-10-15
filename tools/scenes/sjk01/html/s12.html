@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s12 별점 낮은 리뷰는 사람이 한 번 읽기</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background:url("../../../../소재/sjk01/codex/c12_hand_phone_night.png") center/100% 100% no-repeat;transform-origin:1000px 480px}
+#l1{left:110px;top:100px;font-size:46px;padding:12px 30px;background:rgba(21,24,28,.9);color:#ECE8E0;border-radius:6px;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+#y1{left:110px;top:620px;font-size:50px;font-weight:700;padding:14px 32px;background:#F2C230;color:#15181C;border-radius:6px;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+#c1{left:110px;top:770px;font-size:40px;padding:14px 30px;background:rgba(46,85,217,.94);color:#ECE8E0;border-radius:6px;white-space:nowrap;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+</style></head>
+<body><div id="stage">
+  <div id="ph"></div>
+  <div id="l1" class="abs mono" data-box="l1">★1 · ★2</div>
+  <div id="y1" class="abs" data-box="y1">사람이 한 번 읽기</div>
+  <div id="c1" class="abs mono" data-box="c1">AI : 왜 화났는지 모름</div>
+</div>
+<script src="../data/s12.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#ECE8E0', '#F2C230', '#2E55D9'];
+const T = { l: S.at('별점') - 0.05, y: S.at('꼭') - 0.05, c: S.at('AI는') - 0.05 };
+S.ev(T.l, 'card_in', 'l1'); S.ev(T.y, 'big_in', 'y1'); S.ev(T.c, 'msg_in', 'c1');
+S.scene(tau => {
+  S.css('#ph', { transform: `scale(${1 + 0.06 * S.P(tau, 0, S.SC.dur)})` });
+  const f = (id, t0, dx) => { const k = S.ent(tau, t0, 0.15); S.css(id, { opacity: k, transform: `translateX(${(1 - k) * dx}px)` }); };
+  f('#l1', T.l, -30); f('#y1', T.y, -30); f('#c1', T.c, -30);
+});
+</script>
+</body></html>

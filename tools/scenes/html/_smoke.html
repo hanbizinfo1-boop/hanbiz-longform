@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>html_motion 스모크 장면 — eo 이징 · SVG 선 그리기 · 선형 와이프 마스크 · CSS 원근 기울임</title>
+<style>
+  html, body { margin: 0; width: 1920px; height: 1080px; background: transparent; overflow: hidden; }
+  #stage { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; perspective: 1400px; }
+  #card { position: absolute; left: 560px; top: 300px; width: 800px; height: 420px; border-radius: 14px;
+          background: #1b2a4a; transform-origin: 50% 50%; }
+  #title { position: absolute; left: 600px; top: 340px; width: 720px; height: 90px; font: 700 64px/90px "HM Pretendard", sans-serif;
+           color: #ffffff; -webkit-mask-image: linear-gradient(to right, #000 0%, transparent 0%); mask-image: linear-gradient(to right, #000 0%, transparent 0%); }
+  #line { position: absolute; left: 600px; top: 470px; width: 720px; height: 200px; overflow: visible; }
+</style></head>
+<body>
+<div id="stage">
+  <div id="card" data-box="card" data-box-group="card"></div>
+  <div id="title" data-box="title" data-box-group="card">한비즈 스모크</div>
+  <svg id="line" viewBox="0 0 720 200" data-box="line" data-box-group="card">
+    <path id="p" d="M10 170 C 150 20, 300 190, 460 80 S 650 40, 710 120" fill="none" stroke="#ffc83d" stroke-width="10" stroke-linecap="round"/>
+  </svg>
+</div>
+<script>
+window.W = 1920; window.H = 1080; window.FPS = 59.94; window.DURATION = 2.0;
+window.EVENTS = [{ t: 0.3, role: 'card_in', id: 'card' }];
+window.PALETTE = ['#1b2a4a', '#ffffff', '#ffc83d'];
+
+// cubic-bezier 이징 하나 공용 — eo = 빠르게 들어와 감속(오버슈트 0)
+function bez(x1, y1, x2, y2) {
+  const cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx;
+  const cy = 3 * y1, by = 3 * (y2 - y1) - cy, ay = 1 - cy - by;
+  const X = s => ((ax * s + bx) * s + cx) * s, Y = s => ((ay * s + by) * s + cy) * s;
+  return x => {
+    if (x <= 0) return 0; if (x >= 1) return 1;
+    let lo = 0, hi = 1, s = x;
+    for (let i = 0; i < 40; i++) { s = (lo + hi) / 2; if (X(s) < x) lo = s; else hi = s; }
+    return Y(s);
+  };
+}
+const eo = bez(0.001, 0, 0.15, 1);
+const clamp01 = v => Math.min(1, Math.max(0, v));
+const prog = (t, a, b) => clamp01((t - a) / (b - a));
+
+const card = document.getElementById('card'), title = document.getElementById('title');
+const path = document.getElementById('p');
+let LEN = 0;
+
+async function seek(t) {
+  if (!LEN) { LEN = path.getTotalLength(); path.style.strokeDasharray = LEN; }
+  // 카드: 0.3~0.4s(6프레임) 아래에서 올라오며 기울임이 풀린다 + 1.6s~ 퇴장 불투명도
+  const e = eo(prog(t, 0.3, 0.4));
+  const out = 1 - prog(t, 1.7, 1.9);
+  card.style.opacity = e * out;
+  card.style.transform = `translateY(${(1 - e) * 120}px) rotateX(${(1 - e) * 35}deg)`;
+  // 제목: 선형 와이프 마스크(왼→오, 페더 12%)
+  const w = prog(t, 0.5, 0.9) * 112;
+  const m = `linear-gradient(to right, #000 ${w - 12}%, transparent ${w}%)`;
+  title.style.webkitMaskImage = m; title.style.maskImage = m;
+  title.style.opacity = out;
+  // 선: SVG 그리기 (dashoffset = 길이 × (1 - 진행률))
+  path.style.strokeDashoffset = LEN * (1 - eo(prog(t, 0.8, 1.4)));
+  document.getElementById('line').style.opacity = out;
+}
+</script>
+</body></html>

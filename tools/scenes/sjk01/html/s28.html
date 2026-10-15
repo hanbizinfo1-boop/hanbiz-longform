@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s28 06 알바 매뉴얼 — 말로 가르치는 반복</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background:url("../../../../소재/sjk01/codex/c28_backdoor_kitchen.png") 0 0/100% 100% no-repeat}
+#title{left:70px;top:60px;padding:20px 40px 26px;background:rgba(21,24,28,.9);border-radius:6px;box-shadow:0 18px 40px rgba(0,0,0,.45)}
+#title .no{font-size:38px;color:#F2C230;display:block}
+#title .tt{font-size:100px;line-height:1.15;color:#ECE8E0;display:block}
+.lab{position:absolute;padding:8px 22px 10px;font-size:34px;white-space:nowrap;background:rgba(21,24,28,.9);color:#ECE8E0;border-radius:4px;transform:translate(-50%,-100%);box-shadow:0 8px 20px rgba(0,0,0,.4)}
+#svg{position:absolute;left:0;top:0;width:1920px;height:1080px}
+.bb{position:absolute;width:640px;height:92px;line-height:92px;text-align:center;font-size:36px;font-weight:600;background:#FBFAF6;border-radius:24px;box-shadow:0 12px 28px rgba(0,0,0,.4);color:#15181C}
+.bb:after{content:"";position:absolute;left:392px;bottom:-26px;width:40px;height:28px;background:#FBFAF6;clip-path:polygon(0 0,100% 0,30% 100%)}
+#yr{left:1620px;top:62px;padding:10px 24px 12px;font-size:44px;background:rgba(21,24,28,.9);color:#F2C230;border-radius:4px;white-space:nowrap}
+</style></head>
+<body><div id="stage">
+  <div id="cam"><div id="ph"></div><svg id="svg" viewBox="0 0 1920 1080"></svg></div>
+  <div id="title" class="abs" data-box="title"><span class="no mono">06</span><span class="tt serif">알바 매뉴얼</span></div>
+  <div id="labs"></div>
+  <div id="bubs"></div>
+  <div id="yr" class="abs mono" data-box="yr">× 몇 년</div>
+</div>
+<script src="../data/s28.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#ECE8E0', '#15181C', '#F2C230'];
+const TG = [['불', 462, 744, 0], ['가스', 752, 792, 0], ['육수', 419, 414, 0]];
+let lh = '', sv = '';
+TG.forEach((g, i) => { lh += `<div class="lab mono" id="lb${i}" data-box="lb${i}" style="left:${g[1]}px;top:${g[2] - 40}px">${g[0]}</div>`; });
+S.$('#labs').innerHTML = lh;
+const BASE = [880, 30];
+let bh = '';
+for (let i = 0; i < 3; i++) bh += `<div class="bb" id="bb${i}" data-box="bb${i}" data-box-group="bub" style="left:${BASE[0] + i * 24}px;top:${BASE[1] + i * 16}px">사장님, 이거 어떻게 해요?</div>`;
+S.$('#bubs').innerHTML = bh;
+// data-box 는 말풍선 한 덩이로(세 겹이 서로 겹치는 건 의도) — 래퍼 크기를 세 겹 합친 영역으로
+const T = { t: 0.2, tOut: S.at('사장님이') - 0.1, l: [S.at('불은'), S.at('가스는'), S.at('육수는')], lOut: S.at('일주일') - 0.1,
+  b: [S.at('이거어떻게'), S.at('또처음부터', 0), S.at('또처음부터', 1)], yr: S.at('몇년째'), fix: S.at('이렇게바꾸는') };
+S.ev(T.t, 'card_in', 'title'); T.l.forEach((t, i) => S.ev(t - 0.05, i % 2 ? 'marker' : 'card_in', 'lb' + i));
+T.b.forEach((t, i) => S.ev(t - 0.05, i === 1 ? 'card_in' : 'msg_in', 'bb' + i)); S.ev(T.yr, 'big_in', 'yr'); S.ev(T.fix, 'sweep', 'bubs');
+const camSet = (sel, s, cx, cy) => {
+  const tx = S.clamp(960 - cx * s, 1920 - 1920 * s, 0), ty = S.clamp(540 - cy * s, 1080 - 1180 * s, 100 * s);
+  S.css(sel, { transform: `translate(${tx}px,${ty}px) scale(${s})` });
+};
+S.scene(tau => {
+  camSet('#cam', 1 + 0.035 * S.P(tau, 0, S.SC.dur), 960, 540);
+  const t = S.ent(tau, T.t, 0.16) * (1 - S.ent(tau, T.tOut, 0.2));
+  S.css('#title', { opacity: t, transform: `translateX(${(1 - S.ent(tau, T.t, 0.16)) * -30}px)` });
+  // 라벨 셋: 해당 말에 하나씩, «일주일 뒤에» 전에 사라짐
+  const lo = 1 - S.ent(tau, T.lOut, 0.2);
+  let sv = '';
+  TG.forEach((g, i) => {
+    const k = S.ent(tau, T.l[i] - 0.05, 0.14);
+    S.css('#lb' + i, { opacity: k * lo, transform: `translate(-50%,-100%) translateY(${(1 - k) * 12}px)` });
+    sv += `<line x1="${g[1]}" y1="${g[2] - 40}" x2="${g[1]}" y2="${g[2] - 8}" stroke="#ECE8E0" stroke-width="3" opacity="${k * lo}"/><circle cx="${g[1]}" cy="${g[2]}" r="7" fill="#F2C230" opacity="${k * lo}"/>`;
+  });
+  S.$('#svg').innerHTML = sv;
+  // 말풍선 세 겹 → 한 장으로 모이며 사라짐
+  const f = S.cam(tau, T.fix, T.fix + 0.55);
+  for (let i = 0; i < 3; i++) {
+    const k = S.ent(tau, T.b[i] - 0.05, 0.14);
+    const dx = (1 - f) * 0 + f * (1 - i) * 24, dy = f * (1 - i) * 16;
+    S.css('#bb' + i, { opacity: k * (1 - S.P(f, 0.55, 1)), transform: `translate(${dx}px,${dy + (1 - k) * 14}px) scale(${1 - 0.06 * f})` });
+  }
+  const y = S.ent(tau, T.yr, 0.14);
+  S.css('#yr', { opacity: y * (1 - S.P(f, 0.2, 0.7)), transform: `translateY(${(1 - y) * 14}px)` });
+});
+</script>
+</body></html>

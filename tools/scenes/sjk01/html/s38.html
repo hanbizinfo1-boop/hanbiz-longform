@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s38 09 메뉴 원가</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background:url("../../../../소재/sjk01/codex/c38_market_basket.png") 0 0/100% 100% no-repeat}
+#scrim{position:absolute;left:0;top:0;width:1300px;height:1080px;background:linear-gradient(90deg,rgba(10,12,14,.82) 0,rgba(10,12,14,.62) 55%,rgba(10,12,14,0) 100%)}
+#title{left:110px;top:330px}
+#title .no{font-size:44px;color:#F2C230;display:block;margin-bottom:6px}
+#title .tt{font-size:168px;line-height:1.15;color:#ECE8E0;display:block;text-shadow:0 6px 26px rgba(0,0,0,.5)}
+#lab{left:1170px;top:96px;padding:14px 32px 16px;font-size:42px;white-space:nowrap;background:rgba(21,24,28,.9);color:#ECE8E0;border-radius:4px;box-shadow:0 14px 34px rgba(0,0,0,.4);border-left:8px solid #F2C230}
+</style></head>
+<body><div id="stage">
+  <div id="cam"><div id="ph"></div></div>
+  <div id="scrim"></div>
+  <div id="title" class="abs" data-box="title"><span class="no mono">09</span><span class="tt serif">메뉴 원가</span></div>
+  <div id="lab" class="abs mono" data-box="lab">작년 가격표 그대로?</div>
+</div>
+<script src="../data/s38.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#ECE8E0', '#15181C', '#F2C230'];
+const T = { t: 0.15, out: S.at('요즘') - 0.1, lab: S.at('팔수록') };
+S.ev(T.t, 'in', 'title'); S.ev(T.lab - 0.05, 'msg_in', 'lab');
+const camSet = (sel, s, cx, cy) => {
+  const tx = S.clamp(960 - cx * s, 1920 - 1920 * s, 0), ty = S.clamp(540 - cy * s, 1080 - 1180 * s, 100 * s);
+  S.css(sel, { transform: `translate(${tx}px,${ty}px) scale(${s})` });
+};
+S.scene(tau => {
+  // 처음엔 사진 위쪽(장바구니 위 손) → «재료값»부터 천천히 아래로(바구니 속 고기·파·무)
+  const k = S.cam(tau, 2.2, S.SC.dur);
+  const s = 1.22;
+  camSet('#cam', s, 960, S.lerp(343, 737, k));
+  const t = S.ent(tau, T.t, 0.16) * (1 - S.ent(tau, T.out, 0.25));
+  S.css('#title', { opacity: t, transform: `translateX(${(1 - S.ent(tau, T.t, 0.16)) * -30}px)` });
+  S.css('#scrim', { opacity: t });
+  const l = S.ent(tau, T.lab - 0.05, 0.14);
+  S.css('#lab', { opacity: l, transform: `translateY(${(1 - l) * 16}px)` });
+});
+</script>
+</body></html>

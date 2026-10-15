@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s23 사람 — 전면 타이포와 색 반전</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#paperbg{clip-path:inset(0 100% 0 0)}
+.dual{position:absolute}
+.dual .a,.dual .b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;white-space:nowrap}
+.dual .a{color:#ECE8E0}
+.dual .b{color:#15181C}
+#lead{left:360px;top:480px;width:1200px;height:120px;font-size:52px;text-align:center;color:#ECE8E0;display:flex;align-items:center;justify-content:center}
+#ppl{left:260px;top:190px;width:1400px;height:580px;font-size:560px;line-height:1}
+.lab{position:absolute;top:812px;height:84px;display:flex;align-items:center;justify-content:center;font-size:44px;border-radius:6px;padding:0 34px;white-space:nowrap}
+#lday{left:260px;width:520px;border:4px solid #15181C;color:#15181C;background:rgba(251,250,246,.6)}
+#lemp{left:1140px;width:520px;background:#F2C230;color:#15181C;border:4px solid #15181C}
+#chap{left:0;top:0;width:1920px;height:1080px}
+#cn{position:absolute;left:300px;top:160px;font-size:130px;color:#F2C230}
+#ct{position:absolute;left:0;top:300px;width:1920px;text-align:center;font-size:380px;line-height:1.1;color:#ECE8E0}
+#cul{position:absolute;left:415px;top:716px;height:18px;width:0;background:#F2C230}
+</style></head>
+<body><div id="stage">
+  <div class="bg tex-ink"></div>
+  <div id="paperbg" class="bg tex-paper"></div>
+  <div id="lead" class="abs mono" data-box="lead">손님 쪽 일보다 —</div>
+  <div id="ppl" class="dual serif" data-box="ppl"><div class="a">사람</div><div class="b">사람</div></div>
+  <div id="lday" class="lab mono" data-box="lday">손님 — 하루</div>
+  <div id="lemp" class="lab mono" data-box="lemp">직원 — 매일</div>
+  <div id="chap" class="abs">
+    <div id="cn" class="mono">05</div><div id="ct" class="serif">근무표</div><div id="cul"></div>
+  </div>
+</div>
+<script src="../data/s23.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#15181C', '#ECE8E0', '#F2C230'];
+const T = { lead: S.at('손님'), ppl: S.at('알바와') - 0.12, d: S.at('손님은'), e: S.at('매일'), back: S.at('여기서부터가'), w2: S.at('자바로다섯') - 0.1, ch: S.at('다섯', 1) - 0.0, ul: S.at('근무표예요') };
+T.ch = S.at('다섯번째는') - 0.05;
+S.ev(T.lead, 'card_in', 'lead'); S.ev(T.ppl, 'big_in', 'ppl'); S.ev(T.d, 'card_in', 'lday'); S.ev(T.e, 'msg_in', 'lemp');
+S.ev(T.w2, 'in', 'inv2'); S.ev(T.ch + 0.1, 'big_in', 'ct'); S.ev(T.ul, 'marker', 'cul');
+const L = (a, b, k) => a + (b - a) * k;
+S.scene(tau => {
+  // 종이 판: 1차는 왼→오로 덮고(먹→종이), 2차는 왼→오로 걷어 냄(종이→먹)
+  const k1 = S.P(tau, T.ppl, T.ppl + 0.2), k2 = S.P(tau, T.w2, T.w2 + 0.2);
+  let R = 100 - k1 * 100, Lf = 0;
+  if (k2 > 0) { R = 0; Lf = k2 * 100; }
+  S.css('#paperbg', { clipPath: `inset(0 ${R}% 0 ${Lf}%)` });
+  // 두 색 글자: 종이 위에서는 먹색, 먹 위에서는 종이색
+  const paperClip = `inset(0 ${R}% 0 ${Lf}%)`;
+  const inkClip = k2 > 0 ? `inset(0 ${100 - Lf}% 0 0)` : `inset(0 0 0 ${100 - R}%)`;
+  const pp = S.$('#ppl'); pp.querySelector('.b').style.clipPath = paperClip; pp.querySelector('.a').style.clipPath = inkClip;
+  // «사람» 등장 → 위로 물러남
+  const e = S.ent(tau, T.ppl, 0.14), back = S.cam(tau, T.back, T.back + 0.6);
+  S.css('#ppl', { opacity: e, transform: `translateY(${L((1 - e) * 20, -330, back)}px) scale(${L(1.06 - 0.06 * e, 0.34, back)})` });
+  // 첫 Mono 줄
+  const lead = S.ent(tau, T.lead, 0.16) * (1 - S.ent(tau, T.ppl - 0.3, 0.2));
+  S.css('#lead', { opacity: lead, transform: `translateY(${(1 - S.ent(tau, T.lead, 0.16)) * 14}px)` });
+  // 손님 — 하루 / 직원 — 매일
+  const kd = S.ent(tau, T.d, 0.14) * (1 - S.ent(tau, T.back, 0.2)), ke = S.ent(tau, T.e, 0.14) * (1 - S.ent(tau, T.back, 0.2));
+  S.css('#lday', { opacity: kd, transform: `translateY(${(1 - S.ent(tau, T.d, 0.14)) * 16}px)` });
+  S.css('#lemp', { opacity: ke, transform: `translateY(${(1 - S.ent(tau, T.e, 0.14)) * 16}px)` });
+  // 장 카드 05 근무표
+  const kc = S.ent(tau, T.ch, 0.16);
+  S.css('#cn', { opacity: kc, transform: `translateY(${(1 - kc) * 20}px)` });
+  S.css('#ct', { opacity: kc, transform: `translateY(${(1 - kc) * 30}px)` });
+  S.css('#cul', { width: (S.cam(tau, T.ul, T.ul + 0.5) * 1090) + 'px' });
+});
+</script>
+</body></html>

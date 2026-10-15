@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s03 계산대 위 종이 여섯 장 — 절반은 떠오른다</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#persp{position:absolute;left:0;top:0;width:1920px;height:1080px;perspective:1700px;perspective-origin:960px 540px}
+#world{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-style:preserve-3d;transform-origin:960px 540px}
+#photo{position:absolute;left:0;top:0;width:1920px;height:1080px;background:url("../../../../소재/sjk01/codex/e03_counter_topdown.png") center/cover}
+.pp{position:absolute;background-repeat:no-repeat;background-position:0 0;box-shadow:0 14px 30px rgba(0,0,0,.55),0 2px 6px rgba(0,0,0,.4);transform-style:preserve-3d}
+.sched{width:440px;height:248px;background-image:url("../../../../_tmp/sjk01/blender/tex/schedule.png");background-size:440px auto}
+.scr{width:470px;height:206px;background-image:url("../../../../_tmp/sjk01/blender/tex/screen.png");background-size:470px auto}
+.ord{width:300px;height:262px;background-image:url("../../../../_tmp/sjk01/blender/tex/order.png");background-size:300px auto}
+.rc{width:190px;height:277px;background-image:url("../../../../_tmp/sjk01/blender/tex/receipt.png");background-size:190px auto}
+</style></head>
+<body><div id="stage">
+  <div id="persp"><div id="world">
+    <div id="photo"></div>
+    <div id="r1" class="pp rc"></div>
+    <div id="r2" class="pp rc"></div>
+    <div id="r3" class="pp rc"></div>
+    <div id="p1" class="pp sched"></div>
+    <div id="p2" class="pp scr"></div>
+    <div id="p3" class="pp ord"></div>
+  </div></div>
+</div>
+<script src="../data/s03.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+// 계산대 탑뷰 — 종이 여섯 장(근무표·리뷰 출력·재료 주문 + 영수증 셋). «절반은»에 세 장이 코발트 빛을 띠며 떠올라 위로 빠져나간다.
+window.PALETTE = ['#2E55D9', '#ECE8E0'];
+const T = { l: S.at('절반은') - 0.05, end: S.SC.dur + S.SC.post };
+S.ev(T.l, 'shine', 'glow');
+S.ev(T.l + 0.35, 'sweep', 'lift');
+// 종이 배치 — [id, 중심x, 중심y, 폭, 높이, 기울기°]
+const PAPERS = [
+  ['r1', 335, 650, 190, 277, 8], ['r2', 860, 700, 190, 277, -13], ['r3', 1215, 770, 190, 277, 17],
+  ['p1', 600, 400, 440, 248, -6], ['p2', 1040, 330, 470, 206, 4], ['p3', 1400, 520, 300, 262, -3],
+];
+const LIFT = { p1: 0, p2: 0.1, p3: 0.2 };
+S.scene(tau => {
+  const g = S.cam(tau, -0.3, S.SC.dur + 0.3);      // 아주 느린 회전·확대
+  S.css('#world', { transform: `rotate(${(2 * g).toFixed(4)}deg) scale(${(1 + 0.06 * g).toFixed(5)})` });
+  for (const [id, cx, cy, w, h, rot] of PAPERS) {
+    let tz = 0, sc = 1, ty = 0, glow = 0;
+    if (id in LIFT) {
+      const t0 = T.l + LIFT[id];
+      const up = S.cam(tau, t0, t0 + 0.7);                    // 떠오름
+      const out = S.cam(tau, t0 + 0.45, T.end);                // 위로 빠져나감
+      glow = S.ent(tau, t0, 0.3);
+      tz = 160 * up; sc = 1 + 0.12 * up; ty = -(cy + 130) * out;
+    }
+    const sh = glow > 0 ? `0 0 0 ${(3 * glow).toFixed(2)}px rgba(46,85,217,${glow.toFixed(3)}),0 0 ${(44 * glow).toFixed(1)}px ${(8 * glow).toFixed(1)}px rgba(46,85,217,${(0.75 * glow).toFixed(3)}),0 ${14 + 40 * tz / 160}px ${30 + 40 * tz / 160}px rgba(0,0,0,.55)` : '';
+    S.css('#' + id, {
+      left: (cx - w / 2) + 'px', top: (cy - h / 2) + 'px',
+      transform: `translateY(${ty.toFixed(2)}px) translateZ(${tz.toFixed(2)}px) rotate(${rot}deg) scale(${sc.toFixed(4)})`,
+      boxShadow: sh,
+    });
+  }
+});
+</script>
+</body></html>

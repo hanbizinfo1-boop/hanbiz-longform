@@ -105,7 +105,9 @@ def main():
     rep["privacy_hits"] = hits
     print("개인정보 재검사: 걸린 곳", len(hits), flush=True)
     # 3) 음량
-    r = subprocess.run(["ffmpeg", "-nostats", "-i", final, "-af", "ebur128=peak=true", "-f", "null", "-"], capture_output=True, text=True)
+    json.dump(rep, open(out, "w", encoding="utf-8"), ensure_ascii=False, indent=1)     # 음량 전에 한 번 저장(10-13 음량 단계에서 죽어 앞 결과를 잃었다)
+    r = subprocess.run(["ffmpeg", "-nostats", "-i", final, "-af", "ebur128=peak=true", "-f", "null", "-"], capture_output=True,
+                       text=True, encoding="utf-8", errors="replace")
     m = re.findall(r"I:\s+(-?\d+\.\d) LUFS", r.stderr); p = re.findall(r"Peak:\s+(-?\d+\.\d) dBFS", r.stderr)
     rep["loudness"] = dict(integrated_lufs=float(m[-1]) if m else None, true_peak_dbtp=float(p[-1]) if p else None)
     print("음량:", rep["loudness"])

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s48 실무자</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background:url("../../../../소재/sjk01/codex/c48_two_people_table.png") 0 0/100% 100% no-repeat}
+#scrim{position:absolute;left:0;top:0;width:1100px;height:560px;background:linear-gradient(90deg,rgba(8,8,10,.72) 0,rgba(8,8,10,.5) 55%,rgba(8,8,10,0) 100%)}
+#word{left:90px;top:130px}
+#word .w{font-size:150px;line-height:1.15;color:#ECE8E0;text-shadow:0 6px 24px rgba(0,0,0,.55);display:block}
+#ul{position:absolute;left:0;bottom:6px;height:10px;width:0;background:#F2C230}
+</style></head>
+<body><div id="stage">
+  <div id="cam"><div id="ph"></div></div>
+  <div id="scrim"></div>
+  <div id="word" class="abs" data-box="word"><span class="w serif">실무자</span><div id="ul"></div></div>
+</div>
+<script src="../data/s48.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#ECE8E0', '#15181C', '#F2C230'];
+const T = { w: S.at('실무자가') };
+S.ev(T.w - 0.05, 'big_in', 'word'); S.ev(T.w + 0.3, 'marker', 'ul');
+const camSet = (sel, s, cx, cy) => {
+  const tx = S.clamp(960 - cx * s, 1920 - 1920 * s, 0), ty = S.clamp(540 - cy * s, 1080 - 1180 * s, 100 * s);
+  S.css(sel, { transform: `translate(${tx}px,${ty}px) scale(${s})` });
+};
+S.scene(tau => {
+  const k = S.P(tau, 0, S.SC.dur);
+  camSet('#cam', 1 + 0.08 * k, S.lerp(960, 1180, k), S.lerp(540, 520, k));
+  const c = S.ent(tau, T.w - 0.05, 0.14);
+  S.css('#word', { opacity: c, transform: `translateY(${(1 - c) * 16}px)` });
+  S.css('#scrim', { opacity: c });
+  S.css('#ul', { width: (S.cam(tau, T.w + 0.3, T.w + 0.85) * 410) + 'px' });
+});
+</script>
+</body></html>

@@ -1,0 +1,37 @@
+/* 성제관01 장면 공용 — 디자인 시스템(캔버스 «성제관 영상미 시안» 00): 종이 #ECE8E0 · 먹 #15181C · 코발트 #2E55D9(AI) · 신호 노랑 #F2C230(사람·핵심)
+   글꼴 셋: Serif(Noto Serif KR 900 — 제목·핵심 한 줄) · Plex(IBM Plex Sans KR — 판 글) · Mono(IBM Plex Mono — 전시 라벨) + 보조 Pen(손글씨) · UI(Pretendard/Noto Sans — 앱 화면) */
+@font-face{font-family:"Serif";src:url("file:///C:/Windows/Fonts/NotoSerifKR-VF.ttf");font-weight:200 900}
+@font-face{font-family:"Plex";src:url("../../../../소재/fonts/IBMPlexSansKR-Regular.ttf");font-weight:400}
+@font-face{font-family:"Plex";src:url("../../../../소재/fonts/IBMPlexSansKR-Medium.ttf");font-weight:500}
+@font-face{font-family:"Plex";src:url("../../../../소재/fonts/IBMPlexSansKR-SemiBold.ttf");font-weight:600}
+@font-face{font-family:"Plex";src:url("../../../../소재/fonts/IBMPlexSansKR-Bold.ttf");font-weight:700}
+@font-face{font-family:"Mono";src:url("../../../../소재/fonts/IBMPlexMono-Medium.ttf");font-weight:500}
+@font-face{font-family:"Pen";src:url("../../../../소재/fonts/NanumPenScript-Regular.ttf");font-weight:400}
+@font-face{font-family:"UI";src:url("file:///C:/Windows/Fonts/NotoSansKR-VF.ttf");font-weight:100 900}
+@font-face{font-family:"Gmarket";src:url("file:///C:/Users/user/AppData/Local/Microsoft/Windows/Fonts/GmarketSansMedium.otf");font-weight:500}
+@font-face{font-family:"Gmarket";src:url("file:///C:/Users/user/AppData/Local/Microsoft/Windows/Fonts/GmarketSansBold.otf");font-weight:700}
+
+:root{--paper:#ECE8E0;--ink:#15181C;--cobalt:#2E55D9;--yellow:#F2C230;--red:#D8402F;--muted:#5A5650}
+html,body{margin:0;padding:0;width:1920px;height:1080px;overflow:hidden;background:#000}
+*{box-sizing:border-box}
+#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;word-break:keep-all;transform-origin:960px 540px;font-family:"Plex",sans-serif;color:var(--ink)}
+.abs{position:absolute}
+.bg{position:absolute;left:0;top:0;width:1920px;height:1080px;background-size:cover;background-position:center}
+.tex-paper{background-image:url("../../../../_tmp/sjk01/tex/paper_cream.png")}
+.tex-ink{background-image:url("../../../../_tmp/sjk01/tex/ink_stage.png")}
+.tex-navy{background-image:url("../../../../_tmp/sjk01/tex/navy_room.png")}
+.tex-chalk{background-image:url("../../../../_tmp/sjk01/tex/chalk_black.png")}
+.tex-map{background-image:url("../../../../_tmp/sjk01/tex/map_paper.png")}
+.tex-desk{background-image:url("../../../../_tmp/sjk01/tex/night_desk.png")}
+.print{background-image:url("../../../../_tmp/sjk01/tex/paper_print.png");background-size:cover;box-shadow:0 18px 40px rgba(0,0,0,.35),0 2px 6px rgba(0,0,0,.25)}
+.serif{font-family:"Serif";font-weight:900}
+.mono{font-family:"Mono";font-weight:500;letter-spacing:.06em}
+.pen{font-family:"Pen"}
+.ui{font-family:"UI"}
+/* 흔한 AI 창(특정 회사 X) */
+.chat{background:#fff;border-radius:18px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.45);font-family:"UI";color:#1A1A1A}
+.chat .bar{height:52px;background:#F1F2F4;border-bottom:1px solid #E3E5E8;display:flex;align-items:center;gap:10px;padding:0 20px;font-size:15px;color:#6B7280}
+.chat .dot{width:13px;height:13px;border-radius:50%}
+.bubble-me{align-self:flex-end;background:#EEF1F6;border-radius:18px;padding:18px 22px;line-height:1.6}
+.caret{display:inline-block;width:3px;height:1em;background:currentColor;vertical-align:-0.12em;margin-left:2px}
+.mark{background:linear-gradient(transparent 55%,rgba(242,194,48,.85) 55%)}

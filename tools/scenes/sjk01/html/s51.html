@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s51 소통하고 결정하는 일</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background:url("../../../../소재/sjk01/codex/c51_serving_bowl.png") 0 0/100% 100% no-repeat}
+#warm{position:absolute;left:0;top:0;width:1920px;height:1080px;background:radial-gradient(ellipse 55% 50% at 50% 48%,rgba(255,214,140,.16),rgba(255,214,140,0) 70%);opacity:0}
+</style></head>
+<body><div id="stage">
+  <div id="cam"><div id="ph"></div></div>
+  <div id="warm"></div>
+</div>
+<script src="../data/s51.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#ECE8E0', '#15181C', '#F2C230'];
+const T = { d: S.at('결정하는') };
+S.ev(T.d, 'shine', 'warm');
+const camSet = (sel, s, cx, cy) => {
+  const tx = S.clamp(960 - cx * s, 1920 - 1920 * s, 0), ty = S.clamp(540 - cy * s, 1080 - 1180 * s, 100 * s);
+  S.css(sel, { transform: `translate(${tx}px,${ty}px) scale(${s})` });
+};
+S.scene(tau => {
+  const k = S.P(tau, -0.3, S.SC.dur);
+  // 느린 밀기: 사진 속 그릇(손과 손이 닿는 자리) 쪽으로
+  camSet('#cam', 1 + 0.1 * k, S.lerp(960, 1010, k), S.lerp(540, 480, k));
+  S.css('#warm', { opacity: S.ent(tau, T.d, 0.5) });
+});
+</script>
+</body></html>

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s33 대기업 공고 — 성장할 수 있는 기회가 지워진다</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{position:absolute;left:0;top:0;width:1920px;height:1080px}
+#tag{left:360px;top:130px;font-size:34px;color:#15181C;padding:8px 20px;border:2px solid #15181C;border-radius:4px;background:#F7F4EE}
+#paper{left:360px;top:210px;width:1200px;height:560px;padding:64px 80px;transform:rotate(-0.8deg)}
+#paper .reveal{position:relative}
+#head{font-size:56px;font-weight:700;line-height:1.3;margin-bottom:34px;color:#15181C}
+#body{font-size:46px;line-height:1.75;color:#15181C;font-weight:500}
+#ph{position:relative;display:inline-block;white-space:nowrap;padding:0 10px;margin:0 -10px;border-radius:6px}
+#phText{position:relative;display:inline-block}
+#smudge{position:absolute;left:0;top:6px;bottom:6px;border-radius:10px;background:radial-gradient(ellipse at 25% 40%,rgba(110,100,86,.26),transparent 60%),radial-gradient(ellipse at 75% 65%,rgba(110,100,86,.2),transparent 55%),rgba(110,100,86,.08);filter:blur(6px)}
+</style></head>
+<body><div id="stage">
+  <div class="bg tex-paper"></div>
+  <div id="cam">
+    <div id="tag" class="abs mono" data-box="tag">대기업 공고?</div>
+    <div id="paper" class="abs print" data-box="paper">
+      <div class="reveal" id="rev">
+        <div id="head">[함께 성장할 인재를 찾습니다]</div>
+        <div id="body">열정과 책임감을 갖춘 당신에게 <span id="ph"><span id="smudge"></span><span id="phText">성장할 수 있는 기회</span></span>를 드립니다. 체계적인 교육 시스템과 가족 같은 분위기 속에서 최고의 서비스 전문가로 거듭나세요.</div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../data/s33.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#ECE8E0', '#15181C', '#D8402F'];
+const T = {
+  paper: 0.1,
+  big: S.at('대기업처럼') - 0.1,
+  box: S.at('성장할'),
+  push0: S.at('성장할') + 0.3,
+  erase0: S.at('도망가요') - 0.3,
+  erase1: S.at('도망가요') + 0.35,
+};
+S.ev(T.paper, 'page', 'paper');
+S.ev(T.big, 'card_in', 'tag');
+S.ev(T.box, 'marker', 'ph');
+S.ev(T.erase0, 'no', 'ph');
+S.scene(tau => {
+  // 출력 종이가 아래에서 올라오며 위에서부터 인쇄되듯 드러남
+  const k = S.ent(tau, T.paper - 0.3, 0.5);
+  S.css('#paper', { opacity: S.P(tau, T.paper - 0.3, T.paper - 0.1), transform: `translateY(${(1 - k) * 90}px) rotate(-0.8deg)` });
+  const r = S.cam(tau, -0.1, 1.9);
+  S.css('#rev', { clipPath: `inset(0 0 ${(1 - r) * 100}% 0)` });
+  // «대기업처럼» — 문단 위 라벨
+  const b = S.ent(tau, T.big, 0.14);
+  S.css('#tag', { opacity: b, transform: `translateY(${(1 - b) * 14}px)` });
+  // «성장할 수 있는 기회» — 굵게 + 빨강 테두리
+  const m = S.ent(tau, T.box, 0.16);
+  S.css('#phText', { webkitTextStroke: (m * 1.3) + 'px #15181C' });
+  S.css('#ph', { boxShadow: `inset 0 0 0 ${3 * m}px rgba(216,64,47,${m})`, background: `rgba(216,64,47,${0.08 * m})` });
+  // 카메라: 문단 쪽으로 천천히 밀기
+  const c = S.cam(tau, T.push0, T.push0 + 3.4) - S.cam(tau, T.erase0 + 0.6, T.erase0 + 1.4) * 0;
+  S.css('#cam', { transformOrigin: '960px 500px', transform: `scale(${1 + 0.1 * c})` });
+  // 지우개 와이프: 왼→오 로 글자가 사라지고 지운 자국이 남음
+  const e = S.EIO(S.P(tau, T.erase0, T.erase1));
+  S.css('#phText', { webkitMaskImage: `linear-gradient(to right, transparent ${e * 108 - 8}%, #000 ${e * 108}%)`, maskImage: `linear-gradient(to right, transparent ${e * 108 - 8}%, #000 ${e * 108}%)` });
+  S.css('#smudge', { width: (e * 100) + '%', opacity: e > 0 ? 1 : 0 });
+  S.css('#ph', { boxShadow: `inset 0 0 0 ${3 * m * (1 - e)}px rgba(216,64,47,${m * (1 - e)})`, background: `rgba(216,64,47,${0.08 * m * (1 - e)})` });
+});
+</script>
+</body></html>

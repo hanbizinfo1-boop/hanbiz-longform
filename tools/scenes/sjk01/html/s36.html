@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s36 화요일 오후 세 시 — 히트맵 (캔버스 Case2 재현)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#stage{color:#E8EDF5;font-family:"UI",sans-serif}
+#glow{position:absolute;left:0;top:0;width:1920px;height:1080px;background:radial-gradient(ellipse at 30% 45%,rgba(70,110,190,.30),rgba(15,27,46,0) 60%)}
+#hm{left:120px;top:210px;width:1010px}
+#cap{left:120px;top:146px;font-size:24px;color:#8FA3C4;white-space:nowrap}
+#hm .hrow{display:flex;gap:8px;padding-left:64px;margin-bottom:8px}
+#hm .hrow div{width:78px;text-align:center;font-family:"Mono";font-size:22px;color:#8FA3C4}
+#hm .row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+#hm .day{width:56px;font-size:28px;font-weight:700;color:#C9D4E6}
+#hm .c{width:78px;height:78px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;border:1px solid rgba(255,255,255,.06)}
+#card{left:1210px;top:210px;width:600px;background:#fff;color:#1A1A1A;border-radius:18px;padding:34px 38px;display:flex;flex-direction:column;gap:22px;box-shadow:0 30px 60px rgba(0,0,0,.45);font-family:"UI"}
+#card .lab{font-size:22px;color:#6B7280}
+#card h4{margin:0 0 10px;font-size:28px;font-weight:700}
+#card p{margin:0;font-size:26px;line-height:1.65}
+#card .hr{height:1px;background:#E5E7EB}
+#card .sum{font-size:24px;line-height:1.7;color:#374151}
+#card .hl{padding:0 6px;border-radius:3px}
+</style></head>
+<body><div id="stage">
+  <div class="bg tex-navy"></div><div id="glow"></div>
+  <div id="cap" class="abs mono" data-box="cap">석 달 매출 · 요일 × 시간 · 손님 수</div>
+  <div id="hm" class="abs"></div>
+  <div id="card" class="abs" data-box="card">
+    <div class="lab">AI 답</div>
+    <div id="s1"><h4>제일 안 팔리는 시간</h4><p><span id="hl" class="hl">화요일 15시</span> · 수요일 15시 · 월요일 16시</p></div>
+    <div class="hr"></div>
+    <div id="s2"><h4>제일 안 팔리는 메뉴</h4><p>순대국 특 · 공깃밥 추가 · 김치찌개</p></div>
+    <div class="hr"></div>
+    <div id="s3" class="sum">평일 14~16시는 점심과 저녁 사이 손님이 크게 줄어요. 이 시간에 쓸 수 있는 혜택을 걸어 볼 만해요.</div>
+  </div>
+</div>
+<script src="../data/s36.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#E8EDF5', '#609CFF', '#F2C230'];
+const hours = [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
+const data = {
+  '월': [9, 22, 20, 8, 5, 4, 12, 30, 36, 28, 10], '화': [8, 20, 18, 7, 2, 5, 11, 29, 34, 26, 9],
+  '수': [9, 21, 19, 8, 3, 6, 12, 31, 37, 27, 11], '목': [10, 23, 21, 9, 6, 7, 13, 33, 39, 30, 12],
+  '금': [11, 24, 22, 10, 8, 9, 16, 42, 50, 40, 18], '토': [18, 30, 29, 24, 19, 18, 25, 48, 53, 43, 20],
+  '일': [17, 29, 27, 22, 17, 16, 22, 40, 38, 28, 11],
+};
+let html = '<div class="hrow">' + hours.map(h => `<div>${h}시</div>`).join('') + '</div>';
+for (const d in data) {
+  html += `<div class="row"><div class="day">${d}</div>` + data[d].map((v, i) => {
+    const a = Math.min(1, v / 53);
+    const hot = d === '화' && hours[i] === 15;
+    const id = hot ? ' id="hot"' : '';
+    return `<div${id} class="c" style="background:rgba(96,156,255,${(0.12 + a * 0.78).toFixed(2)});color:${a > 0.55 ? '#0F1B2E' : '#E8EDF5'}">${v}</div>`;
+  }).join('') + '</div>';
+}
+S.$('#hm').innerHTML = html;
+const hot = S.$('#hot'); const hot0 = { bg: hot.style.background, col: hot.style.color };
+const cx = hot.offsetLeft + 39, cy = hot.offsetTop + 39;     // #hm 안 좌표
+const BASE = (1920 - 1010) / 2 - 120;                          // 처음엔 가운데
+const T = {
+  z0: S.at('화요일') - 0.05, hot: S.at('오후세') - 0.05, b0: S.at('이런') - 0.2, card: S.at('이런') + 0.15,
+  s2: S.at('이런') + 0.65, s3: S.at('사장님도') + 0.1, hl: S.at('아셨을') - 0.1,
+};
+S.ev(T.hot, 'marker', 'hot'); S.ev(T.card, 'card_in', 'card'); S.ev(T.s3, 'msg_in', 's3');
+const pop = (id, t0, dx = 0) => { const k = S.ent(t, t0, 0.16); S.css(id, { opacity: k, transform: `translate(${(1 - k) * dx}px, ${(1 - k) * 16}px)` }); };
+let t = 0;
+S.scene(tau => {
+  t = tau;
+  const z = S.cam(tau, T.z0, T.z0 + 0.8), back = S.cam(tau, T.b0, T.b0 + 0.55);
+  const ze = z * (1 - back);
+  const tx = BASE * (1 - back) + ze * (960 - 120 - cx - BASE * (1 - back)), ty = ze * (540 - 210 - cy);
+  S.css('#hm', { transformOrigin: `${cx}px ${cy}px`, transform: `translate(${tx}px, ${ty}px) scale(${1 + 0.95 * ze})` });
+  S.css('#cap', { opacity: 1 - ze, transform: `translateX(${tx * (1 - ze) * 0}px)`, left: (120 + BASE * (1 - back)) + 'px' });
+  // 화 15 칸 — 노랑 테두리
+  const h = S.ent(tau, T.hot, 0.16);
+  S.css(hot, { background: h > 0 ? `rgba(15,27,46,${h})` : hot0.bg, border: h > 0 ? `3px solid rgba(242,194,48,${h})` : '1px solid rgba(255,255,255,.06)', color: h > 0.5 ? '#F2C230' : hot0.col, boxShadow: `0 0 ${24 * h}px rgba(242,194,48,${0.45 * h})` });
+  // AI 답 카드
+  const c = S.ent(tau, T.card, 0.16);
+  S.css('#card', { opacity: c, transform: `translateX(${(1 - c) * 40}px)` });
+  pop('#s2', T.s2); pop('#s3', T.s3);
+  const hl = S.ent(tau, T.hl, 0.2);
+  S.css('#hl', { background: `rgba(242,194,48,${0.75 * hl})` });
+});
+</script>
+</body></html>

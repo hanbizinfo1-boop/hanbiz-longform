@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s09 왜 이렇게 오래 걸릴까요 — 별점 하나짜리</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#rig{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:950px 250px}
+#ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background:url("../../../../소재/sjk01/codex/d09_phone_hand_night_clean.png") center/100% 100% no-repeat}
+#app{position:absolute;left:0;top:0;width:456px;height:950px;background:#F4F5F7;border-radius:32px;overflow:hidden;font-family:"UI";color:#1A1A1A}
+#app .sb{height:46px;display:flex;align-items:center;justify-content:space-between;padding:0 26px;font-size:22px;font-weight:700}
+#app .hd{padding:6px 18px 0;font-size:32px;font-weight:800}
+#app .chips{display:flex;gap:8px;padding:8px 14px 12px}
+#app .chip{font-size:22px;padding:4px 10px;border-radius:999px;background:#E4E7EC;color:#3A3F47;white-space:nowrap}
+#app .chip.on{background:#1A1A1A;color:#fff}
+.rc{margin:0 14px 10px;background:#fff;border-radius:16px;padding:10px 14px 12px;border:3px solid transparent}
+.rc.bad{border-color:#D8402F}
+.rc .r1{display:flex;align-items:center;gap:8px;font-size:22px}
+.rc .nk{font-weight:700;flex:none}
+.rc .tm{margin-left:auto;color:#6B7280;flex:none}
+.rc .tx{font-size:22px;line-height:1.4;margin-top:4px;color:#222}
+#dim{position:absolute;left:0;top:0;width:1920px;height:1080px;background:#000;opacity:0}
+#oc{left:130px;top:250px;width:900px;height:440px;background:#fff;border-radius:26px;border:6px solid #D8402F;box-shadow:0 40px 90px rgba(0,0,0,.55);padding:34px 44px;font-family:"UI";color:#1A1A1A}
+#oc .t1{display:flex;align-items:center;gap:18px;font-size:38px;font-weight:800}
+#oc .av{width:58px;height:58px;border-radius:50%;background:#D5D8DE}
+#oc .tm{margin-left:auto;font-size:28px;font-weight:400;color:#6B7280}
+#oc .st{position:relative;display:flex;gap:10px;margin-top:22px;height:80px}
+#oc .tx{font-size:54px;font-weight:700;line-height:1.3;margin-top:20px;word-break:keep-all}
+#circ{position:absolute;left:-14px;top:-12px;width:108px;height:104px;overflow:visible}
+#pen{left:1090px;top:330px;width:700px;font-size:118px;line-height:1.08;color:#ECE8E0;transform:rotate(-3deg);text-shadow:0 4px 22px rgba(0,0,0,.6)}
+</style></head>
+<body><div id="stage">
+  <div id="rig">
+    <div id="ph"></div>
+    <div id="app"></div>
+  </div>
+  <div id="dim"></div>
+  <div id="oc" class="abs" data-box="oc">
+    <div class="t1"><div class="av"></div>맛집탐**<span class="tm">오늘</span></div>
+    <div class="st" id="stars"><svg id="circ" viewBox="0 0 108 104"><path id="cp" d="M54 8 C 90 4, 106 34, 98 62 C 90 92, 40 100, 14 78 C -6 58, 8 18, 50 12 C 66 10, 78 12, 84 16" fill="none" stroke="#F2C230" stroke-width="7" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg></div>
+    <div class="tx">국물이 너무 짜요.<br>다시는 안 갑니다.</div>
+  </div>
+  <div id="pen" class="abs pen" data-box="pen">30년째<br>그대로인데…</div>
+</div>
+<script src="../data/s09.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#ECE8E0', '#F2C230', '#D8402F'];
+// 사진 속 휴대폰 화면 네 모서리(quads.json d09 stage) — 안쪽으로 1.5% 줄임
+const Q0 = [[727.5, 49.9], [1188.9, 55.7], [1176.9, 1020.1], [715.4, 1014.3]];
+const cx = Q0.reduce((a, p) => a + p[0], 0) / 4, cy = Q0.reduce((a, p) => a + p[1], 0) / 4;
+const Q = Q0.map(p => [cx + (p[0] - cx) * 0.985, cy + (p[1] - cy) * 0.985]);
+const star = (sz, on) => `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24"><path d="M12 2l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 18l-6.4 3.6L7 14.5 1.7 9.5l7.2-.9z" fill="${on ? '#F5A800' : '#D5D8DE'}"/></svg>`;
+const stars = (n, sz) => [1, 2, 3, 4, 5].map(i => star(sz, i <= n)).join('');
+const REV = [
+  ['맛집탐**', 1, '오늘', '국물이 너무 짜요. 다시는 안 갑니다.'],
+  ['점심한그릇', 5, '어제', '혼밥했는데 양이 많아서 좋았어요'],
+  ['ㅎㅇ**', 3, '어제', '맛은 괜찮은데 기다리는 시간이 길었어요'],
+  ['국밥러버', 4, '2일 전', '깍두기가 진짜 맛있어요. 국밥은 무난'],
+  ['dlwl**', 5, '2일 전', '부모님 모시고 갔는데 수육 부드럽다고 좋아하셨어요'],
+  ['배고픈**', 2, '3일 전', '테이블이 좀 끈적였어요'],
+  ['동네주민', 5, '3일 전', '퇴근길에 생각나는 집. 사장님 친절하세요'],
+];
+S.$('#app').innerHTML = `<div class="sb"><span>23:47</span><span>●●●</span></div><div class="hd">리뷰 관리</div>
+<div class="chips"><span class="chip">새 리뷰 10</span><span class="chip on">답글 안 단 리뷰 10</span></div>` +
+  REV.map((r, i) => `<div class="rc${i ? '' : ' bad'}" id="rc${i}"><div class="r1"><span class="nk">${r[0]}</span><span style="display:flex">${stars(r[1], 20)}</span><span class="tm">${r[2]}</span></div><div class="tx">${r[3]}</div></div>`).join('');
+S.fitQuad(S.$('#app'), 456, 950, Q);
+// 큰 카드의 별 5개
+const st = S.$('#stars'); st.insertAdjacentHTML('afterbegin', stars(1, 80).replace(/<svg /g, '<svg style="flex:none" '));
+const T = { zoom: S.at('별점') - 0.25, k: S.at('국물이'), circ: S.at('국물이') + 0.55, pen: S.at('30년째') - 0.1 };
+S.ev(0.0, 'card_in', 'app'); S.ev(T.k - 0.1, 'big_in', 'oc'); S.ev(T.circ, 'marker', 'cp'); S.ev(T.pen, 'type', 'pen');
+const Z = 1.28;
+S.scene(tau => {
+  // 목록: 위에서 차례로 올라옴
+  for (let i = 0; i < REV.length; i++) {
+    const k = S.ent(tau, -0.15 + i * 0.12, 0.16);
+    S.css('#rc' + i, { opacity: k, transform: `translateY(${(1 - k) * 20}px)` });
+  }
+  // 카메라: 처음엔 와이드(아주 느린 밀기) → «별점 하나짜리» 에 휴대폰으로 밀고 들어감
+  const slow = 1 + 0.035 * S.P(tau, 0, T.zoom);
+  const push = S.cam(tau, T.zoom, T.zoom + 1.4);
+  S.css('#rig', { transform: `scale(${slow + (Z - 1.035) * push})` });
+  // «국물이 너무 짜요» — 뒤를 어둡게 하고 ★1 카드를 크게
+  const d = S.ent(tau, T.k - 0.12, 0.2);
+  S.css('#dim', { opacity: 0.66 * d });
+  const o = S.ent(tau, T.k - 0.1, 0.16);
+  const slowc = 1 + 0.04 * S.P(tau, T.k + 1, S.SC.dur);
+  S.css('#oc', { opacity: o, transform: `translate(${(1 - o) * 280}px,${(1 - o) * -90}px) scale(${(0.5 + 0.5 * o) * slowc})` });
+  S.css('#cp', { strokeDashoffset: 1 - S.cam(tau, T.circ, T.circ + 0.55) });
+  // 손글씨: 왼→오 로 써짐
+  const p = S.P(tau, T.pen, T.pen + 1.2);
+  const pm = `linear-gradient(to right,#000 ${p * 105}%,transparent ${p * 105 + 6}%)`;
+  S.css('#pen', { opacity: p > 0 ? 1 : 0, webkitMaskImage: pm, maskImage: pm });
+});
+</script>
+</body></html>

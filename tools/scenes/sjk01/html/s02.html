@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s02 유리문 통과 → 계산대 (원테이크 2)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+.seq{position:absolute;left:0;top:0;width:1920px;height:1080px}
+#clock{right:120px;top:96px;text-align:right;color:#ECE8E0;text-shadow:0 2px 14px rgba(0,0,0,.65)}
+#clock .t{font-size:84px;line-height:1;letter-spacing:.04em}
+#clock .u{height:6px;margin-top:14px;background:#F2C230;transform-origin:100% 50%}
+</style></head>
+<body><div id="stage">
+  <img id="a" class="seq" alt="">
+  <img id="b" class="seq" alt="">
+  <div id="clock" class="abs mono" data-box="clock"><div class="t" id="ct">23:47</div><div class="u" id="cu"></div></div>
+</div>
+<script src="../data/s02.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="op_seq.js"></script>
+<script>
+// 가게 안으로 — 리뷰 답글·근무표·재료 주문 종이가 쌓인 계산대. 화면 글은 시계 하나(23:47 → 자정 넘김 00:12).
+window.PALETTE = ['#ECE8E0', '#F2C230'];
+const T = { c0: S.at('리뷰') - 0.1, z: S.at('12시'), end: S.SC.dur };
+S.ev(T.c0, 'card_in', 'clock'); S.ev(T.z, 'marker', 'midnight');
+const mm = m => { m = Math.round(m); const h = m >= 0 ? 0 : 23; const mi = m >= 0 ? m : 60 + m; return String(h).padStart(2, '0') + ':' + String(mi).padStart(2, '0'); };
+S.scene(async tau => {
+  await OP.draw(tau + S.SC.t0);
+  const k = S.ent(tau, T.c0, 0.16);
+  S.css('#clock', { opacity: k, transform: `translateY(${(1 - k) * 14}px)` });
+  // 23:47(−13분) → 00:00(«12시») → 00:12(장면 끝)
+  const m = tau < T.z ? S.lerp(-13, 0, S.P(tau, T.c0, T.z)) : S.lerp(0, 12, S.P(tau, T.z, T.end));
+  S.$('#ct').textContent = mm(m);
+  S.css('#cu', { transform: `scaleX(${S.ent(tau, T.z, 0.3)})` });
+});
+</script>
+</body></html>

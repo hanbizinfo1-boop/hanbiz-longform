@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s46 수육을 빼면 — 단골이 테이블마다 사라진다</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+.seq{position:absolute;left:0;top:0;width:1920px;height:1080px}
+.reg{position:absolute;left:0;top:0;width:1920px;height:1080px;opacity:0}
+.reg img{position:absolute;left:0;top:0;width:1920px;height:1080px}
+#board{position:absolute;left:0;top:0;width:180px;height:240px;transform-origin:50% 50%;font-family:"Pen";color:#F1EDDF;filter:url(#rough)}
+#board .ln{position:absolute;left:0;width:180px;text-align:center;white-space:nowrap;font-size:41px;line-height:1;text-shadow:0 0 3px rgba(255,255,255,.4)}
+#board .ln span{display:inline-block;position:relative}
+#ul{position:absolute;left:0;right:0;bottom:-5px;height:5px;background:#F2C230}
+#no{color:#ECE8E0;border:3px solid #D8402F}
+#ers{position:absolute;top:-6px;bottom:-6px;width:26px;background:rgba(190,188,178,.32);filter:blur(5px)}
+.chip{position:absolute;white-space:nowrap;font-size:32px;line-height:1;padding:9px 16px 8px;border-radius:8px;background:rgba(21,24,28,.92);color:#ECE8E0;border:2px solid #ECE8E0}
+</style></head>
+<body><div id="stage">
+  <svg width="0" height="0" style="position:absolute"><filter id="rough" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.6"/></filter></svg>
+  <img id="a" class="seq" alt="">
+  <div id="g0" class="reg"><img alt=""></div><div id="g1" class="reg"><img alt=""></div><div id="g2" class="reg"><img alt=""></div><div id="g3" class="reg"><img alt=""></div>
+  <div id="board" class="abs">
+    <div class="ln" style="top:10px"><span>돼지국밥</span></div>
+    <div class="ln" style="top:57px"><span>순대국</span></div>
+    <div class="ln" style="top:104px"><span id="sy">수육(소)<i id="ul"></i></span></div>
+    <div class="ln" style="top:151px"><span>수육(대)</span></div>
+    <div class="ln" style="top:198px"><span>모둠순대</span></div>
+    <div id="ers"></div>
+  </div>
+  <div id="lab" class="abs chip mono" data-box="lab">수육 1 · 소주 3</div>
+  <div id="no" class="abs chip mono" data-box="no" style="color:#ECE8E0;border:3px solid #D8402F">빼세요</div>
+</div>
+<script src="../data/s46.js"></script>
+<script src="../../../../_tmp/sjk01/blender/st45/track.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="st_board.js"></script>
+<script>
+// 45 의 메뉴판 글을 이어받는다. «수육(소)» 줄이 지우개로 지워지고 → 단골 실루엣이 테이블마다(왼→오) 사라져 빈 테이블만 남는다.
+// st45(사람 있음) 위에 st46(빈 테이블)을 테이블 영역별 마스크(가장자리 60px 페더)로 0→1 로 섞는다. 두 연번은 같은 카메라.
+window.PALETTE = ['#ECE8E0', '#F2C230', '#D8402F'];
+const T = { lab: S.at('수육하나'), er: S.at('수육빼는'), v: S.at('통째로') - 0.42 };
+const VT = [0, 1, 2, 3].map(i => T.v + i * 0.42);                   // 테이블마다 0.42초 간격
+S.ev(T.lab, 'card_in', 'lab'); S.ev(T.er, 'no', 'erase'); S.ev(VT[0], 'sweep', 'vanish');
+const img = document.getElementById('a');
+const gi = [0, 1, 2, 3].map(i => document.querySelector('#g' + i + ' img'));
+const scene = fn => { window.seek = async t => { await fn(t - S.SC.pre); }; };
+scene(async tau => {
+  const G = ST.geo(tau), k = G.k, pk = ST.pad(k);
+  await ST.set(img, ST.BASE + 'st45/f_' + pk + '.png');
+  // 테이블 4개를 왼→오 로 정렬(track 1~4) → 영역 경계는 이웃 테이블의 가운데
+  const xs = [1, 2, 3, 4].map(i => G.t[i][0]).sort((a, b) => a - b);
+  const e = [0, (xs[0] + xs[1]) / 2, (xs[1] + xs[2]) / 2, (xs[2] + xs[3]) / 2, 1920], F = 60;
+  for (let i = 0; i < 4; i++) {
+    const a = e[i], b = e[i + 1];
+    const m = `linear-gradient(90deg,transparent ${(a - F).toFixed(0)}px,#000 ${(a + F).toFixed(0)}px,#000 ${(b - F).toFixed(0)}px,transparent ${(b + F).toFixed(0)}px)`;
+    const o = S.cam(tau, VT[i], VT[i] + 0.38);
+    const g = document.getElementById('g' + i);
+    g.style.webkitMaskImage = m; g.style.maskImage = m; g.style.opacity = o.toFixed(3);
+    if (o > 0.001) await ST.set(gi[i], ST.BASE + 'st46/f_' + pk + '.png');
+  }
+  S.css('#board', { left: (G.cx - 90).toFixed(1) + 'px', top: (G.cy - 120).toFixed(1) + 'px', transform: `scale(${G.g.toFixed(4)})` });
+  // 지우개 와이프 — «수육(소)» 줄이 왼→오 로 지워진다(경계에 뿌연 자국 한 줄)
+  const p = S.cam(tau, T.er, T.er + 0.5);
+  S.css('#sy', { clipPath: `inset(-10px 0 -10px ${(p * 100).toFixed(2)}%)` });
+  S.css('#ers', { opacity: p > 0 && p < 1 ? 1 : 0, left: (S.lerp(10, 170, p)).toFixed(1) + 'px', top: '98px', height: '48px' });
+  // 45 끝의 «빼세요» 칩은 지우개가 지나가며 함께 사라진다
+  S.css('#no', { left: (G.cx + 100 * G.g + 22).toFixed(1) + 'px', top: (G.cy + 4 * G.g - 26).toFixed(1) + 'px', opacity: 1 - S.ent(tau, T.er, 0.25) });
+  // «수육 1 · 소주 3» — 테이블 한 곳 위(track 1)
+  const l = S.ent(tau, T.lab, 0.14) * (1 - S.cam(tau, VT[0] + 0.1, VT[0] + 0.5));
+  S.css('#lab', { left: (G.t[1][0] - 235).toFixed(1) + 'px', top: (G.t[1][1] - 150 * G.g).toFixed(1) + 'px', opacity: l, transform: `translateY(${((1 - l) * 12).toFixed(2)}px)` });
+});
+</script>
+</body></html>

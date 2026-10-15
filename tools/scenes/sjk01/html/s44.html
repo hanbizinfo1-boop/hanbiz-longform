@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s44 빈 무대 스크린 — AI 실험(원가표 → 올릴까 뺄까)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:958px 349px}
+#photo{position:absolute;left:0;top:0;width:1920px;height:1080px;background:url("../../../../소재/sjk01/codex/e44_stage_screen_clean.png") center/cover}
+#scr{left:508.8px;top:112.5px;width:898.7px;height:472.5px;overflow:hidden;background:#F6F6F3;font-family:"UI";color:#1A1A1A}
+#off{left:508.8px;top:112.5px;width:898.7px;height:472.5px;background:#1c1f25}
+#glow{left:508.8px;top:112.5px;width:898.7px;height:472.5px}
+#body{position:absolute;left:0;top:0;width:898.7px;padding:22px 26px 0;display:flex;flex-direction:column;gap:16px}
+.um{align-self:flex-end;background:#E6EAF2;border-radius:16px;padding:12px 18px;line-height:1.5;font-size:24px;max-width:720px}
+#m1{display:flex;align-items:center;gap:14px;font-size:22px;color:#444}
+.thumb{width:76px;height:54px;border:2px solid #9AA1AC;border-radius:4px;background:#fff;display:grid;grid-template-columns:1.2fr 1fr 1fr;grid-template-rows:repeat(5,1fr);gap:2px;padding:3px}
+.thumb i{background:#C9CED6;display:block}
+.thumb i.h{background:#8A92A0}
+.ai{display:flex;gap:14px;align-items:flex-start}
+.ai .av{flex:none;width:34px;height:34px;border-radius:50%;background:#2E55D9;margin-top:6px}
+#dots{font-size:52px;font-weight:900;letter-spacing:.12em;color:#5A5650;height:48px;line-height:34px}
+#tbl{border:2px solid #D7DBE2;border-radius:10px;background:#fff;width:778px;overflow:hidden}
+.tr{display:flex;align-items:center;min-height:46px;padding:6px 14px;border-top:1px solid #E3E5E8;font-size:22px;line-height:1.35}
+.tr.hd{min-height:36px;background:#EEF1F6;border-top:0;color:#5A5650;font-size:21px;font-weight:600}
+.tr .c1{flex:none;width:136px;font-weight:600}
+.tr .c2{flex:none;width:96px;font-family:"Mono";font-weight:500}
+.tr .c3{flex:1}
+.chip{display:inline-block;padding:0 10px;border-radius:7px;font-weight:700;margin-right:4px}
+.chip.no{background:#FBE3DF;color:#D8402F;border:2px solid #D8402F}
+.chip.up{background:#E4EAFB;color:#2E55D9;border:2px solid #2E55D9}
+#fin{font-size:22px;line-height:1.5;color:#1A1A1A;padding-left:48px}
+</style></head>
+<body><div id="stage">
+  <div id="cam">
+    <div id="photo"></div>
+    <div id="off" class="abs"></div>
+    <div id="glow" class="abs"></div>
+    <div id="scr" class="abs" data-box="scr">
+      <div id="body">
+        <div id="m1" class="um"><div class="thumb"><i class="h"></i><i class="h"></i><i class="h"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>(원가표 붙여 넣음)</div>
+        <div id="m2" class="um"><span id="qt"></span></div>
+        <div id="a1" class="ai"><div class="av"></div>
+          <div>
+            <div id="dots">···</div>
+            <div id="tbl">
+              <div class="tr hd"><div class="c1">메뉴</div><div class="c2 ui">원가율</div><div class="c3">추천</div></div>
+              <div id="r1" class="tr"><div class="c1">수육(소)</div><div class="c2">70.0%</div><div class="c3"><span class="chip no">빼세요</span> — 수육(대)와 겹치고 원가율이 가장 높아요</div></div>
+              <div id="r2" class="tr"><div class="c1">수육(대)</div><div class="c2">65.0%</div><div class="c3"><span class="chip up">가격을 올리세요</span> — 30,000 → 34,000원</div></div>
+              <div id="r3" class="tr"><div class="c1">모둠순대</div><div class="c2">46.0%</div><div class="c3"><span class="chip up">가격을 올리세요</span> — 15,000 → 16,000원</div></div>
+              <div id="r4" class="tr"><div class="c1">내장국밥</div><div class="c2">43.0%</div><div class="c3">그대로 두세요(재료 단가 협상 권장)</div></div>
+              <div id="r5" class="tr"><div class="c1">순대국 특</div><div class="c2">42.5%</div><div class="c3"><span class="chip no">빼세요</span> — 석 달 186그릇으로 판매도 낮아요</div></div>
+            </div>
+            <div id="fin" style="padding-left:0;margin-top:12px">위처럼 바꾸면 메뉴 평균 원가율이 <b id="fn">45.8% → 41.9%</b>로 내려가요.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../data/s44.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+// 빈 무대 스크린 — 조명이 켜지고 스크린에 AI 대화창. 원가표를 붙여 넣고 «올릴까 뺄까» 물으면 표로 답이 나온다.
+window.PALETTE = ['#15181C', '#2E55D9', '#D8402F'];
+const T = {
+  L: S.at('큰일'), m1: S.at('원가 표') - 0.1, q: S.at('원가 비율'), dots: S.at('뭐라고'),
+  tb: S.at('순서대로'), r: [S.at('이 메뉴는'), S.at('올리세요'), 0, S.at('이 메뉴는', 1), S.at('빼세요')],
+  sh: S.at('깔끔'), fin: S.at('근거도'),
+};
+T.r[2] = (T.r[1] + T.r[3]) / 2;
+const Q = '원가 비율 높은 메뉴 가격을 올릴까, 아니면 메뉴를 뺄까?';
+S.ev(T.L, 'shine', 'light'); S.ev(T.m1, 'msg_in', 'm1'); S.ev(T.q, 'type', 'm2'); S.ev(T.dots, 'msg_in', 'dots');
+S.ev(T.r[0], 'card_in', 'tbl'); S.ev(T.r[4], 'no', 'r5'); S.ev(T.sh, 'shine', 'tbl'); S.ev(T.fin, 'marker', 'fin');
+const pop = (id, t0) => { const k = S.ent(t, t0, 0.14); S.css(id, { opacity: k, transform: `translateY(${((1 - k) * 18).toFixed(2)}px)` }); return k; };
+let t = 0;
+S.scene(tau => {
+  t = tau;
+  // 카메라 — 스크린으로 천천히 다가감
+  const z = S.cam(tau, 0, S.SC.dur);
+  S.css('#cam', { transform: `scale(${(1 + 0.18 * z).toFixed(5)})` });
+  // 조명
+  const lit = S.ent(tau, T.L - 0.1, 0.5);
+  S.css('#photo', { filter: `brightness(${(0.6 + 0.4 * lit).toFixed(3)})` });
+  S.css('#off', { opacity: 1 - lit });
+  S.css('#glow', { boxShadow: `0 0 ${(110 * lit).toFixed(1)}px ${(14 * lit).toFixed(1)}px rgba(255,238,205,${(0.32 * lit).toFixed(3)})` });
+  S.css('#scr', { opacity: lit });
+  // 대화
+  pop('#m1', T.m1);
+  const m2 = S.ent(tau, T.q - 0.1, 0.14); S.css('#m2', { opacity: m2, transform: `translateY(${((1 - m2) * 18).toFixed(2)}px)` });
+  S.type('#qt', Q, tau, T.q, 10, true);
+  const ai = S.ent(tau, T.dots - 0.05, 0.14);
+  S.css('#a1', { opacity: tau >= T.dots - 0.05 ? 1 : 0 });
+  const showTbl = tau >= T.r[0] - 0.05;
+  S.css('#dots', { display: showTbl ? 'none' : 'block', opacity: ai });
+  S.$('#dots').textContent = '·'.repeat(1 + (Math.floor(Math.max(0, tau - T.dots) / 0.35) % 3));
+  S.css('#tbl', { display: showTbl ? 'block' : 'none' });
+  const t0 = T.r[0] - 0.05;
+  S.css('#tbl', { borderColor: '#D7DBE2' });
+  for (let i = 0; i < 5; i++) {
+    const k = S.ent(tau, T.r[i], 0.14);
+    S.css('#r' + (i + 1), { opacity: k, transform: `translateY(${((1 - k) * 12).toFixed(2)}px)` });
+  }
+  // «깔끔하죠» — 표 테두리 반짝(한 번)
+  const sh = S.ent(tau, T.sh, 0.15) * (1 - S.ent(tau, T.sh + 0.55, 0.45));
+  S.css('#tbl', { borderColor: sh > 0.02 ? `rgba(46,85,217,${(0.35 + 0.65 * sh).toFixed(3)})` : '#D7DBE2', boxShadow: `0 0 0 ${(6 * sh).toFixed(2)}px rgba(46,85,217,${(0.35 * sh).toFixed(3)})` });
+  // 끝 줄
+  const f = S.ent(tau, T.fin, 0.15);
+  S.css('#fin', { opacity: f, transform: `translateY(${((1 - f) * 10).toFixed(2)}px)` });
+  S.css('#fn', { background: `linear-gradient(transparent 55%, rgba(46,85,217,${(0.22 * f).toFixed(3)}) 55%)` });
+  // 표가 나오면 위로 스크롤(붙여 넣은 줄이 밀려 올라감)
+  const sc = 76 * S.cam(tau, T.r[0] - 0.1, T.r[0] + 0.5);
+  S.css('#body', { transform: `translateY(${(-sc).toFixed(2)}px)` });
+});
+</script>
+</body></html>

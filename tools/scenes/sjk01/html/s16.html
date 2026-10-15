@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s16 쓰는 사람이 아니라 고르는 사람</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#rig{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background:url("../../../../소재/sjk01/codex/c41_desk_topdown.png") center/100% 100% no-repeat}
+.pc{position:absolute;width:420px;height:230px;padding:22px 28px 0;border-radius:4px}
+.pc .tag{display:inline-block;font-size:22px;padding:1px 12px;border:2px solid #15181C;border-radius:999px;color:#15181C}
+.pc .tag.is{background:#15181C;color:#ECE8E0}
+.pc .tx{margin-top:12px;font-size:25px;line-height:1.48;font-family:"UI";color:#222}
+#ck{position:absolute;left:1215px;top:285px;width:190px;height:150px;overflow:visible;z-index:9}
+</style></head>
+<body><div id="stage">
+  <div id="rig">
+    <div id="ph"></div>
+    <div id="cards"></div>
+    <svg id="ck" viewBox="0 0 190 150"><path id="ckp" d="M14 78 C 34 92, 52 112, 64 132 C 88 84, 128 40, 176 12" fill="none" stroke="#F2C230" stroke-width="20" stroke-linecap="round" stroke-linejoin="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>
+  </div>
+</div>
+<script src="../data/s16.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#ECE8E0', '#15181C', '#F2C230'];
+const POSTS = [
+  ['플레이스', '[신메뉴] 얼큰 순대국이 나왔습니다. 진한 순대국에…'],
+  ['인스타', '이번 달 새 메뉴, 얼큰 순대국. 국물 한 숟갈에…'],
+  ['플레이스', '퇴근길 저녁 한 그릇 어떠세요. 저녁 6시부터 8시…'],
+  ['인스타', '저녁 7시, 가게가 제일 시끄러운 시간. 수육 한 접시에…'],
+  ['플레이스', '우리 집 깍두기는 매주 직접 담급니다. 국밥만큼…'],
+  ['인스타', '깍두기 담그는 날. 무 40개, 고춧가루 한 통…'],
+  ['플레이스', '한 달 동안 얼큰 순대국 찾아 주셔서 감사합니다…'],
+  ['인스타', '한 달 사이 제일 많이 들은 말…'],
+];
+// 흩어진 자리(가운데 x·y, 기울기 — 고정 각도)
+const POS = [[300, 330, -4], [740, 310, 3], [1190, 335, -2], [1630, 315, 5], [340, 700, 3], [780, 715, -5], [1210, 695, 4], [1620, 710, -3]];
+S.$('#cards').innerHTML = POSTS.map((p, i) => `<div class="pc print" id="pc${i}" data-box="pc${i}" data-box-group="cards"><span class="tag${i & 1 ? ' is' : ''} mono">${p[0]}</span><div class="tx">${S.esc(p[1])}</div></div>`).join('');
+const T = { lift: S.at('고르는') - 0.06, ck: S.at('고르는') + 0.55 };
+S.ev(0.08, 'sweep', 'cards'); S.ev(T.lift, 'card_in', 'pc0'); S.ev(T.ck, 'ok', 'ckp');
+S.scene(tau => {
+  S.css('#rig', { transform: `scale(${1 + 0.04 * S.P(tau, 0, S.SC.dur)})` });
+  const L = S.cam(tau, T.lift, T.lift + 0.55);
+  for (let i = 0; i < 8; i++) {
+    const k = S.ent(tau, i * 0.13, 0.2);
+    let [x, y, r] = POS[i], sc = 1, tx = 0, ty = (1 - k) * -260;
+    let filt = 'none', op = Math.min(1, k * 3), sh = '0 18px 40px rgba(0,0,0,.35),0 2px 6px rgba(0,0,0,.25)', ring = 0;
+    if (i === 0) {
+      tx = (960 - x) * L; ty += (540 - y) * L; r = S.lerp(r, 0, L); sc = 1 + 0.72 * L; ring = L;
+      sh = `0 ${18 + 52 * L}px ${40 + 60 * L}px rgba(0,0,0,${0.35 + 0.2 * L}),0 2px 6px rgba(0,0,0,.25)`;
+    } else { filt = `blur(${2.2 * L}px) brightness(${1 - 0.42 * L})`; }
+    S.css('#pc' + i, {
+      left: (x - 210) + 'px', top: (y - 115) + 'px', opacity: op, filter: filt, zIndex: i === 0 ? 5 : 1,
+      transform: `translate(${tx}px,${ty}px) rotate(${r}deg) scale(${sc})`,
+      boxShadow: sh + (ring > 0 ? `,0 0 0 ${7 * ring}px rgba(242,194,48,${ring})` : '')
+    });
+  }
+  // 노랑 체크(손글씨 SVG)
+  S.css('#ckp', { strokeDashoffset: 1 - S.cam(tau, T.ck, T.ck + 0.4) });
+});
+</script>
+</body></html>

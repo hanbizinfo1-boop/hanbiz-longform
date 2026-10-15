@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s17 03 메뉴 설명 — 배달앱 메뉴 목록</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#ph{position:absolute;left:-80px;top:-170px;width:2080px;height:1387px;background:url("../../../../소재/sjk01/codex/c18_gukbap_bowl.png") center/cover}
+#ch{left:360px;top:300px;width:1200px;text-align:center;color:#ECE8E0;text-shadow:0 4px 28px rgba(0,0,0,.6);white-space:nowrap}
+#ch .no{font-size:130px;line-height:1;color:#F2C230}
+#ch .tt{font-size:190px;line-height:1.15;margin-top:6px}
+#panel{left:580px;top:36px;width:760px;height:910px;border-radius:36px;overflow:hidden;background:#fff;box-shadow:0 40px 90px rgba(0,0,0,.5);font-family:"UI";color:#1A1A1A}
+#inner{position:absolute;left:0;top:0;width:760px}
+#inner .top{height:110px;padding:26px 36px 0}
+#inner .top b{font-size:40px;font-weight:800}
+#inner .top span{display:block;font-size:24px;color:#6B7280;margin-top:2px}
+#inner .tabs{height:70px;display:flex;gap:12px;padding:6px 36px 0}
+#inner .tabs i{font-style:normal;font-size:26px;padding:8px 22px;border-radius:999px;background:#EEF0F3;color:#3A3F47;height:46px}
+#inner .tabs i.on{background:#1A1A1A;color:#fff}
+#inner .sec{height:60px;padding:8px 36px 0;font-size:32px;font-weight:800}
+.mr{position:relative;height:300px;margin:0 36px;border-top:2px solid #EEF0F3;padding-top:30px}
+.mr .nm{font-size:40px;font-weight:800}
+.mr .pr{font-size:32px;font-weight:700;margin-top:6px}
+.mr .ds{display:inline-block;margin-top:22px;font-size:30px;color:#4A4F57;min-width:240px;min-height:50px;padding:4px 10px;margin-left:-10px;outline:4px dashed rgba(216,64,47,0);outline-offset:6px;border-radius:4px}
+.mr .th{position:absolute;right:0;top:34px;width:200px;height:200px;border-radius:18px;background-image:url("../../../../소재/sjk01/codex/c18_gukbap_bowl.png");background-repeat:no-repeat;outline:7px solid rgba(242,194,48,0);outline-offset:0}
+</style></head>
+<body><div id="stage">
+  <div id="ph"></div>
+  <div id="ch" class="abs" data-box="ch"><div class="no mono">03</div><div class="tt serif">메뉴 설명</div></div>
+  <div id="panel" class="abs" data-box="panel">
+    <div id="inner">
+      <div class="top"><b>○○국밥</b><span>배달 · 최소주문 12,000원</span></div>
+      <div class="tabs"><i class="on">대표 메뉴</i><i>국밥</i><i>수육·사이드</i></div>
+      <div class="sec">대표 메뉴</div>
+      <div class="mr"><div class="nm">돼지국밥</div><div class="pr">10,000원</div><div class="ds" id="d0">맛있는 국밥</div><div class="th" id="t0" style="background-size:230%;background-position:60% 55%"></div></div>
+      <div class="mr"><div class="nm">순대국</div><div class="pr">10,000원</div><div class="ds" id="d1">맛있는 순대국</div><div class="th" id="t1" style="background-size:300%;background-position:92% 62%"></div></div>
+      <div class="mr"><div class="nm">섞어국밥</div><div class="pr">10,500원</div><div class="ds" id="d2"></div><div class="th" id="t2" style="background-size:300%;background-position:34% 52%"></div></div>
+    </div>
+  </div>
+</div>
+<script src="../data/s17.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#ECE8E0', '#F2C230', '#D8402F'];
+const T = { p: S.at('배달앱', 1) - 0.2, red: S.at('이렇게'), th: S.at('사진이랑'), s0: S.at('냄새도') - 0.1, s1: S.at('배달손님은') };
+S.ev(0.1, 'big_in', 'ch'); S.ev(T.p, 'in', 'panel'); S.ev(T.red, 'marker', 'd0'); S.ev(T.th, 'shine', 't0');
+S.scene(tau => {
+  // 배경 국밥 사진: 흐리고 어둡게 → «냄새도 맡고 옆 테이블도» 에 선명 → «배달 손님은 그게 없어요» 에 다시 흐려짐
+  const sh = S.cam(tau, T.s0, T.s0 + 0.55) - S.cam(tau, T.s1, T.s1 + 0.4);
+  S.css('#ph', { filter: `blur(${18 * (1 - sh)}px) brightness(${0.35 + 0.5 * sh})`, transform: `scale(${1 + 0.04 * S.P(tau, 0, S.SC.dur)})` });
+  // 장 카드(가운데) → 위로 사라짐
+  const a = S.ent(tau, 0.08, 0.16), o = 1 - S.cam(tau, T.p - 0.2, T.p + 0.25);
+  S.css('#ch', { opacity: a * o, transform: `translateY(${(1 - a) * 24 - (1 - o) * 60}px)` });
+  // 앱 판: 아래에서 올라옴 · 줄 따라 내려감(스크롤) · 사진 보여 줄 땐 왼쪽으로 비킴
+  const pk = S.ent(tau, T.p, 0.2);
+  const k1 = S.cam(tau, T.s0 - 0.05, T.s0 + 0.55), k2 = S.cam(tau, T.s1 - 0.05, T.s1 + 0.45);
+  S.css('#panel', { opacity: pk, transform: `translate(${-430 * (k1 - k2)}px,${(1 - pk) * 90}px)` });
+  S.css('#inner', { transform: `translateY(${-230 * S.cam(tau, 3.9, 6.3)}px)` });
+  // 설명 줄 빨강 점선 박스
+  [0, 1, 2].forEach(i => {
+    const r = S.ent(tau, T.red + i * 0.32, 0.16), y = S.ent(tau, T.th + i * 0.15, 0.16);
+    S.css('#d' + i, { outlineColor: `rgba(216,64,47,${r})` });
+    S.css('#t' + i, { outlineColor: `rgba(242,194,48,${y})` });
+  });
+});
+</script>
+</body></html>

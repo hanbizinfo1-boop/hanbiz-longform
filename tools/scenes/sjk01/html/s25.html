@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s25 근무표 — 프롬프트 → 주방 벽 출력</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background:url("../../../../소재/sjk01/codex/c25_kitchen_wall.png") 0 0/100% 100% no-repeat}
+#sheet{left:300px;top:140px;width:1330px;height:690px;padding:30px 36px;transform:rotate(-0.4deg);color:#15181C}
+#sheet .h{font-family:"Serif";font-weight:900;font-size:36px;margin-bottom:14px}
+#sheet table{border-collapse:collapse;width:1258px;table-layout:fixed;font-size:24px}
+#sheet th,#sheet td{border:1.5px solid rgba(21,24,28,.28);height:64px;text-align:center;padding:0 4px;white-space:nowrap}
+#sheet th{height:54px;font-weight:600;background:rgba(21,24,28,.06)}
+#sheet td.n{font-weight:600;background:rgba(21,24,28,.04)}
+#sheet td.tt{font-weight:700;font-size:28px}
+#sheet .ai{margin-top:20px;font-size:25px;line-height:1.5}
+#sheet .ai div{margin-bottom:4px}
+#chat{left:340px;top:150px;width:1240px;height:600px;display:flex;flex-direction:column}
+#chat .body{flex:1;padding:36px 46px;display:flex;flex-direction:column;gap:20px;font-size:32px}
+#chat .bubble-me{line-height:1.65;align-self:stretch}
+#fold{font-size:28px;color:#6B7280;padding:10px 20px;border:2px dashed #C9CDD4;border-radius:12px;align-self:flex-start}
+#input{margin:0 46px 34px;height:70px;border:2px solid #D7DBE2;border-radius:35px;display:flex;align-items:center;padding:0 30px;font-size:24px;color:#9AA1AC}
+</style></head>
+<body><div id="stage">
+  <div id="cam">
+    <div id="ph"></div>
+    <div id="sheet" class="abs print"><div class="h">다음 주 근무표</div><div id="tbl"></div><div class="ai"><div>모든 칸이 필요 인원(평일 점심 2 · 저녁 3 · 주말 3)을 채웠어요.</div><div>다섯 명 모두 주 15시간을 넘어서 주휴수당 대상이에요.</div><div>준호 님은 주말 두 번(20시간)이라, 일요일 오전을 빼면 주 15시간이 돼요. 그 자리는 민지 님이 대신할 수 있어요.</div></div></div>
+  </div>
+  <div id="chat" class="abs chat" data-box="chat">
+    <div class="bar"><div class="dot" style="background:#E5594F"></div><div class="dot" style="background:#E9B43F"></div><div class="dot" style="background:#58B84F"></div><span style="margin-left:16px">새 대화</span></div>
+    <div class="body"><div class="bubble-me" id="p1"></div><div id="fold">(알바 다섯 명 조건)</div></div>
+    <div id="input">무엇이든 물어보세요</div>
+  </div>
+</div>
+<script src="../data/s25.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#ECE8E0', '#15181C', '#F2C230'];
+const ROWS = [['민지', '저녁', '점심·저녁', '—', '—', '점심·저녁', '오전·오후', '오후', '32.5'],
+  ['준호', '—', '—', '—', '—', '—', '오전·오후', '오전·오후', '20'],
+  ['서연', '점심·저녁', '—', '점심·저녁', '점심·저녁', '점심', '오전', '오전', '34.5'],
+  ['현우', '저녁', '저녁', '저녁', '저녁', '저녁', '오후', '오전·오후', '32.5'],
+  ['지은', '점심', '점심·저녁', '점심·저녁', '점심·저녁', '저녁', '—', '—', '28']];
+let h = '<table><colgroup><col style="width:118px">' + '<col style="width:140px">'.repeat(7) + '<col style="width:160px"></colgroup><tr><th></th>' + ['월', '화', '수', '목', '금', '토', '일'].map(d => `<th>${d}</th>`).join('') + '<th class="tt" id="th8">주 시간</th></tr>';
+ROWS.forEach((r, i) => { h += '<tr>' + r.map((c, j) => j === 0 ? `<td class="n">${c}</td>` : j === 8 ? `<td class="tt" id="tt${i}">${c}</td>` : `<td>${c}</td>`).join('') + '</tr>'; });
+S.$('#tbl').innerHTML = h + '</table>';
+const SEG = [['우리 가게 알바 다섯 명이야.', S.at('우리가게알바'), S.at('각자안') - 0.05],
+  ['각자 안 되는 요일이랑 시간을 적어 줄게.', S.at('각자안'), S.at('평일점심') - 0.05],
+  ['평일 점심 두 명, 저녁 세 명, 주말은 하루 종일 세 명이 필요해.', S.at('평일점심'), S.at('다음주근무표') - 0.05],
+  ['다음 주 근무표를 표로 짜 주고 한 사람이 주 몇 시간인지도 같이 보여 줘.', S.at('다음주근무표'), S.at('이렇게') - 0.3]];
+const T = { chat: 1.3, fold: S.at('이렇게') - 0.3, tbl: S.at('표가') - 0.2, end: S.at('맨끝'), who: S.at('한사람이주에') };
+S.ev(T.chat, 'msg_in', 'chat'); S.ev(SEG[0][1], 'type', 'p1'); S.ev(T.fold, 'card_in', 'fold');
+S.ev(T.tbl, 'page', 'sheet'); S.ev(T.end, 'marker', 'th8'); S.ev(T.who, 'shine', 'tt');
+const camSet = (sel, s, cx, cy) => {
+  const tx = S.clamp(960 - cx * s, 1920 - 1920 * s, 0), ty = S.clamp(540 - cy * s, 1080 - 1180 * s, 100 * s);
+  S.css(sel, { transform: `translate(${tx}px,${ty}px) scale(${s})` });
+};
+S.scene(tau => {
+  // 카메라: 처음엔 느린 밀기, 표가 붙은 뒤 «주 시간» 칸으로
+  const a = S.P(tau, -0.3, T.tbl), b = S.cam(tau, T.end - 0.2, T.end + 1.0), c = S.P(tau, T.end + 1.0, S.SC.dur);
+  let s = S.lerp(1.04, 1.1, a); let cx = 960, cy = 540;
+  s = S.lerp(s, 2.1, b) + 0.08 * c; cx = S.lerp(cx, 1514, b); cy = S.lerp(cy, 423, b);
+  camSet('#cam', s, cx, cy);
+  // 사진: 흐림 → 선명
+  const bl = 1 - S.cam(tau, T.tbl - 0.25, T.tbl + 0.4);
+  S.css('#ph', { filter: `blur(${10 * bl}px) brightness(${0.62 + 0.38 * (1 - bl)})` });
+  // 대화창
+  const ci = S.ent(tau, T.chat, 0.14), co = S.ent(tau, T.tbl - 0.02, 0.2);
+  S.css('#chat', { opacity: ci * (1 - co), transform: `translateY(${(1 - ci) * 24 - co * 20}px)` });
+  let txt = '';
+  SEG.forEach(sg => { const n = Math.floor(S.clamp((tau - sg[1]) / Math.max(0.2, sg[2] - sg[1]), 0, 1) * [...sg[0]].length); if (n > 0) txt += (txt ? ' ' : '') + [...sg[0]].slice(0, n).join(''); });
+  S.$('#p1').innerHTML = S.esc(txt) + (tau >= SEG[0][1] && tau < SEG[3][2] + 0.1 ? '<span class="caret"></span>' : '');
+  S.css('#fold', { opacity: S.ent(tau, T.fold, 0.16) });
+  // 근무표 종이
+  const p = S.ent(tau, T.tbl, 0.2);
+  S.css('#sheet', { opacity: Math.min(1, p * 2.5), transform: `rotate(-0.4deg) translateY(${(1 - p) * -40}px)` });
+  // «주 시간» 칸 노랑 형광펜: 머리 → 값이 위에서부터
+  const hh = S.ent(tau, T.end, 0.2);
+  S.$('#th8').style.background = `rgba(242,194,48,${0.85 * hh})`;
+  for (let i = 0; i < 5; i++) S.$('#tt' + i).style.background = `rgba(242,194,48,${0.75 * S.ent(tau, i === 0 ? T.end + 0.1 : T.who + (i - 1) * 0.2, 0.2)})`;
+});
+</script>
+</body></html>

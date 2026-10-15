@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s24 근무표는 퍼즐 — 이름 쪽지가 칸에 들어가고 튕겨 나온다</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#rig{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background:url("../../../../소재/sjk01/codex/e24_table_daylight.png") center/100% 100% no-repeat}
+#sheet{left:200px;top:250px;width:1520px;height:580px}
+.vl{position:absolute;top:100px;height:420px;width:2px;background:rgba(21,24,28,.28)}
+.hl{position:absolute;left:30px;width:1440px;height:2px;background:rgba(21,24,28,.28)}
+.dy{position:absolute;top:36px;width:185px;height:56px;display:flex;align-items:center;justify-content:center;font-size:38px;font-weight:700;color:#15181C}
+.rw{position:absolute;left:30px;width:140px;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:600;color:#3A3F47;height:210px}
+.sl{position:absolute;width:170px;height:78px;display:flex;align-items:center;justify-content:center;font-family:"Pen";font-size:64px;color:#15181C;box-shadow:0 8px 18px rgba(0,0,0,.35),0 1px 3px rgba(0,0,0,.3)}
+.sl svg{position:absolute;left:0;top:0;width:170px;height:78px;overflow:visible}
+.dt{position:absolute;width:177px;height:202px;border:4px dashed #D8402F;border-radius:4px;opacity:0}
+#tm{left:200px;top:90px;font-size:72px;color:#15181C;text-shadow:0 2px 12px rgba(255,255,255,.5);white-space:nowrap}
+</style></head>
+<body><div id="stage">
+  <div id="rig">
+    <div id="ph"></div>
+    <div id="sheet" class="abs print" data-box="sheet" data-box-group="sh"></div>
+    <div id="slips"></div>
+  </div>
+  <div id="tm" class="abs mono" data-box="tm">00:00:00</div>
+</div>
+<script src="../data/s24.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#ECE8E0', '#15181C', '#D8402F'];
+// 표: 월~일 × 점심/저녁 (칸 185×200)
+const DAYS = ['월', '화', '수', '목', '금', '토', '일'];
+const CX = c => 170 + 185 * c, CY = r => 110 + 210 * r;                 // 칸 왼쪽 위(표 좌표)
+const cell = (c, r) => [200 + CX(c) + 92.5, 250 + CY(r) + 100];         // 칸 가운데(무대 좌표)
+let h = '';
+DAYS.forEach((d, i) => { h += `<div class="dy" style="left:${CX(i)}px">${d}</div>`; });
+for (let i = 0; i <= 7; i++) h += `<div class="vl" style="left:${CX(i)}px"></div>`;
+for (let r = 0; r <= 2; r++) h += `<div class="hl" style="top:${CY(r) - 10 + (r ? 0 : 0)}px"></div>`;
+h += `<div class="rw mono" style="top:${CY(0)}px;font-family:Plex">점심</div><div class="rw" style="top:${CY(1)}px">저녁</div>`;
+const sheet = S.$('#sheet'); sheet.innerHTML = h;
+// 빨강 점선(빈 칸 표시)
+let dts = '';
+[[2, 1, 'dA'], [4, 0, 'dB']].forEach(a => { const [x, y] = cell(a[0], a[1]); dts += `<div class="dt" id="${a[2]}" style="left:${x - 88}px;top:${y - 101}px"></div>`; });
+S.$('#slips').innerHTML = dts;
+const NAMES = ['서연', '준호', '민지', '현우', '지은'];
+const HOME = [[540, 895], [780, 895], [1020, 895], [1260, 895], [1500, 895]];
+const HROT = [-5, 3, -2, 4, -3];
+NAMES.forEach((n, i) => S.$('#slips').insertAdjacentHTML('beforeend', `<div class="sl print" id="sl${i}" data-box="sl${i}" data-box-group="sh">${n}<svg viewBox="0 0 156 70" preserveAspectRatio="none"><path id="xa${i}" d="M18 10 L138 60" fill="none" stroke="#D8402F" stroke-width="10" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/><path id="xb${i}" d="M140 10 L16 60" fill="none" stroke="#D8402F" stroke-width="10" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg></div>`));
+const PL = [cell(1, 0), cell(0, 1), cell(3, 0), cell(2, 1), cell(4, 0)];  // 처음 들어가는 칸
+const T = { j: S.at('화요일'), p: S.at('주말만'), m: S.at('시험'), a: S.at('하나'), b: S.at('그거'), t: S.at('한시간이') };
+const EJ = [T.j, T.p, T.m];     // 쪽지 0·1·2 가 튕겨 나오는 시각
+S.ev(0.1, 'sweep', 'slips'); S.ev(T.j, 'no', 'xa0'); S.ev(T.p, 'no', 'xa1'); S.ev(T.m, 'no', 'xa2');
+S.ev(T.a, 'card_in', 'sl3'); S.ev(T.b, 'click', 'sl4'); S.ev(T.t, 'type', 'tm');
+const lerp = S.lerp;
+S.scene(tau => {
+  S.css('#rig', { transform: `scale(${1 + 0.05 * S.P(tau, 0, S.SC.dur)})` });
+  for (let i = 0; i < 5; i++) {
+    const [hx, hy] = HOME[i], [px, py] = PL[i];
+    const e1 = S.ent(tau, 0.05 + i * 0.2, 0.28);
+    let x = lerp(hx, px, e1), y = lerp(hy, py, e1), rot = HROT[i] * (1 - e1);
+    if (i < 3) {
+      const xk = S.cam(tau, EJ[i], EJ[i] + 0.28);                 // 빨강 ✕ 먼저
+      S.css('#xa' + i, { strokeDashoffset: 1 - S.clamp(xk * 2, 0, 1) }); S.css('#xb' + i, { strokeDashoffset: 1 - S.clamp(xk * 2 - 1, 0, 1) });
+      const e2 = S.ent(tau, EJ[i] + 0.3, 0.4);
+      x = lerp(x, hx, e2); y = lerp(y, hy, e2); rot = HROT[i] * (1 - e1 + e2);
+    }
+    if (i === 3) { const e3 = S.ent(tau, T.a, 0.4), c = cell(0, 1); x = lerp(x, c[0], e3); y = lerp(y, c[1], e3); }
+    if (i === 4) { const e3 = S.ent(tau, T.b, 0.4), c = cell(2, 1); x = lerp(x, c[0], e3); y = lerp(y, c[1], e3); }
+    S.css('#sl' + i, { left: (x - 85) + 'px', top: (y - 39) + 'px', transform: `rotate(${rot}deg)`, zIndex: 3 });
+  }
+  // 빠진 칸 — 빨강 점선
+  const dA = S.ent(tau, T.a + 0.35, 0.16) * (1 - S.ent(tau, T.b + 0.4, 0.14));
+  S.css('#dA', { opacity: dA });
+  S.css('#dB', { opacity: S.ent(tau, T.b + 0.4, 0.16) });
+  // 한 시간이 그냥 쭉 — 타이머 빨리 감김
+  const k = S.cam(tau, T.t - 0.1, T.t + 1.0), sec = Math.round(3600 * k);
+  const pad = n => String(n).padStart(2, '0');
+  S.$('#tm').textContent = `${pad(Math.floor(sec / 3600))}:${pad(Math.floor(sec % 3600 / 60))}:${pad(sec % 60)}`;
+  S.css('#tm', { opacity: S.ent(tau, T.t - 0.2, 0.15) });
+});
+</script>
+</body></html>

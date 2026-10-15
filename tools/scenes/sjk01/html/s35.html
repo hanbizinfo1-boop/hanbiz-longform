@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s35 매출 분석 — 숫자의 방(CSS 3D 엑셀 벽)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#stage{color:#ECE8E0}
+#space{position:absolute;left:0;top:0;width:1920px;height:1080px;perspective:1200px;perspective-origin:50% 50%}
+#world{position:absolute;left:960px;top:540px;width:0;height:0;transform-style:preserve-3d}
+.tile{position:absolute;left:-690px;top:-350px;width:1380px;height:700px;background:#fff;overflow:hidden;font-family:"UI";color:#1A1A1A;box-shadow:0 0 0 2px #C9D1DE}
+.tile .tb{height:48px;background:#E8EDF5;border-bottom:1px solid #C9D1DE;display:flex;align-items:center;padding:0 20px;font-size:24px;color:#4B5563;gap:14px}
+.tile .tb i{display:inline-block;width:14px;height:14px;border-radius:50%;background:#C3CAD6}
+.tile .hd{display:flex;height:40px;background:#F3F5F9;border-bottom:2px solid #9FB0CC}
+.tile .hd div{box-sizing:border-box;border-right:1px solid #D5DAE2;line-height:40px;padding:0 14px;font-size:24px;font-weight:700;color:#2B3445}
+.tile .cols{display:flex;height:612px;overflow:hidden}
+.tile .col{box-sizing:border-box;height:612px;overflow:hidden;border-right:1px solid #D5DAE2;position:relative}
+.tile .in{position:absolute;left:0;top:0;width:100%;white-space:pre;font-size:24px;line-height:36px;padding:0 14px;box-sizing:border-box;background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 35px,#E1E5EB 35px,#E1E5EB 36px)}
+.tile .in.r{text-align:right}
+.tile .hd .r{text-align:right}
+#card1{left:360px;top:250px;width:1200px;text-align:center}
+#n08{font-size:200px;color:#F2C230;line-height:1}
+#t08{margin-top:14px;font-size:172px;color:#ECE8E0;line-height:1.1}
+#chat{left:360px;top:170px;width:1200px;height:620px;display:flex;flex-direction:column}
+#chat .body{flex:1;padding:36px 44px;display:flex;flex-direction:column;gap:26px;font-size:30px}
+#chat .file{align-self:flex-end;background:#EEF1F6;border-radius:18px;padding:16px 26px;font-size:27px;color:#374151;border:2px solid #D5DAE2}
+#chat .bubble-me{max-width:1000px;line-height:1.65;min-height:60px}
+#input{margin:0 40px 34px;height:74px;border:2px solid #D7DBE2;border-radius:37px;display:flex;align-items:center;padding:0 30px;font-size:26px;color:#9AA1AC}
+</style></head>
+<body><div id="stage">
+  <div class="bg tex-navy"></div>
+  <div id="space"><div id="world"></div></div>
+  <div id="card1" class="abs"><div id="n08" class="mono" data-box="n08">08</div><div id="t08" class="serif" data-box="t08">매출 분석</div></div>
+  <div id="chat" class="abs chat" data-box="chat" style="opacity:0">
+    <div class="bar"><div class="dot" style="background:#E5594F"></div><div class="dot" style="background:#E9B43F"></div><div class="dot" style="background:#58B84F"></div><span style="margin-left:16px">새 대화</span></div>
+    <div class="body"><div id="file" class="file ui">매출_석달.xlsx</div><div id="msg" class="bubble-me"></div></div>
+    <div id="input">무엇이든 물어보세요</div>
+  </div>
+</div>
+<script src="../data/s35.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#ECE8E0', '#F2C230', '#2E55D9'];
+// ── 엑셀 판 만들기(결정적 숫자) ──
+const COLW = [190, 90, 120, 210, 280, 100, 190, 200], HEADS = ['날짜', '요일', '시각', '영수증 번호', '메뉴', '수량', '금액', '결제 수단'], RIGHT = [0, 0, 0, 0, 0, 1, 1, 0];
+const MENU = [['돼지국밥', 10000, 2940], ['순대국', 10000, 2210], ['순대국 특', 12000, 186], ['내장국밥', 10000, 760], ['섞어국밥', 10500, 1320], ['김치찌개', 9000, 241], ['수육(소)', 20000, 655], ['수육(대)', 30000, 402], ['모둠순대', 15000, 518], ['공깃밥 추가', 1000, 205]];
+const WSUM = MENU.reduce((a, m) => a + m[2], 0), WD = ['일', '월', '화', '수', '목', '금', '토'];
+function genRows(n, seed) {
+  let s = seed >>> 0; const rnd = () => (s = (s * 1664525 + 1013904223) >>> 0) / 4294967296;
+  const pad = (v, w) => String(v).padStart(w, '0'), rows = [];
+  let day = seed % 40, min = 660 + Math.floor(rnd() * 30), rec = 31 + (seed % 300);
+  while (rows.length < n) {
+    min += 1 + Math.floor(rnd() * 9); if (min > 1290) { day++; min = 660 + Math.floor(rnd() * 20); }
+    const dt = new Date(Date.UTC(2026, 6, 7) + day * 86400000);
+    const date = `${dt.getUTCFullYear()}-${pad(dt.getUTCMonth() + 1, 2)}-${pad(dt.getUTCDate(), 2)}`;
+    const no = `04${12 + Math.floor(rec / 300)}-${pad(rec % 1000, 3)}`; rec++;
+    const pr = rnd(), pay = pr < 0.7 ? '카드' : (pr < 0.88 ? '현금' : '간편결제');
+    const ni = 1 + (rnd() < 0.45 ? 1 : 0) + (rnd() < 0.12 ? 1 : 0);
+    for (let k = 0; k < ni && rows.length < n; k++) {
+      let r = rnd() * WSUM, mi = 0; while (mi < 9 && r > MENU[mi][2]) { r -= MENU[mi][2]; mi++; }
+      const q = rnd() < 0.22 ? 2 : 1;
+      rows.push([date, WD[dt.getUTCDay()], `${pad(Math.floor(min / 60), 2)}:${pad(min % 60, 2)}`, no, MENU[mi][0], String(q), S.fmt(MENU[mi][1] * q), pay]);
+    }
+  }
+  return rows;
+}
+function makeSheet(n, seed, name) {
+  const rows = genRows(n, seed), t = document.createElement('div'); t.className = 'tile';
+  let h = `<div class="tb"><i></i><i></i><i></i><span>${name}</span></div><div class="hd">` + HEADS.map((x, i) => `<div style="width:${COLW[i]}px" class="${RIGHT[i] ? 'r' : ''}">${x}</div>`).join('') + '</div><div class="cols">';
+  COLW.forEach((w, c) => { h += `<div class="col" style="width:${w}px"><div class="in ${RIGHT[c] ? 'r' : ''}">${rows.map(r => r[c]).join('\n')}</div></div>`; });
+  t.innerHTML = h + '</div>'; return t;
+}
+const world = S.$('#world');
+const hero = makeSheet(330, 7, '매출_석달.xlsx'); world.appendChild(hero);
+const heroIns = [...hero.querySelectorAll('.in')];
+const walls = [];
+function addWall(t, tf, k, step) { t.style.transform = tf; t.style.opacity = Math.max(0.12, 1 - k * 0.095); t.style.display = 'none'; world.appendChild(t); walls.push(t); }
+for (let k = 0; k < 9; k++) {
+  const zc = -690 - 1380 * k;
+  const l = makeSheet(20, 100 + k * 7, '매출_석달.xlsx'), r = makeSheet(20, 300 + k * 11, '매출_석달.xlsx');
+  l.querySelectorAll('.in').forEach(e => e.style.transform = `translateY(${-(k * 3 % 7) * 36}px)`);
+  addWall(l, `translate3d(-690px,0,${zc}px) rotateY(90deg)`, k); addWall(r, `translate3d(690px,0,${zc}px) rotateY(-90deg)`, k);
+}
+for (let k = 0; k < 18; k++) {
+  const zc = -350 - 700 * k;
+  const c = makeSheet(20, 500 + k * 5, '매출_석달.xlsx'), f = makeSheet(20, 700 + k * 9, '매출_석달.xlsx');
+  addWall(c, `translate3d(0,-350px,${zc}px) rotateX(-90deg)`, k / 2); addWall(f, `translate3d(0,350px,${zc}px) rotateX(90deg)`, k / 2);
+}
+// ── 시각 ──
+const T = {
+  hero: S.at('엑셀로') - 0.12, dup: S.at('칸이') - 0.05, imp: S.at('통째로') - 0.15, chat: S.at('통째로') + 0.1,
+};
+T.dollyEnd = T.imp;
+const SEG = [8, 9, 10, 11].map(i => S.line(i)), PROMPT = ['이건 우리 가게 석 달 치 매출이야.', '요일별로, 시간대별로, 메뉴별로 정리해 주고', '제일 안 팔리는 시간이랑', '제일 안 팔리는 메뉴 세 개만 뽑아 줘.'];
+S.ev(0.05, 'big_in', 'n08'); S.ev(T.hero, 'card_in', 'hero'); S.ev(T.dup, 'sweep', 'walls'); S.ev(T.imp, 'in', 'world'); S.ev(T.chat, 'card_in', 'chat'); S.ev(SEG[0].t0, 'type', 'msg');
+let shown = false;
+S.scene(tau => {
+  // 장 카드
+  const c = S.ent(tau, -0.3, 0.3), cx = 1 - S.ent(tau, T.hero - 0.12, 0.25);
+  S.css('#card1', { opacity: c * cx, transform: `translateY(${(1 - c) * 20 - (1 - cx) * 40}px) scale(${1 + 0.03 * S.cam(tau, 0, T.hero)})` });
+  // 엑셀 한 장 — 스크롤
+  const h = S.ent(tau, T.hero, 0.16);
+  const out = S.cam(tau, T.dup, T.dup + 0.35);
+  hero.style.display = out >= 1 ? 'none' : 'block';
+  hero.style.opacity = h * (1 - S.P(tau, T.dup + 0.2, T.dup + 0.35));
+  hero.style.transform = `translateY(${(1 - h) * 34}px) translateZ(${out * 1050}px)`;
+  const tt = Math.max(0, tau - T.hero), sy = 40 * tt + 22 * tt * tt;
+  heroIns.forEach(e => e.style.transform = `translateY(${-sy}px)`);
+  // 복도 — 벽이 나타나고 카메라가 흐름
+  const on = tau >= T.dup + 0.1;
+  walls.forEach((w, i) => { w.style.display = on ? 'block' : 'none'; });
+  const dolly = S.EIO(S.P(tau, T.dup + 0.3, T.dollyEnd)), Z = 9600 * dolly;
+  const imp = S.EIO(S.P(tau, T.imp, T.imp + 0.5)), sc = Math.max(0.0001, 1 - imp);
+  world.style.transform = `scale3d(${sc},${sc},${sc}) translateZ(${Z}px)`;
+  S.$('#space').style.opacity = tau >= T.imp + 0.5 ? 0 : 1 - 0.8 * S.P(tau, T.imp + 0.3, T.imp + 0.5);
+  // 대화창 + 프롬프트 타자(말 시각에 맞춰)
+  const ch = S.ent(tau, T.chat, 0.38);
+  S.css('#chat', { opacity: Math.min(1, ch * 3), transform: `scale(${0.04 + 0.96 * ch})` });
+  const fi = S.ent(tau, T.chat + 0.15, 0.14);
+  S.css('#file', { opacity: fi });
+  let txt = '';
+  SEG.forEach((sg, i) => { const p = S.clamp((tau - sg.t0) / (sg.t1 - sg.t0)), n = Math.floor(p * PROMPT[i].length + 0.0001); if (p > 0) txt += (txt ? ' ' : '') + [...PROMPT[i]].slice(0, n).join(''); });
+  const typing = tau >= SEG[0].t0 && tau < SEG[3].t1;
+  S.$('#msg').innerHTML = S.esc(txt) + (typing ? '<span class="caret"></span>' : '');
+  S.css('#msg', { opacity: tau >= SEG[0].t0 ? 1 : 0 });
+});
+</script>
+</body></html>

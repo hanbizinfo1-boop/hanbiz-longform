@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s20 단골 문자 — 동네 지도</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#mapwrap{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#mapwrap .bg{background-size:cover}
+#svg{position:absolute;left:0;top:0;width:1920px;height:1080px}
+.chip{position:absolute;padding:6px 20px;font-size:32px;background:#F4F1EA;border:3px solid #15181C;border-radius:6px;color:#15181C;white-space:nowrap}
+#shoplab{left:850px;top:398px;width:290px;text-align:right;font-size:32px;color:#15181C}
+#chap{left:150px;top:300px;width:700px;height:330px;padding:34px 48px}
+#chap .n{font-size:64px;color:#5A5650}
+#chap .t{font-size:112px;line-height:1.1;margin-top:6px}
+#one{left:1380px;top:548px;font-size:30px;color:#15181C;background:#F2C230;border-color:#15181C}
+#bub{left:1130px;top:236px;width:540px;min-height:96px;background:#E8E8EB;border-radius:32px 32px 32px 8px;padding:24px 32px;font-family:"UI";font-size:30px;line-height:1.5;color:#1A1A1A;box-shadow:0 8px 20px rgba(0,0,0,.18)}
+#ad{left:1530px;top:198px;font-size:34px;color:#D8402F;border:4px solid #D8402F;background:rgba(244,241,234,.92);transform-origin:50% 50%}
+</style></head>
+<body><div id="stage">
+  <div id="mapwrap">
+    <div class="bg tex-map"></div>
+    <svg id="svg" viewBox="0 0 1920 1080">
+      <defs><mask id="pm"><path id="pmask" d="" fill="none" stroke="#fff" stroke-width="30" stroke-linecap="round"/></mask>
+      <mask id="rm"><rect id="rmr" x="0" y="0" width="0" height="1080" fill="#fff"/></mask></defs>
+      <g id="blocks" fill="rgba(21,24,28,.055)" stroke="rgba(21,24,28,.10)" stroke-width="2" mask="url(#rm)"></g>
+      <g id="roads" mask="url(#rm)" fill="none" stroke-linecap="round" stroke-linejoin="round"></g>
+      <path id="route" d="" fill="none" stroke="#2E55D9" stroke-width="9" stroke-dasharray="26 18" stroke-linecap="round" mask="url(#pm)"/>
+      <path id="oneline" d="M1190 478 L1390 556" fill="none" stroke="#F2C230" stroke-width="12" stroke-linecap="round" stroke-dasharray="260" stroke-dashoffset="260"/>
+      <circle id="ring" cx="1180" cy="470" r="30" fill="none" stroke="#15181C" stroke-width="4" opacity="0"/>
+      <circle id="dot" cx="1180" cy="470" r="20" fill="#F2C230" stroke="#15181C" stroke-width="5" opacity="0"/>
+    </svg>
+    <div id="shoplab" class="abs mono" data-box="shoplab">우리 가게</div>
+    <div id="chap" class="abs print" data-box="chap"><div class="n mono">04</div><div class="t serif">단골 문자</div></div>
+    <div id="c1" class="chip mono" data-box="c1">광고</div><div id="c2" class="chip mono" data-box="c2">리뷰</div><div id="c3" class="chip mono" data-box="c3">방문</div>
+    <div id="one" class="chip mono" data-box="one">문자 한 통</div>
+    <div id="bub" class="abs" data-box="bub" data-box-group="bub"><span id="bt">…</span></div>
+    <div id="ad" class="chip mono" data-box="ad" data-box-group="bub">광고?</div>
+  </div>
+</div>
+<script src="../data/s20.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#ECE8E0', '#15181C', '#2E55D9', '#F2C230', '#D8402F'];
+const NS = 'http://www.w3.org/2000/svg';
+// 골목 길(먹 선 가장자리 + 길바닥) — 지도에 왼→오로 그려짐
+const ROADS = [
+  'M-40 300 L1960 330', 'M-40 640 L1960 600', 'M-40 930 L1960 960', 'M180 -40 L220 1120', 'M620 -40 L580 1120', 'M1010 -40 L1040 1120',
+  'M1430 -40 L1470 1120', 'M1790 -40 L1760 1120', 'M-40 470 C300 430 700 520 1010 470 S1500 440 1960 470', 'M620 120 L1010 300', 'M1040 800 L1430 640'
+];
+const BL = [[230, 340, 340, 240], [640, 340, 340, 240], [1060, 340, 130, 100], [1050, 500, 360, 80], [230, 660, 340, 230], [640, 660, 340, 230], [1060, 840, 340, 100], [1480, 340, 270, 240], [1480, 640, 270, 280], [230, 60, 340, 210], [1060, 60, 340, 210], [1480, 60, 270, 210]];
+const roads = S.$('#roads'), blocks = S.$('#blocks');
+BL.forEach(b => { const r = document.createElementNS(NS, 'rect'); r.setAttribute('x', b[0]); r.setAttribute('y', b[1]); r.setAttribute('width', b[2]); r.setAttribute('height', b[3]); r.setAttribute('rx', 10); blocks.appendChild(r); });
+ROADS.forEach((d, i) => {
+  const w = i < 3 ? 26 : 20;
+  [['#15181C', w + 7], ['#F4F1EA', w]].forEach(([c, sw]) => { const p = document.createElementNS(NS, 'path'); p.setAttribute('d', d); p.setAttribute('stroke', c); p.setAttribute('stroke-width', sw); p.setAttribute('opacity', c === '#15181C' ? 0.55 : 1); roads.appendChild(p); });
+});
+const ROUTE = 'M-30 880 C210 900 200 780 380 770 C560 760 560 900 780 880 C960 862 880 700 1010 660 C1120 626 1050 530 1180 470';
+S.$('#route').setAttribute('d', ROUTE); S.$('#pmask').setAttribute('d', ROUTE);
+const rp = S.$('#route'), RL = rp.getTotalLength();
+const mp = S.$('#pmask'); mp.setAttribute('stroke-dasharray', RL);
+const at = f => rp.getPointAtLength(RL * f);
+const T = { ch: S.at('네'), chOut: S.at('장사') - 0.1, shop: S.at('장사'), ring: S.at('이미'), start: S.at('처음'), ad: S.at('광고도'), rv: S.at('리뷰도'), vs: S.at('오기까지'), line: S.at('왔던'), one: S.at('문자한통'), bub: S.at('문자를'), txt: S.at('오랜만이에요'), stamp: S.at('광고', 1) };
+S.ev(T.ch, 'big_in', 'chap'); S.ev(T.start, 'marker', 'route'); S.ev(T.ad, 'card_in', 'c1'); S.ev(T.line + 0.5, 'marker', 'oneline');
+S.ev(T.bub, 'msg_in', 'bub'); S.ev(T.txt, 'type', 'bt'); S.ev(T.stamp, 'no', 'ad');
+const pos = (el, f, dx, dy) => { const p = at(f); const e = S.$(el); e.style.left = (p.x + dx) + 'px'; e.style.top = (p.y + dy) + 'px'; };
+pos('#c1', 0.2, -40, -80); pos('#c2', 0.52, -50, -90); pos('#c3', 0.84, -215, -12);
+const BT = '오랜만이에요, 한번 오세요';
+S.scene(tau => {
+  const tot = S.SC.dur + S.SC.pre + S.SC.post;
+  const ang = -3 + 6 * (tau + S.SC.pre) / tot;
+  S.css('#mapwrap', { transform: `rotate(${ang}deg) scale(1.12)` });
+  // 장 제목 카드
+  const k1 = S.ent(tau, T.ch, 0.16), k2 = S.cam(tau, T.chOut, T.chOut + 0.35);
+  S.css('#chap', { opacity: k1 * (1 - k2), transform: `translateY(${(1 - k1) * 26 - k2 * 40}px) rotate(-1.5deg)` });
+  // 길이 그려지고 가게 점
+  S.$('#rmr').setAttribute('width', 1920 * S.cam(tau, T.chOut - 0.1, T.chOut + 1.9));
+  S.css('#dot', { opacity: S.ent(tau, T.shop + 0.5, 0.15) });
+  S.css('#shoplab', { opacity: S.ent(tau, T.shop + 0.65, 0.15) });
+  const rg = S.P(tau, T.ring, T.ring + 0.9);
+  S.$('#ring').setAttribute('r', 22 + 60 * S.EO(rg)); S.$('#ring').setAttribute('opacity', rg > 0 && rg < 1 ? 0.7 * (1 - rg) : 0);
+  // 처음 오는 손님 길
+  mp.setAttribute('stroke-dashoffset', RL * (1 - S.cam(tau, T.start, T.vs + 0.5)));
+  ['#c1', '#c2', '#c3'].forEach((id, i) => { const k = S.ent(tau, [T.ad, T.rv, T.vs][i], 0.14); S.css(id, { opacity: k, transform: `translateY(${(1 - k) * 14}px)` }); });
+  // 왔던 손님 — 노랑 실선 + 문자 한 통
+  S.$('#oneline').setAttribute('stroke-dashoffset', 260 * (1 - S.cam(tau, T.line + 0.5, T.line + 1.1)));
+  const ko = S.ent(tau, T.one, 0.14); S.css('#one', { opacity: ko, transform: `translateY(${(1 - ko) * 14}px)` });
+  // 문자 말풍선: 빈 상태(…) → 문장이 쓰임 → 광고?
+  const kb = S.ent(tau, T.bub, 0.14); S.css('#bub', { opacity: kb, transform: `translateY(${(1 - kb) * 16}px)` });
+  const n = Math.floor(S.clamp((tau - T.txt) / 1.0, 0, 1) * [...BT].length);
+  S.$('#bt').textContent = tau < T.txt ? '…' : [...BT].slice(0, n).join('');
+  const ks = S.ent(tau, T.stamp, 0.12); S.css('#ad', { opacity: ks, transform: `rotate(${-5}deg) scale(${1.25 - 0.25 * ks})` });
+});
+</script>
+</body></html>

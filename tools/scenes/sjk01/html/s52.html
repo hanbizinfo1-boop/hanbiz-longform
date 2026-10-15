@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s52 불 꺼진 거리 — 집 가는 길 (수미상관)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+.seq{position:absolute;left:0;top:0;width:1920px;height:1080px;transform:scale(1.025);transform-origin:40% 50%}
+#clock{right:120px;top:96px;text-align:right;color:#ECE8E0;text-shadow:0 2px 14px rgba(0,0,0,.65)}
+#clock .t{font-size:59px;line-height:1;letter-spacing:.04em}
+#clock .u{height:4px;margin-top:10px;background:#F2C230;transform-origin:100% 50%}
+</style></head>
+<body><div id="stage">
+  <img id="a" class="seq" alt="">
+  <div id="clock" class="abs mono" data-box="clock"><div class="t">00:24</div><div class="u" id="cu"></div></div>
+</div>
+<script src="../data/s52.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+// 장면 2 와 같은 거리 — 이번엔 뒤로 빠지며 올라간다. 화면 글은 «몇 개였는지» 에 작은 시계 하나(00:24)뿐.
+window.PALETTE = ['#ECE8E0', '#F2C230'];
+const T = { c: S.at('개였는지') - 0.1 };
+S.ev(T.c, 'card_in', 'clock');
+const FPSV = 60000 / 1001, N = 449, BASE = '../../../../_tmp/sjk01/blender/s52/';
+const pad = n => String(n).padStart(4, '0');
+const img = document.getElementById('a');
+// sjk.js 의 S.scene 은 async 장면 함수를 기다리지 않는다(연번 decode 전에 캡처될 수 있음) — 여기서는 seek 가 끝까지 기다린다.
+const scene = fn => { window.seek = async t => { await fn(t - S.SC.pre); }; };
+scene(async tau => {
+  const k = Math.min(N, Math.max(1, Math.round(tau * FPSV) + 1));
+  const src = BASE + 'f_' + pad(k) + '.png';
+  if (img.dataset.src !== src) { img.dataset.src = src; img.src = src; try { await img.decode(); } catch (e) { } }
+  const c = S.ent(tau, T.c, 0.16);
+  S.css('#clock', { opacity: c, transform: `translateY(${((1 - c) * 14).toFixed(2)}px)` });
+  S.css('#cu', { transform: `scaleX(${S.ent(tau, T.c + 0.15, 0.3)})` });
+});
+</script>
+</body></html>

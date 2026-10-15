@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s34 열린 문 — 마지막 주제 돈 (잘하는 것 1 · 못하는 것 1)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+.seq{position:absolute;left:0;top:0;width:1920px;height:1080px}
+#n{width:300px;text-align:center;font-size:40px;line-height:1;color:#15181C;text-shadow:0 0 14px rgba(255,255,255,.55)}
+#m{width:300px;text-align:center;font-size:130px;line-height:1;color:#15181C;text-shadow:0 0 18px rgba(255,255,255,.5)}
+#u{width:150px;height:9px;background:#2E55D9;transform-origin:50% 50%}
+.chip{position:absolute;white-space:nowrap;font-size:34px;line-height:1;padding:13px 20px 12px;border-radius:9px;background:rgba(21,24,28,.93);color:#ECE8E0}
+#c1{border:3px solid #2E55D9}
+#c2{border:3px solid #D8402F}
+#fog{position:absolute;left:0;top:0;width:1920px;height:1080px;background:#fff;opacity:0}
+</style></head>
+<body><div id="stage">
+  <img id="a" class="seq" alt="">
+  <div id="n" class="abs mono" data-box="n">08–10</div>
+  <div id="m" class="abs serif" data-box="m">돈</div>
+  <div id="u" class="abs"></div>
+  <div id="c1" class="abs chip mono" data-box="c1">잘하는 것 1</div>
+  <div id="c2" class="abs chip mono" data-box="c2">못하는 것 1</div>
+  <div id="fog"></div>
+</div>
+<script src="../data/s34.js"></script>
+<script src="../../../../_tmp/sjk01/blender/s34/track.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+// 열린 문(파란 빛) — «마지막 주제» 에 08–10 · 돈, 양옆에 칩 둘, «믿어야 되는지» 에 칩이 흐려지며 빛 속으로(끝 1초 흰빛 30%).
+window.PALETTE = ['#15181C', '#2E55D9', '#D8402F'];
+const T = { n: S.at('마지막'), c1: S.at('잘하는'), c2: S.at('못 하는'), dim: S.at('어디까지'), end: S.SC.dur };
+S.ev(T.n, 'card_in', 'door'); S.ev(T.c1, 'msg_in', 'c1'); S.ev(T.c2, 'card_in', 'c2'); S.ev(T.end - 1.0, 'shine', 'fog');
+const FPSV = 60000 / 1001, N = 934, BASE = '../../../../_tmp/sjk01/blender/s34/';
+const pad = n => String(n).padStart(4, '0');
+const img = document.getElementById('a');
+const scene = fn => { window.seek = async t => { await fn(t - S.SC.pre); }; };
+scene(async tau => {
+  const k = Math.min(N, Math.max(1, Math.round(tau * FPSV) + 1));
+  const src = BASE + 'f_' + pad(k) + '.png';
+  if (img.dataset.src !== src) { img.dataset.src = src; img.src = src; try { await img.decode(); } catch (e) { } }
+  const [x, y] = window.TRACK[Math.min(window.TRACK.length, k) - 1][0];
+  const a = S.ent(tau, T.n, 0.16);
+  S.css('#n', { left: (x - 150).toFixed(1) + 'px', top: (y - 36).toFixed(1) + 'px', opacity: a, transform: `translateY(${((1 - a) * 12).toFixed(2)}px)` });
+  S.css('#m', { left: (x - 150).toFixed(1) + 'px', top: (y + 24).toFixed(1) + 'px', opacity: a, transform: `translateY(${((1 - a) * 16).toFixed(2)}px)` });
+  S.css('#u', { left: (x - 75).toFixed(1) + 'px', top: (y + 168).toFixed(1) + 'px', opacity: a, transform: `scaleX(${a.toFixed(3)})` });
+  const d = 1 - 0.78 * S.cam(tau, T.dim, T.dim + 0.7);          // 칩이 흐려짐
+  const c1 = S.ent(tau, T.c1, 0.14), c2 = S.ent(tau, T.c2, 0.14);
+  S.css('#c1', { left: (x - 410).toFixed(1) + 'px', top: (y + 150).toFixed(1) + 'px', opacity: c1 * d, transform: `translateX(${((1 - c1) * -16).toFixed(2)}px)` });
+  S.css('#c2', { left: (x + 190).toFixed(1) + 'px', top: (y + 150).toFixed(1) + 'px', opacity: c2 * d, transform: `translateX(${((1 - c2) * 16).toFixed(2)}px)` });
+  // 끝 1초: 흰빛 오버레이 30%까지(까만 화면 아님)
+  S.css('#fog', { opacity: (0.3 * S.cam(tau, T.end - 1.0, T.end)).toFixed(3) });
+});
+</script>
+</body></html>

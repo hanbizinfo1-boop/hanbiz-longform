@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s07 복도 끝 문 셋 — 손님 · 사람 · 돈</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+.seq{position:absolute;left:0;top:0;width:1920px;height:1080px}
+.num{width:240px;text-align:center;font-size:40px;line-height:1;color:#ECE8E0;text-shadow:0 2px 12px rgba(0,0,0,.8),0 0 3px rgba(0,0,0,.9)}
+.nm{width:240px;text-align:center;font-size:96px;line-height:1;color:#ECE8E0;text-shadow:0 3px 16px rgba(0,0,0,.85),0 0 4px rgba(0,0,0,.9)}
+.ul{height:8px;width:190px;transform-origin:50% 50%}
+</style></head>
+<body><div id="stage">
+  <img id="a" class="seq" alt="">
+  <div id="n0" class="abs mono num" data-box="n0">01–04</div>
+  <div id="n1" class="abs mono num" data-box="n1">05–07</div>
+  <div id="n2" class="abs mono num" data-box="n2">08–10</div>
+  <div id="m0" class="abs serif nm" data-box="m0">손님</div>
+  <div id="m1" class="abs serif nm" data-box="m1">사람</div>
+  <div id="m2" class="abs serif nm" data-box="m2">돈</div>
+  <div id="u0" class="abs ul" style="background:#E8913A"></div>
+  <div id="u1" class="abs ul" style="background:#6CCB8A"></div>
+  <div id="u2" class="abs ul" style="background:#6FA0FF"></div>
+</div>
+<script src="../data/s07.js"></script>
+<script src="../../../../_tmp/sjk01/blender/s07/track.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+// 복도 끝 문 셋(블렌더 연번) — 문 위에 번호 · 이름. track 0·1·2 = 왼·가운데·오른 문 윗부분.
+window.PALETTE = ['#ECE8E0', '#E8913A', '#6CCB8A', '#6FA0FF'];
+const T = {
+  n: [S.at('덩이로'), S.at('덩이로') + 0.34, S.at('덩이로') + 0.68],
+  m: [S.at('손님'), S.at('직원'), S.at('돈')],
+  h: [S.at('손님', 1), S.at('사람'), S.at('돈', 1)],
+  go: S.at('바로', 0), end: S.SC.dur,
+};
+S.ev(T.n[0], 'card_in', 'nums'); S.ev(T.m[0], 'big_in', 'm0'); S.ev(T.m[1], 'card_in', 'm1'); S.ev(T.m[2], 'big_in', 'm2');
+S.ev(T.h[0], 'shine', 'hi'); S.ev(T.go, 'marker', 'door0');
+const FPSV = 60000 / 1001, N = 857, BASE = '../../../../_tmp/sjk01/blender/s07/';
+const pad = n => String(n).padStart(4, '0');
+const img = document.getElementById('a');
+const COL = ['#E8913A', '#6CCB8A', '#6FA0FF'];
+// sjk.js 의 S.scene 은 async 장면 함수를 기다리지 않는다(연번 decode 전에 캡처될 수 있음) — 여기서는 seek 가 끝까지 기다린다.
+const scene = fn => { window.seek = async t => { await fn(t - S.SC.pre); }; };
+scene(async tau => {
+  const k = Math.min(N, Math.max(1, Math.round(tau * FPSV) + 1));
+  const src = BASE + 'f_' + pad(k) + '.png';
+  if (img.dataset.src !== src) { img.dataset.src = src; img.src = src; try { await img.decode(); } catch (e) { } }
+  const tr = window.TRACK[Math.min(window.TRACK.length - 1, k - 1)];
+  // 호명 구간: 9.8초 이후 «손님 맞고 · 사람 쓰고 · 돈 계산하고» 에 해당 이름이 밝아짐
+  const act = tau < T.h[0] ? -1 : tau < T.h[1] ? 0 : tau < T.h[2] ? 1 : 2;
+  const dimIn = S.ent(tau, T.h[0] - 0.05, 0.2);
+  const goK = S.ent(tau, T.go - 0.05, 0.3);
+  for (let i = 0; i < 3; i++) {
+    const [x, y] = tr[i];
+    const a = S.ent(tau, T.n[i], 0.14), b = S.ent(tau, T.m[i], 0.14);
+    let lit = 1;
+    if (act >= 0) lit = 1 - dimIn * (act === i ? 0 : 0.62);
+    if (tau >= T.go - 0.05) lit = i === 0 ? 1 : lit * (1 - goK * 0.85);
+    S.css('#n' + i, { left: (x - 120).toFixed(1) + 'px', top: (y - 62).toFixed(1) + 'px', opacity: a * lit, transform: `translateY(${((1 - a) * 12).toFixed(2)}px)` });
+    S.css('#m' + i, { left: (x - 120).toFixed(1) + 'px', top: (y + 4).toFixed(1) + 'px', opacity: b * lit, transform: `translateY(${((1 - b) * 16).toFixed(2)}px)` });
+    S.css('#u' + i, { left: (x - 95).toFixed(1) + 'px', top: (y + 126).toFixed(1) + 'px', opacity: b * lit, transform: `scaleX(${b.toFixed(3)})` });
+  }
+});
+</script>
+</body></html>

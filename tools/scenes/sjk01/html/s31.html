@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s31 07 채용 공고 — 똑같은 공고 열 장</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background:url("../../../../소재/sjk01/codex/c31_empty_board.png") 0 0/100% 100% no-repeat}
+.pst{position:absolute;width:250px;height:380px;padding:26px 22px 0;color:#15181C}
+.pst:before{content:"";position:absolute;left:112px;top:6px;width:26px;height:16px;border-radius:50%;background:radial-gradient(ellipse,rgba(0,0,0,.34),rgba(0,0,0,0) 70%)}
+.pst .h{font-family:"Serif";font-weight:900;font-size:31px;line-height:1.28;margin-bottom:16px}
+.pst .b{font-size:24px;line-height:1.5;font-weight:500}
+.pst .b div{margin-bottom:5px}
+.u{background:linear-gradient(#7C776E,#7C776E) no-repeat 0 100%/0% 3px;padding-bottom:1px}
+#card{left:660px;top:380px;width:600px;height:300px;padding:34px 44px;transform:rotate(1.5deg);transform-origin:50% 50%}
+#card .no{font-size:48px;color:#2E55D9;display:block;margin-bottom:4px}
+#card .tt{font-size:120px;line-height:1.2;display:block;color:#15181C}
+</style></head>
+<body><div id="stage">
+  <div id="cam">
+    <div id="ph"></div>
+    <div id="posters"></div>
+    <div id="card" class="abs print"><span class="no mono">07</span><span class="tt serif">채용 공고</span></div>
+  </div>
+</div>
+<script src="../data/s31.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#ECE8E0', '#15181C', '#2E55D9'];
+const ANG = [-2.2, 1.4, -1.0, 2.6, -1.7, 1.1, -2.7, 1.9, -0.8, 2.3];
+const JIT = [[0, 4], [3, -6], [-4, 2], [2, 7], [-3, -3], [4, 5], [-2, -5], [0, 3], [5, -2], [-4, 6]];
+let h = '';
+for (let i = 0; i < 10; i++) {
+  const c = i % 5, r = i >> 1 >= 0 ? Math.floor(i / 5) : 0;
+  const x = 267 + c * 288 + JIT[i][0], y = 125 + r * 416 + JIT[i][1];
+  h += `<div class="pst print" id="p${i}" style="left:${x}px;top:${y}px;transform:rotate(${ANG[i]}deg)"><div class="h">홀 서빙<br>알바 구합니다</div><div class="b"><div><span class="u">성실한 분 구합니다.</span></div><div><span class="u">경력자 우대.</span></div><div>시급 협의.</div><div>연락 주세요.</div></div></div>`;
+}
+S.$('#posters').innerHTML = h;
+const T = { card: 0.12, cardOut: S.at('알바') - 0.15, p0: S.at('구하는') - 0.1, same: S.at('다른'), u: S.at('성실한'), grey: S.at('다') };
+T.grey = S.at('다같은가게예요') ;
+S.ev(T.card, 'card_in', 'card'); S.ev(T.p0, 'page', 'posters'); S.ev(T.u, 'marker', 'u');
+const camSet = (sel, s, cx, cy) => {
+  const tx = S.clamp(960 - cx * s, 1920 - 1920 * s, 0), ty = S.clamp(540 - cy * s, 1080 - 1180 * s, 100 * s);
+  S.css(sel, { transform: `translate(${tx}px,${ty}px) scale(${s})` });
+};
+S.scene(tau => {
+  // 카메라: 제목 카드(넓게) → 게시판에 들어가며 가로로 흐름 → 마지막에 물러나 전체
+  const a = S.cam(tau, 0, 2.6), b = S.cam(tau, T.same - 0.3, T.u + 1.6), c = S.cam(tau, T.grey - 0.3, T.grey + 1.2);
+  let s = S.lerp(1.03, 1.3, a); let cx = S.lerp(960, 760, a); const cy = 520;
+  cx = S.lerp(cx, 1160, b);
+  s = S.lerp(s, 1.0, c); cx = S.lerp(cx, 960, c);
+  camSet('#cam', s, cx, cy);
+  // 제목 카드
+  const k = S.ent(tau, T.card, 0.16), o = 1 - S.ent(tau, T.cardOut, 0.16);
+  S.css('#card', { opacity: k * o, transform: `rotate(1.5deg) translateY(${(1 - k) * 22}px)` });
+  // 공고 10장: 한 번에(묶음) 붙음
+  for (let i = 0; i < 10; i++) {
+    const e = S.ent(tau, T.p0 + i * 0.07, 0.16);
+    const g = S.ent(tau, T.grey + i * 0.04, 0.5);
+    const el = S.$('#p' + i);
+    el.style.opacity = e;
+    el.style.filter = `grayscale(${0.85 * g}) brightness(${1 - 0.1 * g})`;
+    el.style.transform = `rotate(${ANG[i]}deg) translateY(${(1 - e) * -26}px)`;
+    el.querySelectorAll('.u').forEach(u => { const w = S.cam(tau, T.u + i * 0.05, T.u + i * 0.05 + 0.5); u.style.backgroundSize = (w * 100) + '% 3px'; });
+  }
+  S.css('#ph', { filter: `saturate(${1 - 0.45 * S.ent(tau, T.grey, 0.8)})` });
+});
+</script>
+</body></html>

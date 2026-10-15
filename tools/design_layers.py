@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-r"""클로드 디자인(Design 캔버스) 아트보드 → 애펙 레이어 PNG (2026-10-06, 클라이언트 «클로드 디자인을 조합해서 영상미»).
+r"""[레거시 — 10-13 부터 AE 안 씀. 새 장면은 html_motion(references/ae-replacement.md)]
+클로드 디자인(Design 캔버스) 아트보드 → 애펙 레이어 PNG (2026-10-06, 클라이언트 «클로드 디자인을 조합해서 영상미»).
 
     python design_layers.py <아트보드.dc.html | .html> <출력 폴더> [--자산 <blob→로컬 json>] [--크기 1920x1080]
       → <출력>/_all.png(완성 모습) · _base.png(레이어 밖 바탕) · <레이어>.png … · layers.json
@@ -124,6 +125,25 @@ def ae_lines(layers_dir, js, prefix="L"):
             L.append(f"{v}.transform.anchorPoint.setValue([{cx},{cy}]); {v}.transform.position.setValue([{cx},{cy}]);")
     return L, var, meta
 
+
+def html_layers(layers_dir, prefix="L"):
+    """html_motion 장면용 <img> 태그 문자열(10-13 — ae_lines 의 대체). 바탕 + 레이어를 문서 순서로 같은 자리(left/top 0)에 깐다.
+    id 는 «{prefix}_base», «{prefix}0», «{prefix}1» … · transform-origin 은 레이어 상자 가운데(커지기·기울기용).
+    돌려주는 (html, {레이어 이름: id}, meta). 움직임은 장면의 seek(t) 가 그 id 에 건다."""
+    d = Path(layers_dir)
+    meta = json.loads((d / "layers.json").read_text(encoding="utf-8"))
+    w, h = meta["size"]
+    css = f"position:absolute;left:0;top:0;width:{w}px;height:{h}px"
+    H, ids = [f'<img id="{prefix}_base" src="{(d / meta["base"]).resolve().as_uri()}" style="{css}">'], {}
+    for i, x in enumerate(meta["layers"]):
+        v = f"{prefix}{i}"
+        ids[x["name"]] = v
+        org = ""
+        if x["bbox"]:
+            x0, y0, x1, y1 = x["bbox"]
+            org = f";transform-origin:{(x0 + x1) / 2}px {(y0 + y1) / 2}px"
+        H.append(f'<img id="{v}" data-name="{x["name"]}" src="{(d / x["png"]).resolve().as_uri()}" style="{css}{org}">')
+    return "\n".join(H), ids, meta
 
 if __name__ == "__main__":
     a = sys.argv

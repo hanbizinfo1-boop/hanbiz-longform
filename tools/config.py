@@ -25,9 +25,13 @@ SUBPIPE = AGENT_ROOT / "tools" / "subtitle-pipeline"             # cut_plan_only
 RAW_ROOT = _p("HANBIZ_RAW_ROOT", r"D:\26년 10월\261001")           # 사장님 촬영 원본(후킹 건) — 건마다 바뀌면 여기만 고친다
 LECTURE_SHOOT = _p("HANBIZ_LECTURE_SHOOT", r"C:\Users\user\Downloads\강의촬영본\강의촬영본\촬영본")   # 강의 촬영본(강사님 건)
 
-# ── 애프터이펙트 (AE 2026 한국어판 — 출력 모듈 템플릿 이름이 «고품질» = ProRes 422 HQ)
+# ── 애프터이펙트 — 레거시(10-13 부터 새 작업에 안 씀. 대체 엔진은 아래 BLENDER · tools/html_motion.py). 옛 도구(rf3_ae 등)가 import 하므로 남겨 둔다.
+# (AE 2026 한국어판 — 출력 모듈 템플릿 이름이 «고품질» = ProRes 422 HQ)
 AE_DIR = _p("HANBIZ_AE_DIR", r"C:\Program Files\Adobe\Adobe After Effects 2026\Support Files")
-AE_RENDER_TEMPLATE = "고품질"                           # 알파 필요하면 «고품질(알파 포함)»
+AE_RENDER_TEMPLATE = "고품질"                           # 알파 필요하면 «고품질(알파 포함)» (레거시)
+
+# ── 블렌더 — 진짜 3D(입체 로고·사물·공간 카메라·파티클)만. blender.exe -b -P 스크립트.py (10-13 설치, 5.2.2 LTS). 글자는 굽지 않는다
+BLENDER = _p("HANBIZ_BLENDER", r"C:\Program Files\Blender Foundation\Blender 5.2\blender.exe")
 
 # ── 효과음 (음원 파일은 이 폴더에 복사하지 않았다 — 원본 경로만. 읽기 전용)
 # SFX_LIB = Mixkit·Kenney·効果音ラボ 받은 것(앞말 ML_ KN_ SEL_). 등급표(GRADE_JSON)의 파일 경로가 이 폴더를 가리킨다.

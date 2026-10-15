@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s27 판단은 사장님</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background:url("../../../../소재/sjk01/codex/c27_kitchen_watch.png") 0 0/100% 100% no-repeat}
+#chip{left:1470px;top:84px;padding:14px 38px 26px;background:rgba(21,24,28,.9);border-radius:6px;box-shadow:0 18px 40px rgba(0,0,0,.4)}
+#chip .w{font-size:150px;line-height:1.15;color:#ECE8E0;display:block;position:relative}
+#ul{position:absolute;left:38px;bottom:20px;height:8px;width:0;background:#F2C230}
+</style></head>
+<body><div id="stage">
+  <div id="cam"><div id="ph"></div></div>
+  <div id="chip" class="abs" data-box="chip"><span class="w serif">판단</span><div id="ul"></div></div>
+</div>
+<script src="../data/s27.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#ECE8E0', '#15181C', '#F2C230'];
+const T = { sub: S.at('판단은') };
+S.ev(T.sub - 0.05, 'big_in', 'chip'); S.ev(T.sub + 0.25, 'marker', 'ul');
+const camSet = (sel, s, cx, cy) => {
+  const tx = S.clamp(960 - cx * s, 1920 - 1920 * s, 0), ty = S.clamp(540 - cy * s, 1080 - 1180 * s, 100 * s);
+  S.css(sel, { transform: `translate(${tx}px,${ty}px) scale(${s})` });
+};
+S.scene(tau => {
+  const k = S.P(tau, -0.3, S.SC.dur);
+  camSet('#cam', 1 + 0.1 * k, S.lerp(960, 1080, k), S.lerp(540, 500, k));
+  const c = S.ent(tau, T.sub - 0.05, 0.14);
+  S.css('#chip', { opacity: c, transform: `translateY(${(1 - c) * 16}px)` });
+  S.css('#ul', { width: (S.cam(tau, T.sub + 0.25, T.sub + 0.75) * 284) + 'px' });
+});
+</script>
+</body></html>

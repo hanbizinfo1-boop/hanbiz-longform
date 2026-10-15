@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s45 무대 위 메뉴판 — 답에 없는 한 가지(단골)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+.seq{position:absolute;left:0;top:0;width:1920px;height:1080px}
+#board{position:absolute;left:0;top:0;width:180px;height:240px;transform-origin:50% 50%;font-family:"Pen";color:#F1EDDF;filter:url(#rough)}
+#board .ln{position:absolute;left:0;width:180px;text-align:center;white-space:nowrap;font-size:41px;line-height:1;text-shadow:0 0 3px rgba(255,255,255,.4)}
+#board .ln span{display:inline-block;position:relative}
+#ul{position:absolute;left:0;right:0;bottom:-5px;height:5px;background:#F2C230;transform-origin:0 50%}
+.chip{position:absolute;white-space:nowrap;font-size:32px;line-height:1;padding:9px 16px 8px;border-radius:8px;background:rgba(21,24,28,.92)}
+#q{color:#F2C230;border:2px solid #F2C230}
+#no{color:#ECE8E0;border:3px solid #D8402F}
+</style></head>
+<body><div id="stage">
+  <svg width="0" height="0" style="position:absolute"><filter id="rough" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.6"/></filter></svg>
+  <img id="a" class="seq" alt="">
+  <div id="board" class="abs">
+    <div class="ln" style="top:10px"><span>돼지국밥</span></div>
+    <div class="ln" style="top:57px"><span>순대국</span></div>
+    <div class="ln" style="top:104px"><span>수육(소)<i id="ul"></i></span></div>
+    <div class="ln" style="top:151px"><span>수육(대)</span></div>
+    <div class="ln" style="top:198px"><span>모둠순대</span></div>
+  </div>
+  <div id="q" class="abs chip mono" data-box="q">단골?</div>
+  <div id="no" class="abs chip mono" data-box="no">빼세요</div>
+</div>
+<script src="../data/s45.js"></script>
+<script src="../../../../_tmp/sjk01/blender/st45/track.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="st_board.js"></script>
+<script>
+// 이젤 위 빈 메뉴판에 분필 메뉴 다섯 줄(장면 시작부터) — 단골이 누군지 / 수육(소) 밑줄 / «빼세요»
+window.PALETTE = ['#F1EDDF', '#F2C230', '#D8402F'];
+const T = { q: S.at('단골이'), u: S.at('수육'), no: S.at('60%') };
+S.ev(T.q, 'card_in', 'q'); S.ev(T.u, 'marker', 'ul'); S.ev(T.no, 'no', 'no');
+const img = document.getElementById('a');
+// sjk.js 의 S.scene 은 async 장면 함수를 기다리지 않는다 — 여기서는 seek 가 끝까지 기다린다.
+const scene = fn => { window.seek = async t => { await fn(t - S.SC.pre); }; };
+scene(async tau => {
+  const G = ST.geo(tau);
+  await ST.set(img, ST.BASE + 'st45/f_' + ST.pad(G.k) + '.png');
+  S.css('#board', { left: (G.cx - 90).toFixed(1) + 'px', top: (G.cy - 120).toFixed(1) + 'px', transform: `scale(${G.g.toFixed(4)})` });
+  S.css('#ul', { transform: `scaleX(${S.ent(tau, T.u, 0.3).toFixed(3)})` });
+  // «단골?» — 메뉴판 뒤 테이블 쪽(track 2)
+  const q = S.ent(tau, T.q, 0.14), t2 = G.t[2];
+  S.css('#q', { left: (t2[0] - 52).toFixed(1) + 'px', top: (t2[1] - 215 * G.g).toFixed(1) + 'px', opacity: q, transform: `translateY(${((1 - q) * 12).toFixed(2)}px)` });
+  // «빼세요» — 수육(소) 줄 옆
+  const n = S.ent(tau, T.no, 0.14);
+  S.css('#no', { left: (G.cx + 100 * G.g + 22).toFixed(1) + 'px', top: (G.cy + 4 * G.g - 26).toFixed(1) + 'px', opacity: n, transform: `translateX(${((1 - n) * 14).toFixed(2)}px)` });
+});
+</script>
+</body></html>

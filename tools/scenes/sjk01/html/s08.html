@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s08 01 리뷰 답글 — 하루 15분이 한 달 7시간 30분</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#ph{position:absolute;left:-80px;top:-170px;width:2080px;height:1387px;background:url("../../../../소재/sjk01/codex/c02_counter_night.png") center/cover;filter:blur(18px) brightness(.35);transform-origin:50% 50%}
+#ch{left:140px;top:330px;transform-origin:0 0;color:#ECE8E0;text-shadow:0 4px 24px rgba(0,0,0,.5);white-space:nowrap}
+#ch .no{font-size:150px;line-height:1;color:#F2C230}
+#ch .tt{font-size:180px;line-height:1.1;margin-top:10px}
+.eq{color:#ECE8E0;font-size:56px;text-shadow:0 3px 18px rgba(0,0,0,.55);white-space:nowrap}
+#l1{left:130px;top:340px}
+#l2{left:130px;top:440px}
+#rule{left:130px;top:535px;height:4px;width:0;background:rgba(236,232,224,.7)}
+#ring{left:780px;top:120px;width:800px;height:800px}
+#num{left:830px;top:330px;width:700px;height:380px;display:flex;align-items:center;justify-content:center;text-align:center;color:#ECE8E0;text-shadow:0 4px 30px rgba(0,0,0,.55);line-height:1.05}
+#eve{left:130px;top:760px;white-space:nowrap}
+#uline{position:absolute;left:0;bottom:-10px;height:9px;width:0;background:#F2C230}
+</style></head>
+<body><div id="stage">
+  <div id="ph"></div>
+  <div id="ch" class="abs" data-box="ch"><div class="no mono">01</div><div class="tt serif">리뷰 답글</div></div>
+  <div id="l1" class="abs eq mono" data-box="l1">리뷰 5개 / 일</div>
+  <div id="l2" class="abs eq mono" data-box="l2">× 3분</div>
+  <div id="rule" class="abs"></div>
+  <svg id="ring" class="abs" viewBox="0 0 800 800">
+    <circle id="track" cx="400" cy="400" r="380" fill="none" stroke="rgba(236,232,224,.28)" stroke-width="3"/>
+    <circle id="arc" cx="400" cy="400" r="380" fill="none" stroke="#F2C230" stroke-width="6" stroke-linecap="round" stroke-dasharray="2387.6" stroke-dashoffset="2387.6" transform="rotate(-90 400 400)"/>
+    <line id="hand" x1="400" y1="20" x2="400" y2="-30" stroke="#F2C230" stroke-width="5" stroke-linecap="round" transform="rotate(0 400 400)"/>
+  </svg>
+  <div id="num" class="abs serif" data-box="num"></div>
+  <div id="eve" class="abs eq mono" data-box="eve"><span style="position:relative;display:inline-block">= 저녁 장사 하루<span id="uline"></span></span></div>
+</div>
+<script src="../data/s08.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#ECE8E0', '#15181C', '#F2C230'];
+const T = {
+  five: S.at('하루에') - 0.05, m3: S.at('3분') - 0.05, m15: S.at('15분'), seven: S.at('일곱'), eve: S.at('저녁'),
+};
+S.ev(0.1, 'in', 'ch'); S.ev(T.five, 'card_in', 'l1'); S.ev(T.m3, 'type', 'l2'); S.ev(T.m15, 'big_in', 'num');
+S.ev(T.seven, 'gauge', 'ring'); S.ev(T.eve, 'marker', 'uline');
+S.scene(tau => {
+  // 사진: 아주 느린 밀기
+  S.css('#ph', { transform: `scale(${1 + 0.05 * S.P(tau, 0, S.SC.dur)})` });
+  // 장 카드: 0.1초에 들어와 2초 놓였다가 왼쪽 위 작은 표지로
+  const ci = S.ent(tau, 0.05, 0.16), co = S.cam(tau, 2.6, 3.0);
+  S.css('#ch', { opacity: ci * (1 - co), transform: `translate(${-30 * co}px,${(1 - ci) * 24}px)` });
+  // 계산 두 줄
+  const a = S.ent(tau, T.five, 0.14), b = S.ent(tau, T.m3, 0.14);
+  S.css('#l1', { opacity: a, transform: `translateX(${(1 - a) * -30}px)` });
+  S.css('#l2', { opacity: b, transform: `translateX(${(1 - b) * -30}px)` });
+  S.css('#rule', { width: (S.ent(tau, T.m15 - 0.2, 0.2) * 520) + 'px' });
+  // 15분 → 7시간 30분 (숫자 + 둘레 원호)
+  const nIn = S.ent(tau, T.m15, 0.14);
+  const mA = S.count(tau, T.m15, T.m15 + 0.8, 0, 15);
+  const kB = S.EZ(S.P(tau, T.seven, T.seven + 1.5));
+  const m = kB > 0 ? S.lerp(15, 450, kB) : mA;
+  let html, fs;
+  if (m < 60) { html = Math.round(m) + '분'; fs = 230; }
+  else { const mm = Math.round(m); html = Math.floor(mm / 60) + '시간<br>' + String(mm % 60).padStart(2, '0') + '분'; fs = 230 - 70 * S.P(m, 40, 90); }
+  const nm = S.$('#num'); nm.innerHTML = html;
+  S.css(nm, { opacity: nIn, fontSize: fs + 'px', transform: `translateY(${(1 - nIn) * 24}px)` });
+  const prog = Math.max(0.008, m / 450) * (nIn > 0 ? 1 : 0);
+  S.css('#arc', { strokeDashoffset: 2387.6 * (1 - prog), opacity: nIn });
+  S.$('#hand').setAttribute('transform', `rotate(${prog * 360} 400 400)`);
+  S.css('#hand', { opacity: nIn }); S.css('#track', { opacity: nIn });
+  // 저녁 장사 하루
+  const e = S.ent(tau, T.eve, 0.14);
+  S.css('#eve', { opacity: e, transform: `translateY(${(1 - e) * 16}px)` });
+  S.css('#uline', { width: (S.cam(tau, T.eve + 0.15, T.eve + 0.75) * 100) + '%' });
+});
+</script>
+</body></html>

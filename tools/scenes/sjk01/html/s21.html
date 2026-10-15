@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s21 단골 문자 세 개 — 하나 고르시면 끝</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#rig{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:990px 545px}
+#ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background:url("../../../../소재/sjk01/codex/d21_three_phones_clean.png") center/100% 100% no-repeat}
+.ui{position:absolute;left:0;top:0;background:#F4F5F7;border-radius:22px;overflow:hidden;font-family:"UI";color:#1A1A1A;opacity:0}
+.ui .hd{height:58px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;border-bottom:1px solid #DDE0E5;background:#fff}
+.ui .bb{position:absolute;left:14px;right:14px;top:76px}
+.ui .bub{background:#fff;border-radius:16px;border-top-left-radius:4px;padding:12px 14px;font-size:22px;line-height:1.5;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.ui .opt{margin-top:10px;font-size:22px;line-height:1.4;color:#6B7280;padding:0 4px}
+.ui .in{position:absolute;left:14px;right:14px;bottom:16px;height:46px;border-radius:23px;background:#fff;border:1.5px solid #D7DBE2;color:#9AA1AC;font-size:22px;display:flex;align-items:center;padding:0 18px}
+.dm{position:absolute;left:0;top:0;background:rgba(12,9,6,.6);border-radius:22px;opacity:0}
+#strip{left:200px;top:34px;width:1520px;height:150px;padding:22px 40px;font-size:33px;line-height:1.5;font-weight:500;color:#15181C;transform:rotate(-0.5deg)}
+#ck{position:absolute;left:1068px;top:150px;width:150px;height:150px;overflow:visible}
+</style></head>
+<body><div id="stage">
+  <div id="rig">
+    <div id="ph"></div>
+    <div id="u0" class="ui"></div><div id="u1" class="ui"></div><div id="u2" class="ui"></div>
+    <div id="dm0" class="dm"></div><div id="dm2" class="dm"></div>
+    <svg id="ck" viewBox="0 0 150 150"><circle cx="75" cy="75" r="68" fill="#F2C230"/><path id="ckp" d="M38 78 L64 104 L114 46" fill="none" stroke="#15181C" stroke-width="15" stroke-linecap="round" stroke-linejoin="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>
+  </div>
+  <div id="strip" class="abs print" data-box="strip"><span id="ptx"></span></div>
+</div>
+<script src="../data/s21.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#ECE8E0', '#15181C', '#F2C230'];
+// 사진 속 휴대폰 세 대 화면 모서리(quads.json d21 stage) — 안쪽으로 1.5% 줄임
+const QS = [
+  [[434.3, 203.9], [753.4, 208.0], [744.7, 886.1], [425.7, 882.0]],
+  [[830.0, 208.8], [1148.8, 208.8], [1148.8, 883.8], [830.0, 883.8]],
+  [[1233.6, 210.5], [1557.8, 206.0], [1567.2, 888.3], [1243.0, 892.8]]];
+const MSG = [
+  '안녕하세요, ○○동 국밥집이에요. 요즘 안 보이셔서 문득 생각났어요. 다음 주 평일 점심에 오시면 수육 한 접시 반값으로 드릴게요. 이 문자 보여 주세요.',
+  '사장입니다. 날이 쌀쌀해졌네요. 국밥 생각나실 때 다음 주 평일 점심에 들러 주세요. 오시면 계란찜 하나 서비스로 내 드릴게요.',
+  '오랜만이에요! 다음 주 평일 점심 한정으로 단골손님께 국밥 곱빼기를 같은 값에 드려요. 이 문자 보여 주시면 됩니다.'];
+const DIM = [];
+QS.forEach((q0, i) => {
+  const cx = q0.reduce((a, p) => a + p[0], 0) / 4, cy = q0.reduce((a, p) => a + p[1], 0) / 4;
+  const q = q0.map(p => [cx + (p[0] - cx) * 0.985, cy + (p[1] - cy) * 0.985]);
+  const W = Math.round(Math.hypot(q[1][0] - q[0][0], q[1][1] - q[0][1])), H = Math.round(Math.hypot(q[3][0] - q[0][0], q[3][1] - q[0][1]));
+  const u = S.$('#u' + i); u.style.width = W + 'px'; u.style.height = H + 'px';
+  u.innerHTML = `<div class="hd">○○동 국밥집</div><div class="bb" id="bb${i}"><div class="bub">${MSG[i]}</div><div class="opt">무료 수신 거부<br>080-000-0000</div></div><div class="in">메시지 입력</div>`;
+  S.fitQuad(u, W, H, q);
+  if (i !== 1) { const d = S.$('#dm' + i); d.style.width = W + 'px'; d.style.height = H + 'px'; S.fitQuad(d, W, H, q); }
+});
+const L = i => S.line(i);
+const SEG = [['한 달 넘게 안 온 단골한테 보낼 문자', L(0).t0, L(0).t1 - 0.05], ['세 가지 버전으로 써 줘.', L(1).t0, L(1).t1 - 0.05], ['광고 티 나지 않고 짧게,', L(2).t0, L(2).t1 - 0.05], ['다음 주 평일 점심에 쓸 수 있는 혜택 하나 넣어서.', L(3).t0, L(4).t1 - 0.05]];
+const T = { p: S.at('받아서') - 0.1, ck: S.at('고르시면') };
+S.ev(0.12, 'page', 'strip'); S.ev(SEG[0][1], 'type', 'ptx'); S.ev(T.p, 'msg_in', 'bb0'); S.ev(T.ck + 0.05, 'ok', 'ckp');
+S.scene(tau => {
+  // 위쪽 프롬프트 쪽지 — 말 따라 타자, «세 개 받아서» 에 위로 빠짐
+  const sk = S.ent(tau, 0.1, 0.18), so = S.cam(tau, T.p - 0.25, T.p + 0.1);
+  S.css('#strip', { opacity: sk * (1 - so), transform: `translateY(${(1 - sk) * -30 - so * 60}px) rotate(-0.5deg)` });
+  let txt = '';
+  SEG.forEach(s => { const n = Math.floor(S.clamp((tau - s[1]) / Math.max(0.2, s[2] - s[1]), 0, 1) * [...s[0]].length); if (n > 0) txt += (txt ? ' ' : '') + [...s[0]].slice(0, n).join(''); });
+  S.$('#ptx').innerHTML = S.esc(txt) + (tau >= SEG[0][1] && tau < SEG[3][2] + 0.05 ? '<span class="caret"></span>' : '');
+  // 문자 세 개: 차례로(0.7초 간격 묶음)
+  for (let i = 0; i < 3; i++) {
+    const k = S.ent(tau, T.p + i * 0.7, 0.2);
+    S.css('#u' + i, { opacity: k });
+    S.css('#bb' + i, { transform: `translateY(${(1 - k) * 40}px)` });
+  }
+  // 하나 고르시면 — 2번 노랑 체크, 나머지 어두워짐, 카메라 2번 쪽으로
+  const c = S.cam(tau, T.ck - 0.1, T.ck + 0.35);
+  S.css('#dm0', { opacity: c }); S.css('#dm2', { opacity: c });
+  S.css('#u0', { opacity: S.ent(tau, T.p, 0.2) * (1 - 0.3 * c) }); S.css('#u2', { opacity: S.ent(tau, T.p + 1.4, 0.2) * (1 - 0.3 * c) });
+  S.css('#ckp', { strokeDashoffset: 1 - S.cam(tau, T.ck + 0.05, T.ck + 0.4) });
+  S.css('#ck', { opacity: S.ent(tau, T.ck, 0.12), transform: `scale(${0.7 + 0.3 * S.ent(tau, T.ck, 0.12)})`, transformOrigin: '75px 75px' });
+  const z = S.cam(tau, T.ck - 0.1, T.ck + 1.1);
+  S.css('#rig', { transform: `translate(${-29 * z}px,0) scale(${1 + 0.22 * z})` });
+});
+</script>
+</body></html>

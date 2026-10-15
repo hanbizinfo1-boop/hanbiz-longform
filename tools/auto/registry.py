@@ -21,7 +21,8 @@ TPL_DIR = ROOT / "templates"
 DRAWERS = ["GU", "CA", "EM", "SC", "TR", "OE", "SD"]            # 1장 (TN 은 tones/ 에 따로)
 DRAWER_NAMES = {"GU": "구성 틀", "CA": "카메라", "EM": "강조", "SC": "장면", "TR": "전환·표지", "OE": "오프닝·엔딩", "SD": "소리"}
 STATUSES = ["통과", "대기", "시안", "신규", "폐기"]                # 폐기 = 사장님 금지에 걸려 고르지 않음(banned_reason 필수)                      # 2장 status
-ENGINES = ["ae", "html", "pil", "design", "blender", "aivideo", "compose"]
+# (ae 는 10-13 에 뺐다 — After Effects 를 새 작업에 안 쓴다. 옛 판은 template.json 의 engine_from 에만 남는다)
+ENGINES = ["html", "pil", "design", "blender", "aivideo", "compose"]
 SUBJECTS = ["사람", "녹화화면", "글자", "자료이미지", "캐릭터", "데이터", "무대배경", "브랜드", "소리"]   # 2장 subject
 TAGS = {                                                         # 3장
     "설정·버튼", "화면 속 특정 부분", "개념 비교", "과정·단계", "보는 사람 시점", "일상 상황", "현실 공간·사람",

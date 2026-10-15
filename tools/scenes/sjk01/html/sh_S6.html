@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>sh_S6 계약서 — 쇼츠 세로 1080x1920</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+html,body,#stage{width:1080px;height:1920px} #stage{transform-origin:540px 960px}
+.L{position:absolute;left:0;top:0;width:1080px;height:1920px}
+#desk{background:url("../../../../소재/sjk01/codex/c41_desk_topdown.png") no-repeat;background-size:2880px 1920px;background-position:-900px 0}
+#d42{background:url("../../../../소재/sjk01/codex/d42_tablet_desk_clean.png") no-repeat;background-size:2880px 1920px;background-position:-1572px 0}
+#c43{background:url("../../../../소재/sjk01/codex/c43_stamp_hand.png") no-repeat;background-size:2880px 1920px;background-position:-1147px 0;transform-origin:540px 700px}
+#shade{background:linear-gradient(rgba(21,24,28,.85) 0,rgba(21,24,28,.6) 330px,rgba(21,24,28,.12) 520px,rgba(21,24,28,0) 1300px,rgba(21,24,28,.35) 1920px)}
+#dim{background:#15181C;opacity:0}
+#title{position:absolute;left:0;top:0;width:1080px;height:440px;display:flex;flex-direction:column;justify-content:center;align-items:center;font-family:"Serif";font-weight:900;font-size:78px;line-height:1.3;color:#ECE8E0;text-shadow:0 3px 18px rgba(0,0,0,.6);padding-top:12px;white-space:nowrap}
+#cw{position:absolute;left:0;top:0;width:1080px;height:1920px;transform-origin:0 0}
+#cp{position:absolute;left:150px;top:455px;width:780px;padding:34px 46px 30px;transform:rotate(-1deg);color:#15181C}
+#cp .t{font-family:"Serif";font-weight:900;font-size:48px;line-height:1.2}
+#cp .t span{background-image:linear-gradient(transparent 52%,rgba(242,194,48,.95) 52%);background-repeat:no-repeat;background-size:0% 100%;padding:0 4px}
+#cp .s{font-size:26px;color:#4A4742;margin-top:4px}
+#cp .c{font-size:23px;line-height:1.36;margin-top:11px;color:#22252A}
+#cp .c b{font-weight:700}
+#cp .sg{margin-top:26px;display:flex;align-items:flex-end;gap:16px;font-size:27px}
+#cp .sgl{position:relative;flex:1;height:44px;border-bottom:3px solid #15181C}
+#sgbox{position:absolute;left:-12px;right:-12px;top:-10px;bottom:-8px;border:5px solid #F2C230;border-radius:10px;opacity:0}
+#gc{position:absolute;left:0;top:1230px;width:1080px;display:flex;justify-content:center}
+#gc div{background:#6B6760;color:#ECE8E0;border-radius:999px;padding:10px 36px;font-size:36px}
+#ui{position:absolute;left:0;top:0;width:1146px;height:762px;background:#fff;font-family:"UI";color:#1A1A1A;overflow:hidden;border-radius:16px}
+#ui .bar{height:48px;background:#F1F2F4;border-bottom:1px solid #E3E5E8;display:flex;align-items:center;gap:10px;padding:0 100px;font-size:21px;color:#6B7280}
+#ui .dot{width:13px;height:13px;border-radius:50%}
+#bub{margin-left:auto;margin-right:100px;margin-top:14px;max-width:880px;width:fit-content;background:#EEF1F6;border-radius:18px;padding:12px 22px;font-size:30px;line-height:1.5;overflow:hidden}
+#bub.cl{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical}
+#tb{position:absolute;left:100px;top:112px;width:950px}
+.hd{display:flex;font-size:23px;color:#6B7280;height:36px;align-items:center}
+.rowL,.rowR{position:absolute;display:flex;align-items:center;border-radius:12px;font-size:26px;line-height:1.3}
+.rowL{left:0;width:260px;height:88px;background:#EEF1F6;padding:0 16px;font-weight:700}
+.rowR{left:440px;width:510px;height:96px;padding:0 14px;gap:12px}
+.rowR .n{flex:none;font-weight:800;color:#2E55D9;font-size:30px}
+#sv{position:absolute;left:0;top:0;width:950px;height:600px;overflow:visible}
+#j{position:absolute;left:0;top:520px;width:1080px;text-align:center;font-size:130px;color:#ECE8E0;text-shadow:0 6px 30px rgba(0,0,0,.6)}
+#chips{position:absolute;left:0;top:780px;width:1080px;display:flex;flex-direction:column;align-items:center;gap:30px}
+#chips div{border-radius:999px;padding:14px 44px;font-size:42px;white-space:nowrap}
+#cp2{position:absolute;left:240px;top:540px;width:600px;height:760px;padding:44px 44px;transform-origin:50% 100%}
+#cp2 .t{font-family:"Serif";font-weight:900;font-size:50px;line-height:1.2;color:#15181C}
+#cp2 .cl{font-size:22px;line-height:1.35;margin-top:10px;color:#22252A}#cp2 .cl b{font-weight:700}#cp2 .bar{height:18px;background:#C9C5BB;border-radius:9px;margin-top:26px}
+#thumb{position:absolute;left:290px;top:560px;width:500px;height:500px;opacity:0}
+</style></head>
+<body><div id="stage">
+  <div id="desk" class="L"></div>
+  <div id="d42" class="L" style="opacity:0"><div id="ui"></div></div>
+  <div id="c43" class="L" style="opacity:0"></div>
+  <div id="shade" class="L"></div>
+  <div id="dim" class="L"></div>
+  <div id="title"><div>계약서 도장 찍기 전에</div><div>AI한테 물어볼 질문</div></div>
+
+  <div id="cw"><div id="cp" class="print" data-box="cp" data-box-group="pp" data-box-bleed>
+    <div class="t">식자재 <span id="tmk">납품 계약서</span></div>
+    <div class="s">(갑: ○○국밥 / 을: ○○유통)</div>
+    <div class="c"><b>제3조(납품 단가)</b> 을은 원재료 시세가 변동한 경우 갑에게 통보하고 단가를 조정할 수 있다.</div>
+    <div class="c"><b>제5조(최소 발주)</b> 갑은 월 300만 원 이상을 발주한다. 미달 시 차액의 10%를 을에게 지급한다.</div>
+    <div class="c"><b>제7조(반품)</b> 품질 불량은 납품 후 6시간 안에 알린 경우에만 반품한다.</div>
+    <div class="c"><b>제9조(대금 지급)</b> 월말 마감, 다음 달 5일까지 지급한다. 늦어지면 연 20%의 지연 이자를 더한다.</div>
+    <div class="c"><b>제11조(계약 기간)</b> 계약 기간은 1년으로 한다. 끝나기 1개월 전까지 서면 통지가 없으면 같은 조건으로 1년씩 자동 연장된다.</div>
+    <div class="c"><b>제12조(중도 해지)</b> 갑이 기간 중 해지하면 남은 기간 월평균 납품액의 30%를 위약금으로 지급한다.</div>
+    <div class="sg"><span>서명</span><div class="sgl"><div id="sgbox"></div></div></div>
+  </div></div>
+  <div id="gc" style="opacity:0"><div class="mono" data-box="gc" data-box-group="pp" data-box-bleed>다들 이렇게 써요</div></div>
+
+  <div id="j" class="serif" style="opacity:0">조심</div>
+  <div id="chips">
+    <div class="mono" id="k1" style="background:#2E55D9;color:#ECE8E0;opacity:0" data-box="k1" data-box-group="k">AI : 문제없음</div>
+    <div class="mono" id="k2" style="background:#15181C;color:#ECE8E0;border:5px solid #D8402F;opacity:0" data-box="k2" data-box-group="k">AI 답 ≠ 법률 판단</div>
+    <div class="mono" id="k3" style="background:#ECE8E0;color:#15181C;opacity:0" data-box="k3" data-box-group="k">질문 뽑기까지만</div>
+    <div id="k4" style="background:#F2C230;color:#15181C;font-weight:700;opacity:0" data-box="k4" data-box-group="k">도장 전 — 사람 확인</div>
+  </div>
+  <div id="cp2" class="print" style="opacity:0"><div class="t">식자재 납품 계약서</div><div class="cl"><b>제3조(납품 단가)</b> 을은 원재료 시세가 변동한 경우 갑에게 통보하고 단가를 조정할 수 있다.</div><div class="cl"><b>제5조(최소 발주)</b> 갑은 월 300만 원 이상을 발주한다. 미달 시 차액의 10%를 을에게 지급한다.</div><div class="cl"><b>제7조(반품)</b> 품질 불량은 납품 후 6시간 안에 알린 경우에만 반품한다.</div><div class="cl"><b>제9조(대금 지급)</b> 월말 마감, 다음 달 5일까지 지급한다. 늦어지면 연 20%의 지연 이자를 더한다.</div><div class="cl"><b>제11조(계약 기간)</b> 계약 기간은 1년으로 한다. 끝나기 1개월 전까지 서면 통지가 없으면 같은 조건으로 1년씩 자동 연장된다.</div><div class="cl"><b>제12조(중도 해지)</b> 갑이 기간 중 해지하면 남은 기간 월평균 납품액의 30%를 위약금으로 지급한다.</div></div>
+  <svg id="thumb" viewBox="0 0 24 24"><path id="thp" d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z" fill="rgba(46,85,217,0)" stroke="#ECE8E0" stroke-width=".5" stroke-linejoin="round"/></svg>
+</div>
+<script src="../data/sh_S6.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.W = 1080; window.H = 1920;
+window.BOXES = [{ kind: 'keepout', id: 'sub', x: 40, y: 1350, w: 1000, h: 190 }, { kind: 'keepout', id: 'app', x: 0, y: 1710, w: 1080, h: 210 }];
+window.PALETTE = ['#ECE8E0', '#15181C', '#2E55D9', '#F2C230', '#D8402F'];
+const L = i => S.SC.lines.find(l => l.i === i);
+// ── 태블릿 화면 UI (d42 quad photo × 1.875 + (-1572, 0))
+const CL = [['제11조 자동 연장', 4], ['제12조 중도 해지 위약금', 5], ['제3조 단가 조정', 1], ['제5조 최소 발주', 2], ['제7조 반품 6시간', 3]];
+const Q = ['단가를 올릴 때 며칠 전에 알려 주고, 우리가 거절할 수 있나요?', '최소 발주 300만 원 못 채운 달이 생기면 실제로 얼마를 내나요?', '반품 신고 시간을 다음 날 오전까지로 늘릴 수 있나요?', '자동 연장 대신 «끝나면 다시 협의»로 바꿀 수 있나요?', '중도 해지 위약금 30%를 낮추거나, 몇 달 뒤부터는 없앨 수 있나요?'];
+const Y0 = 52, PL = 100, PR_ = 100;
+let tb = `<div class="hd mono"><span style="width:440px">계약서 조항</span><span>물어볼 질문 5개</span></div><svg id="sv" viewBox="0 0 950 600">`;
+CL.forEach((c, i) => { const yl = Y0 + i * 100 + 44, yr = Y0 + (c[1] - 1) * 106 + 48; tb += `<path id="ln${i}" d="M262 ${yl} C 350 ${yl}, 350 ${yr}, 438 ${yr}" fill="none" stroke="#2E55D9" stroke-width="5" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>`; });
+tb += `</svg>`;
+CL.forEach((c, i) => { tb += `<div class="rowL" id="rl${i}" style="top:${Y0 + i * 100}px">${c[0]}</div>`; });
+Q.forEach((q, j) => { tb += `<div class="rowR" id="rr${j}" style="top:${Y0 + j * 106}px"><span class="n">${j + 1}</span><span>${q}</span></div>`; });
+S.$('#ui').innerHTML = `<div class="bar"><div class="dot" style="background:#E5594F"></div><div class="dot" style="background:#E9B43F"></div><div class="dot" style="background:#58B84F"></div><span style="margin-left:12px">새 대화</span></div><div id="bub"></div><div id="tb">${tb}</div>`;
+S.fitQuad(S.$('#ui'), 1146, 762, [[821, 356], [1432, 356], [1432, 762], [821, 762]].map(p => [p[0] * 1.875 - 1572, p[1] * 1.875]));
+
+const T = {
+  sg: S.at('사인하시는'), tt: S.at('임대차'), tmk: S.at('납품 계약서'), small: S.at('글씨가 작고'), gc: S.at('다들 이렇게'), back: S.at('이 말만') + 0.1,
+  d42: L(355).t0 - 0.2, rows: S.at('체크할 거리'), p1: S.at('자동으로 연장'), p2: S.at('위약금이'), p3: S.at('몰랐던'),
+  c43: L(365).t0 - 0.1, j: S.at('조심하셔야'), k1: S.at('AI가'), k2: S.at('법률 판단'), k3: S.at('질문 거리'), k4: S.at('도장 찍기'), bright: S.at('사람한테'),
+  cta: L(426).t0, fold: S.at('좋아요'), fill: S.at('눌러'),
+};
+const PR = [355, 356, 357, 358].map(i => { const l = L(i); return [(i === 355 ? '' : ' ') + l.text, l.t0, l.t1]; });
+T.pe = PR[3][2]; T.cl = L(359).t0 - 0.05;
+S.ev(T.sg + 0.3, 'marker', 'sgbox'); S.ev(T.tmk, 'marker', 'tmk'); S.ev(T.d42, 'in', 'd42'); S.ev(PR[0][1], 'type', 'bub');
+S.ev(T.rows, 'card_in', 'tb'); S.ev(T.p1, 'sweep', 'ln0'); S.ev(T.c43, 'in', 'c43'); S.ev(T.k2, 'card_in', 'k2'); S.ev(T.fill, 'click', 'thp');
+
+S.scene(tau => {
+  // ── 1. 책상 위 계약서
+  const pi = S.ent(tau, -0.1, 0.25);
+  S.css('#cp', { opacity: pi });
+  const sgv = S.cam(tau, T.sg + 0.25, T.sg + 0.7);
+  S.css('#sgbox', { opacity: sgv });
+  S.css('#tmk', { backgroundSize: (S.cam(tau, T.tmk, T.tmk + 0.5) * 100) + '% 100%' });
+  // 카메라: 0 → 제목(1.3 @ 540,520) → 조항(1.35 @ 540,905) → 되돌림
+  const k1 = S.cam(tau, T.tt, T.tt + 0.9), k2 = S.cam(tau, T.small, T.small + 0.9), k3 = S.cam(tau, T.back, T.back + 0.8);
+  const st = [{ s: 1, o: [540, 455] }, { s: 1.18, o: [540, 455] }, { s: 1.24, o: [540, 455] }];
+  const tr = s0 => ({ tx: s0.o[0] * (1 - s0.s), ty: s0.o[1] * (1 - s0.s) });
+  const a = tr(st[1]), b = tr(st[2]);
+  const sc = 1 + 0.18 * k1 + 0.06 * k2 - 0.24 * k3;
+  const tx = a.tx * k1 + (b.tx - a.tx) * k2 - b.tx * k3, ty = a.ty * k1 + (b.ty - a.ty) * k2 - b.ty * k3;
+  S.css('#cw', { transform: `translate(${tx}px,${ty}px) scale(${sc})` });
+  const g = S.ent(tau, T.gc, 0.16) * (1 - S.P(tau, T.d42 - 0.1, T.d42 + 0.2));
+  S.css('#gc', { opacity: g, transform: `translateY(${(1 - g) * 20}px)` });
+  // ── 2. 태블릿
+  const di = S.ent(tau, T.d42, 0.3) * (1 - S.P(tau, T.c43 - 0.1, T.c43 + 0.25));
+  S.css('#d42', { opacity: di });
+  S.css('#desk', { opacity: 1 - S.ent(tau, T.d42, 0.3) });
+  S.css('#cw', { opacity: 1 - S.ent(tau, T.d42, 0.3) });
+  let html = '';
+  PR.forEach(p => { const arr = [...p[0]], kk = S.clamp((tau - p[1]) / Math.max(0.3, p[2] - p[1] - 0.15)); html += S.esc(arr.slice(0, Math.floor(arr.length * kk)).join('')); });
+  const bub = S.$('#bub'); bub.innerHTML = html + (tau >= PR[0][1] && tau < T.pe ? '<span class="caret"></span>' : '');
+  bub.style.opacity = tau >= PR[0][1] - 0.05 ? 1 : 0;
+  bub.classList.toggle('cl', tau >= T.cl);
+  S.css('#tb', { opacity: tau >= T.rows - 0.05 ? 1 : 0 });
+  const pairs = [T.p1, T.p2, T.p3, T.p3, T.p3];
+  CL.forEach((c, i) => {
+    const q = S.ent(tau, T.rows + i * 0.12, 0.16);
+    const r = S.ent(tau, T.rows + 0.12 * 5 + i * 0.12, 0.16);
+    S.css('#rl' + i, { opacity: q, transform: `translateY(${(1 - q) * 18}px)` });
+    S.css('#rr' + i, { opacity: r, transform: `translateY(${(1 - r) * 18}px)` });
+    const lp = S.cam(tau, pairs[i], pairs[i] + 0.6);
+    S.$('#ln' + i).style.strokeDashoffset = 1 - lp;
+    const hl = `rgba(46,85,217,${0.16 * S.ent(tau, pairs[i] + 0.3, 0.2)})`;
+    S.$('#rl' + i).style.boxShadow = lp > 0.6 ? `inset 0 0 0 3px ${'rgba(46,85,217,.8)'}` : 'none';
+    S.$('#rr' + (c[1] - 1)).style.boxShadow = lp > 0.6 ? `inset 0 0 0 3px ${'rgba(46,85,217,.8)'}` : 'none';
+    S.$('#rr' + (c[1] - 1)).style.background = lp > 0.6 ? hl : 'transparent';
+  });
+  // ── 3. 도장 사진 + 칩
+  const ci = S.ent(tau, T.c43, 0.3) * (1 - S.ent(tau, T.cta + 0.1, 0.3));
+  S.css('#c43', { opacity: tau >= T.c43 - 0.05 ? 1 : 0, transform: `scale(${1 + 0.06 * S.P(tau, T.c43, T.cta)})` });
+  const hold = tau < T.cta - 0.1 ? 1 : 0;
+  S.css('#dim', { opacity: (tau >= T.c43 ? 0.28 - 0.18 * S.cam(tau, T.bright, T.bright + 1) : 0) + 0.3 * S.ent(tau, T.cta, 0.3) });
+  const jj = S.ent(tau, T.j, 0.18) * (1 - S.cam(tau, T.k1, T.k1 + 0.2));
+  S.css('#j', { opacity: jj, transform: `translateY(${(1 - jj) * 30}px)` });
+  [['#k1', T.k1], ['#k2', T.k2], ['#k3', T.k3], ['#k4', T.k4]].forEach(([id, t]) => { const q = S.ent(tau, t, 0.16) * (1 - S.ent(tau, T.cta - 0.1, 0.2)); S.css(id, { opacity: q, transform: `translateY(${(1 - q) * 30}px)` }); });
+  S.$('#chips').style.top = '700px';
+  // ── 4. CTA — 계약서 종이가 위에서 접혀 엄지로
+  const pa = S.ent(tau, T.cta, 0.22), f = S.cam(tau, T.fold, T.fold + 0.7);
+  S.css('#cp2', { opacity: pa * (1 - S.P(f, 0.85, 1)), transform: `perspective(1400px) rotateX(${-82 * f}deg) scale(${1 - 0.45 * f})` });
+  const th = S.ent(tau, T.fold + 0.45, 0.25);
+  S.css('#thumb', { opacity: th, transform: `scale(${0.6 + 0.4 * th})` });
+  const fl = S.cam(tau, T.fill, T.fill + 0.35);
+  S.$('#thp').setAttribute('fill', `rgba(46,85,217,${fl})`);
+  S.$('#thp').setAttribute('stroke', fl > 0.5 ? '#2E55D9' : '#ECE8E0');
+});
+</script>
+</body></html>

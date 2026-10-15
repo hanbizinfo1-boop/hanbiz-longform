@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s26 15시간 선 — 가로 막대</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+.nm{position:absolute;left:120px;width:210px;text-align:right;font-size:46px;font-weight:700;height:84px;line-height:84px}
+.bar{position:absolute;left:360px;height:84px;background:#15181C;transform-origin:0 50%;border-radius:2px}
+.val{position:absolute;font-size:46px;height:84px;line-height:84px;color:#15181C}
+.grid{position:absolute;top:196px;width:2px;height:660px;background:rgba(21,24,28,.16)}
+.tk{position:absolute;top:866px;width:100px;text-align:center;font-size:28px;color:#5A5650}
+#ref{position:absolute;left:929px;top:176px;width:0;height:690px;border-left:5px dashed #D8402F}
+#reflab{left:760px;top:122px;width:340px;text-align:center;font-size:30px;color:#D8402F}
+#dec{left:1220px;top:112px;font-size:36px;padding:10px 26px;background:#F2C230;color:#15181C;border:4px solid #15181C;border-radius:6px}
+#ring{position:absolute;left:0;top:0;border:6px solid #F2C230;border-radius:4px;box-shadow:0 0 0 0 rgba(242,194,48,0);opacity:0}
+</style></head>
+<body><div id="stage">
+  <div class="bg tex-paper"></div>
+  <div id="chart" class="abs" style="left:0;top:0;width:1920px;height:1080px"></div>
+  <div id="reflab" class="abs mono" data-box="reflab">주 15시간 · 주휴수당</div>
+  <div id="dec" class="abs mono" data-box="dec">결정 = 사장님</div>
+</div>
+<script src="../data/s26.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#ECE8E0', '#15181C', '#2E55D9', '#D8402F', '#F2C230'];
+const ROWS = [['서연', 34.5], ['민지', 32.5], ['현우', 32.5], ['지은', 28], ['준호', 20]];
+const PXH = 38, X0 = 360, Y0 = 220, PITCH = 130;
+let h = '';
+[0, 10, 20, 30].forEach(v => { h += `<div class="grid" style="left:${X0 + v * PXH - 1}px"></div><div class="tk mono" style="left:${X0 + v * PXH - 50}px">${v}</div>`; });
+ROWS.forEach((r, i) => {
+  const y = Y0 + i * PITCH;
+  h += `<div class="nm" style="top:${y}px">${r[0]}</div>`;
+  h += `<div class="bar" id="b${i}" style="top:${y}px;width:${r[1] * PXH}px"></div>`;
+  h += `<div class="val mono" id="v${i}" style="top:${y}px;left:${X0 + r[1] * PXH + 22}px">${r[1]}</div>`;
+});
+h += '<div id="ref"></div><div id="ring"></div>';
+S.$('#chart').innerHTML = h;
+const T = { bars: S.at('주에') + 0.1, ref: S.at('15시간'), calc: S.at('계산을'), pick: S.at('15시간', 1), dec: S.at('AI가') };
+S.ev(T.bars, 'gauge', 'bars'); S.ev(T.ref, 'marker', 'ref'); S.ev(T.calc, 'shine', 'val'); S.ev(T.pick, 'marker', 'b4'); S.ev(T.dec, 'msg_in', 'dec');
+const ring = S.$('#ring');
+ring.style.left = (X0 - 8) + 'px'; ring.style.top = (Y0 + 4 * PITCH - 8) + 'px'; ring.style.width = (20 * PXH + 16) + 'px'; ring.style.height = '100px';
+S.scene(tau => {
+  ROWS.forEach((r, i) => {
+    const k = S.cam(tau, T.bars + i * 0.14, T.bars + i * 0.14 + 0.9);
+    S.css('#b' + i, { transform: `scaleX(${k})` });
+    const v = S.$('#v' + i);
+    v.textContent = (r[1] * k).toFixed(1).replace(/\.0$/, '');
+    v.style.left = (X0 + r[1] * PXH * k + 22) + 'px';
+    const c = S.ent(tau, T.calc + i * 0.08, 0.2);
+    v.style.color = c > 0.5 ? '#2E55D9' : '#15181C';
+  });
+  // 15시간 기준선(위→아래로 그어짐)
+  const rk = S.cam(tau, T.ref, T.ref + 0.6);
+  S.css('#ref', { height: (690 * rk) + 'px' });
+  S.css('#reflab', { opacity: S.ent(tau, T.ref + 0.3, 0.15) });
+  // 준호 막대: 노랑 테두리가 한 번 숨쉬듯
+  const br = Math.sin(Math.PI * S.P(tau, T.pick, T.pick + 1.8));
+  S.css('#ring', { opacity: Math.max(0, br), boxShadow: `0 0 ${24 * br}px ${6 * br}px rgba(242,194,48,${0.6 * br})` });
+  const kd = S.ent(tau, T.dec, 0.14); S.css('#dec', { opacity: kd, transform: `translateY(${(1 - kd) * 16}px)` });
+});
+</script>
+</body></html>

@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>sh_S3 쇼츠 — 마감 매뉴얼 (세로 1080x1920)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+html,body,#stage{width:1080px;height:1920px} #stage{transform-origin:540px 960px}
+.bg{width:1080px;height:1920px}
+.bgp{position:absolute;left:-40px;top:-40px;width:1160px;height:2000px;background-size:cover;background-position:center}
+#shade{position:absolute;left:0;top:0;width:1080px;height:1920px;background:rgba(8,10,12,.4)}
+#title{left:40px;top:100px;width:1000px;height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#ECE8E0;text-shadow:0 4px 22px rgba(0,0,0,.6)}
+#title div{font-size:72px;line-height:1.28;white-space:nowrap;letter-spacing:-.02em}
+#panel{position:absolute;left:0;top:460px;width:1080px;height:880px;overflow:hidden}
+.ph{position:absolute;left:0;top:0;width:1536px;height:1024px;transform-origin:0 0}
+.ph .im{position:absolute;left:0;top:0;width:1536px;height:1024px;background-size:1536px 1024px;background-repeat:no-repeat}
+#w28{position:absolute;left:0;top:0;width:1080px;height:880px;overflow:hidden}
+#w29{position:absolute;left:0;top:0;width:1080px;height:880px;overflow:hidden}
+.sb{position:absolute;width:480px;background:#ECE8E0;color:#15181C;border-radius:26px;padding:24px 26px;font-family:"Plex";font-weight:600;font-size:34px;line-height:1.3;box-shadow:0 14px 34px rgba(0,0,0,.45);text-align:center;white-space:nowrap}
+.sb:after{content:"";position:absolute;right:-12px;bottom:26px;width:28px;height:28px;background:#ECE8E0;transform:rotate(45deg);border-radius:4px;z-index:-1}
+.lbl{position:absolute;font-size:34px;color:#ECE8E0;background:rgba(21,24,28,.88);padding:6px 20px;border-radius:10px;white-space:nowrap}
+#ui{position:absolute;left:0;top:0;width:360px;height:808px;background:#F6F5F2;border-radius:26px;overflow:hidden;font-family:"UI";color:#1A1A1A}
+#ui .hd{position:absolute;left:0;top:0;width:360px;height:58px;line-height:58px;text-align:center;font-size:23px;font-weight:700;border-bottom:2px solid #E6E3DC;background:#fff}
+#rec{position:absolute;left:0;top:58px;width:360px;height:750px}
+#rec .tm{position:absolute;left:0;top:70px;width:360px;text-align:center;font-size:56px;letter-spacing:.04em}
+#rec .dot{position:absolute;left:150px;top:190px;width:60px;height:60px;border-radius:50%;background:#D8402F}
+#wave{position:absolute;left:30px;top:300px;width:300px;height:150px}
+#wave i{position:absolute;bottom:0;width:8px;border-radius:4px;background:#2E55D9}
+#tr{position:absolute;left:0;top:58px;width:360px;height:750px;padding:20px;font-size:22px;line-height:1.42;color:#333}
+#pm{position:absolute;left:0;top:58px;width:360px;height:750px;padding:20px 20px;font-size:22px;line-height:1.42}
+#pm .chipx{display:inline-block;font-size:21px;color:#6B7280;background:#E6E9EF;border-radius:999px;padding:2px 14px;margin-bottom:14px}
+#pm .pb{background:#EEF1F6;border-radius:16px;padding:14px 16px;color:#1A1A1A}
+#ck{position:absolute;left:0;top:58px;width:360px;height:750px;padding:14px 20px;font-size:22px;line-height:1.38;color:#1A1A1A}
+#ck .h{font-size:22px;font-weight:700;margin:6px 0 6px}
+#ck .it{display:flex;gap:8px;padding:5px 6px;border-radius:6px;margin-bottom:3px}
+#ck .it b{flex:none;width:26px}
+#paper{left:90px;top:-6px;width:900px;height:860px;padding:34px 48px;font-family:"Plex";color:#15181C;transform-origin:50% 40%}
+#paper .h{font-size:34px;font-weight:700;margin:10px 0 8px}
+#paper .it{position:relative;display:flex;gap:10px;font-size:33px;line-height:1.38;padding:6px 12px 6px 46px;border-radius:6px;margin-bottom:2px}
+#paper .it b{flex:none;width:36px}
+#paper .it svg{position:absolute;left:4px;top:11px;width:32px;height:32px}
+#blank{position:relative;margin-top:14px;height:56px;border:3px dashed rgba(21,24,28,.45);border-radius:8px}
+#blank i{position:absolute;left:18px;top:10px;width:3px;height:34px;background:#15181C}
+#chip{left:300px;top:818px;height:60px;padding:0 26px;border-radius:30px;background:#2E55D9;color:#ECE8E0;font-size:34px;line-height:60px;font-weight:700;font-family:"UI";display:flex;align-items:center;gap:12px;white-space:nowrap}
+#chip svg{width:34px;height:34px}
+</style></head>
+<body><div id="stage">
+  <div class="bg tex-desk" id="bgDesk" style="opacity:0"></div>
+  <div class="bgp" id="bg28" style="background-image:url('../../../../소재/sjk01/codex/c28_backdoor_kitchen.png');filter:blur(14px) brightness(.62)"></div>
+  <div class="bgp" id="bg29" style="background-image:url('../../../../소재/sjk01/codex/d29_phone_hand_kitchen_clean.png');filter:blur(14px) brightness(.62);opacity:0"></div>
+  <div class="bg tex-desk" id="bgDesk2" style="opacity:0"></div>
+  <div id="shade"></div>
+  <div id="title" class="abs" data-box="title"></div>
+  <div id="panel">
+    <div id="w28"><div class="ph" id="ph28"><div class="im" style="background-image:url('../../../../소재/sjk01/codex/c28_backdoor_kitchen.png')"></div>
+      <div class="lbl mono" id="lb0" style="left:500px;top:700px;opacity:0">불</div><div class="lbl mono" id="lb1" style="left:760px;top:770px;opacity:0">가스</div><div class="lbl mono" id="lb2" style="left:540px;top:500px;opacity:0">육수</div></div></div>
+    <div id="bubs"></div>
+    <div id="lbx" class="lbl mono" style="left:640px;top:70px;opacity:0">× 몇 년</div>
+    <div id="w29"><div class="ph" id="ph29"><div class="im" style="background-image:url('../../../../소재/sjk01/codex/d29_phone_hand_kitchen_clean.png')"></div>
+      <div id="ui">
+        <div class="hd" id="uh">녹음</div>
+        <div id="rec"><div class="tm mono" id="tm">00:00</div><div class="dot" id="rdot"></div><div id="wave"></div></div>
+        <div id="tr"></div>
+        <div id="pm"><div class="chipx">(받아쓰기 붙여 넣음)</div><div class="pb" id="pt"></div></div>
+        <div id="ck">
+          <div class="h">⚠ 먼저 — 위험한 것</div>
+          <div class="it" id="c1"><b>1.</b><span>가스 잠그기 — 주방 뒤쪽 노란 밸브를 옆으로(가로로) 돌린다</span></div>
+          <div class="it"><b>2.</b><span>바닥은 물 뿌리지 않기 — 전기 설비가 많다. 밀대로만 닦는다</span></div>
+          <div class="h" style="margin-top:10px">마감 순서</div>
+          <div class="it"><b>3.</b><span>손님이 다 나가면 간판 불 끄기</span></div>
+          <div class="it"><b>4.</b><span>육수 덜기 — 큰 통 → 작은 통 2개로 나눠 냉장고 맨 아래 칸</span></div>
+          <div class="it"><b>5.</b><span>포스기 «마감» 버튼 → 영수증은 금고 위에</span></div>
+          <div class="it"><b>6.</b><span>바닥 밀대 청소</span></div>
+          <div class="it"><b>7.</b><span>뒷문 잠금 한 번 더 확인</span></div>
+        </div>
+      </div></div></div>
+    <div id="paper" class="abs print">
+      <div class="h">⚠ 먼저 — 위험한 것</div>
+      <div class="it" id="p1"><b>1.</b><span>가스 잠그기 — 주방 뒤쪽 노란 밸브를 옆으로(가로로) 돌린다</span></div>
+      <div class="it"><b>2.</b><span>바닥은 물 뿌리지 않기 — 전기 설비가 많다. 밀대로만 닦는다</span></div>
+      <div class="h" style="margin-top:14px">마감 순서</div>
+      <div class="it"><b>3.</b><span>손님이 다 나가면 간판 불 끄기</span></div>
+      <div class="it"><b>4.</b><span>육수 덜기 — 큰 통 → 작은 통 2개로 나눠 냉장고 맨 아래 칸</span></div>
+      <div class="it"><b>5.</b><span>포스기 «마감» 버튼 → 영수증은 금고 위에</span></div>
+      <div class="it"><b>6.</b><span>바닥 밀대 청소</span></div>
+      <div class="it"><b>7.</b><span>뒷문 잠금 한 번 더 확인</span></div>
+      <div id="blank"><i id="caret"></i></div>
+    </div>
+    <div id="chip" class="abs"><svg viewBox="0 0 24 24"><path fill="#ECE8E0" d="M4 3h16c1.1 0 2 .9 2 2v11c0 1.1-.9 2-2 2H9l-5 4v-4H4c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2z"/></svg><span>댓글</span></div>
+  </div>
+</div>
+<script src="../data/sh_S3.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.W = 1080; window.H = 1920;
+window.BOXES = [{ kind: 'keepout', id: 'sub', x: 40, y: 1350, w: 1000, h: 190 }, { kind: 'keepout', id: 'app', x: 0, y: 1710, w: 1080, h: 210 }];
+window.PALETTE = ['#15181C', '#F2C230', '#2E55D9'];
+S.$('#title').innerHTML = S.SC.title.map(t => '<div>' + S.esc(t) + '</div>').join('');
+const LN = p => S.SC.lines.find(l => l.text.startsWith(p));
+const P = (t, a, b) => S.P(t, a, b);
+// 휴대폰 화면(사진 좌표 d29_phone_hand_kitchen photo quad) — 안쪽으로 1.2% 줄임
+const QP = [[624.1, 161.8], [918.3, 162.5], [916.9, 822.2], [622.7, 821.5]];
+const cx0 = QP.reduce((a, q) => a + q[0], 0) / 4, cy0 = QP.reduce((a, q) => a + q[1], 0) / 4;
+const QS = QP.map(q => [cx0 + (q[0] - cx0) * 0.988, cy0 + (q[1] - cy0) * 0.988]);
+S.fitQuad(S.$('#ui'), 360, 808, QS);
+const TX = '어 마감할 때는 일단 손님 다 나가면 간판 불 끄고 어 그다음에 가스 가스 꼭 잠가 주방 뒤쪽에 노란 밸브 있거든 그거 옆으로 돌려 놓고 육수는 큰 통에서 작은 통 두 개에 나눠서 덜어 갖고 냉장고 맨 아래 칸 넣고 아 그리고 포스기 마감 버튼 누르고 영수증 나오면 그거 금고 위에 올려 두고 바닥은 물 뿌리지 말고 밀대로만 해 전기 많아서 그리고 마지막에 뒷문 잠갔는지 한 번 더 보고';
+const PR = '이건 우리 가게 마감 순서를 내가 말로 한 거야. 처음 온 알바가 보고 따라 할 수 있게 번호 붙은 체크리스트로 정리해 줘. 위험한 건 맨 위에 넣어주고';
+// 말풍선 7겹
+const BT = '사장님, 이거 어떻게 해요?';
+const TB = [S.at('일주일') - 0.2, S.at('일주일') + 0.55, LN('사장님, 이거').t0 - 0.05, LN('그럼 또').t0, LN('그럼 또').t0 + 0.45, LN('새 친구 와서').t0, LN('새 친구 와서').t0 + 0.45];
+let bh = '';
+TB.forEach((_, i) => { bh += `<div class="sb" id="sb${i}" style="z-index:${i}">${BT}</div>`; });
+S.$('#bubs').innerHTML = bh;
+const T = {
+  lab: S.at('불은'), x: S.at('몇 년째'), merge: LN('그거 이렇게').t0 - 0.1, ph: LN('사장님이 마감할 때').t0 - 0.2, rec: S.at('녹음기'), tx: LN('그 녹음을').t0, pm: LN('이건 우리 가게').t0,
+  ck: LN('이러면 오늘').t0, hl: S.at('가스 잠그는'), pp: LN('그럼 새 알바').t0 - 0.2, rd: LN('이거 한 번').t0, blank: LN('진짜 이건').t0 + 0.9, cta: LN('그리고 댓글로').t0, chip: LN('이거 AI한테').t0 - 0.1
+};
+S.ev(TB[0], 'msg_in', 'sb0'); S.ev(T.merge + 0.1, 'sweep', 'bubs'); S.ev(T.ph + 0.1, 'in', 'ph29'); S.ev(T.tx, 'type', 'tr'); S.ev(T.pm + 0.1, 'msg_in', 'pt');
+S.ev(T.ck + 0.9, 'page', 'ck'); S.ev(T.hl, 'marker', 'c1'); S.ev(T.pp + 0.2, 'page', 'paper'); S.ev(T.chip, 'card_in', 'chip');
+// 파형 막대
+let wv = ''; for (let i = 0; i < 30; i++) wv += `<i style="left:${i * 10}px"></i>`;
+S.$('#wave').innerHTML = wv;
+const bars = [...S.$('#wave').children];
+// 체크 표시(코발트)
+const pits = [...document.querySelectorAll('#paper .it')];
+pits.forEach(el => { el.insertAdjacentHTML('beforeend', '<svg viewBox="0 0 24 24"><path fill="none" stroke="#2E55D9" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" d="M4 12.5l5 5L20 6.5" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>'); });
+const D = S.SC.dur;
+S.scene(tau => {
+  // 바탕
+  const k29 = P(tau, T.ph - 0.1, T.ph + 0.25), kD = P(tau, T.pp - 0.1, T.pp + 0.25);
+  S.css('#bg29', { opacity: k29 * (1 - kD) });
+  S.css('#bgDesk2', { opacity: kD });
+  // ── c28 주방 사진
+  const w28 = 1 - P(tau, T.ph - 0.1, T.ph + 0.25);
+  S.css('#w28', { opacity: w28 });
+  const ps = 1 + 0.1 * P(tau, 2.9, T.merge);
+  S.css('#ph28', { transform: `translate(${-456 * ps + 240 * (ps - 1)}px,${0}px) scale(${ps})` });
+  // 말풍선 겹침
+  const m = 1 - S.cam(tau, T.merge, T.merge + 0.55);
+  const bo = 1 - P(tau, T.merge + 0.35, T.merge + 0.7);
+  TB.forEach((tb, i) => {
+    const k = S.ent(tau, tb, 0.16);
+    const el = S.$('#sb' + i);
+    S.css(el, { opacity: k * bo, left: (150 - 12 * i * m) + 'px', top: (24 + 22 * i * m + (1 - k) * 16) + 'px' });
+  });
+  [['불은', 0], ['가스는', 1], ['육수는', 2]].forEach(([w, i]) => S.css('#lb' + i, { opacity: S.ent(tau, S.at(w), 0.18) * (1 - P(tau, 9.6, 9.9)) }));
+  S.css('#lbx', { opacity: S.ent(tau, T.x, 0.2) * bo });
+  // ── d29 휴대폰
+  S.css('#w29', { opacity: k29 * (1 - kD) });
+  const p = 1.3 + 0.2 * S.cam(tau, T.ck + 0.3, T.hl + 0.3);
+  const ty = (440 - 492 * 1.3) * (1 - S.cam(tau, T.ck + 0.3, T.hl + 0.3)) + (30 - 162 * 1.5) * S.cam(tau, T.ck + 0.3, T.hl + 0.3);
+  const ph = S.$('#ph29');
+  S.css(ph, { transform: `translate(${540 - 770 * p}px,${ty}px) scale(${p})` });
+  // 화면 단계
+  const rec = tau < T.tx;
+  const trOn = tau >= T.tx && tau < T.pm, pmOn = tau >= T.pm && tau < T.ck, ckOn = tau >= T.ck;
+  S.$('#uh').textContent = rec ? '녹음' : (trOn ? '받아쓰기' : (pmOn ? '대화' : '체크리스트'));
+  S.css('#rec', { display: rec ? 'block' : 'none' }); S.css('#tr', { display: trOn ? 'block' : 'none' });
+  S.css('#pm', { display: pmOn ? 'block' : 'none' });
+  S.css('#ck', { display: ckOn ? 'block' : 'none', opacity: ckOn ? S.ent(tau, T.ck + 0.2, 0.2) : 0 });
+  const rt = Math.max(0, tau - T.rec);
+  S.$('#tm').textContent = '00:' + String(Math.floor(rt)).padStart(2, '0');
+  S.css('#rdot', { opacity: tau >= T.rec - 0.05 ? 1 : 0.25, transform: `scale(${1 + 0.0 * rt})` });
+  bars.forEach((b, i) => {
+    const on = tau >= T.rec ? 1 : 0;
+    const h = on ? 14 + 60 * Math.abs(Math.sin(tau * 5.3 + i * 0.9)) * (0.55 + 0.45 * Math.abs(Math.sin(tau * 1.7 + i * 0.37))) : 6;
+    b.style.height = h + 'px';
+  });
+  S.type('#tr', TX, tau, T.tx, 105, false);
+  S.type('#pt', PR, tau, T.pm, 13, true);
+  const hl = S.ent(tau, T.hl, 0.2);
+  S.$('#c1').style.background = `rgba(242,194,48,${0.9 * hl})`;
+  // ── 종이(체크리스트) + CTA
+  const pa = S.ent(tau, T.pp + 0.05, 0.3);
+  S.css('#paper', { opacity: pa, transform: `translateY(${(1 - pa) * 50}px) scale(${1 + 0.015 * P(tau, T.pp, T.blank)})` });
+  S.$('#p1').style.background = `rgba(242,194,48,${0.9 * (hl > 0 ? 1 : 0)})`;
+  pits.forEach((el, i) => {
+    const pathEl = el.querySelector('path');
+    pathEl.style.strokeDashoffset = 1 - S.cam(tau, T.rd + i * 0.22, T.rd + i * 0.22 + 0.28);
+  });
+  const bl = S.ent(tau, T.blank, 0.25);
+  S.css('#blank', { opacity: bl });
+  S.css('#caret', { opacity: tau >= T.cta ? (Math.floor((tau - T.cta) / 0.45) % 2 === 0 ? 1 : 0) : 0 });
+  const ck = S.ent(tau, T.chip, 0.2);
+  S.css('#chip', { opacity: ck, transform: `translateY(${(1 - ck) * 20}px)` });
+});
+</script>
+</body></html>

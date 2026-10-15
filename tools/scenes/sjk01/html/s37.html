@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s37 감 vs 숫자 — 문자와 화요일 15시가 이어진다</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#wrap{position:absolute;left:0;top:0;width:1920px;height:1080px}
+.half{position:absolute;top:0;width:960px;height:1080px;overflow:hidden}
+#hl{left:0}#hr{left:960px}
+#hr .bg{left:-960px}
+#seam{position:absolute;left:944px;top:0;width:32px;height:1080px;background:linear-gradient(to right,rgba(0,0,0,0),rgba(0,0,0,.32) 50%,rgba(0,0,0,0))}
+.big{top:330px;width:920px;text-align:center;font-size:260px;line-height:1}
+#kam{left:20px;color:#15181C}
+#num{left:980px;color:#ECE8E0}
+#pen{left:70px;top:300px;font-size:150px;line-height:1.25;color:#15181C;transform:rotate(-2deg);white-space:nowrap}
+#nl{left:1030px;top:260px;width:820px}
+#nl div{height:104px;line-height:104px;font-size:48px;color:#ECE8E0;white-space:nowrap}
+#nl div.last{font-size:96px;color:#F2C230}
+#sms{left:150px;top:330px;width:700px}
+#sms .b{background:#E9E9EB;border-radius:30px;padding:30px 36px;font-family:"UI";font-size:30px;line-height:1.65;color:#1A1A1A}
+#sms .b i{font-style:normal;border-radius:3px;padding:0 4px;margin:0 -4px}
+#sms .n{margin:14px 0 0 12px;font-family:"UI";font-size:22px;color:#6B7280}
+#mini{left:1230px;top:330px;width:520px;background:rgba(15,27,46,.94);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:22px 24px 26px;box-shadow:0 24px 50px rgba(0,0,0,.45)}
+#mini .hr{display:flex;gap:8px;padding-left:62px;margin-bottom:8px}
+#mini .hr div{width:120px;text-align:center;font-family:"Mono";font-size:24px;color:#8FA3C4}
+#mini .rw{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+#mini .d{width:54px;font-family:"UI";font-size:30px;font-weight:700;color:#C9D4E6}
+#mini .c{width:120px;height:120px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:"UI";font-size:40px;font-weight:700;border:1px solid rgba(255,255,255,.07)}
+#link{position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none}
+</style></head>
+<body><div id="stage"><div id="wrap">
+  <div id="hl" class="half"><div class="bg tex-paper"></div></div>
+  <div id="hr" class="half"><div class="bg tex-navy"></div></div>
+  <div id="seam"></div>
+  <div id="kam" class="abs serif big" data-box="kam">감</div>
+  <div id="pen" class="abs pen" data-box="pen">화요일 오후는<br>좀 한가하다</div>
+  <div id="num" class="abs serif big" data-box="num">숫자</div>
+  <div id="nl" class="abs mono" data-box="nl"><div id="n0"></div><div id="n1"></div><div id="n2"></div><div id="n3"></div><div id="n4" class="last serif"></div></div>
+  <div id="sms" class="abs" data-box="sms"><div class="b">사장입니다. 날이 쌀쌀해졌네요. 국밥 생각나실 때 다음 주 평일 점심에 들러 주세요. <i id="smk">오시면 계란찜 하나 서비스로 내 드릴게요.</i></div><div class="n">무료 수신 거부 080-000-0000</div></div>
+  <div id="mini" class="abs" data-box="mini"></div>
+  <svg id="link" viewBox="0 0 1920 1080"><path id="lp" d="M 856 500 C 1060 500, 1140 566, 1226 566" fill="none" stroke="#F2C230" stroke-width="6" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/><circle id="ld" cx="856" cy="500" r="9" fill="#F2C230" opacity="0"/></svg>
+</div></div>
+<script src="../data/s37.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#ECE8E0', '#15181C', '#F2C230', '#609CFF'];
+const mini = { '월': [5, 4, 12], '화': [2, 5, 11], '수': [3, 6, 12] };
+let mh = '<div class="hr"><div>15시</div><div>16시</div><div>17시</div></div>';
+for (const d in mini) mh += `<div class="rw"><div class="d">${d}</div>` + mini[d].map((v, i) => {
+  const a = Math.min(1, v / 53), hot = d === '화' && i === 0;
+  return `<div class="c" ${hot ? 'id="hot"' : ''} style="background:rgba(96,156,255,${(0.12 + a * 0.78).toFixed(2)});color:${a > 0.55 ? '#0F1B2E' : '#E8EDF5'}">${v}</div>`;
+}).join('') + '</div>';
+S.$('#mini').innerHTML = mh;
+const hot = S.$('#hot'), hot0 = { bg: hot.style.background, col: hot.style.color };
+{ const hb = hot.getBoundingClientRect(), sb = S.$('#sms .b').getBoundingClientRect();
+  const x0 = sb.right + 6, y0 = sb.top + sb.height / 2, x1 = hb.left - 6, y1 = hb.top + hb.height / 2;
+  S.$('#lp').setAttribute('d', `M ${x0} ${y0} C ${x0 + 230} ${y0}, ${x1 - 160} ${y1}, ${x1} ${y1}`);
+  S.$('#ld').setAttribute('cx', x0); S.$('#ld').setAttribute('cy', y0); }
+const T = {
+  k: S.at('감은') - 0.05, n: S.at('숫자는', 1) - 0.05,
+  l: [S.at('석'), S.at('화요일'), S.at('시에'), S.at('손님이'), S.at('몇')],
+  dim: S.at('뭘') - 0.1, sms: S.at('단골') - 0.1, hm: S.at('혜택을'), mini: S.at('단골') + 0.65, line: S.at('거는'),
+};
+const LINES = ['석 달', '화요일 15시', '13번', '손님 합계 26명', '평균 2명'];
+S.ev(0.0, 'big_in', 'kam'); S.ev(T.k + 0.45, 'marker', 'pen'); S.ev(T.l[0], 'type', 'nl'); S.ev(T.sms, 'msg_in', 'sms'); S.ev(T.hm, 'marker', 'smk'); S.ev(T.mini, 'card_in', 'mini'); S.ev(T.line + 0.4, 'shine', 'lp');
+const ids = ['#n0', '#n1', '#n2', '#n3', '#n4'];
+let tt = 0;
+S.scene(tau => {
+  tt = tau;
+  // 큰 글자 «감» «숫자» → 구석 라벨로
+  const k = S.cam(tau, T.k, T.k + 0.4), n = S.cam(tau, T.n, T.n + 0.4);
+  const ent0 = S.ent(tau, -0.3, 0.3);
+  S.css('#kam', { opacity: ent0, transform: `translate(${-290 * k}px, ${-360 * k}px) scale(${1 - 0.7 * k})` });
+  S.css('#num', { opacity: ent0, transform: `translate(${290 * n}px, ${-360 * n}px) scale(${1 - 0.7 * n})` });
+  // 손글씨 — 왼→오 로 써짐
+  const p = S.P(tau, T.k + 0.45, T.k + 1.6);
+  S.css('#pen', { clipPath: `inset(-10% ${(1 - S.lerp(0, 1, p)) * 100}% -10% -2%)` });
+  // 숫자 줄들 — 말 시각마다 타자
+  ids.forEach((id, i) => { S.type(id, LINES[i], tau, T.l[i], 13, i === 4 ? false : true); });
+  // «뭘 해야 하는지» — 둘 다 흐려짐
+  const d = S.cam(tau, T.dim, T.dim + 0.4);
+  const o = (1 - 0.9 * d) * (1 - S.ent(tau, T.sms - 0.1, 0.35));
+  ['#kam', '#pen', '#num', '#nl'].forEach(s => { const e = S.$(s); e.style.opacity = s === '#kam' || s === '#num' ? ent0 * o : (s === '#pen' ? (tau > T.k + 0.4 ? o : 0) : (tau > T.l[0] - 0.05 ? o : 0)); });
+  // 문자 카드, 형광, 작은 히트맵, 이어지는 선
+  const sm = S.ent(tau, T.sms, 0.16);
+  S.css('#sms', { opacity: sm, transform: `translateY(${(1 - sm) * 22}px)` });
+  S.css('#smk', { background: `rgba(242,194,48,${0.8 * S.ent(tau, T.hm, 0.2)})` });
+  const mi = S.ent(tau, T.mini, 0.16);
+  S.css('#mini', { opacity: mi, transform: `translateX(${(1 - mi) * 40}px)` });
+  const hh = S.ent(tau, T.line + 0.2, 0.2);
+  S.css(hot, { background: hh > 0 ? `rgba(15,27,46,${hh})` : hot0.bg, border: hh > 0 ? `3px solid rgba(242,194,48,${hh})` : '1px solid rgba(255,255,255,.07)', color: hh > 0.5 ? '#F2C230' : hot0.col });
+  const lp = S.EIO(S.P(tau, T.line, T.line + 0.6));
+  S.$('#lp').setAttribute('stroke-dashoffset', 1 - lp); S.$('#lp').setAttribute('opacity', lp > 0.001 ? 1 : 0);
+  S.$('#ld').setAttribute('opacity', S.ent(tau, T.sms + 0.3, 0.2) * (tau > T.line ? 1 : 0));
+  S.css('#wrap', { transformOrigin: '960px 540px', transform: `scale(${1 + 0.035 * S.cam(tau, 8.5, S.SC.dur)})` });
+});
+</script>
+</body></html>

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s32 우리 가게에만 있는 것 — 게시판 클로즈업</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background:url("../../../../소재/sjk01/codex/c31_empty_board.png") 0 0/100% 100% no-repeat}
+.pst{position:absolute;width:250px;height:380px;padding:26px 22px 0;color:#15181C;filter:grayscale(.6) brightness(.93)}
+.pst:before{content:"";position:absolute;left:112px;top:6px;width:26px;height:16px;border-radius:50%;background:radial-gradient(ellipse,rgba(0,0,0,.34),rgba(0,0,0,0) 70%)}
+.pst .h{font-family:"Serif";font-weight:900;font-size:31px;line-height:1.28;margin-bottom:16px}
+.pst .b{font-size:24px;line-height:1.5;font-weight:500}
+.pst .b div{margin-bottom:5px}
+.u{background:linear-gradient(#7C776E,#7C776E) no-repeat 0 100%/100% 3px;padding-bottom:1px}
+#memo{left:848px;top:150px;width:250px;height:330px;padding:34px 22px;transform:rotate(1.2deg)}
+#memo .ln{font-family:"Pen";font-size:50px;line-height:1.35;color:#15181C;white-space:nowrap;margin-bottom:12px}
+#yel{left:788px;top:118px;width:360px;height:604px;padding:30px 24px;background-color:#F9E39A;background-blend-mode:multiply;color:#15181C}
+#yel .t{font-size:27px;font-weight:700;line-height:1.35;margin-bottom:14px}
+#yel .l{font-size:22px;line-height:1.42;font-weight:500;margin-bottom:9px}
+#yel .hl{background:linear-gradient(#F2C230,#F2C230) no-repeat 0 100%/0% 100%;font-weight:700}
+#chat{left:1150px;top:120px;width:700px;height:660px;display:flex;flex-direction:column}
+#chat .body{flex:1;padding:28px 32px;display:flex;flex-direction:column;gap:18px;font-size:26px}
+#chat .bubble-me{line-height:1.6;align-self:stretch;min-height:60px}
+#note{font-size:22px;color:#6B7280;padding:0 6px;line-height:1.5}
+#input{margin:0 32px 28px;height:64px;border:2px solid #D7DBE2;border-radius:32px;display:flex;align-items:center;padding:0 26px;font-size:23px;color:#9AA1AC}
+</style></head>
+<body><div id="stage">
+  <div id="cam">
+    <div id="ph"></div>
+    <div id="posters"></div>
+    <div id="memo" class="abs print"><div class="ln" id="m1">밥 주는 거</div><div class="ln" id="m2">화 안 내는 거</div><div class="ln" id="m3">마감이 일찍</div></div>
+    <div id="yel" class="abs print"><div class="t">저녁 알바 구해요 (평일 주 3일)</div><div class="l">시간: 17:30 ~ 21:00 · 시급 10,500원</div><div class="l"><span class="hl" id="hl">밥 줘요.</span> 출근하면 국밥 한 그릇 먹고 시작해요.</div><div class="l">사장님이 화 안 내요. 처음엔 다들 실수해요. 천천히 알려 드려요.</div><div class="l">마감은 21시 칼같이. 막차 걱정 없어요.</div><div class="l">경력 없어도 돼요. 일 순서는 종이로 정리돼 있어요.</div><div class="l">문의: 010-0000-0000 (문자 주세요)</div></div>
+  </div>
+  <div id="chat" class="abs chat" data-box="chat">
+    <div class="bar"><div class="dot" style="background:#E5594F"></div><div class="dot" style="background:#E9B43F"></div><div class="dot" style="background:#58B84F"></div><span style="margin-left:16px">새 대화</span></div>
+    <div class="body"><div class="bubble-me" id="p1"></div><div id="note"></div></div>
+    <div id="input">무엇이든 물어보세요</div>
+  </div>
+</div>
+<script src="../data/s32.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#ECE8E0', '#15181C', '#F2C230'];
+const ANG = [-2.2, 1.4, -1.0, 2.6, -1.7, 1.1, -2.7, 1.9, -0.8, 2.3];
+const JIT = [[0, 4], [3, -6], [-4, 2], [2, 7], [-3, -3], [4, 5], [-2, -5], [0, 3], [5, -2], [-4, 6]];
+let h = '';
+for (let i = 0; i < 10; i++) {
+  if (i === 2) continue;                              // 빈 자리 — 메모·노랑 공고가 들어갈 자리
+  const c = i % 5, r = Math.floor(i / 5);
+  h += `<div class="pst print" style="left:${267 + c * 288 + JIT[i][0]}px;top:${125 + r * 416 + JIT[i][1]}px;transform:rotate(${ANG[i]}deg)"><div class="h">홀 서빙<br>알바 구합니다</div><div class="b"><div><span class="u">성실한 분 구합니다.</span></div><div><span class="u">경력자 우대.</span></div><div>시급 협의.</div><div>연락 주세요.</div></div></div>`;
+}
+S.$('#posters').innerHTML = h;
+const T = { m1: S.at('밥주는거'), m2: S.at('화안내는'), m3: S.at('마감이'), chat: S.at('알바공고') - 0.45, ins: S.at('이렇게') };
+const PROMPT = [
+  ['우리 가게 알바 공고 써 줘.', 8, 0],
+  ['시급이랑 시간은 이거고,', 10, 0],
+  ['우리 가게 좋은 점은 밥 주는 거랑', 12, 0],
+  ['사장님이 화 안 내는 거야.', 14, 0],
+  ['20대가 읽고 지원하고 싶게,', 15, 0],
+  ['과장하지 말고.', 18, 0],
+];
+// 줄 시각은 녹음 줄(t0/t1)에서
+const LN = i => S.line(i);
+const SEG = [[PROMPT[0][0], S.at('우리가게알바공고'), S.at('시급이랑') - 0.1],
+  [PROMPT[1][0], S.at('시급이랑'), S.at('우리가게좋은') - 0.1],
+  [PROMPT[2][0], S.at('우리가게좋은'), S.at('사장님이화안내는거야') - 0.1],
+  [PROMPT[3][0], S.at('사장님이화안내는거야'), S.at('20대가') - 0.1],
+  [PROMPT[4][0], S.at('20대가'), S.at('과장하지') - 0.1],
+  [PROMPT[5][0], S.at('과장하지'), S.at('이렇게') - 0.25]];
+const NOTE = '(시급 10,500원 · 평일 저녁 17:30~21:00 · 주 3일)', NOTE0 = S.at('시급이랑') + 0.2, NOTE1 = S.at('우리가게좋은');
+S.ev(T.m1 - 0.15, 'page', 'memo'); S.ev(T.m3, 'marker', 'm3');
+S.ev(T.chat, 'msg_in', 'chat'); S.ev(SEG[0][1], 'type', 'p1');
+S.ev(T.ins, 'page', 'yel'); S.ev(T.ins + 0.4, 'marker', 'hl');
+const camSet = (sel, s, cx, cy) => {
+  const tx = S.clamp(960 - cx * s, 1920 - 1920 * s, 0), ty = S.clamp(540 - cy * s, 1080 - 1180 * s, 100 * s);
+  S.css(sel, { transform: `translate(${tx}px,${ty}px) scale(${s})` });
+};
+S.scene(tau => {
+  // 카메라: 게시판 클로즈업(왼쪽 위 빈 자리 쪽) → 마지막에 노랑 공고 한 장으로
+  const a = S.cam(tau, -0.3, 2.8), b = S.cam(tau, T.ins - 0.1, T.ins + 1.0);
+  let s = S.lerp(1.35, 1.5, a), cx = S.lerp(1090, 1235, a), cy = S.lerp(420, 395, a);
+  s = S.lerp(s, 1.5, b); cx = S.lerp(cx, 968, b); cy = S.lerp(cy, 432, b);
+  camSet('#cam', s, cx, cy);
+  // 메모: 세 줄이 손글씨처럼 왼→오로 써짐
+  const mk = S.ent(tau, T.m1 - 0.15, 0.16) * (1 - S.ent(tau, T.ins - 0.05, 0.14));
+  S.css('#memo', { opacity: mk, transform: `rotate(1.2deg) translateY(${(1 - S.ent(tau, T.m1 - 0.15, 0.16)) * -24}px)` });
+  [['#m1', T.m1], ['#m2', T.m2], ['#m3', T.m3]].forEach(([id, t]) => { S.css(id, { clipPath: `inset(-4px ${(1 - S.cam(tau, t, t + 0.55)) * 100}% -4px 0)` }); });
+  // 대화창: 프롬프트가 말 따라 타자, 시급 줄은 «이거고» 뒤에
+  const ck = S.ent(tau, T.chat, 0.14) * (1 - S.ent(tau, T.ins - 0.35, 0.18));
+  S.css('#chat', { opacity: ck, transform: `translateX(${(1 - S.ent(tau, T.chat, 0.14)) * 40 + S.ent(tau, T.ins - 0.35, 0.18) * 30}px)` });
+  let txt = '';
+  SEG.forEach(sg => { const n = Math.floor(S.clamp((tau - sg[1]) / Math.max(0.2, sg[2] - sg[1]), 0, 1) * [...sg[0]].length); if (n > 0) txt += (txt ? ' ' : '') + [...sg[0]].slice(0, n).join(''); });
+  S.$('#p1').innerHTML = S.esc(txt) + (tau >= SEG[0][1] && tau < SEG[5][2] + 0.1 ? '<span class="caret"></span>' : '');
+  const n2 = Math.floor(S.clamp((tau - NOTE0) / Math.max(0.2, NOTE1 - NOTE0), 0, 1) * [...NOTE].length);
+  S.$('#note').textContent = [...NOTE].slice(0, n2).join('');
+  // 노랑 공고: 위에서 꽂힘 → «밥 줘요.» 형광펜
+  const y = S.ent(tau, T.ins, 0.16);
+  S.css('#yel', { opacity: y, transform: `translateY(${(1 - y) * -70}px) rotate(-0.8deg)` });
+  S.css('#hl', { backgroundSize: (S.cam(tau, T.ins + 0.4, T.ins + 0.85) * 100) + '% 100%' });
+});
+</script>
+</body></html>

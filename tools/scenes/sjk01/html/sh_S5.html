@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>sh_S5 리뷰 답글 — 쇼츠 세로 1080x1920</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+html,body,#stage{width:1080px;height:1920px} #stage{transform-origin:540px 960px}
+.L{position:absolute;left:0;top:0;width:1080px;height:1920px}
+#base{background:url("../../../../소재/sjk01/codex/c02_counter_night.png") center/cover no-repeat;filter:blur(20px) brightness(.38);transform:scale(1.12)}
+#c12{background:url("../../../../소재/sjk01/codex/c12_hand_phone_night.png") no-repeat;background-size:2880px 1920px;background-position:-1072px 0;transform-origin:540px 960px}
+#lap{background:url("../../../../소재/sjk01/codex/d10_laptop_counter_clean.png") no-repeat;background-size:2880px 1920px;background-position:-932px 0}
+#shade{background:linear-gradient(rgba(21,24,28,.85) 0,rgba(21,24,28,.6) 330px,rgba(21,24,28,.15) 520px,rgba(21,24,28,0) 1300px,rgba(21,24,28,.4) 1920px)}
+#title{position:absolute;left:0;top:0;width:1080px;height:440px;display:flex;flex-direction:column;justify-content:center;align-items:center;font-family:"Serif";font-weight:900;font-size:74px;line-height:1.32;color:#ECE8E0;text-shadow:0 3px 18px rgba(0,0,0,.6);padding-top:12px;white-space:nowrap}
+#big{position:absolute;left:0;top:650px;width:1080px;text-align:center;color:#ECE8E0}
+#big .n{font-size:170px;line-height:1.1;display:inline-block;position:relative;text-shadow:0 6px 30px rgba(0,0,0,.5)}
+#big .strike{position:absolute;left:-10px;top:50%;height:12px;width:0;background:#D8402F;margin-top:-6px}
+#big .l{margin-top:24px;font-size:46px;display:inline-block;color:#ECE8E0;background-image:linear-gradient(transparent 80%,#F2C230 80%);background-repeat:no-repeat;background-size:0% 100%;padding:0 10px}
+#big .t30{font-size:230px;line-height:1.05;color:#F2C230;margin-top:20px;text-shadow:0 6px 30px rgba(0,0,0,.5)}
+#chipA{position:absolute;left:0;top:1010px;width:1080px;display:flex;justify-content:center}
+#chipA div{background:#2E55D9;color:#ECE8E0;border-radius:999px;padding:12px 40px;font-size:38px}
+#rig{position:absolute;left:0;top:0;width:1080px;height:1920px;transform-origin:0 0}
+#ph{position:absolute;left:-564px;top:324px;width:1742px;height:1161px;background:url("../../../../소재/sjk01/codex/d09_phone_hand_night_clean.png") center/100% 100% no-repeat;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 8%,#000 92%,transparent 100%)}
+#app{position:absolute;left:0;top:0;width:440px;height:922px;background:#F4F5F7;border-radius:30px;overflow:hidden;font-family:"UI";color:#1A1A1A}
+#app .sb{height:50px;display:flex;align-items:center;justify-content:space-between;padding:0 26px;font-size:24px;font-weight:700}
+#app .hd{padding:2px 20px 0;font-size:36px;font-weight:800}
+#app .chips{display:flex;gap:8px;padding:8px 14px 10px}
+#app .chip{font-size:23px;padding:4px 10px;border-radius:999px;background:#E4E7EC;color:#3A3F47;white-space:nowrap}
+#app .chip.on{background:#1A1A1A;color:#fff}
+.rc{margin:0 14px 10px;background:#fff;border-radius:16px;padding:10px 14px 12px;border:3px solid transparent}
+.rc.bad{border-color:#D8402F}
+.rc .r1{display:flex;align-items:center;gap:8px;font-size:24px}
+.rc .nk{font-weight:700;flex:none}
+.rc .tm{margin-left:auto;color:#6B7280;flex:none}
+.rc .tx{font-size:26px;line-height:1.35;margin-top:4px;color:#222}
+#calc{position:absolute;left:610px;top:520px;width:440px;color:#ECE8E0}
+#calc .m{font-size:40px;margin-bottom:22px}
+#calc .m span{background:rgba(21,24,28,.85);padding:6px 20px;border-radius:12px;display:inline-block}
+#calc .s{font-size:150px;line-height:1.05;color:#F2C230;text-shadow:0 6px 24px rgba(0,0,0,.6)}
+#dim{background:#000;opacity:0}
+#oc{left:90px;top:520px;width:900px;height:520px;background:#fff;border-radius:26px;border:6px solid #D8402F;box-shadow:0 40px 90px rgba(0,0,0,.55);padding:34px 44px;font-family:"UI";color:#1A1A1A}
+#oc .t1{display:flex;align-items:center;gap:18px;font-size:40px;font-weight:800}
+#oc .av{width:58px;height:58px;border-radius:50%;background:#D5D8DE}
+#oc .tm{margin-left:auto;font-size:30px;font-weight:400;color:#6B7280}
+#oc .st{position:relative;display:flex;gap:10px;margin-top:22px;height:84px}
+#oc .tx{font-size:58px;font-weight:700;line-height:1.3;margin-top:22px}
+#circ{position:absolute;left:-14px;top:-12px;width:112px;height:108px;overflow:visible}
+#ui{position:absolute;left:0;top:0;width:1363px;height:829px;background:#fff;font-family:"UI";color:#1A1A1A;overflow:hidden;border-radius:18px}
+#ui .bar{height:60px;background:#F1F2F4;border-bottom:1px solid #E3E5E8;display:flex;align-items:center;gap:10px;padding:0 200px;font-size:22px;color:#6B7280}
+#ui .dot{width:14px;height:14px;border-radius:50%}
+#ui .bd{padding:22px 200px 0}
+#bub{margin-left:auto;max-width:880px;background:#EEF1F6;border-radius:18px;padding:16px 24px;font-size:30px;line-height:1.5;overflow:hidden}
+#bub.cl{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical}
+#gray{text-align:right;color:#6B7280;font-size:25px;margin-top:8px}
+#ans{margin-top:18px}
+.ar{height:50px;display:flex;align-items:center;gap:14px;font-size:24px;white-space:nowrap;overflow:hidden;color:#333;border-radius:10px;padding:0 12px}
+.ar .no{flex:none;font-weight:800;color:#2E55D9;width:34px}
+.ar .tx{overflow:hidden;text-overflow:ellipsis}
+#a1{height:auto;white-space:normal;align-items:flex-start;padding:10px 12px;font-size:30px;line-height:1.45}
+#a1 .no{font-size:30px;margin-top:0}
+#a1 .mkl{background-image:linear-gradient(transparent 52%,rgba(242,194,48,.95) 52%);background-repeat:no-repeat;background-size:0% 100%}
+#tag{position:absolute;left:640px;top:1200px}
+#tag div{background:#15181C;color:#ECE8E0;border-radius:999px;padding:12px 36px;font-size:36px}
+#lab{position:absolute;left:60px;top:520px}
+#lab div{border-radius:999px;padding:12px 34px;font-size:38px;margin-bottom:26px;display:inline-block}
+#cc{position:absolute;left:60px;top:500px;width:960px;background:#fff;border-radius:26px;padding:26px 34px 30px;font-family:"UI";color:#1A1A1A;box-shadow:0 30px 70px rgba(0,0,0,.5)}
+#cc .r{display:flex;align-items:center;gap:18px}
+#cc .av{width:60px;height:60px;border-radius:50%;background:#C9CDD3;flex:none}
+#cc .pin{display:flex;align-items:center;gap:8px;font-size:27px;font-weight:700;color:#5A5F68}
+#cc .tx{margin-top:16px;font-size:34px;font-weight:700;line-height:1.4;min-height:48px}
+#cc .mkl{background-image:linear-gradient(transparent 52%,rgba(242,194,48,.95) 52%);background-repeat:no-repeat;background-size:0% 100%}
+#pc{position:absolute;left:210px;top:830px;width:660px;height:470px;background:#fff;border-radius:52px;box-shadow:0 40px 90px rgba(0,0,0,.55);font-family:"UI";color:#1A1A1A;padding:50px 44px}
+#pc .b{background:#EEF1F6;border-radius:20px;padding:20px 24px;font-size:32px;line-height:1.5}
+#pc .g{color:#8A909B;font-size:27px;margin-top:20px;line-height:1.5}
+#pc .sel{background:linear-gradient(rgba(46,85,217,.28),rgba(46,85,217,.28)) no-repeat 0 0;background-size:0% 100%}
+#fly{position:absolute;left:0;top:0;font-family:"UI";font-weight:700;font-size:32px;white-space:nowrap;background:#2E55D9;color:#fff;border-radius:12px;padding:6px 14px;opacity:0}
+</style></head>
+<body><div id="stage">
+  <div id="base" class="L"></div>
+  <div id="c12" class="L" style="opacity:0"></div>
+  <div id="lap" class="L" style="opacity:0"><div id="ui"></div></div>
+  <div id="rig" style="opacity:0"><div id="ph"></div><div id="app"></div></div>
+  <div id="shade" class="L"></div>
+  <div id="dim" class="L"></div>
+  <div id="title"><div>리뷰 답글 한 달 7시간 반</div><div>30분으로 줄이는 법</div></div>
+
+  <div id="big" style="opacity:0"><div class="n serif" id="num" data-box="num" data-box-group="n">0시간 00분<div class="strike" id="strike"></div></div><br><div class="l mono" id="lbl" data-box="lbl" data-box-group="n">= 저녁 장사 하루</div><div class="t30 serif" id="t30">30분</div></div>
+  <div id="chipA"><div class="mono" id="chipAt" data-box="chipA" data-box-group="n">리뷰 답글</div></div>
+  <div id="calc"><div class="m mono" id="c1"><span>리뷰 5개/일</span></div><div class="m mono" id="c2"><span>× 3분</span></div><div class="s serif" id="c3">15분</div></div>
+  <div id="oc" class="abs" style="opacity:0"><div class="t1"><div class="av"></div>맛집탐**<span class="tm">오늘</span></div><div class="st" id="stars"><svg id="circ" viewBox="0 0 108 104"><path id="cp" d="M54 8 C 90 4, 106 34, 98 62 C 90 92, 40 100, 14 78 C -6 58, 8 18, 50 12 C 66 10, 78 12, 84 16" fill="none" stroke="#F2C230" stroke-width="7" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg></div><div class="tx">국물이 너무 짜요.<br>다시는 안 갑니다.</div></div>
+  <div id="tag" style="opacity:0"><div class="mono" data-box="tag" data-box-bleed>10개 · 1분</div></div>
+  <div id="lab" style="opacity:0"><div class="mono" id="lb1" style="background:#15181C;color:#ECE8E0">★1 · ★2</div><br><div id="lb2" style="background:#F2C230;color:#15181C;font-weight:700">사람이 한 번 읽기</div><br><div class="mono" id="lb3" style="background:#2E55D9;color:#ECE8E0">AI : 왜 화났는지 모름</div></div>
+  <div id="pc" style="opacity:0"><div class="b" id="pcb"><span class="sel" id="sel">아래 리뷰 열 개에 답글 써 줘.</span> 우리 가게는 동네 국밥집이고,</div><div class="g">말투는 친근하게, 이름은 부르지 말고, 별점 낮은 건 변명하지 말고…</div></div>
+  <div id="cc" style="opacity:0"><div class="r"><div class="av"></div><div class="pin"><svg width="32" height="32" viewBox="0 0 24 24"><path d="M14 3l7 7-3 1-3.5 3.5.5 4-1.5 1.5-4-4-5.5 5.5-1-1L9 15l-4-4 1.5-1.5 4 .5L14 6z" fill="#5A5F68"/></svg>고정됨</div></div><div class="tx"><span class="mkl" id="ccm"><span id="cct" style="opacity:0">아래 리뷰 열 개에 답글 써 줘.</span></span></div></div>
+  <div id="fly">아래 리뷰 열 개에 답글 써 줘.</div>
+</div>
+<script src="../data/sh_S5.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.W = 1080; window.H = 1920;
+window.BOXES = [{ kind: 'keepout', id: 'sub', x: 40, y: 1350, w: 1000, h: 190 }, { kind: 'keepout', id: 'app', x: 0, y: 1710, w: 1080, h: 210 }];
+window.PALETTE = ['#ECE8E0', '#15181C', '#2E55D9', '#F2C230', '#D8402F'];
+const star = (sz, on) => `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24"><path d="M12 2l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 18l-6.4 3.6L7 14.5 1.7 9.5l7.2-.9z" fill="${on ? '#F5A800' : '#D5D8DE'}"/></svg>`;
+const stars = (n, sz) => [1, 2, 3, 4, 5].map(i => star(sz, i <= n)).join('');
+const REV = [['맛집탐**', 1, '오늘', '국물이 너무 짜요. 다시는 안 갑니다.'], ['점심한그릇', 5, '어제', '혼밥했는데 양이 많아서 좋았어요'], ['ㅎㅇ**', 3, '어제', '맛은 괜찮은데 기다리는 시간이 길었어요'], ['국밥러버', 4, '2일 전', '깍두기가 진짜 맛있어요. 국밥은 무난'], ['dlwl**', 5, '2일 전', '부모님 모시고 갔는데 수육 부드럽다고 좋아하셨어요']];
+S.$('#app').innerHTML = `<div class="sb"><span>23:47</span><span>●●●</span></div><div class="hd">리뷰 관리</div><div class="chips"><span class="chip">새 리뷰 10</span><span class="chip on">답글 안 단 리뷰 10</span></div>` +
+  REV.map((r, i) => `<div class="rc${i ? '' : ' bad'}" id="rc${i}"><div class="r1"><span class="nk">${r[0]}</span><span style="display:flex">${stars(r[1], 22)}</span><span class="tm">${r[2]}</span></div><div class="tx">${r[3]}</div></div>`).join('');
+// 휴대폰 화면 네 모서리 = quads.json d09 photo 좌표 × 1.134 + (-564, 324), 안쪽 1.5% 줄임
+const Q0 = [[582.0, 119.9], [951.1, 124.6], [941.5, 896.0], [572.3, 891.4]].map(p => [p[0] * 1.134 - 564, p[1] * 1.134 + 324]);
+const cx = Q0.reduce((a, p) => a + p[0], 0) / 4, cy = Q0.reduce((a, p) => a + p[1], 0) / 4;
+S.fitQuad(S.$('#app'), 440, 922, Q0.map(p => [cx + (p[0] - cx) * 0.985, cy + (p[1] - cy) * 0.985]));
+S.$('#stars').insertAdjacentHTML('afterbegin', stars(1, 84).replace(/<svg /g, '<svg style="flex:none" '));
+// ── 노트북 화면 UI (d10 photo quad × 1.875 + (-932, 0))
+const AN = [['1', '★1 국물이 너무 짜요', '짜게 느끼셨다니 죄송합니다. 다음에 오시면 말씀해 주세요. 싱겁게 따로 말아 드릴게요.'],
+  ['2', '★5 혼밥 양 많아서', '혼자 오셔도 편하게 드실 수 있게 늘 넉넉히 담고 있어요. 다음 점심도 든든하게 챙겨 드릴게요!'],
+  ['3', '★3 기다리는 시간', '기다리시게 해서 죄송해요. 손님 몰리는 시간엔 주방에 한 명 더 붙여서 더 빨리 내 드릴게요.'],
+  ['4', '★4 깍두기 맛있어요', '깍두기는 매주 직접 담가요. 다음엔 국밥도 깍두기만큼 기억에 남게 끓여 볼게요!'],
+  ['5', '★5 부모님 수육', '부모님 모시고 와 주셔서 감사해요. 수육은 매일 아침 삶아서 부드럽게 내고 있어요. 또 모시고 오세요!'],
+  ['6', '★2 테이블 끈적', '불편하셨겠어요, 죄송합니다. 손님 나가실 때마다 테이블을 두 번 닦도록 바로 바꿨어요.'],
+  ['7', '★5 퇴근길에 생각나는 집', '퇴근길에 생각나는 집이라니 그 말이 제일 힘이 돼요. 오늘도 따뜻하게 끓여 두겠습니다.'],
+  ['8', '★4 순대국 특 가격', '양 넉넉하게 느끼셨다니 다행이에요. 가격 말씀도 잘 새겨들을게요. 다음에도 든든하게 담아 드릴게요.'],
+  ['9', '★3 포장 국물 샘', '봉투까지 젖게 해 드려 죄송합니다. 포장 국물은 이제 뚜껑 위에 랩을 한 번 더 씌워 드려요.'],
+  ['10', '★5 늦게까지', '늦은 시간에도 찾아 주셔서 감사해요. 섞어국밥 추천까지! 다음에도 따뜻하게 기다릴게요.']];
+S.$('#ui').innerHTML = `<div class="bar"><div class="dot" style="background:#E5594F"></div><div class="dot" style="background:#E9B43F"></div><div class="dot" style="background:#58B84F"></div><span style="margin-left:14px">새 대화</span></div><div class="bd"><div id="bub"></div><div id="gray">(리뷰 10개 붙여 넣음)</div><div id="ans">` +
+  AN.map((a, i) => i === 0 ? `<div class="ar" id="a1"><span class="no">1</span><span><b>${a[1]}</b><br><span id="a1t"></span></span></div>` : `<div class="ar" id="a${i + 1}"><span class="no">${a[0]}</span><span class="tx"><b>${a[1]}</b> → ${a[2]}</span></div>`).join('') + `</div></div>`;
+S.fitQuad(S.$('#ui'), 1363, 829, [[421.9, 248.5], [1148.9, 250.0], [1148.0, 691.5], [420.9, 690.0]].map(p => [p[0] * 1.875 - 932, p[1] * 1.875]));
+
+const L = i => S.SC.lines.find(l => l.i === i);
+const T = {
+  n0: 0.12, lbl: S.at('저녁 장사'), chA: S.at('리뷰 답글에'), phone: L(38).t0 - 0.1,
+  c1: S.at('리뷰 다섯'), c2: S.at('3분씩'), c3: S.at('15분'),
+  push: L(50).t0, oc: L(53).t0, circ: L(53).t0 + 0.8, lap: L(57).t0 - 0.15,
+  pour: S.at('열 개가'), a1: L(66).t0, chip: S.at('1분이면'), strike: L(72).t0 + 0.35, t30: S.at('30분'),
+  c12: L(75).t0 - 0.15, lb1: L(75).t0 + 0.2, lb2: S.at('꼭 읽고'), lb3: S.at('AI는'),
+  cta: L(418).t0, sel: L(418).t0 + 0.45, fly: S.at('고정 댓글'), mk: S.at('내일 아침'),
+};
+const PR = [58, 59, 60, 61, 62, 63].map(i => { const l = L(i); return [(i === 58 ? '' : ' ') + l.text, l.t0, l.t1]; });
+T.pe = PR[5][2];
+S.ev(T.n0 + 0.1, 'big_in', 'num'); S.ev(T.lbl + 0.1, 'marker', 'lbl'); S.ev(T.phone + 0.1, 'card_in', 'rig');
+S.ev(T.circ, 'marker', 'cp'); S.ev(PR[0][1], 'type', 'bub'); S.ev(T.pour, 'sweep', 'ans');
+S.ev(T.strike, 'no', 'strike'); S.ev(T.t30, 'big_in', 't30'); S.ev(T.fly, 'sweep', 'fly');
+
+let FT = { x: 0, y: 0, w: 0, h: 0 }; // 붙여넣을 자리
+S.init = async () => { await document.fonts.ready; };
+const fadeSw = (id, tin, tout, d = 0.3) => S.css(id, { opacity: S.clamp(S.P(tau0, tin, tin + d) - S.P(tau0, tout, tout + d)) });
+let tau0 = 0;
+S.scene(tau => {
+  tau0 = tau;
+  S.css('#c12', { transform: `scale(${1 + 0.06 * S.P(tau, T.c12, T.cta + 5)})` });
+  // ── 1. 큰 숫자
+  const bi = Math.max(S.ent(tau, -0.1, 0.2) * (1 - S.P(tau, T.phone - 0.3, T.phone + 0.15)), S.ent(tau, T.strike - 0.6, 0.25) * (1 - S.P(tau, T.c12 - 0.3, T.c12 + 0.1)));
+  const inA = tau < T.phone + 0.3;
+  const v = inA ? S.count(tau, T.n0, T.n0 + 1.4, 0, 450) : 450;
+  S.$('#num').firstChild.textContent = Math.floor(v / 60) + '시간 ' + String(Math.round((v % 60) / 5) * 5).padStart(2, '0') + '분';
+  S.css('#big', { opacity: bi, transform: `scale(${0.96 + 0.04 * bi})` });
+  S.css('#strike', { width: (S.cam(tau, T.strike, T.strike + 0.5) * 112) + '%' });
+  S.css('#lbl', { backgroundSize: (S.cam(tau, T.lbl, T.lbl + 0.5) * 100) + '% 100%', opacity: tau < T.phone + 0.3 ? S.ent(tau, T.lbl - 0.1, 0.15) : 0 });
+  S.css('#t30', { opacity: S.ent(tau, T.t30, 0.18), transform: `translateY(${(1 - S.ent(tau, T.t30, 0.18)) * 40}px)` });
+  S.$('#t30').style.display = tau >= T.strike - 0.6 ? 'block' : 'none';
+  S.$('#lbl').style.display = tau < T.phone + 0.3 ? 'inline-block' : 'none';
+  S.css('#chipA', { opacity: S.ent(tau, T.chA, 0.16) * (1 - S.P(tau, T.phone - 0.3, T.phone + 0.1)), transform: `translateY(${(1 - S.ent(tau, T.chA, 0.16)) * 20}px)` });
+  // ── 2. 휴대폰 + 리뷰 앱
+  const ri = S.ent(tau, T.phone, 0.3), ro = S.P(tau, T.lap - 0.1, T.lap + 0.25);
+  const k = S.cam(tau, T.push, T.push + 1.0);
+  const s = 1 + 0.08 * k + 0.035 * S.P(tau, T.push + 1.0, T.oc), tx = 240 * k - 0, ty = 900 * (1 - s);
+  S.css('#rig', { opacity: ri * (1 - ro), transform: `translate(${240 * k + (1 - s) * 300}px,${ty}px) scale(${s}) translateY(${(1 - ri) * 40}px)` });
+  S.css('#rc0', { background: `rgba(216,64,47,${0.14 * S.ent(tau, L(51).t0, 0.4)})`, borderWidth: (3 + 4 * S.ent(tau, L(52).t0, 0.3)) + 'px' });
+  for (let i = 0; i < 5; i++) { const q = S.ent(tau, T.phone + 0.1 + i * 0.13, 0.16); S.css('#rc' + i, { opacity: q }); }
+  const cl = (t, id) => { const q = S.ent(tau, t, 0.16) * (1 - S.cam(tau, T.push, T.push + 0.4)); S.css(id, { opacity: q, transform: `translateY(${(1 - q) * 20}px)` }); };
+  cl(T.c1, '#c1'); cl(T.c2, '#c2'); cl(T.c3, '#c3');
+  // ── ★1 큰 카드
+  const d = S.ent(tau, T.oc - 0.12, 0.2) * (1 - ro);
+  S.css('#dim', { opacity: 0.62 * d });
+  const o = S.ent(tau, T.oc - 0.1, 0.16) * (1 - ro);
+  S.css('#oc', { opacity: o, transform: `translate(${(1 - S.ent(tau, T.oc - 0.1, 0.16)) * 260}px,${(1 - S.ent(tau, T.oc - 0.1, 0.16)) * -80}px) scale(${0.5 + 0.5 * S.ent(tau, T.oc - 0.1, 0.16)})` });
+  S.css('#cp', { strokeDashoffset: 1 - S.cam(tau, T.circ, T.circ + 0.55) });
+  // ── 3. 노트북
+  const li = S.ent(tau, T.lap, 0.3) * (1 - S.P(tau, T.strike - 0.5, T.strike - 0.15));
+  S.css('#lap', { opacity: li });
+  let html = '';
+  PR.forEach((p, i) => { const arr = [...p[0]], kk = S.clamp((tau - p[1]) / Math.max(0.3, p[2] - p[1] - 0.15)); html += S.esc(arr.slice(0, Math.floor(arr.length * kk)).join('')); });
+  const bub = S.$('#bub'); bub.innerHTML = html + (tau >= PR[0][1] && tau < T.pe ? '<span class="caret"></span>' : '');
+  bub.style.opacity = tau >= PR[0][1] - 0.05 ? 1 : 0;
+  bub.classList.toggle('cl', tau >= T.pour - 0.05);
+  S.css('#gray', { opacity: S.ent(tau, PR[1][1], 0.2) });
+  for (let i = 1; i <= 10; i++) {
+    const q = S.ent(tau, T.pour + 0.1 * (i - 1), 0.16);
+    const dim = i > 1 ? 1 - 0.7 * S.cam(tau, T.a1 - 0.1, T.a1 + 0.3) : 1;
+    S.css('#a' + i, { opacity: q * dim, transform: `translateY(${(1 - q) * 20}px)`, background: i === 1 ? `rgba(242,194,48,${0.35 * S.cam(tau, T.a1 - 0.1, T.a1 + 0.3)})` : 'transparent' });
+  }
+  // 1번 답글: 줄마다
+  const t1 = [66, 67, 68, 69].map(i => L(i));
+  const full = ['짜게 느끼셨다니 죄송합니다.', ' 다음에 오시면 말씀해 주세요.', ' 싱겁게 따로 말아 드릴게요.'];
+  let a1 = '';
+  full.forEach((f, i) => { const arr = [...f], kk = S.clamp((tau - t1[i].t0) / Math.max(0.3, t1[i].t1 - t1[i].t0 - 0.2)); a1 += arr.slice(0, Math.floor(arr.length * kk)).join(''); });
+  S.$('#a1t').innerHTML = `<span class="mkl" style="background-size:${S.cam(tau, t1[3].t0, t1[3].t0 + 0.6) * 100}% 100%">${S.esc(a1)}</span>`;
+  S.css('#tag', { opacity: S.ent(tau, T.chip, 0.16) * (tau < T.strike - 0.5 ? 1 : 0) });
+  // ── 4. 다시 큰 숫자(위 #big) — 위에서 처리 / 5. 사진 c12 + 라벨
+  const ci = S.ent(tau, T.c12, 0.3) * (1 - S.P(tau, T.cta + 6, T.cta + 7));
+  S.css('#c12', { opacity: ci });
+  S.css('#base', { opacity: 1 });
+  const lbo = 1 - S.cam(tau, T.cta - 0.1, T.cta + 0.2);
+  S.css('#lab', { opacity: S.ent(tau, T.lb1, 0.16) * lbo });
+  S.css('#lb2', { boxShadow: `0 0 0 ${8 * S.ent(tau, S.at('올리셔야'), 0.25)}px rgba(236,232,224,.9)` });
+  [['#lb1', T.lb1], ['#lb2', T.lb2], ['#lb3', T.lb3]].forEach(([id, t]) => { const q = S.ent(tau, t, 0.16); S.css(id, { opacity: q, transform: `translateX(${(1 - q) * -40}px)` }); });
+  // ── 6. CTA — 휴대폰 화면 글이 복사 → 고정 댓글
+  const pi = S.ent(tau, T.cta, 0.22);
+  S.css('#pc', { opacity: pi, transform: `translateY(${(1 - pi) * 50}px)` });
+  S.css('#sel', { backgroundSize: (S.cam(tau, T.sel, T.sel + 0.4) * 100) + '% 100%' });
+  const ci2 = S.ent(tau, T.cta + 0.2, 0.2);
+  S.css('#cc', { opacity: ci2, transform: `translateY(${(1 - ci2) * -30}px)` });
+  const f = S.cam(tau, T.fly, T.fly + 0.9);
+  // 날아가는 줄: pc 안 첫 줄(약 x 254,y 880) → cc 글 자리(약 x 154,y 640)
+  S.css('#fly', { opacity: tau >= T.fly && f < 1 ? 1 : 0, transform: `translate(${278 + (94 - 278) * f}px,${892 + (600 - 892) * f}px) scale(${1 - 0.06 * f})` });
+  S.css('#cct', { opacity: f >= 1 ? 1 : 0 });
+  S.css('#ccm', { backgroundSize: (S.cam(tau, T.mk, T.mk + 0.5) * 100) + '% 100%' });
+});
+</script>
+</body></html>

@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s01 밤 상가 거리 (원테이크 1)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+.seq{position:absolute;left:0;top:0;width:1920px;height:1080px}
+</style></head>
+<body><div id="stage">
+  <img id="a" class="seq" alt="">
+</div>
+<script src="../data/s01.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="op_seq.js"></script>
+<script>
+// ★1 오프닝 원테이크 — 밤 11시 상가 거리(Codex 사진 + 블렌더 2.5D 카메라 밀기). 글 없음(사진과 목소리만).
+window.PALETTE = [];
+S.ev(0.0, 'in', 'street');
+S.scene(async tau => { await OP.draw(tau + S.SC.t0); });
+</script>
+</body></html>

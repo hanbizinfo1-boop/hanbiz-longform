@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s22 혜택은 한가한 시간에 — 평일 막대와 열 칸</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#chart{left:0;top:0;width:1920px;height:1080px}
+#ttl{left:200px;top:96px;font-size:34px;color:#15181C}
+#base{position:absolute;left:170px;top:760px;width:1560px;height:4px;background:#15181C}
+.bar{position:absolute;z-index:2;width:96px;bottom:320px;transform-origin:50% 100%;background:#15181C}
+.sat{position:absolute;z-index:1;width:96px;bottom:320px;transform-origin:50% 100%;background:rgba(46,85,217,.6);border:3px solid #2E55D9}
+.val{position:absolute;z-index:3;width:96px;text-align:center;font-size:28px;color:#15181C}
+.hr{position:absolute;top:778px;width:96px;text-align:center;font-size:28px;color:#5A5650}
+.bd{position:absolute;z-index:4;width:104px;height:50px;background:#F2C230;color:#15181C;border-radius:6px;font-size:30px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 16px rgba(0,0,0,.2)}
+#busy{left:1090px;top:178px;font-size:34px;color:#D8402F;border:4px solid #D8402F;border-radius:6px;padding:8px 22px;background:#F4F1EA}
+#legend{left:930px;top:192px;font-size:28px;color:#2E55D9}
+#agree{left:1190px;top:866px;font-size:32px;padding:10px 26px;background:#15181C;color:#ECE8E0;border-radius:999px}
+#rowwrap{left:0;top:0;width:1920px;height:1080px}
+.cell{position:absolute;top:290px;width:150px;height:400px;border:3px solid #15181C;border-radius:8px;background:rgba(251,250,246,.55);overflow:hidden}
+.cell .fill{position:absolute;inset:0;background:#2E55D9;transform-origin:50% 100%}
+.cell .no{position:absolute;left:0;right:0;top:70px;text-align:center;font-size:60px;color:#15181C}
+.cell .nm{position:absolute;left:0;right:0;bottom:46px;text-align:center;font-size:28px;color:#ECE8E0;opacity:0;font-family:"UI";font-weight:700}
+</style></head>
+<body><div id="stage">
+  <div class="bg tex-paper"></div>
+  <div id="chart" class="abs">
+    <div id="ttl" class="abs mono" data-box="ttl">평일 시간대별 손님 수</div>
+    <div id="base"></div>
+  </div>
+  <div id="busy" class="abs mono" data-box="busy">주말 = 이미 바쁨</div>
+  <div id="legend" class="abs mono" data-box="legend">토요일</div>
+  <div id="agree" class="abs mono" data-box="agree">수신 동의한 번호만</div>
+  <div id="rowwrap" class="abs"></div>
+</div>
+<script src="../data/s22.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#ECE8E0', '#15181C', '#2E55D9', '#F2C230', '#D8402F'];
+const HRS = [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
+const WK = [9, 22, 20, 8, 5, 6, 13, 33, 39, 30, 12];
+const SAT = [18, 30, 29, 24, 19, 18, 25, 48, 53, 43, 20];
+const PX = 9;
+const chart = S.$('#chart');
+let h = '';
+HRS.forEach((hr, i) => {
+  const x = 221 + i * 138;
+  h += `<div class="bar" id="b${i}" style="left:${x}px;height:${WK[i] * PX}px"></div>`;
+  h += `<div class="sat" id="s${i}" style="left:${x}px;height:${SAT[i] * PX}px"></div>`;
+  h += `<div class="val mono" id="v${i}" style="left:${x}px;top:${760 - WK[i] * PX - 44}px">${WK[i]}</div>`;
+  h += `<div class="hr mono" style="left:${x}px">${hr}시</div>`;
+});
+[3, 4, 5].forEach((i, k) => { h += `<div class="bd mono" id="bd${k}" style="left:${221 + i * 138 - 4}px;top:${760 - WK[i] * PX - 44 - 66}px">혜택</div>`; });
+chart.insertAdjacentHTML('beforeend', h);
+const NAMES = ['리뷰 답글', '소식 글', '메뉴 설명', '단골 문자'];
+const rw = S.$('#rowwrap');
+let r = '';
+for (let i = 0; i < 10; i++) r += `<div class="cell" id="ce${i}" style="left:${120 + i * 170}px"><div class="fill" id="cf${i}" style="transform:scaleY(0)"></div><div class="no mono" id="cn${i}">${String(i + 1).padStart(2, '0')}</div>${i < 4 ? `<div class="nm" id="cm${i}">${NAMES[i]}</div>` : ''}</div>`;
+rw.innerHTML = r;
+const T = { bars: S.at('혜택은'), badge: S.at('한가한'), sat: S.at('바쁜'), busy: S.at('사장님만'), agree: S.at('동의받은'), row: S.at('자여기까지가') - 0.05 };
+const FILL = [S.at('여기까지가'), S.at('손님', 1), S.at('관련'), S.at('업무였어요')];
+S.ev(T.bars, 'gauge', 'bars'); S.ev(T.badge, 'card_in', 'bd'); S.ev(T.sat + 0.2, 'gauge', 'sat'); S.ev(T.busy, 'msg_in', 'busy');
+S.ev(T.agree, 'card_in', 'agree'); S.ev(T.row, 'in', 'row'); S.ev(FILL[0], 'ok', 'cf0');
+S.scene(tau => {
+  // 평일 막대 11개
+  HRS.forEach((hr, i) => {
+    const k = S.cam(tau, T.bars + i * 0.07, T.bars + i * 0.07 + 0.6);
+    S.css('#b' + i, { transform: `scaleY(${k})` });
+    S.css('#v' + i, { opacity: S.ent(tau, T.bars + i * 0.07 + 0.45, 0.15) });
+    const ks = S.cam(tau, T.sat + i * 0.06, T.sat + i * 0.06 + 0.7);
+    S.css('#s' + i, { transform: `scaleY(${ks})` });
+  });
+  S.css('#ttl', { opacity: S.ent(tau, T.bars, 0.2) });
+  [0, 1, 2].forEach(k => { const e = S.ent(tau, T.badge + k * 0.15, 0.16); S.css('#bd' + k, { opacity: Math.min(1, e * 3), transform: `translateY(${(1 - e) * -70}px)` }); });
+  const kb = S.ent(tau, T.busy, 0.14); S.css('#busy', { opacity: kb, transform: `translateY(${(1 - kb) * 14}px)` });
+  S.css('#legend', { opacity: S.ent(tau, T.sat + 1.0, 0.15) });
+  const ka = S.ent(tau, T.agree, 0.14); S.css('#agree', { opacity: ka, transform: `translateY(${(1 - ka) * 14}px)` });
+  // 10칸 줄이 판 전체로 — 막대 판은 물러남
+  const out = S.ent(tau, T.row - 0.05, 0.25);
+  S.css('#chart', { opacity: 1 - out });
+  ['#busy', '#legend', '#agree'].forEach(id => { const e = S.$(id); e.style.opacity = parseFloat(e.style.opacity) * (1 - out); });
+  const ri = S.ent(tau, T.row, 0.2);
+  S.css('#rowwrap', { opacity: ri, transform: `translateY(${(1 - ri) * 30}px)` });
+  for (let i = 0; i < 4; i++) {
+    const f = S.ent(tau, FILL[i], 0.2);
+    S.css('#cf' + i, { transform: `scaleY(${f})` });
+    S.css('#cn' + i, { color: f > 0.5 ? '#ECE8E0' : '#15181C' });
+    S.css('#cm' + i, { opacity: f });
+  }
+});
+</script>
+</body></html>

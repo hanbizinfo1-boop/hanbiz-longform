@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s05 오늘은 열 가지 — 책상 위 결과 카드</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#board{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+.card{position:absolute;left:0;top:0;width:304px;height:330px;perspective:1600px;transform-origin:50% 50%}
+.flip{position:absolute;inset:0;transform-style:preserve-3d}
+.face{position:absolute;inset:0;border-radius:6px;padding:22px 22px;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden}
+.face.back{transform:rotateY(180deg);background:#F7F4EC;box-shadow:0 18px 40px rgba(0,0,0,.35)}
+.num{font-size:22px;color:#2E55D9;letter-spacing:.08em}
+.ttl{font-size:40px;line-height:1.15;margin:6px 0 16px;color:#15181C}
+.txt{font-family:"UI";font-size:22px;line-height:1.5;color:#2A2A2A;font-weight:400}
+.chk{position:absolute;right:16px;top:16px;width:40px;height:40px;border-radius:50%;background:#2E55D9;display:flex;align-items:center;justify-content:center}
+.back .num{font-size:12px}
+.back .ttl{font-size:19px;margin:4px 0 10px}
+.back .txt{font-size:17px;line-height:1.55;color:#15181C}
+.back .rule{height:2px;background:#15181C;opacity:.85;margin:0 0 12px}
+.sel{background:linear-gradient(rgba(46,85,217,.30),rgba(46,85,217,.30)) no-repeat;background-size:0% 100%}
+#cur{position:absolute;left:0;top:0;width:44px;height:44px;opacity:0;z-index:400}
+#copied{position:absolute;left:0;top:0;z-index:300;font-size:24px;padding:12px 22px;border-radius:999px;background:#2E55D9;color:#fff;opacity:0}
+</style></head>
+<body><div id="stage">
+  <div class="bg tex-desk"></div>
+  <div id="board"></div>
+  <svg id="cur" viewBox="0 0 24 24"><path d="M3 2 L3 19 L8 14.5 L11.5 22 L14.5 20.6 L11 13.2 L18 13 Z" fill="#fff" stroke="#15181C" stroke-width="1.6" stroke-linejoin="round"/></svg>
+  <div id="copied" class="mono" data-box="copied">복사됨</div>
+</div>
+<script src="../data/s05.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#ECE8E0', '#15181C', '#2E55D9'];
+const CARDS = [
+  ['01', '리뷰 답글', '짜게 느끼셨다니 죄송합니다. 다음에 오시면 말씀해 주세요. 싱겁게 따로 말아 드릴게요.'],
+  ['02', '소식 글', '[신메뉴] 얼큰 순대국이 나왔습니다. 진한 순대국에 청양고추 다대기를 올려 칼칼하게 끓였어요.'],
+  ['03', '메뉴 설명', '사골을 12시간 고아서 국물이 뽀얗고, 앞다리살이 한 숟갈마다 올라와요.'],
+  ['04', '단골 문자', '사장입니다. 날이 쌀쌀해졌네요. 국밥 생각나실 때 다음 주 평일 점심에 들러 주세요.'],
+  ['05', '근무표', '민지 · 주 32.5시간\n준호 · 주 20시간\n서연 · 주 34.5시간\n현우 · 주 32.5시간'],
+  ['06', '알바 매뉴얼', '위험한 것 먼저\n1. 가스 잠그기 — 주방 뒤쪽 노란 밸브를 옆으로 돌린다'],
+  ['07', '채용 공고', '저녁 알바 구해요 (평일 주 3일)\n시간: 17:30 ~ 21:00 · 시급 10,500원\n밥 줘요.'],
+  ['08', '매출 분석', '제일 안 팔리는 시간\n화요일 15시(평균 2명)\n수요일 15시(3명)'],
+  ['09', '메뉴 원가', '원가 4,000원\n판매가 10,000원\n원가율 40%'],
+  ['10', '계약서', '제11조 자동 연장 — 1개월 전 서면 통지를 놓치면 1년이 그대로 연장돼요.'],
+];
+const PROMPT = '아래 리뷰 열 개에 답글 써 줘. 우리 가게는 ○○동 ○○집이고, 말투는 친근하게, 이름은 부르지 말고, 별점 낮은 건 변명하지 말고 고칠 거 하나만 말해 줘.';
+const board = S.$('#board');
+CARDS.forEach((c, i) => {
+  const el = document.createElement('div'); el.className = 'card'; el.id = 'c' + i;
+  el.innerHTML = `<div class="flip"><div class="face front print"><div class="num mono">${c[0]}</div><div class="ttl serif">${c[1]}</div><div class="txt">${S.esc(c[2]).replace(/\n/g, '<br>')}</div><div class="chk"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M5 12.5 L10 17.5 L19 7" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>` +
+    (i === 0 ? `<div class="face back"><div class="num mono">01 · 고정 댓글</div><div class="ttl serif">리뷰 답글</div><div class="rule"></div><div class="txt"><span id="sel" class="sel">${S.esc(PROMPT)}</span></div></div>` : '') + `</div>`;
+  board.appendChild(el);
+});
+const T = {
+  spread: S.at('열 가지'), chk: S.at('직접'), hero: S.at('프롬프트는') - 0.1, flip: S.at('고정'), cur: S.at('복사해서') - 0.6,
+  sel: S.at('복사해서'), back: S.at('넣기만') + 0.4, col: S.at('휴대폰으로') - 0.1,
+};
+const SL = [S.at('장사하시는'), S.at('AI한테'), S.at('넘길')];
+S.ev(0.3, 'card_in', 'pile'); S.ev(T.spread, 'sweep', 'grid'); S.ev(T.chk, 'ok', 'chk');
+S.ev(T.hero + 0.1, 'card_in', 'hero'); S.ev(T.flip, 'page', 'flip'); S.ev(T.sel, 'click', 'copy'); S.ev(T.col, 'sweep', 'col');
+const L = (a, b, k) => a + (b - a) * k;
+const gridPos = i => ({ x: 282 + 339 * (i % 5), y: i < 5 ? 355 : 725, r: 0, s: 1 });
+const colPos = i => ({ x: 960, y: 300 + 510 * i, r: 0, s: 1.447 });
+const pilePos = (i, tau) => {
+  let x = 960 + ((i * 37) % 11 - 5) * 3, y = 540 + ((i * 29) % 9 - 4) * 3, r = ((i * 53) % 9 - 4) * 0.9;
+  if (i < 3) { const k = S.cam(tau, SL[i], SL[i] + 0.4), d = i % 2 ? 1 : -1; x += d * 300 * k; r += d * 5 * k; y += 10 * k; }
+  return { x, y, r, s: 1 };
+};
+const mix = (a, b, k) => ({ x: L(a.x, b.x, k), y: L(a.y, b.y, k), r: L(a.r, b.r, k), s: L(a.s, b.s, k) });
+S.scene(tau => {
+  // 책상 클로즈업(1.9배)에서 시작해 «열 가지»에 빠르게 줌아웃
+  const zk = S.cam(tau, T.spread - 0.05, T.spread + 0.7);
+  const drift = 1 + 0.12 * S.P(tau, 0, T.spread);
+  const scroll = 470 * S.cam(tau, T.col + 0.6, S.SC.dur + 0.2);
+  const bs = L(1.9 * drift, 1, zk);
+  const k0 = S.ent(tau, 0.3, 0.3);
+  S.css('#board', { transform: `translateY(${-scroll}px) scale(${bs})`, opacity: k0 });
+  const hero = S.cam(tau, T.hero, T.hero + 0.5) * (1 - S.cam(tau, T.back + 0.1, T.back + 0.6));
+  const fl = S.cam(tau, T.flip, T.flip + 0.55) - S.cam(tau, T.back, T.back + 0.5);
+  CARDS.forEach((c, i) => {
+    const kg = S.cam(tau, T.spread + i * 0.045, T.spread + i * 0.045 + 0.55);
+    const kc = S.cam(tau, T.col + i * 0.03, T.col + i * 0.03 + 0.6);
+    let st = mix(mix(pilePos(i, tau), gridPos(i), kg), colPos(i), kc);
+    const el = S.$('#c' + i);
+    if (i === 0) st = mix(st, { x: 960, y: 505, r: 0, s: 2.2 }, hero);
+    el.style.transform = `translate(${st.x - 152}px,${st.y - 165}px) rotate(${st.r}deg) scale(${st.s})`;
+    el.style.zIndex = i === 0 && hero > 0 ? 200 : 60 - i;
+    el.style.opacity = i === 0 ? 1 : 1 - 0.72 * hero;
+    S.$('#c' + i + ' .flip').style.transform = i === 0 ? `rotateY(${180 * fl}deg)` : 'none';
+    const ck = S.ent(tau, T.chk + i * 0.09, 0.14);
+    const ch = S.$('#c' + i + ' .chk'); ch.style.opacity = ck; ch.style.transform = `scale(${0.6 + 0.4 * ck})`;
+  });
+  // 복사: 커서가 글 첫머리로 가서 끌어 선택 → «복사됨»
+  const ck1 = S.cam(tau, T.cur, T.sel);
+  const dr = S.P(tau, T.sel, T.sel + 0.9);
+  const cx = L(L(1480, 692, ck1), 1010, dr), cy = L(L(800, 350, ck1), 590, dr);
+  const cv = S.ent(tau, T.cur, 0.15) * (1 - S.ent(tau, T.back - 0.1, 0.2));
+  S.css('#cur', { opacity: cv, transform: `translate(${cx}px,${cy}px)` });
+  S.css('#sel', { backgroundSize: (S.EIO(dr) * 100) + '% 100%' });
+  const cp = S.ent(tau, T.sel + 0.95, 0.15) * (1 - S.ent(tau, T.back - 0.1, 0.2));
+  S.css('#copied', { opacity: cp, transform: `translate(1300px,800px) translateY(${(1 - cp) * 14}px)` });
+});
+</script>
+</body></html>

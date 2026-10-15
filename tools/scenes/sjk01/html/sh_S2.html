@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>sh_S2 쇼츠 — 원가 (세로 1080x1920)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+html,body,#stage{width:1080px;height:1920px} #stage{transform-origin:540px 960px;color:#ECE8E0}
+.bg{width:1080px;height:1920px}
+#title{left:40px;top:100px;width:1000px;height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#ECE8E0;text-shadow:0 4px 22px rgba(0,0,0,.5)}
+#title div{font-size:72px;line-height:1.28;white-space:nowrap;letter-spacing:-.02em}
+#panel{position:absolute;left:0;top:460px;width:1080px;height:880px;overflow:hidden}
+#pc38{position:absolute;left:0;top:0;width:1080px;height:880px;background:url("../../../../소재/sjk01/codex/c38_market_basket.png") -241px 0/1321px 880px no-repeat;transform-origin:80% 55%}
+#chip{left:50px;top:4px;height:52px;line-height:46px;padding:0 20px;border:3px solid #F2C230;border-radius:10px;font-size:28px;color:#F2C230;background:rgba(10,20,48,.85);white-space:nowrap}
+.r{position:absolute;left:0;width:1080px;height:62px}
+.r .nm{position:absolute;left:10px;width:260px;height:62px;line-height:62px;text-align:right;font-size:33px;font-weight:600}
+.r .tr{position:absolute;left:290px;width:600px;top:11px;height:40px;border-radius:5px;background:rgba(236,232,224,.1)}
+.r .fl{position:absolute;left:0;top:0;bottom:0;border-radius:5px;background:#2E55D9}
+.r .pc{position:absolute;top:0;height:62px;line-height:62px;font-size:33px;color:#ECE8E0;white-space:nowrap}
+#rem{position:absolute;left:720px;top:0;height:62px;line-height:62px;font-size:30px;color:#ECE8E0;white-space:nowrap}
+.k{position:absolute;left:50px;width:980px;height:380px;border:3px solid rgba(236,232,224,.3);border-radius:22px;background:rgba(236,232,224,.07)}
+.k .lb{position:absolute;left:34px;top:24px;font-size:32px;color:#9FB0CC}
+.k .fo{position:absolute;left:34px;top:86px;font-size:70px;font-weight:700;font-family:"Plex";white-space:nowrap}
+.k .pt{position:absolute;right:34px;top:60px;font-size:140px;line-height:1.1}
+.k .trk{position:absolute;left:34px;top:262px;width:910px;height:48px;border-radius:6px;background:rgba(236,232,224,.12)}
+.k .fil{position:absolute;left:0;top:0;bottom:0;border-radius:6px}
+.k .tick{position:absolute;top:252px;height:68px;width:4px;background:#ECE8E0}
+.k .tl{position:absolute;top:324px;font-size:26px;color:#9FB0CC;white-space:nowrap}
+#stg{position:absolute;left:0;top:0;width:1536px;height:1024px;transform-origin:0 0}
+#stg .sp{position:absolute;left:0;top:0;width:1536px;height:1024px;background:url("../../../../소재/sjk01/codex/e44_stage_screen_clean.png") 0 0/1536px 1024px no-repeat}
+#scr{position:absolute;left:407px;top:170px;width:1080px;height:568px;transform-origin:0 0;transform:scale(.6657);background:#171B22;color:#ECE8E0;font-family:"UI";overflow:hidden}
+#scr .qrow{position:absolute;left:20px;top:14px;width:1040px;height:62px}
+#scr .paste{position:absolute;left:0;top:0;width:250px;height:62px;border-radius:12px;background:#2A303A;overflow:hidden}
+#scr .paste i{position:absolute;left:14px;height:7px;border-radius:3px;background:#2E55D9}
+#scr .qb{position:absolute;right:0;top:0;height:62px;width:770px;border-radius:14px;background:#2A303A;font-size:27px;line-height:62px;padding:0 22px;white-space:nowrap}
+#scr .hd{position:absolute;top:96px;height:36px;line-height:36px;font-size:22px;color:#8F9BAD}
+.ar{position:absolute;left:30px;width:1020px;height:72px;border-radius:8px}
+.ar .a1{position:absolute;left:0;top:0;width:180px;height:72px;line-height:72px;font-size:31px;font-weight:700}
+.ar .a2{position:absolute;left:180px;top:0;width:130px;height:72px;line-height:72px;font-size:30px}
+.ar .a3{position:absolute;left:310px;top:4px;width:520px;font-size:26px;line-height:32px;color:#D9D5CD}
+.ar .a3 b{color:#fff}
+.ar .a3 b.rd{background:#D8402F;padding:0 8px;border-radius:5px}
+.ar .a4{position:absolute;left:830px;top:8px;width:190px;height:56px;border:3px dashed #8F9BAD;border-radius:8px}
+#ft{position:absolute;left:30px;top:504px;width:1020px;font-size:24px;line-height:30px;color:#D9D5CD}
+#dots{position:absolute;left:40px;top:200px;font-size:48px;color:#8F9BAD}
+#pap{color:#15181C;left:130px;top:40px;width:820px;height:780px;padding:40px 54px;transform-origin:50% 0}
+#pap .row{display:flex;justify-content:space-between;font-size:32px;line-height:56px;border-bottom:1px solid rgba(21,24,28,.18);font-weight:500}
+#pap .hh{font-size:30px;color:#5A5650;margin-bottom:10px}
+#thumb{left:290px;top:150px;width:500px;height:500px}
+</style></head>
+<body><div id="stage">
+  <div class="bg tex-navy"></div>
+  <div id="title" class="abs" data-box="title"></div>
+  <div id="panel">
+    <div id="pc38"></div>
+    <div id="rows" class="abs" style="left:0;top:0;width:1080px;height:880px">
+      <div id="chip" class="abs mono">작년 가격표 그대로?</div>
+    </div>
+    <div id="k1" class="k" style="top:30px">
+      <div class="lb mono">돼지국밥</div><div class="fo" id="k1f">4,000 / 10,000</div><div class="pt serif" id="k1p" style="color:#ECE8E0">40%</div>
+      <div class="trk"><div class="fil" id="k1b" style="background:#2E55D9"></div></div>
+      <div class="tick" style="left:calc(34px + 910px * .4)"></div><div class="tl mono" style="left:300px">보통 35~40%</div>
+    </div>
+    <div id="k2" class="k" style="top:450px">
+      <div class="lb mono">수육(소)</div><div class="fo" id="k2f">14,000 / 20,000</div><div class="pt serif" id="k2p" style="color:#F2C230">70%</div>
+      <div class="trk"><div class="fil" id="k2b" style="background:#F2C230"></div></div>
+      <div class="tick" style="left:calc(34px + 910px * .4)"></div>
+    </div>
+    <div id="stgw" class="abs" style="left:0;top:0;width:1080px;height:880px;overflow:hidden">
+      <div id="stg"><div class="sp" id="sp"></div>
+        <div id="scr">
+          <div class="qrow"><div class="paste" id="paste"><i style="top:12px;width:200px"></i><i style="top:24px;width:170px"></i><i style="top:36px;width:130px"></i><i style="top:48px;width:110px"></i></div><div class="qb" id="qb"></div></div>
+          <div id="dots" class="mono">· · ·</div>
+          <div class="hd" id="h1" style="left:40px">메뉴</div><div class="hd" id="h2" style="left:210px">원가율</div><div class="hd" id="h3" style="left:340px">추천</div><div class="hd" id="h4" style="left:850px">단골</div>
+          <div id="arows"></div>
+          <div id="ft">위처럼 바꾸면 메뉴 평균 원가율이 45.8% → 41.9%로 내려가요.</div>
+          <svg id="yl" style="position:absolute;left:0;top:0;width:1080px;height:568px;pointer-events:none"><rect id="yrc" x="836" y="96" width="214" height="414" rx="10" fill="none" stroke="#F2C230" stroke-width="7" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>
+          <div id="cmb" class="mono" style="position:absolute;left:810px;top:134px;height:52px;line-height:46px;padding:0 12px;border:3px solid #F2C230;border-radius:8px;font-size:24px;color:#F2C230;background:#171B22;white-space:nowrap">수육 1 · 소주 3</div>
+        </div>
+      </div>
+    </div>
+    <div id="pap" class="abs print"><div class="hh mono">원가율 높은 순서</div><div id="paprows"></div></div>
+    <svg id="thumb" class="abs" viewBox="0 0 24 24"><defs><clipPath id="tclip"><rect id="tcr" x="0" y="24" width="24" height="24"/></clipPath></defs>
+      <path id="tp0" fill="none" stroke="#ECE8E0" stroke-width=".55" stroke-linejoin="round" d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/>
+      <path id="tp1" fill="#2E55D9" clip-path="url(#tclip)" d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg>
+  </div>
+</div>
+<script src="../data/sh_S2.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.W = 1080; window.H = 1920;
+window.BOXES = [{ kind: 'keepout', id: 'sub', x: 40, y: 1350, w: 1000, h: 190 }, { kind: 'keepout', id: 'app', x: 0, y: 1710, w: 1080, h: 210 }];
+window.PALETTE = ['#ECE8E0', '#2E55D9', '#F2C230'];
+S.$('#title').innerHTML = S.SC.title.map(t => '<div>' + S.esc(t) + '</div>').join('');
+const LN = p => S.SC.lines.find(l => l.text.startsWith(p));
+const P = (t, a, b) => S.P(t, a, b);
+const M = [['수육(소)', 70.0], ['수육(대)', 65.0], ['모둠순대', 46.0], ['내장국밥', 43.0], ['순대국 특', 42.5], ['섞어국밥', 41.9], ['돼지국밥', 40.0], ['순대국', 38.0], ['김치찌개', 36.7], ['공깃밥 추가', 35.0]];
+let h = '';
+M.forEach((m, i) => { h += `<div class="r" id="r${i}" style="top:${70 + i * 78}px"><div class="nm">${m[0]}</div><div class="tr"><div class="fl" id="f${i}"></div></div><div class="pc mono" id="p${i}">0.0%</div></div>`; });
+h += '<div id="rem" class="mono" style="top:70px;opacity:0">30%</div>';
+S.$('#rows').insertAdjacentHTML('beforeend', h);
+const AR = [['수육(소)', '70.0%', '<b class="rd">빼세요</b> — 수육(대)와 겹치고 원가율이 가장 높아요'], ['수육(대)', '65.0%', '<b>가격을 올리세요</b> — 30,000 → 34,000원'], ['모둠순대', '46.0%', '<b>가격을 올리세요</b> — 15,000 → 16,000원'],
+  ['내장국밥', '43.0%', '그대로 두세요(재료 단가 협상 권장)'], ['순대국 특', '42.5%', '<b class="rd">빼세요</b> — 석 달 186그릇으로 판매도 낮아요']];
+let ah = '';
+AR.forEach((a, i) => { ah += `<div class="ar" id="ar${i}" style="top:${134 + i * 72}px"><div class="a1">${a[0]}</div><div class="a2">${a[1]}</div><div class="a3">${a[2]}</div><div class="a4" id="a4_${i}" style="opacity:0"></div></div>`; });
+S.$('#arows').innerHTML = ah;
+let ph = '';
+M.forEach(m => { ph += `<div class="row"><span>${m[0]}</span><span class="mono">${m[1].toFixed(1)}%</span></div>`; });
+S.$('#paprows').innerHTML = ph;
+
+const T = {
+  hl: 1.0, c38: LN('요즘 재료값').t0 - 0.1, tb2: LN('작년 가격표').t0 - 0.12, hot: S.at('손해 보는'), q: LN('근데 그게').t0 - 0.05, back: LN('계산은').t0,
+  k1: S.at('만 원짜리'), f1: S.at('4천'), p1: S.at('40%'), k2: LN('그런데 수육이').t0, f2: S.at('2만'), p2: S.at('70%'),
+  st: LN('그대로 놓고').t0 - 0.12, light: LN('그대로 놓고').t0 + 0.1, paste: LN('그대로 놓고').t0 + 0.55, qq: LN('원가 비율 높은').t0, dots: LN('뭐라고').t0, ans: LN('아마도').t0,
+  rows: LN('이 메뉴는 가격을 올리세요').t0, good: LN('깔끔하죠').t0, foot: LN('근거도').t0, gol: LN('그 메뉴 먹으러').t0 + 0.55, suy: LN('근데 그 수육').t0, cmb: S.at('소주'), strike: LN('수육 빼는').t0,
+  push2: LN('그 손님들이 통째로').t0, nogo: LN('왜?').t0, cta: LN('도움 되셨으면').t0 - 0.35, like: S.at('좋아요')
+};
+S.ev(0.5, 'gauge', 'f0'); S.ev(T.c38 + 0.1, 'in', 'pc38'); S.ev(T.f1 + 0.1, 'gauge', 'k1b'); S.ev(T.st + 0.1, 'in', 'stg'); S.ev(T.qq, 'type', 'qb');
+S.ev(T.rows, 'msg_in', 'ar0'); S.ev(T.gol, 'marker', 'a4_0'); S.ev(T.strike, 'no', 'ar0'); S.ev(T.like + 0.4, 'ok', 'tp1');
+
+const Q = '원가 비율 높은 메뉴 가격을 올릴까, 아니면 메뉴를 뺄까?';
+const D = S.SC.dur;
+S.scene(tau => {
+  // ── 원가표 막대 세로
+  const v1 = 1 - P(tau, 3.55, 3.72);
+  const v2 = P(tau, T.tb2, T.tb2 + 0.25) * (1 - S.cam(tau, T.k1 - 0.25, T.k1 + 0.1));
+  const vis = tau < 4.5 ? v1 : v2;
+  S.css('#rows', { opacity: vis, transform: `translateX(${-80 * S.cam(tau, T.k1 - 0.25, T.k1 + 0.1)}px)` });
+  const hot = tau < 4.5 ? S.ent(tau, T.hl, 0.25) : S.ent(tau, T.hot, 0.2);
+  const hookOn = tau < 4.5;
+  const ask = P(tau, T.q, T.q + 0.25) * (1 - P(tau, T.back, T.back + 0.2));   // «?» 라벨 구간
+  const cnt = S.ent(tau, T.back, 0.6);
+  M.forEach((m, i) => {
+    const e = hookOn ? S.ent(tau, 0.1 + i * 0.05, 0.4) : 1;
+    const w = m[1] / 100 * 600 * e;
+    const dim = i === 0 ? 1 : 1 - 0.62 * hot * (hookOn ? 1 : 0);
+    const rowIn = hookOn ? S.ent(tau, 0.05 + i * 0.04, 0.16) : 1;
+    const sc = i === 0 ? 1 + 0.07 * hot : 1;
+    S.css('#r' + i, { opacity: rowIn * dim, transform: `scale(${sc})`, transformOrigin: '30% 50%' });
+    const yel = i === 0 ? hot : 0;
+    S.css('#f' + i, { width: w + 'px', background: `rgb(${Math.round(46 + 196 * yel)},${Math.round(85 + 109 * yel)},${Math.round(217 - 169 * yel)})` });
+    const pc = S.$('#p' + i);
+    const inside = i === 0 && hookOn;
+    let txt = (m[1] * e).toFixed(1) + '%';
+    if (ask > 0.5 && tau < T.back) txt = '?';
+    else if (tau >= T.back && tau < T.k1) txt = (m[1] * cnt).toFixed(1) + '%';
+    pc.textContent = txt;
+    pc.style.opacity = e > 0.03 ? 1 : 0;
+    pc.style.left = inside ? (290 + w - 150) + 'px' : (290 + w + 18) + 'px';
+    pc.style.color = inside && hot > 0.5 ? '#15181C' : '#ECE8E0';
+  });
+  S.css('#rem', { opacity: S.ent(tau, 2.9, 0.2) * (1 - P(tau, 3.5, 3.7)) });
+  const chip = S.ent(tau, T.tb2 + 0.05, 0.16) * (1 - P(tau, T.q - 0.2, T.q + 0.05));
+  S.css('#chip', { opacity: chip, transform: `translateY(${(1 - chip) * 12}px)` });
+
+  // ── 시장 바구니 사진 (짧게)
+  const pIn = S.ent(tau, T.c38, 0.2) * (1 - P(tau, T.tb2 - 0.05, T.tb2 + 0.1));
+  S.css('#pc38', { opacity: pIn, transform: `scale(${1 + 0.1 * P(tau, T.c38, T.tb2)})` });
+
+  // ── 원가율 계산 두 장
+  const k1 = S.ent(tau, T.k1 - 0.1, 0.2) * (1 - S.cam(tau, T.st - 0.3, T.st + 0.05));
+  S.css('#k1', { opacity: k1, transform: `translateY(${(1 - S.ent(tau, T.k1 - 0.1, 0.2)) * 50 - 50 * S.cam(tau, T.st - 0.3, T.st + 0.05)}px)` });
+  const k2 = S.ent(tau, T.k2, 0.2) * (1 - S.cam(tau, T.st - 0.3, T.st + 0.05));
+  S.css('#k2', { opacity: k2, transform: `translateY(${(1 - S.ent(tau, T.k2, 0.2)) * 50 + 50 * S.cam(tau, T.st - 0.3, T.st + 0.05)}px)` });
+  S.css('#k1f', { opacity: S.ent(tau, T.f1 - 0.1, 0.18) });
+  S.css('#k2f', { opacity: S.ent(tau, T.f2 - 0.1, 0.18) });
+  const b1 = S.ent(tau, T.p1 - 0.45, 0.5), b2 = S.ent(tau, T.p2 - 0.45, 0.6);
+  S.css('#k1b', { width: 40 * b1 + '%' }); S.css('#k2b', { width: 70 * b2 + '%' });
+  S.$('#k1p').textContent = Math.round(40 * S.ent(tau, T.p1 - 0.1, 0.5)) + '%';
+  S.$('#k2p').textContent = Math.round(70 * S.ent(tau, T.p2 - 0.1, 0.6)) + '%';
+  S.css('#k1p', { opacity: S.ent(tau, T.p1 - 0.15, 0.15) }); S.css('#k2p', { opacity: S.ent(tau, T.p2 - 0.15, 0.15) });
+  S.css('#k2p', { transform: `scale(${1 + 0.06 * S.ent(tau, T.p2, 0.3)})`, transformOrigin: '100% 50%' });
+
+  // ── 무대 스크린
+  const sIn = S.ent(tau, T.st, 0.3) * (1 - P(tau, T.cta - 0.05, T.cta + 0.2));
+  S.css('#stgw', { opacity: sIn });
+  const p = 1.36 + 0.08 * S.cam(tau, T.st, T.suy);
+  const cy = 304 + 18 * S.cam(tau, T.st, T.suy);
+  const sx = 766.5 - 407 + 0;   // 화면 가운데 − 왼쪽(사진 좌표)
+  const cx = 540;
+  S.css('#stg', { transform: `translate(${cx - 766.5 * p}px,${cy - 359 * p}px) scale(${p})` });
+  const br = 0.55 + 0.45 * S.ent(tau, T.light, 0.7);
+  S.css('#sp', { filter: `brightness(${br})` });
+  S.css('#paste', { opacity: S.ent(tau, T.paste, 0.15) });
+  S.type('#qb', Q, tau, T.qq, 11, false);
+  S.css('#qb', { opacity: tau >= T.qq ? 1 : 0 });
+  const dts = S.ent(tau, T.dots, 0.15) * (1 - P(tau, T.ans, T.ans + 0.3));
+  S.css('#dots', { opacity: dts });
+  const ans = S.ent(tau, T.ans, 0.2);
+  ['#h1', '#h2', '#h3'].forEach(s => S.css(s, { opacity: ans }));
+  const gol = S.ent(tau, T.gol, 0.25);
+  S.css('#h4', { opacity: gol });
+  const suy = S.ent(tau, T.suy, 0.25), sk = S.ent(tau, T.strike, 0.4), nogo = S.cam(tau, T.nogo, T.nogo + 0.45);
+  AR.forEach((a, i) => {
+    const k = S.ent(tau, T.rows + i * 0.45, 0.16);
+    const good = S.ent(tau, T.good, 0.2) * (1 - P(tau, T.good + 0.8, T.good + 1.1));
+    let op = k * (i === 0 && sk > 0 ? 1 - 0.7 * sk : 1);
+    if (i > 0) op *= 1 - 0.5 * suy * (1 - P(tau, T.nogo - 0.1, T.nogo));
+    const el = S.$('#ar' + i);
+    S.css(el, { opacity: op, transform: `translateX(${(1 - k) * 40}px)` });
+    el.style.boxShadow = i === 0 && suy > 0 && sk < 0.5 ? `0 0 0 ${4 * suy}px rgba(242,194,48,${suy})` : (good > 0 ? `0 0 0 ${3 * good}px rgba(242,194,48,${good})` : 'none');
+    el.style.textDecoration = i === 0 && sk > 0.2 ? 'line-through' : 'none';
+    el.style.textDecorationThickness = '4px';
+    el.style.textDecorationColor = '#D8402F';
+    S.css('#a4_' + i, { opacity: gol }); S.$('#a4_' + i).style.borderColor = `rgba(236,232,224,${0.55 + 0.45 * S.ent(tau, T.push2, 0.3)})`;
+  });
+  S.css('#ft', { opacity: S.ent(tau, T.foot, 0.2) * (1 - 0.5 * P(tau, T.suy, T.suy + 0.3)) });
+  const cm = S.ent(tau, T.cmb, 0.16) * (1 - P(tau, T.strike - 0.05, T.strike + 0.2));
+  S.css('#cmb', { opacity: cm, transform: `translateX(${(1 - cm) * 20}px)` });
+  S.css('#yrc', { strokeDashoffset: 1 - nogo });
+
+  // ── CTA: 원가표 종이가 접혀 들어가며 엄지
+  const pa = S.ent(tau, T.cta + 0.05, 0.3);
+  const fold = S.cam(tau, T.like - 0.2, T.like + 0.4);
+  S.css('#pap', { opacity: pa * (1 - P(tau, T.like + 0.25, T.like + 0.4)), transform: `translateY(${(1 - pa) * 40 + 170 * fold}px) perspective(1400px) rotateX(${-78 * fold}deg) scale(${1 - 0.5 * fold})` });
+  const tk = S.ent(tau, T.like + 0.1, 0.25);
+  S.css('#thumb', { opacity: tk, transform: `scale(${0.7 + 0.3 * tk})`, transformOrigin: '50% 50%' });
+  S.$('#tcr').setAttribute('y', String(24 - 24 * S.cam(tau, T.like + 0.35, T.like + 0.95)));
+});
+</script>
+</body></html>
