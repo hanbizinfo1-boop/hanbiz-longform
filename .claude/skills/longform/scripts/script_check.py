@@ -101,6 +101,61 @@ def structure(text, sents):
     ]
 
 
+# 예시 업종 — 앞 세 편과 겹치면 ERROR(10-16 사장님 «매번 설명에 국밥집이나오니까 뭔가 중복컨텐츠같아 매번 예시나 그런걸 들때 앞의 세편과는 다른업종으로해줘»)
+# 업종 이름 → 그 업종을 드러내는 말(메뉴·재료 포함)
+INDUSTRY = {
+    "국밥집": r"국밥|수육|사골|순댓국|육수",
+    "고깃집": r"고깃집|삼겹살|갈빗집",
+    "파스타집": r"파스타|이탈리안",
+    "쌀국수집": r"쌀국수",
+    "디저트 가게": r"디저트|마카롱|케이크 ?가게",
+    "반찬가게": r"반찬 ?가게",
+    "카페": r"카페|커피 ?전문점",
+    "빵집": r"빵집|베이커리",
+    "치킨집": r"치킨",
+    "분식집": r"분식|떡볶이|김밥",
+    "중국집": r"중국집|짜장면|짬뽕",
+    "횟집": r"횟집|초밥|스시",
+    "술집": r"술집|호프|이자카야|포차",
+    "족발·보쌈집": r"족발|보쌈",
+    "피자집": r"피자",
+    "미용실": r"미용실|헤어 ?숍",
+    "네일숍": r"네일",
+    "꽃집": r"꽃집",
+    "세탁소": r"세탁소",
+    "청소 업체": r"청소 ?업체|청소기",
+    "학원": r"학원|공부방",
+    "헬스·필라테스": r"헬스장|필라테스|피티 ?샵",
+    "병원·의원": r"병원|치과|한의원|의원",
+    "옷가게": r"옷가게|의류 ?매장",
+    "편의점": r"편의점",
+    "공방": r"공방",
+    "숙박": r"펜션|모텔|게스트하우스",
+}
+
+
+def industries(text):
+    return {name for name, pat in INDUSTRY.items() if re.search(pat, text)}
+
+
+def prev_scripts(path, back=3):
+    """같은 핸드오프 폴더 이름의 «성제관NN» 에서 앞 세 편 대본을 찾는다."""
+    import glob, os
+    m = re.search(r"성제관(\d+)", os.path.abspath(path))
+    if not m:
+        return []
+    n = int(m.group(1))
+    if n <= 2:  # 2편은 녹음 끝(10-16 «2편은 지금이미 녹음끝») — 3편부터 적용
+        return []
+    root = os.path.abspath(path)
+    while os.path.basename(root) != "핸드오프" and os.path.dirname(root) != root:
+        root = os.path.dirname(root)
+    out = []
+    for k in range(max(1, n - back), n):
+        out += [(k, p) for p in glob.glob(os.path.join(root, f"*성제관{k:02d}_*", "20_대본.md"))]
+    return out
+
+
 MEMO = re.compile(r"^\s*(#|화면\s*[:：]|\[|\(연출|>|---|\|)")
 
 
@@ -153,6 +208,16 @@ def main():
     print()
     # 확인 질문은 경고만(빡이사 책 요약 독백 tOon 은 0회) — 나머지 구조는 ERROR
     errs += [(0, f"구조: {name}", ref, val) for name, ok, val, ref in st if not ok and not name.startswith("확인 질문")]
+    mine = industries(text)
+    prevs = prev_scripts(path)
+    print(f"## 예시 업종 — 이 대본: {', '.join(sorted(mine)) or '없음'}")
+    for k, p in prevs:
+        dup = mine & industries(" ".join(load(p)))
+        print(f"- {k}편: {'겹침 ' + ', '.join(sorted(dup)) if dup else '안 겹침'}")
+        for name in sorted(dup):
+            hit = next((l.strip()[:60] for l in lines if re.search(INDUSTRY[name], l)), "")
+            errs.append((0, f"예시 업종 «{name}» — {k}편과 겹침", "앞 세 편에 안 나온 업종으로(10-16)", hit))
+    print()
     if "--save" in sys.argv:
         import datetime
         rec = path.rsplit(".", 1)[0] + "_검사.txt"
