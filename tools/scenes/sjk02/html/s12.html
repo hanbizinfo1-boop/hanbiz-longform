@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s12 알바 공고 보면 다 똑같잖아요 — 흰 벽 위 구인 앱 목록 판 2장(10행), 제목이 전부 같음</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#bgw{left:-30px;top:0;width:1980px;height:1080px;background-size:cover;background-position:center}
+.pn{position:absolute;top:70px;width:800px;height:820px}
+.pn .hd{height:70px;font-size:30px;padding:0 30px}
+.pn .hd small{font-size:24px;font-weight:600;letter-spacing:.14em;color:#8A949B;margin-left:auto}
+.jr{position:relative;display:flex;align-items:center;gap:20px;height:150px;padding:0 30px;border-bottom:1px solid #EEF0F1}
+.jr .lg{flex:none;width:68px;height:68px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:30px;color:#fff}
+.jr .tt{font-size:30px;font-weight:800;color:#1F2A33;white-space:nowrap;position:relative;display:inline-block}
+.jr .sh{font-size:24px;font-weight:600;color:#6B747B;margin-top:6px}
+.jr .ul{position:absolute;left:0;bottom:-6px;height:5px;width:0;background:#9AA0A6;border-radius:3px}
+</style></head>
+<body><div id="stage">
+  <div id="bgw" class="abs tex-wall"></div>
+  <div id="pl" class="app pn" data-box="pl" style="left:110px"><div class="hd">채용<small>목록</small></div><div id="lA"></div></div>
+  <div id="pr" class="app pn" data-box="pr" style="left:1010px"><div class="hd">채용<small>목록</small></div><div id="lB"></div></div>
+</div>
+<script src="../data/s12.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#1F2A33', '#9AA0A6'];   // 흰 벽 + 흰 앱 판 → 전부 탈색
+const T = { alba: S.at('알바'), post: S.at('공고'), exp: S.at('경력자'), same: S.at('똑같잖아요') };
+const SH = ['○○국밥', '○○분식', '○○치킨', '○○순대', '○○고기', '○○김밥', '○○족발', '○○카페', '○○백반', '○○호프'];
+const LG = ['#1FA39A', '#F05A28', '#1F2A33', '#6E8FA8', '#8C9A7A'];
+const rows = [];
+[['lA', 0], ['lB', 5]].forEach(([id, o]) => {
+  const box = document.getElementById(id);
+  for (let i = 0; i < 5; i++) {
+    const r = document.createElement('div'); r.className = 'jr';
+    r.innerHTML = `<div class="lg" style="background:${LG[i]}">${SH[o + i].charAt(2)}</div><div><span class="tt">성실한 분 구합니다. 경력자 우대<i class="ul"></i></span><div class="sh">${SH[o + i]}</div></div>`;
+    box.appendChild(r); rows.push(r);
+  }
+});
+document.getElementById('bgw').style.backgroundImage = 'url("../../../../소재/sjk02/codex/t_gallery_wall.png")';
+S.ev(T.alba, 'in', 'panels');
+S.ev(T.post, 'card_in', 'rows');
+S.ev(T.exp, 'marker', 'ul');
+S.ev(T.same, 'no', 'desat');
+S.scene(tau => {
+  S.css('#bgw', { left: (-10 - 20 * S.EIO(S.P(tau, 0, S.SC.dur))) + 'px' });
+  ['pl', 'pr'].forEach((id, j) => {
+    const k = S.ent(tau, T.alba + 0.08 * j, 0.12), rise = S.EO(S.P(tau, T.alba + 0.08 * j, T.alba + 0.5));
+    S.css('#' + id, { opacity: rise > 0.999 ? 1 : 0.84 * k, transform: `translateY(${((1 - rise) * 320).toFixed(1)}px)`, filter: S.desat(S.EO(S.P(tau, T.same, T.same + 0.4))) });
+  });
+  rows.forEach((r, i) => {
+    const q = i % 5, side = i >= 5 ? 1 : 0;
+    const k = S.ent(tau, T.post + 0.1 * (q * 2 + side), 0.12);
+    r.style.opacity = k;
+    r.querySelector('.ul').style.width = (100 * S.EO(S.P(tau, T.exp, T.exp + 0.3))) + '%';
+  });
+});
+</script>
+</body></html>

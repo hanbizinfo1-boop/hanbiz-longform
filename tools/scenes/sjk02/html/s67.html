@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s67 한마디 — 흐린 쑥스러움 → 새벽 솥 김 위 한 줄 → 나가는 손님의 한마디</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+.shot{left:0;top:0;width:1920px;height:1080px;overflow:hidden}
+.im{left:0;top:0;width:1920px;height:1280px;background-size:cover;background-position:center}
+#s1 .im{transform-origin:50% 50%;filter:grayscale(.5) brightness(.85)}
+#n1{left:110px;top:110px;font-size:84px;color:#fff;text-shadow:0 3px 14px rgba(10,15,25,.8);white-space:nowrap;opacity:0}
+#n1s{left:104px;top:236px;width:700px;height:7px;border-radius:4px;background:#E4E7EA;opacity:0}
+#q1{left:110px;top:330px;font-size:42px;opacity:0}
+#t1{left:150px;top:300px;font-size:104px;color:#F05A28;white-space:nowrap;text-shadow:0 3px 14px rgba(10,15,25,.6);opacity:0}
+#t2{left:230px;top:450px;font-size:104px;color:#F05A28;white-space:nowrap;text-shadow:0 3px 14px rgba(10,15,25,.6);opacity:0}
+#u{left:150px;top:578px;width:900px;height:8px;border-radius:4px;background:#F05A28;opacity:0}
+#nt{left:470px;top:110px;width:480px;height:190px;background:#FFF8EE;border-radius:6px;box-shadow:0 18px 36px rgba(20,25,30,.4);opacity:0}
+#nt .tp{position:absolute;left:190px;top:-14px;width:100px;height:30px;background:rgba(210,200,175,.8)}
+#nt .tx{position:absolute;left:24px;top:30px;width:440px;font-size:56px;line-height:1.2;color:#F05A28}
+#p1{left:1180px;top:190px;font-size:48px;opacity:0}
+</style></head>
+<body><div id="stage">
+  <div id="s1" class="shot abs"><div class="im abs"></div></div>
+  <div id="s2" class="shot abs"><div class="im abs"></div></div>
+  <div id="s3" class="shot abs"><div class="im abs"></div></div>
+  <div id="n1" class="hand abs" data-box="n1">내가 무슨 말을 해?</div><div id="n1s" class="abs"></div>
+  <div id="q1" class="chip gr abs" data-box="q1">손님 반응</div>
+  <div id="t1" class="hand abs" data-box="t1">새벽부터 끓여요</div>
+  <div id="t2" class="hand abs" data-box="t2">오늘 첫 솥이에요</div><div id="u" class="abs"></div>
+  <div id="nt" class="abs" data-box="nt"><div class="tp"></div><div class="tx hand">다음에 친구<br>데리고 올게요</div></div>
+  <div id="p1" class="chip or abs" data-box="p1">+1</div>
+</div>
+<script src="../data/s67.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="_e6.js"></script>
+<script>
+window.PALETTE = ['#14191E', '#F05A28', '#E4E7EA'];
+S.$('#s1 .im').style.backgroundImage = S.ph('p34_counter_handover'); S.$('#s2 .im').style.backgroundImage = S.ph('p67_pot_lid_steam');
+document.querySelector('#s3 .im').style.backgroundImage = S.ph('p67b_customer_leaving');
+const T = { n1: S.at('쑥스러워'), x1: S.at('이러시는데'), q: S.at('손님'), ok: S.at('와요'), cut2: S.at('저희는'), a: S.at('새벽부터'), b: S.at('오늘'), u: S.at('한마디'), cut3: S.at('손님이'), nt: S.at('다음에'), p: S.at('이러는') };
+S.ev(T.n1, 'marker', 'n1'); S.ev(T.x1, 'no', 'n1s'); S.ev(T.q, 'card_in', 'q1'); S.ev(T.ok, 'ok', 'q1'); S.ev(T.cut2 - 0.05, 'in', 's2');
+S.ev(T.a, 'marker', 't1'); S.ev(T.b, 'type', 't2'); S.ev(T.u, 'shine', 'u'); S.ev(T.cut3 - 0.05, 'in', 's3'); S.ev(T.nt, 'card_in', 'nt'); S.ev(T.p, 'ok', 'p1');
+S.scene(tau => {
+  const s2 = tau >= T.cut2 - 0.05, s3 = tau >= T.cut3 - 0.05;
+  S.$('#s1').style.display = s2 ? 'none' : 'block';
+  S.$('#s2').style.display = s2 && !s3 ? 'block' : 'none';
+  S.$('#s3').style.display = s3 ? 'block' : 'none';
+  S.$('#s1 .im').style.transform = `scale(${1.0 + 0.05 * S.P(tau, 0, T.cut2)}) translateY(-60px)`;
+  S.$('#s2 .im').style.transform = `scale(${1.0 + 0.07 * S.P(tau, T.cut2, T.cut3)}) translateY(-40px)`;
+  S.$('#s3 .im').style.transform = `scale(${1.0 + 0.04 * S.P(tau, T.cut3, S.SC.dur)}) translateY(-70px)`;
+  const w = S.EO(S.P(tau, T.n1, T.n1 + 1.5)), sk = S.EO(S.P(tau, T.x1, T.x1 + 0.3));
+  const vis1 = s2 ? 0 : 1;
+  S.css('#n1', { opacity: (w > 0 ? 1 - 0.45 * sk : 0) * vis1, clipPath: `inset(-10px ${((1 - w) * 100).toFixed(1)}% -10px -10px)` });
+  S.css('#n1s', { opacity: sk * vis1, clipPath: `inset(0 ${((1 - sk) * 100).toFixed(1)}% 0 0)` });
+  const q = S.ent(tau, T.q, 0.12) * vis1, ok = S.P(tau, T.ok, T.ok + 0.25), qq = S.$('#q1');
+  qq.style.opacity = q; qq.style.transform = `translateY(${(1 - q) * 14}px)`;
+  qq.style.background = `rgb(${Math.round(228 + 12 * ok)},${Math.round(230 - 140 * ok)},${Math.round(227 - 187 * ok)})`; qq.style.color = ok > 0.5 ? '#fff' : '#5D646B';
+  const v2 = s2 && !s3 ? 1 : 0;
+  const a = S.EO(S.P(tau, T.a, T.a + 1.1)), b = S.EO(S.P(tau, T.b, T.b + 0.9));
+  S.css('#t1', { opacity: (a > 0 ? 1 : 0) * v2, clipPath: `inset(-10px ${((1 - a) * 100).toFixed(1)}% -10px -10px)` });
+  S.css('#t2', { opacity: (b > 0 ? 1 : 0) * v2, clipPath: `inset(-10px ${((1 - b) * 100).toFixed(1)}% -10px -10px)` });
+  const u = S.EO(S.P(tau, T.u, T.u + 0.4));
+  S.css('#u', { opacity: u * v2, clipPath: `inset(0 ${((1 - u) * 100).toFixed(1)}% 0 0)` });
+  const nk = S.ent(tau, T.nt, 0.12) * (s3 ? 1 : 0);
+  S.css('#nt', { opacity: nk, transform: `rotate(-2deg) translateY(${(1 - nk) * -16}px)` });
+  E.in('#p1', tau, T.p, { s0: 0.7 }); if (!s3) S.$('#p1').style.opacity = 0;
+});
+</script>
+</body></html>

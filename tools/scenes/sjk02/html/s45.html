@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s45 3천만 원이 계단처럼 빠진다 — 콘크리트 위 감열지 띠 폭포 차트, 남는 건 짧은 주홍 막대</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+/* 감열지 띠(14° 낮은 각도) 위 폭포 차트: 맨 위 진한 막대 «매출» → 재료비·월세·인건비·수수료·광고비 순서로 회색 조각이 오른쪽에서 떨어져 나가고 맨 아래 주홍이 아주 짧게 남는다 */
+#pw{left:0;top:0;width:1920px;height:1080px;perspective:1800px;perspective-origin:50% 38%}
+#strip{left:660px;top:40px;width:600px;height:900px;transform-origin:50% 50%;box-shadow:0 30px 60px rgba(20,25,30,.35);background-repeat:repeat}
+.gh{position:absolute;top:30px;width:420px;height:940px;filter:blur(3px) brightness(.86);opacity:.6;transform-origin:50% 50%}
+.rw{position:absolute;left:0;width:600px;height:100px}
+.rw .lb{position:absolute;left:44px;top:0;font-size:28px;font-weight:800;color:#2A3138;white-space:nowrap;letter-spacing:.01em}
+.rw .dk2{position:absolute;left:44px;top:44px;height:40px;background:#2A3138;border-radius:4px;transform-origin:0 50%}
+.rw .gy{position:absolute;top:44px;height:40px;background:#A9AFB4;border-radius:4px;transform-origin:0 50%}
+.rw .or2{background:#F05A28}
+#ccirc{position:absolute;left:0;top:0}
+#cut{position:absolute;left:30px;width:540px;top:222px;height:0;border-top:5px dashed #8A9199}
+#chq{left:150px;top:330px;font-size:34px}
+</style></head>
+<body><div id="stage">
+  <div class="bg tex-conc"></div>
+  <div id="pw" class="abs">
+    <div id="gl" class="gh thermal" style="left:70px;transform:rotateX(14deg) rotateZ(3deg) scale(.84)"></div>
+    <div id="gr" class="gh thermal" style="left:1430px;transform:rotateX(14deg) rotateZ(-3deg) scale(.84)"></div>
+    <div id="strip" class="abs thermal">
+      <div id="rows"></div>
+      <svg id="ccirc" width="600" height="900" viewBox="0 0 600 900"><path id="circ" d="M30 160 C 60 118, 470 112, 560 150 C 600 190, 540 238, 300 244 C 120 248, 24 220, 30 172 C 40 145, 90 126, 170 120" fill="none" stroke="#2A3138" stroke-width="7" stroke-linecap="round"/></svg>
+      <div id="cut"></div>
+    </div>
+  </div>
+  <div id="chq" class="chip ink" data-box="chq">잘되는 가게?</div>
+</div>
+<script src="../data/s45.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#1F2A33', '#F05A28', '#1FA39A'];   // 바탕·글 + 주홍(남는 것) · 청록 부각(매출) · 회색(빠지는 것)
+const T = { mon: S.at('한 달 매출'), sum: S.at('3천만'), only: S.at('숫자만'), good: S.at('잘되는'), here: S.at('근데 여기서'), r1: S.at('재료비'), r2: S.at('월세'), r3: S.at('인건비'),
+  r4: S.at('카드'), r5: S.at('광고비'), all: S.at('다 빠져요') };
+S.focus([{ t0: T.sum - 0.05, t1: T.sum + 1.45, big: '3,000만', small: '한 달 매출', color: 'te' }]);
+// 행 정의: [라벨, 남는 길이, 빠진 길이 , 시각, 역할]
+const FULL = 512;
+const R = [['한 달 매출 3,000만 원', FULL, 0, T.mon], ['− 재료비', 382, 130, T.r1], ['− 월세', 312, 70, T.r2], ['− 인건비', 222, 90, T.r3], ['− 카드·배달앱 수수료', 142, 80, T.r4], ['− 광고비·전기세·가스비', 72, 70, T.r5], ['남은 것', 72, 0, T.all]];
+let h = '';
+R.forEach((r, i) => {
+  const top = 140 + 104 * i;
+  h += `<div id="rw${i}" class="rw" style="top:${top}px"><div id="lb${i}" class="lb">${r[0]}</div>` +
+    `<div id="dk${i}" class="dk2 ${i === 6 ? 'or2' : ''}" style="width:${r[1]}px"></div>` +
+    (r[2] ? `<div id="gy${i}" class="gy" style="left:${44 + r[1]}px;width:${r[2]}px"></div>` : '') + `</div>`;
+});
+S.$('#rows').innerHTML = h;
+S.ev(0.02, 'in', 'strip'); S.ev(T.sum, 'gauge', 'dk0'); S.ev(T.only + 0.05, 'marker', 'circ'); S.ev(T.good, 'msg_in', 'chq'); S.ev(T.here, 'paper', 'cut');
+S.ev(T.r1, 'card_in', 'gy1'); S.ev(T.r2, 'no', 'gy2'); S.ev(T.r3, 'card_in', 'gy3'); S.ev(T.r4, 'no', 'gy4'); S.ev(T.r5, 'card_in', 'gy5'); S.ev(T.all, 'ok', 'dk6');
+S.scene(tau => {
+  const k = S.ent(tau, 0.0, 0.16), d = S.P(tau, 0, S.SC.dur);
+  S.css('#strip', { opacity: k, transform: `rotateX(14deg) rotateZ(-1deg) translateY(${((1 - k) * 40 - 34 * d).toFixed(1)}px)` });
+  S.css('#gl', { opacity: k * 0.6, transform: `rotateX(14deg) rotateZ(3deg) scale(.84) translateY(${(-20 * d).toFixed(1)}px)` });
+  S.css('#gr', { opacity: k * 0.6, transform: `rotateX(14deg) rotateZ(-3deg) scale(.84) translateY(${(-20 * d).toFixed(1)}px)` });
+  R.forEach((r, i) => {
+    const t = r[3];
+    const lbk = S.ent(tau, t - (i === 0 ? 0.0 : 0.05), 0.12);
+    S.css('#lb' + i, { opacity: lbk, transform: `translateY(${((1 - lbk) * 10).toFixed(1)}px)` });
+    const grow = i === 0 ? S.EO(S.P(tau, T.sum, T.sum + 0.5)) : S.EO(S.P(tau, t, t + 0.18));
+    S.css('#dk' + i, { opacity: tau >= (i === 0 ? T.sum : t) ? 1 : 0, transform: `scaleX(${grow.toFixed(3)})` });
+    if (r[2]) { const g = S.EO(S.P(tau, t + 0.1, t + 0.45)); S.css('#gy' + i, { opacity: tau >= t + 0.1 ? 1 : 0, transform: `scaleX(${g.toFixed(3)}) translateY(${(g * 0 ).toFixed(1)}px)` }); }
+  });
+  E.stroke('#circ', tau, T.only + 0.05, 0.6);
+  S.css('#cut', { opacity: tau >= T.here ? 1 : 0 }); E.wipe('#cut', tau, T.here, 0.4);
+  E.pop('#chq', tau, T.good, { dx: -16, dy: 0 });
+});
+</script>
+</body></html>

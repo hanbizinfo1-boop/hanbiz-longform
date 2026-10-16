@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s63 손님 얼굴을 모른다 — 계산대 수첩 매크로, 주홍 한 줄</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#w{left:0;top:-100px;width:1920px;height:1280px;transform-origin:50% 50%}
+#ph{left:0;top:0;width:1920px;height:1280px}
+#tp{left:190px;top:690px;width:700px;height:128px;background:#F7F2E7;box-shadow:0 14px 28px rgba(20,25,30,.35);transform:rotate(-4deg);opacity:0}
+#tx{left:236px;top:696px;width:560px;font-size:70px;color:#F05A28;white-space:nowrap;transform:rotate(-4deg);transform-origin:0 50%;opacity:0}
+</style></head>
+<body><div id="stage">
+  <div id="w" class="abs"><div id="ph" class="photo abs"></div>
+    <div id="tp" class="abs" data-box="tp"></div><div id="tx" class="hand abs">○○님 · 순대 많이</div>
+  </div>
+</div>
+<script src="../data/s63.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="_e6.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#F05A28', '#1F2A33'];
+S.$('#ph').style.backgroundImage = S.ph('p63_regular_notebook');
+const T = { wr: S.at('얼굴을') };
+S.ev(T.wr, 'marker', 'tx');
+S.scene(tau => {
+  S.css('#w', { transform: `scale(${1 + 0.06 * S.P(tau, -0.2, S.SC.dur)})` });
+  const k = S.ent(tau, T.wr - 0.1, 0.12);
+  S.css('#tp', { opacity: k, transform: `rotate(-4deg) translateY(${(1 - k) * -14}px)` });
+  const w = S.EO(S.P(tau, T.wr, T.wr + 0.7));
+  S.css('#tx', { opacity: w > 0 ? 1 : 0, clipPath: `inset(-10px ${((1 - w) * 100).toFixed(1)}% -10px -10px)` });
+});
+</script>
+</body></html>

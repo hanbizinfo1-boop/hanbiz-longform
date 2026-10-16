@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s23 ★1 90% / 1% — 미니어처 상가 하이앵글 위 가게 칸 100개(셔터 걷힘) → 99칸 셔터 내려옴 · 한 칸만 주홍</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#ph{position:absolute;left:-240px;top:-260px;width:2400px;height:1600px;background-size:100% 100%}
+#shade{position:absolute;left:-240px;top:-260px;width:2400px;height:1600px;background:rgba(18,22,27,.34)}
+#wrap{position:absolute;left:0;top:0;width:1920px;height:1080px;perspective:2200px;perspective-origin:50% 40%}
+#board{position:absolute;left:224px;top:130px;width:1472px;height:772px;transform-origin:50% 50%;background:rgba(14,18,22,.38);border-radius:10px}
+.c{position:absolute;width:140px;height:70px;background:#17110c;border-radius:5px;overflow:hidden;box-shadow:0 0 0 2px rgba(10,8,6,.9)}
+.aw{position:absolute;left:0;right:0;top:0;height:15px;background:#475463}
+.win{position:absolute;left:8px;right:8px;top:19px;bottom:6px;border-radius:3px;background:radial-gradient(ellipse at 50% 62%,#FFE7BE 0%,#FFB763 48%,#7A4520 100%);opacity:0}
+.win2{position:absolute;left:8px;right:8px;top:19px;bottom:6px;border-radius:3px;background:radial-gradient(ellipse at 50% 62%,#FFD6B8 0%,#F05A28 52%,#8E2D0C 100%);opacity:0}
+.sh{position:absolute;left:0;top:0;width:140px;height:70px;background-image:url("../../../../소재/sjk02/codex/p03_shutter_row.png");background-size:896px 597px;filter:grayscale(.92) brightness(.98)}
+.sh:after{content:"";position:absolute;left:0;right:0;bottom:0;height:5px;background:#5b6269}
+#hero{position:absolute;z-index:9100;pointer-events:none;border-radius:7px;opacity:0;background:radial-gradient(ellipse at 50% 62%,#FFD6B8 0%,#F05A28 55%,#8E2D0C 100%)}
+#tg{position:absolute;pointer-events:none;border-radius:7px;opacity:0}
+</style></head>
+<body><div id="stage">
+  <div id="cam">
+    <div id="ph"></div><div id="shade"></div>
+    <div id="wrap"><div id="board"></div></div>
+  </div>
+  <div id="hero"></div>
+</div>
+<script src="../data/s23.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#1F2A33', '#9AA0A6', '#F05A28'];   // 바탕·글 + 회색(사라지는 90%) + 주홍(살아남는 1%)
+const T = { open: S.at('오늘'), sg: S.at('세'), mine: S.at('가게가'), n90: S.at('90%'), n1: S.at('1%'), fin: S.at('바로'), more: S.at('끝까지') };
+document.getElementById('ph').style.backgroundImage = S.ph('p23_miniature_arcade');
+// 칸 100개
+const board = document.getElementById('board'), cells = [];
+const TR = 4, TC = 9;                      // 살아남는 한 칸: 오른쪽 가운데
+for (let r = 0; r < 10; r++) for (let c = 0; c < 10; c++) {
+  const d = document.createElement('div'); d.className = 'c';
+  d.style.left = (c * 148) + 'px'; d.style.top = (r * 78) + 'px';
+  d.innerHTML = '<div class="aw"></div><div class="win"></div><div class="win2"></div><div class="sh"></div>';
+  d.querySelector('.sh').style.backgroundPosition = `${-(560 + (c % 2) * 6)}px ${-(252 + (r % 3) * 36)}px`;
+  board.appendChild(d);
+  cells.push({ el: d, aw: d.querySelector('.aw'), win: d.querySelector('.win'), win2: d.querySelector('.win2'), sh: d.querySelector('.sh'), r, c, tgt: r === TR && c === TC });
+}
+const tg = document.createElement('div'); tg.id = 'tg';
+tg.style.left = (TC * 148 - 6) + 'px'; tg.style.top = (TR * 78 - 6) + 'px'; tg.style.width = '152px'; tg.style.height = '82px';
+board.appendChild(tg);
+// 효과음 계기
+S.ev(T.open, 'in', 'board');                    // 칸들이 위로 걷혀 불이 켜짐(왼 → 오 물결)
+S.ev(T.sg + 0.15, 'shine', 'cells');            // 세 가지로 — 100칸 살짝 반짝
+S.ev(T.mine + 0.05, 'marker', 'tg');            // 우리 가게 — 한 칸에 흰 테두리
+S.ev(T.n90, 'shutter', 'cells90');              // 90% — 99칸 셔터 내려옴(0.9초)
+S.ev(T.n1 + 0.05, 'shine', 'cell1');            // 1% — 한 칸만 주홍
+S.ev(T.fin + 0.15, 'click', 'cell1');           // 바로 — 그 칸 빛이 한 번 더 밝아짐
+S.focus([{ t0: T.n90, t1: T.n90 + 0.95, big: '90%', small: '사라지는 쪽', color: 'gr' },
+         { t0: T.n1, t1: T.n1 + 0.95, big: '1%', small: '살아남는 쪽', color: 'or' }]);
+const CAM = [{ t: -1, s: 1.0, x: 960, y: 520 }, { t: T.fin - 0.05, s: 1.22, x: 1290, y: 500, d: 0.7 }];
+S.scene(tau => {
+  // 카메라: 아주 느린 옆 흐름 + 끝에서 한 칸 쪽으로 한 번
+  const c = S.camState(tau, CAM, 0.7);
+  const drift = (S.P(tau, 0, S.SC.dur) - 0.5) * 40;
+  S.css('#cam', { transform: S.camCss({ s: c.s, x: c.x + drift * (c.s < 1.01 ? 1 : 0.2), y: c.y }) });
+  // 판 기울기 38° → 34°(끝까지 에서 0.5초)
+  const tilt = 38 - 4 * S.cam(tau, T.more, T.more + 0.55);
+  S.css('#board', { transform: `rotateX(${tilt}deg) scale(.97)` });
+  // 사진 탈색(90% 에 따라 색이 빠짐)
+  const dk = S.EO(S.P(tau, T.n90, T.n90 + 1.0));
+  S.css('#ph', { filter: `saturate(${(0.85 - 0.0 * dk).toFixed(2)}) ${S.desat(dk * 0.85)}` });
+  // 반짝(세 가지로): 전체 한 번 밝아졌다 가라앉음
+  const sp = Math.sin(Math.PI * S.P(tau, T.sg + 0.15, T.sg + 0.65));
+  const t1 = S.EO(S.P(tau, T.n1, T.n1 + 0.35));
+  const boost = S.EO(S.P(tau, T.fin + 0.15, T.fin + 0.45));
+  cells.forEach(o => {
+    // 열림: 왼 → 오 물결로 위로 걷힘(0.3초)
+    const a0 = T.open + o.c * 0.07 + o.r * 0.012;
+    const ru = S.EO(S.P(tau, a0, a0 + 0.3));
+    // 닫힘: 정해진 순서(왼위 → 오아래 대각, 칸마다 0.2초) — 한 칸은 제외
+    const diag = o.r + o.c;
+    const cl = o.tgt ? 0 : S.EO(S.P(tau, T.n90 + diag * 0.04, T.n90 + diag * 0.04 + 0.22));
+    const cover = Math.max(1 - ru, cl);               // 셔터가 덮은 비율(위에서 내려옴 / 위로 걷힘)
+    o.sh.style.clipPath = `inset(0 0 ${((1 - cover) * 100).toFixed(1)}% 0)`;
+    const lit = ru * (1 - cl);
+    o.win.style.opacity = o.tgt ? (lit * (1 - t1)).toFixed(3) : lit.toFixed(3);
+    o.win.style.filter = `brightness(${(1 + 0.45 * sp).toFixed(3)}) grayscale(${cl.toFixed(2)})`;
+    o.aw.style.filter = `grayscale(${cl.toFixed(2)})`;
+    if (o.tgt) {
+      o.win2.style.opacity = t1.toFixed(3);
+      o.win2.style.filter = `brightness(${(1 + 0.4 * sp + 0.35 * boost).toFixed(3)})`;
+    }
+  });
+  // 부각 흑백 위에서도 주홍 한 칸은 색이 남도록 같은 자리에 주홍 칸을 한 장 더(z-index 위)
+  const rc = cells[TR * 10 + TC].el.getBoundingClientRect();
+  S.css('#hero', { left: (rc.left - 3) + 'px', top: (rc.top - 3) + 'px', width: (rc.width + 6) + 'px', height: (rc.height + 6) + 'px', opacity: t1.toFixed(3),
+    border: '4px solid #F05A28', boxShadow: `0 0 ${(18 + 26 * t1).toFixed(0)}px rgba(240,90,40,.9)`, filter: `brightness(${(1 + 0.4 * sp + 0.35 * boost).toFixed(3)})` });
+  // 한 칸 테두리: 우리 가게 에 흰 선이 그려짐 → 1% 에 주홍으로 바뀌며 두꺼워짐
+  const tk = S.EO(S.P(tau, T.mine + 0.05, T.mine + 0.35));
+  const col = t1 > 0.01 ? `rgba(240,90,40,${(0.35 + 0.65 * t1).toFixed(2)})` : 'rgba(255,255,255,.92)';
+  const w = 4 + 3 * t1;
+  S.css('#tg', { opacity: tk, border: `${w.toFixed(1)}px solid ${col}`, boxShadow: `0 0 ${(14 + 26 * t1).toFixed(0)}px ${t1 > 0.01 ? 'rgba(240,90,40,.85)' : 'rgba(255,255,255,.55)'}`, transform: `scale(${(1.25 - 0.25 * tk).toFixed(3)})` });
+});
+</script>
+</body></html>

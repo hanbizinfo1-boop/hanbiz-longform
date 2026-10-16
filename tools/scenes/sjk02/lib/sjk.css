@@ -1,0 +1,84 @@
+/* 성제관02 장면 공용 — 디자인 시스템(20_연출설계.md 3장 — 1편 종이·먹·코발트·노랑·명조 안 씀)
+   색: 바탕 콘크리트 #D9DBD6 · 글 짙은 청회색 #1F2A33 · 주홍 #F05A28 = 우리 가게만 있는 것(1%) · 청록 #1FA39A = AI 가 하는 것 · 탈색 회색 #9AA0A6 = 다 똑같은 것(90%)
+   글꼴: 큰 글 = Pretendard Black(.blk) · 판 글 = Pretendard(.sans) · 라벨 = Pretendard SemiBold 자간 넓게(.lab, Mono 금지) · 손글씨 = Gaegu(.hand) · 앱 화면 = Pretendard(.ui)
+   자막 글꼴(Gmarket)만 1편과 같다. */
+@font-face{font-family:"Pre";src:url("../../../../소재/fonts/Pretendard-Regular.otf");font-weight:400}
+@font-face{font-family:"Pre";src:url("../../../../소재/fonts/Pretendard-Medium.otf");font-weight:500}
+@font-face{font-family:"Pre";src:url("../../../../소재/fonts/Pretendard-SemiBold.otf");font-weight:600}
+@font-face{font-family:"Pre";src:url("../../../../소재/fonts/Pretendard-Bold.otf");font-weight:700}
+@font-face{font-family:"Pre";src:url("../../../../소재/fonts/Pretendard-ExtraBold.otf");font-weight:800}
+@font-face{font-family:"Pre";src:url("../../../../소재/fonts/Pretendard-Black.otf");font-weight:900}
+@font-face{font-family:"Hand";src:url("../../../../소재/fonts/Gaegu-Regular.ttf");font-weight:400}
+@font-face{font-family:"Hand";src:url("../../../../소재/fonts/Gaegu-Bold.ttf");font-weight:700}
+@font-face{font-family:"Gmarket";src:url("file:///C:/Users/user/AppData/Local/Microsoft/Windows/Fonts/GmarketSansMedium.otf");font-weight:500}
+@font-face{font-family:"Gmarket";src:url("file:///C:/Users/user/AppData/Local/Microsoft/Windows/Fonts/GmarketSansBold.otf");font-weight:700}
+
+:root{--conc:#D9DBD6;--ink:#1F2A33;--or:#F05A28;--te:#1FA39A;--gr:#9AA0A6;--dk:#14191E}
+html,body{margin:0;padding:0;width:1920px;height:1080px;overflow:hidden;background:#000}
+*{box-sizing:border-box}
+#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;word-break:keep-all;transform-origin:960px 540px;font-family:"Pre",sans-serif;color:var(--ink)}
+.abs{position:absolute}
+.bg{position:absolute;left:0;top:0;width:1920px;height:1080px;background-size:cover;background-position:center}
+/* 바탕 질감(단색 판 금지) — Codex 질감 사진 · 감열지는 make_textures.py */
+.tex-conc{background-image:url("../../../../소재/sjk02/codex/t_concrete.png")}
+.tex-wall{background-image:url("../../../../소재/sjk02/codex/t_gallery_wall.png")}
+.tex-dark{background-image:url("../../../../소재/sjk02/codex/t_dark_desk.png")}
+.tex-tile{background-image:url("../../../../소재/sjk02/codex/p26_dawn_tile_wall.png")}
+.thermal{background-image:url("../../../../_tmp/sjk02/tex/thermal.png");background-size:600px auto;background-repeat:repeat-y;box-shadow:0 22px 40px rgba(20,25,30,.28),0 2px 5px rgba(20,25,30,.22)}
+/* 사진 톤: 흐린 낮·새벽 — 채도 낮게(주홍만 살아남게) */
+.photo{position:absolute;background-size:cover;background-position:center;filter:saturate(.78) contrast(1.03)}
+.blk{font-family:"Pre";font-weight:900;letter-spacing:-.02em}
+.sans{font-family:"Pre"}
+.lab{font-family:"Pre";font-weight:600;letter-spacing:.14em;font-size:24px}
+.hand{font-family:"Hand";font-weight:700}
+.ui{font-family:"Pre"}
+/* 기울인 판(원근 기울기 6~12°) — 바탕 위 얕은 그림자. 기울기 값은 장면에서 transform 으로 */
+.slab{position:absolute;border-radius:14px;overflow:hidden;box-shadow:0 30px 60px rgba(20,25,30,.35),0 4px 10px rgba(20,25,30,.25)}
+/* 주홍 형광펜(글자 뒤 아래 절반) */
+.mk{background:linear-gradient(transparent 56%,rgba(240,90,40,.38) 56%)}
+.caret{display:inline-block;width:3px;height:1em;background:currentColor;vertical-align:-0.12em;margin-left:2px}
+/* 칩 — 알파 255, 반경 12 */
+.chip{position:absolute;display:inline-flex;align-items:center;gap:10px;padding:10px 20px;border-radius:12px;font-family:"Pre";font-weight:700;font-size:30px;white-space:nowrap;box-shadow:0 10px 24px rgba(20,25,30,.22)}
+.chip.or{background:var(--or);color:#fff}
+.chip.te{background:var(--te);color:#fff}
+.chip.gr{background:#E4E6E3;color:#5D646B}
+.chip.ink{background:var(--ink);color:#fff}
+
+/* ── 다크 테마 AI 대화창(1편 밝은 사이드바형과 다른 배치: 사이드바 없음 · 위 탭 줄 · 가운데 좁은 대화 열 · 아래 알약 입력창) */
+.dk{position:absolute;background:#171C21;border-radius:16px;overflow:hidden;font-family:"Pre";color:#E7EAEC;box-shadow:0 40px 90px rgba(0,0,0,.5);border:1px solid #2A3138}
+.dk .tb{height:58px;display:flex;align-items:center;gap:14px;padding:0 22px;border-bottom:1px solid #262D33;font-size:22px;color:#8C959C}
+.dk .tb .md{display:flex;align-items:center;gap:8px;color:#E7EAEC;font-weight:700;font-size:24px}
+.dk .tb .md i{width:12px;height:12px;border-radius:50%;background:var(--te)}
+.dk .tb .tab{padding:6px 14px;border-radius:8px;background:#20272D;font-size:20px}
+.dk .cv{position:absolute;left:0;right:0;top:58px;bottom:96px;overflow:hidden;padding:26px 0}
+.dk .col{width:86%;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+.dk .me{align-self:flex-end;max-width:84%;background:#2A3239;border-radius:18px 18px 4px 18px;padding:16px 22px;font-size:26px;line-height:1.5}
+.dk .ai{display:flex;gap:16px;align-items:flex-start;font-size:26px;line-height:1.6}
+.dk .ai .av{flex:none;width:40px;height:40px;border-radius:10px;background:var(--te);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:20px}
+.dk .ai .tx{flex:1}
+.dk .in{position:absolute;left:5%;right:5%;bottom:18px;height:62px;border-radius:31px;background:#20272D;border:1px solid #333B42;display:flex;align-items:center;padding:0 26px;font-size:24px;color:#C8CDD1;gap:12px}
+.dk .in .send{margin-left:auto;width:42px;height:42px;border-radius:50%;background:#E7EAEC;display:flex;align-items:center;justify-content:center}
+.dk .in .send svg{width:22px;height:22px}
+.dk .or{color:#FF7A4D;font-weight:700}
+.dk .te{color:#43C9BF;font-weight:700}
+
+/* ── 앱 화면 공통(밝은 앱 — 배달앱·리뷰·소식·구인·은행) : 흰 판 · 얇은 구분선 · 상표·실제 앱 이름 없음 */
+.app{position:absolute;background:#fff;border-radius:14px;overflow:hidden;font-family:"Pre";color:#1F2A33;box-shadow:0 26px 54px rgba(20,25,30,.30),0 3px 8px rgba(20,25,30,.2)}
+.app .hd{height:64px;display:flex;align-items:center;padding:0 24px;gap:12px;font-size:26px;font-weight:800;border-bottom:1px solid #E7E9EB}
+.app .row{display:flex;gap:16px;padding:18px 24px;border-bottom:1px solid #EEF0F1;align-items:flex-start}
+.app .th{flex:none;border-radius:10px;background-size:cover;background-position:center}
+.app .nm{font-size:26px;font-weight:800}
+.app .pr{font-size:24px;font-weight:700;margin-top:4px}
+.app .ds{font-size:22px;line-height:1.45;color:#59636B;margin-top:6px}
+.app .st{color:#F2A33A;font-size:22px;letter-spacing:2px}
+.app .av{flex:none;width:44px;height:44px;border-radius:50%;background:#D7DCDF;display:flex;align-items:center;justify-content:center;font-weight:800;color:#59636B;font-size:20px}
+.app .rp{margin-top:10px;background:#F2F4F5;border-radius:10px;padding:10px 14px;font-size:22px;line-height:1.45;color:#3A444C}
+.app .rp b{display:block;font-size:20px;color:#1F2A33;margin-bottom:2px}
+.app .bdg{display:inline-block;font-size:18px;font-weight:800;padding:2px 8px;border-radius:6px;background:#FDE6DC;color:var(--or);vertical-align:3px;margin-left:6px}
+/* 스프레드시트 */
+.sheet{position:absolute;background:#fff;border-radius:10px;overflow:hidden;font-family:"Pre";box-shadow:0 26px 54px rgba(20,25,30,.30)}
+.sheet table{border-collapse:collapse;font-size:24px;table-layout:fixed}
+.sheet td,.sheet th{border:1px solid #DADDDF;padding:8px 12px;white-space:nowrap;text-align:right}
+.sheet th{background:#F1F3F4;color:#6B747B;font-weight:600;text-align:center}
+.sheet td.rn{background:#F1F3F4;color:#6B747B;text-align:center;width:44px;padding:8px 0}
+.sheet td.l{text-align:left}

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s50 이번 주 정산 — 다크 대화창 답이 감열지 폭포 차트로 이어 붙음</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#wrap{left:0;top:0;width:1920px;height:1080px;perspective:2200px}
+#dk{left:110px;top:150px;width:780px;height:700px;transform-origin:50% 60%}
+#dk .cv{bottom:104px}
+#dk .me{font-size:24px}
+#dk .ln{min-height:41px;font-size:28px;font-weight:600}
+#dk .dots{display:flex;gap:10px;padding-top:14px}
+#dk .dots i{width:12px;height:12px;border-radius:50%;background:#8C959C}
+#rc{left:1040px;top:70px;width:600px;height:870px;transform-origin:50% 100%}
+#rc .hd{position:absolute;left:30px;top:26px;font-size:22px;color:#6E767D}
+#rc .r{position:absolute;left:0;width:600px;height:124px}
+#rc .lb{position:absolute;left:30px;top:6px;font-size:32px;font-weight:800;color:#1F2A33}
+#rc .am{position:absolute;right:30px;top:6px;font-size:32px;font-weight:800;color:#1F2A33}
+#rc .bar{position:absolute;top:62px;height:36px;border-radius:4px}
+#rc .rule{position:absolute;left:30px;right:30px;bottom:6px;border-bottom:3px dotted #C5C9CC}
+#rc .chip{font-size:24px;padding:6px 14px;top:58px}
+#rcEdge{left:1030px;top:60px;width:620px;height:890px;border:4px solid var(--te);border-radius:10px;opacity:0}
+</style></head>
+<body><div id="stage">
+  <div class="bg tex-conc"></div>
+  <div id="wrap" class="abs">
+    <div id="dk" class="dk" data-box="dk">
+      <div class="tb"><span class="md"><i></i>AI</span><span class="tab">새 대화</span></div>
+      <div class="cv"><div class="col">
+        <div class="me" id="me">이번 주 매출이랑 이번 주 나간 돈 적어 줄게.</div>
+        <div class="ai"><div class="av">AI</div><div class="tx" id="tx"><div class="dots" id="dots"><i></i><i></i><i></i></div></div></div>
+      </div></div>
+      <div class="in">메시지를 입력하세요<span class="send"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="#171C21" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+    </div>
+    <div id="rc" class="abs thermal" data-box="rc" data-box-group="rcg"><div class="hd lab">이번 주</div></div>
+    <div id="rcEdge" class="abs" data-box="rcEdge" data-box-group="rcg"></div>
+  </div>
+</div>
+<script src="../data/s50.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#1F2A33', '#1FA39A', '#F05A28'];
+const T = { a: S.at('이런'), sales: S.at('720만'), mat: S.at('260만'), lab: S.at('180만'), fee: S.at('70만'), fix: S.at('110만'),
+  real: S.at('실제로'), h: S.at('100만'), w15: S.at('15만'), look: S.at('이렇게'), one: S.at('한눈에'), prev: S.at('지난주보다') };
+const SCL = 540 / 720;
+// 폭포 차트 행: [라벨, 값, 시작 위치(만), 금액 글, 시각, 색]
+const ROWS = [['이번 주 매출', 720, 0, '720만 원', T.sales - 0.15, '#1F2A33'], ['재료비', 260, 460, '260만 원', T.mat - 0.15, '#9AA0A6'],
+  ['인건비', 180, 280, '180만 원', T.lab - 0.15, '#9AA0A6'], ['수수료', 70, 210, '70만 원', T.fee - 0.15, '#9AA0A6'],
+  ['고정비', 110, 100, '110만 원', T.fix - 0.15, '#9AA0A6'], ['실제 수익', 100, 0, '100만 원', T.real + 0.05, '#F05A28']];
+const rc = document.getElementById('rc');
+ROWS.forEach((r, i) => {
+  const d = document.createElement('div'); d.className = 'r'; d.id = 'r' + i; d.style.top = (90 + i * 124) + 'px';
+  d.innerHTML = `<div class="lb">${r[0]}</div><div class="am">${r[3]}</div><div class="bar" id="b${i}" style="left:${30 + r[2] * SCL}px;background:${r[5]}"></div>` +
+    (i === 3 ? '<div class="chip te" id="chip" style="left:300px;opacity:0">배달앱 수수료 +15만 원</div>' : '') + '<div class="rule"></div>';
+  rc.appendChild(d);
+});
+const LN = [['이번 주 매출 720만 원', T.sales, ''], ['재료비 260만 원', T.mat, ''], ['인건비 180만 원', T.lab, ''], ['수수료 70만 원', T.fee, ''],
+  ['고정비 110만 원', T.fix, ''], ['실제 수익 100만 원', T.real + 0.1, 'or'], ['지난주보다 배달앱 수수료 +15만 원', T.prev, 'te']];
+const tx = document.getElementById('tx');
+LN.forEach((l, i) => { const d = document.createElement('div'); d.className = 'ln ' + l[2]; d.id = 'ln' + i; tx.appendChild(d); });
+S.focus([{ t0: T.h, t1: T.h + 1.5, big: '100만 원', small: '이번 주 실제 수익', color: 'or' }]);
+S.ev(T.a + 0.3, 'in', 'rc');
+ROWS.forEach((r, i) => S.ev(r[4] + 0.1, i === 5 ? 'ok' : (i % 2 ? 'gauge' : 'page'), 'row' + i));
+S.ev(T.w15, 'card_in', 'chip'); S.ev(T.one, 'shine', 'rcEdge');
+S.scene(tau => {
+  // 대화창: 살짝 기울인 채 천천히 안쪽으로(바탕 흐름), 마지막에 차트가 정면으로 섬
+  const drift = S.P(tau, 0, S.SC.dur);
+  S.css('#dk', { transform: `rotateX(${4 - 2 * drift}deg) rotateZ(${2 - 1.2 * drift}deg)`, filter: `saturate(${1 - 0.5 * S.P(tau, T.real + 0.6, T.real + 1.2)})`, opacity: 1 - 0.35 * S.P(tau, T.prev + 0.5, T.prev + 1.0) });
+  // 생각 중 점(0.3초마다 한 칸씩)
+  const di = Math.floor(tau / 0.3) % 3;
+  document.querySelectorAll('#dots i').forEach((e, k) => e.style.opacity = k <= di ? 1 : 0.3);
+  S.css('#dots', { display: tau < T.sales - 0.1 ? 'flex' : 'none' });
+  LN.forEach((l, i) => S.type('#ln' + i, l[0], tau, l[1], 30, false));
+  // 감열지: 대화창 오른쪽 가장자리에서 미끄러져 나옴 → 정면에 가깝게(6° → 12.5초 뒤 0°)
+  const k = S.ent(tau, T.a + 0.3, 0.5);
+  const up = S.cam(tau, T.look, T.look + 0.5);
+  S.css('#rc', { opacity: k, transform: `translateX(${(1 - k) * 260}px) rotateX(${6 - 6 * up}deg) rotateZ(${-1.6 + 1.6 * up}deg)`, clipPath: `inset(0 0 ${(1 - S.P(tau, T.a + 0.3, T.sales + 0.2)) * 100}% 0)` });
+  ROWS.forEach((r, i) => {
+    const p = S.P(tau, r[4], r[4] + 0.3), b = S.EO(S.P(tau, r[4] + 0.1, r[4] + 0.55));
+    S.css('#r' + i, { opacity: p > 0 ? 1 : 0, clipPath: `inset(0 0 ${(1 - S.EO(p)) * 100}% 0)` });
+    S.css('#b' + i, { width: (r[1] * SCL * b) + 'px' });
+  });
+  S.css('#chip', { opacity: S.ent(tau, T.w15, 0.12), transform: `translateY(${(1 - S.ent(tau, T.w15, 0.12)) * 10}px)` });
+  const e = S.P(tau, T.one, T.one + 0.15);
+  S.css('#rcEdge', { opacity: e * (0.9 - 0.3 * S.P(tau, T.one + 0.3, T.one + 0.8)), transform: `rotateX(${0}deg)` });
+});
+</script>
+</body></html>

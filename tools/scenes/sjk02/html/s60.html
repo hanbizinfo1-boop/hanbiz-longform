@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s60 옆 가게도 똑같이 — 이웃 두 가게 외벽, 옆으로 흘러 오른쪽 가게에도 같은 판 셋, 할인 글자만 늘어나며 둘 다 탈색</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#pw{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:50% 50%}
+.sg{position:absolute;background:#F4F5F3;color:#6E767D;font-weight:900;text-align:center;box-shadow:0 12px 26px rgba(20,25,30,.35);white-space:nowrap}
+.L{opacity:1}
+#l0{left:215px;top:668px;width:400px;height:120px;font-size:60px;line-height:120px;border-radius:6px}
+#l1{left:110px;top:262px;width:790px;height:150px;font-size:90px;line-height:150px;border-radius:4px}
+#l2{left:690px;top:520px;width:120px;height:170px;font-size:42px;line-height:170px;border-radius:4px}
+#r0{left:1150px;top:640px;width:200px;height:110px;font-size:50px;line-height:110px;border-radius:6px}
+#r1{left:1130px;top:232px;width:740px;height:160px;font-size:90px;line-height:160px;border-radius:4px}
+#r2{left:1650px;top:452px;width:140px;height:186px;font-size:48px;line-height:186px;border-radius:4px}
+#ai{left:1330px;top:130px;font-size:34px}
+</style></head>
+<body><div id="stage">
+  <div class="bg tex-conc"></div>
+  <div id="pw"><div id="ph" class="photo" style="left:0;top:0;width:1920px;height:1080px"></div>
+    <div id="l0" class="sg blk">신메뉴</div><div id="l1" class="sg blk"><span id="lt1">할인</span></div><div id="l2" class="sg blk">광고</div>
+    <div id="r0" class="sg blk" data-box="r0">신메뉴</div><div id="r1" class="sg blk"><span id="rt1">할인</span></div><div id="r2" class="sg blk" data-box="r2">광고</div>
+  </div>
+  <div id="ai" class="abs chip te" data-box="ai">AI</div>
+</div>
+<script src="../data/s60.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#9AA0A6', '#1FA39A'];
+S.$('#ph').style.backgroundImage = S.ph('p60_neighbor_walls');
+const T = { ai: S.at('AI', 0), a: S.at('메뉴늘리고'), b: S.at('할인하고'), c: S.at('광고걸어요'), war: S.at('할인경쟁'), no: S.at('남는거'), same: S.at('똑같이') };
+S.focus([{ t0: T.war + 0.05, t1: T.war + 1.5, big: '할인 경쟁', color: 'gr' }]);
+S.ev(T.same, 'card_in', 'ai'); S.ev(T.a, 'card_in', 'r0'); S.ev(T.b, 'msg_in', 'r1'); S.ev(T.c, 'card_in', 'r2');
+[0, 1, 2, 3].forEach(i => S.ev(T.war + 0.45 + i * 0.45, 'click', 'war' + i));
+S.ev(T.no, 'no', 'pw');
+S.scene(tau => {
+  // 왼쪽 가게 → 오른쪽 가게로 옆 트래킹(오른쪽으로 흐름)
+  const dsat = S.EIO(S.P(tau, T.no, T.no + 0.7));
+  S.css('#pw', { transform: S.track(tau, -0.2, S.SC.dur - 2.2, 80, -80, 1.15), filter: S.desat(dsat) });
+  const ak = S.ent(tau, T.same, 0.12);
+  S.css('#ai', { opacity: ak * (1 - S.ent(tau, T.a - 0.1, 0.2)), transform: `translateY(${(1 - ak) * -14}px)` });
+  [['r0', T.a], ['r1', T.b], ['r2', T.c]].forEach(s => {
+    const k = S.ent(tau, s[1], 0.12);
+    S.css('#' + s[0], { opacity: k, transform: `rotate(-3deg) scale(${1.1 - 0.1 * k})` });
+  });
+  ['l0', 'l1', 'l2'].forEach(id => S.css('#' + id, { transform: 'rotate(-3deg)' }));
+  // 할인 글자만 늘어남(숫자 없음): 할인 → 할인＋ → 할인＋＋ 를 양쪽이 번갈아
+  const n = Math.floor((tau - (T.war + 0.45)) / 0.45);
+  const lv = n < 0 ? 0 : n < 2 ? 1 : 2, rv = n < 1 ? 0 : n < 3 ? 1 : 2;
+  S.$('#lt1').textContent = '할인' + ['', '＋', '＋＋'][lv];
+  S.$('#rt1').textContent = '할인' + ['', '＋', '＋＋'][rv];
+});
+</script>
+</body></html>

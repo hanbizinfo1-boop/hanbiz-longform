@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s24 마지막에 공개 — 포스 프린터 감열지 클로즈업 · 접힌 끝에 주홍 테이프</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#world{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background-size:100% 100%;filter:saturate(.8) contrast(1.03)}
+#strip{position:absolute;left:1105px;top:170px;width:290px;height:350px;transform-origin:50% 100%}
+#strip .paper{position:absolute;left:0;top:0;width:290px;height:350px;background-position:0 0}
+#strip .q{position:absolute;left:0;right:0;bottom:46px;text-align:center;font-family:"Pre";font-weight:900;font-size:78px;color:#1F2A33;letter-spacing:-.02em}
+#strip .fold{position:absolute;left:0;right:0;top:0;height:110px;background:linear-gradient(rgba(31,42,51,.26),rgba(31,42,51,0))}
+#tape{position:absolute;left:1086px;top:300px;width:330px;height:40px;background:#F05A28;transform:rotate(-3deg);box-shadow:0 8px 16px rgba(20,25,30,.35);opacity:0}
+#lab{position:absolute;left:880px;top:790px;color:#fff;opacity:0;font-size:36px;text-shadow:0 2px 12px rgba(0,0,0,.55)}
+#cNight{left:260px;top:290px}
+</style></head>
+<body><div id="stage">
+  <div id="world">
+    <div id="ph"></div>
+    <div id="strip"><div class="paper thermal"></div><div class="fold"></div><div class="q">Q.</div></div>
+    <div id="tape"></div>
+    <div id="lab" class="lab" data-box="lab">마지막에 공개</div>
+    <div id="cNight" class="chip ink" data-box="cNight" style="opacity:0">오늘 밤</div>
+  </div>
+</div>
+<script src="../data/s24.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#1F2A33', '#F05A28'];
+const T = { night: S.at('오늘'), q: S.at('질문도'), one: S.at('하나'), end: S.at('끝까지') };
+document.getElementById('ph').style.backgroundImage = S.ph('p24_thermal_print');
+S.ev(T.night + 0.05, 'card_in', 'cNight'); S.ev(T.q, 'page', 'strip'); S.ev(T.one + 0.05, 'card_in', 'tape'); S.ev(T.end, 'shine', 'lab');
+S.scene(tau => {
+  // 느린 옆 흐름(왼 → 오)
+  const d = S.P(tau, 0, S.SC.dur);
+  S.css('#world', { transform: `translate(${(-30 - 40 * d).toFixed(2)}px,-20px) scale(1.04)` });
+  const c = S.ent(tau, T.night + 0.05, 0.12);
+  S.css('#cNight', { opacity: c * (1 - S.P(tau, T.q - 0.1, T.q + 0.1)), transform: `translateY(${((1 - c) * 14).toFixed(1)}px)` });
+  // 감열지가 위로 출력되다 멈춤(0.9초)
+  const p = S.EO(S.P(tau, T.q, T.q + 0.9));
+  S.css('#strip', { clipPath: `inset(${((1 - p) * 100).toFixed(1)}% 0 0 0)`, transform: `rotate(2.5deg) translateY(${((1 - p) * 30).toFixed(1)}px)` });
+  // 주홍 테이프 한 줄이 접힌 곳에 붙음
+  const t = S.ent(tau, T.one + 0.05, 0.12);
+  S.css('#tape', { opacity: t, transform: `rotate(-3deg) scaleX(${(0.6 + 0.4 * t).toFixed(3)})` });
+  S.css('#lab', { opacity: S.ent(tau, T.end, 0.12) });
+});
+</script>
+</body></html>

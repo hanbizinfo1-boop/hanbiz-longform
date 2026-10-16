@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s15 먼저 들어간 가게가 잘됐잖아요 — 옛날 주문 프린터 매크로 + 주문서 출력</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#ph{left:-20px;top:-160px;width:2100px;height:1400px}
+#pic{left:0;top:0;width:2100px;height:1400px;background-size:2100px 1400px;background-repeat:no-repeat;filter:sepia(.22) saturate(.7) contrast(.98)}
+#vg{left:0;top:0;width:1920px;height:1080px;background:radial-gradient(ellipse at 50% 50%,rgba(0,0,0,0) 55%,rgba(20,25,30,.3) 100%)}
+.tk{width:270px;padding:22px 24px 26px;color:#2B3238;font-family:"Pre";text-align:left}
+.tk .no{font-size:26px;font-weight:700;letter-spacing:.2em;color:#5D646B}
+.tk .ln{border-top:3px dashed #B5B9BC;margin:12px 0 14px}
+.tk .mn{font-size:36px;font-weight:800;line-height:1.3;white-space:nowrap}
+.tk .mn em{font-style:normal;float:right;color:#1F2A33}
+#k1{left:1390px;top:60px}
+#k2{left:1580px;top:250px}
+#k3{left:1340px;top:410px}
+#k4{left:1590px;top:600px}
+#ph2{left:90px;top:80px}
+</style></head>
+<body><div id="stage">
+  <div id="ph" class="abs"><div id="pic" class="abs"></div></div>
+  <div id="vg" class="abs"></div>
+  <div id="k1" class="abs thermal tk" data-box="k1" data-box-group="tk"><div class="no">주문 1</div><div class="ln"></div><div class="mn">돼지국밥<em>2</em></div></div>
+  <div id="k2" class="abs thermal tk" data-box="k2" data-box-group="tk"><div class="no">주문 2</div><div class="ln"></div><div class="mn">수육<em>1</em></div></div>
+  <div id="k3" class="abs thermal tk" data-box="k3" data-box-group="tk"><div class="no">주문 3</div><div class="ln"></div><div class="mn">돼지국밥<em>1</em></div></div>
+  <div id="k4" class="abs thermal tk" data-box="k4" data-box-group="tk"><div class="no">주문 4</div><div class="ln"></div><div class="mn">수육<em>2</em></div></div>
+  <div id="ph2" class="chip gr" data-box="ph2" style="font-size:34px;padding:12px 26px">전화 주문</div>
+</div>
+<script src="../data/s15.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#1F2A33', '#9AA0A6'];   // 바랜 사진 + 흰 감열지 + 회색 칩(전화 주문 = 옛날 방식)
+const T = { first: S.at('먼저'), good: S.at('잘됐잖아요'), tel: S.at('전화'), app: S.at('앱으로'), many: S.at('주문이') };
+document.getElementById('pic').style.backgroundImage = S.ph('p15_old_order_printer');
+const K = [['k1', T.first, 5, 520], ['k2', T.good, -4, 520], ['k3', T.app, -6, 520], ['k4', T.app + 0.25, 4, 520]];
+S.ev(T.first, 'page', 'k1');
+S.ev(T.good, 'page', 'k2');
+S.ev(T.tel, 'card_in', 'ph2');
+S.ev(T.app, 'page', 'k3');
+S.ev(T.app + 0.25, 'card_in', 'k4');
+S.scene(tau => {
+  const d = S.P(tau, -S.SC.pre, S.SC.dur);
+  S.css('#ph', { left: (-20 - 100 * S.EIO(d)) + 'px' });
+  // 주문서: 위에서 내려오며 출력(0.45초 감속) — 마지막 둘은 빠르게
+  K.forEach(([id, t, rot, h], i) => {
+    const dur = i >= 2 ? 0.32 : 0.45, p = S.EO(S.P(tau, t, t + dur));
+    S.css('#' + id, { opacity: p > 0.999 ? 1 : (p > 0.001 ? 0.84 : 0), transform: `translateY(${((p - 1) * h).toFixed(1)}px) rotate(${rot}deg)` });
+  });
+  const k = S.ent(tau, T.tel, 0.12);
+  S.css('#ph2', { opacity: k, transform: `translateY(${((1 - k) * 14).toFixed(1)}px)` });
+});
+</script>
+</body></html>

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s62 직접 권한다 — 로우앵글 빈 메뉴판, 손가락이 가리키는 한 줄</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#w{left:0;top:-60px;width:1997px;height:1331px}
+#ph{left:0;top:0;width:1997px;height:1331px}
+#lb{left:70px;top:64px;opacity:0}
+.cp{opacity:0}
+</style></head>
+<body><div id="stage">
+  <div id="w" class="abs"><div id="ph" class="photo abs"></div>
+    <div id="cj" class="chip or cp" data-box="cj" style="left:1390px;top:500px">직접</div>
+    <div id="cai" class="chip te cp" data-box="cai" style="left:1390px;top:700px">AI</div>
+  </div>
+  <div id="lb" class="chip gr" data-box="lb">처음 온 손님</div>
+</div>
+<script src="../data/s62.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="_e6.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#F05A28', '#1FA39A'];
+S.$('#ph').style.backgroundImage = S.ph('p62_menu_lowangle');
+// 손가락 끝(사진 700,550 → 판 910,715)이 가리키는 메뉴판 줄
+E.svg('#w', 1997, 1331, '<rect id="rc" x="640" y="610" width="720" height="92" rx="10" fill="none" stroke="#F05A28" stroke-width="9" transform="rotate(-9 1000 656)"/>');
+const T = { lb: S.at('처음'), rc: S.at('제일'), cj: S.at('직접'), ai: S.at('이거는'), no: S.at('절대') };
+S.ev(T.lb, 'card_in', 'lb'); S.ev(T.rc, 'marker', 'rc'); S.ev(T.cj, 'card_in', 'cj'); S.ev(T.ai, 'msg_in', 'cai'); S.ev(T.no, 'no', 'cai');
+S.scene(tau => {
+  S.css('#w', { left: E.lin(tau, -0.2, S.SC.dur, 0, -70) + 'px' });
+  E.in('#lb', tau, T.lb, { dy: -12 });
+  E.stroke(S.$('#rc'), tau, T.rc, 0.5);
+  E.in('#cj', tau, T.cj); E.in('#cai', tau, T.ai);
+  const g = S.P(tau, T.no, T.no + 0.3), c = S.$('#cai');
+  c.style.background = `rgb(${Math.round(31 + 197 * g)},${Math.round(163 + 67 * g)},${Math.round(154 + 73 * g)})`;
+  c.style.color = g > 0.5 ? '#5D646B' : '#fff';
+  c.style.opacity = (parseFloat(c.style.opacity) * (1 - 0.3 * g)).toFixed(3);
+});
+</script>
+</body></html>

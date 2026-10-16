@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s32 A는 어느 가게에 붙여도 말이 되고 B는 그 가게만 — 흰 벽 메뉴 카드 8장 정면 대칭, 한 장에만 주홍 띠가 붙음</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#world{left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+.cd{width:380px;height:420px}
+.cd .hd{height:60px;font-size:28px}
+.cd .th{position:absolute;left:0;top:60px;width:380px;height:140px;border-radius:0;background-size:cover}
+.cd .nm{position:absolute;left:20px;top:206px;font-size:30px}
+.bd{position:absolute;left:16px;right:16px;bottom:16px;height:150px;border-radius:12px;padding:12px 16px;font-size:24px;line-height:1.38;font-weight:600;overflow:hidden}
+.bd.a{background:#E6E8E6;color:#5D646B}
+#bB{position:absolute;width:348px;height:150px;border-radius:12px;padding:12px 16px;font-size:27px;line-height:1.38;font-weight:800;background:#fff;color:var(--or);border:4px solid var(--or);z-index:5;box-shadow:0 12px 26px rgba(20,25,30,.28);opacity:0}
+#bB .u{background:linear-gradient(transparent 60%,rgba(240,90,40,.40) 60%);background-repeat:no-repeat;background-size:0% 100%}
+#cAI{font-size:26px;padding:6px 16px}
+</style></head>
+<body><div id="stage">
+  <div class="bg tex-wall"></div>
+  <div id="world" class="abs">
+    <div id="grid"></div>
+    <div id="bB"><span class="u" id="bBu">새벽 5시에 불 올려서 점심 전에 딱 한 솥만 끓입니다</span></div>
+    <div id="cAI" class="chip te" data-box="cAI">AI</div>
+  </div>
+</div>
+<script src="../data/s32.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#E9EAE8', '#1F2A33', '#F05A28'];   // 갤러리 흰 벽 · 글 · 주홍 한 줄
+const A_TXT = '진한 사골 육수에 푸짐한 고기를 담은 정성 가득한 한 그릇';
+const STORES = [['○○국밥', '돼지국밥'], ['○○순대', '순대국'], ['○○해장국', '해장국'], ['○○설렁탕', '설렁탕'], ['○○곰탕', '곰탕'], ['○○감자탕', '감자탕'], ['○○국수', '잔치국수'], ['○○백반', '백반']];
+const PIC = [['p29_two_pots', '70% 70%'], ['p30_burner_flame', '50% 70%'], ['p34_counter_handover', '60% 70%'], ['p38_cabbage_macro', '50% 55%'], ['p29_two_pots', '30% 40%'], ['p34_counter_handover', '80% 30%'], ['p38_cabbage_macro', '70% 80%'], ['p30_burner_flame', '30% 40%']];
+const GX = 146, GY = [48, 498], DX = 416, STICK = 5;
+const cx = i => GX + (i % 4) * DX, cy = i => GY[Math.floor(i / 4)];
+const grid = S.$('#grid');
+STORES.forEach((s, i) => {
+  const d = document.createElement('div'); d.className = 'app cd'; d.id = 'c' + i;
+  d.style.left = cx(i) + 'px'; d.style.top = cy(i) + 'px';
+  d.innerHTML = `<div class="hd">${s[0]}</div><div class="th"></div><div class="nm">${s[1]}</div><div class="bd a" id="a${i}">${A_TXT}</div>`;
+  const th = d.querySelector('.th'); th.style.backgroundImage = S.ph(PIC[i][0]); th.style.backgroundPosition = PIC[i][1];
+  grid.appendChild(d);
+});
+const T = { a: S.at('A는'), b: S.at('B는'), dim: S.at('할 수 있는'), lift: S.at('그럼'), cam: S.at('뭐다'), ai: S.at('AI한테', 0), u: S.at('한 줄') };
+S.focus([{ t0: T.u + 0.05, t1: T.u + 0.85, big: '한 줄', color: 'or' }]);
+S.ev(T.a, 'card_in', 'a0'); S.ev(T.b, 'sweep', 'bB'); S.ev(T.dim, 'no', 'c0'); S.ev(T.lift, 'shine', 'c5');
+S.ev(T.ai, 'card_in', 'cAI'); S.ev(T.u, 'marker', 'bBu');
+const SX = cx(STICK) + 16, SY = cy(STICK) + 420 - 16 - 150;       // 띠가 붙을 자리(카드 5 의 아래 칸)
+const LAND = T.b + 1.0;
+const KEYS = [{ t: 0, s: 1, x: 960, y: 540 }, { t: T.cam, s: 1.9, x: cx(STICK) + 190, y: cy(STICK) + 205, d: 0.5 }];
+S.scene(tau => {
+  const c = S.camState(tau, KEYS);
+  S.css('#world', { transform: S.camCss(c) });
+  // A 띠: 카드마다 0.15초 간격으로 붙음
+  for (let i = 0; i < 8; i++) {
+    const k = S.ent(tau, T.a + 0.15 * i, 0.12);
+    const el = S.$('#a' + i);
+    el.style.opacity = k; el.style.transform = `scale(${(1.12 - 0.12 * k).toFixed(3)})`;
+  }
+  // 나머지 카드는 탈색 + 살짝 어두워짐 / 5번 카드는 들어 올림(같은 자리에서 B 만 색이 남음)
+  const g = S.EO(S.P(tau, T.dim, T.dim + 0.45)), lf = S.ent(tau, T.lift, 0.15);
+  for (let i = 0; i < 8; i++) {
+    const el = S.$('#c' + i);
+    if (i === STICK) el.style.transform = `scale(${(1 + 0.05 * lf).toFixed(3)})`;
+    else { el.style.filter = S.desat(g); el.style.opacity = 1 - 0.3 * g; }
+  }
+  S.css('#a' + STICK, { opacity: S.ent(tau, T.a + 0.15 * STICK, 0.12) * (1 - S.EO(S.P(tau, LAND - 0.25, LAND))) });
+  // 주홍 띠: 오른쪽 밖에서 카드 위를 지나 5번 카드 아래 칸에 딱 붙음
+  const p = S.EZ(S.P(tau, T.b, LAND)), x = 1980 + (SX - 1980) * p;
+  S.css('#bB', { left: x + 'px', top: SY + 'px', opacity: tau >= T.b ? 1 : 0 });
+  S.$('#bBu').style.backgroundSize = (100 * S.EO(S.P(tau, T.u, T.u + 0.5))).toFixed(1) + '% 100%';
+  // AI 칩(5번 카드 머리줄 오른쪽)
+  const a = S.ent(tau, T.ai, 0.12);
+  S.css('#cAI', { left: (cx(STICK) + 292) + 'px', top: (cy(STICK) + 12) + 'px', opacity: a, transform: `translateY(${(1 - a) * 10}px)` });
+});
+</script>
+</body></html>

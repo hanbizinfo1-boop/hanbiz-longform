@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s31 대표님이 손님이면 당연히 B — 콘크리트 위 기울인 배달앱 메뉴 판 · 같은 자리 탈색</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#wrap{left:0;top:0;width:1920px;height:1080px;perspective:2200px}
+#slab{left:330px;top:150px;width:1260px;height:690px;transform-origin:50% 60%}
+#slab .hd{height:70px;font-size:30px;padding:0 34px}
+#slab .hd span{font-size:24px;font-weight:600;color:#7A838A;letter-spacing:.12em}
+.rw{position:absolute;left:0;width:1260px;height:290px;display:flex;gap:34px;padding:26px 40px;border-bottom:1px solid #EEF0F1}
+.rw .th{width:238px;height:238px;border-radius:14px}
+.rw .nm{font-size:52px}
+.rw .ds{font-size:40px;line-height:1.45;margin-top:10px;width:880px;font-weight:600;color:#59636B}
+.rw .stl{display:flex;gap:4px;margin-top:10px}
+#rA{top:70px}
+#rB{top:360px;border-bottom:none}
+#sel{position:absolute;left:14px;top:80px;width:1232px;height:270px;border:6px solid #8A9298;border-radius:18px;opacity:0}
+.or{color:var(--or);font-weight:800}
+</style></head>
+<body><div id="stage">
+  <div class="bg tex-conc"></div>
+  <div id="wrap" class="abs">
+    <div id="slab" class="app" data-box="slab">
+      <div class="hd">메뉴 <span>돼지국밥</span></div>
+      <div id="rA" class="rw"><div class="th" style="background-image:url('../../../../소재/sjk02/codex/p29_two_pots.png');background-size:270%;background-position:78% 70%"></div>
+        <div><div class="nm">돼지국밥</div><div class="stl" data-st></div><div class="ds">진한 사골 육수에 푸짐한 고기를 담은 정성 가득한 한 그릇</div></div></div>
+      <div id="rB" class="rw"><div class="th" style="background-image:url('../../../../소재/sjk02/codex/p30_burner_flame.png');background-size:260%;background-position:52% 78%"></div>
+        <div><div class="nm">돼지국밥</div><div class="stl" data-st></div><div class="ds"><span class="or">새벽 5시에 불 올려서 점심 전에 딱 한 솥만 끓입니다</span></div></div></div>
+      <div id="sel"></div>
+    </div>
+  </div>
+</div>
+<script src="../data/s31.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#1F2A33', '#F05A28'];   // 콘크리트 · 글 · 주홍 한 줄
+const T = { in: S.at('대표님이') - 0.1, sel: S.at('어디'), hop: S.at('싶으세요'), b: S.at('B잖아요') };
+document.querySelectorAll('[data-st]').forEach(e => { e.innerHTML = [1,2,3,4,5].map(() => '<svg width="32" height="32" viewBox="0 0 24 24"><path d="M12 2l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 18l-6.4 3.6L7 14.5 1.7 9.5l7.2-.9z" fill="#F5A800"/></svg>').join(''); });
+S.ev(T.in, 'in', 'slab'); S.ev(T.sel, 'card_in', 'sel'); S.ev(T.b, 'no', 'rA'); S.ev(T.b + 0.15, 'ok', 'rB');
+S.scene(tau => {
+  const k = S.ent(tau, T.in, 0.12), drift = S.P(tau, 0, S.SC.dur);
+  S.css('#slab', { opacity: k, transform: `rotateX(${8 - 2 * drift}deg) rotateZ(${-3 + 0.8 * drift}deg) translateY(${((1 - k) * 30).toFixed(1)}px)` });
+  // 선택 테두리: A 에서 시작 → «싶으세요» 에 B 로 한 번 건너감 → «B잖아요» 에 주홍으로 확정
+  const s = S.ent(tau, T.sel, 0.12), h = S.EZ(S.P(tau, T.hop, T.hop + 0.28)), c = S.EO(S.P(tau, T.b, T.b + 0.2));
+  const sel = S.$('#sel');
+  sel.style.opacity = s;
+  sel.style.top = (80 + 290 * h) + 'px';
+  sel.style.borderColor = c > 0 ? `rgb(${Math.round(138 + 102 * c)},${Math.round(146 - 56 * c)},${Math.round(152 - 112 * c)})` : '#8A9298';
+  // A 행은 같은 자리에서 회색으로 빠지고 B 행만 색이 남음
+  const g = S.EO(S.P(tau, T.b, T.b + 0.3));
+  S.css('#rA', { filter: S.desat(g), opacity: 1 - 0.35 * g });
+  S.css('#rB', { filter: `saturate(${(1 + 0.3 * c).toFixed(3)})` });
+});
+</script>
+</body></html>

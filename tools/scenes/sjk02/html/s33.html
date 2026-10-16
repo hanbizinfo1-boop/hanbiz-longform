@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s33 AI가 잘 쓰는 건 평균적인 글 — 어두운 글자 벽, 회색 글 줄이 모여 한 문장이 되고 옅어짐</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+.row{position:absolute;left:0;white-space:nowrap;font-family:"Pre";font-weight:600;font-size:27px;letter-spacing:.02em;width:12000px}
+#sent{left:150px;top:392px;font-size:112px;color:#B3B9BE;white-space:nowrap;line-height:1.1}
+#ul{left:150px;top:530px;height:9px;border-radius:5px;background:#B3B9BE;width:0}
+#c0{left:152px;top:300px}
+#c1{left:152px;top:300px}
+#c2{left:152px;top:300px}
+</style></head>
+<body><div id="stage">
+  <div class="bg tex-dark"></div>
+  <div id="rows" class="abs" style="left:0;top:0;width:1920px;height:1080px"></div>
+  <div id="sent" class="abs blk" data-box="sent">정성 가득한 한 그릇</div>
+  <div id="ul" class="abs" data-box="ul"></div>
+  <div id="c0" class="chip gr" data-box="c0">세상의 글</div>
+  <div id="c1" class="chip gr" data-box="c1">무난함</div>
+  <div id="c2" class="chip gr" data-box="c2">손님 기억</div>
+</div>
+<script src="../data/s33.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#1D2328', '#B3B9BE', '#E4E6E3'];   // 어두운 책상 · 회색 글 · 회색 칩
+const PH = ['정성 가득한 한 그릇', '소중한 리뷰 감사합니다', '진한 사골 육수에 푸짐한 고기를 담은', '앞으로도 더 노력하는 가게가 되겠습니다', '이번 주도 맛있는 국밥으로 찾아뵙겠습니다', '성실한 분 구합니다. 경력자 우대'];
+const N = 14, Y0 = 46, DY = 66, CY = 478;
+const rowsEl = S.$('#rows'), rows = [];
+for (let i = 0; i < N; i++) {
+  const d = document.createElement('div'); d.className = 'row';
+  const seq = []; for (let k = 0; k < 24; k++) seq.push(PH[(i * 2 + k * 5 + (i % 3)) % PH.length]);
+  d.textContent = seq.join('     ·     ');
+  d.style.color = i % 2 ? '#6E767D' : '#586068';
+  d.style.top = (Y0 + DY * i) + 'px';
+  rowsEl.appendChild(d); rows.push({ el: d, y: Y0 + DY * i, dir: i % 2 ? 1 : -1, v: 150 + (i * 37) % 120, off: i % 2 ? -2400 : -100 - (i * 53) % 200 });
+}
+const T = { c0: S.at('세상에'), avg: S.at('평균적인'), back: S.at('다 읽고'), ul: S.at('무난한'), c1: S.at('장사에서'), c2: S.at('손님'), out: S.at('기억에') };
+S.focus([{ t0: T.avg + 0.05, t1: T.avg + 1.15, big: '평균', small: 'AI가 잘 쓰는 글', color: 'gr' }]);
+S.ev(T.avg, 'sweep', 'rows'); S.ev(T.c0, 'msg_in', 'c0'); S.ev(T.back, 'in', 'rows'); S.ev(T.ul, 'marker', 'ul'); S.ev(T.c1, 'card_in', 'c1');
+S.ev(T.c2, 'msg_in', 'c2'); S.ev(T.out, 'no', 'sent');
+S.scene(tau => {
+  const conv = S.EZ(S.P(tau, T.avg, T.avg + 0.6)), back = S.EZ(S.P(tau, T.back, T.back + 0.5));
+  const gather = conv * (1 - back);
+  rows.forEach((r, i) => {
+    const sp = 1 + 2.2 * S.P(tau, T.back, T.back + 0.6);                   // «다 읽고» 부터 흐름이 빨라짐
+    const x = r.off + r.dir * r.v * (tau + 1.2 * Math.max(0, tau - T.back)) * sp * 0.6;
+    const y = S.lerp(r.y, CY + (i - N / 2) * 5, gather);
+    const op = tau < T.avg ? 1 : (tau < T.back ? 1 - S.P(tau, T.avg + 0.25, T.avg + 0.75) : 0.65 * back);
+    r.el.style.transform = `translate(${x.toFixed(1)}px,${(y - r.y).toFixed(1)}px)`;
+    r.el.style.opacity = Math.max(0, op).toFixed(3);
+  });
+  // 한 문장으로 모임 → «기억에 안» 에 옅어짐
+  const s = S.ent(tau, T.avg + 0.45, 0.14), o = 1 - 0.85 * S.EO(S.P(tau, T.out, T.out + 0.5));
+  S.css('#sent', { opacity: s * o, transform: `translateX(${((1 - s) * -40).toFixed(1)}px)` });
+  // 무난한 → 회색 밑줄
+  S.css('#ul', { width: (870 * S.EO(S.P(tau, T.ul, T.ul + 0.45))) + 'px', opacity: o });
+  const a = S.ent(tau, T.c1, 0.12), b = S.ent(tau, T.c2, 0.12);
+  const z = S.ent(tau, T.c0, 0.12);
+  S.css('#c0', { opacity: z * (1 - a), transform: `translateY(${((1 - z) * 12).toFixed(1)}px)` });
+  S.css('#c1', { opacity: a * (1 - b), transform: `translateY(${((1 - a) * 12).toFixed(1)}px)` });
+  S.css('#c2', { opacity: b, transform: `translateY(${((1 - b) * 12).toFixed(1)}px)` });
+});
+</script>
+</body></html>

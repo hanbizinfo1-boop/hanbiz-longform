@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s37 답글은 다른 손님도 다 읽거든요 — 지하철 손님 손들, 옆 트래킹 + 손 위 주홍 줄 칩</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#world{left:0;top:0;width:1920px;height:1080px;transform-origin:50% 0%}
+#ph{left:0;top:0;width:1920px;height:1080px}
+.rd{font-size:27px;padding:9px 22px}
+#c1{left:250px;top:84px}
+#c2g{left:880px;top:218px}
+#c2{left:880px;top:218px}
+#c3{left:1130px;top:104px}
+#c4{left:1440px;top:26px}
+</style></head>
+<body><div id="stage">
+  <div id="world" class="abs">
+    <div id="ph" class="photo"></div>
+    <div id="c1" class="chip or rd" data-box="c1">아침 8시에 삶은 거라</div>
+    <div id="c2g" class="chip gr rd" data-box="c2g">○○국밥</div>
+    <div id="c2" class="chip or rd" data-box="c2">아침 8시에 삶은 거라</div>
+    <div id="c3" class="chip or rd" data-box="c3">아침 8시에 삶은 거라</div>
+    <div id="c4" class="chip or rd" data-box="c4">아침 8시에 삶은 거라</div>
+  </div>
+</div>
+<script src="../data/s37.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#2B2F36', '#F05A28', '#E4E6E3'];   // 지하철 어두운 코트 톤 · 주홍 줄 · 회색 칩
+const T = { c1: S.at('리뷰 쓴'), g: S.at('가게 찾아보는'), o: S.at('다른 손님도'), c3: S.at('다른 손님도') + 0.3, c4: S.at('다른 손님도') + 0.62 };
+S.css('#ph', { backgroundImage: S.ph('p37_subway_hands') });
+S.ev(T.c1, 'card_in', 'c1'); S.ev(T.g, 'msg_in', 'c2g'); S.ev(T.o, 'card_in', 'c2'); S.ev(T.c4, 'msg_in', 'c4');
+const pop = (id, k) => S.css(id, { opacity: k, transform: `translateY(${((1 - k) * 18).toFixed(2)}px) scale(${(0.92 + 0.08 * k).toFixed(3)})` });
+S.scene(tau => {
+  S.css('#world', { transform: S.track(tau, 0, S.SC.dur, 90, -90, 1.12) });
+  pop('#c1', S.ent(tau, T.c1, 0.12));
+  const g = S.ent(tau, T.g, 0.12), go = 1 - S.ent(tau, T.o, 0.1);
+  pop('#c2g', g * go);
+  pop('#c2', S.ent(tau, T.o, 0.12));
+  pop('#c3', S.ent(tau, T.c3, 0.12));
+  pop('#c4', S.ent(tau, T.c4, 0.12));
+});
+</script>
+</body></html>

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s25 세 가지는 글·숫자·시간 — 콘크리트 벽 정면 스텐실 세 단어 · 똑같이는 회색 · 갈려요에 아래 띠가 회색/주홍으로 갈라짐</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#world{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:50% 50%}
+.st{position:absolute;text-align:center;font-family:"Pre";font-weight:900;line-height:1;letter-spacing:-.04em;white-space:nowrap;color:#1F2A33;opacity:0;
+  -webkit-mask-image:linear-gradient(90deg,#000 0 49%,transparent 49% 51%,#000 51% 100%),linear-gradient(180deg,#000 0 54%,transparent 54% 56.5%,#000 56.5% 100%);
+  -webkit-mask-composite:source-in;mask-composite:intersect;filter:url(#rough)}
+.w{width:520px;font-size:260px;top:330px}
+.n{width:140px;font-size:96px;top:660px}
+.ai{width:200px;font-size:84px;top:170px;color:#1FA39A}
+.bar{position:absolute;height:22px;border-radius:4px;width:440px;opacity:0}
+</style></head>
+<body><div id="stage">
+  <svg width="0" height="0" style="position:absolute"><defs><filter id="rough" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="11" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="6"/></filter></defs></svg>
+  <div class="bg tex-conc"></div>
+  <div id="world">
+    <div class="st ai" id="a0" style="left:300px">AI</div><div class="st ai" id="a1" style="left:760px">AI</div><div class="st ai" id="a2" style="left:1220px">AI</div>
+    <div class="st w" id="w0" style="left:140px">글</div>
+    <div class="st w" id="w1" style="left:700px">숫자</div>
+    <div class="st w" id="w2" style="left:1260px">시간</div>
+    <div class="st n" id="n0" style="left:330px">1</div><div class="st n" id="n1" style="left:890px">2</div><div class="st n" id="n2" style="left:1450px">3</div>
+    <div class="bar" id="u0" style="left:180px;top:800px"></div><div class="bar" id="u1" style="left:740px;top:800px"></div><div class="bar" id="u2" style="left:1300px;top:800px"></div>
+    <div class="bar" id="v0" style="left:180px;top:842px"></div><div class="bar" id="v1" style="left:740px;top:842px"></div><div class="bar" id="v2" style="left:1300px;top:842px"></div>
+  </div>
+</div>
+<script src="../data/s25.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#1F2A33', '#9AA0A6', '#F05A28'];
+const T = { geul: S.at('글,'), num: S.at('숫자'), time: S.at('시간'), same: S.at('똑같이'), ai: S.at('AI를'), three: S.at('세 개를'), how: S.at('어떻게'), use: S.at('쓰느냐에'), split: S.at('갈려요') };
+S.ev(T.geul, 'marker', 'w0'); S.ev(T.num, 'card_in', 'w1'); S.ev(T.time, 'marker', 'w2');
+S.ev(T.same, 'no', 'words'); S.ev(T.ai, 'card_in', 'ai'); S.ev(T.three, 'marker', 'nums'); S.ev(T.use, 'card_in', 'bars'); S.ev(T.split, 'sweep', 'split');
+const GR = [112, 121, 129], INK = [31, 42, 51];
+const mix = (a, b, k) => a.map((v, i) => Math.round(S.lerp(v, b[i], k)));
+const spray = (id, a, col) => S.css('#' + id, { opacity: a > 0 ? 0.96 : 0, clipPath: `inset(-6% ${((1 - a) * 100).toFixed(1)}% -6% 0)`, color: col });
+S.scene(tau => {
+  const d = S.P(tau, 0, S.SC.dur);
+  S.css('#world', { transform: `scale(${(1 + 0.035 * d).toFixed(4)})` });
+  const gray = S.EO(S.P(tau, T.same, T.same + 0.45));
+  const col = `rgb(${mix(INK, GR, gray).join(',')})`;
+  spray('w0', S.EO(S.P(tau, T.geul, T.geul + 0.4)), col);
+  spray('w1', S.ent(tau, T.num, 0.12), col);
+  spray('w2', S.EO(S.P(tau, T.time, T.time + 0.4)), col);
+  // 번호 1 2 3 (단어 뒤따라)
+  [['n0', T.geul], ['n1', T.num], ['n2', T.time]].forEach(([id, t0]) => spray(id, S.ent(tau, t0 + 0.28, 0.12), col));
+  // 똑같이 AI를 — 단어 위에 청록 AI 가 하나씩
+  ['a0', 'a1', 'a2'].forEach((id, i) => spray(id, S.ent(tau, T.ai + i * 0.14, 0.12), '#1FA39A'));
+  // 이 세 개를 — 번호가 한 번 칠해져 진해짐(진하기만 — 크기 변화 없음)
+  const sh = S.EO(S.P(tau, T.three, T.three + 0.2)) * (1 - S.P(tau, T.three + 0.5, T.three + 0.8));
+  ['n0', 'n1', 'n2'].forEach(id => { document.getElementById(id).style.filter = `url(#rough) drop-shadow(0 0 ${(14 * sh).toFixed(1)}px rgba(31,163,154,${(0.9 * sh).toFixed(2)}))`; });
+  // 쓰느냐에 — 단어 아래 같은 회색 띠 한 줄씩(왼 → 오 0.15초 간격), 갈려요 — 띠가 위 회색/아래 주홍으로 갈라짐
+  const bars = [0, 1, 2].map(i => S.ent(tau, T.use + i * 0.15, 0.12));
+  const sp = S.EO(S.P(tau, T.split, T.split + 0.45));
+  [0, 1, 2].forEach(i => {
+    const u = document.getElementById('u' + i), v = document.getElementById('v' + i);
+    u.style.opacity = bars[i]; u.style.background = '#7A838B'; u.style.transform = `translateY(${(-18 * sp).toFixed(1)}px)`;
+    // 아래 줄은 갈려요 에서 같은 자리에서 나와 아래로 + 주홍으로
+    v.style.opacity = (bars[i] * sp).toFixed(3); v.style.background = '#F05A28'; v.style.transform = `translateY(${(8 * sp).toFixed(1)}px)`;
+  });
+});
+</script>
+</body></html>

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s66 딱 세 개 — 점심 지난 홀 번호표, 번호표 세 장에 새겨지는 세 가지</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#w{left:-206px;top:-200px;width:2150px;height:1433px}
+#ph{left:0;top:0;width:2150px;height:1433px}
+#shade{left:0;top:0;width:1920px;height:1080px;background:linear-gradient(90deg,rgba(15,20,25,0) 0,rgba(15,20,25,.35) 50%)}
+.pl{top:330px;width:280px;height:197px;border-radius:10px;background-size:729px 486px;background-position:-123px -178px;box-shadow:0 22px 40px rgba(0,0,0,.5);opacity:0}
+.pl .n{position:absolute;left:0;right:0;top:36px;text-align:center;font-size:130px;line-height:1;color:#2A3036;text-shadow:0 2px 0 rgba(255,255,255,.55),0 -1px 0 rgba(0,0,0,.35);opacity:0}
+.ht{top:556px;width:290px;font-size:48px;line-height:1.2;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.7);opacity:0}
+#c2{left:1320px;top:700px;opacity:0}
+#c3{left:1620px;top:700px;opacity:0}
+#cs{left:1620px;top:714px;width:200px;height:6px;background:#fff;border-radius:3px;opacity:0}
+</style></head>
+<body><div id="stage">
+  <div id="w" class="abs"><div id="ph" class="photo abs"></div></div>
+  <div id="shade" class="abs"></div>
+  <div id="p1" class="pl abs" style="left:1020px" data-box="p1"><div class="n blk">1</div></div>
+  <div id="p2" class="pl abs" style="left:1320px" data-box="p2"><div class="n blk">2</div></div>
+  <div id="p3" class="pl abs" style="left:1620px" data-box="p3"><div class="n blk">3</div></div>
+  <div id="h1" class="ht hand abs" style="left:1020px">단골 얼굴 ·<br>자주 시키는 메뉴</div>
+  <div id="h2" class="ht hand abs" style="left:1320px">우리 가게 한 줄</div>
+  <div id="h3" class="ht hand abs" style="left:1620px">불만은 직접</div>
+  <div id="c2" class="chip or abs" data-box="c2">새벽 국밥집</div>
+  <div id="c3" class="chip gr abs" data-box="c3">답글만</div><div id="cs" class="abs"></div>
+</div>
+<script src="../data/s66.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="_e6.js"></script>
+<script>
+window.PALETTE = ['#14191E', '#F05A28', '#D9DBD6'];
+S.$('#ph').style.backgroundImage = S.ph('p57_table_number');
+['#p1', '#p2', '#p3'].forEach(s => { S.$(s).style.backgroundImage = S.ph('p57_table_number'); });
+const T = { pl: S.at('딱'), n1: S.at('첫'), t1: S.at('단골'), n2: S.at('두'), t2: S.at('우리'), c2: S.at('새벽'), n3: S.at('세', 2), t3: S.at('불만'), c3: S.at('답글만'), x3: S.at('끝내지'), f: S.at('직접', 1) };
+S.ev(T.pl, 'card_in', 'p1'); S.ev(T.n1, 'marker', 'p1'); S.ev(T.t1, 'type', 'h1'); S.ev(T.n2, 'shine', 'p2'); S.ev(T.t2, 'marker', 'h2');
+S.ev(T.c2, 'card_in', 'c2'); S.ev(T.n3, 'shine', 'p3'); S.ev(T.t3, 'type', 'h3'); S.ev(T.c3, 'msg_in', 'c3'); S.ev(T.x3, 'no', 'c3'); S.ev(T.f, 'click', 'p1');
+S.scene(tau => {
+  S.css('#w', { left: E.lin(tau, -0.2, S.SC.dur, -206, -190) + 'px' });
+  const N = [T.n1, T.n2, T.n3], H = [T.t1, T.t2, T.t3];
+  [1, 2, 3].forEach((i, k) => {
+    E.in('#p' + i, tau, T.pl + k * 0.15, { dy: 20, base: `rotate(${[-3, 2, -1][k]}deg)` });
+    S.$('#p' + i + ' .n').style.opacity = S.ent(tau, N[k], 0.12);
+    const w = S.EO(S.P(tau, H[k], H[k] + (k === 0 ? 2.0 : 1.2)));
+    S.css('#h' + i, { opacity: w > 0 ? 1 : 0, clipPath: `inset(-10px ${((1 - w) * 100).toFixed(1)}% -10px -10px)` });
+    // 마지막: 직접 얘기하기 — 번호표 셋에 차례로 주홍 테두리
+    const f = S.ent(tau, T.f + k * 0.18, 0.12) * (1 - S.P(tau, T.f + 0.9 + k * 0.1, T.f + 1.1 + k * 0.1));
+    S.$('#p' + i).style.boxShadow = `0 22px 40px rgba(0,0,0,.5),0 0 0 ${(8 * f).toFixed(1)}px rgba(240,90,40,${f.toFixed(2)})`;
+  });
+  E.in('#c2', tau, T.c2);
+  E.in('#c3', tau, T.c3);
+  const x = S.EO(S.P(tau, T.x3, T.x3 + 0.3));
+  S.css('#cs', { opacity: x, clipPath: `inset(0 ${((1 - x) * 100).toFixed(1)}% 0 0)` });
+  S.$('#c3').style.opacity = (parseFloat(S.$('#c3').style.opacity) * (1 - 0.45 * x)).toFixed(3);
+});
+</script>
+</body></html>

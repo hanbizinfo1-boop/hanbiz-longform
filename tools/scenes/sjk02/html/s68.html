@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s68 이 세 개는 AI 한테 시킬 수 없다 — 저녁 미니어처 거리, 주홍 가게 하나</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#w{left:-80px;top:-200px;width:2150px;height:1434px}
+#ph{left:0;top:0;width:2150px;height:1434px}
+#dim{left:0;top:0;width:1920px;height:1080px;opacity:0}
+.cc{top:64px}
+#aip{left:690px;top:64px;width:480px;height:60px;opacity:0}
+#aip .chip{left:0;top:0}
+#bar{left:120px;top:18px;width:300px;height:24px;border-radius:12px;background:#1FA39A;box-shadow:0 6px 16px rgba(20,25,30,.35)}
+#piece{left:0;top:0;width:150px;height:24px;border-radius:12px;background:#1FA39A;opacity:0;box-shadow:0 6px 16px rgba(20,25,30,.35)}
+.dot{width:34px;height:34px;border-radius:50%;background:#F4F1EA;box-shadow:0 0 0 3px rgba(240,90,40,.85),0 6px 14px rgba(0,0,0,.45);opacity:0}
+.tdot{width:46px;height:46px;border-radius:50%;background:#1FA39A;border:4px solid #F4F1EA;box-shadow:0 6px 14px rgba(0,0,0,.4);opacity:0}
+</style></head>
+<body><div id="stage">
+  <div id="w" class="abs">
+    <div id="ph" class="photo abs"></div>
+  </div>
+  <div id="dim" class="abs"></div>
+  <div id="c1" class="chip or cc" style="left:70px" data-box="c1">단골</div>
+  <div id="c2" class="chip or cc" style="left:214px" data-box="c2">한 줄</div>
+  <div id="c3" class="chip or cc" style="left:386px" data-box="c3">불만</div>
+  <div id="aip" class="abs" data-box="aip"><div class="chip te">AI</div><div id="bar" class="abs"></div></div>
+  <div id="piece" class="abs"></div>
+</div>
+<script src="../data/s68.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="_e6.js"></script>
+<script>
+window.PALETTE = ['#14191E', '#F05A28', '#1FA39A'];
+S.$('#ph').style.backgroundImage = S.ph('p68_miniature_evening');
+const K = 1.4;                       // 사진 좌표 → 판 좌표
+const W = S.$('#w');
+const shopsG = [[505, 335], [640, 420], [790, 470], [1240, 650]].map(p => [p[0] * K, p[1] * K]);   // 다른 가게
+const MAIN = [1403, 840];            // 주홍 가게(판 좌표)
+// 길(사람 점이 걷는 길)
+E.svg('#w', 2150, 1434, '<path id="route" d="M420 462 Q700 700 1000 880 T1260 925" fill="none" stroke="rgba(244,241,234,.7)" stroke-width="4" stroke-dasharray="10 12" stroke-linecap="round"/>');
+// 다른 가게 회색 동그라미 + 주홍 동그라미 + 청록 점
+let gh = '';
+shopsG.forEach((p, i) => { gh += `<circle id="g${i}" cx="${p[0]}" cy="${p[1]}" r="60" fill="none" stroke="#C9CED2" stroke-width="6"/>`; });
+gh += `<ellipse id="ring" cx="${MAIN[0]}" cy="${MAIN[1]}" rx="190" ry="170" fill="none" stroke="#F05A28" stroke-width="9" transform="rotate(-6 ${MAIN[0]} ${MAIN[1]})"/>`;
+E.svg('#w', 2150, 1434, gh);
+const ALLS = shopsG.concat([MAIN]);
+ALLS.forEach((p, i) => E.mk('#w', 'abs tdot', '', `left:${p[0] - 23}px;top:${p[1] - 23}px`).id = 'td' + i);
+for (let i = 0; i < 3; i++) E.mk('#w', 'abs dot', '', 'left:0;top:0').id = 'd' + i;
+const GL = E.mk('#w', 'abs', '', `left:${MAIN[0] - 230}px;top:${MAIN[1] - 190}px;width:460px;height:380px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,170,90,.55),rgba(255,140,60,0));opacity:0;mix-blend-mode:screen`);
+
+const T = {
+  c1: S.at('시킬'), c2: S.at('시킬') + 0.25, c3: S.at('시킬') + 0.5,
+  ring0: S.at('대표님만'), dots: S.at('손님은'), path: S.at('이유'), go: S.at('다시'), gray: S.at('맛있는'),
+  circ: S.at('나를'), pop: S.at('알아보는'), gone: S.at('별로'), ai: S.at('AI가'), bar: S.at('줄여'),
+  all: S.at('모든'), same: S.at('똑같아요'), piece: S.at('줄어든') - 0.15, glow: S.at('어디에')
+};
+T.dim = S.at('이게');
+S.focus([{ t0: T.pop, t1: T.pop + 1.3, big: '알아보는 집', color: 'or', size: 150 }]);
+S.ev(T.c1, 'card_in', 'c1'); S.ev(T.ring0, 'shine', 'c1'); S.ev(T.dots, 'msg_in', 'd0'); S.ev(T.path, 'marker', 'route');
+S.ev(T.go, 'sweep', 'd0'); S.ev(T.gray, 'card_in', 'g0'); S.ev(T.circ, 'marker', 'ring'); S.ev(T.gone, 'no', 'g1');
+S.ev(T.ai, 'card_in', 'aip'); S.ev(T.bar, 'gauge', 'bar'); S.ev(T.all, 'msg_in', 'td0'); S.ev(T.same, 'no', 'td4');
+S.ev(T.piece, 'sweep', 'piece'); S.ev(T.glow, 'shine', 'ring'); S.ev(T.dim, 'no', 'dim');
+
+const route = S.$('#route'), RL = route.getTotalLength();
+S.scene(tau => {
+  // 사진: 아주 느린 옆 흐름
+  const wl = E.lin(tau, -0.2, S.SC.dur, -60, -200);
+  S.css('#w', { left: wl + 'px' });
+  // 칩 셋(주홍)
+  E.in('#c1', tau, T.c1); E.in('#c2', tau, T.c2); E.in('#c3', tau, T.c3);
+  // 대표님만 — 칩 셋에 차례로 흰 테두리(0.15초 간격)
+  ['#c1', '#c2', '#c3'].forEach((id, i) => {
+    const k = S.ent(tau, T.ring0 + i * 0.18, 0.12) * (1 - S.P(tau, T.ring0 + 0.9 + i * 0.1, T.ring0 + 1.2 + i * 0.1));
+    S.$(id).style.boxShadow = `0 10px 24px rgba(20,25,30,.22),0 0 0 ${(6 * k).toFixed(1)}px rgba(244,241,234,${(0.9 * k).toFixed(2)})`;
+  });
+  // 길 위 점(사람 3명): 손님은 → 나타남, 이유 → 길 그려짐, 다시 와요 → 걸어서 가게로
+  E.stroke(route, tau, T.path, 0.5);
+  for (let i = 0; i < 3; i++) {
+    const d = S.$('#d' + i);
+    const s0 = 0.04 * (2 - i), mv = S.EIO(S.P(tau, T.go + i * 0.12, T.go + i * 0.12 + 0.8));
+    const s = s0 + (1 - s0) * mv;
+    const pt = route.getPointAtLength(RL * s);
+    const ap = S.ent(tau, T.dots + i * 0.1, 0.12) * (1 - S.P(tau, T.go + 0.8 + i * 0.12, T.go + 1.0 + i * 0.12));
+    d.style.opacity = ap.toFixed(3);
+    d.style.left = (pt.x - 17) + 'px'; d.style.top = (pt.y - 17) + 'px';
+  }
+  // 다른 가게 회색 동그라미(맛있는 집은 많은데) → 별로 없거든요에 사라짐
+  for (let i = 0; i < 4; i++) {
+    const a = S.ent(tau, T.gray + i * 0.15, 0.12), b = 1 - S.P(tau, T.gone + i * 0.08, T.gone + 0.3 + i * 0.08);
+    S.css('#g' + i, { opacity: (a * b).toFixed(3) });
+    S.$('#g' + i).style.transformOrigin = `${shopsG[i][0]}px ${shopsG[i][1]}px`;
+    S.$('#g' + i).style.transform = `scale(${0.7 + 0.3 * a})`;
+  }
+  // 주홍 동그라미(알아보는 집) — 그려지듯: 지름 키움 + 불투명
+  const rk = S.EO(S.P(tau, T.circ, T.circ + 0.45));
+  const rg = S.P(tau, T.same, T.same + 0.3) * (1 - S.P(tau, T.glow - 0.05, T.glow + 0.2));
+  const ring = S.$('#ring'); ring.style.opacity = rk.toFixed(3);
+  ring.style.strokeDasharray = 1200; ring.style.strokeDashoffset = (1200 * (1 - rk)).toFixed(1);
+  ring.style.stroke = rg > 0 ? `rgb(${Math.round(240 - 70 * rg)},${Math.round(90 + 80 * rg)},${Math.round(40 + 130 * rg)})` : '#F05A28';
+  // AI 칩 + 줄어드는 막대
+  const ak = E.in('#aip', tau, T.ai, { dy: -14 });
+  S.$('#bar').style.width = (300 - 150 * S.EO(S.P(tau, T.bar, T.bar + 0.5))) + 'px';
+  // 모든 가게에 청록 점 → 똑같아요에 회색으로
+  ALLS.forEach((p, i) => {
+    const a = S.ent(tau, T.all + i * 0.1, 0.12), g = S.P(tau, T.same + i * 0.05, T.same + 0.3 + i * 0.05);
+    const el = S.$('#td' + i);
+    el.style.opacity = a.toFixed(3);
+    el.style.background = g > 0 ? `rgb(${Math.round(31 + 123 * g)},${Math.round(163 - 3 * g)},${Math.round(154 + 12 * g)})` : '#1FA39A';
+    el.style.transform = `scale(${0.6 + 0.4 * a})`;
+  });
+  // 줄어든 시간 조각이 AI 막대에서 떨어져 주홍 가게로
+  const pk = S.EZ(S.P(tau, T.piece, T.piece + 0.95));
+  const sx = 940, sy = 76, ex = wl + MAIN[0], ey = -200 + MAIN[1] + 20;
+  const px = S.lerp(sx, ex, pk), py = S.lerp(sy, ey, pk) - 120 * Math.sin(Math.PI * pk);
+  const pa = S.ent(tau, T.piece, 0.1) * (1 - S.P(tau, T.piece + 0.9, T.piece + 1.05));
+  S.css('#piece', { opacity: pa.toFixed(3), left: px + 'px', top: py + 'px', width: S.lerp(150, 30, pk) + 'px', height: S.lerp(24, 30, pk) + 'px', borderRadius: '15px', background: pk > 0.85 ? '#F05A28' : '#1FA39A' });
+  // 가게 빛(어디에 쓰느냐) — 번짐
+  const gk = S.ent(tau, T.glow, 0.25) ;
+  GL.style.opacity = gk.toFixed(3);
+  // 마지막 — 주홍 가게 둘레만 남기고 나머지 어둡게
+  const dk = S.cam(tau, T.dim, T.dim + 0.45), cx = wl + MAIN[0], cy = -200 + MAIN[1];
+  S.css('#dim', { opacity: dk.toFixed(3), background: `radial-gradient(ellipse 300px 260px at ${cx}px ${cy}px,rgba(10,14,18,0) 0,rgba(10,14,18,0) 60%,rgba(10,14,18,.62) 100%)` });
+});
+</script>
+</body></html>

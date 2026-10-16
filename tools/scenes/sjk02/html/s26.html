@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s26 첫 번째는 글 — 새벽 주방 타일 벽 · 주홍 스텐실 «1» + «글»</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#world{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background-size:100% 100%}
+/* 스텐실: 글자 획 사이에 가는 틈(마스크) + 거친 가장자리(SVG 변위) */
+.st{position:absolute;font-family:"Pre";font-weight:900;line-height:1;letter-spacing:-.04em;white-space:nowrap;
+  -webkit-mask-image:linear-gradient(90deg,#000 0 48%,transparent 48% 51%,#000 51% 100%),linear-gradient(180deg,#000 0 56%,transparent 56% 59%,#000 59% 100%);
+  -webkit-mask-composite:source-in;mask-composite:intersect;filter:url(#rough)}
+#s1{left:690px;top:260px;font-size:420px;color:#F05A28}
+#sg{left:1020px;top:300px;font-size:360px;color:#E24C1A}
+#lab{position:absolute;left:700px;top:780px;background:#1F2A33;color:#fff;padding:14px 28px;border-radius:12px;opacity:0;box-shadow:0 10px 24px rgba(20,25,30,.35);font-size:34px}
+</style></head>
+<body><div id="stage">
+  <svg width="0" height="0" style="position:absolute"><defs><filter id="rough" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="7"/></filter></defs></svg>
+  <div id="world">
+    <div id="ph"></div>
+    <div id="s1" class="st">1</div>
+    <div id="sg" class="st">글</div>
+    <div id="lab" class="lab" data-box="lab">AI가 쓰는 글</div>
+  </div>
+</div>
+<script src="../data/s26.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#1F2A33', '#F05A28'];
+const T = { first: S.at('첫'), geul: S.at('글', 0) };
+const TG = T.geul;
+document.getElementById('ph').style.backgroundImage = S.ph('p26_dawn_tile_wall');
+S.ev(T.first + 0.05, 'marker', 's1'); S.ev(TG - 0.05, 'card_in', 'sg');
+S.scene(tau => {
+  const d = S.P(tau, 0, S.SC.dur);
+  S.css('#world', { transform: `translate(${(-10 - 36 * d).toFixed(2)}px,-6px) scale(1.04)` });
+  // «1»: 칠이 왼쪽에서 오른쪽으로 번지듯 칠해짐(0.4초)
+  const p1 = S.EO(S.P(tau, T.first + 0.05, T.first + 0.5));
+  S.css('#s1', { clipPath: `inset(-5% ${((1 - p1) * 100).toFixed(1)}% -5% 0)`, opacity: p1 > 0 ? 0.96 : 0 });
+  // «글»: 한 번에 찍힘
+  const p2 = S.ent(tau, TG - 0.05, 0.12);
+  S.css('#sg', { opacity: p2 * 0.96, transform: `scale(${(1.08 - 0.08 * p2).toFixed(3)})` });
+  S.css('#lab', { opacity: S.ent(tau, TG + 0.1, 0.12) });
+});
+</script>
+</body></html>

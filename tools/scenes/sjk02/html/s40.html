@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s40 평범한 고깃집 — 고기 손질 사진 위 회색 칩 → 주홍 한 줄 · 기름 동그라미</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+/* 고기 손질 손 사진(옆으로 흘러 칼·기름 쪽으로 다가감) + 오른쪽 위 칩 목록: 회색 «평범한 고깃집» → 주홍 «매일 아침 직접 손질» */
+#cw{left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#ph{left:0;top:-100px;width:1920px;height:1280px;background-size:100% 100%}
+#sv{position:absolute;left:0;top:0}
+.cc{position:absolute;left:1260px}
+.cc.big{font-size:40px;padding:12px 24px}
+#c0{top:56px} #c1{top:128px} #c2{top:204px} #c3{top:300px} #c4{top:392px}
+#c2 .ul{position:absolute;left:18px;right:18px;bottom:6px;height:5px;background:#5D646B;border-radius:3px;transform-origin:0 50%}
+#c2 .sk{position:absolute;left:10px;right:10px;top:52%;height:6px;background:#5D646B;border-radius:3px;transform-origin:0 50%}
+</style></head>
+<body><div id="stage">
+  <div id="cw" class="abs">
+    <div id="ph" class="photo abs"></div>
+    <svg id="sv" width="1920" height="1080" viewBox="0 0 1920 1080">
+      <path id="circ" d="M700 440 C 720 330, 900 320, 1010 360 C 1130 405, 1140 520, 1000 560 C 880 590, 700 560, 700 440 C 705 400, 740 350, 800 330" fill="none" stroke="#F05A28" stroke-width="12" stroke-linecap="round"/>
+    </svg>
+  </div>
+  <div id="c0" class="chip gr cc" data-box="c0">상담 · 고깃집</div>
+  <div id="c1" class="chip gr cc" data-box="c1">첫 질문</div>
+  <div id="c2" class="chip gr cc big" data-box="c2"><span id="c2t">평범한 고깃집</span><div id="u2" class="ul"></div><div id="s2" class="sk"></div></div>
+  <div id="c3" class="chip or cc big" data-box="c3"><span id="c3t">매일 아침</span></div>
+  <div id="c4" class="chip gr cc" data-box="c4">납품받은 고기</div>
+</div>
+<script src="../data/s40.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#1F2A33', '#F05A28'];
+S.$('#ph').style.backgroundImage = S.ph('p40_meat_trimming');
+const T = { c0: S.at('고깃집'), c1: S.at('물어보니까'), c2: S.at('평범한'), cam1: 6.45, daily: S.at('매일 아침'), hand: S.at('직접 손질'), c4: S.at('납품받은'), oil: S.at('기름을'),
+  more: S.at('한 번 더'), tooObv: S.at('당연해서'), nobody: S.at('말할 생각') };
+S.focus([{ t0: T.more, t1: T.more + 1.5, big: '한 번 더', small: '기름 걷어 냄', color: 'or' }]);
+S.ev(T.c0, 'card_in', 'c0'); S.ev(T.c1, 'msg_in', 'c1'); S.ev(T.c2, 'card_in', 'c2'); S.ev(6.0, 'marker', 'u2');
+S.ev(T.daily, 'card_in', 'c3'); S.ev(T.hand, 'type', 'c3'); S.ev(T.c4, 'msg_in', 'c4'); S.ev(T.oil, 'marker', 'circ');
+S.ev(T.tooObv, 'no', 'c2'); S.ev(T.nobody + 0.1, 'shine', 'c3');
+const KEYS = [{ t: 0, s: 1.0, x: 960, y: 540 }, { t: T.cam1, s: 1.1, x: 900, y: 520, d: 0.55 }, { t: T.hand - 0.05, s: 1.34, x: 960, y: 470, d: 0.6 }];
+S.scene(tau => {
+  const c = S.camState(tau, KEYS, 0.5), d = S.P(tau, 0, S.SC.dur);
+  S.css('#cw', { transform: S.camCss({ s: c.s * (1 + 0.02 * d), x: c.x, y: c.y }) });
+  E.pop('#c0', tau, T.c0, { dx: 20, dy: 0 }); E.pop('#c1', tau, T.c1, { dx: 20, dy: 0 }); E.pop('#c2', tau, T.c2, { dx: 20, dy: 0 });
+  S.css('#u2', { transform: `scaleX(${S.EO(S.P(tau, 6.0, 6.5)).toFixed(3)})` });
+  // 당연해서 → 회색 칩 탈색 + 줄
+  S.css('#c2', {}); const gk = S.P(tau, T.tooObv, T.tooObv + 0.4);
+  S.$('#c2').style.filter = S.desat(gk) + ` opacity(${(1 - 0.35 * gk).toFixed(3)})`;
+  S.css('#s2', { transform: `scaleX(${S.EO(S.P(tau, T.tooObv + 0.1, T.tooObv + 0.5)).toFixed(3)})` });
+  E.pop('#c3', tau, T.daily, { dx: 20, dy: 0 });
+  const full = '매일 아침 직접 손질';
+  const n = tau < T.hand ? 5 : Math.min([...full].length, 5 + Math.floor((tau - T.hand) * 14));
+  E.typed('#c3t', full, n, false);
+  E.pop('#c4', tau, T.c4, { dx: 20, dy: 0 });
+  E.stroke('#circ', tau, T.oil, 0.6);
+  S.css('#circ', { opacity: tau >= T.oil ? 1 - 0.0 : 0 });
+  E.ring('#c3', tau, T.nobody + 0.1, '255,255,255');
+});
+</script>
+</body></html>

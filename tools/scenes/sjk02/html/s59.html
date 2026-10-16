@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s59 사라지는 가게의 시간 쓰기 — 흐린 낮 가게 외벽에 신메뉴·할인·광고 판이 하나씩 붙고 벽 전체가 탈색</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#pw{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:50% 50%}
+.sg{position:absolute;background:#F4F5F3;color:#6E767D;font-weight:900;text-align:center;box-shadow:0 14px 30px rgba(20,25,30,.35);transform-origin:50% 50%}
+#s0{left:190px;top:335px;width:345px;height:425px;font-size:84px;line-height:425px;border-radius:4px}
+#s1{left:700px;top:26px;width:830px;height:170px;font-size:100px;line-height:170px;border-radius:4px}
+#s2{left:600px;top:468px;width:138px;height:204px;font-size:50px;line-height:204px;border-radius:3px}
+.pl{position:absolute;width:34px;height:34px;border-radius:50%;background:#9AA0A6;color:#fff;font-size:30px;line-height:34px;text-align:center;font-weight:900;right:-12px;top:-14px}
+#fr{left:900px;top:250px;width:70px;height:70px;border-radius:10px;background:var(--or);box-shadow:0 10px 24px rgba(240,90,40,.4)}
+#fr2{left:990px;top:270px;width:70px;height:70px;border-radius:10px;background:var(--or);box-shadow:0 10px 24px rgba(240,90,40,.4)}
+</style></head>
+<body><div id="stage">
+  <div class="bg tex-conc"></div>
+  <div id="pw"><div id="ph" class="photo" style="left:0;top:0;width:1920px;height:1080px"></div>
+    <div id="s0" class="sg blk" data-box="s0">신메뉴<div class="pl" id="p0">＋</div></div>
+    <div id="s1" class="sg blk">할인<div class="pl" id="p1">＋</div></div>
+    <div id="s2" class="sg blk" data-box="s2">광고<div class="pl" id="p2">＋</div></div>
+  </div>
+  <div id="fr" class="abs" data-box="fr"></div><div id="fr2" class="abs" data-box="fr2"></div>
+</div>
+<script src="../data/s59.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#9AA0A6', '#F05A28'];
+S.$('#ph').style.backgroundImage = S.ph('p59_shop_wall');
+const T = { good: S.at('제대로'), a: S.at('메뉴하나'), b: S.at('할인행사'), c: S.at('광고하나'), th: S.at('이렇게'), keep: S.at('그대로') };
+S.ev(T.good, 'no', 'fr'); S.ev(T.a, 'card_in', 's0'); S.ev(T.b, 'msg_in', 's1'); S.ev(T.c, 'card_in', 's2'); S.ev(T.th, 'marker', 'p0'); S.ev(T.keep, 'no', 'pw');
+S.scene(tau => {
+  // 벽 전체 느린 옆 흐름 · «그대로» 에 벽 전체 탈색
+  const dsat = S.EIO(S.P(tau, T.keep, T.keep + 0.7));
+  S.css('#pw', { transform: S.track(tau, -0.2, S.SC.dur, 24, -36, 1.06), filter: S.desat(dsat) });
+  // 앞 장면(58)의 주홍 빈 칸 조각 둘이 떠 있다가 «제대로» 에 회색으로 빠지며 떨어짐
+  const g = S.ent(tau, T.good, 0.25), f = S.P(tau, T.good + 0.2, T.good + 0.8);
+  ['fr', 'fr2'].forEach((id, i) => {
+    const e = S.$('#' + id);
+    e.style.opacity = (1 - S.EO(f)) * S.ent(tau, -0.2, 0.12);
+    e.style.background = g > 0.5 ? '#9AA0A6' : '#F05A28';
+    e.style.boxShadow = g > 0.5 ? '0 10px 24px rgba(20,25,30,.3)' : '0 10px 24px rgba(240,90,40,.4)';
+    e.style.transform = `translateY(${-6 * Math.sin(tau * 3 + i) + 160 * f * f}px) rotate(${(i ? 12 : -12) * f}deg)`;
+  });
+  // 판 셋: 벽에 붙듯(−3° 기울기) 한 장씩 붙음
+  [['s0', T.a, 190], ['s1', T.b, 160], ['s2', T.c, 150]].forEach((s, i) => {
+    const k = S.ent(tau, s[1], 0.12);
+    S.css('#' + s[0], { opacity: k, transform: `rotate(${-3 + (1 - k) * -4}deg) scale(${1.12 - 0.12 * k})` });
+    const pl = S.ent(tau, T.th + i * 0.28, 0.12);
+    S.css('#p' + i, { opacity: pl, transform: `scale(${0.5 + 0.5 * pl})` });
+  });
+});
+</script>
+</body></html>

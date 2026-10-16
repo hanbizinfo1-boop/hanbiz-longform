@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s06 AI 를 제일 열심히 쓰는 가게가 — 흐린 낮 가게 정면 + 청록 칩 → 탈색 + 셔터 내림</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+/* 사진 래퍼: 2100x1400(사진 1536x1024 를 1.367배) — 옆으로 아주 느리게 흐른다. 칩·셔터는 같은 래퍼 안(사진과 같이 움직임) */
+#ph{left:-40px;top:-40px;width:2100px;height:1400px}
+#pic{left:0;top:0;width:2100px;height:1400px;background-size:2100px 1400px;background-repeat:no-repeat}
+#rg{left:0;top:0;width:2100px;height:1400px}
+.cp{font-size:32px;padding:12px 24px}
+.cp i{display:inline-block;width:14px;height:14px;border-radius:50%;background:#fff;opacity:.9}
+#sh{left:455px;top:508px;width:1170px;height:570px;background-image:url("../../../../_tmp/sjk02/tex/e1_shutter_tile.png");background-size:1170px 570px;background-repeat:no-repeat;background-position:0 0;filter:saturate(.35) contrast(1.05);box-shadow:inset 0 -26px 40px rgba(20,25,30,.4)}
+#shbar{left:455px;top:500px;width:1170px;height:16px;background:#3C454C;border-radius:3px}
+</style></head>
+<body><div id="stage">
+  <div id="ph" class="abs">
+    <div id="pic" class="abs photo"></div>
+    <svg id="rg" class="abs" viewBox="0 0 2100 1400"><rect id="rr" x="451" y="506" width="1176" height="560" rx="6" fill="none" stroke="#F3F1EA" stroke-width="5" stroke-linejoin="round"/></svg>
+    <div id="c1" class="chip te cp" data-box="c1" style="left:430px;top:110px"><i></i>AI 답글</div>
+    <div id="c2" class="chip te cp" data-box="c2" style="left:720px;top:110px"><i></i>AI 소식</div>
+    <div id="c3" class="chip te cp" data-box="c3" style="left:1010px;top:110px"><i></i>AI 메뉴</div>
+    <div id="c4" class="chip te cp" data-box="c4" style="left:430px;top:208px"><i></i>AI 문구</div>
+    <div id="c5" class="chip te cp" data-box="c5" style="left:720px;top:208px"><i></i>AI 이벤트</div>
+    <div id="c6" class="chip te cp" data-box="c6" style="left:1060px;top:208px"><i></i>AI 홍보</div>
+    <div id="sh" class="abs photo"></div>
+    <div id="shbar" class="abs"></div>
+  </div>
+</div>
+<script src="../data/s06.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#1F2A33', '#1FA39A'];   // 흐린 낮 사진 위 청록 칩(AI 가 하는 것) → 전부 탈색
+const T = { bad: S.at('불편한'), talk: S.at('얘기'), ai: S.at('AI를'), hard: S.at('열심히'), gone: S.at('사라질') };
+const circ = document.getElementById('rr').getTotalLength();
+document.getElementById('rr').style.strokeDasharray = circ;
+document.getElementById('pic').style.backgroundImage = S.ph('p06_shop_front');
+const C1 = ['c1', 'c2', 'c3'], C2 = ['c4', 'c5', 'c6'];
+S.ev(T.bad, 'marker', 'rr');
+S.ev(T.ai, 'card_in', 'chips1');
+S.ev(T.hard, 'msg_in', 'chips2');
+S.ev(T.gone, 'no', 'desat');
+S.ev(T.gone + 0.14, 'shutter', 'sh');
+S.scene(tau => {
+  const d = S.P(tau, 0, S.SC.dur);
+  S.css('#ph', { left: (-30 - 110 * S.EIO(d)) + 'px', filter: S.desat(S.EO(S.P(tau, T.gone - 0.05, T.gone + 0.45))) });
+  // «불편한» 가게 유리문 둘레 흰 선이 그려짐(이 가게가 주인공)
+  document.getElementById('rr').style.strokeDashoffset = circ * (1 - S.EO(S.P(tau, T.bad, T.bad + 0.55)));
+  // 칩 6개: 0.25초 간격 묶음
+  C1.forEach((id, i) => { const k = S.ent(tau, T.ai + 0.25 * i, 0.12); S.css('#' + id, { opacity: k, transform: `translateY(${(1 - k) * 14}px)` }); });
+  C2.forEach((id, i) => { const k = S.ent(tau, T.hard + 0.25 * i, 0.12); S.css('#' + id, { opacity: k, transform: `translateY(${(1 - k) * 14}px)` }); });
+  // 셔터 내림: p03 의 셔터 조각이 문 위에서 아래로 덮음
+  const sk = S.cam(tau, T.gone + 0.12, T.gone + 0.72);
+  const clip = `inset(0 0 ${((1 - sk) * 100).toFixed(2)}% 0)`;
+  S.css('#sh', { clipPath: clip, opacity: sk > 0.001 ? 1 : 0 });
+  S.css('#shbar', { opacity: sk > 0.001 ? 1 : 0, transform: `translateY(${(sk * 570).toFixed(1)}px)` });
+});
+</script>
+</body></html>

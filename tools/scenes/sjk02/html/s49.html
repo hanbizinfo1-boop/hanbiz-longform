@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s49 매주 확인 — 어두운 탁자 위 기울인 대화창에 이번 주 숫자를 넣어 수익을 계산시키는 프롬프트</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+/* 어두운 탁자 위 기울인 다크 대화창(7°). 왼쪽 위 주홍 «매주», 회색 «시간 없음?»은 사라지고, 아래 큰 입력칸에 프롬프트가 줄마다 타자 → 마지막에 보내기 */
+.row3{position:absolute;left:0;top:0;width:1920px;height:1080px;perspective:2200px}
+.rin{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:50% 50%;transform:rotateX(7deg) rotateZ(-2deg)}
+#dk{left:420px;top:100px;width:1200px;height:760px}
+#dk .cv{bottom:392px}
+#dk .in{height:358px;bottom:20px;border-radius:26px;align-items:flex-start;padding:22px 30px;font-size:35px;line-height:1.42;color:#E7EAEC;left:3%;right:3%}
+#pl{display:block;width:100%;padding-right:70px}
+#dk .in .send{position:absolute;right:22px;bottom:22px;margin:0}
+#dk .bar{height:18px;border-radius:9px;background:#2F373E;margin:10px 0}
+.tc{background:rgba(31,163,154,.28);color:#5FE0D5;border-radius:8px;padding:0 8px;font-weight:700}
+#sm{align-self:flex-end;max-width:92%;background:#2A3239;border-radius:18px 18px 4px 18px;padding:12px 22px;font-size:23px;line-height:1.4;color:#E7EAEC}
+#c0{left:56px;top:110px;font-size:42px;padding:12px 26px}
+#c1{left:56px;top:206px;font-size:32px}
+#c3{left:56px;top:290px;font-size:32px}
+#c2{left:1664px;top:110px;font-size:32px}
+#dk .tb,#dk .tb .tab{font-size:22px}
+</style></head>
+<body><div id="stage">
+  <div class="bg tex-dark"></div>
+  <div class="row3"><div class="rin">
+    <div id="dk" class="dk" data-box="dk">
+      <div class="tb"><span class="md"><i></i>AI</span><span class="tab">지난주 대화</span></div>
+      <div class="cv"><div class="col"><div id="air" class="ai"><div class="av">AI</div><div class="tx"><div class="bar" style="width:88%"></div><div class="bar" style="width:62%"></div></div></div>
+        <div id="sm" style="opacity:0"></div></div></div>
+      <div id="inb" class="in"><div id="pl"></div><span id="snd" class="send"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" stroke="#171C21" stroke-width="2.6" fill="none" stroke-linecap="round"/></svg></span></div>
+    </div>
+  </div></div>
+  <div id="c0" class="chip or" data-box="c0">매주</div>
+  <div id="c1" class="chip gr" data-box="c1">시간 없음?</div>
+  <div id="c3" class="chip gr" data-box="c3">매주 어떻게?</div>
+  <div id="c2" class="chip te" data-box="c2">AI</div>
+</div>
+<script src="../data/s49.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#14191E', '#E7EAEC', '#F05A28', '#1FA39A'];   // 어두운 탁자·대화창 + 주홍(매주 하는 것) + 청록(AI)
+const T = { week: S.at('매주', 0), hard: S.at('힘든데'), how: S.at('확인하냐고요'), easy: S.at('엄청 쉬워요'), ai: S.at('AI한테'), sale: S.at('이번 주 매출이랑'), money: S.at('이번 주 나간 돈'), kinds: S.at('재료비'), real: S.at('이번 주에 실제로'), last: S.at('지난주보다'), one: S.at('한 줄로') };
+const LN = [
+  ['이번 주 매출이랑', 8.61, 9.57], ['이번 주 나간 돈 적어 줄게.', 9.65, 11.07], ['{tc|재료비}, {tc|인건비}, {tc|수수료}, {tc|고정비}로 나눠서', 11.25, 13.37],
+  ['이번 주 실제 {tc|수익} 계산해 주고', 13.53, 15.66], ['지난주보다 뭐가 늘었는지', 15.87, 17.25], ['한 줄로 알려 줘.', 17.34, 18.2]];
+const SEND = 18.12;
+S.$('#pl').innerHTML = LN.map((l, i) => `<div id="ln${i}" style="min-height:50px"></div>`).join('');
+const FULL = LN.map(l => l[0].replace(/\{\w+\|([^}]*)\}/g, '$1')).join('<br>');
+S.ev(0.02, 'in', 'dk'); S.ev(T.week, 'card_in', 'c0'); S.ev(T.hard, 'msg_in', 'c1'); S.ev(T.how, 'card_in', 'c3'); S.ev(T.easy + 0.1, 'no', 'c1'); S.ev(6.4, 'click', 'inb'); S.ev(T.ai, 'card_in', 'c2');
+S.ev(LN[0][1], 'type', 'pl'); S.ev(11.3, 'marker', 'ln2'); S.ev(LN[3][1], 'type', 'pl'); S.ev(SEND, 'msg_in', 'sm');
+S.$('#sm').innerHTML = FULL;
+S.scene(tau => {
+  const k = S.ent(tau, 0.0, 0.16);
+  S.css('#dk', { opacity: k, transform: `translateY(${((1 - k) * 36).toFixed(1)}px)` });
+  E.pop('#c0', tau, T.week, { dx: -20, dy: 0 }); E.pop('#c1', tau, T.hard, { dx: -20, dy: 0 });
+  const g = S.P(tau, T.easy + 0.1, T.easy + 0.5);
+  S.$('#c1').style.filter = S.desat(1); S.css('#c1', { opacity: S.ent(tau, T.hard, 0.12) * (1 - g) });
+  E.pop('#c3', tau, T.how, { dx: -20, dy: 0 }); S.css('#c3', { opacity: S.ent(tau, T.how, 0.12) * (1 - g) });
+  E.pop('#c2', tau, T.ai, { dx: 20, dy: 0 }); S.css('#c2', { opacity: S.ent(tau, T.ai, 0.12) });
+  // 입력칸 포커스(6.4) — 테두리 청록
+  const fk = S.EO(S.P(tau, 6.4, 6.6));
+  S.css('#inb', { borderColor: `rgb(${Math.round(51 - 20 * fk)},${Math.round(59 + 104 * fk)},${Math.round(66 + 88 * fk)})`, boxShadow: `0 0 0 ${(fk * 3).toFixed(1)}px rgba(31,163,154,.4)` });
+  // 프롬프트 줄별 타자 — 보내기 전까지
+  const sent = tau >= SEND; S.$('#air').style.display = sent ? 'none' : 'flex';
+  LN.forEach((l, i) => {
+    const el = S.$('#ln' + i);
+    if (sent) { el.innerHTML = ''; return; }
+    const act = tau >= l[1] && (i === LN.length - 1 || tau < LN[i + 1][1]);
+    E.line(el, l[0], tau, l[1], l[2] - 0.15, act);
+  });
+  if (!sent && tau < LN[0][1]) S.$('#ln0').innerHTML = tau > 6.5 ? '<span class="caret"></span>' : '';
+  // 보내기: 버튼 눌림 → 말칸으로
+  const sk = S.EO(S.P(tau, SEND, SEND + 0.2));
+  S.css('#snd', { transform: `scale(${(1 - 0.18 * Math.sin(Math.PI * Math.min(1, sk))).toFixed(3)})`, background: sk > 0.01 ? '#1FA39A' : '#E7EAEC' });
+  S.css('#sm', { opacity: sk, transform: `translateY(${((1 - sk) * 40).toFixed(1)}px)` });
+});
+</script>
+</body></html>

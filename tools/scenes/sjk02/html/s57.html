@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s57 마지막 세 번째는 시간 — 점심 지난 홀 테이블 번호표 극접사, «3» 인쇄 · 점 100개(99 회색 + 1 주홍) · «시간» 라벨</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#pw{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:50% 50%}
+#n3{left:590px;top:480px;width:220px;height:300px;font-size:250px;line-height:300px;text-align:center;color:#14191E;transform:rotate(-4deg)}
+#grid{left:1390px;top:110px;width:420px;height:420px;background:rgba(244,245,243,.86);border-radius:16px;box-shadow:0 18px 40px rgba(20,25,30,.3)}
+#grid i{position:absolute;width:26px;height:26px;border-radius:50%;background:#9AA0A6}
+#grid i.o{background:var(--or)}
+#tm{left:1180px;top:660px;font-size:120px;color:#fff;text-shadow:0 4px 18px rgba(0,0,0,.6);letter-spacing:.12em;font-weight:800}
+#tmu{left:1176px;top:810px;width:300px;height:14px;background:var(--or);border-radius:7px;transform-origin:0 50%}
+</style></head>
+<body><div id="stage">
+  <div class="bg tex-conc"></div>
+  <div id="pw"><div id="ph" class="photo" style="left:0;top:0;width:1920px;height:1080px"></div>
+    <div id="n3" class="abs blk">3</div></div>
+  <div id="grid" class="abs" data-box="grid"></div>
+  <div id="tm" class="abs lab" data-box="tm">시간</div>
+  <div id="tmu" class="abs" data-box="tmu"></div>
+</div>
+<script src="../data/s57.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#9AA0A6', '#F05A28'];
+S.$('#ph').style.backgroundImage = S.ph('p57_table_number');
+const T = { three: S.at('세번째'), say: S.at('제일'), p99: S.at('99%랑'), p1: S.at('1%를'), split: S.at('가르는'), tm: S.at('시간이에요'), t3: S.at('세번째', 2) };
+const g = S.$('#grid'); const dots = [];
+for (let r = 0; r < 10; r++) for (let c = 0; c < 10; c++) {
+  const d = document.createElement('i'); d.style.left = (28 + c * 36) + 'px'; d.style.top = (28 + r * 36) + 'px'; if (r === 4 && c === 9) d.className = 'o'; g.appendChild(d); dots.push(d);
+}
+S.ev(T.three, 'page', 'n3'); S.ev(T.p99, 'card_in', 'grid'); S.ev(T.p1, 'shine', 'dot'); S.ev(S.at('세번째', 1), 'shine', 'n3'); S.ev(T.tm, 'marker', 'tmu');
+S.scene(tau => {
+  // 극접사: 번호표 부근을 천천히 옆으로(2초 무렵 한 번 더 옆 칸으로)
+  const p = S.cam(tau, T.say - 0.05, T.say + 0.45);
+  S.css('#pw', { transform: `scale(1.18) translateX(${S.lerp(30, -40, p) - 20 * S.P(tau, 0, S.SC.dur)}px)` });
+  const n = S.ent(tau, T.three, 0.12);
+  S.css('#n3', { opacity: n, clipPath: `inset(0 0 ${(1 - S.EO(S.P(tau, T.three, T.three + 0.25))) * 100}% 0)`, });
+  // «제일 하고 싶은 얘기» 에 «3» 이 한 번 진해짐(그림자)
+  const t3b = S.at('세번째', 1);
+  S.css('#n3', { textShadow: `0 0 ${24 * Math.sin(S.P(tau, T.say, T.say + 0.5) * Math.PI) + 30 * Math.sin(S.P(tau, t3b, t3b + 0.7) * Math.PI)}px rgba(240,90,40,.9)` });
+  // 100개 점: «99%랑» 에 왼위→오른아래 대각 순서로 회색 차오름, «1%를» 에 한 점만 주홍으로 남음
+  const k = S.ent(tau, T.p99 - 0.1, 0.14);
+  S.css('#grid', { opacity: k, transform: `translateY(${(1 - k) * -20}px)` });
+  const fill = S.EO(S.P(tau, T.p99, T.p99 + 0.9));
+  dots.forEach((d, i) => {
+    const r = Math.floor(i / 10), c = i % 10, o = (r + c) / 18;
+    const on = S.clamp((fill * 1.25 - o) * 6);
+    const isO = r === 4 && c === 9;
+    d.style.opacity = isO ? (on > 0 ? 1 : 0) : on * (1 - 0.9 * S.ent(tau, T.p1, 0.15) * 0);
+    d.style.background = isO && tau >= T.p1 ? '#F05A28' : '#9AA0A6';
+    d.style.transform = isO ? `scale(${1 + 0.8 * S.ent(tau, T.p1, 0.2) + 0.25 * Math.max(0, Math.sin(S.P(tau, T.split, T.split + 0.6) * Math.PI))})` : 'none';
+    if (isO) d.style.boxShadow = tau >= T.p1 ? `0 0 ${14 + 14 * Math.sin(S.P(tau, T.split, T.split + 0.7) * Math.PI)}px rgba(240,90,40,.8)` : 'none';
+  });
+  // 장 이름 «시간» + 주홍 밑줄
+  S.css('#tm', { opacity: S.ent(tau, T.tm, 0.12), transform: `translateX(${(1 - S.ent(tau, T.tm, 0.12)) * -50}px)` });
+  S.css('#tmu', { opacity: tau >= T.tm ? 1 : 0, transform: `scaleX(${S.EO(S.P(tau, T.tm + 0.1, T.tm + 0.5))})` });
+});
+</script>
+</body></html>

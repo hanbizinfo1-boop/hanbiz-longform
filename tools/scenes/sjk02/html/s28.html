@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s28 살아남는 가게는 AI한테 시키기 전에 한 줄 — 새벽 주방 선반 메모지 매크로</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#world{left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#ph{left:0;top:0;width:1920px;height:1080px}
+.memo{position:absolute;left:0;top:0;width:300px;height:440px}
+#hw{background:none}
+.hl{position:absolute;left:30px;font-size:58px;line-height:1;color:var(--or);white-space:nowrap}
+#mEdge{border:7px solid var(--or);border-radius:6px;opacity:0}
+#cAI{left:130px;top:104px}
+</style></head>
+<body><div id="stage">
+  <div id="world" class="abs">
+    <div id="ph" class="photo"></div>
+    <div id="memo" class="memo" data-box="memo"><div id="hw" class="memo hand"><div id="l1" class="hl" style="top:84px">새벽 5시에</div><div id="l2" class="hl" style="top:176px">불 올려서</div></div></div>
+    <div id="mEdge" class="memo"></div>
+  </div>
+  <div id="cAI" class="chip te" data-box="cAI">AI</div>
+</div>
+<script src="../data/s28.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#2A3A55', '#F05A28', '#1FA39A'];   // 새벽 주방 바탕(청회색) · 주홍 한 줄 · 청록 AI
+const T = { w1: S.at('살아남는'), ai: S.at('AI한테'), w2: S.at('우리 가게만'), shine: S.at('한 줄'), zoom: S.at('차이가') };
+S.ev(T.w1, 'marker', 'l1'); S.ev(T.ai, 'card_in', 'cAI'); S.ev(T.w2, 'marker', 'l2'); S.ev(T.shine, 'shine', 'mEdge');
+S.css('#ph', { backgroundImage: S.ph('p28_memo_macro') });
+// 메모지 네 모서리(화면 좌표 — 사진 cover 배치 기준): 왼위·오위·오아래·왼아래
+const Q = [[1046, 254], [1306, 254], [1252, 668], [986, 628]];
+S.fitQuad(S.$('#memo'), 300, 440, Q); S.fitQuad(S.$('#mEdge'), 300, 440, Q);
+const KEYS = [{ t: 0, s: 1.28, x: 1110, y: 465 }, { t: T.zoom, s: 1.36, x: 1120, y: 462, d: 0.5 }];
+S.scene(tau => {
+  const c = S.camState(tau, KEYS), drift = S.P(tau, 0, S.SC.dur);
+  S.css('#world', { transform: S.camCss({ s: c.s * (1 + 0.012 * drift), x: c.x, y: c.y }) });
+  // 손글씨 두 줄: 왼→오 마스크로 써짐
+  const k1 = S.EZ(S.P(tau, T.w1, T.w1 + 0.85)), k2 = S.EZ(S.P(tau, T.w2, T.w2 + 0.8));
+  S.css('#l1', { clipPath: `inset(0 ${((1 - k1) * 100).toFixed(2)}% 0 0)`, opacity: tau >= T.w1 ? 1 : 0 });
+  S.css('#l2', { clipPath: `inset(0 ${((1 - k2) * 100).toFixed(2)}% 0 0)`, opacity: tau >= T.w2 ? 1 : 0 });
+  // 메모지 둘레 주홍 테두리(반짝 후 자리잡음)
+  const e = S.ent(tau, T.shine, 0.15);
+  S.css('#mEdge', { opacity: e * (1 - 0.25 * S.P(tau, T.shine + 0.15, T.shine + 0.7)) });
+  // AI 칩: 말 «AI한테 시키기 전에» 에 들어왔다가 «우리 가게만» 에 회색으로 물러남(AI 는 아직 대기)
+  const a = S.ent(tau, T.ai, 0.12), g = S.EO(S.P(tau, T.w2, T.w2 + 0.3));
+  S.css('#cAI', { opacity: a, transform: `translateY(${(1 - a) * 14}px)`, filter: S.desat(g) });
+});
+</script>
+</body></html>

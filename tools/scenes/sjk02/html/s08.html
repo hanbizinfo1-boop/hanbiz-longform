@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s08 진한 사골 육수에 … 한 그릇 — 같은 벽 격자 매크로, 설명 줄을 따라 옆으로 흐름</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#bgw{left:-120px;top:0;width:2200px;height:1080px;background-size:cover;background-position:center}
+#per{left:0;top:0;width:1920px;height:1080px;perspective:2200px}
+#strip{left:0;top:0;width:1920px;height:1080px}
+.bc{position:absolute;top:270px;width:1040px;height:400px;border-radius:18px;background:#fff;box-shadow:0 36px 70px rgba(20,25,30,.30),0 4px 10px rgba(20,25,30,.2);padding:44px 56px}
+.bc .nm{font-size:34px;font-weight:800;color:#1F2A33}
+.bc .pr{font-size:30px;font-weight:700;margin-top:6px;color:#59636B}
+.bc .ds{font-size:60px;font-weight:700;line-height:1.38;margin-top:34px;color:#9AA0A6;letter-spacing:-.01em;min-height:170px}
+</style></head>
+<body><div id="stage">
+  <div id="bgw" class="abs tex-wall"></div>
+  <div id="per" class="abs"><div id="strip" class="abs">
+    <div id="b0" class="bc" style="left:440px"><div class="nm">○○국밥 돼지국밥</div><div class="pr">9,000원</div><div class="ds"></div></div>
+    <div id="b1" class="bc" style="left:1580px"><div class="nm">○○국밥 돼지국밥</div><div class="pr">10,000원</div><div class="ds"></div></div>
+    <div id="b2" class="bc" style="left:2720px"><div class="nm">○○국밥 돼지국밥</div><div class="pr">11,000원</div><div class="ds"></div></div>
+  </div></div>
+</div>
+<script src="../data/s08.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#1F2A33', '#9AA0A6'];   // 흰 벽 + 흰 판 + 회색 글(다 똑같은 것)
+const DS = '진한 사골 육수에 푸짐한 고기를 담은 정성 가득한 한 그릇';
+const T = { jin: S.at('진한'), jung: S.at('정성') };
+document.getElementById('bgw').style.backgroundImage = 'url("../../../../소재/sjk02/codex/t_gallery_wall.png")';
+const ds = [...document.querySelectorAll('.ds')];
+ds[1].textContent = DS; ds[2].textContent = DS;
+S.ev(-0.05, 'in', 'card');
+S.ev(T.jin, 'type', 'ds0');
+S.ev(T.jung, 'sweep', 'strip');
+S.scene(tau => {
+  const k = S.ent(tau, -0.15, 0.12);
+  // 첫 판: 기울인 채 들어옴. 카메라 = 띠가 왼쪽으로 흐름(정성에서 한 번 · 0.5초)
+  const cam = S.cam(tau, T.jung, T.jung + 0.55);
+  const slide = -(1140 * cam) - 0 * S.P(tau, T.jung + 0.55, S.SC.dur);
+  const drift = -60 * S.P(tau, T.jung + 0.6, S.SC.dur + 0.18);
+  S.css('#per', { opacity: k });
+  S.css('#strip', { transform: `rotateX(7deg) rotateZ(-3deg) translateX(${(slide + drift).toFixed(1)}px) translateY(${((1 - k) * 24).toFixed(1)}px)`, transformOrigin: '50% 55%' });
+  S.css('#bgw', { left: (-60 - 40 * S.EIO(S.P(tau, 0, S.SC.dur))) + 'px' });
+  // 첫 판 글: 2.4초 안에 문장 전체가 회색으로 쓰여짐(말 시각 따라 균등)
+  S.type(ds[0], DS, tau, T.jin, [...DS].length / 2.15, false);
+});
+</script>
+</body></html>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s16 몇 년 지나니까 동네 가게가 전부 다 들어갔어요 — 미니어처 동네 지붕, 주홍 점이 퍼지다 회색으로 빠짐</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#ph{left:-20px;top:-160px;width:2100px;height:1400px}
+#pic{left:0;top:0;width:2100px;height:1400px;background-size:2100px 1400px;background-repeat:no-repeat}
+.dt{width:38px;height:38px;margin:-19px 0 0 -19px;border-radius:50%;background:#F05A28;box-shadow:0 0 0 6px rgba(255,255,255,.85),0 6px 16px rgba(20,25,30,.45)}
+#rp{width:38px;height:38px;margin:-19px 0 0 -19px;border-radius:50%;border:5px solid #F05A28;box-sizing:border-box}
+</style></head>
+<body><div id="stage">
+  <div id="ph" class="abs"><div id="pic" class="abs photo"></div><div id="dots"></div><div id="rp" class="abs"></div></div>
+</div>
+<script src="../data/s16.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#1F2A33', '#F05A28'];   // 사진 + 주홍 점(먼저 들어간 가게) → 회색(다 같아짐)
+const T = { yr: S.at('몇'), how: S.at('어떻게'), all: S.at('전부'), weapon: S.at('무기가') };
+document.getElementById('pic').style.backgroundImage = S.ph('p16_miniature_rooftops');
+// 지붕 위 점 21개(사진 1536x1024 좌표) — 첫 점이 «먼저 들어간 가게»
+const P = [[1030, 560], [770, 365], [660, 300], [905, 410], [1205, 490], [1385, 640], [1300, 705], [610, 440], [520, 480], [430, 335],
+  [330, 600], [255, 480], [180, 375], [1000, 330], [830, 250], [1100, 265], [1255, 205], [1425, 365], [1150, 640], [700, 565], [900, 560]];
+const K = 1.367, box = document.getElementById('dots');
+P.forEach(([x, y], i) => { const d = document.createElement('div'); d.className = 'abs dt'; d.style.left = (x * K) + 'px'; d.style.top = (y * K) + 'px'; d.style.opacity = 0; box.appendChild(d); });
+const dots = [...box.children];
+const rp = document.getElementById('rp'); rp.style.left = (P[0][0] * K) + 'px'; rp.style.top = (P[0][1] * K) + 'px';
+const STEP = 0.14;
+S.ev(T.yr, 'card_in', 'dot0');
+S.ev(T.how, 'shine', 'ring');
+S.ev(T.all, 'card_in', 'dots');
+S.ev(T.weapon, 'no', 'gray');
+S.scene(tau => {
+  const d = S.P(tau, -S.SC.pre, S.SC.dur);
+  S.css('#ph', { left: (-20 - 120 * S.EIO(d)) + 'px' });
+  const g = S.EO(S.P(tau, T.weapon, T.weapon + 0.45));
+  const mix = (a, b, k) => Math.round(a + (b - a) * k);
+  const col = `rgb(${mix(240, 154, g)},${mix(90, 160, g)},${mix(40, 166, g)})`;
+  dots.forEach((el, i) => {
+    const t0 = i === 0 ? T.yr : T.all + STEP * (i - 1);
+    const k = S.ent(tau, t0, 0.12);
+    el.style.opacity = k; el.style.background = col;
+    el.style.transform = `scale(${(0.6 + 0.4 * k).toFixed(3)})`;
+  });
+  // 첫 점에서 퍼지는 고리(어떻게 됐어요)
+  const r = S.P(tau, T.how, T.how + 0.7);
+  S.css('#rp', { opacity: r > 0 && r < 1 ? (1 - r) * 0.9 : 0, transform: `scale(${(1 + 3.2 * S.EO(r)).toFixed(3)})` });
+});
+</script>
+</body></html>

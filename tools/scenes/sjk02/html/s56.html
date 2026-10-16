@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s56 숫자를 안 보는 가게 — 셔터 틈에 끼인 고지서, 탈색, 위에서 셔터가 내려오고 아래 틈에 주홍 빛</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#pw{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:50% 50%}
+#ring{left:0;top:0;width:1920px;height:1080px;pointer-events:none}
+#ring rect{fill:none;stroke:#9AA0A6;stroke-width:8;stroke-dasharray:14 10;stroke-linecap:round}
+#rent{left:1070px;top:330px}
+#sh{position:absolute;left:0;top:0;width:1920px;height:1080px;background-size:1920px auto;background-position:0 -114px;transform:translateY(-1100px);box-shadow:0 20px 20px rgba(0,0,0,.6)}
+#slit{left:240px;top:880px;width:1440px;height:12px;border-radius:6px;background:linear-gradient(90deg,rgba(240,90,40,0),#F05A28 18%,#FF8A55 50%,#F05A28 82%,rgba(240,90,40,0));box-shadow:0 0 40px 10px rgba(240,90,40,.55);opacity:0}
+#lbl{left:130px;top:96px;font-size:64px;color:#fff;text-shadow:0 3px 14px rgba(0,0,0,.65);letter-spacing:.18em}
+</style></head>
+<body><div id="stage">
+  <div class="bg tex-conc"></div>
+  <div id="pw"><div id="ph" class="photo" style="left:0;top:0;width:1920px;height:1080px"></div>
+    <svg id="ring" class="abs" viewBox="0 0 1920 1080"><rect id="rr" x="722" y="410" width="306" height="120" rx="18"/></svg>
+  </div>
+  <div id="rent" class="abs chip gr" data-box="rent">월세 ↑</div>
+  <div id="sh"></div>
+  <div id="slit" class="abs"></div>
+  <div id="lbl" class="abs lab" data-box="lbl">마지막 세 번째</div>
+</div>
+<script src="../data/s56.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#9AA0A6', '#F05A28'];
+S.$('#ph').style.backgroundImage = S.ph('p56_shutter_bill');
+S.$('#sh').style.backgroundImage = S.ph('p01b_shutter_closed_front');
+const T = { no: S.at('안보니까'), keep: S.at('버티는'), rent: S.at('월세'), shut: S.at('문을'), me: S.at('대표님들'), good: S.at('잘됐으면'), end: S.at('끝까지') };
+const rr = S.$('#rr'); const per = 2 * (400 + 340); rr.style.strokeDasharray = `14 10`;
+S.ev(T.no, 'marker', 'rr'); S.ev(T.rent, 'card_in', 'rent'); S.ev(T.shut, 'shutter', 'sh'); S.ev(T.good, 'shine', 'slit'); S.ev(T.end, 'card_in', 'lbl');
+S.scene(tau => {
+  S.css('#pw', { transform: S.track(tau, -0.2, S.SC.dur, 12, -24, 1.06), filter: S.desat(S.EIO(S.P(tau, T.keep, T.keep + 1.2))) });
+  // 고지서 둘레 회색 점선 테두리 — «안 보니까» 에 그려짐(바깥쪽 마스크 clip 으로 위→오른→아래 순)
+  S.css('#ring', { clipPath: `inset(0 ${(1 - S.EO(S.P(tau, T.no, T.no + 0.5))) * 100}% 0 0)` });
+  const rk = S.ent(tau, T.rent, 0.12);
+  S.css('#rent', { opacity: rk * (1 - S.ent(tau, T.shut, 0.2)), transform: `translateY(${(1 - rk) * -18}px)` });
+  // 셔터: 위에서 내려와 화면 아래까지 닫힘(0.5초)
+  const d = S.EIO(S.P(tau, T.shut, T.shut + 0.55));
+  S.css('#sh', { transform: `translateY(${-1100 + 1100 * d}px)` });
+  // 닫힌 셔터 아래 틈의 주홍 빛: «대표님들» 에 작은 점 → «잘됐으면» 에 가로로 번져 띠
+  const dot = S.ent(tau, T.me, 0.2), wide = S.EO(S.P(tau, T.good, T.good + 0.5));
+  S.css('#slit', { opacity: dot * (0.35 + 0.65 * wide), left: (960 - 40 - 680 * wide) + 'px', width: (80 + 1360 * wide) + 'px' });
+  S.css('#lbl', { opacity: S.ent(tau, T.end, 0.12), transform: `translateX(${(1 - S.ent(tau, T.end, 0.12)) * -40}px)` });
+});
+</script>
+</body></html>

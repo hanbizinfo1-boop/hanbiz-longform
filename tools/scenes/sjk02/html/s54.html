@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s54 배달 매출은 늘었는데 남는 게 없다 — 배달 봉투 선반, 오른쪽 위 작은 차트 → 봉투 클로즈업에서 칩이 떨어져 나감</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#pn{left:1290px;top:80px;width:540px;height:400px;padding:0}
+#pn .hd{font-size:28px}
+#cols{position:absolute;left:44px;top:84px;width:452px;height:190px}
+#cols i{position:absolute;bottom:0;width:100px;background:var(--te);border-radius:6px 6px 0 0;display:block}
+#prof{position:absolute;left:44px;top:292px;width:452px;height:70px}
+#prof .lb{position:absolute;left:0;top:0;font-size:26px;font-weight:800}
+#prof .tr{position:absolute;left:120px;top:14px;width:332px;height:34px;background:#EEF0F1;border-radius:4px}
+#prof .fl{position:absolute;left:120px;top:14px;height:34px;background:var(--or);border-radius:4px;width:0}
+.cp{position:absolute;padding:12px 26px;border-radius:12px;font-weight:800;font-size:36px;white-space:nowrap;box-shadow:0 12px 26px rgba(20,25,30,.3)}
+#cF{left:790px;top:420px;background:#F4F5F3;color:#1F2A33}
+#cP{left:960px;top:520px;background:#F4F5F3;color:#1F2A33}
+#c0{left:1150px;top:640px;background:#2B3238;color:#E7EAEC;font-size:34px}
+#cB{left:170px;top:150px;background:#E4E6E3;color:#5D646B}
+</style></head>
+<body><div id="stage">
+  <div class="bg tex-conc"></div>
+  <div id="cam"><div id="ph" class="photo" style="left:0;top:0;width:1920px;height:1080px"></div></div>
+  <div id="pn" class="app" data-box="pn"><div class="hd">배달 매출</div>
+    <div id="cols"><i style="left:20px;height:70px"></i><i style="left:176px;height:120px"></i><i style="left:332px;height:180px"></i></div>
+    <div id="prof"><div class="lb">수익</div><div class="tr"></div><div class="fl" id="fl"></div></div>
+  </div>
+  <div id="cF" class="cp" data-box="cF">수수료</div><div id="cP" class="cp" data-box="cP">포장비</div>
+  <div id="c0" class="cp" data-box="c0">≈ 0</div><div id="cB" class="cp" data-box="cB">바쁨</div>
+</div>
+<script src="../data/s54.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#1FA39A', '#F05A28', '#1F2A33'];
+S.$('#ph').style.backgroundImage = S.ph('p54_delivery_bag');
+const T = { c1: S.at('배달매출이'), c3: S.at('대표님이'), prof: S.at('매주'), shot: S.at('한건'), fee: S.at('수수료랑'), pk: S.at('포장비'), zero: S.at('거의'), busy: S.at('바쁘기만') };
+const cols = [...document.querySelectorAll('#cols i')];
+S.ev(T.c1, 'gauge', 'cols'); S.ev(T.prof, 'card_in', 'prof'); S.ev(T.shot, 'sweep', 'cam'); S.ev(T.fee, 'no', 'cF'); S.ev(T.pk, 'sweep', 'cP');
+S.ev(T.zero, 'card_in', 'c0'); S.ev(T.busy, 'msg_in', 'cB');
+S.scene(tau => {
+  // 사진: 미디엄(아주 느린 흐름) → «한 건» 에 봉투 쪽 클로즈업(새 숏, 카메라 1회)
+  const z = S.cam(tau, T.shot, T.shot + 0.4);
+  const sc = S.lerp(1.04 + 0.03 * S.P(tau, 0, T.shot), 1.45, z);
+  const fx = S.lerp(960, 810, z), fy = S.lerp(540, 500, z);
+  S.css('#cam', { transform: `translate(960px,540px) scale(${sc}) translate(${-fx - 14 * S.P(tau, 0, T.shot)}px,${-fy}px)` });
+  // 차트 판: 막대 셋이 차례로 올라감 → «매주 뽑아» 에 수익 행(아주 짧은 주홍) → «한 건» 에 빠져나감
+  const pk = S.ent(tau, -0.1, 0.14), out = S.cam(tau, T.shot - 0.05, T.shot + 0.3);
+  S.css('#pn', { opacity: pk * (1 - out), transform: `perspective(2200px) rotateX(5deg) rotateZ(2deg) translateX(${out * 160}px)` });
+  cols.forEach((c, i) => { const t0 = [T.c1, T.c1 + 0.55, T.c3][i]; c.style.transform = `scaleY(${S.EO(S.P(tau, t0, t0 + 0.4))})`; c.style.transformOrigin = '50% 100%'; });
+  S.css('#prof', { opacity: S.ent(tau, T.prof, 0.12) });
+  S.$('#fl').style.width = (30 * S.EO(S.P(tau, T.prof + 0.1, T.prof + 0.4))) + 'px';
+  // 칩: 수수료·포장비가 봉투에서 떨어져 나감 · 남은 막대 ≈ 0 · 바쁨
+  const f = S.ent(tau, T.fee - 0.35, 0.12), fo = S.P(tau, T.fee + 0.15, T.fee + 0.7);
+  S.css('#cF', { opacity: f * (1 - fo), transform: `translate(${-140 * S.EO(fo)}px,${220 * fo * fo}px) rotate(${-14 * fo}deg)` });
+  const p = S.ent(tau, T.pk - 0.2, 0.12), po = S.P(tau, T.pk + 0.15, T.pk + 0.7);
+  S.css('#cP', { opacity: p * (1 - po), transform: `translate(${160 * S.EO(po)}px,${240 * po * po}px) rotate(${14 * po}deg)` });
+  const z0 = S.ent(tau, T.zero, 0.12);
+  S.css('#c0', { opacity: z0, transform: `translateY(${(1 - z0) * 16}px)` });
+  const b = S.ent(tau, T.busy, 0.12);
+  S.css('#cB', { opacity: b, transform: `translateY(${(1 - b) * -16}px)` });
+});
+</script>
+</body></html>

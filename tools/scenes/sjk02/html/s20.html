@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s20 무조건 AI 쓰시라고 했어요 — 상담 탁자 어깨 너머 · 노트 위 손글씨</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+/* 사진 p20: 월드 좌표 = 사진 1536×1024 를 1.25배로 깔고 위 100px 잘림(stage 좌표) */
+#world{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background-size:100% 100%;filter:saturate(.8) contrast(1.03)}
+#nb{position:absolute;left:0;top:0;width:360px;height:250px}
+#nb .ln{position:absolute;left:14px;font-family:"Hand";font-weight:700;font-size:58px;line-height:1;color:#1F2A33;white-space:nowrap}
+#nb .ln b{color:#1F2A33}
+#nb svg{position:absolute;overflow:visible}
+.tag{position:absolute}
+#cSd{left:150px;top:230px}
+#cRep{left:1480px;top:170px}
+#cDown{left:1250px;top:575px}
+#glow{position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none}
+</style></head>
+<body><div id="stage">
+  <div id="world">
+    <div id="ph"></div>
+    <div id="nb">
+      <div class="ln" id="l1" style="top:-4px;font-size:50px">무조건 AI</div>
+      <svg id="ul" style="left:12px;top:48px" width="240" height="14" viewBox="0 0 250 14"><path id="ulp" d="M2 8 Q60 2 120 8 T248 6" fill="none" stroke="#F05A28" stroke-width="7" stroke-linecap="round"/></svg>
+      <div class="ln" id="l2" style="top:54px;font-size:50px">리뷰 → AI</div>
+      <svg id="k2" style="left:290px;top:58px" width="56" height="46" viewBox="0 0 70 56"><path d="M6 30 L26 48 L62 6" fill="none" stroke="#1FA39A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="ln" id="l3" style="top:116px;font-size:54px">소식 → AI</div>
+      <svg id="k3" style="left:296px;top:120px" width="56" height="46" viewBox="0 0 70 56"><path d="M6 30 L26 48 L62 6" fill="none" stroke="#1FA39A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="ln" id="l4" style="top:184px;font-size:58px">메뉴 → AI</div>
+      <svg id="k4" style="left:304px;top:188px" width="56" height="46" viewBox="0 0 70 56"><path d="M6 30 L26 48 L62 6" fill="none" stroke="#1FA39A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div id="cSd" class="chip gr" data-box="cSd">상담</div>
+    <div id="cRep" class="chip gr" data-box="cRep">대표님</div>
+  </div>
+  <div id="cDown" class="chip te" data-box="cDown">일 ↓</div>
+</div>
+<script src="../data/s20.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#1F2A33', '#1FA39A', '#F05A28'];
+const T = { sd: S.at('상담하는'), rep: S.at('대표님들한테') + 0.1, mu: S.at('무조건'), ai1: S.at('AI', 0),
+  rv: S.at('리뷰도'), rvAi: S.at('AI로', 0), sk: S.at('소식'), skAi: S.at('AI로', 1), mn: S.at('메뉴'), mnAi: S.at('AI로', 2),
+  down: S.at('줄었어요'), ok: S.at('맞아요') };
+S.ev(T.sd, 'card_in', 'cSd'); S.ev(T.rep, 'msg_in', 'cRep');
+S.ev(T.mu + 0.2, 'marker', 'l1'); S.ev(T.rvAi, 'ok', 'k2'); S.ev(T.skAi, 'card_in', 'k3'); S.ev(T.mnAi, 'ok', 'k4');
+S.ev(T.down, 'card_in', 'cDown'); S.ev(T.ok, 'shine', 'k2');
+// 노트 오른쪽 면 네 점(월드 좌표) — 사진 p20 의 노트 빈 면
+const QUAD = [[1352, 850], [1575, 869], [1481, 1021], [1365, 1009]];
+S.fitQuad(document.getElementById('nb'), 360, 250, QUAD);
+document.getElementById('ph').style.backgroundImage = S.ph('p20_consult_table');
+const wipe = (id, p) => S.css(id, { clipPath: `inset(-10px ${((1 - S.clamp(p)) * 100).toFixed(1)}% -10px 0)`, opacity: p > 0 ? 1 : 0 });
+const ulp = document.getElementById('ulp'); const ulLen = ulp.getTotalLength();
+ulp.style.strokeDasharray = ulLen;
+const CAM = [{ t: -1, s: 1.04, x: 960, y: 540 }, { t: T.mu, s: 1.35, x: 1100, y: 750, d: 0.5 }];
+S.scene(tau => {
+  const c = S.camState(tau, CAM, 0.5);
+  // 느린 옆 흐름: 푸시 뒤 x 가 조금씩 오른쪽으로
+  const drift = S.P(tau, T.mu + 0.4, S.SC.dur) * 38;
+  const cc = { s: c.s, x: c.x + (c.s > 1.05 ? drift * S.clamp((c.s - 1.04) / 0.31) : S.P(tau, 0, T.mu) * 24), y: c.y };
+  S.css('#world', { transform: S.camCss(cc) });
+  // 첫 구도 칩
+  const a1 = S.ent(tau, T.sd, 0.12) * (1 - S.P(tau, T.mu - 0.05, T.mu + 0.1));
+  S.css('#cSd', { opacity: a1, transform: `translateY(${(1 - S.ent(tau, T.sd, 0.12)) * 14}px)` });
+  const a2 = S.ent(tau, T.rep, 0.12) * (1 - S.P(tau, T.mu - 0.05, T.mu + 0.1));
+  S.css('#cRep', { opacity: a2, transform: `translateY(${(1 - S.ent(tau, T.rep, 0.12)) * 14}px)` });
+  // 노트 글: 쓰는 방향으로 닦임
+  wipe('#l1', S.EO(S.P(tau, T.mu + 0.2, T.mu + 0.7)));
+  ulp.style.strokeDashoffset = ulLen * (1 - S.EO(S.P(tau, T.ai1 + 0.05, T.ai1 + 0.4)));
+  S.css('#ul', { opacity: tau >= T.ai1 ? 1 : 0 });
+  wipe('#l2', S.EO(S.P(tau, T.rv, T.rv + 0.45)));
+  wipe('#l3', S.EO(S.P(tau, T.sk, T.sk + 0.5)));
+  wipe('#l4', S.EO(S.P(tau, T.mn, T.mn + 0.5)));
+  const shine = S.EO(S.P(tau, T.ok, T.ok + 0.2)) * (1 - S.P(tau, T.ok + 0.5, T.ok + 0.9));
+  [['#k2', T.rvAi], ['#k3', T.skAi], ['#k4', T.mnAi]].forEach(([id, t0]) => {
+    const p = S.EO(S.P(tau, t0, t0 + 0.2));
+    S.css(id, { opacity: p, transform: `scale(${(0.7 + 0.3 * p) * (1 + 0.28 * shine)})`, transformOrigin: '0 50%', filter: `drop-shadow(0 0 ${(10 * shine).toFixed(1)}px rgba(31,163,154,.9))` });
+  });
+  const dk = S.ent(tau, T.down, 0.12);
+  S.css('#cDown', { opacity: dk, transform: `translateY(${(1 - dk) * 16}px)` });
+});
+</script>
+</body></html>

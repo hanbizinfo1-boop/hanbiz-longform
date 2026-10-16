@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s34 그 한 줄은 대표님 입에서 — 계산대 그릇 건네기 어깨 너머 + 손글씨 쪽지 둘이 AI 입력창으로</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#world{left:0;top:0;width:1920px;height:1080px;transform-origin:50% 0%}
+#ph{left:0;top:0;width:1920px;height:1080px}
+#cc{left:200px;top:44px;font-size:32px}
+.note{position:absolute;width:440px;padding:20px 30px 22px;background:#F2F3F0;color:var(--or);font-family:"Hand";font-weight:700;font-size:44px;line-height:1.25;box-shadow:0 14px 30px rgba(10,14,18,.5),0 2px 5px rgba(10,14,18,.35)}
+.note::before{content:"";position:absolute;left:50%;top:-14px;width:96px;height:30px;margin-left:-48px;background:rgba(190,196,200,.75);transform:rotate(-2deg)}
+#n1{left:290px;top:122px;transform-origin:50% 50%}
+#n2{left:560px;top:308px;transform-origin:50% 50%}
+#dk{left:1170px;top:30px;width:640px;height:318px}
+#dk .cv{bottom:130px}
+#dk .in.tall{height:112px;align-items:flex-start;border-radius:26px;padding:12px 24px;font-size:25px;line-height:1.45}
+#dk .in .send{align-self:flex-end}
+</style></head>
+<body><div id="stage">
+  <div id="world" class="abs">
+    <div id="ph" class="photo"></div>
+    <div id="cc" class="chip gr" data-box="cc">그 한 줄은?</div>
+    <div id="n1" class="note" data-box="n1">이거 오늘 아침에<br>들어온 거예요</div>
+    <div id="n2" class="note" data-box="n2">이건 우리 어머니가<br>하던 방식이에요</div>
+    <div id="dk" class="dk" data-box="dk">
+      <div class="tb"><span class="md"><i></i>AI</span><span class="tab">새 대화</span></div>
+      <div class="cv"><div class="col" id="col"></div></div>
+      <div class="in tall"><span class="tx" id="inx"></span><span class="send" id="snd"></span></div>
+    </div>
+  </div>
+</div>
+<script src="../data/s34.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e3.js"></script>
+<script>
+window.PALETTE = ['#2D3A4B', '#F05A28', '#E7EAEC'];   // 계산대 새벽빛(청회색) · 주홍 한 줄 · 다크 입력창 글
+const T = { c0: 0.25, c1: S.at('대표님 입에서'), c2: S.at('맨날'), n1: S.at('이거'), n2: S.at('이건'), dk: S.at('그거를'), ab: S.at('넣어') };
+S.css('#ph', { backgroundImage: S.ph('p34_counter_handover') });
+S.$('#snd').innerHTML = E3.SEND;
+S.$('#col').innerHTML = '<div class="me"><div class="sk" style="width:180px;margin:4px 0"></div></div><div class="ai"><div class="av">AI</div><div class="tx">' + E3.sk([90, 60], 'gr') + '</div></div>';
+S.ev(T.c0, 'card_in', 'cc'); S.ev(T.c1, 'msg_in', 'cc'); S.ev(T.c2, 'card_in', 'cc'); S.ev(T.n1, 'msg_in', 'n1');
+S.ev(T.n2, 'card_in', 'n2'); S.ev(T.dk, 'in', 'dk'); S.ev(T.ab, 'sweep', 'inx');
+// 칩 글: 0.25 «그 한 줄은?» (회색) → «대표님 입에서» (주홍) → «매일 하는 말» (주홍)
+const CHIP = [[T.c0, '그 한 줄은?', 'gr'], [T.c1, '대표님 입에서', 'or'], [T.c2, '매일 하는 말', 'or']];
+const NOTE = { n1: { dx: 1485 - 510, dy: 244 - 187, a: T.ab }, n2: { dx: 1485 - 780, dy: 244 - 373, a: T.ab + 0.2 } };
+S.scene(tau => {
+  S.css('#world', { transform: S.track(tau, 0, S.SC.dur, 45, -45, 1.12) });
+  // 칩(말이 바뀔 때마다 글이 바뀌며 톡 튀어나옴)
+  let cur = CHIP[0], t = CHIP[0][0];
+  CHIP.forEach(c => { if (tau >= c[0]) { cur = c; t = c[0]; } });
+  const cc = S.$('#cc'); cc.textContent = cur[1]; cc.className = 'chip ' + cur[2];
+  const k = S.ent(tau, t, 0.12), out = 1 - S.P(tau, T.n1 - 0.05, T.n1 + 0.15);
+  S.css('#cc', { opacity: k * out * (tau >= T.c0 ? 1 : 0), transform: `translateY(${((1 - k) * 14).toFixed(2)}px) scale(${(0.94 + 0.06 * k).toFixed(3)})` });
+  // 쪽지 둘: 말에 맞춰 붙고, «넣어 주는» 에 입력창 쪽으로 빨려 들어감
+  [['n1', T.n1, -3], ['n2', T.n2, 2]].forEach(([id, t0, rot]) => {
+    const e = S.ent(tau, t0, 0.12), ab = S.EZ(S.P(tau, NOTE[id].a, NOTE[id].a + 0.45));
+    S.css('#' + id, {
+      opacity: e * (1 - Math.pow(ab, 3)),
+      transform: `translate(${(NOTE[id].dx * ab).toFixed(1)}px,${((1 - e) * -24 + NOTE[id].dy * ab).toFixed(1)}px) rotate(${rot * (1 - ab)}deg) scale(${(1 - 0.72 * ab).toFixed(3)})`
+    });
+  });
+  // 대화창
+  const d = S.ent(tau, T.dk, 0.12);
+  S.css('#dk', { opacity: d, transform: `translateY(${((1 - d) * -22).toFixed(1)}px)` });
+  // 입력창에 쪽지 글이 주홍으로 자리잡음
+  const l1 = S.ent(tau, T.ab + 0.3, 0.12), l2 = S.ent(tau, T.ab + 0.5, 0.12);
+  S.$('#inx').innerHTML = `<span class="or" style="opacity:${l1}">이거 오늘 아침에 들어온 거예요</span><br><span class="or" style="opacity:${l2}">이건 우리 어머니가 하던 방식이에요</span>`;
+});
+</script>
+</body></html>

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s47 매출은 괜찮은데 왜 통장에 돈이 없지 — 감열지 더미 위 기울인 내 통장 판, 입금은 쌓이는데 잔액은 —</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+/* 콘크리트 위 감열지 몇 장이 흩어져 있고 그 위 9° 기울인 «내 통장» 판 — 카드 매출 입금 줄이 올라가고(금액은 흐린 막대) 잔액 칸은 «—» → 회색 동그라미 → 탈색 */
+.row3{position:absolute;left:0;top:0;width:1920px;height:1080px;perspective:2200px}
+.rin{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:50% 55%;transform:rotateX(9deg) rotateZ(-4deg)}
+.sp{position:absolute;overflow:hidden;box-shadow:0 18px 34px rgba(20,25,30,.30)}
+.sp i{position:absolute;left:26px;height:12px;border-radius:6px;background:#C9CED2}
+#bk{left:560px;top:130px;width:800px;height:660px}
+#bal{position:absolute;left:36px;right:36px;top:84px;height:132px;background:#F2F4F5;border-radius:14px}
+#bal b{position:absolute;left:26px;top:14px;font-size:26px;color:#59636B;font-weight:700}
+#bar0{position:absolute;left:26px;top:64px;width:230px;height:34px;border-radius:17px;background:#C9CED2}
+#bv{position:absolute;left:26px;top:36px;font-size:120px;font-weight:900;color:#59636B;line-height:1;margin-top:-24px}
+#lst{position:absolute;left:0;right:0;top:236px;bottom:0;overflow:hidden}
+#lin{position:absolute;left:0;right:0;top:0}
+.it{height:86px;display:flex;align-items:center;gap:16px;padding:0 36px;border-bottom:1px solid #EEF0F1}
+.it .pl{font-size:34px;font-weight:900;color:#2A3138;width:30px}
+.it .tt{font-size:28px;font-weight:700}
+.it .am{margin-left:auto;width:150px;height:26px;border-radius:13px;background:#D7DCDF;filter:blur(2px)}
+#cs{position:absolute;left:0;top:0}
+</style></head>
+<body><div id="stage">
+  <div class="bg tex-conc"></div>
+  <div id="sps"></div>
+  <div class="row3"><div class="rin">
+    <div id="bk" class="app" data-box="bk"><div class="hd">내 통장</div>
+      <div id="bal"><b>잔액</b><div id="bar0"></div><div id="bv">—</div></div>
+      <svg id="cs" width="800" height="660" viewBox="0 0 800 660"><path id="circ" d="M32 150 C 60 96, 640 90, 760 140 C 800 190, 700 232, 400 238 C 160 242, 20 214, 30 168 C 40 130, 100 108, 200 100" fill="none" stroke="#9AA0A6" stroke-width="9" stroke-linecap="round"/></svg>
+      <div id="lst"><div id="lin"></div></div>
+    </div>
+  </div></div>
+</div>
+<script src="../data/s47.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#1F2A33', '#9AA0A6'];   // 입금은 쌓이는데 잔액은 회색 — 주홍·청록 없음(없는 것)
+const T = { most: S.at('제일 많이'), sale: S.at('매출은'), bank: S.at('통장에'), none: S.at('없지') };
+// 감열지 조각
+const SL = [[110, 170, 260, 560, -7], [290, 430, 230, 520, 5], [1440, 140, 260, 600, 6], [1290, 470, 240, 520, -4]];
+let h = '';
+SL.forEach(([x, y, w, hh, r], i) => {
+  let lines = ''; for (let j = 0; j < 12; j++) lines += `<i style="top:${40 + j * 44}px;width:${40 + ((j * 37 + i * 19) % 55)}%"></i>`;
+  h += `<div id="sp${i}" class="sp thermal" style="left:${x}px;top:${y}px;width:${w}px;height:${hh}px;background-size:${w}px auto">${lines}</div>`;
+});
+S.$('#sps').innerHTML = h;
+let li = ''; for (let i = 0; i < 12; i++) li += `<div class="it"><div class="pl">+</div><div class="tt">카드 매출 입금</div><div class="am"></div></div>`;
+S.$('#lin').innerHTML = li;
+S.ev(0.03, 'in', 'bk'); S.ev(0.3, 'page', 'sps'); S.ev(T.most, 'sweep', 'lin'); S.ev(T.bank + 0.05, 'marker', 'circ'); S.ev(T.none, 'no', 'bal');
+S.scene(tau => {
+  const k = S.ent(tau, 0.0, 0.16);
+  S.css('#bk', { opacity: k, transform: `translateY(${((1 - k) * 36).toFixed(1)}px)` });
+  SL.forEach((s, i) => { const kk = S.ent(tau, 0.2 + 0.09 * i, 0.14); S.css('#sp' + i, { opacity: kk, transform: `rotate(${s[4] * (1 - 0.0)}deg) translateY(${((1 - kk) * -50).toFixed(1)}px)` }); });
+  // 입금 줄: 아래에서 올라오며 계속 올라감
+  const up = S.EO(S.P(tau, T.most, T.most + 0.5)), sc = S.P(tau, T.most, S.SC.dur);
+  S.css('#lin', { opacity: 1, transform: `translateY(${(-330 * sc).toFixed(1)}px)` });
+  // 잔액 칸: 흐린 막대 → «—»
+  const sw = tau >= T.bank;
+  S.css('#bar0', { opacity: sw ? 0 : 1 }); S.css('#bv', { opacity: sw ? S.ent(tau, T.bank, 0.1) : 0 });
+  E.stroke('#circ', tau, T.bank + 0.05, 0.55);
+  const g = S.P(tau, T.none, T.none + 0.4);
+  S.css('#bal', { filter: S.desat(g), opacity: 1 - 0.25 * g });
+  S.css('#circ', { opacity: tau >= T.bank + 0.05 ? 1 - 0.3 * g : 0 });
+});
+</script>
+</body></html>

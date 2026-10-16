@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s48 매출은 매일 보이고 수익은 한 달 뒤 — 영수증 띠를 따라 옆으로 가서 봉투에 닿는다</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+/* 콘크리트 카운터 위에 접힌 영수증 띠 — 영수증마다 청록 «매출» 칩이 줄줄이, 띠 끝 봉투에 «수익?» 회색 칩, 카메라가 봉투에 닿고 둘레에 회색 동그라미 */
+#cw{left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#ph{left:0;top:-100px;width:1920px;height:1280px;background-size:100% 100%}
+#sv{position:absolute;left:0;top:0}
+.m{font-size:26px;padding:6px 14px;border-radius:10px}
+#q{left:1560px;top:200px;font-size:30px}
+</style></head>
+<body><div id="stage">
+  <div id="cw" class="abs">
+    <div id="ph" class="photo abs"></div>
+    <svg id="sv" width="1920" height="1080" viewBox="0 0 1920 1080">
+      <path id="ridge" d="M60 700 C 400 640, 700 560, 1000 480 S 1400 410, 1590 392" fill="none" stroke="#E4E6E3" stroke-width="7" stroke-dasharray="4 18" stroke-linecap="round"/>
+      <path id="circ" d="M1520 330 C 1560 250, 1760 245, 1840 300 C 1900 350, 1850 420, 1740 428 C 1620 435, 1520 410, 1520 340 C 1525 300, 1560 270, 1600 258" fill="none" stroke="#B7BCC1" stroke-width="9" stroke-linecap="round"/>
+    </svg>
+    <div id="mchips"></div>
+    <div id="q" class="chip gr" data-box="q" data-box-bleed>수익?</div>
+  </div>
+</div>
+<script src="../data/s48.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#1F2A33', '#1FA39A', '#9AA0A6'];   // 사진 위 청록(AI 아닌 «매출» 표시)·회색(수익?) — 비교는 쪽마다 하나
+S.$('#ph').style.backgroundImage = S.ph('p48_receipts_row');
+const T = { daily: S.at('매일'), pos: S.at('포스기에'), easy: S.at('보기가'), but: S.at('남는'), month: S.at('한 달'), tax: S.at('세금'), cam: S.at('낼 때쯤'), late: S.at('늦은'), then: S.at('그때는') };
+S.focus([{ t0: 7.9, t1: 8.8, big: '한 달 뒤', small: '수익이 보이는 때', color: 'gr' }]);
+// 영수증 마루마다 «매출» 칩(사진 좌표 → 화면 좌표)
+const PX = [[130, 590], [330, 545], [520, 515], [700, 475], [850, 440], [990, 420], [1100, 402], [1190, 386]];
+let html = '';
+PX.forEach(([x, y], i) => { html += `<div id="m${i}" class="chip te m" data-box="m${i}" data-box-bleed style="left:${(1.25 * x - 40).toFixed(0)}px;top:${(1.25 * y - 100 - 46).toFixed(0)}px">매출</div>`; });
+S.$('#mchips').innerHTML = html;
+const MT = i => T.daily + 0.2 + 0.12 * i;
+S.ev(T.daily + 0.2, 'card_in', 'm0'); S.ev(T.easy, 'shine', 'mchips'); S.ev(T.but, 'no', 'mchips'); S.ev(T.month, 'marker', 'ridge'); S.ev(T.tax, 'msg_in', 'q'); S.ev(T.late - 0.05, 'marker', 'circ');
+const KEYS = [{ t: 0, s: 1.0, x: 960, y: 540 }, { t: T.cam, s: 1.3, x: 1200, y: 430, d: 1.2 }];
+S.scene(tau => {
+  const c = S.camState(tau, KEYS, 1.2);
+  S.css('#cw', { transform: S.camCss({ s: c.s * (1 + 0.02 * S.P(tau, 0, T.cam)), x: c.x, y: c.y }) });
+  for (let i = 0; i < PX.length; i++) { E.pop('#m' + i, tau, MT(i), { dy: 12, sc: 0.1 }); }
+  // 보기가 쉬운데 → 칩 반짝(밝게) · 근데 남는 돈은 → 칩 옅어짐(회색)
+  const a = S.EO(S.P(tau, T.easy, T.easy + 0.3)) * (1 - S.EO(S.P(tau, T.but, T.but + 0.1)));
+  for (let i = 0; i < PX.length; i++) { S.$('#m' + i).style.boxShadow = `0 0 0 ${(a * 5).toFixed(1)}px rgba(31,163,154,${(0.7 * a).toFixed(2)}),0 10px 24px rgba(20,25,30,.22)`; }
+  const g = S.P(tau, T.but, T.but + 0.5);
+  for (let i = 0; i < PX.length; i++) S.$('#m' + i).style.filter = S.desat(g * 0.85);
+  E.stroke('#ridge', tau, T.month, 1.1);
+  S.css('#ridge', { opacity: tau >= T.month ? 1 - 0.5 * S.P(tau, T.cam, T.cam + 1) : 0 });
+  E.pop('#q', tau, T.tax, { dy: 8 });
+  E.stroke('#circ', tau, T.late - 0.05, 0.5);
+});
+</script>
+</body></html>

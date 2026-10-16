@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s18 AI가 그 자리에 와 있다 → 조금만 지나면 다 쓴다 — 콘크리트 벽 스텐실 줄 · 옆 트래킹</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#world{position:absolute;left:0;top:0;width:5200px;height:1080px;transform-origin:0 0}
+.tile{position:absolute;top:0;width:1924px;height:1080px;background-image:url("../../../../소재/sjk02/codex/t_concrete.png");background-size:cover}
+.st{position:absolute;width:340px;text-align:center;font-family:"Pre";font-weight:900;line-height:1;letter-spacing:-.04em;font-size:250px;white-space:nowrap;color:#1FA39A;opacity:0;
+  -webkit-mask-image:linear-gradient(90deg,#000 0 48%,transparent 48% 50.5%,#000 50.5% 100%),linear-gradient(180deg,#000 0 52%,transparent 52% 55%,#000 55% 100%);
+  -webkit-mask-composite:source-in;mask-composite:intersect;filter:url(#rough)}
+.slot{position:absolute;width:310px;height:310px;border:8px dashed #6E767D;border-radius:10px;opacity:0}
+#box0{position:absolute;width:330px;height:330px;border:5px solid #1FA39A;border-radius:10px;opacity:0}
+</style></head>
+<body><div id="stage">
+  <svg width="0" height="0" style="position:absolute"><defs><filter id="rough" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="6"/></filter></defs></svg>
+  <div id="world"></div>
+</div>
+<script src="../data/s18.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#1F2A33', '#1FA39A'];
+const T = { ai: S.at('AI가'), dak: S.at('딱'), now: S.at('지금은'), lead: S.at('앞서가는'), soon: S.at('조금만') };
+const T_ALL = S.at('써요') - 0.2;
+const world = document.getElementById('world');
+// 바탕: 콘크리트를 좌우 뒤집으며 이어 붙임(이음매 없음)
+for (let i = 0; i < 3; i++) { const d = document.createElement('div'); d.className = 'tile'; d.style.left = (i * 1920) + 'px'; if (i % 2) d.style.transform = 'scaleX(-1)'; world.appendChild(d); }
+// 칸 9개: 첫 칸(AI) + 뒤따라 찍히는 8칸
+const PITCH = 340, X0 = 560, CY = 480;
+const cells = [];
+for (let k = 0; k < 9; k++) {
+  const cx = X0 + PITCH * k;
+  const t = document.createElement('div'); t.className = 'st'; t.textContent = 'AI'; t.style.left = (cx - 170) + 'px'; t.style.top = (CY - 125) + 'px'; world.appendChild(t);
+  let sl = null;
+  if (k === 1) { sl = document.createElement('div'); sl.className = 'slot'; sl.style.left = (cx - 155) + 'px'; sl.style.top = (CY - 155) + 'px'; world.appendChild(sl); }
+  cells.push({ t, sl, cx });
+}
+const box0 = document.createElement('div'); box0.id = 'box0'; box0.style.left = (X0 - 165) + 'px'; box0.style.top = (CY - 165) + 'px'; world.appendChild(box0);
+const PRINT0 = T.soon - 0.45, STEP = 0.12, PAN0 = T.soon - 0.67, PAN1 = T.soon + 0.85, CX1 = 2700;
+// 뒤따라 찍히는 칸은 카메라가 그 칸을 화면 안(오른쪽 1700px 안)으로 끌어올 때 찍힌다
+const printAt = [];
+for (let k = 1; k <= 8; k++) {
+  const need = (PITCH * k + X0 - 1700 - 0) / (CX1 - 960);          // 필요한 이동 비율
+  let t = PRINT0 + (k - 1) * STEP;
+  if (need > 0) { for (let u = PAN0; u <= PAN1; u += 0.01) { if (S.EIO(S.P(u, PAN0, PAN1)) >= need) { t = Math.max(t, u); break; } } }
+  printAt.push(t);
+}
+S.ev(T.ai, 'marker', 'ai0'); S.ev(T.dak, 'card_in', 'box0'); S.ev(T.now, 'in', 'slot'); S.ev(T.lead, 'shine', 'ai0');
+S.ev(PRINT0, 'card_in', 'ai1'); S.ev(T_ALL, 'no', 'all');
+const mix = (a, b, k) => a.map((v, i) => Math.round(S.lerp(v, b[i], k)));
+const TE = [31, 163, 154], GR = [118, 127, 135];
+S.scene(tau => {
+  const c = { x: 960 + (CX1 - 960) * S.EIO(S.P(tau, PAN0, PAN1)) };
+  // 앞쪽: 아주 느린 옆 흐름(느리게 오른쪽으로 20px)
+  const slow = S.P(tau, 0, PAN0) * 36;
+  S.css('#world', { transform: `translate(${(-(c.x - 960) - slow).toFixed(2)}px,0)` });
+  const gray = S.EO(S.P(tau, T_ALL, T_ALL + 0.3));
+  cells.forEach((o, k) => {
+    let a, lift = 0;
+    if (k === 0) {
+      a = S.EO(S.P(tau, T.ai, T.ai + 0.4));
+      lift = -34 * S.EO(S.P(tau, T.lead, T.lead + 0.3));
+    } else {
+      a = S.EO(S.P(tau, printAt[k - 1], printAt[k - 1] + 0.22));
+    }
+    o.t.style.opacity = (a > 0 ? 0.97 : 0);
+    o.t.style.clipPath = `inset(-6% ${((1 - a) * 100).toFixed(1)}% -6% 0)`;
+    o.t.style.color = `rgb(${mix(TE, GR, gray).join(',')})`;
+    o.t.style.transform = `translateY(${lift.toFixed(1)}px)`;
+    if (o.sl) {
+      const s1 = S.ent(tau, T.now, 0.12) * (1 - a);
+      o.sl.style.opacity = s1.toFixed(3);
+    }
+  });
+  // 첫 칸 둘레 선(딱)
+  const b = S.EO(S.P(tau, T.dak, T.dak + 0.3));
+  box0.style.opacity = (b * (1 - S.P(tau, T.lead - 0.1, T.lead + 0.1))).toFixed(3);
+  box0.style.clipPath = `inset(0 ${((1 - b) * 100).toFixed(1)}% 0 0)`;
+});
+</script>
+</body></html>

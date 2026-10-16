@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s72 끝 — 새벽 5시 거리, 닫힌 셔터 하나가 말려 올라가며 불이 켜진다(글 없음)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#w{left:0;top:-60px;width:1920px;height:1280px}
+#ph{left:0;top:0;width:1920px;height:1280px}
+#dim{left:0;top:0;width:1920px;height:1280px;opacity:0;background:radial-gradient(ellipse 380px 420px at 1340px 460px,rgba(4,8,16,0) 0,rgba(4,8,16,0) 45%,rgba(4,8,16,.5) 100%)}
+#lit{left:1237px;top:412px;width:200px;height:288px;background-size:2400px 1600px;background-position:-1237px -412px}
+#cv{left:1237px;top:412px;width:200px;height:288px;background-size:2400px 1600px;background-position:-1237px -412px;clip-path:inset(0 0 0 0)}
+#lip{left:0;bottom:0;width:200px;height:12px;background:#0b111b;opacity:.8}
+#gl{left:1090px;top:290px;width:500px;height:500px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,150,60,.55),rgba(255,120,40,0));mix-blend-mode:screen;opacity:0}
+</style></head>
+<body><div id="stage">
+  <div id="w" class="abs"><div id="ph" class="photo abs"></div>
+    <div id="dim" class="abs"></div>
+    <div id="lit" class="abs" data-box-skip="1"></div>
+    <div id="cv" class="abs" data-box="cv"><div id="lip" class="abs"></div></div>
+    <div id="gl" class="abs"></div>
+  </div>
+</div>
+<script src="../data/s72.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="_e6.js"></script>
+<script>
+window.PALETTE = ['#14191E', '#F05A28', '#1F2A33'];
+S.$('#ph').style.backgroundImage = S.ph('p72_dawn_street_closed');
+['#lit', '#cv'].forEach((s, i) => { const e = S.$(s); e.style.backgroundImage = S.ph(i ? 'p72_dawn_street_closed' : 'p72b_dawn_street_open'); e.style.backgroundSize = '1920px 1280px'; e.style.backgroundPosition = '-1237px -412px'; });
+E.svg('#w', 1920, 1280, '<circle id="dot" cx="1337" cy="680" r="18" fill="#F05A28"/>');
+const T = { dim: S.at('문'), dot: S.at('우리'), up: S.at('특징이'), on: S.at('특징이') + 0.75, sh: S.at('확인해') };
+S.ev(T.dim, 'no', 'dim'); S.ev(T.dot, 'marker', 'dot'); S.ev(T.up, 'shutter', 'cv'); S.ev(T.on, 'click', 'gl'); S.ev(T.sh, 'shine', 'gl');
+S.scene(tau => {
+  S.css('#w', { top: E.lin(tau, -0.2, S.SC.dur, -40, -150) + 'px' });
+  S.css('#dim', { opacity: S.EO(S.P(tau, T.dim, T.dim + 0.6)) });
+  const d = S.ent(tau, T.dot, 0.15) * (1 - S.P(tau, T.up + 0.2, T.up + 0.6));
+  S.$('#dot').style.opacity = d; S.$('#dot').style.transform = `scale(${0.5 + 0.5 * d})`; S.$('#dot').style.transformOrigin = '1337px 680px';
+  const k = S.EZ(S.P(tau, T.up, T.up + 1.0));
+  S.css('#cv', { clipPath: `inset(0 0 ${(k * 100).toFixed(2)}% 0)` });
+  S.$('#lip').style.opacity = k > 0.98 ? 0 : 0.8;
+  S.css('#gl', { opacity: (0.7 * S.EO(S.P(tau, T.on, T.on + 0.5)) + 0.3 * S.ent(tau, T.sh, 0.3)).toFixed(3) });
+});
+</script>
+</body></html>

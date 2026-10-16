@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s13 공고만이 아니라 가게 전체로 번지고 — 미니어처 상가 하이앵글, 왼쪽에서 오른쪽으로 색이 빠짐</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#ph{left:-30px;top:-160px;width:2100px;height:1400px}
+.lay{left:0;top:0;width:2100px;height:1400px;background-size:2100px 1400px;background-repeat:no-repeat}
+#gray{filter:grayscale(1) brightness(1.06) contrast(.88)}
+.cp{font-size:34px;padding:12px 26px}
+</style></head>
+<body><div id="stage">
+  <div id="ph" class="abs">
+    <div id="col" class="abs photo lay"></div>
+    <div id="gray" class="abs photo lay"></div>
+  </div>
+  <div id="k0" class="chip gr cp" data-box="k0" style="left:820px;top:470px">공고</div>
+  <div id="k1" class="chip gr cp" data-box="k1" style="left:480px;top:300px">메뉴판</div>
+  <div id="k2" class="chip gr cp" data-box="k2" style="left:1060px;top:215px">간판</div>
+  <div id="k3" class="chip gr cp" data-box="k3" style="left:1420px;top:560px">리뷰</div>
+</div>
+<script src="../data/s13.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#1F2A33', '#9AA0A6'];   // 사진(낮은 채도) + 회색 칩 = 다 똑같아지는 것
+const T = { ad: S.at('공고만이'), all: S.at('전체로'), spread: S.at('번지고'), has: S.at('있는') };
+for (const id of ['col', 'gray']) document.getElementById(id).style.backgroundImage = S.ph('p13_miniature_street');
+S.ev(T.ad, 'card_in', 'k0');
+S.ev(T.all, 'no', 'sweep');
+S.ev(T.spread, 'card_in', 'k2');
+S.scene(tau => {
+  const d = S.P(tau, -S.SC.pre, S.SC.dur);
+  S.css('#ph', { left: (-20 - 120 * S.EIO(d)) + 'px' });
+  // 회색 번짐: 마스크 가장자리가 0.8초에 걸쳐 왼→오 (경계 160px 부드럽게)
+  const e = S.lerp(-200, 2300, S.EIO(S.P(tau, T.all - 0.05, T.all + 0.85)));
+  const m = `linear-gradient(90deg,#000 ${e.toFixed(1)}px,transparent ${(e + 200).toFixed(1)}px)`;
+  S.css('#gray', { webkitMaskImage: m, maskImage: m });
+  const chips = [['k0', T.ad, 0.12], ['k1', T.all + 0.10, 0.12], ['k2', T.spread, 0.12], ['k3', T.has, 0.12]];
+  chips.forEach(([id, t, dd]) => { const k = S.ent(tau, t, dd); S.css('#' + id, { opacity: k, transform: `translateY(${((1 - k) * 14).toFixed(1)}px)` }); });
+});
+</script>
+</body></html>

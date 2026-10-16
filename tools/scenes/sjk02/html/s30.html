@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s30 B 가게는 딱 한 줄을 같이 넣었어요 — 초점이 뒤 솥으로 → 화구 극접사 + 다크 대화창</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#w1,#w2{left:0;top:0;width:1920px;height:1080px;transform-origin:50% 50%}
+.pl{left:0;top:0;width:1920px;height:1080px;transform:scale(1.04)}
+#cA,#cB{font-size:44px;padding:8px 26px}
+#cA{left:1230px;top:760px}
+#cB{left:640px;top:470px}
+#cLine{left:830px;top:232px}
+#glow{left:480px;top:422px;width:1240px;height:380px;background:radial-gradient(closest-side ellipse at 50% 50%,rgba(255,138,60,.9) 0%,rgba(240,90,40,.5) 45%,rgba(240,90,40,0) 100%);mix-blend-mode:screen;opacity:0}
+#dkw{left:1236px;top:110px;width:640px;height:600px;perspective:2000px}
+#dk{left:0;top:0;width:640px;height:600px;transform-origin:50% 55%}
+#dk .cv{display:flex;flex-direction:column;justify-content:flex-end;bottom:232px}
+#dk .ai,#dk .me{font-size:28px}
+#dk .in{font-size:27px}
+#dk .in.tall{height:208px;align-items:flex-start;border-radius:28px;padding:18px 26px}
+#dk .in .ph{font-size:26px}
+</style></head>
+<body><div id="stage">
+  <div id="w1" class="abs">
+    <div id="pB" class="photo pl"></div>
+    <div id="pA" class="photo pl"></div>
+    <div id="cB" class="chip or" data-box="cB">B</div>
+    <div id="cA" class="chip gr" data-box="cA">A</div>
+    <div id="cLine" class="chip or" data-box="cLine">한 줄</div>
+  </div>
+  <div id="w2" class="abs">
+    <div id="pF" class="photo pl" style="transform:none"></div>
+    <div id="glow" class="abs"></div>
+  </div>
+  <div id="dkw" class="abs" data-box="dkw"><div id="dk" class="dk">
+    <div class="tb"><span class="md"><i></i>AI</span><span class="tab">새 대화</span></div>
+    <div class="cv"><div class="col" id="col"></div></div>
+    <div class="in tall" id="inb"><span class="tx" id="inx"></span><span class="send" id="snd"></span></div>
+  </div></div>
+</div>
+<script src="../data/s30.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e3.js"></script>
+<script>
+window.PALETTE = ['#3A4E66', '#F05A28', '#E7EAEC'];   // 새벽 주방(청회색) · 주홍 한 줄 · 다크 대화창 글
+const CUT = 2.55;                                   // 뒤 솥 숏 → 화구 극접사 (장면 시작과 2.5초 이상 떨어뜨림)
+const T = {
+  focus: S.at('B 가게는'), line: S.at('한 줄을'), dk: S.at('우리는') - 0.2, tp: S.at('우리는'),
+  fire: S.at('불 올려서'), send: S.at('그랬더니'), rep: S.at('새벽', 1)
+};
+const P = [
+  { t: '우리는 새벽 5시에 불 올려서\n', c: 'or', t0: 3.049, t1: 4.631 },
+  { t: '점심 전에 딱 한 솥만 끓여.\n', c: 'or', t0: 4.751, t1: 6.251 },
+  { t: '이 말 꼭 넣어서\n', c: '', t0: 6.453, t1: 7.194 },
+  { t: '메뉴 설명 써 줘.', c: '', t0: 7.234, t1: 8.061 }
+];
+const R = [
+  { t: '새벽 5시에 불 올려서\n', c: 'or', t0: 9.857, t1: 11.159 },
+  { t: '점심 전에 딱 한 솥만 끓입니다', c: 'or', t0: 11.239, t1: 13.161 }
+];
+S.css('#pA', { backgroundImage: S.ph('p29_two_pots'), clipPath: 'polygon(819px 513px,950px 477px,1375px 465px,1750px 488px,1869px 550px,1875px 700px,1838px 850px,1825px 1180px,700px 1180px,700px 975px,863px 975px,900px 600px)' });
+S.css('#pB', { backgroundImage: S.ph('p29_two_pots') });
+S.css('#pF', { backgroundImage: S.ph('p30_burner_flame') });
+S.$('#snd').innerHTML = E3.SEND;
+S.focus([{ t0: T.rep + 0.25, t1: T.rep + 1.6, big: '새벽 5시', small: 'B 가게 한 줄', color: 'or' }]);
+S.ev(T.focus, 'in', 'pB'); S.ev(T.line, 'card_in', 'cLine'); S.ev(T.dk, 'in', 'dk'); S.ev(T.tp, 'type', 'inx');
+S.ev(T.fire, 'click', 'glow'); S.ev(T.send, 'msg_in', 'col');
+const PREV = '<div class="me"><div class="sk" style="width:190px;margin:4px 0"></div></div><div class="ai"><div class="av">AI</div><div class="tx">' + E3.sk([92, 64], 'gr') + '</div></div>';
+S.scene(tau => {
+  const first = tau < CUT;
+  S.css('#w1', { opacity: first ? 1 : 0, transform: `scale(${1 + 0.03 * S.P(tau, 0, CUT)})` });
+  S.css('#w2', { opacity: first ? 0 : 1 });
+  // ① 초점 옮기기: 앞 솥 흐려지고 뒤 솥 또렷
+  const f = S.EO(S.P(tau, T.focus, T.focus + 0.4));
+  S.css('#pA', { filter: `blur(${(8 * f).toFixed(2)}px) saturate(${(0.78 - 0.2 * f).toFixed(3)})` });
+  S.css('#pB', { filter: `blur(${(7 * (1 - f)).toFixed(2)}px) saturate(.78)` });
+  const lc = S.ent(tau, T.line, 0.12);
+  S.css('#cLine', { opacity: lc, transform: `translateY(${(1 - lc) * 14}px)` });
+  S.css('#cA', { filter: S.desat(f) });
+  // ② 화구 극접사: 오른쪽에 대화창 자리를 비우도록 사진을 왼쪽으로 밀어 둠 + 불 켜짐
+  const dr = S.P(tau, CUT, S.SC.dur);
+  S.css('#w2', { transform: `translateX(-336px) scale(${(1.35 + 0.03 * dr).toFixed(4)})` });
+  const fire = S.EO(S.P(tau, T.fire, T.fire + 0.55));
+  S.css('#glow', { opacity: 0.85 * fire });
+  S.css('#pF', { filter: `saturate(${(0.8 + 0.25 * fire).toFixed(3)}) brightness(${(0.9 + 0.2 * fire).toFixed(3)})` });
+  // 대화창(기울인 판 6°)
+  const k = S.ent(tau, T.dk, 0.12);
+  S.css('#dkw', { opacity: k * (first ? 0 : 1) });
+  S.css('#dk', { transform: `rotateX(${6 - 1.0 * S.P(tau, T.dk, S.SC.dur)}deg) rotateZ(2.5deg) translateY(${(1 - k) * -26}px)` });
+  const sent = tau >= T.send;
+  const ty = E3.typed(tau, P);
+  S.$('#inb').style.height = sent ? '62px' : '208px';
+  S.$('#inb').style.alignItems = sent ? 'center' : 'flex-start';
+  S.$('#dk').querySelector('.cv').style.bottom = sent ? '96px' : '232px';
+  S.$('#inx').innerHTML = sent ? '<span class="ph">메시지 보내기</span>' : (ty.started ? ty.html : '<span class="ph">메시지 보내기</span>');
+  let h = PREV;
+  if (sent) h += '<div class="me">' + E3.typed(99, P, false).html + '</div>';
+  if (tau >= R[0].t0) h += '<div class="ai"><div class="av">AI</div><div class="tx">' + E3.typed(tau, R).html + '</div></div>';
+  S.$('#col').innerHTML = h;
+});
+</script>
+</body></html>

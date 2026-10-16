@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s22 같은 AI, 갈린 두 가게 — 탁자 위 보고서 두 장 · 초점 옮기기(앞 → 뒤) · 앞 장 탈색</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#world{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+.ly{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background-size:100% 100%}
+/* 사진 1536×1024 → 1.25배. 보고서 앞 장·뒤 장 다각형(월드 좌표 = 사진 ×1.25, 위 100 잘림 보정은 .ly 안이라 사진 ×1.25) */
+#lbase{filter:blur(9px) saturate(.72) brightness(.94)}
+#lfront{clip-path:polygon(0px 862px,615px 675px,1206px 1027px,875px 1280px,450px 1280px);filter:saturate(.78) contrast(1.04)}
+#lback{clip-path:polygon(565px 556px,1062px 432px,1365px 577px,1262px 800px,1098px 852px);filter:saturate(.78) contrast(1.04)}
+#lfg{clip-path:polygon(0px 862px,615px 675px,1206px 1027px,875px 1280px,450px 1280px);filter:blur(9px) grayscale(1) brightness(1.04)}
+.tag{position:absolute;opacity:0}
+#cSales{left:380px;top:760px}
+#cAiF{left:690px;top:640px}
+#cAiB{left:1160px;top:440px}
+#cUp{left:1170px;top:610px}
+#cSame{left:890px;top:545px}
+#link{position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none}
+</style></head>
+<body><div id="stage">
+  <div id="world">
+    <div class="ly" id="lbase"></div>
+    <div class="ly" id="lfront"></div>
+    <div class="ly" id="lback"></div>
+    <div class="ly" id="lfg"></div>
+    <svg id="link" viewBox="0 0 1920 1080"><path id="lk" d="M745 672 L1170 478" fill="none" stroke="#1FA39A" stroke-width="6" stroke-linecap="round" stroke-dasharray="1000" stroke-dashoffset="1000"/></svg>
+    <div id="cSales" class="chip gr tag" data-box="cSales">매출 그대로</div>
+    <div id="cAiF" class="chip te tag" data-box="cAiF">AI</div>
+    <div id="cAiB" class="chip te tag" data-box="cAiB">AI</div>
+    <div id="cUp" class="chip or tag" data-box="cUp">손님 ↑</div>
+    <div id="cSame" class="chip ink tag" data-box="cSame">같은 AI</div>
+  </div>
+</div>
+<script src="../data/s22.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#1F2A33', '#1FA39A', '#F05A28'];
+const T = { first: S.at('반대로'), aiF: S.at('AI를'), aiB: S.at('손님이'), shift: S.at('늘어난'), same: S.at('같은', 0), tool: S.at('도구를'), why: S.at('갈렸을까요') };
+['lbase', 'lfront', 'lback', 'lfg'].forEach(id => { document.getElementById(id).style.backgroundImage = S.ph('p22_two_reports'); });
+S.ev(T.first + 0.1, 'card_in', 'cSales'); S.ev(T.aiF, 'msg_in', 'cAiF'); S.ev(T.aiB + 0.1, 'card_in', 'cAiB');
+S.ev(T.shift, 'in', 'focus'); S.ev(T.shift + 0.5, 'ok', 'cUp'); S.ev(T.tool, 'card_in', 'cSame'); S.ev(T.why, 'no', 'lfg');
+const LK = document.getElementById('lk'), LKL = LK.getTotalLength(); LK.style.strokeDasharray = LKL;
+const fade = (id, a, p) => S.css('#' + id, { opacity: a, transform: `translateY(${((1 - S.clamp(p)) * 14).toFixed(1)}px)` });
+S.scene(tau => {
+  // 느린 옆 흐름(오른쪽 → 왼쪽으로 아주 조금)
+  const d = S.P(tau, 0, S.SC.dur);
+  S.css('#world', { transform: `translate(${(-20 - 46 * d).toFixed(2)}px,0) scale(1.03)` });
+  // 초점 옮기기: 앞 장 선명 → 뒤 장 선명(0.4초)
+  const m = S.EZ(S.P(tau, T.shift - 0.05, T.shift + 0.35));
+  S.css('#lfront', { opacity: 1 - m });
+  S.css('#lback', { opacity: m });
+  // 앞 장 탈색(흐린 채) — 갈렸을까요
+  S.css('#lfg', { opacity: S.EO(S.P(tau, T.why, T.why + 0.5)) });
+  const pc = S.ent(tau, T.first + 0.1, 0.12), pa = S.ent(tau, T.aiF, 0.12), pb = S.ent(tau, T.aiB + 0.1, 0.12), pu = S.ent(tau, T.shift + 0.5, 0.12), ps = S.ent(tau, T.tool, 0.12);
+  fade('cSales', pc, pc); fade('cAiF', pa, pa); fade('cAiB', pb, pb); fade('cUp', pu, pu); fade('cSame', ps, ps);
+  LK.style.strokeDashoffset = LKL * (1 - S.EO(S.P(tau, T.tool - 0.05, T.tool + 0.3)));
+});
+</script>
+</body></html>

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s10 왜? 다들 같은 AI한테 비슷한 말로 시키거든요 — 어두운 모니터 벽 다크 대화창 9개 → 손님이 보는 가게 목록</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#bgw{left:-60px;top:0;width:2040px;height:1080px;background-size:cover;background-position:center}
+.it{position:absolute;left:0;top:0;width:540px;height:300px;transform-origin:0 0}
+.it .dk{left:0;top:0;width:540px;height:300px;transform-origin:0 0}
+.it .dk .tb{height:40px;padding:0 18px;font-size:22px}
+.it .dk .tb .md{font-size:22px}
+.it .dk .tb .tab{font-size:22px;padding:2px 12px}
+.it .dk .cv{top:40px;bottom:68px;padding:14px 0}
+.it .dk .col{width:92%;gap:12px}
+.it .dk .me{font-size:26px;padding:8px 18px;line-height:1.4}
+.it .dk .ai{font-size:22px;line-height:1.5;gap:12px}
+.it .dk .ai .av{width:34px;height:34px;font-size:18px}
+.it .dk .ai .tx{color:#9AA0A6}
+.it .dk .in{height:52px;bottom:10px;font-size:24px;padding:0 20px;border-radius:26px}
+.it .dk .in .send{width:34px;height:34px}
+.it .lr{position:absolute;left:0;top:0;width:1000px;height:92px;transform-origin:0 0;background:#fff;border-radius:12px;padding:12px 28px;box-shadow:0 14px 30px rgba(0,0,0,.35);font-family:"Pre"}
+.it .lr .n{font-size:28px;font-weight:800;color:#1F2A33}
+.it .lr .d{font-size:24px;color:#9AA0A6;margin-top:2px;white-space:nowrap}
+</style></head>
+<body><div id="stage">
+  <div id="bgw" class="abs tex-dark"></div>
+  <div id="list"></div>
+</div>
+<script src="../data/s10.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#14191E', '#E7EAEC', '#9AA0A6'];   // 어두운 책상 + 다크 창 → 같은 회색 글(다 같은 가게)
+const T = { why: S.at('왜'), same: S.at('같은'), send: S.at('시키거든요'), cust: S.at('손님'), shop: S.at('같은', 1) };
+const Q = '메뉴 설명 써 줘', DS = '진한 사골 육수에 푸짐한 고기를 담은 정성 가득한 한 그릇';
+const NAMES = ['○○국밥', '○○순대', '○○해장국', '○○설렁탕', '○○감자탕', '○○곰탕', '○○칼국수', '○○백반', '○○수육'];
+const SEND = '<svg viewBox="0 0 24 24" fill="none" stroke="#14191E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';
+const bg = document.getElementById('bgw'); bg.style.backgroundImage = 'url("../../../../소재/sjk02/codex/t_dark_desk.png")';
+const list = document.getElementById('list'), its = [];
+for (let i = 0; i < 9; i++) {
+  const it = document.createElement('div'); it.className = 'it';
+  it.innerHTML = `<div class="dk"><div class="tb"><span class="md"><i></i>AI</span><span class="tab">새 대화</span></div><div class="cv"><div class="col"><div class="me" style="display:none">${Q}</div><div class="ai" style="display:none"><div class="av">AI</div><div class="tx"></div></div></div></div><div class="in"><span class="tt"></span><span class="send">${SEND}</span></div></div>` +
+    `<div class="lr"><div class="n">${NAMES[i]}</div><div class="d">${DS}</div></div>`;
+  list.appendChild(it); its.push(it);
+}
+S.focus([{ t0: T.shop - 0.07, t1: T.shop + 0.85, big: '다 같은 가게', color: 'gr', size: 150 }]);
+S.ev(T.why, 'in', 'wins');
+S.ev(T.same, 'type', 'tt');
+S.ev(T.send, 'msg_in', 'send');
+S.ev(T.cust, 'sweep', 'list');
+const GX = i => 120 + (i % 3) * 570, GY = i => 22 + Math.floor(i / 3) * 318;
+const LX = 460, LY = i => 40 + i * 98;
+S.scene(tau => {
+  S.css('#bgw', { left: (-10 - 50 * S.EIO(S.P(tau, 0, S.SC.dur))) + 'px' });
+  const p = S.cam(tau, T.cust, T.cust + 0.5);
+  its.forEach((it, i) => {
+    const k = S.ent(tau, T.why + 0.04 * (i % 3) + 0.04 * Math.floor(i / 3), 0.12);
+    const x = S.lerp(GX(i), LX, p), y = S.lerp(GY(i), LY(i), p);
+    const w = S.lerp(540, 1000, p), h = S.lerp(300, 92, p);
+    const dk = it.querySelector('.dk'), lr = it.querySelector('.lr');
+    it.style.left = x + 'px'; it.style.top = (y + (1 - k) * 20) + 'px'; it.style.opacity = k;
+    const s = Math.min(w / 540, h / 300);
+    dk.style.transform = `scale(${s.toFixed(4)})`;
+    lr.style.transform = `scale(${(w / 1000).toFixed(4)},${(h / 92).toFixed(4)})`;
+    dk.style.opacity = 1 - S.clamp((p - 0.3) / 0.3); lr.style.opacity = S.clamp((p - 0.5) / 0.3);
+    const tt = it.querySelector('.tt'), me = it.querySelector('.me'), ai = it.querySelector('.ai'), tx = it.querySelector('.tx');
+    const sent = tau >= T.send;
+    if (!sent) S.type(tt, Q, tau, T.same, 13, true); else tt.textContent = '';
+    me.style.display = sent ? 'block' : 'none';
+    ai.style.display = tau >= T.send + 0.25 ? 'flex' : 'none';
+    S.type(tx, DS, tau, T.send + 0.25, 34, false);
+  });
+});
+</script>
+</body></html>

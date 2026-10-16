@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s19 갈리는 건 AI 말고 다른 것 — 스텐실 벽 끝 칸 클로즈업 · 빈 칸에 주홍 물음표</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#world{position:absolute;left:-60px;top:0;width:2040px;height:1080px;transform-origin:50% 50%}
+.tile{position:absolute;left:0;top:0;width:2040px;height:1080px;background-image:url("../../../../소재/sjk02/codex/t_concrete.png");background-size:cover;transform:scaleX(-1)}
+.st{position:absolute;width:520px;text-align:center;font-family:"Pre";font-weight:900;line-height:1;letter-spacing:-.04em;font-size:400px;white-space:nowrap;color:#9AA0A6;
+  -webkit-mask-image:linear-gradient(90deg,#000 0 48%,transparent 48% 50.5%,#000 50.5% 100%),linear-gradient(180deg,#000 0 52%,transparent 52% 55%,#000 55% 100%);
+  -webkit-mask-composite:source-in;mask-composite:intersect;filter:url(#rough)}
+#slot{position:absolute;left:1190px;top:230px;width:520px;height:520px;border:10px dashed #4E5760;border-radius:14px;opacity:0}
+#q{position:absolute;left:1370px;top:370px;width:200px;height:200px;border-radius:24px;background:#F05A28;color:#fff;font-family:"Pre";font-weight:900;font-size:150px;display:flex;align-items:center;justify-content:center;opacity:0;box-shadow:0 18px 40px rgba(240,90,40,.4)}
+</style></head>
+<body><div id="stage">
+  <svg width="0" height="0" style="position:absolute"><defs><filter id="rough" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="9"/></filter></defs></svg>
+  <div id="world">
+    <div class="tile"></div>
+    <div id="c1" class="st" style="left:-190px;top:140px">AI</div>
+    <div id="c2" class="st" style="left:360px;top:140px">AI</div>
+    <div id="slot"></div>
+    <div id="q" data-box="q">?</div>
+  </div>
+</div>
+<script src="../data/s19.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#1F2A33', '#F05A28'];
+const T = { gal: S.at('갈리는'), ai: S.at('AI'), mal: S.at('말고'), other: S.at('다른') };
+S.ev(T.gal, 'marker', 'slot'); S.ev(T.mal, 'no', 'c2'); S.ev(T.other, 'card_in', 'q');
+const slot = document.getElementById('slot');
+S.scene(tau => {
+  // 새 숏: 줄 끝 클로즈업, 아주 느린 옆 흐름
+  const d = S.P(tau, 0, S.SC.dur);
+  S.css('#world', { transform: `translateX(${(-40 * d).toFixed(2)}px) scale(1.03)` });
+  // 점선 테두리: 시계 방향으로 그려짐
+  const g = S.EO(S.P(tau, T.gal, T.gal + 0.7)) * 360;
+  slot.style.opacity = g > 0 ? 1 : 0;
+  const m = `conic-gradient(from 0deg at 50% 50%, #000 0deg, #000 ${g.toFixed(1)}deg, transparent ${g.toFixed(1)}deg)`;
+  slot.style.webkitMaskImage = m; slot.style.maskImage = m;
+  // 말고: 회색 AI 칸들이 옅어지며 왼쪽으로 물러남
+  const dim = S.EO(S.P(tau, T.mal, T.mal + 0.35));
+  ['c1', 'c2'].forEach((id, i) => S.css('#' + id, { opacity: 1 - 0.45 * dim, transform: `translateX(${(-50 * dim).toFixed(1)}px)` }));
+  const q = S.ent(tau, T.other, 0.12);
+  S.css('#q', { opacity: q, transform: `scale(${(0.7 + 0.3 * q).toFixed(3)})` });
+});
+</script>
+</body></html>

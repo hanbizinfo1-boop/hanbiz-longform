@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s01 요즘 상가 거리 한번 걸어 보세요 — 첫 5초: 셔터 슬랫 매크로 → 로우앵글 꺼진 간판 → 옆 트래킹 셔터 줄(탈색)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+.shot{left:0;top:0;width:1920px;height:1080px;overflow:hidden}
+#in{background-size:3430px auto;background-repeat:no-repeat;background-position:-736px -690px;filter:brightness(.7) saturate(.8)}
+#cur{left:0;top:-100px;width:1920px;height:1138px;background-size:1920px 1280px;background-repeat:no-repeat;background-position:0 0;box-shadow:0 34px 60px rgba(0,0,0,.65);filter:saturate(.85) contrast(1.03)}
+#flr{left:0;top:1037px;width:1920px;height:143px;background-size:1920px 1280px;background-repeat:no-repeat;background-position:0 -1137px;filter:saturate(.8)}
+#p2{left:-60px;top:-100px;width:2040px;height:1360px;background-size:2040px 1360px;background-repeat:no-repeat;filter:saturate(.8) contrast(1.04)}
+#sg{left:-60px;top:-100px;width:2040px;height:1360px}
+#w3{left:-20px;top:-160px;width:2100px;height:1400px}
+.st{position:absolute;top:0;height:1400px;overflow:hidden}
+.st .im{position:absolute;top:0;width:2100px;height:1400px;background-size:2100px 1400px;background-repeat:no-repeat}
+.st .gy{filter:grayscale(1) brightness(1.04) contrast(.9)}
+#lbl{left:90px;top:840px;font-size:38px;padding:14px 28px}
+</style></head>
+<body><div id="stage">
+  <div id="s1" class="abs shot">
+    <div id="in" class="abs shot"></div>
+    <div id="flr" class="abs"></div>
+    <div id="cur" class="abs"></div>
+  </div>
+  <div id="s2" class="abs shot">
+    <div id="p2" class="abs"></div>
+    <svg id="sg" class="abs" viewBox="0 0 2040 1360"><polygon id="pg" points="" fill="none" stroke="#F3F1EA" stroke-width="7" stroke-linejoin="round" stroke-linecap="round" pathLength="1"/></svg>
+  </div>
+  <div id="s3" class="abs shot">
+    <div id="w3" class="abs"></div>
+    <div id="lbl" class="chip gr" data-box="lbl">문 닫은 가게</div>
+  </div>
+</div>
+<script src="../data/s01.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#1F2A33', '#9AA0A6'];   // 흐린 낮 사진(낮은 채도) + 회색 = 문 닫은 가게
+const T = { walk: S.at('걸어'), sign: S.at('간판은'), same: S.at('그대로'), door: S.at('문', 0), many: S.at('많잖아요') };
+// 로우앵글 간판 앞면 네 점(사진 1536x1024 → 2040x1360 래퍼, 배율 1.328)
+const K2 = 2040 / 1536, Q = [[455, 585], [1105, 12], [1255, 362], [420, 822]].map(([x, y]) => (x * K2).toFixed(0) + ',' + (y * K2).toFixed(0)).join(' ');
+const pg = document.getElementById('pg'); pg.setAttribute('points', Q); pg.style.strokeDasharray = '1 1';
+document.getElementById('in').style.backgroundImage = S.ph('p06_shop_front');
+document.getElementById('cur').style.backgroundImage = S.ph('p01_shutter_macro');
+document.getElementById('flr').style.backgroundImage = S.ph('p01_shutter_macro');
+document.getElementById('p2').style.backgroundImage = S.ph('p02_sign_lowangle');
+// 셋째 숏: 같은 사진 5개 띠(420px) — 띠마다 색 / 회색 두 겹
+const w3 = document.getElementById('w3'), strips = [];
+for (let i = 0; i < 5; i++) {
+  const st = document.createElement('div'); st.className = 'st'; st.style.left = (i * 420) + 'px'; st.style.width = '420px';
+  st.innerHTML = '<div class="im"></div><div class="im gy"></div>';
+  st.querySelectorAll('.im').forEach(im => { im.style.left = (-i * 420) + 'px'; im.style.backgroundImage = S.ph('p03_shutter_row'); });
+  w3.appendChild(st); strips.push(st.querySelector('.gy'));
+}
+S.ev(0.25, 'shutter', 'cur');
+S.ev(T.same, 'marker', 'pg');
+S.ev(T.door + 0.1, 'no', 'strips');
+S.ev(T.many, 'card_in', 'lbl');
+S.scene(tau => {
+  const a = tau < T.sign, b = tau >= T.sign && tau < T.door, c = tau >= T.door;
+  S.css('#s1', { display: a ? 'block' : 'none' }); S.css('#s2', { display: b ? 'block' : 'none' }); S.css('#s3', { display: c ? 'block' : 'none' });
+  // ① 셔터가 «걸어» 에 탁 내려와 닫힘(0.28초)
+  const d = S.EIO(S.P(tau, 0.25, T.walk));
+  S.css('#cur', { transform: `translateY(${(-520 * (1 - d)).toFixed(1)}px)` });
+  S.css('#in', { filter: `brightness(${(0.7 - 0.45 * d).toFixed(3)}) saturate(.8)` });
+  S.css('#s1', { transform: `scale(${(1 + 0.04 * S.P(tau, T.walk, T.sign)).toFixed(4)})` });
+  // ② 간판 둘레 선이 그려짐
+  pg.style.strokeDashoffset = (1 - S.EO(S.P(tau, T.same, T.same + 0.55))).toFixed(4);
+  S.css('#p2', { left: (-30 - 30 * S.P(tau, T.sign, T.door)) + 'px' });
+  // ③ 옆 트래킹(오른→왼) + 띠 5개 차례로 탈색
+  S.css('#w3', { left: (-20 - 160 * S.EIO(S.P(tau, T.door, S.SC.dur + S.SC.post))) + 'px' });
+  strips.forEach((g, i) => { g.style.opacity = S.EO(S.P(tau, T.door + 0.1 + 0.25 * i, T.door + 0.1 + 0.25 * i + 0.3)); });
+  const k = S.ent(tau, T.many, 0.12);
+  S.css('#lbl', { opacity: k, transform: `translateY(${((1 - k) * 14).toFixed(1)}px)` });
+});
+</script>
+</body></html>

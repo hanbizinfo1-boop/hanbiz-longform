@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s29 국밥집 두 군데 — A 가게는 그냥 시켰어요 (앞 솥 선명 · 뒤 솥 흐림 초점 옮기기)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#world{left:0;top:0;width:1920px;height:1080px;transform-origin:50% 50%}
+.pl{left:0;top:0;width:1920px;height:1080px;transform:scale(1.04)}
+#cA,#cB{font-size:44px;padding:8px 26px}
+#cA{left:1230px;top:760px}
+#cB{left:640px;top:470px}
+#cAI{left:690px;top:176px}
+#dkw{left:1090px;top:36px;width:790px;height:390px;perspective:2000px}
+#dk{left:0;top:0;width:790px;height:390px;transform-origin:50% 55%}
+#dk .ai,#dk .me{font-size:30px}
+#dk .in{font-size:28px}
+#dk .in .ph{font-size:26px}
+#dk .cv{display:flex;flex-direction:column;justify-content:flex-end}
+</style></head>
+<body><div id="stage">
+  <div id="world" class="abs">
+    <div id="pB" class="photo pl"></div>
+    <div id="pA" class="photo pl"></div>
+    <div id="cB" class="chip gr" data-box="cB">B</div>
+    <div id="cA" class="chip gr" data-box="cA">A</div>
+  </div>
+  <div id="cAI" class="chip te" data-box="cAI">AI</div>
+  <div id="dkw" class="abs" data-box="dkw"><div id="dk" class="dk">
+    <div class="tb"><span class="md"><i></i>AI</span><span class="tab">새 대화</span></div>
+    <div class="cv"><div class="col" id="col"></div></div>
+    <div class="in" id="inb"><span class="tx" id="inx"></span><span class="send" id="snd"></span></div>
+  </div></div>
+</div>
+<script src="../data/s29.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e3.js"></script>
+<script>
+window.PALETTE = ['#3A4E66', '#E7EAEC', '#1FA39A'];   // 새벽 주방(청회색) · 다크 대화창 글 · 청록 AI
+const T = {
+  two: S.at('두 군데'), ai: S.at('AI한테'), dk: S.at('시켰어요'), tp: S.at('메뉴 설명 써 줘'),
+  send: S.at('올렸어요'), rep: S.at('진한'), out: S.at('정성 가득한', 0) + 0.7
+};
+const REPLY = '진한 사골 육수에 푸짐한 고기를 담은 정성 가득한 한 그릇';
+S.css('#pA', { backgroundImage: S.ph('p29_two_pots'), clipPath: 'polygon(819px 513px,950px 477px,1375px 465px,1750px 488px,1869px 550px,1875px 700px,1838px 850px,1825px 1180px,700px 1180px,700px 975px,863px 975px,900px 600px)' });
+S.css('#pB', { backgroundImage: S.ph('p29_two_pots') });
+S.$('#snd').innerHTML = E3.SEND;
+S.ev(T.two, 'card_in', 'cA'); S.ev(T.ai, 'msg_in', 'cAI'); S.ev(T.dk, 'in', 'dk'); S.ev(T.tp, 'type', 'inx');
+S.ev(T.send, 'msg_in', 'col'); S.ev(T.out, 'no', 'pA');
+const PREV = '<div class="me"><div class="sk" style="width:190px;margin:4px 0"></div></div><div class="ai"><div class="av">AI</div><div class="tx">' + E3.sk([92, 64], 'gr') + '</div></div>';
+S.scene(tau => {
+  // 바탕 아주 느린 흐름
+  const dr = S.P(tau, 0, S.SC.dur);
+  S.css('#world', { transform: `scale(${1 + 0.05 * dr}) translateX(${(-14 * dr).toFixed(2)}px)` });
+  // 탈색(앞 솥·대화창 둘 다)
+  const g = S.EO(S.P(tau, T.out - 0.1, T.out + 0.35));
+  S.css('#pA', { filter: `blur(0px) ${S.desat(g)}` });
+  S.css('#pB', { filter: 'blur(7px) saturate(.78)' });
+  // 라벨 A·B
+  const l = S.ent(tau, T.two, 0.12), l2 = S.ent(tau, T.two + 0.14, 0.12);
+  S.css('#cA', { opacity: l, transform: `translateY(${(1 - l) * 14}px)`, filter: S.desat(g) });
+  S.css('#cB', { opacity: l2, transform: `translateY(${(1 - l2) * 14}px)` });
+  // AI 칩: «AI한테» 에 들어와 대화창이 열리면 물러남
+  const a = S.ent(tau, T.ai, 0.12), ao = 1 - S.P(tau, T.dk - 0.1, T.dk + 0.2);
+  S.css('#cAI', { opacity: a * ao, transform: `translateY(${(1 - a) * 14}px)` });
+  // 대화창(기울인 판 7°)
+  const k = S.ent(tau, T.dk, 0.12);
+  S.css('#dkw', { opacity: k });
+  S.css('#dk', { transform: `rotateX(${7 - 1.2 * S.P(tau, T.dk, S.SC.dur)}deg) rotateZ(-3deg) translateY(${(1 - k) * -26}px)`, filter: S.desat(g) });
+  // 입력창 타자 → 보내기 → 답
+  const sent = tau >= T.send;
+  const ty = E3.typed(tau, [{ t: '메뉴 설명 써 줘', t0: T.tp, t1: T.tp + 0.9 }]);
+  S.$('#inx').innerHTML = sent ? '<span class="ph">메시지 보내기</span>' : (ty.started ? ty.html : '<span class="ph">메시지 보내기</span>');
+  let h = sent ? '' : PREV;
+  if (sent) h += '<div class="me">메뉴 설명 써 줘</div>';
+  if (tau >= T.rep) {
+    const r = E3.typed(tau, [{ t: REPLY, t0: T.rep, t1: 12.95 }]);
+    h += '<div class="ai"><div class="av">AI</div><div class="tx">' + r.html + '</div></div>';
+  }
+  S.$('#col').innerHTML = h;
+});
+</script>
+</body></html>

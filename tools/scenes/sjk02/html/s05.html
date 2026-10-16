@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s05 할 일은 줄었는데 손님은 그대로 — 콘크리트 위 기울인 판 하나(본보기)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+/* 2편 본보기: 반반 분할 대신 «한 판 안 두 선» · 기울인 판(원근 8°) · 청록 = AI 가 줄여 준 일, 회색 = 그대로인 손님, 주홍 = 물음표 하나 */
+#wrap{left:0;top:0;width:1920px;height:1080px;perspective:2200px}
+#slab{left:330px;top:150px;width:1260px;height:640px;background:#F7F8F7;transform-origin:50% 60%}
+#slab .hd{position:absolute;left:44px;top:30px;font-size:26px;font-weight:800;color:#1F2A33;display:flex;gap:22px;align-items:center}
+#slab .hd span{font-weight:600;font-size:22px;letter-spacing:.12em;color:#7A838A}
+#ch{position:absolute;left:44px;top:96px;width:1172px;height:500px}
+.xl{position:absolute;top:552px;font-size:22px;font-weight:600;color:#7A838A;letter-spacing:.1em}
+#cTodo{left:1040px;top:404px}
+#cCust{left:1040px;top:262px}
+#q{left:1650px;top:330px;width:96px;height:96px;border-radius:50%;background:var(--or);color:#fff;display:flex;align-items:center;justify-content:center;font-size:62px;font-weight:900;box-shadow:0 14px 30px rgba(240,90,40,.35)}
+</style></head>
+<body><div id="stage">
+  <div class="bg tex-conc"></div>
+  <div id="wrap" class="abs">
+    <div id="slab" class="slab" data-box="slab" data-box-group="slab">
+      <div class="hd">우리 가게 <span>최근 4주</span></div>
+      <svg id="ch" viewBox="0 0 1172 500">
+        <g stroke="#E3E6E8" stroke-width="2">
+          <line x1="0" y1="80" x2="1172" y2="80"/><line x1="0" y1="200" x2="1172" y2="200"/>
+          <line x1="0" y1="320" x2="1172" y2="320"/><line x1="0" y1="440" x2="1172" y2="440"/>
+        </g>
+        <!-- 할 일(청록): 높게 시작해 뚝 떨어짐 -->
+        <path id="lTodo" d="M40 110 L340 118 L640 340 L1000 392" fill="none" stroke="#1F2A33" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- 손님(회색): 평평 -->
+        <path id="lCust" d="M40 250 L340 248 L640 252 L1000 250" fill="none" stroke="#9AA0A6" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="xl" style="left:76px">1주</div><div class="xl" style="left:376px">2주</div><div class="xl" style="left:676px">3주</div><div class="xl" style="left:1030px">4주</div>
+      <div id="cTodo" class="chip ink" data-box="cTodo" data-box-group="slab">할 일 ↓</div>
+      <div id="cCust" class="chip gr" data-box="cCust" data-box-group="slab">손님 →</div>
+    </div>
+    <div id="q" class="abs" data-box="q">?</div>
+  </div>
+</div>
+<script src="../data/s05.js"></script>
+<script src="../lib/sjk.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#1F2A33', '#F05A28'];   // 바탕·글(할 일 선도 글색) + 주홍 물음표 하나 — 손님 선은 회색(바탕 계열)
+const T = { work: S.at('일은'), down: S.at('줄었어요'), cust: S.at('손님은'), q: S.at('안') };
+const L1 = document.getElementById('lTodo'), L2 = document.getElementById('lCust');
+const len1 = L1.getTotalLength(), len2 = L2.getTotalLength();
+L1.style.strokeDasharray = len1; L2.style.strokeDasharray = len2;
+S.ev(-0.05, 'in', 'slab'); S.ev(T.down - 0.1, 'gauge', 'lTodo'); S.ev(T.down + 0.5, 'card_in', 'cTodo');
+S.ev(T.cust, 'marker', 'lCust'); S.ev(T.q, 'card_in', 'q');
+S.scene(tau => {
+  // 판: 기울인 채 들어옴(원근 8° → 6°, 아주 느린 흐름은 바탕 역할)
+  const k = S.ent(tau, -0.15, 0.12), drift = S.P(tau, 0, S.SC.dur);
+  S.css('#slab', { opacity: k, transform: `rotateX(${12 - 2 * drift}deg) rotateZ(${-3 + 0.6 * drift}deg) translateY(${(1 - k) * 30}px)` });
+  // 할 일 선: «일은» 에 앞 절반(높은 곳) → «줄었어요» 에 떨어지는 뒤 절반
+  const p1 = 0.38 * S.EO(S.P(tau, T.work - 0.05, T.work + 0.3)) + 0.62 * S.EO(S.P(tau, T.down - 0.1, T.down + 0.35));
+  L1.style.strokeDashoffset = len1 * (1 - p1);
+  S.css('#cTodo', { opacity: S.ent(tau, T.down + 0.5, 0.12), transform: `translateY(${(1 - S.ent(tau, T.down + 0.5, 0.12)) * 16}px)` });
+  // 손님 선: 평평하게 그어짐
+  L2.style.strokeDashoffset = len2 * (1 - S.EO(S.P(tau, T.cust, T.cust + 0.45)));
+  S.css('#cCust', { opacity: S.ent(tau, T.cust + 0.45, 0.12) });
+  // 물음표(주홍 하나)
+  const qk = S.ent(tau, T.q, 0.12);
+  S.css('#q', { opacity: qk, transform: `scale(${0.8 + 0.2 * qk})` });
+});
+</script>
+</body></html>

@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s41 그 한 줄이 번졌다 — 회색 리뷰 격자 위로 주홍 한 줄, 다섯 장이 색을 얻음</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+/* 갤러리 벽 정면 대칭 격자 3×3(처음 전부 회색) — 위 주홍 띠의 한 줄이 메뉴·소식 칩으로 복사되고, «기름이 덜해서 좋다» 리뷰 다섯 장이 한 장씩 색을 얻는다 */
+#band{left:440px;top:62px;font-size:46px;padding:14px 30px;border-radius:14px}
+#cm{left:1236px;top:72px;font-size:30px} #cs{left:1470px;top:72px;font-size:30px}
+#ai{left:286px;top:72px;font-size:30px}
+.cl{position:absolute;font-family:"Pre";font-weight:700;font-size:26px;color:#fff;background:#F05A28;padding:8px 16px;border-radius:10px;white-space:nowrap;box-shadow:0 8px 18px rgba(20,25,30,.25)}
+.cd{width:520px;height:216px}
+.cd .rt{display:flex;align-items:center;gap:14px;padding:18px 24px 6px}
+.cd .rt .st{font-size:26px}
+.cd .rt .dt{margin-left:auto;font-size:22px;color:#8A9299;font-weight:600}
+.cd .bx{position:relative;margin:6px 24px 0;height:104px}
+.cd .br{position:absolute;left:0;height:20px;border-radius:10px;background:#DCE0E3}
+.cd .tt{position:absolute;left:0;top:-2px;font-size:32px;font-weight:800;color:#F05A28;white-space:nowrap}
+.cd .hd2{position:absolute;left:0;top:50px;font-family:"Hand";font-weight:700;font-size:40px;color:#F05A28;white-space:nowrap}
+</style></head>
+<body><div id="stage">
+  <div class="bg tex-wall"></div>
+  <div id="band" class="chip or" data-box="band">기름을 한 번 더 걷어 냅니다</div>
+  <div id="ai" class="chip te" data-box="ai">AI</div>
+  <div id="cm" class="chip gr" data-box="cm"><span id="cmt">메뉴 설명</span></div>
+  <div id="cs" class="chip gr" data-box="cs"><span id="cst">소식 글</span></div>
+  <div id="cl1" class="cl">한 번 더 걷어 냅니다</div><div id="cl2" class="cl">한 번 더 걷어 냅니다</div>
+  <div id="grid"></div>
+</div>
+<script src="../data/s41.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#D9DBD6', '#1F2A33', '#F05A28'];
+const T = { menu: S.at('메뉴 설명'), news: S.at('소식 글'), ai: S.at('AI한테'), rv: S.at('그랬더니'), oil: S.at('기름이 덜해서'), up: S.at('눈에 띄게'), cust: S.at('손님이 대표님'), copy: S.at('따라 쓰기') };
+const PAINT = [1, 3, 4, 5, 7], HAND = [3, 4, 5];
+const COLX = [150, 700, 1250], ROWY = [226, 466, 706];
+let html = '';
+for (let i = 0; i < 9; i++) {
+  html += `<div id="cd${i}" class="app cd" data-box="cd${i}" style="left:${COLX[i % 3]}px;top:${ROWY[Math.floor(i / 3)]}px">` +
+    `<div class="rt"><div class="av">손</div><div class="st">★★★★★</div><div class="dt">리뷰</div></div>` +
+    `<div class="bx"><div id="b1_${i}" class="br" style="top:8px;width:92%"></div><div id="b2_${i}" class="br" style="top:46px;width:64%"></div>` +
+    `<div id="tt${i}" class="tt"></div><div id="hd${i}" class="hd2"></div></div></div>`;
+}
+S.$('#grid').innerHTML = html;
+const OILT = '기름이 덜해서 좋다', HANDT = '한 번 더 걷어 냅니다';
+const PT = i => T.oil + 0.2 * PAINT.indexOf(i), HT = i => 8.5 + 0.2 * HAND.indexOf(i);
+S.ev(0.02, 'in', 'band'); S.ev(0.3, 'sweep', 'grid'); S.ev(T.menu, 'card_in', 'cm'); S.ev(T.news, 'msg_in', 'cs'); S.ev(T.ai, 'card_in', 'ai');
+S.ev(3.9, 'shine', 'band'); S.ev(T.oil, 'marker', 'cd1'); S.ev(8.5, 'card_in', 'hd3'); S.ev(T.copy, 'shine', 'cd1');
+function mixc(a, b, k) { return `rgb(${a.map((v, i) => Math.round(v + (b[i] - v) * k)).join(',')})`; }
+const GREY = [228, 230, 227], ORG = [240, 90, 40], GT = [93, 100, 107];
+function fly(id, tau, t0, tx, ty) {
+  const el = S.$(id), k = S.EO(S.P(tau, t0, t0 + 0.4)), x = S.lerp(560, tx, k), y = S.lerp(70, ty, k);
+  el.style.opacity = tau >= t0 && tau < t0 + 0.42 ? 1 : 0;
+  el.style.left = x + 'px'; el.style.top = y + 'px'; el.style.transform = `scale(${S.lerp(1.15, 0.9, k).toFixed(3)})`;
+  return k;
+}
+S.scene(tau => {
+  E.pop('#band', tau, 0.0, { dy: -18 });
+  // 격자: 왼위부터 대각 순서로 0.05초 간격
+  for (let i = 0; i < 9; i++) {
+    const r = Math.floor(i / 3), c = i % 3, st = 0.05 * (r + c) + 0.12;
+    const k = S.ent(tau, st, 0.14);
+    const el = S.$('#cd' + i);
+    el.style.opacity = k;
+    const col = PAINT.includes(i) ? 1 - S.EO(S.P(tau, PT(i), PT(i) + 0.4)) : 1;
+    el.style.filter = S.desat(col);
+    el.style.transform = `translateY(${((1 - k) * 22).toFixed(1)}px)`;
+    // 리뷰 글: 칠해짐
+    if (PAINT.includes(i)) {
+      const t0 = PT(i), tt = S.$('#tt' + i);
+      tt.textContent = OILT; E.wipe(tt, tau, t0, 0.35);
+      S.$('#b1_' + i).style.opacity = tau >= t0 ? 0 : 1;
+    }
+    if (HAND.includes(i)) {
+      const hd = S.$('#hd' + i); hd.textContent = HANDT; E.wipe(hd, tau, HT(i), 0.35);
+      S.$('#b2_' + i).style.opacity = tau >= HT(i) ? 0 : 1;
+    }
+    // 반짝 테두리: 칠해진 카드만
+    if (PAINT.includes(i)) {
+      const kk = S.EO(S.P(tau, T.copy, T.copy + 0.25));
+      el.style.boxShadow = `0 0 0 ${(kk * 6).toFixed(1)}px rgba(240,90,40,${(0.85 * kk).toFixed(2)}),0 26px 54px rgba(20,25,30,.30)`;
+    }
+  }
+  // 칩: 메뉴·소식 — 띠의 글이 날아와 주홍으로
+  E.pop('#cm', tau, T.menu, { dy: 8 }); E.pop('#cs', tau, T.news, { dy: 8 }); E.pop('#ai', tau, T.ai, { dy: 8 });
+  const k1 = fly('#cl1', tau, T.menu + 0.12, 1250, 76), k2 = fly('#cl2', tau, T.news + 0.12, 1480, 76);
+  [['#cm', '#cmt', k1], ['#cs', '#cst', k2]].forEach(([a, , k]) => { S.$(a).style.background = mixc(GREY, ORG, k); S.$(a).style.color = mixc(GT, [255, 255, 255], k); });
+  E.ring('#band', tau, 3.9);
+});
+</script>
+</body></html>
