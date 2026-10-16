@@ -14,12 +14,19 @@
       "PowerShell(powershell -NoProfile -ExecutionPolicy Bypass -File \"C:/Users/user/.claude/scripts/codex-run.ps1\" *)",
       "PowerShell(Start-Process explorer.exe *)",
       "PowerShell(powercfg *)"
+    ],
+    "deny": [
+      "mcp__claude_ai_Kling",
+      "Bash(git push --force:*)",
+      "Bash(git push -f:*)",
+      "PowerShell(git push --force:*)",
+      "PowerShell(git push -f:*)"
     ]
   },
   "hooks": {
     "SessionStart": [
       {
-        "matcher": "compact|resume",
+        "matcher": "startup|compact|resume",
         "hooks": [
           {
             "type": "command",
