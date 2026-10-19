@@ -9,14 +9,17 @@
   -webkit-mask-composite:source-in;mask-composite:intersect;filter:url(#rough)}
 .w{width:520px;font-size:260px;top:330px}
 .n{width:140px;font-size:96px;top:660px}
-.ai{width:200px;font-size:84px;top:170px;color:#1FA39A}
+.ai{top:262px;opacity:0;font-size:44px;padding:8px 26px}
+.cd{position:absolute;top:62px;width:160px;height:160px;border-radius:22px;background:#fff;display:flex;align-items:center;justify-content:center;opacity:0;box-shadow:0 26px 48px rgba(10,14,18,.5),0 4px 10px rgba(10,14,18,.35)}
+.cd .tl{width:112px;height:112px;border-radius:18px;display:flex;align-items:center;justify-content:center}
+.cd svg{width:68px;height:68px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .bar{position:absolute;height:22px;border-radius:4px;width:440px;opacity:0}
 </style></head>
 <body><div id="stage">
   <svg width="0" height="0" style="position:absolute"><defs><filter id="rough" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="11" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="6"/></filter></defs></svg>
   <div class="bg tex-conc"></div>
   <div id="world">
-    <div class="st ai" id="a0" style="left:300px">AI</div><div class="st ai" id="a1" style="left:760px">AI</div><div class="st ai" id="a2" style="left:1220px">AI</div>
+    <div class="cd" id="k0" style="left:320px"><span class="tl" style="background:#1FA39A"><svg viewBox="0 0 24 24"><path d="M5 3h9l5 5v13H5z"/><path d="M14 3v5h5"/><path d="M8 17l5-6 2 2-5 6-3 1z"/></svg></span></div><div class="cd" id="k1" style="left:880px"><span class="tl" style="background:#E8A317"><svg viewBox="0 0 24 24"><path d="M5 3h14v18l-3-2-2 2-2-2-2 2-2-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg></span></div><div class="cd" id="k2" style="left:1440px"><span class="tl" style="background:#2F6FE4"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg></span></div><div class="chip te ai" id="a0" style="left:348px">AI</div><div class="chip te ai" id="a1" style="left:908px">AI</div><div class="chip te ai" id="a2" style="left:1468px">AI</div>
     <div class="st w" id="w0" style="left:140px">글</div>
     <div class="st w" id="w1" style="left:700px">숫자</div>
     <div class="st w" id="w2" style="left:1260px">시간</div>
@@ -32,7 +35,7 @@ window.PALETTE = ['#D9DBD6', '#1F2A33', '#9AA0A6', '#F05A28'];
 const T = { geul: S.at('글,'), num: S.at('숫자'), time: S.at('시간'), same: S.at('똑같이'), ai: S.at('AI를'), three: S.at('세 개를'), how: S.at('어떻게'), use: S.at('쓰느냐에'), split: S.at('갈려요') };
 S.ev(T.geul, 'marker', 'w0'); S.ev(T.num, 'card_in', 'w1'); S.ev(T.time, 'marker', 'w2');
 S.ev(T.same, 'no', 'words'); S.ev(T.ai, 'card_in', 'ai'); S.ev(T.three, 'marker', 'nums'); S.ev(T.use, 'card_in', 'bars'); S.ev(T.split, 'sweep', 'split');
-const GR = [112, 121, 129], INK = [31, 42, 51];
+const GR = [31, 42, 51], INK = [31, 42, 51];
 const mix = (a, b, k) => a.map((v, i) => Math.round(S.lerp(v, b[i], k)));
 const spray = (id, a, col) => S.css('#' + id, { opacity: a > 0 ? 0.96 : 0, clipPath: `inset(-6% ${((1 - a) * 100).toFixed(1)}% -6% 0)`, color: col });
 S.scene(tau => {
@@ -46,7 +49,8 @@ S.scene(tau => {
   // 번호 1 2 3 (단어 뒤따라)
   [['n0', T.geul], ['n1', T.num], ['n2', T.time]].forEach(([id, t0]) => spray(id, S.ent(tau, t0 + 0.28, 0.12), col));
   // 똑같이 AI를 — 단어 위에 청록 AI 가 하나씩
-  ['a0', 'a1', 'a2'].forEach((id, i) => spray(id, S.ent(tau, T.ai + i * 0.14, 0.12), '#1FA39A'));
+  ['a0', 'a1', 'a2'].forEach((id, i) => { const k = S.ent(tau, T.ai + i * 0.14, 0.12); S.css('#'+id, { opacity: k, transform: `translateY(${((1 - k) * 14).toFixed(1)}px)` }); });
+  [[0, T.geul], [1, T.num], [2, T.time]].forEach(([i, t0]) => { const k = S.ent(tau, t0 + 0.1, 0.12); S.css('#k' + i, { opacity: k, transform: `translateY(${((1 - k) * 16).toFixed(1)}px)` }); S.$('#k' + i + ' .tl').style.filter = `grayscale(${(0.85 * gray).toFixed(2)})`; });
   // 이 세 개를 — 번호가 한 번 칠해져 진해짐(진하기만 — 크기 변화 없음)
   const sh = S.EO(S.P(tau, T.three, T.three + 0.2)) * (1 - S.P(tau, T.three + 0.5, T.three + 0.8));
   ['n0', 'n1', 'n2'].forEach(id => { document.getElementById(id).style.filter = `url(#rough) drop-shadow(0 0 ${(14 * sh).toFixed(1)}px rgba(31,163,154,${(0.9 * sh).toFixed(2)}))`; });

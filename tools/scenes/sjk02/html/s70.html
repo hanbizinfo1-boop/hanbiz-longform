@@ -6,9 +6,9 @@
 #w{left:-100px;top:-300px;width:2400px;height:1600px}
 #ph,#phc{left:0;top:0;width:2400px;height:1600px}
 #phc{clip-path:inset(359px 314px 444px 1383px);opacity:0}
-#lab{left:70px;top:142px;opacity:0}
+#lab{left:60px;top:150px;opacity:0;font-size:36px;padding:12px 26px}
 .ck{opacity:0}
-#tl{left:70px;top:128px;width:640px;height:6px;border-radius:3px;background:#1FA39A;opacity:0}
+#tl{left:60px;top:136px;width:640px;height:6px;border-radius:3px;background:#1FA39A;opacity:0}
 #big{left:110px;top:610px;opacity:0;font-size:200px;line-height:1;color:#fff;background:#F05A28;padding:20px 44px 28px;border-radius:14px;white-space:nowrap;box-shadow:0 20px 50px rgba(20,25,30,.4)}
 </style></head>
 <body><div id="stage">
@@ -28,7 +28,7 @@ window.PALETTE = ['#D9DBD6', '#1FA39A', '#F05A28'];
 S.$('#ph').style.backgroundImage = S.ph('p03_shutter_row');
 S.$('#phc').style.backgroundImage = S.ph('p03_shutter_row');
 const CH = [];
-for (let i = 0; i < 6; i++) CH.push(E.mk('#stage', 'chip te ck', 'AI', `left:${70 + i * 108}px;top:64px`));
+for (let i = 0; i < 6; i++) CH.push(E.mk('#stage', 'chip te ck', 'AI', `left:${60 + i * 124}px;top:60px;font-size:32px`));
 E.svg('#w', 2400, 1600, '<rect id="oln" x="1383" y="359" width="703" height="797" rx="18" fill="none" stroke="#F05A28" stroke-width="8" stroke-dasharray="18 14"/>');
 const oln = S.$('#oln');
 const T = { ai: S.at('AI는'), row: S.at('누구나'), lab: S.at('도구예요'), tl: S.at('AI만으로는'), gr: S.at('차이가'), oln: S.at('차이는'), big: S.at('대표님한테서') };
@@ -41,18 +41,16 @@ S.scene(tau => {
   CH.forEach((c, i) => {
     const t0 = i === 0 ? T.ai : T.row + (i - 1) * 0.1;
     const a = S.ent(tau, t0, 0.12), g = S.P(tau, T.gr + i * 0.04, T.gr + 0.3 + i * 0.04);
-    c.style.opacity = (a * (1 - 0.35 * g)).toFixed(3);
+    c.style.opacity = (a * (1 - 0.45 * g)).toFixed(3);
+    c.style.filter = `grayscale(${g.toFixed(2)})`;
     c.style.transform = `translateY(${(1 - a) * -14}px) scale(${0.85 + 0.15 * a})`;
-    c.style.background = `rgb(${Math.round(31 + 197 * g)},${Math.round(163 + 67 * g)},${Math.round(154 + 73 * g)})`;
-    c.style.color = g > 0.5 ? '#5D646B' : '#fff';
   });
   const lg = S.P(tau, T.gr, T.gr + 0.3);
   E.in('#lab', tau, T.lab, { dy: -12 });
-  S.$('#lab').style.background = `rgb(${Math.round(31 + 197 * lg)},${Math.round(163 + 67 * lg)},${Math.round(154 + 73 * lg)})`;
-  S.$('#lab').style.color = lg > 0.5 ? '#5D646B' : '#fff';
+  S.$('#lab').style.filter = `grayscale(${lg.toFixed(2)})`;
   // AI만으로는 — 청록 줄이 칩 줄 아래로 그어짐
   const tk = S.EO(S.P(tau, T.tl, T.tl + 0.45));
-  S.css('#tl', { opacity: tk * (1 - lg), clipPath: `inset(0 ${(1 - tk) * 100}% 0 0)`, top: '128px' });
+  S.css('#tl', { opacity: tk * (1 - lg), clipPath: `inset(0 ${(1 - tk) * 100}% 0 0)`, top: '136px' });
   // 가게 둘레 점선(차이는) → 색이 돌아옴(대표님한테서)
   E.stroke(oln, tau, T.oln, 0.5);
   const ck = S.EO(S.P(tau, T.big, T.big + 0.5));

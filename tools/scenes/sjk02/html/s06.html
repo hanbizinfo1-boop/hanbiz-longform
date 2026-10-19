@@ -7,8 +7,9 @@
 #ph{left:-40px;top:-40px;width:2100px;height:1400px}
 #pic{left:0;top:0;width:2100px;height:1400px;background-size:2100px 1400px;background-repeat:no-repeat}
 #rg{left:0;top:0;width:2100px;height:1400px}
-.cp{font-size:32px;padding:12px 24px}
-.cp i{display:inline-block;width:14px;height:14px;border-radius:50%;background:#fff;opacity:.9}
+.cp{position:absolute;width:300px;height:76px;display:flex;align-items:center;gap:14px;padding:0 18px 0 14px;background:#fff;border-radius:14px;box-shadow:0 18px 36px rgba(10,14,18,.5),0 3px 8px rgba(10,14,18,.4);font-family:"Pre";font-weight:800;font-size:34px;color:#1F2A33;white-space:nowrap}
+.cp .tl{flex:none;width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center}
+.cp svg{width:30px;height:30px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 #sh{left:455px;top:508px;width:1170px;height:570px;background-image:url("../../../../_tmp/sjk02/tex/e1_shutter_tile.png");background-size:1170px 570px;background-repeat:no-repeat;background-position:0 0;filter:saturate(.35) contrast(1.05);box-shadow:inset 0 -26px 40px rgba(20,25,30,.4)}
 #shbar{left:455px;top:500px;width:1170px;height:16px;background:#3C454C;border-radius:3px}
 </style></head>
@@ -16,12 +17,12 @@
   <div id="ph" class="abs">
     <div id="pic" class="abs photo"></div>
     <svg id="rg" class="abs" viewBox="0 0 2100 1400"><rect id="rr" x="451" y="506" width="1176" height="560" rx="6" fill="none" stroke="#F3F1EA" stroke-width="5" stroke-linejoin="round"/></svg>
-    <div id="c1" class="chip te cp" data-box="c1" style="left:430px;top:110px"><i></i>AI 답글</div>
-    <div id="c2" class="chip te cp" data-box="c2" style="left:720px;top:110px"><i></i>AI 소식</div>
-    <div id="c3" class="chip te cp" data-box="c3" style="left:1010px;top:110px"><i></i>AI 메뉴</div>
-    <div id="c4" class="chip te cp" data-box="c4" style="left:430px;top:208px"><i></i>AI 문구</div>
-    <div id="c5" class="chip te cp" data-box="c5" style="left:720px;top:208px"><i></i>AI 이벤트</div>
-    <div id="c6" class="chip te cp" data-box="c6" style="left:1060px;top:208px"><i></i>AI 홍보</div>
+    <div id="c1" class="cp" data-box="c1" style="left:400px;top:100px"><span class="tl" style="background:#1FA39A"><svg viewBox="0 0 24 24"><path d="M10 8 4 14l6 6"/><path d="M4 14h10a6 6 0 0 1 6 6v0"/></svg></span>AI 답글</div>
+    <div id="c2" class="cp" data-box="c2" style="left:740px;top:100px"><span class="tl" style="background:#2F6FE4"><svg viewBox="0 0 24 24"><path d="M4 10v4h4l8 5V5l-8 5z"/><path d="M19 9a4 4 0 0 1 0 6"/></svg></span>AI 소식</div>
+    <div id="c3" class="cp" data-box="c3" style="left:1080px;top:100px"><span class="tl" style="background:#7A4FD8"><svg viewBox="0 0 24 24"><path d="M4 12h16a8 8 0 0 1-16 0z"/><path d="M8 6c0-1.5 2-1.5 2-3M13 6c0-1.5 2-1.5 2-3"/></svg></span>AI 메뉴</div>
+    <div id="c4" class="cp" data-box="c4" style="left:400px;top:200px"><span class="tl" style="background:#E8A317"><svg viewBox="0 0 24 24"><path d="M4 20l1-4L16 5l3 3L8 19z"/><path d="M14 7l3 3"/></svg></span>AI 문구</div>
+    <div id="c5" class="cp" data-box="c5" style="left:740px;top:200px"><span class="tl" style="background:#E0457B"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="1"/><path d="M3 7h18v3H3zM12 7v13"/><path d="M12 7C9 7 8 3 10.5 3S12 6 12 7zM12 7c3 0 4-4 1.5-4S12 6 12 7z"/></svg></span>AI 이벤트</div>
+    <div id="c6" class="cp" data-box="c6" style="left:1080px;top:200px"><span class="tl" style="background:#2E9E55"><svg viewBox="0 0 24 24"><path d="M12 3l2.7 5.8 6.3.8-4.6 4.3 1.2 6.3L12 17l-5.6 3.2 1.2-6.3L3 9.6l6.3-.8z"/></svg></span>AI 홍보</div>
     <div id="sh" class="abs photo"></div>
     <div id="shbar" class="abs"></div>
   </div>
@@ -29,7 +30,7 @@
 <script src="../data/s06.js"></script>
 <script src="../lib/sjk.js"></script>
 <script>
-window.PALETTE = ['#D9DBD6', '#1F2A33', '#1FA39A'];   // 흐린 낮 사진 위 청록 칩(AI 가 하는 것) → 전부 탈색
+window.PALETTE = ['#D9DBD6', '#1F2A33', '#1FA39A'];   // 흐린 낮 사진 위 앱 알림 카드(색 아이콘 타일) → 전부 탈색
 const T = { bad: S.at('불편한'), talk: S.at('얘기'), ai: S.at('AI를'), hard: S.at('열심히'), gone: S.at('사라질') };
 const circ = document.getElementById('rr').getTotalLength();
 document.getElementById('rr').style.strokeDasharray = circ;

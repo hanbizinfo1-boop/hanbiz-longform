@@ -104,7 +104,7 @@
   // 그 동안 장면 전체가 흑백으로 빠지고 살짝 어두워지며(backdrop-filter grayscale) 왼쪽 아래에 큰 글(Pretendard Black)이
   // 주홍(또는 청록·회색) 밑판 위에 왼쪽에서 밀려 들어온다. 큰 글은 숫자·개념어 몇 글자만(말 따라 쓰기 금지). 한 번 0.9~2.0초 · 장면당 2번까지.
   let FOC = [];
-  const FCOL = { or: '#F05A28', te: '#1FA39A', gr: '#6E767D' };
+  const FCOL = { or: '#F05A28', te: '#1FA39A', gr: '#E0353B' };   // 10-19 «다 같은 가게는 다른색으로 강조를 제대로» — 회색(#6E767D)이 흑백 바탕에 묻힘 → 선명한 빨강(다 똑같아 사라지는 쪽) + 흰 테두리
   S.focus = list => {
     FOC = list;
     list.forEach((f, i) => S.ev(f.t0, 'big_in', 'focus' + i));
@@ -133,6 +133,7 @@
     const fb = o.querySelector('.__fb'), fs = o.querySelector('.__fs'), fw = o.querySelector('.__fw');
     fb.textContent = f.big; fs.textContent = f.small || '';
     fb.style.background = FCOL[f.color || 'or'] || f.color;
+    fb.style.boxShadow = '0 0 0 5px #fff, 0 18px 40px rgba(0,0,0,.45)';
     fb.style.fontSize = (f.size || 190) + 'px';
     const pop = S.EO(S.P(tau, f.t0, f.t0 + 0.14));
     fw.style.opacity = k;

@@ -8,7 +8,7 @@
 #shade{left:0;top:0;width:1920px;height:1080px;background:linear-gradient(90deg,rgba(15,20,25,0) 0,rgba(15,20,25,.35) 50%)}
 .pl{top:330px;width:280px;height:197px;border-radius:10px;background-size:729px 486px;background-position:-123px -178px;box-shadow:0 22px 40px rgba(0,0,0,.5);opacity:0}
 .pl .n{position:absolute;left:0;right:0;top:36px;text-align:center;font-size:130px;line-height:1;color:#2A3036;text-shadow:0 2px 0 rgba(255,255,255,.55),0 -1px 0 rgba(0,0,0,.35);opacity:0}
-.ht{top:556px;width:290px;font-size:48px;line-height:1.2;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.7);opacity:0}
+.ht{top:556px;width:280px;font-size:36px;line-height:1.25;color:#1F2A33;background:#FBF9F3;padding:12px 16px 14px;border-radius:8px;box-shadow:0 14px 30px rgba(0,0,0,.5),0 2px 6px rgba(0,0,0,.35);opacity:0}
 #c2{left:1320px;top:700px;opacity:0}
 #c3{left:1620px;top:700px;opacity:0}
 #cs{left:1620px;top:714px;width:200px;height:6px;background:#fff;border-radius:3px;opacity:0}
@@ -42,7 +42,7 @@ S.scene(tau => {
     E.in('#p' + i, tau, T.pl + k * 0.15, { dy: 20, base: `rotate(${[-3, 2, -1][k]}deg)` });
     S.$('#p' + i + ' .n').style.opacity = S.ent(tau, N[k], 0.12);
     const w = S.EO(S.P(tau, H[k], H[k] + (k === 0 ? 2.0 : 1.2)));
-    S.css('#h' + i, { opacity: w > 0 ? 1 : 0, clipPath: `inset(-10px ${((1 - w) * 100).toFixed(1)}% -10px -10px)` });
+    S.css('#h' + i, { opacity: w > 0 ? 1 : 0, clipPath: `inset(-40px ${((1 - w) * 100).toFixed(1)}% -40px -40px)` });
     // 마지막: 직접 얘기하기 — 번호표 셋에 차례로 주홍 테두리
     const f = S.ent(tau, T.f + k * 0.18, 0.12) * (1 - S.P(tau, T.f + 0.9 + k * 0.1, T.f + 1.1 + k * 0.1));
     S.$('#p' + i).style.boxShadow = `0 22px 40px rgba(0,0,0,.5),0 0 0 ${(8 * f).toFixed(1)}px rgba(240,90,40,${f.toFixed(2)})`;
