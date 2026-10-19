@@ -10,17 +10,17 @@
 #inp .a{width:52px;height:52px;border-radius:50%;background:#D7DCDF;flex:none}
 #cur{display:inline-block;width:3px;height:36px;background:#1F2A33;vertical-align:-8px;margin-right:6px}
 .rw{position:absolute;left:36px;width:1128px;height:104px}
-.rw .av2{position:absolute;left:0;top:10px;width:56px;height:56px;border-radius:50%;background:#D7DCDF}
-.rw .b1{position:absolute;left:84px;top:14px;height:18px;border-radius:9px;background:#E4E6E8}
-.rw .b2{position:absolute;left:84px;top:46px;height:16px;border-radius:8px;background:#EDEFF0}
+.rw .av2{position:absolute;left:0;top:10px;width:56px;height:56px;border-radius:50%;background:#D7DCDF;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;color:#59636B}
+.rw .nm{position:absolute;left:84px;top:6px;font-size:23px;font-weight:800;color:#59636B}
+.rw .cm{position:absolute;left:84px;top:40px;font-size:30px;font-weight:600;color:#1F2A33;white-space:nowrap}
 .rw .ok{position:absolute;right:20px;top:14px;width:46px;height:46px;border-radius:50%;background:#1FA39A;display:flex;align-items:center;justify-content:center;opacity:0}
 .rw .ok svg{width:26px;height:26px}
-#ty{position:absolute;left:84px;top:78px;display:flex;gap:9px;opacity:0}
+#ty{position:absolute;left:190px;top:580px;display:flex;gap:9px;opacity:0}
 #ty i{width:14px;height:14px;border-radius:50%;background:#9AA0A6}
 #rep{position:absolute;left:120px;top:540px;width:1044px;height:100px;opacity:0}
 #rep .dotc{position:absolute;left:0;top:10px;width:46px;height:46px;border-radius:50%;background:#F05A28}
-#rep .b1{position:absolute;left:70px;top:14px;height:18px;width:560px;border-radius:9px;background:#FADCCF}
-#rep .b2{position:absolute;left:70px;top:46px;height:16px;width:340px;border-radius:8px;background:#FCEAE2}
+#rep .nm2{position:absolute;left:70px;top:6px;font-size:23px;font-weight:800;color:#C8461A}
+#rep .cm2{position:absolute;left:70px;top:40px;font-size:30px;font-weight:600;color:#1F2A33;white-space:nowrap}
 #q{left:1600px;top:70px;opacity:0}
 #cover{position:absolute;left:0;top:0;width:1920px;height:1080px;opacity:0}
 #cta{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:960px 470px}
@@ -42,10 +42,11 @@
     <div id="pan" class="app">
       <div class="hd">댓글 <span>전체</span></div>
       <div id="inp"><div class="a"></div><div><span id="cur"></span><span id="ph">댓글 추가...</span></div></div>
-      <div id="r0" class="rw" style="top:190px"><div class="av2"></div><div class="b1" style="width:640px"></div><div class="b2" style="width:420px"></div><div class="ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div id="ty"><i></i><i></i><i></i></div></div>
-      <div id="r1" class="rw" style="top:330px"><div class="av2"></div><div class="b1" style="width:520px"></div><div class="b2" style="width:300px"></div><div class="ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-      <div id="r2" class="rw" style="top:440px"><div class="av2"></div><div class="b1" style="width:700px"></div><div class="b2" style="width:380px"></div><div class="ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-      <div id="rep"><div class="dotc"></div><div class="b1"></div><div class="b2"></div></div>
+      <div id="r0" class="rw" style="top:190px"><div class="av2">김</div><div class="nm">김**</div><div class="cm">리뷰 답글 시킬 때 어떤 말을 넣어야 할지 모르겠어요</div><div class="ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div id="r1" class="rw" style="top:300px"><div class="av2">박</div><div class="nm">박**</div><div class="cm">주 1회 숫자 계산, 포스기 자료로도 되나요?</div><div class="ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div id="r2" class="rw" style="top:410px"><div class="av2">이</div><div class="nm">이**</div><div class="cm">저희는 카페인데 한 줄 찾는 법 궁금합니다</div><div class="ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div id="ty"><i></i><i></i><i></i></div>
+      <div id="rep"><div class="dotc"></div><div class="nm2">사장의 시스템</div><div class="cm2">확인해서 꼭 도움 되실 수 있게 달아 드리겠습니다.</div></div>
     </div>
     <div id="q" class="chip gr" data-box="q">?</div>
   </div>
@@ -62,6 +63,7 @@
 <script src="_e6.js"></script>
 <script>
 window.PALETTE = ['#D9DBD6', '#1F2A33', '#F05A28'];
+window.DEVICES = ['댓글 CTA'];
 const T = { q: S.at('감이'), q2: S.at('도움'), cmt: S.at('댓글'), rows: S.at('하나하나'), chk: S.at('도움', 1), ty: S.at('생각해'), rep: S.at('달아'), cov: S.at('도움', 2) };
 const C = { card: T.cov - 0.2, push: S.at('다음') - 0.05 };
 C.btn = C.card + 0.5; C.sub = C.btn + 0.35; C.like = S.at('눌러');

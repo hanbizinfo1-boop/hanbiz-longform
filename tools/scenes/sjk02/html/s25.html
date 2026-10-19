@@ -1,68 +1,62 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s25 세 가지는 글·숫자·시간 — 콘크리트 벽 정면 스텐실 세 단어 · 똑같이는 회색 · 갈려요에 아래 띠가 회색/주홍으로 갈라짐</title>
+<title>s25 세 가지는 글·숫자·시간 — 카운터 위 메뉴판·영수증·번호표, 물건마다 차례로 빛이 비침(빛 세 물건)</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#world{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:50% 50%}
-.st{position:absolute;text-align:center;font-family:"Pre";font-weight:900;line-height:1;letter-spacing:-.04em;white-space:nowrap;color:#1F2A33;opacity:0;
-  -webkit-mask-image:linear-gradient(90deg,#000 0 49%,transparent 49% 51%,#000 51% 100%),linear-gradient(180deg,#000 0 54%,transparent 54% 56.5%,#000 56.5% 100%);
-  -webkit-mask-composite:source-in;mask-composite:intersect;filter:url(#rough)}
-.w{width:520px;font-size:260px;top:330px}
-.n{width:140px;font-size:96px;top:660px}
-.ai{top:262px;opacity:0;font-size:44px;padding:8px 26px}
-.cd{position:absolute;top:62px;width:160px;height:160px;border-radius:22px;background:#fff;display:flex;align-items:center;justify-content:center;opacity:0;box-shadow:0 26px 48px rgba(10,14,18,.5),0 4px 10px rgba(10,14,18,.35)}
-.cd .tl{width:112px;height:112px;border-radius:18px;display:flex;align-items:center;justify-content:center}
-.cd svg{width:68px;height:68px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.bar{position:absolute;height:22px;border-radius:4px;width:440px;opacity:0}
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+/* 사진(1536x1024)을 1.25배로 깔고 위 100px 잘라 냄 → #ph 안은 사진 좌표 그대로 */
+#ph{left:0;top:-100px;width:1536px;height:1024px;transform-origin:0 0;transform:scale(1.25);background-size:1536px 1024px;filter:saturate(.9) contrast(1.03)}
+.ob{position:absolute;left:0;top:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#1F2A33;font-family:"Pre";line-height:1.15}
+.dim{position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;opacity:0;background:rgb(8,10,14);-webkit-mask-composite:source-in;mask-composite:intersect}
+.nm{position:absolute;background:#fff;color:#1F2A33;padding:8px 24px;border-radius:10px;font-size:40px;font-weight:800;letter-spacing:.06em;box-shadow:0 10px 24px rgba(0,0,0,.45);text-shadow:0 2px 6px rgba(0,0,0,.9),0 0 16px rgba(0,0,0,.8);white-space:nowrap;opacity:0;transform-origin:50% 50%}
 </style></head>
 <body><div id="stage">
-  <svg width="0" height="0" style="position:absolute"><defs><filter id="rough" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="11" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="6"/></filter></defs></svg>
-  <div class="bg tex-conc"></div>
-  <div id="world">
-    <div class="cd" id="k0" style="left:320px"><span class="tl" style="background:#1FA39A"><svg viewBox="0 0 24 24"><path d="M5 3h9l5 5v13H5z"/><path d="M14 3v5h5"/><path d="M8 17l5-6 2 2-5 6-3 1z"/></svg></span></div><div class="cd" id="k1" style="left:880px"><span class="tl" style="background:#E8A317"><svg viewBox="0 0 24 24"><path d="M5 3h14v18l-3-2-2 2-2-2-2 2-2-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg></span></div><div class="cd" id="k2" style="left:1440px"><span class="tl" style="background:#2F6FE4"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg></span></div><div class="chip te ai" id="a0" style="left:348px">AI</div><div class="chip te ai" id="a1" style="left:908px">AI</div><div class="chip te ai" id="a2" style="left:1468px">AI</div>
-    <div class="st w" id="w0" style="left:140px">글</div>
-    <div class="st w" id="w1" style="left:700px">숫자</div>
-    <div class="st w" id="w2" style="left:1260px">시간</div>
-    <div class="st n" id="n0" style="left:330px">1</div><div class="st n" id="n1" style="left:890px">2</div><div class="st n" id="n2" style="left:1450px">3</div>
-    <div class="bar" id="u0" style="left:180px;top:800px"></div><div class="bar" id="u1" style="left:740px;top:800px"></div><div class="bar" id="u2" style="left:1300px;top:800px"></div>
-    <div class="bar" id="v0" style="left:180px;top:842px"></div><div class="bar" id="v1" style="left:740px;top:842px"></div><div class="bar" id="v2" style="left:1300px;top:842px"></div>
+  <div id="cam" class="abs">
+    <div id="ph" class="abs">
+      <div id="oM" class="ob" data-diegetic><div style="font-size:58px;font-weight:900;letter-spacing:-.02em">돼지국밥</div><div style="font-size:54px;font-weight:800;margin-top:10px">9,000</div></div>
+      <div id="oR" class="ob" data-diegetic><div style="font-size:38px;font-weight:800">매출</div><div style="font-size:36px;font-weight:800;margin-top:6px">1,240,000</div></div>
+      <div id="oN" class="ob" data-diegetic><div style="font-size:230px;font-weight:900;color:#5A3A1E;opacity:.88">3</div></div>
+    </div>
+    <div id="dim" class="dim"></div>
+    <div id="lg" class="nm lab">글</div><div id="lr" class="nm lab">숫자</div><div id="ln" class="nm lab">시간</div>
   </div>
 </div>
 <script src="../data/s25.js"></script>
 <script src="../lib/sjk.js"></script>
 <script>
-window.PALETTE = ['#D9DBD6', '#1F2A33', '#9AA0A6', '#F05A28'];
-const T = { geul: S.at('글,'), num: S.at('숫자'), time: S.at('시간'), same: S.at('똑같이'), ai: S.at('AI를'), three: S.at('세 개를'), how: S.at('어떻게'), use: S.at('쓰느냐에'), split: S.at('갈려요') };
-S.ev(T.geul, 'marker', 'w0'); S.ev(T.num, 'card_in', 'w1'); S.ev(T.time, 'marker', 'w2');
-S.ev(T.same, 'no', 'words'); S.ev(T.ai, 'card_in', 'ai'); S.ev(T.three, 'marker', 'nums'); S.ev(T.use, 'card_in', 'bars'); S.ev(T.split, 'sweep', 'split');
-const GR = [31, 42, 51], INK = [31, 42, 51];
-const mix = (a, b, k) => a.map((v, i) => Math.round(S.lerp(v, b[i], k)));
-const spray = (id, a, col) => S.css('#' + id, { opacity: a > 0 ? 0.96 : 0, clipPath: `inset(-6% ${((1 - a) * 100).toFixed(1)}% -6% 0)`, color: col });
+window.PALETTE = ['#171C21', '#E7EAEC', '#F05A28'];
+window.DEVICES = ['빛 세 물건'];
+const T = { geul: S.at('글,'), num: S.at('숫자'), time: S.at('시간'), same: S.at('똑같이'), split: S.at('갈려요') };
+document.getElementById('ph').style.backgroundImage = S.ph('n25_counter_three_objects');
+// 사진 속 세 물건 네 점(사진 1536x1024 좌표, 왼위·오위·오아래·왼아래)
+const QM = [[233, 296], [506, 298], [477, 666], [196, 664]];       // 메뉴판 앞면
+const QR = [[790, 580], [965, 600], [900, 742], [702, 724]];       // 영수증 납작한 면
+const QN = [[1143, 395], [1452, 402], [1445, 672], [1148, 662]];   // 번호표 둥근 면
+const dist = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1]);
+const fit = (id, q) => {
+  const el = document.getElementById(id);
+  const w = Math.round((dist(q[0], q[1]) + dist(q[3], q[2])) / 2 * 1.25), h = Math.round((dist(q[0], q[3]) + dist(q[1], q[2])) / 2 * 1.25);
+  el.style.width = w + 'px'; el.style.height = h + 'px'; S.fitQuad(el, w, h, q);
+};
+fit('oM', QM); fit('oR', QR); fit('oN', QN);
+// 둥근 빛 구멍(화면 좌표 = 사진 ×1.25, 위 100 잘림) — 물건 하나에 구멍 하나(x, y, rx, ry, 투명 끝 %)
+const SPOT = [[456, 512, 440, 470, 62], [1031, 703, 380, 240, 62], [1624, 628, 360, 400, 62]];
+const T2 = { shop: S.at('가게가') };
+[['lg', 456], ['lr', 1031], ['ln', 1624]].forEach(([id, x]) => { const e = document.getElementById(id); e.style.left = x + 'px'; e.style.top = '860px'; });
+S.ev(T.geul, 'click', 'dim'); S.ev(T.num, 'shine', 'dim'); S.ev(T.time, 'click', 'dim'); S.ev(T.same, 'in', 'all'); S.ev(T.split, 'card_in', 'names'); S.ev(T2.shop, 'shine', 'dim');
 S.scene(tau => {
-  const d = S.P(tau, 0, S.SC.dur);
-  S.css('#world', { transform: `scale(${(1 + 0.035 * d).toFixed(4)})` });
-  const gray = S.EO(S.P(tau, T.same, T.same + 0.45));
-  const col = `rgb(${mix(INK, GR, gray).join(',')})`;
-  spray('w0', S.EO(S.P(tau, T.geul, T.geul + 0.4)), col);
-  spray('w1', S.ent(tau, T.num, 0.12), col);
-  spray('w2', S.EO(S.P(tau, T.time, T.time + 0.4)), col);
-  // 번호 1 2 3 (단어 뒤따라)
-  [['n0', T.geul], ['n1', T.num], ['n2', T.time]].forEach(([id, t0]) => spray(id, S.ent(tau, t0 + 0.28, 0.12), col));
-  // 똑같이 AI를 — 단어 위에 청록 AI 가 하나씩
-  ['a0', 'a1', 'a2'].forEach((id, i) => { const k = S.ent(tau, T.ai + i * 0.14, 0.12); S.css('#'+id, { opacity: k, transform: `translateY(${((1 - k) * 14).toFixed(1)}px)` }); });
-  [[0, T.geul], [1, T.num], [2, T.time]].forEach(([i, t0]) => { const k = S.ent(tau, t0 + 0.1, 0.12); S.css('#k' + i, { opacity: k, transform: `translateY(${((1 - k) * 16).toFixed(1)}px)` }); S.$('#k' + i + ' .tl').style.filter = `grayscale(${(0.85 * gray).toFixed(2)})`; });
-  // 이 세 개를 — 번호가 한 번 칠해져 진해짐(진하기만 — 크기 변화 없음)
-  const sh = S.EO(S.P(tau, T.three, T.three + 0.2)) * (1 - S.P(tau, T.three + 0.5, T.three + 0.8));
-  ['n0', 'n1', 'n2'].forEach(id => { document.getElementById(id).style.filter = `url(#rough) drop-shadow(0 0 ${(14 * sh).toFixed(1)}px rgba(31,163,154,${(0.9 * sh).toFixed(2)}))`; });
-  // 쓰느냐에 — 단어 아래 같은 회색 띠 한 줄씩(왼 → 오 0.15초 간격), 갈려요 — 띠가 위 회색/아래 주홍으로 갈라짐
-  const bars = [0, 1, 2].map(i => S.ent(tau, T.use + i * 0.15, 0.12));
-  const sp = S.EO(S.P(tau, T.split, T.split + 0.45));
-  [0, 1, 2].forEach(i => {
-    const u = document.getElementById('u' + i), v = document.getElementById('v' + i);
-    u.style.opacity = bars[i]; u.style.background = '#7A838B'; u.style.transform = `translateY(${(-18 * sp).toFixed(1)}px)`;
-    // 아래 줄은 갈려요 에서 같은 자리에서 나와 아래로 + 주홍으로
-    v.style.opacity = (bars[i] * sp).toFixed(3); v.style.background = '#F05A28'; v.style.transform = `translateY(${(8 * sp).toFixed(1)}px)`;
-  });
+  S.css('#cam', { transform: `scale(${(1 + 0.05 * S.P(tau, 0, S.SC.dur)).toFixed(4)})` });
+  // 빛: 글 → 메뉴판 · 숫자 → 영수증 · 시간 → 번호표 · 똑같이 → 셋 다 밝아짐
+  // 빛 하나만 구멍(글 → 메뉴판 · 숫자 → 영수증 · 시간 → 번호표), 똑같이에 전부 밝게, 가게가에 다시 어두워졌다가 0.15초 간격으로 차례로 켜짐
+  const E1 = (t0, d) => S.EO(S.P(tau, t0, t0 + d));
+  const lit = [E1(T.geul, 0.2) * (1 - E1(T.num, 0.2)), E1(T.num, 0.2) * (1 - E1(T.time, 0.2)), E1(T.time, 0.2) * (1 - E1(T.same, 0.3))];
+  const rampA = E1(T.geul, 0.2) * (1 - E1(T.same, 0.3)), rampB = E1(T2.shop - 0.1, 0.1);
+  const D = Math.max(rampA, rampB);
+  const a = lit.map((v, i) => Math.max(v, E1(T2.shop + 0.15 * i, 0.15)));
+  const m = SPOT.map(([x, y, rx, ry, pc], i) => `radial-gradient(ellipse ${rx}px ${ry}px at ${x}px ${y}px,rgba(0,0,0,${(1 - a[i]).toFixed(3)}) ${pc}%,#000 100%)`).join(',');
+  S.css('#dim', { opacity: (0.86 * D).toFixed(3), webkitMaskImage: m, maskImage: m });
+  // 이름표 셋(갈려요)
+  ['lg', 'lr', 'ln'].forEach((id, i) => { const k = S.ent(tau, T.split + 0.08 * i, 0.12); S.css('#' + id, { opacity: k, transform: `translate(-50%,${((1 - k) * 14).toFixed(1)}px)` }); });
 });
 </script>
 </body></html>

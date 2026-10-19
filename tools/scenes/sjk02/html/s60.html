@@ -1,53 +1,70 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s60 옆 가게도 똑같이 — 이웃 두 가게 외벽, 옆으로 흘러 오른쪽 가게에도 같은 판 셋, 할인 글자만 늘어나며 둘 다 탈색</title>
+<title>s60 옆 가게도 똑같이 — 이웃 두 가게 정면, 옆 가게 유리창에도 같은 포스터 셋이 붙고 20% 위에 30% → 40% 포스터가 덧붙은 뒤 두 가게 다 회색</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#pw{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:50% 50%}
-.sg{position:absolute;background:#F4F5F3;color:#6E767D;font-weight:900;text-align:center;box-shadow:0 12px 26px rgba(20,25,30,.35);white-space:nowrap}
-.L{opacity:1}
-#l0{left:215px;top:668px;width:400px;height:120px;font-size:60px;line-height:120px;border-radius:6px}
-#l1{left:110px;top:262px;width:790px;height:150px;font-size:90px;line-height:150px;border-radius:4px}
-#l2{left:690px;top:520px;width:120px;height:170px;font-size:42px;line-height:170px;border-radius:4px}
-#r0{left:1150px;top:640px;width:200px;height:110px;font-size:50px;line-height:110px;border-radius:6px}
-#r1{left:1130px;top:232px;width:740px;height:160px;font-size:90px;line-height:160px;border-radius:4px}
-#r2{left:1650px;top:452px;width:140px;height:186px;font-size:48px;line-height:186px;border-radius:4px}
-#ai{left:1330px;top:130px;font-size:34px}
+#cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#pw{position:absolute;left:0;top:0;width:1920px;height:1080px}
+#ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background-size:100% 100%;background-repeat:no-repeat}
+.po{position:absolute;background:#F6F1E6;font-family:"Pre";color:#2B2620;text-align:center;overflow:hidden;box-shadow:0 4px 10px rgba(0,0,0,.35);transform-origin:50% 50%;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.po .a{color:#E2501C;font-weight:900}
+.po b{font-weight:800}
 </style></head>
 <body><div id="stage">
-  <div class="bg tex-conc"></div>
-  <div id="pw"><div id="ph" class="photo" style="left:0;top:0;width:1920px;height:1080px"></div>
-    <div id="l0" class="sg blk">신메뉴</div><div id="l1" class="sg blk"><span id="lt1">할인</span></div><div id="l2" class="sg blk">광고</div>
-    <div id="r0" class="sg blk" data-box="r0">신메뉴</div><div id="r1" class="sg blk"><span id="rt1">할인</span></div><div id="r2" class="sg blk" data-box="r2">광고</div>
-  </div>
-  <div id="ai" class="abs chip te" data-box="ai">AI</div>
+  <div id="cam"><div id="pw"><div id="ph"></div><div id="pos"></div></div></div>
 </div>
 <script src="../data/s60.js"></script>
 <script src="../lib/sjk.js"></script>
+<script>S.camCssC = c => S.camCss({ s: c.s, x: Math.min(1920 - 960 / c.s, Math.max(960 / c.s, c.x)), y: Math.min(1180 - 540 / c.s, Math.max(540 / c.s - 100, c.y)) });</script>
 <script>
-window.PALETTE = ['#D9DBD6', '#9AA0A6', '#1FA39A'];
+window.PALETTE = ['#E8E4DA', '#E2501C', '#2B2620'];
+window.DEVICES = ['R12 포스터 둘'];
 S.$('#ph').style.backgroundImage = S.ph('p60_neighbor_walls');
-const T = { ai: S.at('AI', 0), a: S.at('메뉴늘리고'), b: S.at('할인하고'), c: S.at('광고걸어요'), war: S.at('할인경쟁'), no: S.at('남는거'), same: S.at('똑같이') };
-S.focus([{ t0: T.war + 0.05, t1: T.war + 1.5, big: '할인 경쟁', color: 'gr' }]);
-S.ev(T.same, 'card_in', 'ai'); S.ev(T.a, 'card_in', 'r0'); S.ev(T.b, 'msg_in', 'r1'); S.ev(T.c, 'card_in', 'r2');
-[0, 1, 2, 3].forEach(i => S.ev(T.war + 0.45 + i * 0.45, 'click', 'war' + i));
-S.ev(T.no, 'no', 'pw');
+const T = { same: S.at('똑같이', 0), blank: S.at('시간'), a: S.at('메뉴늘리고'), b: S.at('할인하고'), c: S.at('광고걸어요'), war: S.at('할인경쟁'), war2: S.at('경쟁이에요'), no: S.at('바빠지기만') };
+// 사진 속 유리창·문 자리(눈으로 잰 값, 1536×1024 → 화면 x*1.25, y*1.25-100) : [x, y, w, h]
+const SP = {
+  L0: [150, 447, 150, 138], L1: [332, 447, 170, 140], L2: [548, 468, 88, 150],
+  R0: [938, 437, 126, 145], R1: [1315, 437, 120, 140], R2: [1096, 592, 124, 90]
+};
+const kind = { 0: 'A', 1: 'B', 2: 'C' };
+function inner(k, w, pct) {
+  const f = w / 150;
+  if (k === 'A') return `<div class="a" style="font-size:${30 * f}px;line-height:1.1">신메뉴<br>출시</div><b style="font-size:${28 * f}px;margin-top:${6 * f}px">얼큰 국밥</b><div class="a" style="font-size:${28 * f}px">10,000원</div>`;
+  if (k === 'B') return `<b style="font-size:${28 * f}px">오늘만</b><div class="a" style="font-size:${50 * f}px;line-height:1.05">${pct}%</div><b style="font-size:${30 * f}px">할인</b>`;
+  return `<b style="font-size:${26 * f}px">배달앱</b><div class="a" style="font-size:${34 * f}px;line-height:1.1">리뷰</div><b style="font-size:${28 * f}px">이벤트</b>`;
+}
+let html = '';
+const P = [];
+Object.keys(SP).forEach(id => {
+  const [x, y, w, h] = SP[id], k = kind[+id[1]];
+  const L = { id: 'o' + id, x: x * 1.25, y: y * 1.25 - 100, w: w * 1.25, h: h * 1.25, k, pct: 20, rot: id[0] === 'L' ? -1.5 : 1.2 };
+  P.push(L);
+  html += `<div id="${L.id}" class="po" data-diegetic style="left:${L.x}px;top:${L.y}px;width:${L.w}px;height:${L.h}px;transform:rotate(${L.rot}deg)"><div class="ct" style="display:flex;flex-direction:column;align-items:center">${inner(k, L.w, 20)}</div></div>`;
+});
+// 20% 위에 덧붙는 새 포스터(30%, 40%) — 양쪽 가게 «할인» 포스터 위
+[['L1', 30], ['L1', 40], ['R1', 30], ['R1', 40]].forEach((q, i) => {
+  const [x, y, w, h] = SP[q[0]], g = q[1] === 30 ? 1.1 : 1.22;
+  const cx = (x + w / 2) * 1.25, cy = (y + h / 2) * 1.25 - 100, W = w * 1.25 * g, H = h * 1.25 * g;
+  html += `<div id="n${i}" class="po" data-diegetic style="left:${cx - W / 2}px;top:${cy - H / 2}px;width:${W}px;height:${H}px;transform:rotate(${(i % 2 ? 2.4 : -2.4)}deg);opacity:0">${inner('B', W, q[1])}</div>`;
+});
+S.$('#pos').innerHTML = html;
+S.ev(T.same, 'in', 'cam'); S.ev(T.blank, 'paper', 'oR0'); S.ev(T.a, 'card_in', 'oR0'); S.ev(T.b, 'msg_in', 'oR1'); S.ev(T.c, 'card_in', 'oR2');
+S.ev(T.war, 'paper', 'n0'); S.ev(T.war2 + 0.4, 'paper', 'n1'); S.ev(T.no, 'no', 'pw');
+const KEYS = [{ t: 0, s: 1.0, x: 960, y: 540 }, { t: T.same, s: 1.2, x: 1400, y: 520, d: 0.6 }, { t: T.war - 0.1, s: 1.0, x: 960, y: 540, d: 0.5 }];
 S.scene(tau => {
-  // 왼쪽 가게 → 오른쪽 가게로 옆 트래킹(오른쪽으로 흐름)
-  const dsat = S.EIO(S.P(tau, T.no, T.no + 0.7));
-  S.css('#pw', { transform: S.track(tau, -0.2, S.SC.dur - 2.2, 80, -80, 1.15), filter: S.desat(dsat) });
-  const ak = S.ent(tau, T.same, 0.12);
-  S.css('#ai', { opacity: ak * (1 - S.ent(tau, T.a - 0.1, 0.2)), transform: `translateY(${(1 - ak) * -14}px)` });
-  [['r0', T.a], ['r1', T.b], ['r2', T.c]].forEach(s => {
-    const k = S.ent(tau, s[1], 0.12);
-    S.css('#' + s[0], { opacity: k, transform: `rotate(-3deg) scale(${1.1 - 0.1 * k})` });
+  S.css('#cam', { transform: S.camCssC(S.camState(tau, KEYS)) });
+  const g = S.EIO(S.P(tau, T.no, T.no + 0.7));
+  S.css('#pw', { filter: S.desat(g) });
+  // 왼쪽 가게 포스터 셋: 앞 장면에서 이어져 처음부터 회색
+  ['L0', 'L1', 'L2'].forEach(id => S.css('#o' + id, { filter: S.desat(1) }));
+  // 옆 가게: 빈 종이가 하나씩 붙고(«시간 남았다고») → 글이 «메뉴 늘리고·할인하고·광고 걸어요» 에 채워짐
+  [['R0', T.blank, T.a], ['R1', T.blank + 0.7, T.b], ['R2', T.blank + 1.4, T.c]].forEach(s => {
+    const e = S.$('#o' + s[0]); e.style.opacity = S.ent(tau, s[1], 0.14);
+    e.querySelector('.ct').style.opacity = S.ent(tau, s[2], 0.12);
   });
-  ['l0', 'l1', 'l2'].forEach(id => S.css('#' + id, { transform: 'rotate(-3deg)' }));
-  // 할인 글자만 늘어남(숫자 없음): 할인 → 할인＋ → 할인＋＋ 를 양쪽이 번갈아
-  const n = Math.floor((tau - (T.war + 0.45)) / 0.45);
-  const lv = n < 0 ? 0 : n < 2 ? 1 : 2, rv = n < 1 ? 0 : n < 3 ? 1 : 2;
-  S.$('#lt1').textContent = '할인' + ['', '＋', '＋＋'][lv];
-  S.$('#rt1').textContent = '할인' + ['', '＋', '＋＋'][rv];
+  [[0, T.war], [1, T.war2 + 0.4], [2, T.war], [3, T.war2 + 0.4]].forEach(s => {
+    const k = S.ent(tau, s[1], 0.14), e = S.$('#n' + s[0]); e.style.opacity = k; e.style.transform = e.style.transform.replace(/ ?scale\([^)]*\)/, '') + ` scale(${(1.08 - 0.08 * k).toFixed(3)})`;
+  });
 });
 </script>
 </body></html>

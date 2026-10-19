@@ -15,22 +15,24 @@
   <div id="w" class="abs">
     <div id="ph" class="photo abs"></div>
   </div>
-  <div id="lbl" class="chip gr" data-box="lbl">처음 그 거리</div>
 </div>
 <script src="../data/s69.js"></script>
 <script src="../lib/sjk.js"></script>
 <script src="_e6.js"></script>
 <script>
 window.PALETTE = ['#D9DBD6', '#9AA0A6', '#1FA39A'];
+window.DEVICES = ['(기존) 셔터 거리'];
 S.$('#ph').style.backgroundImage = S.ph('p03_shutter_row');
 // 셔터 6칸(판 좌표) — 사진 좌표 × 1.5625
 const POS = [[469, 937], [812, 922], [1180, 953], [1330, 953], [1620, 900], [1900, 900]];
 const NM = ['리뷰', '할인', '광고', '리뷰', '할인', '광고'];
 const CH = [], AI = [], UL = [];
-POS.forEach((p, i) => {
-  CH.push(E.mk('#w', 'chip gr ck', NM[i], `left:${p[0] - 50}px;top:${p[1] - 34}px;font-size:34px`));
-  UL.push(E.mk('#w', 'ul abs', '', `left:${p[0] - 54}px;top:${p[1] + 46}px;width:108px`));
-  AI.push(E.mk('#w', 'chip te ck', 'AI', `left:${p[0] - 30}px;top:${p[1] + 66}px;font-size:34px`));
+// 셔터 칸마다 왼쪽부터 탈색되는 띠(사진 복사본 + 회색 필터)
+const BAND = [[0, 640], [640, 996], [996, 1255], [1255, 1475], [1475, 1760], [1760, 2400]], GB = [];
+BAND.forEach((b, i) => {
+  const d = E.mk('#w', 'abs', '', `left:${b[0]}px;top:0;width:${b[1] - b[0]}px;height:1600px;overflow:hidden;opacity:0`);
+  const im = E.mk(d, 'photo abs', '', `left:${-b[0]}px;top:0;width:2400px;height:1600px;filter:grayscale(1) brightness(1.04) contrast(.92)`);
+  im.style.backgroundImage = S.ph('p03_shutter_row'); GB.push(d);
 });
 // 셔터 하나 더 내려옴(문 열린 입구 자리): p01 사진 띠
 const DR = E.mk('#w', 'abs', '<div></div>', 'id:dr');
@@ -38,39 +40,19 @@ DR.id = 'dr'; DR.style.left = '905px'; DR.style.top = '800px';
 DR.firstChild.style.backgroundImage = S.ph('p03_shutter_row'); DR.firstChild.style.backgroundSize = '2400px 1600px'; DR.firstChild.style.backgroundPosition = '-1125px -812px';
 
 const T = {
-  lab: S.at('상가'), oln: S.at('닫은'), chip: S.at('열심히'), dark: S.at('진짜'), gray: S.at('남들도'),
+  lab: S.at('상가'), oln: S.at('닫은'), bnd: [S.at('닫은'), S.at('가게들'), S.at('대부분'), S.at('열심히'), S.at('안해서'), S.at('닫은', 1)], p1: S.at('진짜'), p2: S.at('남들보다'), p3: S.at('남들', 2), chip: S.at('열심히'), dark: S.at('진짜'), gray: S.at('남들도'),
   ul: S.at('남들보다'), ai: S.at('AI도'), aig: S.at('남들', 2), stk: S.at('남들보다', 1), shut: S.at('안', 3)
 };
 T.shut = S.at('버텨져요') - 0.25;
-S.ev(T.lab, 'card_in', 'lbl'); S.ev(T.chip, 'card_in', 'c0'); S.ev(T.dark, 'shine', 'c0');
-S.ev(T.gray, 'no', 'c0'); S.ev(T.ul, 'marker', 'u0'); S.ev(T.ai, 'msg_in', 'a0'); S.ev(T.aig, 'no', 'a0');
-S.ev(T.stk, 'shine', 'a0'); S.ev(T.shut, 'shutter', 'dr');
+S.ev(T.bnd[0], 'no', 'ph'); S.ev(T.bnd[3], 'no', 'ph'); S.ev(T.gray, 'no', 'ph'); S.ev(T.shut, 'shutter', 'dr');
 S.scene(tau => {
-  const wl = E.pan(tau, -0.2, S.SC.dur, -420, -110);
+  const stp = 40 * S.P(tau, -0.2, S.SC.dur) + 90 * S.cam(tau, T.p1, T.p1 + 0.5) + 90 * S.cam(tau, T.p2, T.p2 + 0.5) + 90 * S.cam(tau, T.p3, T.p3 + 0.5);
+  const wl = -420 + stp;
   S.css('#w', { left: wl + 'px' });
-  // 사진: «남들도» 에 탈색
+  // 셔터 칸이 왼쪽부터 차례로 회색으로 빠짐, «남들도» 에 거리 전체가 탈색
+  GB.forEach((d, i) => { d.style.opacity = S.EO(S.P(tau, T.bnd[i], T.bnd[i] + 0.35)).toFixed(3); });
   const dk = S.P(tau, T.gray, T.gray + 0.5);
   S.$('#ph').style.filter = `saturate(${0.78 - 0.78 * dk}) contrast(${1.03 - 0.1 * dk}) brightness(${1 + 0.05 * dk})`;
-  E.in('#lbl', tau, T.lab);
-  CH.forEach((c, i) => {
-    const a = S.ent(tau, T.chip + i * 0.15, 0.12);
-    const d = S.ent(tau, T.dark, 0.2), g = S.P(tau, T.gray, T.gray + 0.35);
-    c.style.opacity = (a * (1 - 0.45 * g)).toFixed(3);
-    c.style.filter = `grayscale(${g.toFixed(2)})`;
-    c.style.transform = `translateY(${(1 - a) * 14}px) scale(${0.85 + 0.15 * a})`;
-    // 밑줄(남들보다) — 말이 이어지는 동안 한 칸씩
-    const u = S.EO(S.P(tau, T.ul + i * 0.12, T.ul + 0.35 + i * 0.12));
-    UL[i].style.opacity = u.toFixed(3); UL[i].style.clipPath = `inset(0 ${(1 - u) * 100}% 0 0)`;
-    // AI 칩(청록) → 회색 → 위로 포개짐
-    const ai = S.ent(tau, T.ai + i * 0.12, 0.12), ag = S.P(tau, T.aig + i * 0.05, T.aig + 0.3 + i * 0.05), st = S.EZ(S.P(tau, T.stk + i * 0.05, T.stk + 0.45 + i * 0.05));
-    const el = AI[i];
-    el.style.opacity = (ai * (1 - 0.45 * ag)).toFixed(3);
-    el.style.filter = `grayscale(${ag.toFixed(2)})`;
-    el.style.transform = `translateY(${(1 - ai) * 14}px) scale(${0.85 + 0.15 * ai})`;
-    const rg = S.ent(tau, T.stk + i * 0.05, 0.12) * (1 - S.P(tau, T.stk + 0.5 + i * 0.05, T.stk + 0.8 + i * 0.05)), rr = `0 0 0 ${(6 * rg).toFixed(1)}px rgba(240,90,40,${rg.toFixed(2)})`;
-    el.style.boxShadow = `0 12px 28px rgba(10,14,18,.4),${rr}`; c.style.boxShadow = `0 0 0 3px rgba(255,255,255,.9),0 12px 28px rgba(10,14,18,.4),${rr}`;
-    el.style.zIndex = st > 0.5 ? 0 : 2;
-  });
   // 셔터 하나 더 — 위에서 내려옴
   const sk = S.EZ(S.P(tau, T.shut, T.shut + 0.5));
   S.$('#dr').style.clipPath = `inset(0 0 ${(100 - sk * 100).toFixed(2)}% 0)`;

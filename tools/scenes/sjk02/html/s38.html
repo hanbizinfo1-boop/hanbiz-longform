@@ -1,119 +1,93 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s38 소식 글 — 회색 소식 판 셋(같은 글) → 배추 극접사 → 주홍 섞어 다시 쓴 한 판</title>
+<title>s38 소식 글 — «AI로 쓰기» 소식 화면에 뻔한 글 → 세 가게에 같은 글(회색) → 배추 사진 2.5D 위에서 한 줄 넣어 시킴 → 배추 사진이 들어간 새 소식 글</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-/* 2편: 콘크리트 위 기울인 소식 판 · 다크 대화창은 왼쪽에서 시키고 빠짐 · 같은 글이 판 셋으로 복제되며 회색으로 빠짐 → 배추 사진 → 주홍이 섞인 한 판 */
+/* 10-19 다시 만들기: 콘크리트·회색 사진 자리·손글씨(말 복사) 삭제 → 배추 사진 2.5D(R5 Business Casual, blender/parallax.py) + 읽히는 소식 화면 */
+#bgA{left:-40px;top:-30px;width:2000px;height:1140px;background-size:cover;background-position:center;filter:blur(18px) brightness(.55) saturate(.7)}
+#bl{position:absolute;left:0;top:0;width:1920px;height:1080px;transform:scale(1.12);transform-origin:40% 50%}   /* 2.5D 이동 끝에 사진 가장자리가 보여 12% 키워 덮음 */
 .row3{position:absolute;left:0;top:0;width:1920px;height:1080px;perspective:2200px}
 .rin{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:50% 55%;transform:rotateX(7deg) rotateZ(-2deg)}
-.pn{width:500px;height:566px;top:190px}
+.pn{width:520px;top:170px}
 .pn .pf{display:flex;align-items:center;gap:14px;padding:16px 26px}
 .pn .pf .nm{font-size:26px}
 .pn .pf .dt{font-size:22px;color:#7B848B;margin-left:auto}
-.pn .pic{position:relative;margin:0 26px;height:190px;border-radius:10px;background:#E4E6E3;overflow:hidden}
-.pn .pic i{position:absolute;left:0;top:0;right:0;bottom:0;background-size:cover;background-position:center 62%;opacity:0}
-.pn .bd{padding:20px 26px;font-size:27px;line-height:1.5;color:#848D94;font-weight:600;height:180px}
-.pn .ft{position:absolute;left:26px;right:26px;bottom:0;height:62px;border-top:1px solid #EEF0F1;display:flex;align-items:center;gap:26px;font-size:22px;color:#8A9299;font-weight:600}
-.pn .ft span{color:#8A9299}
-.o{color:#F05A28;font-weight:800}
-.hl{background:linear-gradient(transparent 56%,rgba(240,90,40,.38) 56%) no-repeat;background-size:calc(var(--hl,0)*100%) 100%}
-.oh{color:#F05A28;font-weight:800;background:linear-gradient(transparent 56%,rgba(240,90,40,.38) 56%) no-repeat;background-size:calc(var(--hl2,0)*100%) 100%}
-.hl2x{background:linear-gradient(transparent 56%,rgba(240,90,40,.38) 56%) no-repeat;background-size:calc(var(--hl2,0)*100%) 100%}
-#dk .bar{height:16px;border-radius:8px;background:#2F373E;margin:10px 0}
-#shotB{left:0;top:0;width:1920px;height:1080px;overflow:hidden}
-#phB{left:-60px;top:-30px;width:2040px;height:1140px;background-size:cover;background-position:center}
-#hand{left:430px;top:215px;font-size:104px;color:#F05A28;transform:rotate(-4deg);white-space:nowrap;text-shadow:0 4px 18px rgba(0,0,0,.5)}
-#chSon{left:170px;top:380px}
-#dk .tb,#dk .tb .tab{font-size:22px}
+.pn .pic{position:relative;margin:0 26px;height:200px;border-radius:10px;overflow:hidden;background-size:cover;background-position:center 60%}
+.pn .bd{padding:20px 26px 10px;font-size:28px;line-height:1.5;color:#1F2A33;font-weight:600;min-height:150px}
+.pn .ai{display:inline-flex;align-items:center;gap:8px;margin:0 26px 18px;padding:8px 16px;border-radius:10px;background:#E3F4F2;color:#0B6E66;font-size:22px;font-weight:800}
+.pn .ft{height:62px;border-top:1px solid #EEF0F1;display:flex;align-items:center;gap:26px;padding:0 26px;font-size:22px;color:#59636B;font-weight:600}
+.pn .ft b{color:#F05A28}
+.oh{background:linear-gradient(transparent 56%,rgba(240,90,40,.40) 56%) no-repeat;background-size:calc(var(--hl,0)*100%) 100%}
+#dkin{position:absolute;left:310px;top:830px;width:1300px;height:96px}
+#dkin .in{position:absolute;left:0;top:0;right:0;bottom:0;font-size:30px}
+#pz{left:1300px;top:70px;width:560px}
 </style></head>
 <body><div id="stage">
-  <div class="bg tex-conc"></div>
-  <!-- 샷 A : 시키고 → 소식 판 → 같은 글 셋 -->
+  <div id="bgA" class="photo abs"></div>
+  <img id="bl" alt="">
+  <!-- 샷 A : 뻔한 소식 글 -->
   <div id="shotA" class="abs" style="left:0;top:0;width:1920px;height:1080px">
     <div class="row3"><div class="rin">
-      <div id="dk" class="dk" style="left:90px;top:250px;width:560px;height:410px">
-        <div class="tb"><span class="md"><i></i>AI</span><span class="tab">새 대화</span></div>
-        <div class="cv" style="bottom:90px"><div class="col">
-          <div id="dkme" class="me">소식 글 써 줘</div>
-          <div id="dkai" class="ai"><div class="av">AI</div><div class="tx"><div class="bar" style="width:92%"></div><div class="bar" style="width:70%"></div></div></div>
-        </div></div>
-        <div class="in"><span id="dkin"></span><span class="send"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" stroke="#171C21" stroke-width="2.6" fill="none" stroke-linecap="round"/></svg></span></div>
-      </div>
-      <div id="pm" class="app pn" style="left:710px;transform-origin:0 0"></div>
-      <div id="pc1" class="app pn" style="left:150px"></div>
-      <div id="pc2" class="app pn" style="left:1270px"></div>
+      <div id="pm" class="app pn" style="left:700px;transform-origin:50% 0"></div>
+      <div id="pc1" class="app pn" style="left:120px"></div>
+      <div id="pc2" class="app pn" style="left:1280px"></div>
     </div></div>
   </div>
-  <!-- 샷 B : 배추 -->
-  <div id="shotB" class="abs"><div id="phB" class="photo abs"></div><div id="hand" class="hand abs" data-box="hand">배추가 너무 좋아서</div></div>
-  <!-- 샷 C : 주홍 섞어 다시 쓴 한 판 -->
-  <div id="shotC" class="abs" style="left:0;top:0;width:1920px;height:1080px">
-    <div class="row3"><div class="rin"><div id="pz" class="app pn" style="left:710px;transform-origin:50% 50%"></div></div></div>
-    <div id="chSon" class="chip gr" data-box="chSon">손님</div>
-  </div>
+  <!-- 샷 B : 배추 2.5D 위 입력창 -->
+  <div id="dkin" class="dk"><div class="in"><span id="dkt"></span><span class="send"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" stroke="#171C21" stroke-width="2.6" fill="none" stroke-linecap="round"/></svg></span></div></div>
+  <!-- 샷 C : 새 소식 글 -->
+  <div id="pz" class="app pn"></div>
 </div>
 <script src="../data/s38.js"></script>
 <script src="../lib/sjk.js"></script>
 <script src="../lib/e4.js"></script>
 <script>
-window.PALETTE = ['#D9DBD6', '#1F2A33', '#F05A28'];   // 바탕·글 + 주홍(가게 한 줄) — 회색은 «똑같은 것»
-const T = { tp: S.at('시키면'), sendA: S.at('이렇게 나와요'), nxt: S.at('이런 글은'), any: S.at('어느'), same: S.at('소식에 붙여도'),
-            sik: S.at('시킬 때'), bae: S.at('배추가'), kim: S.at('김치를'), gae: S.at('가게 얘기'), son: S.at('손님이 읽고'), tt: S.at('떠오를'), diff: S.at('차이예요') };
-const TB = 7.62, TC = 10.2;            // 샷 B·C 시작
-const OLD = '이번 주도 맛있는 국밥으로 찾아뵙겠습니다';
-const NEW = '이번 주는 {oh|배추가 너무 좋아서} 김치를 {hl|평소보다 두 통 더} 담갔어요';
-function panel(id, name) {
+window.PALETTE = ['#4A5A4C', '#1F2A33', '#F05A28'];   // 배추 사진 · 먹 글 · 주홍(가게 한 줄) — 회색은 «똑같은 것»
+window.DEVICES = ['R5 사진 2.5D(블렌더)', '실제 화면 동작(소식 글)'];
+const T = { tp: S.at('시키면'), out: S.at('나와요'), nxt: S.at('이런'), any: S.at('어느'), sik: S.at('시킬'), bae: S.at('배추가'), kim: S.at('김치를'),
+            gae: S.at('얘기가'), son: S.at('손님이'), tt: S.at('떠오를'), diff: S.at('차이예요') };
+const TB = T.sik - 0.08, TC = T.gae - 0.1;      // 샷 B·C 시작
+const OLD = '이번 주도 맛있는 국밥으로 찾아뵙겠습니다.';
+const PROMPT = '이번 주는 배추가 너무 좋아서 김치를 평소보다 두 통 더 담갔어요.';
+const NEW = '이번 주는 {oh|배추가 너무 좋아서} 김치를 평소보다 두 통 더 담갔어요.';
+function panel(id, name, pic) {
   S.$('#' + id).innerHTML = '<div class="hd">소식</div><div class="pf"><div class="av">○</div><div class="nm">' + name + '</div><div class="dt">방금</div></div>' +
-    '<div class="pic"><i></i></div><div class="bd"></div><div class="ft">좋아요<span>댓글</span></div>';
+    '<div class="pic"></div><div class="bd"></div>' + (id === 'pm' ? '<div class="ai">AI로 쓰기</div>' : '') + '<div class="ft">좋아요 <b>0</b> · 댓글 0</div>';
+  S.$('#' + id + ' .pic').style.backgroundImage = S.ph(pic);
 }
-panel('pm', '○○국밥'); panel('pc1', '○○해장국'); panel('pc2', '○○설렁탕'); panel('pz', '○○국밥');
-S.$('#phB').style.backgroundImage = S.ph('p38_cabbage_macro');
-S.$('#pz .pic i').style.backgroundImage = S.ph('p38_cabbage_macro');
-const OLDPLAIN = [...OLD].length;
-S.ev(0.02, 'in', 'pm'); S.ev(0.95, 'card_in', 'dk'); S.ev(T.tp, 'type', 'dkin'); S.ev(2.2, 'msg_in', 'dkme');
-S.ev(T.sendA, 'marker', 'pm'); S.ev(T.any, 'card_in', 'pc1'); S.ev(T.same + 0.05, 'no', 'pm');
-S.ev(TB, 'in', 'shotB'); S.ev(T.bae, 'marker', 'hand');
-S.ev(TC, 'in', 'pz'); S.ev(TC + 0.3, 'type', 'pz'); S.ev(12.5, 'marker', 'pz'); S.ev(T.son, 'card_in', 'chSon');
-S.ev(T.tt, 'sweep', 'pz'); S.ev(16.7, 'marker', 'pz'); S.ev(T.diff, 'shine', 'pz');
-S.scene(tau => {
+panel('pm', '○○국밥', 'p67_pot_lid_steam'); panel('pc1', '○○해장국', 'p30_burner_flame'); panel('pc2', '○○설렁탕', 'p29_two_pots'); panel('pz', '○○국밥', 'p38_cabbage_macro');
+S.$('#pc1 .bd').textContent = OLD; S.$('#pc2 .bd').textContent = OLD;
+S.$('#bgA').style.backgroundImage = S.ph('p38_cabbage_macro');
+S.ev(0.02, 'in', 'pm'); S.ev(T.tp, 'click', 'aibtn'); S.ev(T.tp + 0.35, 'type', 'pm');
+S.ev(T.any, 'card_in', 'pc'); S.ev(T.any + 0.75, 'no', 'grey');
+S.ev(TB, 'in', 'shotB'); S.ev(T.sik + 0.5, 'type', 'dkt');
+S.ev(TC, 'card_in', 'pz'); S.ev(T.gae + 0.6, 'marker', 'hl'); S.ev(T.son + 0.3, 'gauge', 'likes'); S.ev(T.diff, 'shine', 'pz');
+S.scene(async tau => {
+  if (tau >= TB - 0.2) await S.bl('#bl', 's38', tau, { t0: 7.55, pfx: 'f_' });
+  S.$('#bl').style.visibility = tau >= TB ? 'visible' : 'hidden';
   S.$('#shotA').style.visibility = tau < TB ? 'visible' : 'hidden';
-  S.$('#shotB').style.visibility = tau >= TB && tau < TC ? 'visible' : 'hidden';
-  S.$('#shotC').style.visibility = tau >= TC ? 'visible' : 'hidden';
-  // ── 샷 A
-  const k0 = S.ent(tau, 0.0, 0.14), m = S.cam(tau, T.nxt + 0.05, T.nxt + 0.55);
-  S.css('#pm', { opacity: k0, transform: `translate(${(300 * (1 - m)).toFixed(1)}px,${(-10 * (1 - m) + (1 - k0) * 24).toFixed(1)}px) scale(${(1.28 - 0.28 * m).toFixed(4)})` });
-  const kd = S.ent(tau, 0.95, 0.12), kdo = 1 - S.P(tau, T.nxt - 0.05, T.nxt + 0.3);
-  S.css('#dk', { opacity: kd * kdo, transform: `translateX(${((1 - kd) * -40 - (1 - kdo) * 80).toFixed(1)}px)` });
-  const sent = tau >= 2.2;
-  const inEl = S.$('#dkin');
-  if (!sent) E.line(inEl, '소식 글 써 줘', tau, T.tp, T.tp + 0.55, true); else inEl.textContent = '';
-  S.css('#dkme', { opacity: S.ent(tau, 2.2, 0.12) });
-  S.css('#dkai', { opacity: S.ent(tau, 2.55, 0.12) });
-  E.line('#pm .bd', OLD, tau, 2.31, 4.35, true);
-  // 4.62 이렇게 나와요 — 글 아래 회색 밑줄 한 번
-  S.css('#pm .bd', { backgroundImage: 'linear-gradient(transparent 82%,rgba(120,128,135,.35) 82%)', backgroundRepeat: 'no-repeat', backgroundSize: (S.EO(S.P(tau, T.sendA, T.sendA + 0.4)) * 100).toFixed(1) + '% 100%' });
-  E.pop('#pc1', tau, T.any, { dx: -50, dy: 0, sc: 0.04 }); E.pop('#pc2', tau, T.any + 0.1, { dx: 50, dy: 0, sc: 0.04 });
-  S.$('#pc1 .bd').textContent = OLD; S.$('#pc2 .bd').textContent = OLD;
-  const g = S.P(tau, T.same + 0.05, T.same + 0.5);
+  // ── 샷 A: 흐린 배추 바탕 위 소식 화면
+  S.css('#bgA', { transform: `scale(${(1.0 + 0.04 * S.P(tau, 0, TB)).toFixed(4)})` });
+  const k0 = S.ent(tau, 0.0, 0.14), m = S.cam(tau, T.nxt, T.nxt + 0.5);
+  S.css('#pm', { opacity: k0, transform: `translateY(${((1 - k0) * 24).toFixed(1)}px) scale(${(1.3 - 0.3 * m).toFixed(4)})` });
+  const btn = S.$('#pm .ai'); btn.style.background = tau >= T.tp && tau < T.tp + 0.25 ? '#BFE6E1' : '#E3F4F2';
+  btn.style.opacity = (1 - S.P(tau, T.out, T.out + 0.3)).toFixed(3);
+  E.line('#pm .bd', OLD, tau, T.tp + 0.35, T.out - 0.15, true);
+  E.pop('#pc1', tau, T.any, { dx: -50, dy: 0, sc: 0.04 }); E.pop('#pc2', tau, T.any + 0.12, { dx: 50, dy: 0, sc: 0.04 });
+  const g = S.P(tau, T.any + 0.75, T.any + 1.2);
   ['#pm', '#pc1', '#pc2'].forEach(s => E.gray(s, g));
-  // ── 샷 B (배추)
-  const dB = S.P(tau, TB, TC);
-  S.css('#phB', { transform: `scale(${(1.02 + 0.05 * dB).toFixed(4)}) translateX(${(-30 * dB).toFixed(1)}px)` });
-  E.wipe('#hand', tau, T.bae, 0.9);
-  // ── 샷 C
-  const dC = S.P(tau, TC, S.SC.dur);
-  S.css('#pz', { transform: `scale(${(1.44 + 0.06 * dC).toFixed(4)})` });
-  // 옛 글 지워짐(0.3초) → 새 글 타자(주홍 섞음)
+  // ── 샷 B: 배추 2.5D + 입력창
+  const kb = S.ent(tau, T.sik + 0.15, 0.14), kbo = 1 - S.P(tau, TC, TC + 0.3);
+  S.css('#dkin', { opacity: (kb * kbo).toFixed(3), transform: `translateY(${((1 - kb) * 30).toFixed(1)}px)` });
+  E.line('#dkt', PROMPT, tau, T.sik + 0.5, T.kim + 1.9, true);
+  // ── 샷 C: 새 소식 글(배추 사진)
+  const kc = S.ent(tau, TC, 0.14);
+  S.css('#bl', { filter: `brightness(${(1 - 0.25 * S.P(tau, TC, TC + 0.4)).toFixed(3)})` });
+  S.css('#pz', { opacity: tau >= TC ? kc : 0, transform: `perspective(2200px) rotateY(-8deg) rotateZ(1.5deg) translateX(${((1 - kc) * 60).toFixed(1)}px) scale(1.4)`, transformOrigin: '100% 0' });
   const bd = S.$('#pz .bd');
-  if (tau < TC + 0.3) { const n = Math.floor(OLDPLAIN * (1 - S.P(tau, TC + 0.05, TC + 0.3))); E.typed(bd, OLD, n, false); }
-  else E.line(bd, NEW, tau, TC + 0.3, 12.3, true);
-  bd.style.setProperty('--hl', S.EO(S.P(tau, 12.5, 13.0)).toFixed(3));
-  const bd2 = bd; bd2.style.setProperty('--hl2', S.EO(S.P(tau, 16.7, 17.2)).toFixed(3));
-  E.pop('#chSon', tau, T.son, { dy: 10 });
-  // 사진 칸
-  const pi = S.$('#pz .pic i'), kp = S.EO(S.P(tau, T.tt, T.tt + 0.9));
-  pi.style.opacity = tau >= T.tt ? 1 : 0; pi.style.clipPath = `inset(0 0 ${((1 - kp) * 100).toFixed(1)}% 0)`;
-  pi.style.transform = `scale(${(1.02 + 0.08 * S.P(tau, T.tt, S.SC.dur)).toFixed(4)})`;
+  E.line(bd, NEW, tau, TC + 0.15, TC + 1.6, true);
+  bd.querySelectorAll('.oh').forEach(e => e.style.setProperty('--hl', S.EO(S.P(tau, T.gae + 0.6, T.gae + 1.1)).toFixed(3)));
+  S.$('#pz .ft b').textContent = Math.round(S.count(tau, T.son + 0.3, T.son + 1.6, 0, 48));
   E.ring('#pz', tau, T.diff);
 });
 </script>

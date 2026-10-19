@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>시안 s29 — 국밥집 두 군데, A 와 B</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<link rel="stylesheet" href="sian.css">
+<style>
+.pl{left:0;top:0;width:1920px;height:1080px;background-image:url("../../../../소재/sjk02/codex/p29_two_pots.png");transform:scale(1.04)}
+#pB{filter:blur(7px) saturate(.78)}
+#pA{clip-path:polygon(819px 513px,950px 477px,1375px 465px,1750px 488px,1869px 550px,1875px 700px,1838px 850px,1825px 1180px,700px 1180px,700px 975px,863px 975px,900px 600px)}
+.gl{position:absolute;font-family:"Pre";font-weight:900;line-height:1;color:transparent;-webkit-text-stroke:6px #fff;white-space:nowrap}
+.rib2{position:absolute;padding:8px 18px;border-radius:10px;background:#fff;color:#1F2A33;font-family:"Pre";font-weight:900;font-size:30px;white-space:nowrap;box-shadow:0 8px 18px rgba(0,0,0,.45)}
+</style></head>
+<body><div id="stage">
+  <div id="pB" class="photo pl"></div>
+  <div id="pA" class="photo pl"></div>
+
+  <!-- A 콜아웃: 솥마다 점 → 지시선 → 글자 칸 카드 -->
+  <svg class="full va"><path class="lead" d="M1380 700 L1380 600 L1560 600 L1560 470"/><path class="lead" d="M860 470 L860 300 L620 300"/></svg>
+  <div class="ring te va" style="left:1380px;top:700px"></div><div class="ring va" style="left:860px;top:470px"></div>
+  <div class="co va" style="left:1440px;top:330px"><div class="ic" style="background:var(--te);font-size:40px">A</div><div><div class="tt">A 가게</div><div class="sb">AI 한테 그냥 시킴</div></div></div>
+  <div class="co va" style="left:290px;top:250px"><div class="ic" style="background:var(--or);font-size:40px">B</div><div><div class="tt">B 가게</div><div class="sb">한 줄 먼저 쓰고 시킴</div></div></div>
+
+  <!-- B 스포트라이트: 앞 솥만 밝게 · 큰 윤곽 글자 A/B -->
+  <svg class="full vb"><defs><filter id="bl"><feGaussianBlur stdDeviation="60"/></filter>
+    <mask id="m"><rect width="1920" height="1080" fill="#fff"/><ellipse cx="1330" cy="760" rx="560" ry="360" fill="#000" filter="url(#bl)"/></mask></defs>
+    <rect width="1920" height="1080" fill="rgba(6,9,12,.66)" mask="url(#m)"/>
+    <path class="brush" d="M1455 950 C 1560 940, 1680 942, 1790 950" stroke-width="18" opacity=".95" style="stroke:var(--te)"/></svg>
+  <div class="gl vb" style="left:1450px;top:560px;font-size:320px;color:#fff;-webkit-text-stroke:0;text-shadow:0 10px 40px rgba(0,0,0,.6)">A</div>
+  <div class="kick vb" style="left:1460px;top:900px;font-size:30px">A 가게 · <b style="color:#43C9BF">AI 그냥</b></div>
+  <div class="gl vb" style="left:740px;top:220px;font-size:220px;-webkit-text-stroke:5px rgba(255,255,255,.45)">B</div>
+
+  <!-- C 스티커: 둥근 글자 배지 + 아래 리본 -->
+  <div class="badge vc" style="left:1300px;top:420px;background:linear-gradient(160deg,#36C2B7,#1FA39A 60%,#13827A);transform:rotate(-6deg)">A</div>
+  <div class="rib2 vc" style="left:1222px;top:520px;transform:rotate(-6deg)">AI 그냥 시킴</div>
+  <div class="badge vc" style="left:760px;top:300px;background:linear-gradient(160deg,#FF8350,#F05A28 60%,#D9471B);transform:rotate(5deg)">B</div>
+  <div class="rib2 vc" style="left:684px;top:400px;transform:rotate(5deg)">한 줄 먼저</div>
+</div>
+<script>document.body.className = (new URLSearchParams(location.search).get('v') || 'a');</script>
+</body></html>

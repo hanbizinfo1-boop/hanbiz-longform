@@ -1,63 +1,77 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s54 배달 매출은 늘었는데 남는 게 없다 — 배달 봉투 선반, 오른쪽 위 작은 차트 → 봉투 클로즈업에서 칩이 떨어져 나감</title>
+<title>s54 배달 매출은 늘었는데 남는 게 거의 없다 — 배달 봉투 선반 위 큰 그래프 카드, 한 건 12,000원 막대에서 조각이 빠지고 1,200원만 남음</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
 #cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
-#pn{left:1290px;top:80px;width:540px;height:400px;padding:0}
-#pn .hd{font-size:28px}
-#cols{position:absolute;left:44px;top:84px;width:452px;height:190px}
-#cols i{position:absolute;bottom:0;width:100px;background:var(--te);border-radius:6px 6px 0 0;display:block}
-#prof{position:absolute;left:44px;top:292px;width:452px;height:70px}
-#prof .lb{position:absolute;left:0;top:0;font-size:26px;font-weight:800}
-#prof .tr{position:absolute;left:120px;top:14px;width:332px;height:34px;background:#EEF0F1;border-radius:4px}
-#prof .fl{position:absolute;left:120px;top:14px;height:34px;background:var(--or);border-radius:4px;width:0}
-.cp{position:absolute;padding:12px 26px;border-radius:12px;font-weight:800;font-size:36px;white-space:nowrap;box-shadow:0 12px 26px rgba(20,25,30,.3)}
-#cF{left:790px;top:420px;background:#F4F5F3;color:#1F2A33}
-#cP{left:960px;top:520px;background:#F4F5F3;color:#1F2A33}
-#c0{left:1150px;top:640px;background:#2B3238;color:#E7EAEC;font-size:34px}
-#cB{left:170px;top:150px;background:#E4E6E3;color:#5D646B}
+#pn{left:1000px;top:120px;width:880px;height:720px;padding:0}
+#pn .hd{font-size:32px;height:76px;padding:0 44px}
+#cols{position:absolute;left:44px;top:110px;width:792px;height:400px}
+#cols i{position:absolute;bottom:0;width:190px;background:var(--te);border-radius:8px 8px 0 0;display:block}
+#prof{position:absolute;left:44px;top:560px;width:792px;height:70px}
+#prof .lb{position:absolute;left:0;top:10px;font-size:34px;font-weight:800}
+#prof .tr{position:absolute;left:150px;top:18px;width:640px;height:38px;background:#EEF0F1;border-radius:6px}
+#prof .fl{position:absolute;left:150px;top:18px;height:38px;background:var(--or);border-radius:6px;width:0}
+#unit{position:absolute;left:0;top:76px;width:880px;height:640px;opacity:0}
+#unit .tl{position:absolute;font-size:46px;font-weight:900;white-space:nowrap}
+#unit .sg{position:absolute;top:150px;height:96px;border-radius:6px;background:#1F2A33;box-shadow:inset -4px 0 0 #fff}
+#unit .nm{position:absolute;font-size:30px;font-weight:800;white-space:nowrap;color:#59636B}
+#unit .ld{position:absolute;width:2px;background:#C5C9CC}
 </style></head>
 <body><div id="stage">
-  <div class="bg tex-conc"></div>
   <div id="cam"><div id="ph" class="photo" style="left:0;top:0;width:1920px;height:1080px"></div></div>
   <div id="pn" class="app" data-box="pn"><div class="hd">배달 매출</div>
-    <div id="cols"><i style="left:20px;height:70px"></i><i style="left:176px;height:120px"></i><i style="left:332px;height:180px"></i></div>
+    <div id="cols"><i style="left:20px;height:130px"></i><i style="left:300px;height:240px"></i><i style="left:580px;height:370px"></i></div>
     <div id="prof"><div class="lb">수익</div><div class="tr"></div><div class="fl" id="fl"></div></div>
+    <div id="unit">
+      <div class="tl" id="t12" style="left:44px;top:62px">한 건 12,000원</div>
+      <div class="tl" id="t1" style="right:44px;top:62px;color:#F05A28;opacity:0">한 건에 1,200원</div>
+      <div class="sg" id="sM" style="left:44px;width:532px"></div>
+      <div class="sg" id="sF" style="left:576px;width:114px"></div>
+      <div class="sg" id="sP" style="left:690px;width:38px"></div>
+      <div class="sg" id="sR" style="left:728px;width:72px;border-radius:0 6px 6px 0"></div>
+      <div class="nm" id="nM" style="left:44px;top:452px;opacity:0">재료 -8,400</div>
+      <div class="nm" id="nF" style="left:560px;top:452px;opacity:0">수수료 -1,800</div>
+      <div class="nm" id="nP" style="left:560px;top:502px;opacity:0">포장비 -600</div>
+    </div>
   </div>
-  <div id="cF" class="cp" data-box="cF">수수료</div><div id="cP" class="cp" data-box="cP">포장비</div>
-  <div id="c0" class="cp" data-box="c0">≈ 0</div><div id="cB" class="cp" data-box="cB">바쁨</div>
 </div>
 <script src="../data/s54.js"></script>
 <script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
 <script>
-window.PALETTE = ['#D9DBD6', '#1FA39A', '#F05A28', '#1F2A33'];
+window.PALETTE = ['#D9DBD6', '#1FA39A', '#F05A28'];
+window.DEVICES = ['(기존) 그래프 카드'];
 S.$('#ph').style.backgroundImage = S.ph('p54_delivery_bag');
-const T = { c1: S.at('배달매출이'), c3: S.at('대표님이'), prof: S.at('매주'), shot: S.at('한건'), fee: S.at('수수료랑'), pk: S.at('포장비'), zero: S.at('거의'), busy: S.at('바쁘기만') };
+const T = { c1: S.at('배달매출이'), c2: S.at('계속'), c3: S.at('대표님이'), g: S.at('근데'), prof: S.at('매주'), shot: S.at('한건'), fee: S.at('수수료랑'), pk: S.at('포장비'), mat: S.at('빼면'), zero: S.at('거의'), busy: S.at('바쁘기만') };
 const cols = [...document.querySelectorAll('#cols i')];
-S.ev(T.c1, 'gauge', 'cols'); S.ev(T.prof, 'card_in', 'prof'); S.ev(T.shot, 'sweep', 'cam'); S.ev(T.fee, 'no', 'cF'); S.ev(T.pk, 'sweep', 'cP');
-S.ev(T.zero, 'card_in', 'c0'); S.ev(T.busy, 'msg_in', 'cB');
+S.ev(T.c1, 'gauge', 'cols'); S.ev(T.g, 'card_in', 'prof'); S.ev(T.shot, 'in', 'unit'); S.ev(T.fee, 'no', 'sF'); S.ev(T.pk, 'no', 'sP'); S.ev(T.mat, 'no', 'sM');
+S.ev(T.zero, 'card_in', 't1'); S.ev(T.busy, 'shine', 'sR');
 S.scene(tau => {
-  // 사진: 미디엄(아주 느린 흐름) → «한 건» 에 봉투 쪽 클로즈업(새 숏, 카메라 1회)
-  const z = S.cam(tau, T.shot, T.shot + 0.4);
-  const sc = S.lerp(1.04 + 0.03 * S.P(tau, 0, T.shot), 1.45, z);
-  const fx = S.lerp(960, 810, z), fy = S.lerp(540, 500, z);
-  S.css('#cam', { transform: `translate(960px,540px) scale(${sc}) translate(${-fx - 14 * S.P(tau, 0, T.shot)}px,${-fy}px)` });
-  // 차트 판: 막대 셋이 차례로 올라감 → «매주 뽑아» 에 수익 행(아주 짧은 주홍) → «한 건» 에 빠져나감
-  const pk = S.ent(tau, -0.1, 0.14), out = S.cam(tau, T.shot - 0.05, T.shot + 0.3);
-  S.css('#pn', { opacity: pk * (1 - out), transform: `perspective(2200px) rotateX(5deg) rotateZ(2deg) translateX(${out * 160}px)` });
-  cols.forEach((c, i) => { const t0 = [T.c1, T.c1 + 0.55, T.c3][i]; c.style.transform = `scaleY(${S.EO(S.P(tau, t0, t0 + 0.4))})`; c.style.transformOrigin = '50% 100%'; });
-  S.css('#prof', { opacity: S.ent(tau, T.prof, 0.12) });
-  S.$('#fl').style.width = (30 * S.EO(S.P(tau, T.prof + 0.1, T.prof + 0.4))) + 'px';
-  // 칩: 수수료·포장비가 봉투에서 떨어져 나감 · 남은 막대 ≈ 0 · 바쁨
-  const f = S.ent(tau, T.fee - 0.35, 0.12), fo = S.P(tau, T.fee + 0.15, T.fee + 0.7);
-  S.css('#cF', { opacity: f * (1 - fo), transform: `translate(${-140 * S.EO(fo)}px,${220 * fo * fo}px) rotate(${-14 * fo}deg)` });
-  const p = S.ent(tau, T.pk - 0.2, 0.12), po = S.P(tau, T.pk + 0.15, T.pk + 0.7);
-  S.css('#cP', { opacity: p * (1 - po), transform: `translate(${160 * S.EO(po)}px,${240 * po * po}px) rotate(${14 * po}deg)` });
-  const z0 = S.ent(tau, T.zero, 0.12);
-  S.css('#c0', { opacity: z0, transform: `translateY(${(1 - z0) * 16}px)` });
-  const b = S.ent(tau, T.busy, 0.12);
-  S.css('#cB', { opacity: b, transform: `translateY(${(1 - b) * -16}px)` });
+  // 사진: 아주 느린 옆 흐름
+  S.css('#cam', { transform: S.camCss({ s: S.lerp(1.04, 1.12, S.P(tau, 0, S.SC.dur)), x: 960 - 20 * S.P(tau, 0, S.SC.dur), y: 540 }) });
+  // 카드: 막대 셋이 차례로 → «근데» 에 수익 줄(아주 짧은 주홍) → «한 건» 에 막대 한 줄로 바뀜
+  const pk = S.ent(tau, 0.2, 0.16), sw = S.cam(tau, T.shot, T.shot + 0.35);
+  S.css('#pn', { opacity: pk, transform: `perspective(2200px) rotateX(4deg) rotateZ(1.6deg) translateY(${((1 - pk) * 30).toFixed(1)}px)` });
+  [T.c1, T.c2, T.c3].forEach((t0, i) => { const c = cols[i]; c.style.transform = `scaleY(${S.EO(S.P(tau, t0, t0 + 0.45))})`; c.style.transformOrigin = '50% 100%'; });
+  S.css('#cols', { opacity: 1 - sw }); S.css('#prof', { opacity: S.ent(tau, T.g, 0.12) * (1 - sw) });
+  S.$('#fl').style.width = (36 * S.EO(S.P(tau, T.prof, T.prof + 0.4))) + 'px';
+  S.css('#unit', { opacity: sw });
+  S.css('#t12', { clipPath: `inset(0 ${((1 - S.EO(S.P(tau, T.shot + 0.1, T.shot + 0.5))) * 100).toFixed(1)}% 0 0)` });
+  const wv = S.EO(S.P(tau, T.shot + 0.1, T.shot + 0.55));
+  ['sM', 'sF', 'sP', 'sR'].forEach(id => S.css('#' + id, { clipPath: `inset(0 ${((1 - wv) * 100).toFixed(1)}% 0 0)` }));
+  // 조각이 아래로 빠지며 회색 + 이름표
+  function drop(id, nm, t0, dx) {
+    const k = S.EO(S.P(tau, t0, t0 + 0.4));
+    S.css('#' + id, { transform: `translate(${(dx * k).toFixed(1)}px,${(190 * k).toFixed(1)}px)`, background: k > 0.02 ? '#9AA0A6' : '#1F2A33' });
+    S.css('#' + nm, { opacity: S.ent(tau, t0 + 0.15, 0.12) });
+  }
+  drop('sF', 'nF', T.fee, 0); drop('sP', 'nP', T.pk, 0); drop('sM', 'nM', T.mat, 0);
+  const rm = S.EO(S.P(tau, T.mat, T.mat + 0.4));
+  S.$('#sR').style.background = rm > 0.5 ? '#F05A28' : '#1F2A33';
+  S.css('#t1', { opacity: S.ent(tau, T.zero, 0.12), transform: `translateY(${((1 - S.ent(tau, T.zero, 0.12)) * 14).toFixed(1)}px)` });
+  const rg = S.ent(tau, T.busy, 0.2);
+  S.$('#sR').style.boxShadow = `0 0 0 ${(rg * 8).toFixed(1)}px rgba(240,90,40,${(0.45 * rg).toFixed(2)})`;
 });
 </script>
 </body></html>

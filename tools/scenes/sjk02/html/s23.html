@@ -51,8 +51,8 @@ S.ev(T.mine + 0.05, 'marker', 'tg');            // 우리 가게 — 한 칸에 
 S.ev(T.n90, 'shutter', 'cells90');              // 90% — 99칸 셔터 내려옴(0.9초)
 S.ev(T.n1 + 0.05, 'shine', 'cell1');            // 1% — 한 칸만 주홍
 S.ev(T.fin + 0.15, 'click', 'cell1');           // 바로 — 그 칸 빛이 한 번 더 밝아짐
-S.focus([{ t0: T.n90, t1: T.n90 + 0.95, big: '90%', small: '사라지는 쪽', color: 'gr' },
-         { t0: T.n1, t1: T.n1 + 0.95, big: '1%', small: '살아남는 쪽', color: 'or' }]);
+S.focus([{ t0: T.n90, t1: T.n90 + 0.95, big: '90%', color: 'gr' },
+         { t0: T.n1, t1: T.n1 + 0.95, big: '1%', color: 'or' }]);
 const CAM = [{ t: -1, s: 1.0, x: 960, y: 520 }, { t: T.fin - 0.05, s: 1.22, x: 1290, y: 500, d: 0.7 }];
 S.scene(tau => {
   // 카메라: 아주 느린 옆 흐름 + 끝에서 한 칸 쪽으로 한 번

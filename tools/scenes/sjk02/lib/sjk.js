@@ -160,6 +160,26 @@
   // 사진 경로
   S.ph = name => `url("../../../../소재/sjk02/codex/${name}.png")`;
 
+  // 블렌더 프레임(10-19 R1·R3 무대): <img id> 에 _tmp/sjk02/blender/<dir>/f####.png 를 τ 에 맞춰 띄우고 디코드를 기다린다.
+  // 프레임 1 = τ −pre (blender/desk.py · bl_common.py 와 같은 시계). 장면 함수는 async 로: S.scene(async τ => { await S.bl('#bl', 's45', τ); … })
+  // o = {t0: 프레임 1 의 τ(기본 −pre), nf: 프레임 수, pfx: 파일 앞글자(기본 'f' — parallax.py 는 'f_')}
+  S.bl = async (sel, dir, tau, o = {}) => {
+    const img = typeof sel === 'string' ? S.$(sel) : sel;
+    const t0 = o.t0 === undefined ? -SC.pre : o.t0;
+    const nf = o.nf || Math.round((SC.pre + SC.dur + SC.post - (t0 + SC.pre)) * 60000 / 1001) + 1;
+    const n = Math.min(nf, Math.max(1, Math.round((tau - t0) * 60000 / 1001) + 1));
+    const src = `../../../../_tmp/sjk02/blender/${dir}/${o.pfx || 'f'}${String(n).padStart(4, '0')}.png`;
+    if (img.dataset.src !== src) { img.dataset.src = src; img.src = src; try { await img.decode(); } catch (e) { } }
+    return n;
+  };
+  // 블렌더 화면 좌표(proj.js — window.PROJ[프레임][이름] = [x, y, 깊이])
+  S.proj = (name, tau) => {
+    const P = window.PROJ; if (!P) return null;
+    const n = Math.max(1, Math.round((tau + SC.pre) * 60000 / 1001) + 1);
+    const row = P[n] || P[Object.keys(P).length];
+    return row ? row[name] : null;
+  };
+
   // 장면 등록
   S.scene = fn => {
     let first = true;

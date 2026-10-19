@@ -1,0 +1,49 @@
+/* 성제관02 강조 표시 시안(10-19 사장님 «표시도 약하고 디자인도 안이뻐서 완성도가 낮아보여 다른 시안좀 보여줘»)
+   한 장면 파일에 세 방향을 겹쳐 두고 ?v=a|b|c 로 하나만 보인다.
+   A 콜아웃 — 지시선 + 아이콘 칸이 있는 흰 카드(정보 그래픽)
+   B 스포트라이트 — 주변을 어둡게 눌러 대상만 밝히고, 큰 글 + 붓 밑줄
+   C 스티커 — 흰 칼선 두른 색 스티커 + 손으로 그린 동그라미·화살표 */
+.va,.vb,.vc{visibility:hidden}
+body.a .va,body.b .vb,body.c .vc{visibility:visible}
+.full{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:visible}
+
+/* ── A 콜아웃 */
+.co{position:absolute;display:flex;align-items:center;gap:16px;padding:14px 26px 14px 14px;background:#fff;border-radius:14px;
+  box-shadow:0 18px 40px rgba(6,9,12,.45),0 3px 8px rgba(6,9,12,.3);font-family:"Pre";white-space:nowrap}
+.co .ic{flex:none;width:64px;height:64px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:36px}
+.co .ic svg{width:38px;height:38px}
+.co .tt{font-weight:800;font-size:34px;color:#1F2A33;line-height:1.15}
+.co .sb{font-weight:600;font-size:21px;color:#6B747B;margin-top:4px;letter-spacing:.02em}
+.ring{position:absolute;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;border:5px solid #fff;background:var(--or);box-shadow:0 0 0 10px rgba(255,255,255,.28),0 4px 12px rgba(0,0,0,.5)}
+.ring.te{background:var(--te)}
+.lead{fill:none;stroke:#fff;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 2px 4px rgba(0,0,0,.55))}
+/* 미니 답글 카드(폰 화면 속 같은 답글) */
+.rv{position:absolute;width:340px;background:#fff;border-radius:14px;padding:16px 20px 18px;font-family:"Pre";box-shadow:0 18px 40px rgba(6,9,12,.5)}
+.rv .h{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:700;color:#6B747B}
+.rv .h i{width:30px;height:30px;border-radius:50%;background:#FDE6DC;display:flex;align-items:center;justify-content:center}
+.rv .h i svg{width:18px;height:18px}
+.rv .q{margin-top:10px;font-size:29px;font-weight:900;color:var(--or);letter-spacing:-.02em}
+.rv .b{height:12px;border-radius:6px;background:#E6E9EB;margin-top:10px}
+/* 키캡 */
+.key{display:inline-flex;align-items:center;justify-content:center;min-width:64px;height:62px;padding:0 16px;border-radius:12px;background:#F4F5F6;color:#1F2A33;
+  font-family:"Pre";font-weight:800;font-size:28px;box-shadow:0 6px 0 #AEB4B9,0 14px 24px rgba(0,0,0,.45)}
+.keys{position:absolute;display:flex;align-items:center;gap:12px;font-family:"Pre";font-weight:900;font-size:30px;color:#fff}
+.same{background:linear-gradient(transparent 52%,rgba(31,163,154,.42) 52%)}
+
+/* ── B 스포트라이트 */
+.big{position:absolute;font-family:"Pre";font-weight:900;color:#fff;letter-spacing:-.03em;line-height:1.05;text-shadow:0 6px 30px rgba(0,0,0,.6);white-space:nowrap}
+.kick{position:absolute;font-family:"Pre";font-weight:700;font-size:28px;letter-spacing:.12em;color:rgba(255,255,255,.82);white-space:nowrap}
+.kick b{color:#FF7A4D}
+.brush{fill:none;stroke:var(--or);stroke-linecap:round;stroke-linejoin:round}
+
+/* ── C 스티커 */
+.stk{position:absolute;display:inline-flex;align-items:center;gap:12px;padding:14px 26px;border-radius:18px;border:7px solid #fff;
+  background:linear-gradient(160deg,#FF8350,#F05A28 60%,#D9471B);color:#fff;font-family:"Pre";font-weight:900;font-size:40px;white-space:nowrap;
+  box-shadow:0 16px 30px rgba(0,0,0,.5),inset 0 2px 0 rgba(255,255,255,.35)}
+.stk.te{background:linear-gradient(160deg,#36C2B7,#1FA39A 60%,#13827A)}
+.stk.dk{background:linear-gradient(160deg,#3A4651,#1F2A33)}
+.stk svg{width:44px;height:44px}
+.badge{position:absolute;width:170px;height:170px;margin:-85px 0 0 -85px;border-radius:50%;border:8px solid #fff;display:flex;align-items:center;justify-content:center;
+  font-family:"Pre";font-weight:900;font-size:96px;color:#fff;box-shadow:0 18px 34px rgba(0,0,0,.5),inset 0 3px 0 rgba(255,255,255,.35)}
+.scrib{fill:none;stroke:var(--or);stroke-width:9;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 3px 6px rgba(0,0,0,.45))}
+.hnd{position:absolute;font-family:"Hand";font-weight:700;color:#FF7A4D;white-space:nowrap;text-shadow:0 3px 10px rgba(0,0,0,.6)}

@@ -1,0 +1,7 @@
+{"image": "소재/sjk02/codex/p38_cabbage_macro.png", "depth": "_tmp/sjk02/depth/p38_cabbage_macro.npy", "depth_blur": 3,
+ "hfov": 60, "near": 2.5, "far": 70, "grid": [480, 320], "t0": 7.55, "t1": 18.66,
+ "keys": [{"t": 7.55, "pos": [900, 560, 0.0], "look": [900, 560], "lens": 33},
+          {"t": 12.3, "pos": [900, 540, 0.10], "look": [880, 520], "lens": 33},
+          {"t": 14.3, "pos": [880, 520, 0.17], "look": [860, 500], "lens": 33, "dx": 0.08},
+          {"t": 18.66, "pos": [860, 500, 0.24], "look": [840, 480], "lens": 33, "dx": 0.14}],
+ "out": "_tmp/sjk02/blender/s38"}

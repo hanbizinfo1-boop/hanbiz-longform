@@ -1,71 +1,82 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s22 같은 AI, 갈린 두 가게 — 탁자 위 보고서 두 장 · 초점 옮기기(앞 → 뒤) · 앞 장 탈색</title>
+<title>s22 같은 AI, 갈린 두 가게 — 탁자 위 보고서 두 장 · 초점 옮기기(앞 → 뒤) · 큰 그래프 카드 + 손그림 화살표(R11)</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#world{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#w{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px;transform:scale(1.08)}
 .ly{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background-size:100% 100%}
-/* 사진 1536×1024 → 1.25배. 보고서 앞 장·뒤 장 다각형(월드 좌표 = 사진 ×1.25, 위 100 잘림 보정은 .ly 안이라 사진 ×1.25) */
+/* 사진 1536×1024 → 1.25배. 보고서 앞 장·뒤 장 다각형(위 100 잘림 보정은 .ly 안이라 사진 ×1.25) */
 #lbase{filter:blur(9px) saturate(.72) brightness(.94)}
 #lfront{clip-path:polygon(0px 862px,615px 675px,1206px 1027px,875px 1280px,450px 1280px);filter:saturate(.78) contrast(1.04)}
 #lback{clip-path:polygon(565px 556px,1062px 432px,1365px 577px,1262px 800px,1098px 852px);filter:saturate(.78) contrast(1.04)}
 #lfg{clip-path:polygon(0px 862px,615px 675px,1206px 1027px,875px 1280px,450px 1280px);filter:blur(9px) grayscale(1) brightness(1.04)}
 .tag{position:absolute;opacity:0}
-.ai{position:absolute;display:flex;align-items:center;gap:12px;padding:8px 20px 8px 8px;background:#fff;border-radius:12px;font-family:"Pre";font-weight:900;font-size:34px;color:#1F2A33;box-shadow:0 14px 30px rgba(10,14,18,.42),0 2px 6px rgba(10,14,18,.3)}
-.ai .tl{width:44px;height:44px;border-radius:10px;background:#1FA39A;display:flex;align-items:center;justify-content:center}
-.ai svg,.gc svg.ic{width:28px;height:28px;fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
-.gc{position:absolute;width:260px;background:#fff;border-radius:12px;padding:14px 16px 12px;font-family:"Pre";font-weight:900;font-size:30px;color:#1F2A33;box-shadow:0 18px 38px rgba(10,14,18,.45),0 3px 8px rgba(10,14,18,.3)}
-.gc .cap{display:flex;align-items:center;gap:10px;margin-top:8px;white-space:nowrap}
-.gc .pt{width:36px;height:36px;border-radius:9px;background:#F05A28;display:flex;align-items:center;justify-content:center}
-.gc .bars{position:relative;height:96px;display:flex;align-items:flex-end;gap:16px;padding:0 10px;border-bottom:3px solid #C9CED2}
-.gc .bars i{flex:1;background:#F05A28;border-radius:4px 4px 0 0;transform-origin:bottom}
-#gF{left:330px;top:745px}
-#gB{left:1030px;top:590px}
-#cAiF{left:690px;top:640px}
-#cAiB{left:1160px;top:440px}
-#cSame{left:890px;top:545px}
-#link{position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none}
+.gc{position:absolute;height:480px;background:#fff;border-radius:14px;padding:28px;font-family:"Pre";box-shadow:0 22px 48px rgba(10,14,18,.45),0 3px 8px rgba(10,14,18,.3)}
+.gc svg.gr{position:absolute;left:28px;top:80px}
+.gc .hd2{position:absolute;left:28px;top:18px;font-size:30px;font-weight:800;color:#1F2A33}
+.gc .xl{position:absolute;left:28px;top:420px;width:464px;display:flex;font-size:22px;font-weight:600;color:#6B747B}
+.gc .xl span{flex:none;width:77px;text-align:center;margin-left:0}
+.gc .bars{position:absolute;left:28px;right:28px;top:150px;height:280px;display:flex;align-items:flex-end;gap:26px;padding:0 14px;border-bottom:4px solid #C9CED2}
+.gc .bars i{flex:1;background:#F8C5B0;border-radius:6px 6px 0 0;transform-origin:bottom}
+#gF{left:220px;top:430px;width:520px}
+#gB{left:1040px;top:410px;width:560px}
+#arw{position:absolute;left:28px;top:20px;overflow:visible}
+#nmB{position:absolute;left:70px;top:100px;font-family:"Hand";font-weight:700;font-size:48px;line-height:1;color:#F05A28;white-space:nowrap}
+.aic{position:absolute;width:48px;height:48px;border-radius:50%;background:var(--te);color:#fff;font-family:"Pre";font-weight:900;font-size:24px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 3px #fff,0 8px 18px rgba(0,0,0,.4);opacity:0}
 </style></head>
 <body><div id="stage">
-  <div id="world">
+  <div id="cam" class="abs"><div id="w" class="abs">
     <div class="ly" id="lbase"></div>
     <div class="ly" id="lfront"></div>
     <div class="ly" id="lback"></div>
     <div class="ly" id="lfg"></div>
-    <svg id="link" viewBox="0 0 1920 1080"><path id="lk" d="M745 672 L1170 478" fill="none" stroke="#1FA39A" stroke-width="6" stroke-linecap="round" stroke-dasharray="1000" stroke-dashoffset="1000"/></svg>
-    <div id="gF" class="gc tag" data-box="gF"><svg viewBox="0 0 228 84" width="228" height="84"><path d="M0 21H228M0 42H228M0 63H228" stroke="#E6E9EB" stroke-width="2"/><path id="gl" d="M6 46L44 40L82 47L120 41L158 46L196 42L222 44" fill="none" stroke="#9AA0A6" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/></svg><div class="cap">매출 그대로</div></div>
-    <div id="cAiF" class="ai tag" data-box="cAiF"><span class="tl"><svg viewBox="0 0 24 24"><path d="M12 3C12.6 8 14 9.4 19 10 14 10.6 12.6 12 12 17 11.4 12 10 10.6 5 10 10 9.4 11.4 8 12 3z"/><path d="M19 15v5M16.5 17.5h5"/></svg></span>AI</div>
-    <div id="cAiB" class="ai tag" data-box="cAiB"><span class="tl"><svg viewBox="0 0 24 24"><path d="M12 3C12.6 8 14 9.4 19 10 14 10.6 12.6 12 12 17 11.4 12 10 10.6 5 10 10 9.4 11.4 8 12 3z"/><path d="M19 15v5M16.5 17.5h5"/></svg></span>AI</div>
-    <div id="gB" class="gc tag" data-box="gB"><div class="bars"><i id="b1" style="height:34%"></i><i id="b2" style="height:64%"></i><i id="b3" style="height:100%"></i></div><div class="cap"><span class="pt"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/></svg></span>손님 ↑</div></div>
-    <div id="cSame" class="chip ink tag" data-box="cSame">같은 AI</div>
-  </div>
+    <div id="gF" class="gc tag" data-box="gF">
+      <div class="hd2">손님 수</div>
+      <svg class="gr" width="464" height="330" viewBox="0 0 464 330"><path d="M39 0V326M116 0V326M193 0V326M270 0V326M347 0V326M424 0V326" stroke="#E6E9EB" stroke-width="3"/><path d="M0 326H464" stroke="#C9CED2" stroke-width="4"/><path id="gl" d="M39 200 L116 182 L193 206 L270 188 L347 202 L424 194" fill="none" stroke="#9AA0A6" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/></svg>
+      <div class="xl"><span>1월</span><span>2월</span><span>3월</span><span>4월</span><span>5월</span><span>6월</span></div>
+      <div id="aiF" class="aic" style="left:-16px;top:-16px">AI</div>
+    </div>
+    <div id="gB" class="gc tag" data-box="gB">
+      <div class="hd2">손님 수</div>
+      <svg class="gr" width="464" height="330" viewBox="0 0 464 330"><path d="M39 0V326M116 0V326M193 0V326M270 0V326M347 0V326M424 0V326" stroke="#E6E9EB" stroke-width="3"/><path d="M0 326H464" stroke="#C9CED2" stroke-width="4"/><path id="ap" d="M39 270 C 150 255 250 200 410 70 M410 70 L360 74 M410 70 L408 122" fill="none" stroke="#F05A28" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="xl"><span>1월</span><span>2월</span><span>3월</span><span>4월</span><span>5월</span><span>6월</span></div>
+      <div id="nmB">손님</div>
+      <div id="aiB" class="aic" style="left:-16px;top:-16px">AI</div>
+    </div>
+  </div></div>
 </div>
 <script src="../data/s22.js"></script>
 <script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
 <script>
-window.PALETTE = ['#D9DBD6', '#1F2A33', '#1FA39A', '#F05A28'];
-const T = { first: S.at('반대로'), aiF: S.at('AI를'), aiB: S.at('손님이'), shift: S.at('늘어난'), same: S.at('같은', 0), tool: S.at('도구를'), why: S.at('갈렸을까요') };
-['lbase', 'lfront', 'lback', 'lfg'].forEach(id => { document.getElementById(id).style.backgroundImage = S.ph('p22_two_reports'); });
-S.ev(T.first + 0.1, 'card_in', 'gF'); S.ev(T.first + 0.5, 'marker', 'gl'); S.ev(T.aiF, 'msg_in', 'cAiF'); S.ev(T.aiB + 0.1, 'card_in', 'cAiB');
-S.ev(T.shift, 'in', 'focus'); S.ev(T.shift + 0.05, 'card_in', 'gB'); S.ev(T.shift + 0.45, 'gauge', 'bars'); S.ev(T.tool, 'card_in', 'cSame'); S.ev(T.why, 'no', 'lfg');
+window.PALETTE = ['#1F2A33', '#1FA39A', '#F05A28'];
+window.DEVICES = ['R11 손그림 화살표'];
+const T = { first: S.at('반대로'), shift: S.at('늘어난'), tool: S.at('도구를'), why: S.at('왜 이렇게') };
+// 10-19: s21 과 같은 사진(p22)이 연속이라(T8) 다른 사진 흐림 바탕 하나로 — 초점 층(lfront·lback·lfg)은 p22 모양이라 끔
+['lbase', 'lfront', 'lback', 'lfg'].forEach(id => { document.getElementById(id).style.backgroundImage = S.ph('n31_counter_angle'); });
+['lfront', 'lback', 'lfg'].forEach(id => { document.getElementById(id).style.display = 'none'; });
+S.ev(T.first + 0.1, 'card_in', 'gF'); S.ev(T.first + 0.5, 'marker', 'gl');
+S.ev(T.shift, 'in', 'focus'); S.ev(T.shift + 0.05, 'card_in', 'gB'); S.ev(T.shift + 1.0, 'marker', 'ap');
+S.ev(T.tool, 'click', 'aic');
 const GL = document.getElementById('gl'); GL.style.strokeDasharray = 1;
-const LK = document.getElementById('lk'), LKL = LK.getTotalLength(); LK.style.strokeDasharray = LKL;
-const fade = (id, a, p) => S.css('#' + id, { opacity: a, transform: `translateY(${((1 - S.clamp(p)) * 14).toFixed(1)}px)` });
+const fade = (id, p) => S.css('#' + id, { opacity: S.clamp(p), transform: `translateY(${((1 - S.clamp(p)) * 14).toFixed(1)}px)` });
+const CAM = [{ t: 0, s: 1.04, x: 980, y: 540 }, { t: T.why, s: 1.0, x: 960, y: 540, d: 0.4 }];
 S.scene(tau => {
-  // 느린 옆 흐름(오른쪽 → 왼쪽으로 아주 조금)
-  const d = S.P(tau, 0, S.SC.dur);
-  S.css('#world', { transform: `translate(${(-20 - 46 * d).toFixed(2)}px,0) scale(1.03)` });
+  // 느린 옆 흐름(아주 조금) 뒤 «왜 이렇게» 에 0.4초 물러남
+  const c = S.camState(tau, CAM, 0.4);
+  S.css('#cam', { transform: S.camCss({ s: c.s, x: c.x - 40 * S.P(tau, 0, T.why), y: c.y }) });
   // 초점 옮기기: 앞 장 선명 → 뒤 장 선명(0.4초)
   const m = S.EZ(S.P(tau, T.shift - 0.05, T.shift + 0.35));
-  S.css('#lfront', { opacity: 1 - m });
-  S.css('#lback', { opacity: m });
-  // 앞 장 탈색(흐린 채) — 갈렸을까요
-  S.css('#lfg', { opacity: S.EO(S.P(tau, T.why, T.why + 0.5)) });
-  const pc = S.ent(tau, T.first + 0.1, 0.12), pa = S.ent(tau, T.aiF, 0.12), pb = S.ent(tau, T.aiB + 0.1, 0.12), pu = S.ent(tau, T.shift + 0.05, 0.2), ps = S.ent(tau, T.tool, 0.12);
-  fade('gF', pc, pc); GL.style.strokeDashoffset = 1 - S.EO(S.P(tau, T.first + 0.5, T.first + 1.3));
-  { const g = S.EO(S.P(tau, T.why, T.why + 0.5)); S.css('#gF', { filter: S.desat(g) + ' brightness(' + (1 - 0.22 * g).toFixed(3) + ')' }); } fade('cAiF', pa, pa); fade('cAiB', pb, pb); fade('gB', pu, pu); S.css('#gB', { filter: `blur(${(5 * (1 - pu)).toFixed(2)}px)` });
-  ['b1', 'b2', 'b3'].forEach((id, i) => S.css('#' + id, { transform: `scaleY(${S.EO(S.P(tau, T.shift + 0.45 + 0.12 * i, T.shift + 0.95 + 0.12 * i)).toFixed(3)})` })); fade('cSame', ps, ps);
-  LK.style.strokeDashoffset = LKL * (1 - S.EO(S.P(tau, T.tool - 0.05, T.tool + 0.3)));
+  S.css('#lfront', { opacity: 1 - m }); S.css('#lback', { opacity: m });
+  const pc = S.ent(tau, T.first + 0.1, 0.12), pu = S.ent(tau, T.shift + 0.05, 0.2);
+  fade('gF', pc); GL.style.strokeDashoffset = 1 - S.EO(S.P(tau, T.first + 0.5, T.first + 1.3));
+  fade('gB', pu); S.css('#gB', { filter: `blur(${(5 * (1 - pu)).toFixed(2)}px)` });
+  // 주홍 손그림 화살표 + 이름표 «손님»
+  E.stroke('#ap', tau, T.shift + 1.0, 0.55);
+  E.wipe('#nmB', tau, T.shift + 1.45, 0.3);
+  // 같은 도구를 → 두 카드 왼쪽 위에 청록 AI 원
+  ['aiF', 'aiB'].forEach((id, i) => { const k = S.ent(tau, T.tool + 0.06 * i, 0.12); S.css('#' + id, { opacity: k, transform: `scale(${(0.6 + 0.4 * k).toFixed(3)})` }); });
 });
 </script>
 </body></html>

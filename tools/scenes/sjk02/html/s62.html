@@ -1,39 +1,73 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s62 직접 권한다 — 로우앵글 빈 메뉴판, 손가락이 가리키는 한 줄</title>
+<title>s62 직접 권한다 — 로우앵글 나무 메뉴판에 차림표, 손가락이 가리키는 «수육국밥» 손그림 화살표, AI 원은 회색으로 빠짐</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#w{left:0;top:-60px;width:1997px;height:1331px}
-#ph{left:0;top:0;width:1997px;height:1331px}
-#lb{left:70px;top:64px;opacity:0}
-.cp{opacity:0}
+#cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#ph{position:absolute;left:0;top:0;width:1920px;height:1280px;background-size:100% 100%;background-repeat:no-repeat}
+#bd{position:absolute;left:0;top:0;width:1000px;height:600px;font-family:"Pre";color:#F3E7CE;text-shadow:0 2px 3px rgba(0,0,0,.55)}
+#bd .t1{position:absolute;left:0;width:1000px;top:34px;text-align:center;font-size:62px;font-weight:900;letter-spacing:.02em}
+#bd .t2{position:absolute;left:0;width:1000px;top:112px;text-align:center;font-size:38px;font-weight:800;letter-spacing:.4em;color:#E4D2AE}
+#bd .rw{position:absolute;left:90px;width:820px;height:68px;display:flex;justify-content:space-between;align-items:center;font-size:54px;font-weight:700;border-bottom:3px dashed rgba(243,231,206,.45)}
+#bd .rw.hl{background:linear-gradient(transparent 56%,rgba(240,90,40,.55) 56%)}
+.full{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:visible}
+#aic{position:absolute;width:104px;height:104px;border-radius:50%;background:#1FA39A;border:5px solid #fff;color:#fff;font-family:"Pre";font-weight:900;font-size:44px;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,.5);overflow:hidden}
+#aic i{position:absolute;left:-10px;top:-10px;right:-10px;bottom:-10px;background:repeating-linear-gradient(135deg,transparent 0 9px,rgba(120,126,132,.95) 9px 15px);opacity:0}
 </style></head>
 <body><div id="stage">
-  <div id="w" class="abs"><div id="ph" class="photo abs"></div>
-    <div id="cj" class="chip or cp" data-box="cj" style="left:1390px;top:500px">직접</div>
-    <div id="cai" class="chip te cp" data-box="cai" style="left:1390px;top:700px">AI</div>
+  <div id="cam">
+    <div id="ph"></div>
+    <div id="bd" data-diegetic><div class="t1">○○국밥</div><div class="t2">차림표</div><div id="rows"></div><svg style="position:absolute;left:0;top:0;width:1000px;height:600px;overflow:visible"><path id="oval" d="" fill="none" stroke="#F05A28" stroke-width="8" stroke-linecap="round" style="filter:drop-shadow(0 2px 3px rgba(0,0,0,.6))"/></svg></div>
+    <svg class="full"><path id="arr" d="" fill="none" stroke="#F05A28" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" style="filter:drop-shadow(0 3px 5px rgba(0,0,0,.6))"/><path id="ah" d="" fill="none" stroke="#F05A28" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" style="filter:drop-shadow(0 3px 5px rgba(0,0,0,.6))"/></svg>
+    <div id="aic" data-box="aic"><span>AI</span><i></i></div>
   </div>
-  <div id="lb" class="chip gr" data-box="lb">처음 온 손님</div>
 </div>
 <script src="../data/s62.js"></script>
 <script src="../lib/sjk.js"></script>
-<script src="_e6.js"></script>
+<script src="../lib/e4.js"></script>
 <script>
-window.PALETTE = ['#D9DBD6', '#F05A28', '#1FA39A'];
+window.PALETTE = ['#3A2616', '#F05A28', '#1FA39A'];
+window.DEVICES = ['R12 메뉴판(손가락이 가리킴)'];
 S.$('#ph').style.backgroundImage = S.ph('p62_menu_lowangle');
-// 손가락 끝(사진 700,550 → 판 910,715)이 가리키는 메뉴판 줄
-E.svg('#w', 1997, 1331, '<rect id="rc" x="640" y="610" width="720" height="92" rx="10" fill="none" stroke="#F05A28" stroke-width="9" transform="rotate(-9 1000 656)"/>');
-const T = { lb: S.at('처음'), rc: S.at('제일'), cj: S.at('직접'), ai: S.at('이거는'), no: S.at('절대') };
-S.ev(T.lb, 'card_in', 'lb'); S.ev(T.rc, 'marker', 'rc'); S.ev(T.cj, 'card_in', 'cj'); S.ev(T.ai, 'msg_in', 'cai'); S.ev(T.no, 'no', 'cai');
+// 나무 판 안쪽 네 점(눈으로 잰 값, 1536×1024 → 화면 x*1.25, y*1.25 — 사진 위쪽 기준으로 깔았다)
+const Q = [[436, 278], [1195, 55], [1240, 520], [395, 665]].map(p => [p[0] * 1.25, p[1] * 1.25]);
+S.fitQuad(S.$('#bd'), 1000, 600, Q);
+const proj = (u, v) => { const a = [S.lerp(Q[0][0], Q[1][0], u), S.lerp(Q[0][1], Q[1][1], u)], b = [S.lerp(Q[3][0], Q[2][0], u), S.lerp(Q[3][1], Q[2][1], u)]; return [S.lerp(a[0], b[0], v), S.lerp(a[1], b[1], v)]; };
+const ROWS = [['돼지국밥', '9,000'], ['순대국밥', '9,500'], ['수육국밥', '10,500'], ['수육 (소)', '18,000'], ['수육 (대)', '26,000'], ['공기밥', '1,000']];
+S.$('#rows').innerHTML = ROWS.map((r, i) => `<div class="rw${i === 2 ? ' hl' : ''}" id="rw${i}" style="top:${176 + i * 70}px"><span>${r[0]}</span><span>${r[1]}</span></div>`).join('');
+const T = { rows: S.at('처음'), pt: S.at('제일'), hl: S.at('직접'), ai: S.at('이거는'), no: S.at('절대') };
+// 화살표: 손가락 끝(사진 700,550 → 화면 875,588)에서 «수육국밥» 줄 오른쪽 끝으로
+const tgt = proj(0.03, (176 + 2 * 70 + 34) / 600);
+const P2 = [tgt[0], tgt[1]], P0 = [860, 700], P1 = [P2[0] + 40, P2[1] + 330];
+const arrD = `M${P0[0]} ${P0[1]} Q ${P1[0]} ${P1[1]} ${P2[0].toFixed(1)} ${P2[1].toFixed(1)}`;
+const ang = Math.atan2(P2[1] - P1[1], P2[0] - P1[0]);
+const hd = (a) => `${(P2[0] + Math.cos(ang + a) * -44).toFixed(1)} ${(P2[1] + Math.sin(ang + a) * -44).toFixed(1)}`;
+let od = ''; for (let a = -100; a <= 270; a += 10) { const r = a * Math.PI / 180, g = 1 + 0.03 * (a + 100) / 370; od += (od ? 'L' : 'M') + (500 + 452 * g * Math.cos(r)).toFixed(1) + ' ' + (350 + 50 * g * Math.sin(r)).toFixed(1); }
+S.$('#oval').setAttribute('d', od);
+S.$('#arr').setAttribute('d', arrD);
+S.$('#ah').setAttribute('d', `M${hd(0.5)} L ${P2[0].toFixed(1)} ${P2[1].toFixed(1)} L ${hd(-0.5)}`);
+S.css('#aic', { left: (P0[0] + 130) + 'px', top: (P0[1] + 10) + 'px' });
+const oval = S.$('#oval'), OL = oval.getTotalLength(); oval.style.strokeDasharray = OL;
+S.ev(0.3, 'card_in', 'bd'); S.ev(T.pt, 'marker', 'rw2'); S.ev(T.ai, 'card_in', 'aic'); S.ev(T.no, 'no', 'aic');
+const arr = S.$('#arr'), AL = arr.getTotalLength(), ah = S.$('#ah'), HL = ah.getTotalLength();
+arr.style.strokeDasharray = AL; ah.style.strokeDasharray = HL;
 S.scene(tau => {
-  S.css('#w', { left: E.lin(tau, -0.2, S.SC.dur, 0, -70) + 'px' });
-  E.in('#lb', tau, T.lb, { dy: -12 });
-  E.stroke(S.$('#rc'), tau, T.rc, 0.5);
-  E.in('#cj', tau, T.cj); E.in('#cai', tau, T.ai);
-  const g = S.P(tau, T.no, T.no + 0.3), c = S.$('#cai');
-  c.style.background = `rgb(${Math.round(31 + 197 * g)},${Math.round(163 + 67 * g)},${Math.round(154 + 73 * g)})`;
-  c.style.color = g > 0.5 ? '#5D646B' : '#fff';
-  c.style.opacity = (parseFloat(c.style.opacity) * (1 - 0.3 * g)).toFixed(3);
+  const d = S.P(tau, -0.2, S.SC.dur);
+  S.css('#cam', { transform: S.camCss({ s: S.lerp(1.0, 1.08, d), x: 960, y: 540 }) });
+  // 차림표: 줄이 위에서부터 하나씩 써 넣어짐
+  S.css('#bd', { opacity: S.ent(tau, 0.25, 0.2) });
+  ROWS.forEach((r, i) => { const k = S.ent(tau, T.rows + 0.2 + i * 0.16, 0.12); S.css('#rw' + i, { opacity: k, transform: `translateX(${((1 - k) * -16).toFixed(1)}px)` }); });
+  // 형광: «직접» 에 수육국밥 줄만 주홍 밑칠
+  S.css('#rw2', { background: `linear-gradient(transparent 6%,rgba(240,90,40,${(0.42 * S.ent(tau, T.pt, 0.3)).toFixed(2)}) 6%,rgba(240,90,40,${(0.42 * S.ent(tau, T.pt, 0.3)).toFixed(2)}) 94%,transparent 94%)`, color: tau >= T.hl ? '#FFE3D2' : '' });
+  // 화살표: «제일 맛있는» 에 손끝에서 줄로 그려짐
+  const k = S.EO(S.P(tau, T.pt, T.pt + 0.5)), h = S.EO(S.P(tau, T.pt + 0.42, T.pt + 0.62));
+  arr.style.strokeDashoffset = AL * (1 - k); ah.style.strokeDashoffset = HL * (1 - h);
+  // 10-19 설계자: 화살표·타원이 글줄을 가로질러 취소선처럼 보임 → 끔. 사진 속 손가락이 직접 가리키고 그 줄만 주홍 밑칠
+  arr.style.opacity = 0; ah.style.opacity = 0; oval.style.opacity = 0;
+  // AI 원: «이거는 AI가» 에 켜지고 «절대 못 해요» 에 회색으로 빠지며 회색 빗금
+  const a = S.ent(tau, T.ai, 0.12), g = S.EO(S.P(tau, T.no, T.no + 0.35));
+  S.css('#aic', { opacity: a, transform: `scale(${(0.7 + 0.3 * a).toFixed(3)})`, filter: S.desat(g) });
+  S.$('#aic i').style.opacity = g;
 });
 </script>
 </body></html>

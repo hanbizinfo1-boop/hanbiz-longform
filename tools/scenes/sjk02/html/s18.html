@@ -1,80 +1,88 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s18 AI가 그 자리에 와 있다 → 조금만 지나면 다 쓴다 — 콘크리트 벽 스텐실 줄 · 옆 트래킹</title>
+<title>s18 AI가 그 자리에 와 있다 → 조금만 지나면 다 쓴다 — 옛날 TV 화면이 메뉴 목록에서 AI 대화창으로, 물러나면 가게 8곳에 AI(R4 옛날 TV)</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#world{position:absolute;left:0;top:0;width:5200px;height:1080px;transform-origin:0 0}
-.tile{position:absolute;top:0;width:1924px;height:1080px;background-image:url("../../../../소재/sjk02/codex/t_concrete.png");background-size:cover}
-.st{position:absolute;width:340px;text-align:center;font-family:"Pre";font-weight:900;line-height:1;letter-spacing:-.04em;font-size:250px;white-space:nowrap;color:#1FA39A;opacity:0;
-  -webkit-mask-image:linear-gradient(90deg,#000 0 48%,transparent 48% 50.5%,#000 50.5% 100%),linear-gradient(180deg,#000 0 52%,transparent 52% 55%,#000 55% 100%);
-  -webkit-mask-composite:source-in;mask-composite:intersect;filter:url(#rough)}
-.slot{position:absolute;width:310px;height:310px;border:8px dashed #6E767D;border-radius:10px;opacity:0}
-#box0{position:absolute;width:330px;height:330px;border:5px solid #1FA39A;border-radius:10px;opacity:0}
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#w{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px;transform:scale(1.12)}
+/* 사진(1536x1024)을 1.25배로 깔고 위 100px 잘라 냄 → #ph 안은 사진 좌표 그대로 */
+#ph{left:0;top:-100px;width:1536px;height:1024px;transform-origin:0 0;transform:scale(1.25);background-size:1536px 1024px;filter:saturate(.9) contrast(1.03)}
+#scr{left:0;top:0;width:1536px;height:1024px;-webkit-mask-image:url("../../../../_tmp/sjk02/tex/n18_mask.png");mask-image:url("../../../../_tmp/sjk02/tex/n18_mask.png");-webkit-mask-size:1536px 1024px;mask-size:1536px 1024px;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+#ui{left:0;top:0;width:640px;height:520px;overflow:hidden;background:#12151a}
+#ui .pg{position:absolute;left:0;top:0;width:640px;height:520px}
+#menu{background:#fff;font-family:"Pre";color:#1F2A33}
+#menu .hd{height:78px;display:flex;align-items:center;padding:0 30px;font-size:42px;font-weight:800;border-bottom:2px solid #E7E9EB}
+#menu .mr{height:140px;display:flex;align-items:center;justify-content:space-between;padding:0 34px;border-bottom:2px solid #EEF0F1}
+#menu .mr b{font-size:38px;font-weight:800}
+#menu .mr span{font-size:34px;font-weight:700;color:#59636B}
+#chat{background:#171C21}
+#chat .dk{left:0;top:0;width:640px;height:520px;border-radius:0;border:0;box-shadow:none}
+#chat .dk .tb{height:70px;padding:0 28px;font-size:30px}
+#chat .dk .tb .md{font-size:32px}
+#chat .dk .tb .md i{width:16px;height:16px}
+#chat .dk .cv{top:70px;bottom:0;padding:22px 0}
+#chat .dk .col{width:92%;gap:22px}
+#chat .dk .me{font-size:34px;padding:14px 24px;line-height:1.4}
+#chat .dk .ai{font-size:34px;line-height:1.45;gap:16px}
+#chat .dk .ai .av{width:50px;height:50px;font-size:24px;border-radius:12px}
+#scan{left:0;top:0;width:640px;height:520px;background:repeating-linear-gradient(180deg,rgba(0,0,0,.07) 0 2px,transparent 2px 5px);pointer-events:none}
+#glow{left:0;top:0;width:640px;height:520px;background:radial-gradient(ellipse at 50% 45%,transparent 55%,rgba(0,0,0,.32) 100%);pointer-events:none}
+.sc{position:absolute;top:790px;width:180px;height:150px;border-radius:16px;background-color:#fff;background-repeat:no-repeat;background-size:338px 225px;background-position:-77px -33px;box-shadow:0 18px 36px rgba(0,0,0,.5),0 2px 6px rgba(0,0,0,.3)}
+.sc .ai{position:absolute;right:-14px;top:-14px;width:48px;height:48px;border-radius:50%;background:var(--te);color:#fff;font-family:"Pre";font-weight:900;font-size:24px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 3px #fff,0 6px 14px rgba(0,0,0,.4)}
 </style></head>
 <body><div id="stage">
-  <svg width="0" height="0" style="position:absolute"><defs><filter id="rough" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="7" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="6"/></filter></defs></svg>
-  <div id="world"></div>
+  <div id="cam" class="abs">
+    <div id="w" class="abs">
+      <div id="ph" class="abs">
+        <div id="scr" class="abs">
+          <div id="ui" class="abs" data-diegetic>
+            <div id="menu" class="pg"><div class="hd">메뉴</div>
+              <div class="mr"><b>돼지국밥</b><span>9,000원</span></div>
+              <div class="mr"><b>순대국밥</b><span>9,500원</span></div>
+              <div class="mr"><b>수육국밥</b><span>11,000원</span></div></div>
+            <div id="chat" class="pg"><div class="dk"><div class="tb"><span class="md"><i></i>AI</span><span class="tab">새 대화</span></div>
+              <div class="cv"><div class="col"><div class="me">메뉴 설명 써 줘</div><div class="ai"><div class="av">AI</div><div class="tx" id="ans"></div></div></div></div></div></div>
+            <div id="scan" class="abs"></div><div id="glow" class="abs"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="row"></div>
+  </div>
 </div>
 <script src="../data/s18.js"></script>
 <script src="../lib/sjk.js"></script>
 <script>
-window.PALETTE = ['#D9DBD6', '#1F2A33', '#1FA39A'];
-const T = { ai: S.at('AI가'), dak: S.at('딱'), now: S.at('지금은'), lead: S.at('앞서가는'), soon: S.at('조금만') };
-const T_ALL = S.at('써요') - 0.2;
-const world = document.getElementById('world');
-// 바탕: 콘크리트를 좌우 뒤집으며 이어 붙임(이음매 없음)
-for (let i = 0; i < 3; i++) { const d = document.createElement('div'); d.className = 'tile'; d.style.left = (i * 1920) + 'px'; if (i % 2) d.style.transform = 'scaleX(-1)'; world.appendChild(d); }
-// 칸 9개: 첫 칸(AI) + 뒤따라 찍히는 8칸
-const PITCH = 340, X0 = 560, CY = 480;
-const cells = [];
-for (let k = 0; k < 9; k++) {
-  const cx = X0 + PITCH * k;
-  const t = document.createElement('div'); t.className = 'st'; t.textContent = 'AI'; t.style.left = (cx - 170) + 'px'; t.style.top = (CY - 125) + 'px'; world.appendChild(t);
-  let sl = null;
-  if (k === 1) { sl = document.createElement('div'); sl.className = 'slot'; sl.style.left = (cx - 155) + 'px'; sl.style.top = (CY - 155) + 'px'; world.appendChild(sl); }
-  cells.push({ t, sl, cx });
+window.PALETTE = ['#171C21', '#E7EAEC', '#1FA39A'];   // 어두운 가게 사진 + TV 화면 + 청록 = AI
+window.DEVICES = ['R4 옛날 TV'];
+const T = { ai: S.at('AI가'), lead: S.at('앞서가는'), pass: S.at('지나면'), all: S.at('다 써요') };
+const ANS = '정성을 다해 끓인 따뜻한 국밥 한 그릇으로 여러분을 기다립니다.';
+document.getElementById('ph').style.backgroundImage = 'url("../../../../_tmp/sjk02/tex/n18_clean.png")';
+// 초록 화면 네 점(사진 좌표, 곡선 가장자리는 마스크가 다듬음) — 640x520 판을 맞춤
+S.fitQuad(document.getElementById('ui'), 640, 520, [[644, 238], [962, 160], [964, 444], [640, 496]]);
+const row = document.getElementById('row'), sc = [];
+for (let i = 0; i < 8; i++) {
+  const d = document.createElement('div'); d.className = 'sc'; d.style.left = (156 + i * 204) + 'px'; d.style.backgroundImage = S.ph('n10_shop_icon');
+  d.innerHTML = '<div class="ai">AI</div>'; row.appendChild(d); sc.push(d);
 }
-const box0 = document.createElement('div'); box0.id = 'box0'; box0.style.left = (X0 - 165) + 'px'; box0.style.top = (CY - 165) + 'px'; world.appendChild(box0);
-const PRINT0 = T.soon - 0.45, STEP = 0.12, PAN0 = T.soon - 0.67, PAN1 = T.soon + 0.85, CX1 = 2700;
-// 뒤따라 찍히는 칸은 카메라가 그 칸을 화면 안(오른쪽 1700px 안)으로 끌어올 때 찍힌다
-const printAt = [];
-for (let k = 1; k <= 8; k++) {
-  const need = (PITCH * k + X0 - 1700 - 0) / (CX1 - 960);          // 필요한 이동 비율
-  let t = PRINT0 + (k - 1) * STEP;
-  if (need > 0) { for (let u = PAN0; u <= PAN1; u += 0.01) { if (S.EIO(S.P(u, PAN0, PAN1)) >= need) { t = Math.max(t, u); break; } } }
-  printAt.push(t);
-}
-S.ev(T.ai, 'marker', 'ai0'); S.ev(T.dak, 'card_in', 'box0'); S.ev(T.now, 'in', 'slot'); S.ev(T.lead, 'shine', 'ai0');
-S.ev(PRINT0, 'card_in', 'ai1'); S.ev(T_ALL, 'no', 'all');
-const mix = (a, b, k) => a.map((v, i) => Math.round(S.lerp(v, b[i], k)));
-const TE = [31, 163, 154], GR = [118, 127, 135];
+S.ev(T.ai, 'click', 'ui');
+S.ev(T.pass, 'card_in', 'row');
+S.ev(T.all, 'click', 'ai');
+const CAM = [{ t: 0, s: 1, x: 960, y: 540 }, { t: T.lead, s: 1.15, x: 1005, y: 330, d: 0.5 }, { t: T.pass, s: 0.9, x: 960, y: 540, d: 0.5 }];
 S.scene(tau => {
-  const c = { x: 960 + (CX1 - 960) * S.EIO(S.P(tau, PAN0, PAN1)) };
-  // 앞쪽: 아주 느린 옆 흐름(느리게 오른쪽으로 20px)
-  const slow = S.P(tau, 0, PAN0) * 36;
-  S.css('#world', { transform: `translate(${(-(c.x - 960) - slow).toFixed(2)}px,0)` });
-  const gray = S.EO(S.P(tau, T_ALL, T_ALL + 0.3));
-  cells.forEach((o, k) => {
-    let a, lift = 0;
-    if (k === 0) {
-      a = S.EO(S.P(tau, T.ai, T.ai + 0.4));
-      lift = -34 * S.EO(S.P(tau, T.lead, T.lead + 0.3));
-    } else {
-      a = S.EO(S.P(tau, printAt[k - 1], printAt[k - 1] + 0.22));
-    }
-    o.t.style.opacity = (a > 0 ? 0.97 : 0);
-    o.t.style.clipPath = `inset(-6% ${((1 - a) * 100).toFixed(1)}% -6% 0)`;
-    o.t.style.color = `rgb(${mix(TE, GR, gray).join(',')})`;
-    o.t.style.transform = `translateY(${lift.toFixed(1)}px)`;
-    if (o.sl) {
-      const s1 = S.ent(tau, T.now, 0.12) * (1 - a);
-      o.sl.style.opacity = s1.toFixed(3);
-    }
+  S.css('#cam', { transform: S.camCss(S.camState(tau, CAM, 0.5)) });
+  // 채널 바뀌듯 가로로 닦아 넘김(0.15초, 번쩍임 없음)
+  const k = S.EO(S.P(tau, T.ai, T.ai + 0.15));
+  S.css('#menu', { transform: `translateX(${(-640 * k).toFixed(1)}px)` });
+  S.css('#chat', { transform: `translateX(${(640 * (1 - k)).toFixed(1)}px)` });
+  S.type('#ans', ANS, tau, T.ai + 0.35, 20, false);
+  // 8곳 가로 줄 + AI 동그라미
+  sc.forEach((d, i) => {
+    const q = S.ent(tau, T.pass + 0.06 * i, 0.12);
+    d.style.opacity = q; d.style.transform = `translateY(${((1 - q) * 40).toFixed(1)}px)`;
+    const a = S.ent(tau, T.all + 0.03 * i, 0.1);
+    d.querySelector('.ai').style.opacity = a; d.querySelector('.ai').style.transform = `scale(${(0.6 + 0.4 * a).toFixed(3)})`;
   });
-  // 첫 칸 둘레 선(딱)
-  const b = S.EO(S.P(tau, T.dak, T.dak + 0.3));
-  box0.style.opacity = (b * (1 - S.P(tau, T.lead - 0.1, T.lead + 0.1))).toFixed(3);
-  box0.style.clipPath = `inset(0 ${((1 - b) * 100).toFixed(1)}% 0 0)`;
 });
 </script>
 </body></html>

@@ -7,15 +7,17 @@
 #ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background:url("../../../../소재/sjk02/codex/d51_phone_receipt_clean.png") center/100% 100% no-repeat}
 #scr{position:absolute;left:0;top:0;width:360px;height:784px;background:#0C0F12;overflow:hidden;border-radius:18px}
 #vf{position:absolute;left:0;top:0;width:360px;height:650px;overflow:hidden;background:#20262B}
-#vfrc{position:absolute;left:70px;top:-60px;width:220px;height:760px;background:#F4F5F4}
-#vfrc .t{position:absolute;left:18px;right:18px;height:20px;background:#8C959C;border-radius:3px}
-#vfrc .t.b{background:#1F2A33}
+#vfrc{position:absolute;left:30px;top:-60px;width:300px;height:900px;background:#F4F5F4;font-family:"Pre";color:#232A30}
+#vfrc .it{position:absolute;left:18px;right:18px;height:30px;display:flex;justify-content:space-between;font-size:21px;font-weight:600;white-space:nowrap}
+#vfrc .it.hd2{font-size:22px;font-weight:800;letter-spacing:.1em;color:#59636B}
+#vfrc .it.sum{font-size:25px;font-weight:900}
+#vfrc .rl{position:absolute;left:18px;right:18px;height:3px;background:#232A30}
 .br{position:absolute;width:44px;height:44px;border:5px solid #fff;opacity:0}
 #scan{position:absolute;left:30px;width:300px;height:5px;background:#43C9BF;border-radius:3px;opacity:0;box-shadow:0 0 18px #43C9BF}
 #shut{position:absolute;left:130px;top:672px;width:100px;height:100px;border-radius:50%;border:7px solid #fff;display:flex;align-items:center;justify-content:center}
 #shut i{width:68px;height:68px;border-radius:50%;background:#fff;display:block}
 #thumb{position:absolute;left:0;top:0;width:150px;height:200px;background:#F4F5F4;border-radius:8px;box-shadow:0 14px 30px rgba(0,0,0,.4);opacity:0;overflow:hidden}
-#thumb .t{position:absolute;left:14px;right:14px;height:12px;background:#8C959C;border-radius:2px}
+#thumb .it{position:absolute;left:12px;right:12px;height:18px;display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:#232A30;white-space:nowrap;font-family:"Pre"}
 #dk{left:1290px;top:50px;width:560px;height:380px;transform-origin:50% 50%}
 #dk .cv{bottom:96px}
 #dk .att{position:absolute;left:5%;bottom:90px;width:140px;height:70px;border:3px dashed #43C9BF;border-radius:12px;opacity:0;display:flex;align-items:center;justify-content:center;color:#43C9BF;font-size:22px;font-weight:700}
@@ -25,7 +27,7 @@
   <div id="rig">
     <div id="ph"></div>
     <div id="scr">
-      <div id="vf"><div id="vfrc"></div>
+      <div id="vf"><div id="vfrc" data-diegetic></div>
         <div class="br" id="b0" style="left:44px;top:60px;border-right:0;border-bottom:0"></div><div class="br" id="b1" style="right:44px;top:60px;border-left:0;border-bottom:0"></div>
         <div class="br" id="b2" style="left:44px;bottom:60px;border-right:0;border-top:0"></div><div class="br" id="b3" style="right:44px;bottom:60px;border-left:0;border-top:0"></div>
         <div id="scan"></div></div>
@@ -44,15 +46,22 @@
 <script src="../lib/sjk.js"></script>
 <script>
 window.PALETTE = ['#14191E', '#1FA39A', '#E7EAEC'];
+window.DEVICES = ['실제 화면'];
 // 사진 속 휴대폰 화면(quads.json d51 stage — 값 복사). 사진 d51 이 올라오면 값을 채운다.
 const Q0 = [[648.3, -50.7], [1038.2, 38.4], [849.0, 866.2], [459.1, 777.1]];   // quads.json d51_phone_receipt stage
 const qc = Q0.reduce((a, p) => [a[0] + p[0] / 4, a[1] + p[1] / 4], [0, 0]);
 S.fitQuad(S.$('#scr'), 360, 784, Q0.map(p => [qc[0] + (p[0] - qc[0]) * 0.985, qc[1] + (p[1] - qc[1]) * 0.985]));
 // 뷰파인더 속 영수증(HTML) — 줄 막대
-const rc = S.$('#vfrc'); let h = '';
-for (let i = 0; i < 24; i++) h += `<div class="t ${i % 5 === 0 ? 'b' : ''}" style="top:${90 + i * 26}px;width:${i % 3 === 0 ? 120 : 170}px"></div>`;
+const rc = S.$('#vfrc');
+const RCT = [['배추 3망', '27,000'], ['대파 2단', '8,000'], ['돼지 사골 20kg', '96,000']];
+let h = '<div class="it hd2" style="top:250px"><span>○○국밥</span></div>';
+RCT.forEach((r, i) => { h += `<div class="it" style="top:${322 + i * 64}px"><span>${r[0]}</span><span>${r[1]}</span></div>`; });
+h += '<div class="rl" style="top:524px"></div><div class="it sum" style="top:546px"><span>합계</span><span>131,000</span></div>';
 rc.innerHTML = h;
-const th = S.$('#thumb'); let h2 = ''; for (let i = 0; i < 10; i++) h2 += `<div class="t" style="top:${16 + i * 17}px;width:${i % 3 === 0 ? 70 : 100}px"></div>`; th.innerHTML = h2;
+const th = S.$('#thumb'); let h2 = '';
+RCT.forEach((r, i) => { h2 += `<div class="it" style="top:${50 + i * 26}px"><span>${r[0]}</span><span>${r[1]}</span></div>`; });
+h2 += '<div class="it" style="top:136px;font-size:12px"><span>합계</span><span>131,000</span></div>';
+th.innerHTML = '';
 const T = { five: S.at('5분'), xl: S.at('엑셀'), hard: S.at('귀찮으시면'), rc: S.at('영수증'), shot: S.at('찍어서'), put: S.at('넣어도') };
 const cx = qc[0], cy = qc[1];
 S.focus([{ t0: T.five, t1: T.five + 1.1, big: '5분', color: 'te' }]);
@@ -62,7 +71,7 @@ S.scene(tau => {
   S.css('#rig', { transform: `translate(${-30 * dr}px,0)` });
   // 영수증 천천히 흘러감 → «엑셀» 에 초점 괄호 4개가 모임
   const bk = S.ent(tau, T.xl, 0.18);
-  S.css('#vfrc', { transform: `translateY(${-70 * S.EIO(S.P(tau, 0, T.rc))}px) scale(${1 + 0.1 * bk})` });
+  S.css('#vfrc', { transform: `translateY(${-30 * S.EIO(S.P(tau, 0, T.rc))}px) scale(${1 + 0.1 * bk})` });
   ['b0', 'b1', 'b2', 'b3'].forEach((id, i) => S.css('#' + id, { opacity: bk, transform: `translate(${(i % 2 ? -1 : 1) * (1 - bk) * 40}px,${(i < 2 ? 1 : -1) * (1 - bk) * 40}px)` }));
   // 스캔 선(영수증 위를 위→아래)
   const sp = S.P(tau, T.rc, T.rc + 0.55);

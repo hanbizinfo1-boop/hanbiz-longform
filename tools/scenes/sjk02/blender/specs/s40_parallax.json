@@ -1,0 +1,9 @@
+{"image": "소재/sjk02/codex/p40_meat_trimming.png", "depth": "_tmp/sjk02/depth/p40_meat_trimming.npy", "depth_blur": 3,
+ "hfov": 60, "near": 2.5, "far": 70, "grid": [480, 320], "t0": 0.0, "t1": 18.0,
+ "keys": [{"t": 0.0, "pos": [768, 512, 0.0], "look": [768, 512], "lens": 33},
+          {"t": 6.5, "pos": [768, 512, 0.04], "look": [760, 500], "lens": 33, "dx": 0.12},
+          {"t": 9.3, "pos": [700, 400, 0.17], "look": [700, 390], "lens": 33, "dx": 0.05},
+          {"t": 13.8, "pos": [690, 380, 0.22], "look": [700, 390], "lens": 33},
+          {"t": 18.0, "pos": [690, 380, 0.26], "look": [720, 400], "lens": 33, "dx": -0.08}],
+ "track": [[672, 359], [806, 436]],
+ "out": "_tmp/sjk02/blender/s40"}

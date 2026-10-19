@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="sian-labels" content="a=① 2:22 «국밥집 두 군데» — 두 솥에 A·B, 글자가 솥 테두리 뒤에 걸침|b=② 2:26 «A 가게는» — 앞 솥에 초점, B 는 흐려지며 물러남 · 대화창에 시킨 말 타자|c=③ 2:34 «B 가게는»(다음 장면 첫 순간) — 초점이 뒤 솥으로 옮겨 감, B 가 주홍으로">
+<title>시안 s29 3차 — 초점 옮기기 + 깊이 속 글자(글 없음)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<link rel="stylesheet" href="sian.css">
+<style>
+/* 사진 층 셋: 흐린 바탕 · 뒤 솥 · 앞 솥 — 초점이 옮겨 가면 각 층의 흐림만 바뀐다 */
+.pl{left:0;top:0;width:1920px;height:1080px;background-image:url("../../../../소재/sjk02/codex/p29_two_pots.png");transform:scale(1.04)}
+#pBase{filter:blur(8px) saturate(.75) brightness(.92)}
+#pBack{clip-path:polygon(562px 331px,650px 312px,875px 306px,1125px 319px,1181px 337px,1181px 650px,1125px 700px,600px 700px,569px 600px)}
+#pFront{clip-path:polygon(819px 513px,950px 477px,1375px 465px,1750px 488px,1869px 550px,1875px 700px,1838px 850px,1825px 1180px,700px 1180px,700px 975px,863px 975px,900px 600px)}
+.lt{position:absolute;font-family:"Pre";font-weight:900;line-height:1;letter-spacing:-.04em;color:#fff;text-shadow:0 12px 40px rgba(0,0,0,.45)}
+#lA{left:1360px;top:200px;font-size:320px}
+#lB{left:770px;top:112px;font-size:230px}
+#dkw{left:60px;top:390px;width:760px;height:400px}
+#dkw .ai,#dkw .me{font-size:28px}
+#dkw .cv{display:flex;flex-direction:column;justify-content:flex-end}
+.bars{display:flex;flex-direction:column;gap:12px;flex:1}
+.bars i{display:block;height:18px;border-radius:5px;background:#323B43}
+</style></head>
+<body><div id="stage">
+  <div id="pBase" class="photo pl"></div>
+  <div id="lB" class="lt">B</div>
+  <div id="pBack" class="photo pl"></div>
+  <div id="lA" class="lt">A</div>
+  <div id="pFront" class="photo pl"></div>
+  <div id="dkw" class="dk abs"><div class="tb"><span class="md"><i></i>AI</span><span class="tab">새 대화</span></div>
+    <div class="cv"><div class="col">
+      <div class="me">가게 소개 한 줄 써 줘</div>
+      <div class="ai"><div class="av">AI</div><div class="tx">정성을 다해 끓인 따뜻한 국밥 한 그릇으로 여러분을 기다립니다.</div></div>
+    </div></div>
+    <div class="in"><span>메뉴 설명 써 줘</span><span class="caret"></span><span class="send"><svg viewBox="0 0 24 24" fill="none" stroke="#171C21" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></span></div>
+  </div>
+</div>
+<script>
+const v = new URLSearchParams(location.search).get('v') || 'a';
+const $ = s => document.querySelector(s);
+// 상태: [뒤 솥 흐림, 앞 솥 흐림, B 흐림·불투명, A 흐림·색, 대화창]
+const ST = {
+  a: { back: 6, front: 0, lB: [3, 1, '#fff'], lA: [0, 1, '#fff'], dk: 0 },
+  b: { back: 9, front: 0, lB: [8, .28, '#fff'], lA: [0, 1, '#fff'], dk: 1 },
+  c: { back: 0, front: 9, lB: [0, 1, '#F05A28'], lA: [8, .45, '#C9CDD1'], dk: 0 },
+}[v];
+$('#pBack').style.filter = `blur(${ST.back}px) saturate(.8)`;
+$('#pFront').style.filter = `blur(${ST.front}px) saturate(${v === 'c' ? .35 : .85})`;
+$('#lB').style.filter = `blur(${ST.lB[0]}px)`; $('#lB').style.opacity = ST.lB[1]; $('#lB').style.color = ST.lB[2];
+$('#lA').style.filter = `blur(${ST.lA[0]}px)`; $('#lA').style.opacity = ST.lA[1]; $('#lA').style.color = ST.lA[2];
+$('#dkw').style.opacity = ST.dk;
+</script>
+</body></html>

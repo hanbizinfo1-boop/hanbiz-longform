@@ -1,158 +1,162 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s36 리뷰 답글도 똑같아요 — 식탁 어깨 너머 휴대폰(리뷰 화면) → 기울인 다크 대화창 → 다시 휴대폰에 답글 등록</title>
+<title>s36 리뷰 답글도 똑같아요 — ① 휴대폰 리뷰 화면 + 답글 시킴 → ② 다크 대화창(한 줄 넣어 시킴) → ③ 답 → ④ 휴대폰 답글 칸에 새 답 + 하트 수</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
 #gA,#gB{left:0;top:0;width:1920px;height:1080px}
 #world{left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
 #ph{left:0;top:0;width:1920px;height:1080px}
 #scr{position:absolute;left:0;top:0;width:300px;height:680px;background:#fff;overflow:hidden;font-family:"Pre";color:#1F2A33}
-#scr .hd{height:76px;display:flex;align-items:center;padding:0 22px;font-size:38px;font-weight:800;border-bottom:2px solid #E7E9EB}
-#scr .rv{position:absolute;left:0;top:76px;width:300px}
-#scr .who{display:flex;align-items:center;gap:14px;padding:16px 20px 8px}
-#scr .av{width:58px;height:58px;border-radius:50%;background:#D7DCDF;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:800;color:#59636B}
-#scr .stars{display:flex;gap:3px}
-#scr .pic{margin:6px 20px 0;height:150px;border-radius:12px;background-size:cover}
-#scr .skl{margin:12px 20px 0;height:14px;border-radius:7px;background:#E3E6E8}
-#scr .pn{position:absolute;left:0;right:0;top:680px;height:300px;background:#fff;border-top:2px solid #E7E9EB;box-shadow:0 -10px 24px rgba(20,25,30,.12);padding:14px 18px}
-#scr .pq{height:62px;border-radius:14px;background:#EEF1F3;font-size:32px;font-weight:600;line-height:62px;padding:0 16px;white-space:nowrap}
-#scr .ans{margin-top:12px;border-radius:12px;background:#F2F4F5;padding:10px 14px;font-size:32px;line-height:1.35;font-weight:600;color:#5D646B;min-height:92px}
-#scr .ans b{display:block;font-size:26px;color:#1F2A33;margin-bottom:2px}
+#scr .hd{height:70px;display:flex;align-items:center;padding:0 22px;font-size:36px;font-weight:800;border-bottom:2px solid #E7E9EB}
+#scr .who{display:flex;align-items:center;gap:12px;padding:14px 20px 4px}
+#scr .av{width:54px;height:54px;border-radius:50%;background:#D7DCDF;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:#59636B}
+#scr .nm{font-size:30px;font-weight:800}
+#scr .stars{display:flex;gap:2px;margin-top:2px}
+#scr .body{padding:6px 20px 0;font-size:30px;line-height:1.4;font-weight:600}
+#scr .rbox{position:absolute;left:14px;right:14px;top:322px;height:230px;border-radius:12px;border:3px solid #D5DADD;background:#F6F7F8;padding:10px 14px;font-size:28px;line-height:1.4;font-weight:600;color:#3A444C}
+#scr .rbox b{display:block;font-size:24px;color:#6B747B;margin-bottom:2px}
 #scr .or{color:var(--or);font-weight:800}
-#scr .ring{position:absolute;left:8px;right:8px;top:0;bottom:0;border:5px solid var(--or);border-radius:16px;opacity:0}
-#cAI{left:870px;top:228px;font-size:34px}
+#scr .hr{position:absolute;left:20px;bottom:18px;display:flex;align-items:center;gap:10px;font-size:34px;font-weight:800;color:#59636B}
+#dkA{left:60px;top:300px;width:700px;height:500px}
+#dkA .ai,#dkA .me{font-size:27px}
+#dkA .cv{display:flex;flex-direction:column;justify-content:flex-end}
 #bgB{left:0;top:0;width:1920px;height:1080px}
-#dk{left:110px;top:100px;width:1000px;height:760px}
 #dkw{left:0;top:0;width:1920px;height:1080px;perspective:2400px}
+#dk{left:110px;top:240px;width:1000px;height:520px}
 #dk .tb{height:60px}
-#dk .cv{top:60px}
+#dk .cv{top:60px;display:flex;flex-direction:column;justify-content:flex-end}
 #dk .col{width:90%}
 #dk .me{font-size:32px;line-height:1.5;max-width:84%}
 #dk .ai{font-size:32px}
 #dk .in{font-size:31px}
 #dk .in.tall{height:196px;align-items:flex-start;border-radius:30px;padding:20px 30px}
 #dk .in .ph{font-size:28px}
-#rc{left:1230px;top:130px;width:520px;height:560px;transform-origin:50% 50%}
+#rc{left:1230px;top:210px;width:520px;height:560px;transform-origin:50% 50%}
 #rc .row{display:block;padding:24px 28px}
 #rc .st{display:flex;gap:4px;margin-top:10px}
-#rc .pic{margin-top:16px;height:210px;border-radius:12px;background-size:cover}
-#rc .skl{margin-top:16px;height:16px;border-radius:8px;background:#E3E6E8}
-#c1{left:1240px;top:740px;font-size:34px}
-#c2{left:1240px;top:830px;font-size:30px}
-.mk2{background:linear-gradient(transparent 55%,rgba(255,122,77,.4) 55%)}
+#rc .bd{margin-top:16px;font-size:32px;line-height:1.5;font-weight:600}
+.hk{background-repeat:no-repeat;background-position:0 100%;background-image:linear-gradient(transparent 40%,rgba(240,90,40,.6) 40%)}
 </style></head>
 <body><div id="stage">
   <div id="gA" class="abs">
     <div id="world" class="abs">
       <div id="ph" class="photo"></div>
-      <div id="scr"><div class="hd">리뷰</div>
-        <div class="rv"><div class="who"><div class="av">손</div><div><div class="skl" style="margin:0 0 8px;width:110px"></div><div class="stars" id="stars"></div></div></div>
-          <div class="pic" style="background-image:url('../../../../소재/sjk02/codex/p34_counter_handover.png');background-position:78% 36%;background-size:340%"></div>
-          <div class="skl" style="width:240px"></div><div class="skl" style="width:170px"></div></div>
-        <div class="pn" id="pn"><div class="pq" id="pq"></div><div class="ans" id="ans"></div><div class="ring" id="ring"></div></div>
+      <div id="scr" data-diegetic><div class="hd">리뷰</div>
+        <div class="who"><div class="av">김</div><div><div class="nm">김**</div><div class="stars" id="stars"></div></div></div>
+        <div class="body">수육이 정말 부드러워요. 다음에 또 올게요.</div>
+        <div class="rbox" id="rbox"></div>
+        <div class="hr"><svg width="38" height="38" viewBox="0 0 24 24"><path d="M12 21s-8-5.2-8-11a4.6 4.6 0 0 1 8-3 4.6 4.6 0 0 1 8 3c0 5.8-8 11-8 11z" fill="#E5484D"/></svg><span id="hn">3</span></div>
       </div>
-      <div id="cAI" class="chip te">AI</div>
+    </div>
+    <div id="dkA" class="dk abs" data-box="dkA"><div class="tb"><span class="md"><i></i>AI</span><span class="tab">새 대화</span></div>
+      <div class="cv"><div class="col" id="colA"></div></div>
+      <div class="in" id="inbA"><span id="inxA" style="flex:1;white-space:nowrap;overflow:hidden"></span><span class="send" id="sndA"></span></div>
     </div>
   </div>
   <div id="gB" class="abs">
-    <div id="bgB" class="bg tex-dark"></div>
-    <div id="rc" class="app" data-box="rc"><div class="hd">리뷰</div><div class="row"><div style="display:flex;align-items:center;gap:16px"><div class="av" style="width:58px;height:58px;font-size:28px">손</div><div class="skl" style="margin:0;width:150px"></div></div><div class="st" id="rcst"></div><div class="pic" style="background-image:url('../../../../소재/sjk02/codex/p34_counter_handover.png');background-position:78% 36%;background-size:360%"></div><div class="skl" style="width:80%"></div><div class="skl" style="width:56%"></div></div></div>
+    <div id="bgB" class="bg" style="transform:scale(1.12);filter:blur(18px) brightness(.55)"></div>
+    <div id="rc" class="app" data-box="rc"><div class="hd">리뷰</div><div class="row"><div style="display:flex;align-items:center;gap:16px"><div class="av" style="width:58px;height:58px;font-size:28px">김</div><div class="nm" style="font-size:30px;font-weight:800">김**</div></div><div class="st" id="rcst"></div><div class="bd">수육이 정말 부드러워요. 다음에 또 올게요.</div></div></div>
     <div id="dkw" class="abs"><div id="dk" class="dk" data-box="dk">
       <div class="tb"><span class="md"><i></i>AI</span><span class="tab">새 대화</span></div>
       <div class="cv"><div class="col" id="col"></div></div>
       <div class="in tall" id="inb"><span class="tx" id="inx"></span><span class="send" id="snd"></span></div>
     </div></div>
-    <div id="c1" class="chip or" data-box="c1">대표님 한 줄</div>
-    <div id="c2" class="chip gr" data-box="c2">소중한 리뷰 감사합니다</div>
   </div>
 </div>
 <script src="../data/s36.js"></script>
 <script src="../lib/sjk.js"></script>
 <script src="../lib/e3.js"></script>
 <script>
-window.PALETTE = ['#2A3340', '#F05A28', '#1FA39A'];   // 식탁·어두운 탁자 · 주홍 한 줄 · 청록 AI
-// 휴대폰 화면 네 점(quads.json d36_table_phone.stage — 값 복사)
+window.PALETTE = ['#2A3340', '#F05A28', '#1FA39A'];
+window.DEVICES = ['실제 화면 동작'];
 const Q = [[1096.4, 255.9], [1261.3, 283.1], [1199.8, 655.8], [1034.9, 628.5]];
 const T = {
-  ui: 0.05, ai: S.at('AI한테'), pn: S.at('답글 써 줘'), pq: S.at('답글 써 줘'), ans: S.at('소중한'), no: S.at('이렇게 나오잖아요'),
-  cutB: S.at('근데 시킬 때') - 0.12, chip1: S.at('대표님 한 줄'), chip2: S.at('달라진다는'), type: S.at('이 손님'),
-  send: S.at('그러면'), cutC: S.at('이거 읽은') - 0.1, post: S.at('이거 읽은') + 0.28, shine: S.at('또')
+  ui: 0.05, dkA: S.at('AI한테'), inA: S.at('답글 써 줘'), sendA: S.at('이렇게만'), ansA: S.at('소중한'), no: S.at('이렇게 나오잖아요'),
+  cutB: S.at('근데 시킬 때') - 0.12, foc: S.at('대표님 한 줄을'), gray: S.at('달라진다는'), type: S.at('이 손님'),
+  send: S.at('그러면'), mk: S.at('아침 8시에', 1), cutC: S.at('이거 읽은') - 0.1, post: S.at('이거 읽은') + 0.28, cnt: S.at('다음에 또')
 };
-const A1 = S.at('아침', 1);
+const ANS1 = '소중한 리뷰 감사합니다. 앞으로도 더 노력하는 가게가 되겠습니다.';
 const P = [
-  { t: '이 손님 수육 먹고 리뷰 남겼어.\n', c: '', t0: 10.243, t1: 11.845 },
-  { t: '오늘 수육은 ', c: '', t0: 11.898, t1: 12.85 },
-  { t: '아침 8시에 삶은 거', c: 'or', t0: 12.88, t1: 14.0 },
-  { t: '라는 말\n', c: '', t0: 14.023, t1: 14.504 },
-  { t: '넣어서 답글 써 줘.', c: '', t0: 14.584, t1: 15.598 }
+  { t: '이 손님 수육 먹고 리뷰 남겼어.\n', c: '', t0: S.at('이 손님'), t1: S.at('오늘 수육은') - 0.05 },
+  { t: '오늘 수육은 ', c: '', t0: S.at('오늘 수육은'), t1: S.at('아침 8시에') },
+  { t: '아침 8시에 삶은 거', c: 'or', t0: S.at('아침 8시에'), t1: S.at('라는 말') },
+  { t: '라는 말\n', c: '', t0: S.at('라는 말'), t1: S.at('넣어서') - 0.05 },
+  { t: '넣어서 답글 써 줘.', c: '', t0: S.at('넣어서'), t1: S.at('그러면') - 0.15 }
 ];
 const R = [
-  { t: '오늘 드신 수육은 ', c: '', t0: 16.848, t1: 17.79 },
-  { t: '아침 8시에 삶은 거라', c: 'or', t0: 17.91, t1: 19.213 },
-  { t: ' 제일 부드러울 때 드신 거예요', c: '', t0: 19.353, t1: 20.836 }
+  { t: '오늘 드신 수육은 ', c: '', t0: S.at('오늘 드신'), t1: S.at('아침 8시에', 1) },
+  { t: '아침 8시에 삶은 거라', c: 'or', t0: S.at('아침 8시에', 1), t1: S.at('제일') },
+  { t: ' 제일 부드러울 때 드신 거예요.', c: '', t0: S.at('제일'), t1: S.at('이거 읽은') - 0.2 }
 ];
-const STAR = (on, sz) => `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24"><path d="M12 2l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 18l-6.4 3.6L7 14.5 1.7 9.5l7.2-.9z" fill="${on ? '#F5A800' : '#D5D8DE'}"/></svg>`;
-S.$('#stars').innerHTML = [1, 2, 3, 4, 5].map(i => STAR(1, 30)).join('');
-S.$('#rcst').innerHTML = [1, 2, 3, 4, 5].map(i => STAR(1, 40)).join('');
-S.$('#snd').innerHTML = E3.SEND;
+const STAR = (sz) => `<svg width="${sz}" height="${sz}" viewBox="0 0 24 24"><path d="M12 2l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 18l-6.4 3.6L7 14.5 1.7 9.5l7.2-.9z" fill="#F5A800"/></svg>`;
+S.$('#stars').innerHTML = [1, 2, 3, 4, 5].map(() => STAR(26)).join('');
+S.$('#rcst').innerHTML = [1, 2, 3, 4, 5].map(() => STAR(40)).join('');
+S.$('#snd').innerHTML = E3.SEND; S.$('#sndA').innerHTML = E3.SEND;
 S.css('#ph', { backgroundImage: S.ph('d36_table_phone_clean') });
+S.css('#bgB', { backgroundImage: S.ph('d36_table_phone_clean') });
 S.fitQuad(S.$('#scr'), 300, 680, Q);
-S.focus([{ t0: A1, t1: A1 + 1.4, big: '아침 8시', color: 'or', top: 120 }]);
-S.ev(T.ui, 'in', 'scr'); S.ev(T.ai, 'card_in', 'cAI'); S.ev(T.pn, 'in', 'pn'); S.ev(T.ans, 'msg_in', 'ans'); S.ev(T.no, 'no', 'scr');
-S.ev(T.cutB, 'in', 'dk'); S.ev(T.chip1, 'card_in', 'c1'); S.ev(T.chip2, 'msg_in', 'c2'); S.ev(T.type, 'type', 'inx');
-S.ev(T.send, 'msg_in', 'col'); S.ev(T.post, 'ok', 'ans'); S.ev(T.shine, 'shine', 'ring');
-const PREV = '<div class="me"><div class="sk" style="width:220px;margin:5px 0"></div></div><div class="ai"><div class="av">AI</div><div class="tx">' + E3.sk([92, 66], 'gr') + '</div></div>';
+S.ev(T.ui, 'in', 'scr'); S.ev(T.dkA, 'in', 'dkA'); S.ev(T.inA, 'type', 'inxA'); S.ev(T.sendA + 0.1, 'msg_in', 'colA'); S.ev(T.ansA + 1.2, 'card_in', 'rbox'); S.ev(T.no, 'no', 'rbox');
+S.ev(T.cutB, 'in', 'dk'); S.ev(T.foc, 'click', 'inb'); S.ev(T.gray, 'no', 'col'); S.ev(T.type, 'type', 'inx'); S.ev(T.send, 'msg_in', 'col'); S.ev(T.mk, 'marker', 'col');
+S.ev(T.cutC, 'in', 'scr'); S.ev(T.post, 'msg_in', 'rbox'); S.ev(T.cnt, 'gauge', 'hn');
+const HAI = '<div class="ai"><div class="av">AI</div><div class="tx">정성을 다해 끓인 따뜻한 국밥 한 그릇으로 여러분을 기다립니다.</div></div>';
+const HME = '<div class="me">답글 써 줘</div>';
 S.scene(tau => {
-  const inA = tau < T.cutB || tau >= T.cutC;
-  S.css('#gA', { opacity: inA ? 1 : 0 });
-  S.css('#gB', { opacity: inA ? 0 : 1 });
-  // ── 휴대폰 장면: 카메라(① 앞쪽 · ③ 다른 구도로 새 숏)
-  const phase3 = tau >= T.cutC;
-  const cam = phase3 ? { s: 1.45 + 0.03 * S.P(tau, T.cutC, S.SC.dur), x: 1128, y: 440 } : { s: 1.38 + 0.03 * S.P(tau, 0, T.cutB), x: 1180, y: 470 };
+  const ph1 = tau < T.cutB, ph3 = tau >= T.cutC;
+  S.css('#gA', { opacity: ph1 || ph3 ? 1 : 0 });
+  S.css('#gB', { opacity: ph1 || ph3 ? 0 : 1 });
+  // ── 휴대폰 숏
+  const cam = ph3 ? { s: 1.5 + 0.04 * S.P(tau, T.cutC, S.SC.dur), x: 1128, y: 440 } : { s: 1.38 + 0.03 * S.P(tau, 0, T.cutB), x: 1180, y: 470 };
   S.css('#world', { transform: S.camCss(cam) });
-  const ui = S.ent(tau, T.ui, 0.12);
-  S.css('#scr', { opacity: phase3 ? 1 : ui });
-  const pn = phase3 ? 1 : S.EZ(S.P(tau, T.pn, T.pn + 0.3));
-  S.$('#pn').style.top = (680 - 300 * pn) + 'px';
-  // 패널 안 글
-  const pq = S.$('#pq'), ans = S.$('#ans');
-  if (!phase3) {
-    pq.style.display = 'block';
-    const q = E3.typed(tau, [{ t: '답글 써 줘', t0: T.pq + 0.05, t1: T.pq + 0.55 }], false);
-    pq.innerHTML = q.html || '&nbsp;';
-    const a = E3.typed(tau, [{ t: '소중한 리뷰 감사합니다', t0: T.ans, t1: T.ans + 1.0 }], false);
-    ans.style.opacity = tau >= T.ans ? 1 : 0;
-    ans.innerHTML = '<b>가게 답글</b>' + a.html;
+  S.css('#scr', { opacity: ph3 ? 1 : S.ent(tau, T.ui, 0.12) });
+  const rb = S.$('#rbox');
+  if (!ph3) {
+    const k = S.ent(tau, T.ansA + 1.2, 0.14), g = S.EO(S.P(tau, T.no, T.no + 0.35));
+    rb.innerHTML = tau >= T.ansA + 1.2 ? '<b>답글</b>' + S.esc(ANS1) : '';
+    rb.style.opacity = tau >= T.ansA + 1.2 ? k : 1;
+    rb.style.filter = S.desat(g);
+    S.$('#hn').textContent = '3';
   } else {
-    pq.style.display = 'none';
-    const k = S.ent(tau, T.post, 0.12);
-    ans.style.opacity = k;
-    ans.innerHTML = '<b>가게 답글</b><span class="or">아침 8시에 삶은 거라</span><div class="skl" style="margin:8px 0 0;width:92%"></div><div class="skl" style="margin:8px 0 0;width:64%"></div>';
-    S.$('#ring').style.opacity = S.ent(tau, T.shine, 0.15) * (1 - 0.3 * S.P(tau, T.shine + 0.2, T.shine + 0.8));
-    S.$('#pn').style.top = '392px'; S.$('#pn').style.height = '288px';
+    const k = S.ent(tau, T.post, 0.14);
+    rb.style.filter = 'none';
+    rb.innerHTML = tau >= T.post ? '<b>답글</b>오늘 드신 수육은 <span class="or">아침 8시에 삶은 거라</span> 제일 부드러울 때 드신 거예요.' : '';
+    rb.style.opacity = tau >= T.post ? k : 1;
+    S.$('#hn').textContent = String(Math.round(S.count(tau, T.cnt, T.cnt + 1.3, 3, 12)));
   }
-  if (!phase3) S.$('#ring').style.opacity = 0;
-  // ① 끝: «이렇게 나오잖아요» 에 탈색
-  const g = phase3 ? 0 : S.EO(S.P(tau, T.no, T.no + 0.35));
-  S.css('#scr', { filter: S.desat(g) });
-  const a = S.ent(tau, T.ai, 0.12) * (1 - S.P(tau, T.pn, T.pn + 0.2));
-  S.css('#cAI', { opacity: phase3 ? 0 : a, transform: `translateY(${((1 - a) * 12).toFixed(1)}px)` });
-  // ── 다크 대화창 장면
+  // ① 휴대폰 옆 대화창: 기록 → 입력 «답글 써 줘» → 보내기 → 답
+  const da = S.ent(tau, T.dkA, 0.14);
+  S.css('#dkA', { opacity: ph1 ? da : 0, transform: `translateY(${((1 - da) * 24).toFixed(1)}px)` });
+  const sentA = tau >= T.sendA + 0.1;
+  const tA = E3.typed(tau, [{ t: '답글 써 줘', t0: T.inA, t1: T.inA + 0.5 }], tau >= T.dkA);
+  S.$('#inxA').innerHTML = sentA ? '<span class="ph">메시지 보내기</span>' : (tA.started ? tA.html : '<span class="ph">메시지 보내기</span>');
+  let hA = HAI;
+  if (sentA) hA += '<div class="me">답글 써 줘</div>';
+  if (tau >= T.ansA) {
+    const r = E3.typed(tau, [{ t: ANS1, t0: T.ansA, t1: T.ansA + 1.1 }]);
+    const g = S.EO(S.P(tau, T.no, T.no + 0.35));
+    hA += `<div class="ai"><div class="av">AI</div><div class="tx" style="filter:${S.desat(g)}">${r.html}</div></div>`;
+  }
+  S.$('#colA').innerHTML = hA;
+  // ── ② ③ 다크 대화창 숏
   const dk = S.ent(tau, T.cutB + 0.12, 0.12);
   S.css('#dk', { opacity: dk, transform: `rotateX(${6 - 1.2 * S.P(tau, T.cutB, T.cutC)}deg) rotateZ(-3deg) translateY(${((1 - dk) * -26).toFixed(1)}px)` });
   S.css('#rc', { opacity: dk, transform: `rotateX(6deg) rotateZ(3.5deg) translateY(${((1 - dk) * 26).toFixed(1)}px)` });
-  const c1 = S.ent(tau, T.chip1, 0.12), c2 = S.ent(tau, T.chip2, 0.12), c2o = 1 - 0.7 * S.EO(S.P(tau, T.chip2 + 0.5, T.chip2 + 1.0));
-  S.css('#c1', { opacity: c1, transform: `translateY(${((1 - c1) * 12).toFixed(1)}px)` });
-  S.css('#c2', { opacity: c2 * c2o, transform: `translateY(${((1 - c2) * 12).toFixed(1)}px)`, filter: S.desat(S.P(tau, T.chip2 + 0.5, T.chip2 + 1.0)) });
   const sent = tau >= T.send;
-  S.$('#inb').style.height = sent ? '66px' : '196px';
-  S.$('#inb').style.alignItems = sent ? 'center' : 'flex-start';
+  const inb = S.$('#inb');
+  inb.style.height = sent ? '66px' : '196px';
+  inb.style.alignItems = sent ? 'center' : 'flex-start';
+  inb.style.borderColor = tau >= T.foc && !sent ? 'rgba(67,201,191,.8)' : '#333B42';
   S.$('#dk').querySelector('.cv').style.bottom = sent ? '104px' : '226px';
-  const ty = E3.typed(tau, P);
-  S.$('#inx').innerHTML = sent ? '<span class="ph">메시지 보내기</span>' : (ty.started ? ty.html : '<span class="ph">메시지 보내기</span>');
-  let h = PREV;
-  if (sent) h += '<div class="me">' + E3.typed(99, P, false).html + '</div>';
-  if (tau >= R[0].t0) h += '<div class="ai"><div class="av">AI</div><div class="tx">' + E3.typed(tau, R).html + '</div></div>';
+  const ty = E3.typed(tau, P, tau >= T.foc);
+  S.$('#inx').innerHTML = sent ? '<span class="ph">메시지 보내기</span>' : (ty.started ? ty.html : (tau >= T.foc ? '<span class="caret"></span>' : '<span class="ph">메시지 보내기</span>'));
+  const gg = S.EO(S.P(tau, T.gray, T.gray + 0.35));
+  let h = HME + `<div class="ai" style="filter:${S.desat(gg)}"><div class="av">AI</div><div class="tx">${S.esc(ANS1)}</div></div>`;
+  if (sent) h = `<div class="ai" style="filter:${S.desat(gg)}"><div class="av">AI</div><div class="tx">${S.esc(ANS1)}</div></div>` + '<div class="me">' + E3.typed(99, P, false).html.replace(/<br>/g, ' ') + '</div>';
+  if (tau >= R[0].t0) {
+    let rh = E3.typed(tau, R).html;
+    const hp = S.EO(S.P(tau, T.mk, T.mk + 0.5));
+    if (hp > 0) rh = rh.replace('<span class="or">', `<span class="or hk" style="background-size:${(hp * 100).toFixed(1)}% 100%">`);
+    h += '<div class="ai"><div class="av">AI</div><div class="tx">' + rh + '</div></div>';
+  }
   S.$('#col').innerHTML = h;
 });
 </script>

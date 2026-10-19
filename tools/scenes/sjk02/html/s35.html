@@ -4,13 +4,13 @@
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
 #wrap{left:0;top:0;width:1920px;height:1080px;perspective:2400px}
-#dk{left:290px;top:36px;width:1340px;height:850px;transform-origin:50% 55%}
+#dk{left:240px;top:44px;width:1440px;height:880px;transform-origin:50% 55%}
 #dk .tb{height:64px;font-size:25px}
 #dk .tb .md{font-size:27px}
 #dk .cv{top:64px;display:flex;flex-direction:column;justify-content:flex-end}
 #dk .col{width:88%}
-#dk .me{font-size:34px;line-height:1.5;max-width:78%}
-#dk .ai{font-size:34px}
+#dk .me{font-size:38px;line-height:1.5;max-width:78%}
+#dk .ai{font-size:38px}
 #dk .ai .av{width:46px;height:46px;font-size:22px}
 #dk .in{font-size:33px;left:4%;right:4%}
 #dk .in.tall{height:338px;align-items:flex-start;border-radius:34px;padding:22px 34px}
@@ -19,6 +19,7 @@
 .ln{min-height:51px}
 .sk.big{height:22px;border-radius:11px;margin:15px 0}
 #mkx{background:linear-gradient(transparent 52%,rgba(255,122,77,.42) 52%);background-repeat:no-repeat;background-size:0% 100%}
+.hk{background-repeat:no-repeat;background-position:0 100%;background-image:linear-gradient(transparent 40%,rgba(255,122,77,.45) 40%)}
 </style></head>
 <body><div id="stage">
   <div class="bg tex-dark"></div>
@@ -35,7 +36,8 @@
 <script src="../lib/e3.js"></script>
 <script>
 window.PALETTE = ['#1D2328', '#FF7A4D', '#43C9BF'];   // 어두운 탁자 · 대화창 글 · 대표님 말(주홍) · AI 가 붙인 말(청록)
-const T = { in: -0.05, send: S.at('이러면'), bars: Math.max(S.at('글은 AI가'), S.at('이러면') + 0.6), bar3: S.at('쓰는데'), or: S.at('목소리는'), mk: S.at('대표님'), foc: S.at('목소리', 1) };
+const T = { in: -0.05, send: S.at('이러면'), bars: Math.max(S.at('글은 AI가'), S.at('이러면') + 0.6), bar3: S.at('쓰는데'), or: Math.max(S.at('글은 AI가'), S.at('이러면') + 0.6) + 0.3, mk: S.at('목소리는') };
+window.DEVICES = ['실제 대화창(대표님 말투)'];
 const P = [
   { t: '내가 손님한테 자주 하는 말\n', c: '', t0: 1.595, t1: 2.879 },
   { t: '세 개 적어 줄게.\n', c: '', t0: 3.079, t1: 3.774 },
@@ -44,12 +46,16 @@ const P = [
   { t: '내 말은 고치지 말고\n', c: '', t0: 6.366, t1: 7.388 },
   { t: '앞뒤만 붙여 줘.', c: '', t0: 7.548, t1: 8.514 }
 ];
-const ORL = '오늘 아침에 들어온 거예요';
+const ANS = '오늘도 새벽부터 끓였습니다. {or|이거 오늘 아침에 들어온 거예요.} 배추와 무는 {or|이건 우리 어머니가 하던 방식이에요.} 그대로 손질해요. {or|새벽 5시에 불 올려서 점심 전에 딱 한 솥만 끓여.}';
+const AP = []; { let last = 0, m; const re = /\{or\|([^}]*)\}/g; const parts = [];
+  while ((m = re.exec(ANS))) { if (m.index > last) parts.push(['te', ANS.slice(last, m.index)]); parts.push(['or', m[1]]); last = re.lastIndex; }
+  if (last < ANS.length) parts.push(['te', ANS.slice(last)]);
+  const tot = parts.reduce((a, p) => a + [...p[1]].length, 0); let acc = 0;
+  parts.forEach(p => { const n = [...p[1]].length; AP.push({ t: p[1], c: p[0], f0: acc / tot, f1: (acc + n) / tot }); acc += n; }); }
 S.$('#snd').innerHTML = E3.SEND;
-S.focus([{ t0: T.foc, t1: 13.05, big: '대표님 목소리', color: 'or', size: 150, top: 742 }]);
 S.ev(0, 'in', 'dk'); S.ev(P[0].t0, 'type', 'inx'); S.ev(T.send, 'msg_in', 'col'); S.ev(T.bars, 'card_in', 'rep');
-S.ev(T.or, 'type', 'orl'); S.ev(T.mk, 'marker', 'mkx');
-const PREV = '<div class="me"><div class="sk big" style="width:260px;margin:6px 0"></div></div><div class="ai"><div class="av">AI</div><div class="tx">' + E3.sk([92, 70], 'gr').replace(/class="sk /g, 'class="sk big ') + '</div></div>';
+S.ev(T.bars + 0.1, 'type', 'rep'); S.ev(T.mk, 'marker', 'mkx');
+const PREV = '<div class="me">가게 소개 한 줄 써 줘</div><div class="ai"><div class="av">AI</div><div class="tx">정성을 다해 끓인 따뜻한 국밥 한 그릇으로 여러분을 기다립니다.</div></div>';
 S.scene(tau => {
   const k = S.ent(tau, T.in, 0.12), dr = S.P(tau, 0, S.SC.dur);
   S.css('#dk', { opacity: k, transform: `rotateX(${6 - 1.5 * dr}deg) rotateZ(${-2 + 0.6 * dr}deg) translateY(${((1 - k) * 26).toFixed(1)}px)` });
@@ -62,13 +68,11 @@ S.scene(tau => {
   let h = sent ? '' : PREV;
   if (sent) h += '<div class="me">' + E3.typed(99, P, false).html + '</div>';
   if (tau >= T.bars - 0.02) {
-    const b1 = S.ent(tau, T.bars, 0.12), b2 = S.ent(tau, T.bars + 0.18, 0.12), b3 = S.ent(tau, T.bar3, 0.12);
-    const o = E3.typed(tau, [{ t: ORL, c: '', t0: T.or, t1: T.or + 0.95 }], true);
+    const TT = T.mk - 0.25 - T.bars;
+    const o = E3.typed(tau, AP.map(p => ({ t: p.t, c: p.c, t0: T.bars + TT * p.f0, t1: T.bars + TT * p.f1 })), false);
     const mk = S.EO(S.P(tau, T.mk, T.mk + 0.6));
-    h += '<div class="ai" id="rep"><div class="av">AI</div><div class="tx">' +
-      `<div class="sk big te" style="width:92%;opacity:${b1}"></div><div class="sk big te" style="width:58%;opacity:${b2}"></div>` +
-      `<div class="ln"><span class="or" id="mkx" style="background-size:${(100 * mk).toFixed(1)}% 100%"><span id="orl">${o.html}</span></span></div>` +
-      `<div class="sk big te" style="width:76%;opacity:${b3}"></div></div></div>`;
+    const html = o.html.split('<span class="or">').join('<span class="or hk" style="background-size:' + (100 * mk).toFixed(1) + '% 100%">');
+    h += '<div class="ai" id="rep"><div class="av">AI</div><div class="tx">' + html + '</div></div>';
   }
   S.$('#col').innerHTML = h;
 });

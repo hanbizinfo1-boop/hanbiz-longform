@@ -1,25 +1,20 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s52 음, 그렇군 — 콘크리트 위 손가락 아이레벨, 답 한 줄과 두 갈래 칩, 가운데 물음표</title>
+<title>s52 음, 그렇군 — 손가락 아이레벨 사진 오른쪽에 대화창 답 한 줄과 두 선택 버튼, 커서가 멈춤</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
 #pw{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:50% 50%}
-#hm{left:80px;top:96px;width:520px;height:110px;font-size:84px;color:#D3D6D9;line-height:1;text-shadow:0 3px 14px rgba(0,0,0,.7)}
-#hmw{position:absolute;left:0;top:0;white-space:nowrap}
-#hmu{position:absolute;left:0;top:0;width:520px;height:110px}
-#dk{left:1230px;top:80px;width:620px;height:330px;transform-origin:50% 50%}
+#dk{left:900px;top:60px;width:960px;height:520px;transform-origin:50% 50%}
 #dk .cv{bottom:96px;padding:18px 0}
-#dk .me{font-size:22px;padding:12px 18px}
-#dk .ai{font-size:26px}
+#dk .me{font-size:32px;padding:14px 22px}
+#dk .ai{font-size:34px}#dk .tb,#dk .tb .tab{font-size:26px}#dk .in{height:76px;font-size:30px}#dk .cv{bottom:110px}
 #dk .dots{display:flex;gap:10px;padding-top:12px}#dk .dots i{width:12px;height:12px;border-radius:50%;background:#8C959C}
-.cp{position:absolute;padding:14px 30px;border-radius:14px;background:#F4F5F3;color:#1F2A33;font-weight:800;font-size:40px;white-space:nowrap;box-shadow:0 14px 30px rgba(20,25,30,.3)}
-#cL{left:330px;top:470px}#cR{left:1240px;top:470px}
-#q{left:905px;top:610px;width:130px;height:130px;border-radius:50%;background:var(--or);color:#fff;display:flex;align-items:center;justify-content:center;font-size:90px;font-weight:900;box-shadow:0 16px 36px rgba(240,90,40,.45)}
+.btn{position:absolute;top:640px;width:440px;height:104px;border-radius:22px;background:#fff;color:#1F2A33;font-weight:800;font-size:42px;display:flex;align-items:center;justify-content:center;box-shadow:0 14px 30px rgba(10,14,18,.42),0 2px 6px rgba(10,14,18,.3)}
+#bL{left:940px}#bR{left:1400px}
+#cur{position:absolute;left:0;top:0;width:54px;height:66px;filter:drop-shadow(0 6px 8px rgba(0,0,0,.5))}
 </style></head>
 <body><div id="stage">
-  <div class="bg tex-conc"></div>
   <div id="pw"><div id="ph" class="photo" style="left:0;top:0;width:1920px;height:1080px"></div></div>
-  <div id="hm" class="abs hand" data-box="hm"><div id="hmw">음, 그렇군</div><svg id="hmu" viewBox="0 0 520 110"><path id="hmp" d="M0 62 L520 62" stroke="#D3D6D9" stroke-width="7" fill="none" stroke-linecap="round"/></svg></div>
   <div id="dk" class="dk" data-box="dk">
     <div class="tb"><span class="md"><i></i>AI</span><span class="tab">새 대화</span></div>
     <div class="cv"><div class="col">
@@ -28,39 +23,34 @@
     </div></div>
     <div class="in">메시지를 입력하세요<span class="send"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="#171C21" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
   </div>
-  <div id="cL" class="cp" data-box="cL">배달 줄이기</div><div id="cR" class="cp" data-box="cR">가격 올리기</div>
-  <div id="q" class="abs" data-box="q">?</div>
+  <div id="bL" class="btn" data-box="bL">배달 줄이기</div><div id="bR" class="btn" data-box="bR">가격 올리기</div>
+  <svg id="cur" viewBox="0 0 27 33"><path d="M2 2 L2 26 L8.5 20.5 L13 30.5 L17.5 28.5 L13 18.5 L22 18.5 Z" fill="#fff" stroke="#14191E" stroke-width="2.2" stroke-linejoin="round"/></svg>
 </div>
 <script src="../data/s52.js"></script>
 <script src="../lib/sjk.js"></script>
 <script>
-window.PALETTE = ['#D9DBD6', '#1F2A33', '#1FA39A', '#F05A28'];
+window.PALETTE = ['#2E343A', '#1FA39A', '#FFFFFF'];
+window.DEVICES = ['손가락 사진 + 대화창'];
 S.$('#ph').style.backgroundImage = S.ph('p52_finger_hesitate');
-const ANS = '배달앱 수수료가 지난주보다 늘었어요';
-const T = { hm: S.at('그렇군'), no: S.at('절대'), boss: S.at('대표님이'), ai: S.at('AI가'), ans: S.at('배달앱'), lL: S.at('배달을'), lR: S.at('가격을'), q: S.at('누가') };
-const pL = S.$('#hmp'), len = pL.getTotalLength();
-S.ev(T.hm, 'marker', 'hm'); S.ev(T.no, 'no', 'hm'); S.ev(T.boss, 'msg_in', 'dk'); S.ev(T.ans + 0.1, 'type', 'ans');
-S.ev(T.lL, 'card_in', 'cL'); S.ev(T.lR, 'card_in', 'cR'); S.ev(T.q, 'shine', 'q');
+const ANS = '배달앱 수수료가 지난주보다 15만 원 늘었어요.';
+const T = { push: S.at('그렇군'), boss: S.at('대표님이'), ans: S.at('배달앱'), lL: S.at('배달을'), lR: S.at('가격을'), q: S.at('누가') };
+S.ev(T.boss, 'in', 'dk'); S.ev(T.ans, 'msg_in', 'ans'); S.ev(T.lL, 'card_in', 'bL'); S.ev(T.lR + 0.05, 'card_in', 'bR');
 S.scene(tau => {
-  // 사진: 아이레벨 정지 — 아주 느린 옆 흐름
-  S.css('#pw', { transform: S.track(tau, -0.2, S.SC.dur, 10, -26, 1.1) });
-  // 손글씨: 그렇군 → 절대 안 돼요 에 탈색·가로줄
-  const w = S.P(tau, T.hm, T.hm + 0.5);
-  S.css('#hmw', { clipPath: `inset(0 ${(1 - S.EO(w)) * 100}% 0 0)` });
-  const u = S.EO(S.P(tau, T.no, T.no + 0.28));
-  S.$('#hmp').style.strokeDasharray = len; S.$('#hmp').style.strokeDashoffset = len * (1 - u);
-  S.css('#hm', { display: tau < T.hm - 0.05 ? 'none' : 'block', opacity: 1 - 0.55 * S.ent(tau, T.no + 0.25, 0.2), filter: `grayscale(${S.ent(tau, T.no, 0.2)})` });
-  // 대화창: 대표님이 물어보고 나서 들어옴 → AI 점 → 답 타자
+  // 사진: 아이레벨 — «그렇군» 에 손가락 쪽으로 한 번 다가가고 이어서 아주 느린 흐름
+  const p = S.cam(tau, T.push, T.push + 0.5), dr = S.P(tau, T.push + 0.5, S.SC.dur);
+  S.css('#pw', { transform: `translateX(${S.lerp(8, -26, dr).toFixed(1)}px) scale(${(S.lerp(1.08, 1.2, p) + 0.04 * dr).toFixed(4)})` });
+  // 대화창: 대표님이 물어보고 나서 들어옴 → AI 점 → 답이 한 줄로 나옴
   const dk = S.ent(tau, T.boss, 0.14);
   S.css('#dk', { opacity: dk, transform: `perspective(2200px) rotateX(${6 - 2 * S.P(tau, T.boss, S.SC.dur)}deg) rotateZ(-2deg) translateY(${(1 - dk) * -36}px)` });
   const di = Math.floor(tau / 0.3) % 3;
   document.querySelectorAll('#dots i').forEach((e, k) => e.style.opacity = k <= di ? 1 : 0.3);
   S.css('#dots', { display: tau < T.ans ? 'flex' : 'none' });
-  S.type('#ans', ANS, tau, T.ans + 0.1, 21, false);
-  // 두 칩: 두 갈래 — 같은 높이 왼 오른쪽에 하나씩
-  [['cL', T.lL, -40], ['cR', T.lR, 40]].forEach(c => { const k = S.ent(tau, c[1], 0.12); S.css('#' + c[0], { opacity: k, transform: `translateX(${(1 - k) * c[2]}px)` }); });
-  const qk = S.ent(tau, T.q, 0.14);
-  S.css('#q', { opacity: qk, transform: `scale(${0.7 + 0.3 * qk})` });
+  S.type('#ans', ANS, tau, T.ans, 21, false);
+  // 선택 버튼 둘: 대화창 아래
+  [['bL', T.lL, -30], ['bR', T.lR + 0.05, 30]].forEach(c => { const k = S.ent(tau, c[1], 0.12); S.css('#' + c[0], { opacity: k, transform: `translateY(${((1 - k) * 22).toFixed(1)}px)` }); });
+  // 커서: «누가 정해요» 에 두 버튼 사이로 와서 멈춤(누르지 않음)
+  const ck = S.cam(tau, T.q, T.q + 0.5);
+  S.css('#cur', { opacity: S.ent(tau, T.q, 0.1), transform: `translate(${S.lerp(1780, 1370, ck).toFixed(1)}px,${S.lerp(900, 700, ck).toFixed(1)}px)` });
 });
 </script>
 </body></html>

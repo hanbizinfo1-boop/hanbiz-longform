@@ -1,56 +1,68 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s12 알바 공고 보면 다 똑같잖아요 — 흰 벽 위 구인 앱 목록 판 2장(10행), 제목이 전부 같음</title>
+<title>s12 알바 공고 보면 다 똑같잖아요 — 골목 벽·전봇대 빈 전단에 같은 구인 글(R12 전단), 카메라가 물러나며 전부 회색</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#bgw{left:-30px;top:0;width:1980px;height:1080px;background-size:cover;background-position:center}
-.pn{position:absolute;top:70px;width:800px;height:820px}
-.pn .hd{height:70px;font-size:30px;padding:0 30px}
-.pn .hd small{font-size:24px;font-weight:600;letter-spacing:.14em;color:#8A949B;margin-left:auto}
-.jr{position:relative;display:flex;align-items:center;gap:20px;height:150px;padding:0 30px;border-bottom:1px solid #EEF0F1}
-.jr .lg{flex:none;width:68px;height:68px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:30px;color:#fff}
-.jr .tt{font-size:30px;font-weight:800;color:#1F2A33;white-space:nowrap;position:relative;display:inline-block}
-.jr .sh{font-size:24px;font-weight:600;color:#6B747B;margin-top:6px}
-.jr .ul{position:absolute;left:0;bottom:-6px;height:5px;width:0;background:#9AA0A6;border-radius:3px}
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+/* 사진(1536x1024)을 1.25배로 깔고 위 130px 잘라 냄 → #ph 안은 사진 좌표 그대로 */
+#ph{left:0;top:-130px;width:1536px;height:1024px;transform-origin:0 0;transform:scale(1.25);background-size:1536px 1024px;filter:saturate(.8) contrast(1.03)}
+.fl{position:absolute;left:0;top:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;color:#1F2A33;font-family:"Pre";line-height:1.2}
+.fl .tt{font-weight:900;letter-spacing:-.02em;line-height:1.05}
+.fl .ln{font-weight:700}
+.fl .ph{font-weight:600;letter-spacing:-.02em;white-space:nowrap}
 </style></head>
 <body><div id="stage">
-  <div id="bgw" class="abs tex-wall"></div>
-  <div id="pl" class="app pn" data-box="pl" style="left:110px"><div class="hd">채용<small>목록</small></div><div id="lA"></div></div>
-  <div id="pr" class="app pn" data-box="pr" style="left:1010px"><div class="hd">채용<small>목록</small></div><div id="lB"></div></div>
+  <div id="cam" class="abs">
+    <div id="ph" class="abs"></div>
+  </div>
 </div>
 <script src="../data/s12.js"></script>
 <script src="../lib/sjk.js"></script>
 <script>
-window.PALETTE = ['#D9DBD6', '#1F2A33', '#9AA0A6'];   // 흰 벽 + 흰 앱 판 → 전부 탈색
-const T = { alba: S.at('알바'), post: S.at('공고'), exp: S.at('경력자'), same: S.at('똑같잖아요') };
-const SH = ['○○국밥', '○○분식', '○○치킨', '○○순대', '○○고기', '○○김밥', '○○족발', '○○카페', '○○백반', '○○호프'];
-const LG = ['#1FA39A', '#F05A28', '#1F2A33', '#6E8FA8', '#8C9A7A'];
-const rows = [];
-[['lA', 0], ['lB', 5]].forEach(([id, o]) => {
-  const box = document.getElementById(id);
-  for (let i = 0; i < 5; i++) {
-    const r = document.createElement('div'); r.className = 'jr';
-    r.innerHTML = `<div class="lg" style="background:${LG[i]}">${SH[o + i].charAt(2)}</div><div><span class="tt">성실한 분 구합니다. 경력자 우대<i class="ul"></i></span><div class="sh">${SH[o + i]}</div></div>`;
-    box.appendChild(r); rows.push(r);
-  }
+window.PALETTE = ['#D9DBD6', '#1F2A33', '#9AA0A6'];   // 벽·종이 + 먹색 글 → 전부 회색
+window.DEVICES = ['R12 전단'];
+const T = { alba: S.at('알바'), same: S.at('다 똑같잖아요') };
+document.getElementById('ph').style.backgroundImage = S.ph('n12_alley_flyers');
+// 사진 속 빈 전단 7장 네 점(사진 1536x1024 좌표, 왼위·오위·오아래·왼아래) — 왼쪽부터 나타나는 순서
+const Q = [
+  [[110, 118], [277, 133], [338, 440], [136, 456]],      // 벽 1
+  [[243, 565], [433, 548], [462, 830], [268, 889]],      // 벽 4(아래)
+  [[505, 230], [648, 265], [640, 512], [487, 497]],      // 벽 2
+  [[677, 490], [795, 479], [806, 702], [697, 735]],      // 벽 3
+  [[1050, 432], [1170, 432], [1162, 634], [1025, 622]],  // 전봇대 가운데
+  [[1060, 720], [1195, 735], [1187, 925], [1045, 922]],  // 전봇대 아래
+  [[1073, 160], [1180, 152], [1198, 347], [1080, 350]],  // 전봇대 위
+];
+const dist = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1]);
+const fls = [];
+Q.forEach((q, i) => {
+  const w = Math.round((dist(q[0], q[1]) + dist(q[3], q[2])) / 2 * 1.25), h = Math.round((dist(q[0], q[3]) + dist(q[1], q[2])) / 2 * 1.25);
+  const m = w / 150;
+  const el = document.createElement('div'); el.className = 'fl'; el.setAttribute('data-diegetic',''); el.style.width = w + 'px'; el.style.height = h + 'px';
+  el.style.padding = Math.round(10 * m) + 'px ' + Math.round(8 * m) + 'px';
+  el.innerHTML = `<div class="tt" style="font-size:${Math.round(34 * m)}px">직원 구함</div>` +
+    `<div class="ln" style="font-size:${Math.round(21 * m)}px;margin-top:${Math.round(8 * m)}px">성실한 분 구합니다</div>` +
+    `<div class="ln" style="font-size:${Math.round(21 * m)}px">경력자 우대</div>` +
+    `<div class="ln" style="font-size:${Math.round(21 * m)}px">시급 협의</div>` +
+    `<div class="ph" style="font-size:${Math.round(17 * m)}px;margin-top:${Math.round(8 * m)}px">010-0000-0000</div>`;
+  document.getElementById('ph').appendChild(el);
+  S.fitQuad(el, w, h, q); fls.push(el);
 });
-document.getElementById('bgw').style.backgroundImage = 'url("../../../../소재/sjk02/codex/t_gallery_wall.png")';
-S.ev(T.alba, 'in', 'panels');
-S.ev(T.post, 'card_in', 'rows');
-S.ev(T.exp, 'marker', 'ul');
-S.ev(T.same, 'no', 'desat');
+S.ev(T.alba + 0.1, 'paper', 'fl');
+S.ev(T.same, 'no', 'fl');
+const CAM = [{ t: 0, s: 1.12, x: 900, y: 520 }, { t: T.same, s: 1.0, x: 960, y: 540, d: 0.55 }];
 S.scene(tau => {
-  S.css('#bgw', { left: (-10 - 20 * S.EIO(S.P(tau, 0, S.SC.dur))) + 'px' });
-  ['pl', 'pr'].forEach((id, j) => {
-    const k = S.ent(tau, T.alba + 0.08 * j, 0.12), rise = S.EO(S.P(tau, T.alba + 0.08 * j, T.alba + 0.5));
-    S.css('#' + id, { opacity: rise > 0.999 ? 1 : 0.84 * k, transform: `translateY(${((1 - rise) * 320).toFixed(1)}px)`, filter: S.desat(S.EO(S.P(tau, T.same, T.same + 0.4))) });
+  // 느린 바탕 밀기(1.12→1.16) 뒤 «다 똑같잖아요» 에 물러남(1.0)
+  const c = S.camState(tau, CAM, 0.55);
+  const drift = 0.04 * S.P(tau, 0, T.same) * (1 - S.cam(tau, T.same, T.same + 0.55));
+  S.css('#cam', { transform: S.camCss({ s: c.s + drift, x: c.x, y: c.y }) });
+  const g = S.EO(S.P(tau, T.same + 0.1, T.same + 0.6));
+  fls.forEach((el, i) => {
+    const k = S.ent(tau, T.alba + 0.15 + 0.1 * i, 0.12);
+    el.style.opacity = k * (1 - 0.15 * g);
+    el.style.color = `rgb(${Math.round(31 + 123 * g)},${Math.round(42 + 118 * g)},${Math.round(51 + 115 * g)})`;
   });
-  rows.forEach((r, i) => {
-    const q = i % 5, side = i >= 5 ? 1 : 0;
-    const k = S.ent(tau, T.post + 0.1 * (q * 2 + side), 0.12);
-    r.style.opacity = k;
-    r.querySelector('.ul').style.width = (100 * S.EO(S.P(tau, T.exp, T.exp + 0.3))) + '%';
-  });
+  S.css('#ph', { filter: `saturate(${(0.8 - 0.8 * g).toFixed(3)}) contrast(1.03) brightness(${(1 - 0.08 * g).toFixed(3)})` });
 });
 </script>
 </body></html>

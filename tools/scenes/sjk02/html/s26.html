@@ -11,7 +11,6 @@
   -webkit-mask-composite:source-in;mask-composite:intersect;filter:url(#rough)}
 #s1{left:690px;top:260px;font-size:420px;color:#F05A28}
 #sg{left:1020px;top:300px;font-size:360px;color:#E24C1A}
-#lab{position:absolute;left:700px;top:780px;background:#1F2A33;color:#fff;padding:14px 28px;border-radius:12px;opacity:0;box-shadow:0 10px 24px rgba(20,25,30,.35);font-size:34px}
 </style></head>
 <body><div id="stage">
   <svg width="0" height="0" style="position:absolute"><defs><filter id="rough" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="7"/></filter></defs></svg>
@@ -19,13 +18,13 @@
     <div id="ph"></div>
     <div id="s1" class="st">1</div>
     <div id="sg" class="st">글</div>
-    <div id="lab" class="lab" data-box="lab">AI가 쓰는 글</div>
   </div>
 </div>
 <script src="../data/s26.js"></script>
 <script src="../lib/sjk.js"></script>
 <script>
 window.PALETTE = ['#D9DBD6', '#1F2A33', '#F05A28'];
+window.DEVICES = ['타일 벽 스텐실'];
 const T = { first: S.at('첫'), geul: S.at('글', 0) };
 const TG = T.geul;
 document.getElementById('ph').style.backgroundImage = S.ph('p26_dawn_tile_wall');
@@ -39,7 +38,6 @@ S.scene(tau => {
   // «글»: 한 번에 찍힘
   const p2 = S.ent(tau, TG - 0.05, 0.12);
   S.css('#sg', { opacity: p2 * 0.96, transform: `scale(${(1.08 - 0.08 * p2).toFixed(3)})` });
-  S.css('#lab', { opacity: S.ent(tau, TG + 0.1, 0.12) });
 });
 </script>
 </body></html>

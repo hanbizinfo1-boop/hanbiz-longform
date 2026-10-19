@@ -1,45 +1,49 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s61 사람한테 쓴다 — 점심 홀 어깨 너머, 주홍 쪽지 한 장</title>
+<title>s61 사람한테 쓴다 — 점심 홀 어깨 너머, 식탁 위 주문서에 «맵게» 볼펜 동그라미와 «단골» 도장</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#w{left:0;top:0;width:1997px;height:1331px}
-#ph{left:0;top:0;width:1997px;height:1331px}
-#glow{left:1130px;top:-260px;width:620px;height:620px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,150,70,.7),rgba(255,130,50,0));mix-blend-mode:screen;opacity:0}
-#note{left:1440px;top:340px;width:440px;height:236px;background:#FFF8EE;border-radius:6px;box-shadow:0 18px 36px rgba(20,25,30,.35);transform-origin:50% 0}
-#tape{left:170px;top:-16px;width:110px;height:34px;background:rgba(210,200,175,.8)}
-#nt{left:28px;top:36px;width:400px;font-size:72px;line-height:1.15;color:#F05A28}
-#nt .l2{display:block}
-#mk{left:28px;top:150px;width:130px;height:26px;background:rgba(240,90,40,.28);border-radius:4px;opacity:0}
+#cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background-size:100% 100%;background-repeat:no-repeat}
+#slip{position:absolute;left:0;top:0;width:300px;height:110px;background:#FBF7EE;font-family:"Pre";color:#2B2620;box-shadow:0 3px 8px rgba(0,0,0,.35)}
+#slip .l{position:absolute;left:18px;font-size:27px;font-weight:700;line-height:1;white-space:nowrap}
+#slip svg{position:absolute;left:0;top:0;width:300px;height:110px;overflow:visible}
+#stamp{position:absolute;right:12px;top:8px;border:4px solid #E2501C;color:#E2501C;font-family:"Pre";font-weight:900;font-size:34px;line-height:1;padding:4px 10px;border-radius:6px;transform:rotate(-10deg);background:rgba(226,80,28,.06)}
 </style></head>
 <body><div id="stage">
-  <div id="w" class="abs">
-    <div id="ph" class="photo abs"></div>
-    <div id="glow" class="abs"></div>
-    <div id="note" class="abs" data-box="note"><div id="tape" class="abs"></div><div id="mk" class="abs"></div><div id="nt" class="hand abs"><span>지난번에</span><span class="l2">맵게 드셨죠?</span></div></div>
+  <div id="cam">
+    <div id="ph"></div>
+    <div id="slip" data-diegetic data-box="slip">
+      <div class="l" style="top:13px;font-weight:900">3번 테이블</div>
+      <div class="l" style="top:46px">순대국밥 2</div>
+      <div class="l" style="top:78px;font-weight:900">맵게</div>
+      <svg viewBox="0 0 300 110"><path id="ring" d="M30 88 C 26 70, 70 66, 96 74 C 118 82, 100 104, 62 102 C 28 100, 18 78, 52 68 C 70 62, 96 66, 104 78" fill="none" stroke="#E2501C" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div id="stamp">단골</div>
+    </div>
   </div>
 </div>
 <script src="../data/s61.js"></script>
 <script src="../lib/sjk.js"></script>
-<script src="_e6.js"></script>
+<script src="../lib/e4.js"></script>
 <script>
-window.PALETTE = ['#D9DBD6', '#F05A28', '#1F2A33'];
+window.PALETTE = ['#2B2620', '#E2501C', '#FBF7EE'];
+window.DEVICES = ['R12 주문서'];
 S.$('#ph').style.backgroundImage = S.ph('p61_hall_shoulder');
-E.svg('#w', 1997, 1331, '<ellipse id="ring" cx="1430" cy="38" rx="170" ry="72" fill="none" stroke="#F05A28" stroke-width="8"/>');
-const T = { ring: S.at('가게는'), pop: S.at('사람한테'), note: S.at('단골'), wr: S.at('얼굴') + 0.3, mk: S.at('맵게'), end: S.at('한마디') };
-S.focus([{ t0: T.pop, t1: T.pop + 1.2, big: '사람', color: 'or' }]);
-S.ev(T.ring, 'marker', 'ring'); S.ev(T.note, 'card_in', 'note'); S.ev(T.wr, 'type', 'nt'); S.ev(T.mk, 'marker', 'mk'); S.ev(T.end, 'shine', 'note');
+// 식탁 위 주문서 네 점(눈으로 잰 값, 1536×1024 → 화면 x*1.25, y*1.25-100)
+const sc = q => q.map(p => [p[0] * 1.25, p[1] * 1.25 - 100]);
+S.fitQuad(S.$('#slip'), 300, 110, sc([[905, 800], [1195, 790], [1245, 905], [925, 905]]));
+const T = { slip: S.at('사람한테'), st: S.at('단골'), mk: S.at('맵게'), end: S.at('한마디') };
+S.ev(T.slip, 'paper', 'slip'); S.ev(T.st, 'card_in', 'stamp'); S.ev(T.mk, 'marker', 'ring'); S.ev(T.end, 'shine', 'slip');
 S.scene(tau => {
-  S.css('#w', { left: E.lin(tau, -0.2, S.SC.dur, 0, -77) + 'px' });
-  E.stroke(S.$('#ring'), tau, T.ring, 0.45);
-  S.$('#ring').style.opacity = S.EO(S.P(tau, T.ring, T.ring + 0.4)) * (1 - S.P(tau, T.pop + 0.9, T.pop + 1.4));
-  S.css('#glow', { opacity: S.EO(S.P(tau, T.pop - 0.1, T.pop + 0.6)) });
-  const k = E.in('#note', tau, T.note, { dy: -20, base: 'rotate(-3deg)' });
-  const w = S.EO(S.P(tau, T.wr, T.wr + 1.6));
-  S.css('#nt', { clipPath: `inset(-10px ${((1 - w) * 100).toFixed(1)}% -10px -10px)` });
-  S.css('#mk', { opacity: S.EO(S.P(tau, T.mk, T.mk + 0.3)), clipPath: `inset(0 ${((1 - S.EO(S.P(tau, T.mk, T.mk + 0.35))) * 100).toFixed(1)}% 0 0)` });
+  const d = S.P(tau, -0.2, S.SC.dur);
+  S.css('#cam', { transform: S.camCss({ s: S.lerp(1.2, 1.3, d), x: S.lerp(1000, 1080, d), y: S.lerp(690, 730, d) }) });
+  const k = S.ent(tau, T.slip, 0.14);
+  S.css('#slip', { opacity: k });
+  const sk = S.ent(tau, T.st, 0.1);
+  S.css('#stamp', { opacity: sk, transform: `rotate(-10deg) scale(${(1.4 - 0.4 * sk).toFixed(3)})` });
+  E.stroke('#ring', tau, T.mk, 0.5);
   const sh = S.ent(tau, T.end, 0.15) * (1 - S.P(tau, T.end + 0.3, T.end + 0.6));
-  S.$('#note').style.boxShadow = `0 18px 36px rgba(20,25,30,.35),0 0 0 ${(8 * sh).toFixed(1)}px rgba(240,90,40,${(0.9 * sh).toFixed(2)})`;
+  S.$('#slip').style.boxShadow = `0 3px 8px rgba(0,0,0,.35),0 0 0 ${(6 * sh).toFixed(1)}px rgba(240,90,40,${(0.9 * sh).toFixed(2)})`;
 });
 </script>
 </body></html>

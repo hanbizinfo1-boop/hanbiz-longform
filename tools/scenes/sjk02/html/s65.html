@@ -1,78 +1,73 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s65 줄인 시간은 손님한테 — 콘크리트 위 기울인 시간 판(58 의 막대, 다른 구도)</title>
+<title>s65 줄인 시간은 손님한테 — 바쁜 점심 홀(얼굴 흐림) → 근무 기록지에 접힌 칸 셋이 «손님» 열로 모여 주홍</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#wrap{left:0;top:0;width:1920px;height:1080px;perspective:2200px}
-#slab{left:330px;top:210px;width:1260px;height:600px;background:#F7F8F7;transform-origin:50% 60%}
-#slab .lb{position:absolute;left:44px;top:26px;color:#7A838A}
-#qai{right:44px;top:20px;left:auto}
-.rl{position:absolute;left:44px;width:230px;font-size:30px;font-weight:800;color:#1F2A33;line-height:1.2}
-.tk{position:absolute;left:290px;width:640px;height:60px;border-radius:12px;border:3px dashed #CDD2D6;opacity:0}
-.br{position:absolute;left:290px;height:60px;border-radius:12px;background:#1FA39A;color:#fff;font-weight:800;font-size:30px;display:flex;align-items:center;padding-left:18px;overflow:hidden;white-space:nowrap}
-.fr{position:absolute;height:60px;border-radius:12px;background:#F05A28;opacity:0}
-#blk{position:absolute;left:980px;top:112px;width:220px;height:312px;border-radius:14px;color:#fff;font-size:60px;display:flex;align-items:center;justify-content:center;opacity:0}
-#qt{left:90px;top:50px;font-size:88px;color:#EDEFEF;text-shadow:0 2px 12px rgba(10,15,20,.55);opacity:0;white-space:nowrap}
-#qs{left:86px;top:112px;width:760px;height:7px;border-radius:4px;background:#EDEFEF;opacity:0}
+.cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+.ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background-size:100% 100%;background-repeat:no-repeat}
+.fb{position:absolute;border-radius:50%;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+#tb{position:absolute;left:0;top:0;width:1200px;height:1000px;background:#EDEEF3;font-family:"Pre";color:#1F2A33}
+#tb .ln{position:absolute;left:0;height:3px;width:1200px;background:#C9CCD3}
+#tb .vl{position:absolute;top:0;width:3px;height:1000px;background:#C9CCD3}
+#tb .hd{position:absolute;top:70px;font-size:40px;font-weight:800;color:#59636B;letter-spacing:.1em}
+#tb .lb{position:absolute;left:40px;font-size:44px;font-weight:800;white-space:nowrap}
+#tb .ce{position:absolute;left:340px;width:230px;height:66px;border-radius:6px;background:#1F2A33;color:#fff;font-size:38px;font-weight:800;display:flex;align-items:center;justify-content:center}
+#tb .cl{position:absolute;left:790px;top:20px;width:340px;height:760px;border:5px dashed rgba(240,90,40,.0);border-radius:10px}
 </style></head>
 <body><div id="stage">
-  <div class="bg tex-conc"></div>
-  <div id="qt" class="hand abs" data-box="qt">언제 테이블을 돌아?</div>
-  <div id="qs" class="abs"></div>
-  <div id="wrap" class="abs">
-    <div id="slab" class="slab" data-box="slab">
-      <div class="lb lab">시간</div>
-      <div id="qai" class="chip te" style="opacity:0;position:absolute">AI</div>
-      <div id="rl0" class="rl" style="top:128px;opacity:0">리뷰 답글</div><div id="tk0" class="tk" style="top:120px"></div><div id="br0" class="br" style="top:120px;width:0">30분</div>
-      <div id="rl1" class="rl" style="top:248px;opacity:0">근무표</div><div id="tk1" class="tk" style="top:240px"></div><div id="br1" class="br" style="top:240px;width:0">5분</div>
-      <div id="rl2" class="rl" style="top:368px;opacity:0">매주 숫자</div><div id="tk2" class="tk" style="top:360px"></div><div id="br2" class="br" style="top:360px;width:0">5분</div>
-      <div id="fr0" class="fr"></div><div id="fr1" class="fr"></div><div id="fr2" class="fr"></div>
-      <div id="blk" class="blk">손님</div>
+  <div id="shotA" class="cam">
+    <div id="ph1" class="ph"></div>
+    <div class="fb" style="left:640px;top:-100px;width:1290px;height:740px"></div>
+    <div class="fb" style="left:420px;top:-100px;width:260px;height:400px"></div>
+  </div>
+  <div id="shotB" class="cam">
+    <div id="ph2" class="ph"></div>
+    <div id="tb" data-diegetic>
+      <div class="ln" style="top:150px"></div><div class="ln" style="top:300px"></div><div class="ln" style="top:450px"></div><div class="ln" style="top:600px"></div>
+      <div class="vl" style="left:780px"></div>
+      <div class="hd" id="hd" style="left:800px;color:#F05A28">손님</div>
+      <div class="lb" id="l0" style="top:182px">리뷰 답글</div><div class="ce" id="c0" style="top:182px">30분</div>
+      <div class="lb" id="l1" style="top:332px">근무표</div><div class="ce" id="c1" style="top:332px">5분</div>
+      <div class="lb" id="l2" style="top:482px">매주 숫자</div><div class="ce" id="c2" style="top:482px">5분</div>
     </div>
   </div>
 </div>
 <script src="../data/s65.js"></script>
 <script src="../lib/sjk.js"></script>
-<script src="_e6.js"></script>
+<script>S.camCssC = c => S.camCss({ s: c.s, x: Math.min(1920 - 960 / c.s, Math.max(960 / c.s, c.x)), y: Math.min(1180 - 540 / c.s, Math.max(540 / c.s - 100, c.y)) });</script>
 <script>
-window.PALETTE = ['#D9DBD6', '#1FA39A', '#F05A28'];
-const T = { guide: S.at('꼭'), q: S.at('바빠'), qs: S.at('그래서'), ai: S.at('AI를'), r0: S.at('리뷰'), r1: S.at('근무표'), r2: S.at('매주'), fr: S.at('줄인'), mv: S.at('시간을'), cus: S.at('손님한테') };
-S.focus([{ t0: T.cus, t1: T.cus + 1.1, big: '손님한테', color: 'or', size: 150 }]);
-S.ev(-0.05, 'in', 'slab'); S.ev(T.guide, 'card_in', 'tk0'); S.ev(T.q, 'marker', 'qt'); S.ev(T.qs, 'no', 'qs'); S.ev(T.ai, 'card_in', 'qai');
-S.ev(T.r0, 'gauge', 'br0'); S.ev(T.r1, 'card_in', 'br1'); S.ev(T.r2, 'gauge', 'br2'); S.ev(T.fr, 'card_in', 'fr0'); S.ev(T.mv, 'sweep', 'blk');
-const BW = [240, 110, 110], FW = 110, TY = [120, 240, 360];
+window.PALETTE = ['#2B3036', '#1F2A33', '#F05A28'];
+window.DEVICES = ['R10 되부름'];
+S.$('#ph1').style.backgroundImage = S.ph('n65_busy_lunch_hall');
+S.$('#ph2').style.backgroundImage = S.ph('n58_timesheet');
+const sc = q => q.map(p => [p[0] * 1.25, p[1] * 1.25 - 100]);
+S.fitQuad(S.$('#tb'), 1200, 1000, sc([[203, 266], [1060, 170], [1360, 848], [319, 1038]]));
+const T = { cut: S.at('리뷰', 0), tbl: S.at('테이블을'), ai: S.at('AI를'), r1: S.at('근무표'), r2: S.at('매주'), fr: S.at('이렇게'), mv: S.at('시간을'), cus: S.at('손님한테') };
+S.ev(T.cut, 'in', 'tb'); S.ev(T.r1, 'card_in', 'l1'); S.ev(T.r2, 'card_in', 'l2'); S.ev(T.fr, 'card_in', 'hd'); S.ev(T.mv, 'sweep', 'c0'); S.ev(T.cus, 'shine', 'c0');
+const KA = [{ t: 0, s: 1.14, x: 640, y: 380 }];
 S.scene(tau => {
-  // 기울인 판: 들어옴 + 아주 느린 기울기 변화
-  const k = S.ent(tau, -0.15, 0.14), drift = S.P(tau, 0, S.SC.dur);
-  S.css('#slab', { opacity: k, transform: `rotateX(${9 - 2 * drift}deg) rotateZ(${-3 + 1.0 * drift}deg) translateY(${(1 - k) * 30}px)` });
-  // 칸 점선(꼭 이런 분이 계세요) 한 칸씩
-  [0, 1, 2].forEach(i => { S.css('#tk' + i, { opacity: S.ent(tau, T.guide + i * 0.2, 0.12) }); });
-  // 손글씨 불평(바빠 죽겠는데) — 왼→오 써짐, 그래서 에 줄 그어짐
-  const q = S.EO(S.P(tau, T.q, T.q + 1.2));
-  S.css('#qt', { opacity: q > 0 ? 1 : 0, clipPath: `inset(-10px ${((1 - q) * 100).toFixed(2)}% -10px -10px)` });
-  const sk = S.EO(S.P(tau, T.qs, T.qs + 0.3));
-  S.css('#qs', { opacity: sk, clipPath: `inset(0 ${((1 - sk) * 100).toFixed(2)}% 0 0)` });
-  S.$('#qt').style.opacity = (q > 0 ? 1 - 0.5 * sk : 0).toFixed(3);
-  E.in('#qai', tau, T.ai, { dy: -12 });
-  // 세 줄: 말 시각마다 라벨 + 막대
-  const R = [T.r0, T.r1, T.r2];
+  const A = tau < T.cut;
+  S.$('#shotA').style.display = A ? 'block' : 'none'; S.$('#shotB').style.display = A ? 'none' : 'block';
+  // 샷 A: 앞 반은 쟁반 든 대표님 쪽, «언제 테이블을 돌아» 부터 손님 쪽 — 둘 다 느린 밀기, «AI를» 에 한 번 더 다가감
+  const b = tau >= T.tbl - 0.1;
+  const push = S.cam(tau, T.ai - 0.3, T.ai + 0.3);
+  const s = b ? S.lerp(1.1, 1.18, S.P(tau, T.tbl, T.cut)) + 0.08 * push : S.lerp(1.12, 1.2, S.P(tau, 0, T.tbl));
+  const x = b ? S.lerp(1230, 1300, S.P(tau, T.tbl, T.cut)) : S.lerp(620, 700, S.P(tau, 0, T.tbl)), y = b ? 360 : 400;
+  S.$('#shotA').style.transform = S.camCssC({ s, x, y });
+  // 샷 B: 근무 기록지 — 줄 셋의 접힌 칸이 차례로, «시간을» 에 «손님» 열로 미끄러져 모임, «손님한테» 에 주홍
+  S.$('#shotB').style.transform = S.camCssC({ s: S.lerp(1.0, 1.07, S.P(tau, T.cut, S.SC.dur)), x: 960, y: 540 });
+  S.css('#tb', { opacity: S.ent(tau, T.cut, 0.25) });
+  const R = [T.cut, T.r1, T.r2];
+  const m = S.EZ(S.P(tau, T.mv, T.mv + 0.6)), o = S.ent(tau, T.cus, 0.2);
   R.forEach((t, i) => {
-    E.in('#rl' + i, tau, t, { dy: 10 });
-    { const bw = BW[i] * S.EO(S.P(tau, t + 0.1, t + 0.55)); const be = S.$('#br' + i); be.style.width = bw + 'px'; be.style.opacity = bw > 4 ? 1 : 0; }
+    const l = S.ent(tau, t, 0.14), c = S.ent(tau, t + 0.2, 0.14);
+    S.css('#l' + i, { opacity: l, transform: `translateX(${((1 - l) * -20).toFixed(1)}px)` });
+    const ce = S.$('#c' + i);
+    ce.style.opacity = c; ce.style.left = S.lerp(340, 830, m) + 'px';
+    ce.style.background = `rgb(${Math.round(31 + 209 * o)},${Math.round(42 + 48 * o)},${Math.round(51 - 11 * o)})`;
+    ce.style.boxShadow = `0 0 0 ${(o * 8).toFixed(1)}px rgba(240,90,40,${(0.5 * o).toFixed(2)})`;
   });
-  // 줄인 시간(주홍 칸)이 막대 끝에 생김 → 오른쪽 한 덩어리로 모임
-  const m = S.EZ(S.P(tau, T.mv, T.mv + 0.7));
-  [0, 1, 2].forEach(i => {
-    const f = S.$('#fr' + i), a = S.ent(tau, T.fr + i * 0.12, 0.12);
-    const sx = 290 + BW[i] + 12, sy = TY[i];
-    const tx = 980, ty = 112 + i * 104, tw = 220, th = 104;
-    f.style.left = S.lerp(sx, tx, m) + 'px'; f.style.top = S.lerp(sy, ty, m) + 'px';
-    f.style.width = S.lerp(FW, tw, m) + 'px'; f.style.height = S.lerp(60, th, m) + 'px';
-    f.style.borderRadius = S.lerp(12, i === 0 ? 14 : 0, m) + 'px';
-    f.style.opacity = (a * (m > 0.999 ? 0 : 1)).toFixed(3);
-  });
-  S.css('#blk', { opacity: m > 0.999 ? 1 : 0, background: '#F05A28' });
-  S.$('#blk').style.color = S.ent(tau, T.cus - 0.05, 0.15) > 0 ? '#fff' : 'transparent';
+  S.css('#hd', { opacity: S.ent(tau, T.fr, 0.14) });
 });
 </script>
 </body></html>

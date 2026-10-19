@@ -1,53 +1,65 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s53 결정은 대표님 — 52 마지막 화면 그대로 탈색 + 왼쪽 아래 «결정» 밑판</title>
+<title>s53 결정은 대표님 — 어두운 책상, 펜 든 손과 종이 둘 · 오른쪽 종이에만 빛 + 큰 글 «결정» 붓 밑줄(R7)</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#base{position:absolute;left:0;top:0;width:1920px;height:1080px}
-#pw{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:50% 50%}
-#dk{left:1230px;top:80px;width:620px;height:330px}
-#dk .cv{bottom:96px;padding:18px 0}
-#dk .me{font-size:22px;padding:12px 18px}
-#dk .ai{font-size:26px}
-.cp{position:absolute;padding:14px 30px;border-radius:14px;background:#F4F5F3;color:#1F2A33;font-weight:800;font-size:40px;white-space:nowrap;box-shadow:0 14px 30px rgba(20,25,30,.3)}
-#cL{left:330px;top:470px}#cR{left:1240px;top:470px}
-#q{left:905px;top:610px;width:130px;height:130px;border-radius:50%;background:var(--or);color:#fff;display:flex;align-items:center;justify-content:center;font-size:90px;font-weight:900}
-#lb{left:130px;top:96px}
-#plate{left:120px;top:640px;background:var(--or);color:#fff;padding:14px 46px 22px;border-radius:12px;font-size:200px;line-height:1;white-space:nowrap}
-#who{left:126px;top:900px;font-size:44px;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.6);letter-spacing:.2em}
+#cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background-size:100% 100%;background-repeat:no-repeat}
+.pp{position:absolute;left:0;top:0;width:300px;height:400px;display:flex;align-items:center;justify-content:center;text-align:center;font-family:"Pre";font-weight:900;font-size:68px;line-height:1.25;color:#120E0A;letter-spacing:-.02em}
+.full{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:visible}
+.big{position:absolute;font-family:"Pre";font-weight:900;color:#fff;letter-spacing:-.03em;line-height:1.05;text-shadow:0 6px 30px rgba(0,0,0,.6);white-space:nowrap}
+.brush{fill:none;stroke:#F05A28;stroke-linecap:round;stroke-linejoin:round}
+#ai{position:absolute;left:90px;top:96px;display:flex;align-items:center;gap:22px}
+#ai i{width:76px;height:76px;border-radius:50%;background:#1FA39A;border:5px solid #fff;display:flex;align-items:center;justify-content:center;color:#fff;font-style:normal;font-family:"Pre";font-weight:900;font-size:34px;box-shadow:0 8px 20px rgba(0,0,0,.5)}
+#ai b{font-family:"Pre";font-weight:900;font-size:64px;color:#fff;text-shadow:0 4px 16px rgba(0,0,0,.7)}
 </style></head>
 <body><div id="stage">
-  <div id="base">
-    <div class="bg tex-conc"></div>
-    <div id="pw"><div id="ph" class="photo" style="left:0;top:0;width:1920px;height:1080px"></div></div>
-    <div id="dk" class="dk">
-      <div class="tb"><span class="md"><i></i>AI</span><span class="tab">새 대화</span></div>
-      <div class="cv"><div class="col"><div class="me">지난주보다 뭐가 늘었는지 한 줄로 알려 줘.</div><div class="ai"><div class="av">AI</div><div class="tx">배달앱 수수료가 지난주보다 늘었어요</div></div></div></div>
-      <div class="in">메시지를 입력하세요<span class="send"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="#171C21" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
-    </div>
-    <div id="cL" class="cp">배달 줄이기</div><div id="cR" class="cp">가격 올리기</div>
-    <div id="q" class="abs">?</div>
+  <div id="cam">
+    <div id="ph"></div>
+    <div id="pL" class="pp" data-box="pL">배달<br>줄이기</div>
+    <div id="pR" class="pp" data-box="pR">가격<br>올리기</div>
   </div>
-  <div id="lb" class="abs chip te" data-box="lb">AI = 숫자</div>
-  <div id="plate" class="abs blk" data-box="plate">결정</div>
-  <div id="who" class="abs lab" data-box="who">대표님</div>
+  <svg class="full"><defs><filter id="bl"><feGaussianBlur stdDeviation="46"/></filter>
+    <mask id="m"><rect width="1920" height="1080" fill="#fff"/><ellipse id="hole" cx="1370" cy="600" rx="330" ry="400" fill="#000" filter="url(#bl)"/></mask>
+    <radialGradient id="gl"><stop offset="0" stop-color="#FFC9A0" stop-opacity=".28"/><stop offset="1" stop-color="#FFC9A0" stop-opacity="0"/></radialGradient></defs>
+    <rect id="dim" width="1920" height="1080" fill="rgba(6,9,12,.62)" mask="url(#m)"/>
+    <g style="mix-blend-mode:screen"><ellipse id="glow" cx="1370" cy="590" rx="320" ry="380" fill="url(#gl)" opacity="0"/></g></svg>
+  <div id="ai" data-box="ai"><i>AI</i><b>+15만</b></div>
+  <div id="big" class="big" data-box="big" style="left:1020px;top:48px;font-size:210px">결정</div>
+  <svg class="full"><path id="brush" class="brush" d="M1010 290 C 1180 272, 1330 278, 1470 288" stroke-width="26" opacity=".95"/></svg>
 </div>
 <script src="../data/s53.js"></script>
 <script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
 <script>
-window.PALETTE = ['#D9DBD6', '#1FA39A', '#F05A28'];
-S.$('#ph').style.backgroundImage = S.ph('p52_finger_hesitate');
-const T = { ai: S.at('AI는'), dec: S.at('결정은') };
-S.ev(T.ai + 0.05, 'card_in', 'lb'); S.ev(T.dec, 'shine', 'plate');
+window.PALETTE = ['#2A1D12', '#FFFFFF', '#F05A28'];
+window.DEVICES = ['R7 스포트라이트 + 큰 글'];
+S.$('#ph').style.backgroundImage = S.ph('n53_hand_pen_two_papers');
+// 사진 눈으로 잰 종이 네 점(1536×1024 → 화면: x*1.25, y*1.25-100) — 왼위·오위·오아래·왼아래
+const sc = q => q.map(p => [p[0] * 1.25, p[1] * 1.25 - 100]);
+S.fitQuad(S.$('#pL'), 300, 400, sc([[381, 314], [723, 335], [620, 727], [203, 684]]));
+S.fitQuad(S.$('#pR'), 300, 400, sc([[886, 344], [1266, 368], [1306, 788], [912, 752]]));
+S.$("#pR").style.color = "#120E0A";
+const T = { dec0: S.at('대표님이'), ai: S.at('AI는'), num: S.at('숫자를'), dec: S.at('결정은') };
+const brush = S.$('#brush'), BL = brush.getTotalLength(); brush.style.strokeDasharray = BL;
+S.ev(T.dec0, 'shine', 'glow'); S.ev(T.ai + 0.35, 'card_in', 'ai'); S.ev(T.dec, 'shine', 'big'); S.ev(T.dec + 0.45, 'marker', 'brush');
 S.scene(tau => {
-  // 52 의 끝 상태를 그대로 — 전체 흑백(들어오는 전환이 탈색 넘김이라 처음부터 회색)
-  S.css('#base', { filter: S.desat(1) });
-  S.css('#pw', { transform: S.track(tau, -1, S.SC.dur, -26, -34, 1.1) });
-  const k = S.ent(tau, T.ai + 0.05, 0.12);
-  S.css('#lb', { opacity: k, transform: `translateY(${(1 - k) * -14}px)` });
-  const p = S.ent(tau, T.dec, 0.14);
-  S.css('#plate', { opacity: p, transform: `translateX(${(1 - p) * -90}px)` });
-  S.css('#who', { opacity: S.ent(tau, T.dec + 0.2, 0.12) });
+  // 사진 느린 밀기
+  const s = S.lerp(1.0, 1.05, S.P(tau, -0.2, S.SC.dur));
+  S.css('#cam', { transform: S.camCss({ s, x: 960, y: 540 }) });
+  // 스포트라이트: 처음엔 둘레만 살짝 어둡고, «대표님이 정하시는» 에 오른쪽 종이에 빛이 모임
+  const sh = S.EO(S.P(tau, T.dec0, T.dec0 + 0.5));
+  S.$('#dim').setAttribute('fill', `rgba(6,9,12,${(0.32 + 0.34 * sh).toFixed(3)})`);
+  S.$('#glow').setAttribute('opacity', sh.toFixed(3));
+  const hole = S.$('#hole'); hole.setAttribute('rx', (S.lerp(520, 330, sh)).toFixed(1)); hole.setAttribute('ry', (S.lerp(560, 400, sh)).toFixed(1));
+  // 왼쪽 위 «AI» + «+15만»
+  const k = S.ent(tau, T.ai + 0.3, 0.14);
+  S.css('#ai', { opacity: k, transform: `translateX(${((1 - k) * -40).toFixed(1)}px)` });
+  // 큰 글 «결정» + 붓 밑줄
+  const b = S.ent(tau, T.dec, 0.16);
+  S.css('#big', { opacity: b, transform: `translateY(${((1 - b) * 26).toFixed(1)}px)` });
+  const u = S.EO(S.P(tau, T.dec + 0.45, T.dec + 0.8));
+  brush.style.strokeDashoffset = BL * (1 - u); brush.style.opacity = tau >= T.dec + 0.45 ? 0.95 : 0;
 });
 </script>
 </body></html>

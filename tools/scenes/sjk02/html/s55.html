@@ -1,71 +1,80 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s55 매출은 줄고 수익은 늘었다 — 낮은 각도 감열지 띠 위 두 줄 선 그래프, 메뉴 칩이 회색으로 빠짐</title>
+<title>s55 배달 메뉴 줄이고 포장 할인 → 매출 조금 ↓ 수익 ↑ — 메뉴 관리 화면에서 배달 스위치가 꺼지고 포장 할인이 켜진 뒤, 블렌더 유리 통 둘(매출·수익)</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#wrap{left:0;top:0;width:1920px;height:1080px;perspective:1800px;perspective-origin:50% 38%}
-#st{left:560px;top:60px;width:900px;height:780px;overflow:hidden;background-size:900px auto;transform-origin:50% 100%}
-#ch{position:absolute;left:0;top:0;width:900px;height:780px}
-.ln{fill:none;stroke-width:14;stroke-linecap:round;stroke-linejoin:round}
-.tg{position:absolute;font-size:28px;font-weight:800;padding:6px 16px;border-radius:10px;white-space:nowrap}
-#tS{left:40px;top:110px;background:#E4E6E3;color:#5D646B}
-#tP{left:40px;top:560px;background:#FDE6DC;color:#F05A28}
-#cD{position:absolute;left:640px;top:70px;font-size:30px;padding:8px 18px}
-.mc{left:110px;width:360px;font-size:34px;justify-content:center}
-#m0{top:250px}#m1{top:350px}#m2{top:450px}#hg{top:600px;left:110px;width:360px;font-size:34px;justify-content:center}
-#ax{position:absolute;left:30px;right:30px;top:720px;border-top:3px dotted #C5C9CC}
+#bl{position:absolute;left:0;top:0;width:1920px;height:1080px}
+#pw{left:0;top:0;width:1920px;height:1080px;perspective:2200px;perspective-origin:50% 40%}
+#app{left:560px;top:110px;width:800px;transform-origin:50% 40%}
+#app .row{align-items:center;padding:16px 26px}
+#app .nm{flex:1;font-size:28px}
+#app .pr{font-size:26px;margin:0 22px 0 0;color:#3A444C}
+.sw{flex:none;width:72px;height:40px;border-radius:20px;background:#C9CED2;position:relative}
+.sw i{position:absolute;top:4px;left:4px;width:32px;height:32px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+.sec{padding:14px 26px 8px;font-size:22px;font-weight:700;letter-spacing:.12em;color:#8A9096;background:#F6F7F8}
+.cap{flex:none;font-size:20px;font-weight:700;color:#8A9096;margin-right:12px}
+#disc .bdg{font-size:22px}
+.tg{position:absolute;left:0;top:0;padding:8px 18px 10px;border-radius:10px;background:#1F2A33;color:#fff;font-family:"Pre";font-weight:800;font-size:34px;white-space:nowrap;
+  box-shadow:0 0 0 3px rgba(255,255,255,.9),0 12px 26px rgba(10,14,18,.45)}
+#tp{background:#F05A28}
 </style></head>
 <body><div id="stage">
-  <div class="bg tex-conc"></div>
-  <div id="wrap" class="abs">
-    <div id="st" class="abs thermal" data-box="st" data-box-group="stg">
-      <svg id="ch" viewBox="0 0 900 780">
-        <g stroke="#E3E6E8" stroke-width="2"><line x1="40" y1="230" x2="860" y2="230"/><line x1="40" y1="400" x2="860" y2="400"/><line x1="40" y1="570" x2="860" y2="570"/><line x1="40" y1="740" x2="860" y2="740"/></g>
-        <path id="lS" class="ln" stroke="#9AA0A6" d="M80 250 L330 244 L560 330 L820 360"/>
-        <path id="lP" class="ln" stroke="#F05A28" d="M80 700 L330 696 L560 620 L820 330"/>
-        <circle id="dP" cx="820" cy="330" r="16" fill="#F05A28"/>
-      </svg>
-      <div id="tS" class="tg">매출</div><div id="tP" class="tg">수익</div>
-      <div id="ax"></div>
+  <img id="bl" alt="">
+  <div id="pw" class="abs">
+    <div id="app" class="app" data-box="app">
+      <div class="hd">메뉴 관리</div>
+      <div class="sec">배달</div>
+      <div id="rows"></div>
+      <div class="sec">포장</div>
+      <div id="disc" class="row"><span class="nm">포장 주문 할인<span id="bd" class="bdg">-1,000원</span></span><span class="cap">포장</span><div id="swd" class="sw"><i></i></div></div>
     </div>
   </div>
-  <div id="m0" class="chip ink mc" data-box="m0">배달 메뉴 A</div><div id="m1" class="chip ink mc" data-box="m1">배달 메뉴 B</div><div id="m2" class="chip ink mc" data-box="m2">배달 메뉴 C</div>
-  <div id="hg" class="chip or" data-box="hg">포장 할인</div>
-  <div id="cDc" class="chip te" data-box="cDc" data-box-group="stg" style="left:1400px;top:330px">결정</div>
+  <div id="ts" class="tg">매출</div><div id="tp" class="tg">수익</div>
 </div>
 <script src="../data/s55.js"></script>
 <script src="../lib/sjk.js"></script>
+<script src="../../../../_tmp/sjk02/blender/s55/proj.js"></script>
 <script>
-window.PALETTE = ['#D9DBD6', '#F05A28', '#1F2A33', '#9AA0A6'];
-const T = { menu: S.at('배달메뉴'), cut: S.at('줄이고'), disc: S.at('할인을'), sd: S.at('매출은'), pf: S.at('남는돈은'), up: S.at('늘었어요'), only: S.at('매출만'), dec: S.at('결정'), cnt: S.at('따져'), can: S.at('할수') };
-const lS = S.$('#lS'), lP = S.$('#lP'), nS = lS.getTotalLength(), nP = lP.getTotalLength();
-lS.style.strokeDasharray = nS; lP.style.strokeDasharray = nP;
-// 선 길이 비율: 앞 두 마디(평평) = 0.0~0.48, 내려감/올라감 구간 = 마지막 두 마디
-S.focus([{ t0: T.up, t1: T.up + 1.4, big: '수익 ↑', color: 'or' }]);
-S.ev(T.menu, 'card_in', 'm0'); S.ev(T.cut + 0.1, 'no', 'm1'); S.ev(T.disc, 'card_in', 'hg'); S.ev(T.sd, 'gauge', 'lS'); S.ev(T.up - 0.1, 'ok', 'lP');
-S.ev(T.dec, 'card_in', 'cDc'); S.ev(T.cnt + 0.6, 'shine', 'dP');
-S.scene(tau => {
-  // 감열지 띠: 낮은 각도(rotateX 24°) 로 서서 천천히 앞으로 눕는다
-  const e = S.ent(tau, -0.2, 0.3);
-  S.css('#st', { opacity: e, transform: `rotateX(${24 - 6 * S.P(tau, 0, S.SC.dur)}deg) rotateZ(-2deg) translateY(${(1 - e) * 20}px)` });
-  // 선: 앞 절반은 «메뉴» 부터 평평하게, 뒤는 말에 맞춰
-  const aS = S.EO(S.P(tau, T.menu, T.menu + 0.7)) * 0.48 + S.EO(S.P(tau, T.sd, T.sd + 0.6)) * 0.52;
-  const aP = S.EO(S.P(tau, T.menu + 0.1, T.menu + 0.8)) * 0.48 + S.EO(S.P(tau, T.up - 0.1, T.up + 0.7)) * 0.52;
-  lS.style.strokeDashoffset = nS * (1 - aS); lP.style.strokeDashoffset = nP * (1 - aP);
-  S.css('#tS', { opacity: S.ent(tau, T.menu + 0.5, 0.12) }); S.css('#tP', { opacity: S.ent(tau, T.menu + 0.6, 0.12) });
-  // 매출만 볼 때: 회색 선이 한 번 더 탈색(흐려짐)
-  const g = S.ent(tau, T.only, 0.3);
-  lS.style.opacity = 1 - 0.65 * g; S.css('#tS', { filter: `grayscale(${g})`, opacity: S.ent(tau, T.menu + 0.5, 0.12) * (1 - 0.5 * g) });
-  S.$('#dP').style.opacity = S.ent(tau, T.up + 0.6, 0.12);
-  S.$('#dP').setAttribute('r', 16 + 8 * Math.max(0, Math.sin(S.P(tau, T.cnt + 0.6, T.cnt + 1.2) * Math.PI)));
-  // 메뉴 칩 셋(0.12초 간격) → «줄이고» 에 둘이 회색으로 빠짐 → 포장 할인(주홍)
-  ['m0', 'm1', 'm2'].forEach((id, i) => {
-    const k = S.ent(tau, T.menu - 0.1 + i * 0.12 - 0.3, 0.12);
-    const out = i > 0 ? S.ent(tau, T.cut + 0.1 + (i - 1) * 0.12, 0.2) : 0;
-    S.css('#' + id, { opacity: k * (1 - 0.55 * out), transform: `translateX(${(1 - k) * -40}px)`, filter: `grayscale(${out})` });
+window.PALETTE = ['#B08A63', '#1F2A33', '#F05A28'];   // 나무 계산대 · 먹 글 · 주홍(수익) — 매출 물은 회청
+window.DEVICES = ['실제 화면 동작(메뉴 관리)', 'R3 은유 기계(블렌더)'];
+const T = { few: S.at('몇'), cut: S.at('줄이고'), disc: S.at('할인을'), put: S.at('걸었어요'), then: S.at('그랬더니'), sales: S.at('매출은'), bank: S.at('통장에') };
+const MENU = [['돼지국밥', '9,000'], ['순대국밥', '9,500'], ['수육국밥', '10,500'], ['모둠 순대', '15,000'], ['수육 (소)', '18,000'], ['섞어국밥', '9,500']];
+const OFF = { 3: T.few, 4: T.few + 0.2, 5: T.cut + 0.05 };      // 끄는 줄(번호 → 시각)
+S.$('#rows').innerHTML = MENU.map((m, i) => `<div id="r${i}" class="row"><span class="nm">${m[0]}</span><span class="pr">${m[1]}원</span><span class="cap">배달</span><div id="sw${i}" class="sw"><i></i></div></div>`).join('');
+S.ev(0.0, 'in', 'app');
+S.ev(T.few, 'click', 'off');
+S.ev(T.disc, 'click', 'disc');
+S.ev(T.put, 'card_in', 'badge');
+S.ev(T.then, 'sweep', 'tanks');
+S.ev(T.sales + 0.1, 'no', 'salesDown');
+S.ev(S.at('오히려') + 0.2, 'gauge', 'profitUp');
+function sw(el, on) {
+  el.style.background = on > 0.5 ? '#1F2A33' : '#C9CED2';
+  el.querySelector('i').style.transform = `translateX(${(32 * on).toFixed(1)}px)`;
+}
+function place(el, p, dy, k) {
+  if (!p) { el.style.opacity = 0; return; }
+  el.style.opacity = k;
+  el.style.transform = `translate(${(p[0] - el.offsetWidth / 2).toFixed(1)}px,${(p[1] - el.offsetHeight - dy + (1 - k) * 12).toFixed(1)}px)`;
+}
+S.scene(async tau => {
+  await S.bl('#bl', 's55', tau);
+  // 앞 4초: 통 무대는 흐리게 깔리고 메뉴 관리 화면이 위에
+  const out = S.cam(tau, T.then - 0.05, T.then + 0.4);
+  S.css('#bl', { filter: `blur(${(16 * (1 - out)).toFixed(2)}px) brightness(${(0.72 + 0.28 * out).toFixed(3)})`, transform: `scale(${(1.06 - 0.06 * out).toFixed(4)})` });
+  const k = S.ent(tau, 0.0, 0.14);
+  S.css('#app', { opacity: (k * (1 - out)).toFixed(3), transform: `rotateX(8deg) rotateZ(-2deg) translateY(${((1 - k) * 30 - 700 * out).toFixed(1)}px)` });
+  MENU.forEach((m, i) => {
+    const t = OFF[i];
+    const off = t === undefined ? 0 : S.EO(S.P(tau, t, t + 0.18));
+    sw(S.$('#sw' + i), 1 - off);
+    S.$('#r' + i).style.opacity = (1 - 0.55 * off).toFixed(3);
   });
-  const h = S.ent(tau, T.disc, 0.12); S.css('#hg', { opacity: h, transform: `translateY(${(1 - h) * 14}px)` });
-  const d = S.ent(tau, T.dec, 0.12); S.css('#cDc', { opacity: d, transform: `translateX(${(1 - d) * -30}px)` });
+  sw(S.$('#swd'), S.EO(S.P(tau, T.disc, T.disc + 0.18)));
+  const bk = S.ent(tau, T.put, 0.12);
+  S.css('#bd', { opacity: bk, display: 'inline-block', transform: `scale(${(0.8 + 0.2 * bk).toFixed(3)})` });
+  place(S.$('#ts'), S.proj('sales_top', tau), 4, S.ent(tau, T.then + 0.35, 0.12));
+  place(S.$('#tp'), S.proj('prof_top', tau), 4, S.ent(tau, T.then + 0.6, 0.12));
 });
 </script>
 </body></html>

@@ -1,35 +1,28 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s39 우리 가게만 있는 게 없다? — 새벽 타일 벽에 회색 손글씨 → 흰 쪽지 셋</title>
+<title>s39 우리 가게만 있는 게 없다? — 새벽 타일 벽에 빈 쪽지 셋이 붙고 질문이 하나씩 써짐 · 하나에 주홍 압정</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-/* 새벽 주방 타일 벽 정면(푸른빛) — 회색 손글씨는 줄 그어져 옅어지고, 흰 쪽지 셋이 테이프로 붙으며 질문이 하나씩 써진다. 마지막 쪽지 하나에만 주홍 동그라미 */
 #w{left:0;top:0;width:1920px;height:1080px;transform-origin:1270px 560px}
 #ph{left:-40px;top:-20px;width:2000px;height:1120px;background-size:cover;background-position:center}
-.gt{position:absolute;font-family:"Hand";font-weight:700;color:#DCE0E2;font-size:92px;white-space:nowrap;text-shadow:0 3px 10px rgba(8,12,16,.55)}
-#g1{left:610px;top:150px} #g2{left:610px;top:252px} #gq{left:1250px;top:196px;font-size:170px}
-.note{position:absolute;width:310px;height:262px;top:470px;background:#FBFBF8;box-shadow:0 18px 34px rgba(10,16,22,.38),0 2px 5px rgba(10,16,22,.3);border-radius:3px}
-.note .tp{position:absolute;left:105px;top:-18px;width:100px;height:36px;background:rgba(190,198,204,.78);transform:rotate(-4deg);box-shadow:0 2px 4px rgba(0,0,0,.18)}
-.note .no{position:absolute;left:20px;top:14px;font-family:"Hand";font-weight:700;font-size:40px;color:#9AA0A6}
-.note .tx{position:absolute;left:22px;right:18px;top:62px;font-family:"Hand";font-weight:700;font-size:50px;line-height:1.18;color:#1F2A33}
-.note svg.ul{position:absolute;left:18px;bottom:30px;width:274px;height:26px}
-#n1{left:590px;transform:rotate(-3deg)} #n2{left:925px;transform:rotate(2deg);top:488px} #n3{left:1260px;transform:rotate(-1deg)}
-#svgW{position:absolute;left:0;top:0}
+.note{position:absolute;width:350px;height:300px;top:400px;background:#FBFBF8;box-shadow:0 18px 34px rgba(10,16,22,.38),0 2px 5px rgba(10,16,22,.3);border-radius:3px;opacity:0}
+.note .tp{position:absolute;left:125px;top:-18px;width:100px;height:36px;background:rgba(190,198,204,.78);transform:rotate(-4deg);box-shadow:0 2px 4px rgba(0,0,0,.18)}
+.note .no{position:absolute;left:22px;top:12px;font-family:"Hand";font-weight:700;font-size:44px;color:#9AA0A6;opacity:0}
+.note .tx{position:absolute;left:24px;right:20px;top:64px;font-family:"Hand";font-weight:700;font-size:50px;line-height:1.18;color:#1F2A33}
+.note svg.ul{position:absolute;left:22px;bottom:26px;width:306px;height:26px}
+#n1{left:540px;transform:rotate(-3deg)} #n2{left:925px;transform:rotate(2deg);top:420px} #n3{left:1310px;transform:rotate(-1deg)}
+#pin{position:absolute;left:1463px;top:390px;width:44px;height:44px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FF8A5B,#F05A28 60%,#C8411A);box-shadow:0 10px 12px rgba(0,0,0,.45),0 2px 3px rgba(0,0,0,.4);opacity:0}
 </style></head>
 <body><div id="stage">
   <div id="w" class="abs">
     <div id="ph" class="photo abs"></div>
-    <div id="gset" class="abs" style="left:0;top:0;width:1920px;height:400px"><div id="g1" class="gt" data-box="g1" data-box-group="gt">우리 가게만 있는 게</div><div id="g2" class="gt" data-box="g2" data-box-group="gt">딱히 없는데</div><div id="gq" class="gt" data-box="gq" data-box-group="gt">?</div></div>
-    <svg id="svgW" width="1920" height="1080" viewBox="0 0 1920 1080">
-      <path id="strike" d="M590 262 C 800 232, 1000 292, 1250 238 S 1000 342, 700 348 L 1180 322" fill="none" stroke="#2B343B" stroke-width="12" stroke-linecap="round"/>
-      <path id="circ" d="M1215 560 C1215 470, 1310 410, 1420 412 C1535 412, 1630 480, 1630 600 C1630 725, 1535 792, 1420 790 C1300 790, 1205 720, 1205 610 C1205 560, 1225 520, 1262 484" fill="none" stroke="#F05A28" stroke-width="10" stroke-linecap="round"/>
-    </svg>
-    <div id="n1" class="note" data-box="n1"><div class="tp"></div><div class="no">1</div><div id="t1" class="tx">이 메뉴 왜 시작했지?</div>
-      <svg class="ul" viewBox="0 0 274 26"><path id="u1" d="M4 16 C 60 6, 120 24, 180 12 S 250 14, 270 10" fill="none" stroke="#F05A28" stroke-width="7" stroke-linecap="round"/></svg></div>
-    <div id="n2" class="note" data-box="n2"><div class="tp"></div><div class="no">2</div><div id="t2" class="tx">손님 칭찬 1위는?</div>
-      <svg class="ul" viewBox="0 0 274 26"><path id="u2" d="M4 14 C 70 24, 130 6, 190 16 S 250 10, 270 14" fill="none" stroke="#F05A28" stroke-width="7" stroke-linecap="round"/></svg></div>
-    <div id="n3" class="note" data-box="n3"><div class="tp"></div><div class="no">3</div><div id="t3" class="tx">나만 귀찮게 하는 것?</div>
-      <svg class="ul" viewBox="0 0 274 26"><path id="u3" d="M4 12 C 60 22, 120 6, 180 16 S 250 8, 270 14" fill="none" stroke="#F05A28" stroke-width="7" stroke-linecap="round"/></svg></div>
+    <div id="n1" class="note" data-diegetic data-box="n1"><div class="tp"></div><div id="k1" class="no">1</div><div id="t1" class="tx">왜 시작?</div>
+      <svg class="ul" viewBox="0 0 306 26"><path id="u1" d="M4 16 C 60 6, 120 24, 190 12 S 270 14, 300 10" fill="none" stroke="#F05A28" stroke-width="7" stroke-linecap="round"/></svg></div>
+    <div id="n2" class="note" data-diegetic data-box="n2"><div class="tp"></div><div id="k2" class="no">2</div><div id="t2" class="tx">제일 많이 듣는 칭찬?</div>
+      <svg class="ul" viewBox="0 0 306 26"><path id="u2" d="M4 14 C 70 24, 130 6, 200 16 S 270 10, 300 14" fill="none" stroke="#F05A28" stroke-width="7" stroke-linecap="round"/></svg></div>
+    <div id="n3" class="note" data-diegetic data-box="n3"><div class="tp"></div><div id="k3" class="no">3</div><div id="t3" class="tx">나만 귀찮게 하는 것?</div>
+      <svg class="ul" viewBox="0 0 306 26"><path id="u3" d="M4 12 C 60 22, 120 6, 190 16 S 270 8, 300 14" fill="none" stroke="#F05A28" stroke-width="7" stroke-linecap="round"/></svg></div>
+    <div id="pin"></div>
   </div>
 </div>
 <script src="../data/s39.js"></script>
@@ -37,39 +30,32 @@
 <script src="../lib/e4.js"></script>
 <script>
 window.PALETTE = ['#D9DBD6', '#1F2A33', '#F05A28'];
+window.DEVICES = ['쪽지 셋'];
 S.$('#ph').style.backgroundImage = S.ph('p26_dawn_tile_wall');
-const T = { say: 0.73, q2: 1.65, qm: S.at('딱히'), no: S.at('아니에요'), all: S.at('다 있어요'), who: S.at('본인만'), three: S.at('세 가지만'),
-  f1: S.at('첫 번째'), f2: S.at('두 번째'), f3: S.at('세 번째'), mid: S.at('이 세 개'), one: S.at('무조건') };
-S.ev(0.73, 'marker', 'g1'); S.ev(T.qm, 'card_in', 'gq'); S.ev(T.no, 'no', 'strike');
-S.ev(T.three, 'card_in', 'n1'); S.ev(T.f1, 'type', 't1'); S.ev(10.3, 'marker', 'u1'); S.ev(T.f2, 'card_in', 't2'); S.ev(13.0, 'marker', 'u2');
-S.ev(T.f3, 'card_in', 't3'); S.ev(16.4, 'marker', 'u3'); S.ev(T.mid, 'no', 'n1'); S.ev(T.one, 'marker', 'circ');
-const NOTE = { n1: 0, n2: 0.25, n3: 0.5 };
+const T = { a: S.at('어? 나는'), b: S.at('딱히'), c: S.at('다 있어요'), push: S.at('아니에요'), nums: S.at('세 가지만'),
+  f1: S.at('첫 번째'), f2: S.at('두 번째'), f3: S.at('세 번째'), mid: S.at('이 세 개'), one: S.at('무조건'), cam2: 14.2 };
+S.ev(T.a, 'paper', 'n1'); S.ev(T.b, 'card_in', 'n2'); S.ev(T.c, 'paper', 'n3'); S.ev(T.nums, 'card_in', 'k1');
+S.ev(T.f1, 'marker', 't1'); S.ev(10.3, 'card_in', 'u1'); S.ev(T.f2, 'marker', 't2'); S.ev(13.0, 'card_in', 'u2');
+S.ev(T.f3, 'marker', 't3'); S.ev(16.4, 'card_in', 'u3'); S.ev(T.mid, 'no', 'n1'); S.ev(T.one, 'click', 'pin');
 S.scene(tau => {
-  const cam = S.cam(tau, 14.2, 14.7);
-  S.css('#w', { transform: `scale(${(1 + 0.12 * cam + 0.02 * S.P(tau, 0, S.SC.dur)).toFixed(4)})` });
+  const c1 = S.cam(tau, T.push, T.push + 0.4), c2 = S.cam(tau, T.cam2, T.cam2 + 0.5);
+  S.css('#w', { transform: `scale(${(1 + 0.07 * c1 + 0.06 * c2 + 0.01 * S.P(tau, 0, S.SC.dur)).toFixed(4)})` });
   S.css('#ph', { transform: `translateX(${(-24 * S.P(tau, 0, S.SC.dur)).toFixed(1)}px)` });
-  // 회색 손글씨
-  E.wipe('#g1', tau, T.say, 0.85); E.wipe('#g2', tau, T.q2, 0.7); E.wipe('#gq', tau, T.qm, 0.35);
-  const fade = 1 - 0.55 * S.P(tau, T.all, T.all + 0.9), up = S.EO(S.P(tau, T.who, T.who + 0.9));
-  ['#g1', '#g2', '#gq'].forEach(s => { S.$(s).style.filter = 'none'; });
-  S.css('#strike', {}); E.stroke('#strike', tau, T.no, 0.45);
-  const gset = S.$('#svgW');
-  // 글과 줄을 같이 옅게(글 요소 투명도에 곱함 — wipe 가 opacity 를 건드리므로 래퍼 대신 색으로)
-  ['#g1', '#g2', '#gq'].forEach(s => { S.$(s).style.color = `rgba(222,226,228,${fade.toFixed(3)})`; });
-  S.css('#gset', { transform: `translateY(${(-34 * up).toFixed(1)}px)` });
-  S.css('#strike', { opacity: tau >= T.no ? fade : 0, transform: `translateY(${(-34 * up).toFixed(1)}px)` });
-  // 쪽지 셋
-  [['#n1', 'n1', -3, 470], ['#n2', 'n2', 2, 488], ['#n3', 'n3', -1, 470]].forEach(([id, key, rot]) => {
-    const k = S.ent(tau, T.three + NOTE[key], 0.14);
+  // 빈 쪽지 셋이 차례로 붙음
+  [['#n1', T.a, -3, 0], ['#n2', T.b, 2, 0], ['#n3', T.c, -1, 0]].forEach(([id, t0, rot]) => {
+    const k = S.ent(tau, t0, 0.14);
     S.$(id).style.opacity = k; S.$(id).style.transform = `rotate(${rot}deg) translateY(${(-26 * (1 - k)).toFixed(1)}px) scale(${(1.06 - 0.06 * k).toFixed(4)})`;
   });
-  E.wipe('#t1', tau, T.f1 + 0.05, 1.0); E.stroke('#u1', tau, 10.3, 0.5);
+  // 번호(세 가지만) → 질문 글(첫·두·세 번째)
+  ['#k1', '#k2', '#k3'].forEach((s, i) => { S.$(s).style.opacity = S.ent(tau, T.nums + 0.18 * i, 0.12); });
+  E.wipe('#t1', tau, T.f1 + 0.05, 0.9); E.stroke('#u1', tau, 10.3, 0.5);
   E.wipe('#t2', tau, T.f2 + 0.05, 0.9); E.stroke('#u2', tau, 13.0, 0.5);
-  E.wipe('#t3', tau, T.f3 + 0.05, 1.0); E.stroke('#u3', tau, 16.4, 0.5);
-  // 이 세 개 중 → 1·2 번 쪽지 회색으로 빠짐, 하나는 무조건 → 3번에 주홍 동그라미
+  E.wipe('#t3', tau, T.f3 + 0.05, 0.9); E.stroke('#u3', tau, 16.4, 0.5);
+  // 이 세 개 중 → 1·2 번 회색 · 하나는 무조건 → 3번 쪽지에 주홍 압정
   const g = S.P(tau, T.mid, T.mid + 0.5);
   E.gray('#n1', g); E.gray('#n2', g);
-  E.stroke('#circ', tau, T.one, 0.55);
+  const pk = S.EO(S.P(tau, T.one, T.one + 0.18));
+  S.css('#pin', { opacity: pk, transform: `translateY(${((1 - pk) * -40).toFixed(1)}px) scale(${(1.7 - 0.7 * pk).toFixed(3)})` });
 });
 </script>
 </body></html>

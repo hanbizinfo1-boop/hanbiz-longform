@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>시안 s29 2차 — 국밥집 두 군데, A 가게 (B 방향 안에서 세 가지)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<link rel="stylesheet" href="sian.css">
+<style>
+.pl{left:0;top:0;width:1920px;height:1080px;background-image:url("../../../../소재/sjk02/codex/p29_two_pots.png");transform:scale(1.04)}
+#pB{filter:blur(7px) saturate(.78)}
+#pA{clip-path:polygon(819px 513px,950px 477px,1375px 465px,1750px 488px,1869px 550px,1875px 700px,1838px 850px,1825px 1180px,700px 1180px,700px 975px,863px 975px,900px 600px)}
+/* D 분할 */
+#split{position:absolute;left:0;top:0;width:1920px;height:1080px}
+.pan{position:absolute;top:70px;width:880px;height:860px;border-radius:14px;overflow:hidden;background-image:url("../../../../소재/sjk02/codex/p29_two_pots.png");background-size:2400px auto;
+  box-shadow:0 30px 70px rgba(0,0,0,.6)}
+#panB{left:60px;background-position:-180px -280px;filter:saturate(.25) brightness(.55)}
+#panA{left:980px;background-position:-1080px -620px}
+.pan .lab{position:absolute;left:40px;bottom:40px}
+/* F 글자 뒤 */
+#behind{position:absolute;left:880px;top:270px;font-family:"Pre";font-weight:900;font-size:330px;letter-spacing:-.04em;line-height:1;color:#fff;white-space:nowrap;text-shadow:0 10px 50px rgba(0,0,0,.35)}
+</style></head>
+<body><div id="stage">
+  <div id="pB" class="photo pl"></div>
+  <div id="behind" class="vc">A 가게</div>
+  <div id="pA" class="photo pl"></div>
+
+  <!-- D 분할: 왼쪽 B 가게(눌림) · 오른쪽 A 가게(밝음), 판 아래 큰 글 -->
+  <div class="va" id="split"><div class="bg tex-dark"></div>
+    <div class="pan" id="panB"></div><div class="pan" id="panA"></div>
+    <svg class="full"><path class="brush" d="M1022 912 C 1120 900, 1260 902, 1360 910" stroke-width="20" style="stroke:var(--te)"/></svg>
+    <div class="kick" style="left:110px;top:780px;color:rgba(255,255,255,.5)">국밥집 하나</div>
+    <div class="big" style="left:104px;top:820px;font-size:110px;color:rgba(255,255,255,.45)">B 가게</div>
+    <div class="kick" style="left:1030px;top:780px">AI 한테 <b style="color:#43C9BF">그냥</b></div>
+    <div class="big" style="left:1022px;top:820px;font-size:110px">A 가게</div>
+  </div>
+
+  <!-- E 헤드라인: 앞 솥만 밝힘 · 왼쪽 위 큰 제목 · 뒤 솥은 흐린 작은 글 -->
+  <svg class="full vb"><defs><filter id="bl"><feGaussianBlur stdDeviation="60"/></filter>
+    <mask id="m"><rect width="1920" height="1080" fill="#fff"/><ellipse cx="1360" cy="780" rx="580" ry="380" fill="#000" filter="url(#bl)"/></mask></defs>
+    <rect width="1920" height="1080" fill="rgba(6,9,12,.70)" mask="url(#m)"/>
+    <path class="brush" d="M128 345 C 260 330, 420 332, 560 340" stroke-width="22" style="stroke:var(--te)"/></svg>
+  <div class="kick vb" style="left:136px;top:150px">국밥집 <b>두 군데</b></div>
+  <div class="big vb" style="left:126px;top:196px;font-size:150px">A 가게</div>
+  <div class="kick vb" style="left:138px;top:390px;font-size:30px;letter-spacing:.06em">AI 한테 그냥 시켰다</div>
+  <div class="vb" style="position:absolute;left:760px;top:430px;font-family:Pre;font-weight:800;font-size:46px;color:rgba(255,255,255,.4)">B 가게</div>
+
+  <!-- F 글자 뒤로: 큰 «A 가게» 가 앞 솥 뒤에 걸침 -->
+  <svg class="full vc" style="z-index:-1"></svg>
+  <div class="kick vc" style="left:900px;top:220px">AI 한테 <b style="color:#43C9BF">그냥 시킨</b></div>
+  <div class="vc" style="position:absolute;left:600px;top:330px;font-family:Pre;font-weight:800;font-size:46px;color:rgba(255,255,255,.45)">B 가게</div>
+</div>
+<script>
+const v = new URLSearchParams(location.search).get('v') || 'a';
+document.body.className = v;
+if (v === 'c') { document.getElementById('pB').style.filter = 'blur(7px) saturate(.6) brightness(.6)'; }
+</script>
+</body></html>

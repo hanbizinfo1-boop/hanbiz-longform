@@ -1,9 +1,16 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s49 매주 확인 — 어두운 탁자 위 기울인 대화창에 이번 주 숫자를 넣어 수익을 계산시키는 프롬프트</title>
+<title>s49 매주 확인 — 벽 달력 월요일마다 볼펜 동그라미 → 다크 대화창에 이번 주 숫자 넣어 수익 계산시키는 프롬프트</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-/* 어두운 탁자 위 기울인 다크 대화창(7°). 왼쪽 위 주홍 «매주», 회색 «시간 없음?»은 사라지고, 아래 큰 입력칸에 프롬프트가 줄마다 타자 → 마지막에 보내기 */
+#cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+/* 달력 사진(1536×1024)을 1920 폭으로 깐 좌표계 = scale(1.25) translateY(-100px) */
+#cal{position:absolute;left:0;top:0;width:1536px;height:1024px;transform-origin:0 0;transform:translate(0,-100px) scale(1.25)}
+#cal .ph{position:absolute;left:0;top:0;width:1536px;height:1024px;background-size:cover;filter:saturate(.85)}
+#cal .ln{position:absolute;background:#26282B}
+#cal .dn{position:absolute;width:146px;text-align:center;font-family:"Pre";font-weight:700;font-size:40px;color:#26282B;line-height:1}
+#cal .wd{position:absolute;width:146px;text-align:center;font-family:"Pre";font-weight:600;font-size:24px;letter-spacing:.2em;color:#4A525A;line-height:1}
+#cal svg{position:absolute;left:0;top:0;width:1536px;height:1024px;overflow:visible}
 .row3{position:absolute;left:0;top:0;width:1920px;height:1080px;perspective:2200px}
 .rin{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:50% 50%;transform:rotateX(7deg) rotateZ(-2deg)}
 #dk{left:420px;top:100px;width:1200px;height:760px}
@@ -11,57 +18,87 @@
 #dk .in{height:358px;bottom:20px;border-radius:26px;align-items:flex-start;padding:22px 30px;font-size:35px;line-height:1.42;color:#E7EAEC;left:3%;right:3%}
 #pl{display:block;width:100%;padding-right:70px}
 #dk .in .send{position:absolute;right:22px;bottom:22px;margin:0}
-#dk .bar{height:18px;border-radius:9px;background:#2F373E;margin:10px 0}
 .tc{background:rgba(31,163,154,.28);color:#5FE0D5;border-radius:8px;padding:0 8px;font-weight:700}
 #sm{align-self:flex-end;max-width:92%;background:#2A3239;border-radius:18px 18px 4px 18px;padding:12px 22px;font-size:23px;line-height:1.4;color:#E7EAEC}
-#c0{left:56px;top:110px;font-size:42px;padding:12px 26px}
-#c1{left:56px;top:206px;font-size:32px}
-#c3{left:56px;top:290px;font-size:32px}
-#c2{left:1664px;top:110px;font-size:32px}
 #dk .tb,#dk .tb .tab{font-size:22px}
 </style></head>
 <body><div id="stage">
-  <div class="bg tex-dark"></div>
-  <div class="row3"><div class="rin">
-    <div id="dk" class="dk" data-box="dk">
-      <div class="tb"><span class="md"><i></i>AI</span><span class="tab">지난주 대화</span></div>
-      <div class="cv"><div class="col"><div id="air" class="ai"><div class="av">AI</div><div class="tx"><div class="bar" style="width:88%"></div><div class="bar" style="width:62%"></div></div></div>
-        <div id="sm" style="opacity:0"></div></div></div>
-      <div id="inb" class="in"><div id="pl"></div><span id="snd" class="send"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" stroke="#171C21" stroke-width="2.6" fill="none" stroke-linecap="round"/></svg></span></div>
-    </div>
-  </div></div>
-  <div id="c0" class="chip or" data-box="c0">매주</div>
-  <div id="c1" class="chip gr" data-box="c1">시간 없음?</div>
-  <div id="c3" class="chip gr" data-box="c3">매주 어떻게?</div>
-  <div id="c2" class="chip te" data-box="c2">AI</div>
+  <div id="shotA">
+    <div id="cam"><div id="cal" data-diegetic><div class="ph" id="calph"></div><div id="grid"></div><svg id="circ" viewBox="0 0 1536 1024"></svg></div></div>
+  </div>
+  <div id="shotB" style="opacity:0">
+    <div class="bg tex-dark"></div>
+    <div class="row3"><div class="rin">
+      <div id="dk" class="dk" data-box="dk">
+        <div class="tb"><span class="md"><i></i>AI</span><span class="tab">지난주 대화</span></div>
+        <div class="cv"><div class="col">
+          <div class="me">리뷰 답글 써 줘</div>
+          <div id="air" class="ai"><div class="av">AI</div><div class="tx">소중한 리뷰 감사합니다. 앞으로도 더 노력하는 가게가 되겠습니다.</div></div>
+          <div id="sm" style="opacity:0"></div></div></div>
+        <div id="inb" class="in"><div id="pl"></div><span id="snd" class="send"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7" stroke="#171C21" stroke-width="2.6" fill="none" stroke-linecap="round"/></svg></span></div>
+      </div>
+    </div></div>
+  </div>
 </div>
 <script src="../data/s49.js"></script>
 <script src="../lib/sjk.js"></script>
 <script src="../lib/e4.js"></script>
 <script>
-window.PALETTE = ['#14191E', '#E7EAEC', '#F05A28', '#1FA39A'];   // 어두운 탁자·대화창 + 주홍(매주 하는 것) + 청록(AI)
-const T = { week: S.at('매주', 0), hard: S.at('힘든데'), how: S.at('확인하냐고요'), easy: S.at('엄청 쉬워요'), ai: S.at('AI한테'), sale: S.at('이번 주 매출이랑'), money: S.at('이번 주 나간 돈'), kinds: S.at('재료비'), real: S.at('이번 주에 실제로'), last: S.at('지난주보다'), one: S.at('한 줄로') };
+window.PALETTE = ['#26282B', '#F05A28', '#14191E'];
+window.DEVICES = ['벽 달력 + 대화창'];
+S.$('#calph').style.backgroundImage = S.ph('n49_wall_calendar');
+// ── 달력(2026년 10월: 1일 = 목요일, 일요일 시작) — 사진 격자 7×4 아래에 짧은 다섯째 줄을 더 그린다(31일이 5줄 필요)
+const CX = [253, 400, 545, 690, 836, 981, 1126, 1277], RY = [163, 314, 464, 615, 767, 852];
+let gh = '';
+[767, 852].forEach((y, i) => { gh += `<div class="ln" style="left:249px;top:${y - 1}px;width:1030px;height:2.4px"></div>`; });
+CX.forEach(x => { gh += `<div class="ln" style="left:${x - 1}px;top:766px;width:2.4px;height:87px"></div>`; });
+['일', '월', '화', '수', '목', '금', '토'].forEach((w, c) => { gh += `<div class="wd" id="w${c}" style="left:${(CX[c] + CX[c + 1]) / 2 - 73}px;top:122px">${w}</div>`; });
+const DN = [];
+for (let d = 1; d <= 31; d++) {
+  const idx = d + 3, r = Math.floor(idx / 7), c = idx % 7;
+  const cx = (CX[c] + CX[c + 1]) / 2, cy = (RY[r] + RY[r + 1]) / 2;
+  DN.push({ d, r, c, cx, cy });
+  gh += `<div class="dn" id="dn${d}" style="left:${cx - 73}px;top:${cy - 20}px;${c === 0 ? 'color:#B03A1E' : ''}">${d}</div>`;
+}
+S.$('#grid').innerHTML = gh;
+// 월요일(5·12·19·26) 볼펜 동그라미(주홍) — 손으로 한 바퀴 반 돌려 감은 선
+const MON = [5, 12, 19, 26];
+let sv = '';
+MON.forEach((d, i) => {
+  const n = DN[d - 1], ry = n.r === 4 ? 30 : 40, rx = 54;
+  let p = '';
+  for (let a = -110; a <= 275; a += 12) {
+    const rad = a * Math.PI / 180, g = 1 + 0.07 * (a + 110) / 385;
+    p += (p ? 'L' : 'M') + (n.cx + rx * g * Math.cos(rad) + 3 * Math.sin(a / 40)).toFixed(1) + ' ' + (n.cy + ry * g * Math.sin(rad)).toFixed(1);
+  }
+  sv += `<path id="cr${i}" d="${p}" fill="none" stroke="#F05A28" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" opacity="0"/>`;
+});
+S.$('#circ').innerHTML = sv;
+
+const T = { week: S.at('매주', 0), hard: S.at('힘든데'), how: S.at('어떻게'), easy: S.at('엄청 쉬워요'), cut: S.line(5).t0 };
 const LN = [
   ['이번 주 매출이랑', 8.61, 9.57], ['이번 주 나간 돈 적어 줄게.', 9.65, 11.07], ['{tc|재료비}, {tc|인건비}, {tc|수수료}, {tc|고정비}로 나눠서', 11.25, 13.37],
   ['이번 주 실제 {tc|수익} 계산해 주고', 13.53, 15.66], ['지난주보다 뭐가 늘었는지', 15.87, 17.25], ['한 줄로 알려 줘.', 17.34, 18.2]];
 const SEND = 18.12;
 S.$('#pl').innerHTML = LN.map((l, i) => `<div id="ln${i}" style="min-height:50px"></div>`).join('');
 const FULL = LN.map(l => l[0].replace(/\{\w+\|([^}]*)\}/g, '$1')).join('<br>');
-S.ev(0.02, 'in', 'dk'); S.ev(T.week, 'card_in', 'c0'); S.ev(T.hard, 'msg_in', 'c1'); S.ev(T.how, 'card_in', 'c3'); S.ev(T.easy + 0.1, 'no', 'c1'); S.ev(6.4, 'click', 'inb'); S.ev(T.ai, 'card_in', 'c2');
-S.ev(LN[0][1], 'type', 'pl'); S.ev(11.3, 'marker', 'ln2'); S.ev(LN[3][1], 'type', 'pl'); S.ev(SEND, 'msg_in', 'sm');
 S.$('#sm').innerHTML = FULL;
+S.ev(0.05, 'in', 'cal'); S.ev(T.week, 'marker', 'cr0'); S.ev(T.cut, 'in', 'dk'); S.ev(T.cut + 0.5, 'click', 'inb');
+S.ev(LN[0][1], 'type', 'pl'); S.ev(11.3, 'marker', 'ln2'); S.ev(LN[3][1], 'type', 'pl'); S.ev(SEND, 'msg_in', 'sm');
+const KEYS = [{ t: 0, s: 1, x: 960, y: 540 }, { t: T.how, s: 1.1, x: 930, y: 560, d: 0.5 }, { t: T.how + 0.6, s: 1.14, x: 920, y: 570, d: 1.9 }];
 S.scene(tau => {
-  const k = S.ent(tau, 0.0, 0.16);
+  // ── 샷 A: 달력
+  const inA = tau < T.cut;
+  S.$('#shotA').style.display = inA ? 'block' : 'none';
+  S.css('#shotB', { opacity: tau >= T.cut ? 1 : 0, display: tau >= T.cut ? 'block' : 'none' });
+  S.$('#cam').style.transform = S.camCss(S.camState(tau, KEYS));
+  DN.forEach(n => { const k = S.ent(tau, 0.1 + (n.r * 0.09 + n.c * 0.012), 0.14); const e = S.$('#dn' + n.d); e.style.opacity = k; e.style.transform = `translateY(${((1 - k) * 8).toFixed(1)}px)`; });
+  MON.forEach((d, i) => { E.stroke('#cr' + i, tau, T.week + i * 0.15, 0.34); });
+  // ── 샷 B: 다크 대화창
+  const k = S.ent(tau, T.cut, 0.16);
   S.css('#dk', { opacity: k, transform: `translateY(${((1 - k) * 36).toFixed(1)}px)` });
-  E.pop('#c0', tau, T.week, { dx: -20, dy: 0 }); E.pop('#c1', tau, T.hard, { dx: -20, dy: 0 });
-  const g = S.P(tau, T.easy + 0.1, T.easy + 0.5);
-  S.$('#c1').style.filter = S.desat(1); S.css('#c1', { opacity: S.ent(tau, T.hard, 0.12) * (1 - g) });
-  E.pop('#c3', tau, T.how, { dx: -20, dy: 0 }); S.css('#c3', { opacity: S.ent(tau, T.how, 0.12) * (1 - g) });
-  E.pop('#c2', tau, T.ai, { dx: 20, dy: 0 }); S.css('#c2', { opacity: S.ent(tau, T.ai, 0.12) });
-  // 입력칸 포커스(6.4) — 테두리 청록
-  const fk = S.EO(S.P(tau, 6.4, 6.6));
+  const fk = S.EO(S.P(tau, T.cut + 0.5, T.cut + 0.7));
   S.css('#inb', { borderColor: `rgb(${Math.round(51 - 20 * fk)},${Math.round(59 + 104 * fk)},${Math.round(66 + 88 * fk)})`, boxShadow: `0 0 0 ${(fk * 3).toFixed(1)}px rgba(31,163,154,.4)` });
-  // 프롬프트 줄별 타자 — 보내기 전까지
   const sent = tau >= SEND; S.$('#air').style.display = sent ? 'none' : 'flex';
   LN.forEach((l, i) => {
     const el = S.$('#ln' + i);
@@ -69,8 +106,7 @@ S.scene(tau => {
     const act = tau >= l[1] && (i === LN.length - 1 || tau < LN[i + 1][1]);
     E.line(el, l[0], tau, l[1], l[2] - 0.15, act);
   });
-  if (!sent && tau < LN[0][1]) S.$('#ln0').innerHTML = tau > 6.5 ? '<span class="caret"></span>' : '';
-  // 보내기: 버튼 눌림 → 말칸으로
+  if (!sent && tau < LN[0][1]) S.$('#ln0').innerHTML = tau > T.cut + 0.6 ? '<span class="caret"></span>' : '';
   const sk = S.EO(S.P(tau, SEND, SEND + 0.2));
   S.css('#snd', { transform: `scale(${(1 - 0.18 * Math.sin(Math.PI * Math.min(1, sk))).toFixed(3)})`, background: sk > 0.01 ? '#1FA39A' : '#E7EAEC' });
   S.css('#sm', { opacity: sk, transform: `translateY(${((1 - sk) * 40).toFixed(1)}px)` });

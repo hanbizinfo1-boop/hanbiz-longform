@@ -1,56 +1,55 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s09 리뷰 답글도 똑같아요 — 흰 벽 위 리뷰 카드 3x2 격자, 같은 답글이 칸마다 열렸다가 회색으로 빠짐</title>
+<title>s09 리뷰 답글도 똑같아요 — 나무 계산대 위 리뷰 카드 6장 콜라주, 답글만 전부 같아 회색으로 빠짐(리뷰 콜라주)</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#bgw{left:-40px;top:0;width:2000px;height:1080px;background-size:cover;background-position:center}
-.rv{position:absolute;width:540px;height:400px;border-radius:14px;background:#fff;overflow:hidden;box-shadow:0 24px 50px rgba(20,25,30,.26),0 3px 8px rgba(20,25,30,.18);padding:22px 26px;font-family:"Pre"}
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 500px}
+#bgw{left:-40px;top:-30px;width:2000px;height:1140px;background-size:cover;background-position:center;filter:brightness(.82) saturate(.9)}
+.rv{position:absolute;width:390px;height:330px;border-radius:14px;background:#fff;overflow:hidden;box-shadow:0 24px 50px rgba(10,14,18,.42),0 3px 8px rgba(10,14,18,.3);padding:20px 24px;font-family:"Pre"}
 .rv .tp{display:flex;align-items:center;gap:14px}
-.rv .av{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:24px;color:#fff}
+.rv .av{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:24px;color:#fff}
 .rv .st{color:#F2A33A;font-size:26px;letter-spacing:3px}
-.rv .sk{height:14px;border-radius:7px;background:#E3E6E8;margin-top:14px}
-.rv .rp{margin-top:20px;background:#F2F4F5;border-radius:10px;padding:12px 16px;font-size:24px;line-height:1.45;color:#3A444C;height:136px;overflow:hidden}
-.rv .rp b{display:block;font-size:22px;color:#1F2A33;margin-bottom:4px}
+.rv .tx{margin-top:12px;font-size:25px;line-height:1.4;font-weight:600;height:72px;overflow:hidden}
+.rv .rp{margin-top:12px;background:#F2F4F5;border:2px solid #9AA0A6;border-radius:10px;padding:10px 14px;font-size:22px;line-height:1.4;color:#3A444C;height:148px;overflow:hidden}
+.rv .rp b{font-size:22px;color:#1F2A33;margin-right:6px}
 </style></head>
 <body><div id="stage">
-  <div id="bgw" class="abs tex-wall"></div>
-  <div id="grid"></div>
+  <div id="cam" class="abs">
+    <div id="bgw" class="abs"></div>
+    <div id="grid"></div>
+  </div>
 </div>
 <script src="../data/s09.js"></script>
 <script src="../lib/sjk.js"></script>
 <script>
-window.PALETTE = ['#D9DBD6', '#1F2A33', '#9AA0A6'];   // 흰 벽 + 흰 카드 → 같은 답글이 회색으로 빠짐
+window.PALETTE = ['#D9DBD6', '#1F2A33', '#9AA0A6'];   // 나무 바탕 + 흰 카드 → 같은 답글이 회색으로 빠짐
+window.DEVICES = ['리뷰 콜라주'];
 const T = { rv: S.at('리뷰'), thx: S.at('소중한'), end: S.at('되겠습니다') };
-const R = '소중한 리뷰 감사합니다. 앞으로도 더 노력하는 가게가 되겠습니다';
+const R = '소중한 리뷰 감사합니다. 앞으로도 더 노력하는 가게가 되겠습니다.';
 const INI = ['김', '이', '박', '최', '정', '한'], COL = ['#6E8FA8', '#8C9A7A', '#A58A74', '#7C8C99', '#9A8296', '#7A9A98'];
-const SKW = [[100, 82, 56], [92, 100, 40], [76, 96, 64], [100, 70, 48], [88, 100, 70], [96, 78, 52]];
-const grid = document.getElementById('grid');
-const cards = [];
+const STAR = ['★★★★★', '★★★★★', '★★★★☆', '★★★★★', '★★★★★', '★★★★☆'];
+const TXT = ['국물이 진하고 양이 많아요', '포장해 와도 따뜻했어요', '김치가 맛있어요', '점심에 줄 서서 먹었어요', '수육이 부드러워요', '재방문 의사 있어요'];
+// 흩어 놓음: 위치(왼위 x,y)·기울기
+const POS = [[150, 100, -5], [690, 75, 4], [1230, 105, -3], [200, 525, 5], [720, 545, -6], [1240, 515, 3]];
+const grid = document.getElementById('grid'), cards = [];
 for (let i = 0; i < 6; i++) {
   const c = document.createElement('div'); c.className = 'rv'; c.id = 'r' + i; c.dataset.box = 'r' + i;
-  c.style.left = (110 + (i % 3) * 580) + 'px'; c.style.top = (120 + Math.floor(i / 3) * 430) + 'px';
-  c.innerHTML = `<div class="tp"><div class="av" style="background:${COL[i]}">${INI[i]}</div><div class="st">★★★★★</div></div>` +
-    SKW[i].map(w => `<div class="sk" style="width:${w}%"></div>`).join('') +
-    `<div class="rp"><b>가게 답글</b><span class="rt"></span></div>`;
+  c.style.left = POS[i][0] + 'px'; c.style.top = POS[i][1] + 'px';
+  c.innerHTML = `<div class="tp"><div class="av" style="background:${COL[i]}">${INI[i]}</div><div class="st">${STAR[i]}</div></div>` +
+    `<div class="tx">${TXT[i]}</div><div class="rp"><b>답글</b>${R}</div>`;
   grid.appendChild(c); cards.push(c);
 }
-document.getElementById('bgw').style.backgroundImage = 'url("../../../../소재/sjk02/codex/t_gallery_wall.png")';
+document.getElementById('bgw').style.backgroundImage = S.ph('n09_wood_counter');
 S.ev(T.rv, 'card_in', 'cards');
-S.ev(T.thx, 'type', 'rt0');
-S.ev(T.thx + 0.34, 'card_in', 'rt1');
-S.ev(T.end, 'no', 'rp');
+S.ev(T.thx, 'no', 'cards');
 S.scene(tau => {
-  S.css('#bgw', { left: (-10 - 30 * S.EIO(S.P(tau, 0, S.SC.dur))) + 'px' });
+  S.css('#cam', { transform: `scale(${(1 + 0.04 * S.P(tau, 0, S.SC.dur)).toFixed(4)})` });
+  const g = S.EO(S.P(tau, T.thx, T.thx + 0.5));
   cards.forEach((c, i) => {
-    const k = S.ent(tau, T.rv + 0.08 * i, 0.12);
-    c.style.opacity = k; c.style.transform = `translateY(${((1 - k) * 26).toFixed(1)}px)`;
-    const rp = c.querySelector('.rp'), rt = c.querySelector('.rt');
-    const t0 = T.thx + 0.3 * i, open = S.EO(S.P(tau, t0, t0 + 0.25));
-    rp.style.opacity = open; rp.style.transform = `translateY(${((1 - open) * 12).toFixed(1)}px)`;
-    if (i === 0) S.type(rt, R, tau, T.thx, 22, false); else rt.textContent = open > 0.05 ? R : '';
-    const g = S.EO(S.P(tau, T.end, T.end + 0.35));
-    rp.style.color = `rgb(${Math.round(58 + 120 * g)},${Math.round(68 + 112 * g)},${Math.round(76 + 108 * g)})`;
-    rp.style.background = g > 0 ? `rgba(228,230,232,${(0.5 + 0.5 * g).toFixed(2)})` : '#F2F4F5';
+    const k = S.ent(tau, T.rv + 0.12 * i, 0.12);
+    c.style.opacity = k;
+    c.style.transform = `rotate(${POS[i][2]}deg) translateY(${((1 - k) * 30).toFixed(1)}px) scale(${(0.96 + 0.04 * k).toFixed(3)})`;
+    c.style.filter = S.desat(g);
   });
 });
 </script>

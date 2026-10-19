@@ -9,7 +9,6 @@
 #roll .ln{position:absolute;left:0;width:540px;text-align:center;color:#262C31;white-space:nowrap}
 .dash{position:absolute;left:34px;width:472px;height:0;border-top:5px dashed #A9AFB4}
 #mk{position:absolute;left:60px;width:420px;height:70px;background:rgba(240,90,40,.38);transform-origin:0 50%}
-#c1{left:110px;top:250px} #c2{left:110px;top:352px}
 </style></head>
 <body><div id="stage">
   <div id="ph" class="photo abs"></div>
@@ -24,17 +23,16 @@
       <div id="l4" class="ln blk" style="top:700px;font-size:128px;line-height:140px;color:#F05A28">수익</div>
     </div>
   </div>
-  <div id="c1" class="chip gr" data-box="c1">사라지는 가게</div>
-  <div id="c2" class="chip or" data-box="c2">살아남는 가게</div>
 </div>
 <script src="../data/s43.js"></script>
 <script src="../lib/sjk.js"></script>
 <script src="../lib/e4.js"></script>
 <script>
 window.PALETTE = ['#D9DBD6', '#1F2A33', '#F05A28'];
+window.DEVICES = ['R10 감열지 숫자(영수증 프린터)'];
 S.$('#ph').style.backgroundImage = S.ph('p43_receipt_roll');
 const T = { two: S.at('두 번째'), num: S.at('숫자'), gone: S.at('사라지는'), sales: S.at('매출만'), live: S.at('살아남는'), prof: S.at('수익을'), imp: S.at('중요한데요') };
-S.ev(0.35, 'page', 'l1'); S.ev(T.num + 0.1, 'card_in', 'l2'); S.ev(T.gone, 'msg_in', 'c1'); S.ev(T.sales, 'card_in', 'l3'); S.ev(T.live, 'msg_in', 'c2');
+S.ev(0.35, 'page', 'l1'); S.ev(T.num + 0.1, 'card_in', 'l2'); S.ev(T.sales, 'card_in', 'l3'); 
 S.ev(T.prof, 'marker', 'l4'); S.ev(T.imp, 'shine', 'mk');
 // 용지가 나온 길이(feed) — 구간마다 EO 로 쭉
 const FEED = [[0.3, 1.0, 0, 330], [T.num + 0.05, T.num + 0.5, 330, 480], [T.gone, T.gone + 0.3, 480, 540], [T.sales, T.sales + 0.45, 540, 690],
@@ -52,7 +50,6 @@ S.scene(tau => {
   S.css('#d2', {}); E.wipe('#d2', tau, T.live + 0.1, 0.3);
   E.wipeY('#l4', tau, T.prof + 0.05, 0.4);
   S.css('#mk', { opacity: tau >= T.imp ? 1 : 0, transform: `scaleX(${S.EO(S.P(tau, T.imp, T.imp + 0.4)).toFixed(3)})` });
-  E.pop('#c1', tau, T.gone, { dx: -20, dy: 0 }); E.pop('#c2', tau, T.live, { dx: -20, dy: 0 });
 });
 </script>
 </body></html>

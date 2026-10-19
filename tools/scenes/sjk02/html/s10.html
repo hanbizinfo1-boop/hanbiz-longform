@@ -1,73 +1,67 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s10 왜? 다들 같은 AI한테 비슷한 말로 시키거든요 — 어두운 모니터 벽 다크 대화창 9개 → 손님이 보는 가게 목록</title>
+<title>s10 왜? 다들 같은 AI한테 비슷한 말로 시키거든요 — 가게 5곳 → AI → 같은 글 띠 5개 흐름도(R8)</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#bgw{left:-60px;top:0;width:2040px;height:1080px;background-size:cover;background-position:center}
-.it{position:absolute;left:0;top:0;width:540px;height:300px;transform-origin:0 0}
-.it .dk{left:0;top:0;width:540px;height:300px;transform-origin:0 0}
-.it .dk .tb{height:40px;padding:0 18px;font-size:22px}
-.it .dk .tb .md{font-size:22px}
-.it .dk .tb .tab{font-size:22px;padding:2px 12px}
-.it .dk .cv{top:40px;bottom:68px;padding:14px 0}
-.it .dk .col{width:92%;gap:12px}
-.it .dk .me{font-size:26px;padding:8px 18px;line-height:1.4}
-.it .dk .ai{font-size:22px;line-height:1.5;gap:12px}
-.it .dk .ai .av{width:34px;height:34px;font-size:18px}
-.it .dk .ai .tx{color:#9AA0A6}
-.it .dk .in{height:52px;bottom:10px;font-size:24px;padding:0 20px;border-radius:26px}
-.it .dk .in .send{width:34px;height:34px}
-.it .lr{position:absolute;left:0;top:0;width:1000px;height:92px;transform-origin:0 0;background:#fff;border-radius:12px;padding:12px 28px;box-shadow:0 14px 30px rgba(0,0,0,.35);font-family:"Pre"}
-.it .lr .n{font-size:28px;font-weight:800;color:#1F2A33}
-.it .lr .d{font-size:24px;color:#9AA0A6;margin-top:2px;white-space:nowrap}
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#bgw{left:-40px;top:-20px;width:2000px;height:1120px;background-size:cover;background-position:center}
+.shop{position:absolute;left:140px;width:180px;height:150px;border-radius:16px;background-color:#fff;background-repeat:no-repeat;background-size:338px 225px;background-position:-77px -33px;box-shadow:0 18px 36px rgba(0,0,0,.5),0 2px 6px rgba(0,0,0,.3)}
+.band{position:absolute;left:1220px;width:560px;height:70px;border-radius:12px;background:#fff;display:flex;align-items:center;padding:0 24px;font-size:25px;font-weight:700;white-space:nowrap;color:#1F2A33;box-shadow:0 14px 30px rgba(0,0,0,.45),0 2px 6px rgba(0,0,0,.3)}
+#ai{left:890px;top:400px;width:140px;height:140px;border-radius:50%;background:var(--te);color:#fff;display:flex;align-items:center;justify-content:center;font-size:64px;box-shadow:0 0 0 6px rgba(255,255,255,.9),0 18px 40px rgba(0,0,0,.5)}
+#ln{left:0;top:0;width:1920px;height:1080px}
 </style></head>
 <body><div id="stage">
-  <div id="bgw" class="abs tex-dark"></div>
-  <div id="list"></div>
+  <div id="cam" class="abs">
+    <div id="bgw" class="abs tex-dark"></div>
+    <svg id="ln" class="abs" viewBox="0 0 1920 1080"></svg>
+    <div id="shops"></div>
+    <div id="bands"></div>
+    <div id="ai" class="abs blk" data-box="ai">AI</div>
+  </div>
 </div>
 <script src="../data/s10.js"></script>
 <script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
 <script>
-window.PALETTE = ['#14191E', '#E7EAEC', '#9AA0A6'];   // 어두운 책상 + 다크 창 → 같은 회색 글(다 같은 가게)
-const T = { why: S.at('왜'), same: S.at('같은'), send: S.at('시키거든요'), cust: S.at('손님'), shop: S.at('같은', 1) };
-const Q = '메뉴 설명 써 줘', DS = '진한 사골 육수에 푸짐한 고기를 담은 정성 가득한 한 그릇';
-const NAMES = ['○○국밥', '○○순대', '○○해장국', '○○설렁탕', '○○감자탕', '○○곰탕', '○○칼국수', '○○백반', '○○수육'];
-const SEND = '<svg viewBox="0 0 24 24" fill="none" stroke="#14191E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';
-const bg = document.getElementById('bgw'); bg.style.backgroundImage = 'url("../../../../소재/sjk02/codex/t_dark_desk.png")';
-const list = document.getElementById('list'), its = [];
-for (let i = 0; i < 9; i++) {
-  const it = document.createElement('div'); it.className = 'it';
-  it.innerHTML = `<div class="dk"><div class="tb"><span class="md"><i></i>AI</span><span class="tab">새 대화</span></div><div class="cv"><div class="col"><div class="me" style="display:none">${Q}</div><div class="ai" style="display:none"><div class="av">AI</div><div class="tx"></div></div></div></div><div class="in"><span class="tt"></span><span class="send">${SEND}</span></div></div>` +
-    `<div class="lr"><div class="n">${NAMES[i]}</div><div class="d">${DS}</div></div>`;
-  list.appendChild(it); its.push(it);
+window.PALETTE = ['#14191E', '#E7EAEC', '#1FA39A'];   // 어두운 책상 · 흰 카드 · 청록 = AI
+window.DEVICES = ['R8 흐름도'];
+const T = { why: S.at('왜'), same: S.at('같은'), alike: S.at('비슷한'), cust: S.at('손님'), all: S.at('다 같은') };
+const TXT = '정성을 다해 끓인 따뜻한 국밥 한 그릇';
+const CY = i => 125 + i * 174;
+const bg = document.getElementById('bgw'); bg.style.backgroundImage = S.ph('t_dark_desk');
+const ln = document.getElementById('ln'), shops = [], bands = [], lL = [], lR = [];
+const NS = 'http://www.w3.org/2000/svg';
+for (let i = 0; i < 5; i++) {
+  const s = document.createElement('div'); s.className = 'shop'; s.style.top = (CY(i) - 75) + 'px'; s.style.backgroundImage = S.ph('n10_shop_icon');
+  s.dataset.box = 'sh' + i; document.getElementById('shops').appendChild(s); shops.push(s);
+  const b = document.createElement('div'); b.className = 'band'; b.style.top = (CY(i) - 35) + 'px'; b.textContent = TXT;
+  b.dataset.box = 'bd' + i; document.getElementById('bands').appendChild(b); bands.push(b);
+  const l = document.createElementNS(NS, 'path'); l.setAttribute('d', `M322 ${CY(i)} C 600 ${CY(i)} 700 470 886 470`);
+  l.setAttribute('fill', 'none'); l.setAttribute('stroke', '#C8CDD1'); l.setAttribute('stroke-width', 5); l.setAttribute('stroke-linecap', 'round'); l.id = 'l' + i;
+  ln.appendChild(l); lL.push(l);
+  const r = document.createElementNS(NS, 'path'); r.setAttribute('d', `M1034 470 C 1120 470 1130 ${CY(i)} 1216 ${CY(i)}`);
+  r.setAttribute('fill', 'none'); r.setAttribute('stroke', '#1FA39A'); r.setAttribute('stroke-width', 5); r.setAttribute('stroke-linecap', 'round'); r.id = 'r' + i;
+  ln.appendChild(r); lR.push(r);
 }
-S.focus([{ t0: T.shop - 0.07, t1: T.shop + 0.85, big: '다 같은 가게', color: 'gr', size: 150 }]);
-S.ev(T.why, 'in', 'wins');
-S.ev(T.same, 'type', 'tt');
-S.ev(T.send, 'msg_in', 'send');
-S.ev(T.cust, 'sweep', 'list');
-const GX = i => 120 + (i % 3) * 570, GY = i => 22 + Math.floor(i / 3) * 318;
-const LX = 460, LY = i => 40 + i * 98;
+S.ev(T.why, 'in', 'shops');
+S.ev(T.same, 'sweep', 'lines');
+S.ev(T.alike, 'card_in', 'bands');
+S.ev(T.all, 'no', 'bands');
+const CAM = [{ t: 0, s: 1, x: 960, y: 540 }, { t: T.cust, s: 1.06, x: 1010, y: 500, d: 0.4 }];
 S.scene(tau => {
-  S.css('#bgw', { left: (-10 - 50 * S.EIO(S.P(tau, 0, S.SC.dur))) + 'px' });
-  const p = S.cam(tau, T.cust, T.cust + 0.5);
-  its.forEach((it, i) => {
-    const k = S.ent(tau, T.why + 0.04 * (i % 3) + 0.04 * Math.floor(i / 3), 0.12);
-    const x = S.lerp(GX(i), LX, p), y = S.lerp(GY(i), LY(i), p);
-    const w = S.lerp(540, 1000, p), h = S.lerp(300, 92, p);
-    const dk = it.querySelector('.dk'), lr = it.querySelector('.lr');
-    it.style.left = x + 'px'; it.style.top = (y + (1 - k) * 20) + 'px'; it.style.opacity = k;
-    const s = Math.min(w / 540, h / 300);
-    dk.style.transform = `scale(${s.toFixed(4)})`;
-    lr.style.transform = `scale(${(w / 1000).toFixed(4)},${(h / 92).toFixed(4)})`;
-    dk.style.opacity = 1 - S.clamp((p - 0.3) / 0.3); lr.style.opacity = S.clamp((p - 0.5) / 0.3);
-    const tt = it.querySelector('.tt'), me = it.querySelector('.me'), ai = it.querySelector('.ai'), tx = it.querySelector('.tx');
-    const sent = tau >= T.send;
-    if (!sent) S.type(tt, Q, tau, T.same, 13, true); else tt.textContent = '';
-    me.style.display = sent ? 'block' : 'none';
-    ai.style.display = tau >= T.send + 0.25 ? 'flex' : 'none';
-    S.type(tx, DS, tau, T.send + 0.25, 34, false);
-  });
+  S.css('#cam', { transform: S.camCss(S.camState(tau, CAM, 0.4)) });
+  S.css('#ai', { opacity: S.ent(tau, T.why + 0.1, 0.12), transform: `scale(${(0.85 + 0.15 * S.ent(tau, T.why + 0.1, 0.12)).toFixed(3)})` });
+  const g = S.EO(S.P(tau, T.all, T.all + 0.4));
+  for (let i = 0; i < 5; i++) {
+    const k = S.ent(tau, T.why + 0.06 * i, 0.12);
+    shops[i].style.opacity = k; shops[i].style.transform = `translateX(${((1 - k) * -30).toFixed(1)}px)`;
+    E.stroke(lL[i], tau, T.same, 0.45);
+    E.stroke(lR[i], tau, T.alike, 0.4);
+    const bk = S.ent(tau, T.alike + 0.4 + 0.1 * i, 0.12);
+    bands[i].style.opacity = bk; bands[i].style.transform = `translateX(${((1 - bk) * 40).toFixed(1)}px)`;
+    bands[i].style.filter = S.desat(g) + ` brightness(${(1 - 0.12 * g).toFixed(3)})`;
+    bands[i].style.color = `rgb(${Math.round(31 + 100 * g)},${Math.round(42 + 100 * g)},${Math.round(51 + 100 * g)})`;
+  }
 });
 </script>
 </body></html>

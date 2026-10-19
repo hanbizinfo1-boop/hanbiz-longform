@@ -1,93 +1,113 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s27 사라지는 가게는 AI가 쓴 글을 그대로 — 어두운 작업 탁자 위 기울인 다크 대화창 → 메뉴 행에 그대로 등록</title>
+<title>s27 AI가 써 준 글을 그대로 — 대화창 답을 끌어 복사 → 메뉴 수정 칸에 붙여넣기 → 저장</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
 #wrap{position:absolute;left:0;top:0;width:1920px;height:1080px;perspective:2200px}
-#dk{left:250px;top:120px;width:1130px;height:800px;transform-origin:50% 55%}
-.bars{display:flex;flex-direction:column;gap:12px}
-.bars i{display:block;height:20px;border-radius:5px;background:#323B43}
-#pastMe{align-self:flex-end;width:44%;opacity:0}
-#pastAi{display:flex;gap:16px;opacity:0}
-#pastAi .bars{flex:1}
-.copy{display:inline-flex;align-items:center;gap:8px;margin-top:12px;padding:6px 14px;border-radius:9px;background:#20272D;border:1px solid #333B42;font-size:20px;color:#9AA3AA}
-.copy svg{width:20px;height:20px}
-#in .t{flex:1;white-space:nowrap;overflow:hidden}
-#meBub{display:none}
+#dk{left:120px;top:140px;width:880px;height:720px;transform-origin:50% 55%}
+#dk .ai,#dk .me{font-size:28px}
+#dk .in{font-size:26px}
+#dk .cv{display:flex;flex-direction:column;justify-content:flex-start}
+#inT{flex:1;white-space:nowrap;overflow:hidden}
+#meNew{display:none}
 #aiNew{display:none}
-#chipK{position:absolute;left:0;top:0;opacity:0}
-#cOld{left:1470px;top:330px}
-#app{left:1290px;top:300px;width:560px;opacity:0}
-#app .row{border-bottom:none}
-#app .th{width:112px;height:112px}
-#stageDesat{position:absolute;left:0;top:0;width:1920px;height:1080px}
+.sel{background:#BBD5F5;color:#14191E;border-radius:3px}
+.ul{background-repeat:no-repeat;background-position:0 100%;background-size:0 4px;background-image:linear-gradient(#9AA0A6,#9AA0A6);padding-bottom:4px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+#toast{position:absolute;left:640px;top:372px;padding:8px 18px;border-radius:10px;background:#E7EAEC;color:#14191E;font-size:24px;font-weight:700;opacity:0}
+#app{left:1110px;top:230px;width:660px;height:580px;transform-origin:50% 50%}
+#app .fl{padding:12px 28px 0;font-size:22px;font-weight:600;color:#6B747B}
+#app .bx{margin:6px 28px 0;border:2px solid #D5DADD;border-radius:10px;padding:12px 16px;font-size:28px;font-weight:700;color:#1F2A33;line-height:1.45}
+#app .bx.big{height:128px;font-weight:500;font-size:26px}
+#app .bx.on{border-color:#1FA39A;box-shadow:0 0 0 4px rgba(31,163,154,.18)}
+#app .sv{position:absolute;right:28px;bottom:22px;width:150px;height:60px;border-radius:12px;background:#1F2A33;color:#fff;font-size:26px;font-weight:800;display:flex;align-items:center;justify-content:center}
+#cur{position:absolute;left:0;top:0;width:36px;height:36px;opacity:0;z-index:50;filter:drop-shadow(0 3px 5px rgba(0,0,0,.5))}
 </style></head>
 <body><div id="stage">
   <div class="bg tex-dark"></div>
   <div id="wrap">
-    <div id="dk" class="dk" data-box="dk" data-box-group="dk">
+    <div id="dk" class="dk" data-box="dk">
       <div class="tb"><span class="md"><i></i>AI</span><span class="tab">새 대화</span></div>
       <div class="cv"><div class="col" id="col">
-        <div id="pastMe" class="me"><div class="bars"><i style="width:160px"></i></div></div>
-        <div id="pastAi" class="ai"><div class="av">AI</div><div class="bars"><i style="width:94%"></i><i style="width:78%"></i><i style="width:52%"></i></div></div>
-        <div id="meBub" class="me">메뉴 설명 써 줘</div>
-        <div id="aiNew" class="ai"><div class="av">AI</div><div class="tx"><span id="ans"></span><br><span id="copy" class="copy"><svg viewBox="0 0 24 24" fill="none" stroke="#9AA3AA" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>복사</span></div></div>
+        <div class="me">가게 소개 한 줄 써 줘</div>
+        <div class="ai"><div class="av">AI</div><div class="tx">정성을 다해 끓인 따뜻한 국밥 한 그릇으로 여러분을 기다립니다.</div></div>
+        <div id="meNew" class="me">메뉴 설명 써 줘</div>
+        <div id="aiNew" class="ai"><div class="av">AI</div><div class="tx" id="ans"></div></div>
       </div></div>
-      <div class="in" id="in"><span class="t" id="inT"></span><span class="send" id="send"><svg viewBox="0 0 24 24" fill="none" stroke="#171C21" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></span></div>
+      <div class="in" id="in"><span id="inT"></span><span class="send" id="send"><svg viewBox="0 0 24 24" fill="none" stroke="#171C21" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></span></div>
+      <div id="toast">복사됨</div>
     </div>
-    <div id="cOld" class="chip gr" style="opacity:0" data-box="cOld">그대로 올림</div>
-    <div id="cK" class="chip gr" style="opacity:0" data-box="cK" data-box-group="dk">검수 0번</div>
-    <div id="app" class="app" data-box="app"><div class="hd">메뉴</div>
-      <div class="row"><div class="th" id="appTh"></div><div><div class="nm">돼지국밥</div><div class="ds" id="appDs">진한 사골 육수에 푸짐한 고기를 담은 정성 가득한 한 그릇</div></div></div></div>
+    <div id="app" class="app" data-box="app"><div class="hd">메뉴 수정</div>
+      <div class="fl">메뉴 이름</div><div class="bx">돼지국밥</div>
+      <div class="fl">가격</div><div class="bx">9,000원</div>
+      <div class="fl">설명</div><div class="bx big" id="desc"><span id="descT"></span></div>
+      <div class="sv" id="sv">저장</div>
+    </div>
   </div>
+  <svg id="cur" viewBox="0 0 24 24"><path d="M4 2 L4 19 L8.6 14.8 L11.6 21.6 L14.4 20.4 L11.4 13.8 L17.6 13.6 Z" fill="#fff" stroke="#14191E" stroke-width="1.6" stroke-linejoin="round"/></svg>
 </div>
 <script src="../data/s27.js"></script>
 <script src="../lib/sjk.js"></script>
 <script>
-window.PALETTE = ['#171C21', '#E7EAEC', '#1FA39A', '#9AA0A6'];
-const T = { in: S.at('사라지는'), past: S.at('AI가', 0), up: S.at('그대로', 0), ask: S.at('그냥'), q: S.at("메뉴"), send: S.at('시킨'), trust: S.at('믿고'), check: S.at('검수'), same: S.at('그대로', 1) };
+window.PALETTE = ['#171C21', '#E7EAEC', '#1FA39A'];
+window.DEVICES = ['실제 화면 동작(복사·붙여넣기)'];
+const T = { app: S.at('AI가'), foc: S.at('그대로'), ask: S.at('그냥'), q: S.at('메뉴'), send: S.at('시킨'), trust: S.at('믿고'), chk: S.at('검수'), page: S.at('한번'), same: S.at('그대로', 1) };
 const Q = '메뉴 설명 써 줘', A = '진한 사골 육수에 푸짐한 고기를 담은 정성 가득한 한 그릇';
-document.getElementById('appTh').style.backgroundImage = S.ph('p29_two_pots');
-S.ev(-0.05, 'in', 'dk'); S.ev(T.past, 'card_in', 'pastAi'); S.ev(T.up, 'sweep', 'cOld'); S.ev(T.ask, 'click', 'in');
-S.ev(T.q, 'type', 'inT'); S.ev(T.send + 0.1, 'msg_in', 'meBub'); S.ev(T.trust, 'click', 'copy'); S.ev(T.check, 'card_in', 'cK'); S.ev(T.same, 'sweep', 'app'); S.ev(T.same + 0.3, 'no', 'stage');
-const TSEND = T.send + 0.1, TANS = TSEND + 0.5;
+const TSEND = T.send + 0.1, TANS = TSEND + 0.5, TSEL = T.trust, TSEL1 = T.trust + 0.6, TPASTE = T.page + 0.1, TSAVE = T.same + 0.3, TUL = TSAVE + 0.2;
+S.ev(-0.05, 'in', 'dk'); S.ev(T.app, 'card_in', 'app'); S.ev(T.q, 'type', 'inT'); S.ev(TSEND, 'msg_in', 'meNew'); S.ev(TSEL1, 'click', 'toast');
+S.ev(TPASTE, 'paper', 'desc'); S.ev(TSAVE, 'click', 'sv'); S.ev(TUL, 'marker', 'ul');
+const $ = S.$;
+function rectOf(el) { const r = el.getBoundingClientRect(); return r; }
 S.scene(tau => {
-  // 판: 기울인 채 들어옴 → 아주 느린 기울기 변화
   const k = S.ent(tau, -0.15, 0.14), d = S.P(tau, 0, S.SC.dur);
-  const slideApp = S.EO(S.P(tau, T.same, T.same + 0.45));
-  S.css('#dk', { opacity: k, transform: `rotateX(${(7 - 2 * d).toFixed(2)}deg) rotateZ(${(-2.6 + 0.8 * d).toFixed(2)}deg) translateX(${(-210 * slideApp).toFixed(1)}px) translateY(${((1 - k) * 36).toFixed(1)}px)` });
-  // 이전 대화(막대 자리표시)
-  S.css('#pastMe', { opacity: S.ent(tau, -0.05, 0.12) });
-  S.css('#pastAi', { opacity: S.ent(tau, T.past, 0.12) });
-  // 입력창: 그냥 AI한테 에 테두리 켜짐 → 질문 타자 → 보내기에 비워짐
-  const focus = S.ent(tau, T.ask, 0.12);
-  const inEl = document.getElementById('in');
-  inEl.style.borderColor = tau >= T.ask ? `rgba(67,201,191,${(0.35 + 0.65 * focus).toFixed(2)})` : '#333B42';
-  inEl.style.boxShadow = tau >= T.ask && tau < TSEND ? `0 0 0 ${(3 * focus).toFixed(1)}px rgba(67,201,191,.22)` : 'none';
-  const inT = document.getElementById('inT');
+  S.css('#dk', { opacity: k, transform: `rotateX(${(5 - 1.5 * d).toFixed(2)}deg) rotateZ(${(-1.6 + 0.5 * d).toFixed(2)}deg) translateY(${((1 - k) * 36).toFixed(1)}px)` });
+  const ak = S.ent(tau, T.app, 0.14);
+  S.css('#app', { opacity: ak, transform: `rotateX(${(4 - 1 * d).toFixed(2)}deg) rotateZ(${(2.2 - 0.4 * d).toFixed(2)}deg) translateX(${((1 - ak) * 60).toFixed(1)}px)` });
+  // 입력창
+  const fc = S.ent(tau, T.ask, 0.12), inEl = $('#in');
+  inEl.style.borderColor = tau >= T.ask ? `rgba(67,201,191,${(0.35 + 0.65 * fc).toFixed(2)})` : '#333B42';
+  const inT = $('#inT');
   if (tau < TSEND) S.type(inT, Q, tau, T.q, 12, tau >= T.ask); else inT.innerHTML = '';
-  // 보낸 말풍선(사용자 말) · 답 타자 · 복사 버튼 눌림 · 검수 칩
-  const meB = document.getElementById('meBub'), aiN = document.getElementById('aiNew');
-  meB.style.display = tau >= TSEND ? 'block' : 'none'; aiN.style.display = tau >= TANS ? 'flex' : 'none';
   S.css('#send', { transform: `scale(${(1 - 0.18 * (S.P(tau, TSEND - 0.1, TSEND) - S.P(tau, TSEND, TSEND + 0.12))).toFixed(3)})` });
-  S.type('#ans', A, tau, TANS, 24, tau < T.trust);
-  const cp = document.getElementById('copy');
-  const press = S.EO(S.P(tau, T.trust, T.trust + 0.12)) * (1 - S.P(tau, T.trust + 0.2, T.trust + 0.4));
-  cp.style.transform = `scale(${(1 - 0.1 * press).toFixed(3)})`;
-  cp.style.background = press > 0.05 || tau > T.trust + 0.4 ? '#1FA39A' : '#20272D';
-  cp.style.color = tau > T.trust + 0.05 ? '#fff' : '#9AA3AA';
-  cp.style.opacity = tau >= TANS + 1.0 ? 1 : 0;
-  // 칩: 그대로 올림(오른쪽에서 날아듦) · 검수 0번(답 위)
-  const co = S.ent(tau, T.up, 0.14);
-  S.css('#cOld', { opacity: co * (1 - S.P(tau, T.same - 0.05, T.same + 0.15)), transform: `translateX(${((1 - co) * 120).toFixed(1)}px)` });
-  const ck = S.ent(tau, T.check, 0.12);
-  const ansEl = document.getElementById('aiNew');
-  const r = ansEl.getBoundingClientRect();
-  S.css('#cK', { opacity: ck, left: (r.left + 56) + 'px', top: (r.top - 62 + (1 - ck) * 12) + 'px' });
-  // 그대로 — 메뉴 행이 오른쪽에서 미끄러져 와 같은 글로 등록 → 전체 탈색
-  S.css('#app', { opacity: slideApp, transform: `translateX(${((1 - slideApp) * 260).toFixed(1)}px)` });
-  const des = S.EO(S.P(tau, T.same + 0.25, T.same + 0.85));
-  S.css('#stage', { filter: `grayscale(${des.toFixed(3)})` });
+  $('#meNew').style.display = tau >= TSEND ? 'block' : 'none';
+  $('#aiNew').style.display = tau >= TANS ? 'flex' : 'none';
+  // 답 타자 + 끌어 선택
+  const n = Math.floor(S.clamp((tau - TANS) * 26, 0, A.length));
+  const sp = S.EIO(S.P(tau, TSEL, TSEL1));
+  const selN = tau >= TSEL && tau < T.same + 0.2 ? Math.round(n * sp) : 0;
+  const ans = $('#ans'), arr = [...A].slice(0, n);
+  const ulP = S.EO(S.P(tau, TUL, TUL + 0.45));
+  const ulOn = ulP > 0;
+  let h;
+  if (selN > 0) h = `<span class="sel">${S.esc(arr.slice(0, selN).join(''))}</span>${S.esc(arr.slice(selN).join(''))}`;
+  else h = `<span class="${ulOn ? 'ul' : ''}" ${ulOn ? `style="background-size:${(ulP * 100).toFixed(1)}% 4px"` : ''}>${S.esc(arr.join(''))}</span>`;
+  ans.innerHTML = h + (n < A.length && tau >= TANS ? '<span class="caret"></span>' : '');
+  // 복사됨 알림
+  const tk = S.ent(tau, TSEL1, 0.12) * (1 - S.P(tau, TSEL1 + 1.0, TSEL1 + 1.2));
+  S.css('#toast', { opacity: tk, transform: `translateY(${((1 - S.ent(tau, TSEL1, 0.12)) * 10).toFixed(1)}px)` });
+  // 설명 칸: 포커스(그대로) → 붙여넣기
+  const dsc = $('#desc'); dsc.classList.toggle('on', tau >= T.foc);
+  const dt = $('#descT');
+  if (tau >= TPASTE) { const u = ulP > 0; dt.innerHTML = `<span class="${u ? 'ul' : ''}" ${u ? `style="background-size:${(ulP * 100).toFixed(1)}% 4px"` : ''}>${S.esc(A)}</span>`; }
+  else dt.innerHTML = tau >= T.foc ? '<span class="caret"></span>' : '';
+  // 저장 버튼 눌림
+  const pr = S.EO(S.P(tau, TSAVE, TSAVE + 0.1)) * (1 - S.P(tau, TSAVE + 0.15, TSAVE + 0.3));
+  S.css('#sv', { transform: `scale(${(1 - 0.08 * pr).toFixed(3)})`, background: tau > TSAVE ? '#1FA39A' : '#1F2A33' });
+  // 마우스 커서
+  const cur = $('#cur');
+  const answerR = rectOf(ans);
+  let sx = answerR.left + 4, sy = answerR.top + 12;
+  const selEl = ans.querySelector('.sel');
+  let ex = sx, ey = sy;
+  if (selEl) { const rs = selEl.getClientRects(); const l = rs[rs.length - 1]; ex = l.right; ey = l.top + 14; }
+  const dr = rectOf($('#desc')), sr = rectOf($('#sv'));
+  const dx = dr.left + 60, dy = dr.top + 40, sx2 = sr.left + 70, sy2 = sr.top + 30;
+  let cx, cy, co;
+  const mv = S.EIO(S.P(tau, T.chk, T.chk + 0.55)), mv2 = S.EIO(S.P(tau, T.same + 0.05, T.same + 0.28));
+  if (tau < TSEL) { cx = sx; cy = sy; co = S.ent(tau, TSEL - 0.25, 0.15); }
+  else if (tau < T.chk) { cx = ex; cy = ey; co = 1; }
+  else if (tau < T.same + 0.05) { cx = S.lerp(ex, dx, mv); cy = S.lerp(ey, dy, mv); co = 1; }
+  else { cx = S.lerp(dx, sx2, mv2); cy = S.lerp(dy, sy2, mv2); co = 1; }
+  S.css('#cur', { opacity: co, left: cx.toFixed(1) + 'px', top: cy.toFixed(1) + 'px' });
 });
 </script>
 </body></html>

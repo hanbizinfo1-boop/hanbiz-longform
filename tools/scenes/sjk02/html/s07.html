@@ -1,63 +1,22 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s07 배달앱 한번 들어가 보세요 — 흰 벽 위 메뉴 카드 10장 정면 대칭 격자, 설명 줄이 전부 같음</title>
+<title>s07 배달앱 국밥집 열 군데 — 블렌더 종이 책상(R1 Mustard): 메뉴 출력물 10장이 차례로 내려앉고 카메라가 미끄러짐, «비슷비슷»에 전부 회색</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#bgw{left:-90px;top:0;width:2100px;height:1080px;background-size:cover;background-position:center}
-#sb{border-radius:14px;display:flex;align-items:center;gap:20px;padding:0 36px;font-weight:700;box-shadow:0 18px 40px rgba(20,25,30,.22)}
-#sb svg{width:44px;height:44px;flex:none}
-#sb .q{color:#1F2A33;flex:1}
-.cd{position:absolute;width:320px;height:340px;border-radius:14px;background:#fff;overflow:hidden;box-shadow:0 22px 44px rgba(20,25,30,.24),0 3px 8px rgba(20,25,30,.16)}
-.cd .th{width:320px;height:130px;background-size:cover;filter:saturate(.8)}
-.cd .bd{padding:14px 20px}
-.cd .nm{font-size:26px;font-weight:800;line-height:1.2}
-.cd .pr{font-size:24px;font-weight:700;margin-top:4px;color:#1F2A33}
-.cd .ds{font-size:22px;line-height:1.4;margin-top:8px;color:#1F2A33;position:relative;height:93px}
-.cd .ul{position:absolute;left:20px;top:300px;height:5px;width:0;background:#9AA0A6;border-radius:3px}
+#bl{position:absolute;left:0;top:0;width:1920px;height:1080px}
 </style></head>
 <body><div id="stage">
-  <div id="bgw" class="abs tex-wall"></div>
-  <div id="sb" class="app" data-box="sb" ><svg viewBox="0 0 24 24" fill="none" stroke="#6B747B" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></svg><span id="sq" class="q"></span></div>
-  <div id="grid"></div>
+  <img id="bl" alt="">
 </div>
 <script src="../data/s07.js"></script>
 <script src="../lib/sjk.js"></script>
+
 <script>
-window.PALETTE = ['#D9DBD6', '#1F2A33', '#9AA0A6'];   // 흰 벽 + 흰 카드 → 전부 회색(다 똑같은 것)
-const T = { app: S.at('배달앱'), pot: S.at('국밥집'), ten: S.at('열'), read: S.at('읽어'), same: S.at('비슷비슷해요') };
-const DS = '진한 사골 육수에 푸짐한 고기를 담은 정성 가득한 한 그릇';
-const PRICE = ['9,000', '9,500', '10,000', '10,500', '11,000', '9,500', '10,000', '9,000', '10,500', '11,000'];
-const TH = [['p29_two_pots', '30% 40%'], ['p30_burner_flame', '50% 60%'], ['p67_pot_lid_steam', '50% 50%']];
-const grid = document.getElementById('grid');
-const cards = [];
-for (let i = 0; i < 10; i++) {
-  const c = document.createElement('div'); c.className = 'cd'; c.id = 'c' + i; c.dataset.box = 'c' + i;
-  c.style.left = (100 + (i % 5) * 350) + 'px'; c.style.top = (140 + Math.floor(i / 5) * 370) + 'px';
-  const th = TH[i % 3];
-  c.innerHTML = `<div class="th" data-p="${th[0]}" data-pos="${i % 2 ? th[1] : '70% 45%'}"></div><div class="bd"><div class="nm">○○국밥 돼지국밥</div><div class="pr">${PRICE[i]}원</div><div class="ds">${DS}</div></div><div class="ul"></div>`;
-  const te = c.querySelector('.th'); te.style.backgroundImage = S.ph(te.dataset.p); te.style.backgroundPosition = te.dataset.pos;
-  grid.appendChild(c); cards.push(c);
-}
-const bg = document.getElementById('bgw'); bg.style.backgroundImage = 'url("../../../../소재/sjk02/codex/t_gallery_wall.png")';
-S.ev(T.app, 'in', 'sb');
-S.ev(T.app + 0.4, 'type', 'sq');
-S.ev(T.ten, 'card_in', 'cards');
-S.ev(T.read, 'no', 'ds');
-S.ev(T.same, 'marker', 'ul');
-S.scene(tau => {
-  S.css('#bgw', { left: (-10 - 80 * S.EIO(S.P(tau, 0, S.SC.dur))) + 'px' });
-  const k = S.ent(tau, T.app, 0.12), u = S.cam(tau, T.ten, T.ten + 0.3);
-  const L = S.lerp(510, 510, u), Tp = S.lerp(310, 30, u), Wd = 900, Ht = S.lerp(120, 68, u), Fs = S.lerp(40, 32, u);
-  S.css('#sb', { left: L + 'px', top: (Tp + (1 - k) * -30) + 'px', width: Wd + 'px', height: Ht + 'px', fontSize: Fs + 'px', borderRadius: S.lerp(14, 34, u) + 'px', opacity: k });
-  S.type('#sq', '국밥', tau, T.app + 0.4, 6, false);
-  const g = S.P(tau, T.read, T.read + 0.4);
-  const col = Math.round(31 + (180 - 31) * g), colb = Math.round(42 + (185 - 42) * g), colc = Math.round(51 + (189 - 51) * g);
-  cards.forEach((c, i) => {
-    const kk = S.ent(tau, T.ten + 0.12 * (i % 5) + (i >= 5 ? 0.06 : 0), 0.12);
-    c.style.opacity = kk; c.style.transform = `translateY(${((1 - kk) * 26).toFixed(1)}px)`;
-    c.querySelector('.ds').style.color = `rgb(${col},${colb},${colc})`;
-    c.querySelector('.ul').style.width = (272 * S.EO(S.P(tau, T.same, T.same + 0.3))) + 'px';
-  });
-});
+window.PALETTE = ['#3A4046', '#F4F3EF', '#9AA0A6'];   // 짙은 책상 · 흰 종이 · 회색(다 똑같은 것)
+window.DEVICES = ['R1 종이 책상(블렌더)'];
+const T = { same: S.at('비슷비슷해요') };
+S.ev(0.10, 'paper', 'sheets');
+S.ev(T.same, 'no', 'desat');
+S.scene(async tau => { await S.bl('#bl', 's07', tau); });
 </script>
 </body></html>

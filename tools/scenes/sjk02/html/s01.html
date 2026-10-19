@@ -12,7 +12,6 @@
 .st{position:absolute;top:0;height:1533px;overflow:hidden}
 .st .im{position:absolute;top:0;width:2300px;height:1533px;background-size:2300px 1533px;background-repeat:no-repeat}
 .st .gy{filter:grayscale(1) brightness(1.04) contrast(.9)}
-#lbl{left:90px;top:840px;font-size:38px;padding:14px 28px}
 </style></head>
 <body><div id="stage">
   <div id="s1" class="abs shot">
@@ -22,13 +21,13 @@
   </div>
   <div id="s3" class="abs shot">
     <div id="w3" class="abs"><svg id="sg" class="abs" viewBox="0 0 2300 1533"><polygon id="pg" points="" fill="none" stroke="#fff" stroke-width="9" stroke-linejoin="round" stroke-linecap="round" pathLength="1"/></svg></div>
-    <div id="lbl" class="chip gr" data-box="lbl">문 닫은 가게</div>
   </div>
 </div>
 <script src="../data/s01.js"></script>
 <script src="../lib/sjk.js"></script>
 <script>
-window.PALETTE = ['#D9DBD6', '#1F2A33', '#9AA0A6'];   // 흐린 낮 사진(낮은 채도) + 회색 = 문 닫은 가게
+window.PALETTE = ['#D9DBD6', '#1F2A33', '#9AA0A6'];
+window.DEVICES = ['셔터 탈색'];   // 흐린 낮 사진(낮은 채도) + 회색 = 문 닫은 가게
 const T = { walk: S.at('걸어'), sign: S.at('간판은'), same: S.at('그대로'), door: S.at('문', 0), many: S.at('많잖아요') };
 // p03 큰 바랜 간판 네 점(사진 1536x1024 → 2300x1533 래퍼, 배율 1.4974)
 const K2 = 2300 / 1536, Q = [[885, 258], [1292, 166], [1314, 380], [888, 418]].map(([x, y]) => (x * K2).toFixed(0) + ',' + (y * K2).toFixed(0)).join(' ');
@@ -48,7 +47,6 @@ w3.appendChild(document.getElementById('sg'));   // 간판 선은 띠 위에
 S.ev(0.25, 'shutter', 'cur');
 S.ev(T.sign + 0.1, 'marker', 'pg');
 S.ev(T.door + 0.1, 'no', 'strips');
-S.ev(T.many, 'card_in', 'lbl');
 S.scene(tau => {
   const a = tau < T.sign, c = !a;
   S.css('#s1', { display: a ? 'block' : 'none' }); S.css('#s3', { display: c ? 'block' : 'none' });
@@ -61,9 +59,7 @@ S.scene(tau => {
   pg.style.strokeDashoffset = (1 - S.EO(S.P(tau, T.sign + 0.1, T.sign + 0.65))).toFixed(4);
   // ③ 옆 트래킹(오른→왼) + 띠 5개 차례로 탈색
   S.css('#w3', { left: (-60 - 240 * S.P(tau, T.sign, S.SC.dur + S.SC.post)).toFixed(1) + 'px' });
-  strips.forEach((g, i) => { g.style.opacity = S.EO(S.P(tau, T.door + 0.1 + 0.25 * i, T.door + 0.1 + 0.25 * i + 0.3)); });
-  const k = S.ent(tau, T.many, 0.12);
-  S.css('#lbl', { opacity: k, transform: `translateY(${((1 - k) * 14).toFixed(1)}px)` });
+  strips.forEach((g, i) => { g.style.opacity = S.EO(S.P(tau, T.door + 0.1 + 0.15 * i, T.door + 0.1 + 0.15 * i + 0.3)); });
 });
 </script>
 </body></html>

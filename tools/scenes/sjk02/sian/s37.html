@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>시안 s37 — 지하철 손님들이 같은 답글을 읽음</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<link rel="stylesheet" href="sian.css">
+<style>
+#ph{left:0;top:0;width:1920px;height:1080px;background-image:url("../../../../소재/sjk02/codex/p37_subway_hands.png");background-position:center top}
+body.a #ph{filter:saturate(.7) brightness(.8)}
+body.b #ph{filter:saturate(.5)}
+.clk{position:absolute;width:150px;height:150px;margin:-75px 0 0 -75px;border-radius:50%;border:8px solid #fff;background:radial-gradient(circle at 40% 35%,#FF8A5B,#F05A28 60%,#C8411A);box-shadow:0 16px 30px rgba(0,0,0,.55)}
+.clk svg{position:absolute;left:0;top:0;width:100%;height:100%}
+.rib{position:absolute;padding:6px 16px;border-radius:10px;background:#fff;color:#1F2A33;font-family:"Pre";font-weight:900;font-size:26px;white-space:nowrap;box-shadow:0 8px 18px rgba(0,0,0,.45)}
+</style></head>
+<body><div id="stage">
+  <div id="ph" class="photo"></div>
+
+  <!-- A 콜아웃: 폰마다 점 → 지시선 → 같은 답글 카드 -->
+  <svg class="full va"><path class="lead" d="M437 206 L437 300 L310 300 L310 560"/><path class="lead" d="M1056 340 L1056 660 L735 660 L735 700"/>
+    <path class="lead" d="M1287 210 L1287 560 L1160 560 L1160 590"/><path class="lead" d="M1600 140 L1600 640"/></svg>
+  <div class="ring va" style="left:437px;top:206px"></div><div class="ring va" style="left:1056px;top:340px"></div>
+  <div class="ring va" style="left:1287px;top:210px"></div><div class="ring va" style="left:1600px;top:140px"></div>
+  <div class="rv va" style="left:140px;top:560px"><div class="h"><i><svg viewBox="0 0 24 24" fill="#F05A28"><path d="M4 4h16v12H8l-4 4z"/></svg></i>가게 답글</div><div class="q">아침 8시에 삶은 거라</div><div class="b" style="width:92%"></div><div class="b" style="width:60%"></div></div>
+  <div class="rv va" style="left:565px;top:700px"><div class="h"><i><svg viewBox="0 0 24 24" fill="#F05A28"><path d="M4 4h16v12H8l-4 4z"/></svg></i>가게 답글</div><div class="q">아침 8시에 삶은 거라</div><div class="b" style="width:88%"></div><div class="b" style="width:52%"></div></div>
+  <div class="rv va" style="left:990px;top:590px"><div class="h"><i><svg viewBox="0 0 24 24" fill="#F05A28"><path d="M4 4h16v12H8l-4 4z"/></svg></i>가게 답글</div><div class="q">아침 8시에 삶은 거라</div><div class="b" style="width:90%"></div><div class="b" style="width:66%"></div></div>
+  <div class="rv va" style="left:1430px;top:640px"><div class="h"><i><svg viewBox="0 0 24 24" fill="#F05A28"><path d="M4 4h16v12H8l-4 4z"/></svg></i>가게 답글</div><div class="q">아침 8시에 삶은 거라</div><div class="b" style="width:86%"></div><div class="b" style="width:58%"></div></div>
+
+  <!-- B 스포트라이트: 폰 네 개만 밝고 화면 빛이 번짐 → 아래 큰 글 -->
+  <svg class="full vb"><defs><filter id="bl"><feGaussianBlur stdDeviation="38"/></filter>
+    <mask id="m"><rect width="1920" height="1080" fill="#fff"/><g filter="url(#bl)" fill="#000"><circle cx="437" cy="206" r="120"/><circle cx="1056" cy="330" r="120"/><circle cx="1287" cy="200" r="110"/><circle cx="1610" cy="150" r="120"/></g></mask>
+    <radialGradient id="gl"><stop offset="0" stop-color="#FF8A5B" stop-opacity=".75"/><stop offset="1" stop-color="#FF8A5B" stop-opacity="0"/></radialGradient></defs>
+    <rect width="1920" height="1080" fill="rgba(6,9,12,.74)" mask="url(#m)"/>
+    <g style="mix-blend-mode:screen"><circle cx="425" cy="190" r="80" fill="url(#gl)"/><circle cx="1050" cy="318" r="80" fill="url(#gl)"/><circle cx="1280" cy="190" r="75" fill="url(#gl)"/><circle cx="1600" cy="135" r="80" fill="url(#gl)"/></g>
+    <g stroke="#FF7A4D" stroke-width="3" stroke-dasharray="2 12" stroke-linecap="round" fill="none" opacity=".9">
+      <path d="M437 260 C 470 520, 600 700, 760 760"/><path d="M1056 390 C 1040 560, 980 680, 930 750"/><path d="M1287 260 C 1280 520, 1180 690, 1080 760"/><path d="M1600 200 C 1590 520, 1400 700, 1230 765"/></g>
+    <path class="brush" d="M620 952 C 900 930, 1150 936, 1320 946" stroke-width="26" opacity=".95"/></svg>
+  <div class="kick vb" style="left:620px;top:790px">다른 손님 화면에도 <b>똑같이</b></div>
+  <div class="big vb" style="left:612px;top:838px;font-size:100px">아침 8시에 삶은 거라</div>
+
+  <!-- C 스티커: 폰마다 8시 시계 스티커 + 리본 -->
+  <div class="vc">
+    <div class="clk" style="left:300px;top:390px;transform:rotate(-8deg)"><svg viewBox="0 0 150 150"><circle cx="75" cy="75" r="50" fill="#fff"/><g stroke="#F05A28" stroke-width="4" stroke-linecap="round"><path d="M75 30v8M75 112v8M30 75h8M112 75h8"/></g><g stroke="#1F2A33" stroke-width="7" stroke-linecap="round"><path d="M75 75 L75 44"/><path d="M75 75 L52 88"/></g><circle cx="75" cy="75" r="6" fill="#1F2A33"/></svg></div>
+    <div class="rib" style="left:236px;top:480px;transform:rotate(-8deg)">아침 8시</div>
+    <div class="clk" style="left:900px;top:520px;transform:rotate(6deg)"><svg viewBox="0 0 150 150"><circle cx="75" cy="75" r="50" fill="#fff"/><g stroke="#F05A28" stroke-width="4" stroke-linecap="round"><path d="M75 30v8M75 112v8M30 75h8M112 75h8"/></g><g stroke="#1F2A33" stroke-width="7" stroke-linecap="round"><path d="M75 75 L75 44"/><path d="M75 75 L52 88"/></g><circle cx="75" cy="75" r="6" fill="#1F2A33"/></svg></div>
+    <div class="rib" style="left:836px;top:610px;transform:rotate(6deg)">아침 8시</div>
+    <div class="clk" style="left:1290px;top:400px;transform:rotate(-4deg)"><svg viewBox="0 0 150 150"><circle cx="75" cy="75" r="50" fill="#fff"/><g stroke="#F05A28" stroke-width="4" stroke-linecap="round"><path d="M75 30v8M75 112v8M30 75h8M112 75h8"/></g><g stroke="#1F2A33" stroke-width="7" stroke-linecap="round"><path d="M75 75 L75 44"/><path d="M75 75 L52 88"/></g><circle cx="75" cy="75" r="6" fill="#1F2A33"/></svg></div>
+    <div class="rib" style="left:1226px;top:490px;transform:rotate(-4deg)">아침 8시</div>
+    <div class="clk" style="left:1640px;top:340px;transform:rotate(9deg)"><svg viewBox="0 0 150 150"><circle cx="75" cy="75" r="50" fill="#fff"/><g stroke="#F05A28" stroke-width="4" stroke-linecap="round"><path d="M75 30v8M75 112v8M30 75h8M112 75h8"/></g><g stroke="#1F2A33" stroke-width="7" stroke-linecap="round"><path d="M75 75 L75 44"/><path d="M75 75 L52 88"/></g><circle cx="75" cy="75" r="6" fill="#1F2A33"/></svg></div>
+    <div class="rib" style="left:1576px;top:430px;transform:rotate(9deg)">아침 8시</div>
+    <div class="stk" style="left:640px;top:850px;transform:rotate(-3deg)"><svg viewBox="0 0 24 24" fill="#fff"><path d="M4 4h16v12H8l-4 4z"/></svg>가게 답글 하나를 다 같이 읽는다</div>
+  </div>
+</div>
+<script>document.body.className = (new URLSearchParams(location.search).get('v') || 'a');</script>
+</body></html>

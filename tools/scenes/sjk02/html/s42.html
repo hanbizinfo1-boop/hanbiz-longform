@@ -1,115 +1,30 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s42 ★2 그 한 줄이 따라다닌다 — 콘크리트 위 기울인 앱 판 넷을 옆으로 흐르며 주홍 한 줄이 건너간다</title>
+<title>s42 ★2 그 한 줄이 따라다닌다 — 종이 책상: B 메뉴의 주홍 한 줄에서 실이 나와 리뷰 답글·소식·차림표·손님 쪽지로 건너다님, 한 달 쌓이면 종이 더미</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-/* ★2 공들인 한 방: 월드 = 콘크리트 위에 앱 판 네 장(리뷰 답글·소식·메뉴 설명·손님 리뷰)이 880px 간격으로 이어져 있고 카메라가 옆으로 흐른다.
-   주홍 한 줄 «새벽 5시에 불 올려서» 는 첫 판 답글 칸에 붙고, 다음 판 소식 글 → 메뉴 설명 → 마지막 판 가게 소개로 건너가 붙는다.
-   마지막 판 위 손님 손글씨 리뷰 «아, 그 새벽 5시 국밥집». 가게 이름은 회색으로 빠지고 주홍 줄만 남는다. */
-#world{left:0;top:0;width:6000px;height:1080px;transform-origin:0 0}
-.P{position:absolute;top:200px;width:780px;height:600px;overflow:hidden}
-.P .hd{font-size:30px}
-.P .rt{position:absolute;left:36px;right:36px;display:flex;align-items:center;gap:16px}
-.P .rt .st{font-size:28px}
-.P .rt .dt{margin-left:auto;font-size:22px;color:#8A9299;font-weight:600}
-.P .br{position:absolute;left:36px;height:22px;border-radius:11px;background:#E1E5E8}
-.P .sl{position:absolute;left:36px;top:340px;font-size:38px;font-weight:800;color:#F05A28;white-space:nowrap;padding:8px 18px;background:#FDE6DC;border-radius:10px;line-height:1.2}
-.P .rpb{position:absolute;left:20px;right:20px;top:276px;height:190px;background:#F2F4F5;border-radius:12px}
-.P .rpb b{position:absolute;left:18px;top:12px;font-size:22px;color:#1F2A33}
-.P .th{position:absolute;border-radius:12px;background:#E1E5E8}
-.hs{position:absolute;font-family:"Hand";font-weight:700;color:#4E5861;white-space:nowrap}
-#tv{position:absolute;font-size:36px;padding:12px 24px;white-space:nowrap;z-index:5}
-#nm4{position:absolute;left:36px;top:88px;font-size:38px;font-weight:900;color:#1F2A33;letter-spacing:-.01em}
-#nm4 i{position:absolute;left:-6px;right:-6px;top:52%;height:6px;background:#5D646B;transform-origin:0 50%;transform:scaleX(0)}
-#rv{position:absolute;left:40px;top:436px;font-size:62px;color:#1F2A33;white-space:nowrap}
-#rv .o{color:#F05A28}
+#bl{position:absolute;left:0;top:0;width:1920px;height:1080px}
 </style></head>
 <body><div id="stage">
-  <div class="bg tex-conc"></div>
-  <div id="world" class="abs">
-    <!-- 회색 손글씨(처음 자리) -->
-    <div id="c0" class="chip gr" style="left:470px;top:110px;font-size:34px">이상한 생각</div>
-    <div id="h1" class="hs" style="left:470px;top:190px;font-size:92px">그거 한 줄 넣는다고</div>
-    <div id="h2" class="hs" style="left:470px;top:310px;font-size:92px">손님이 진짜 와?</div>
-    <div id="c1" class="chip gr" style="left:470px;top:470px;font-size:38px">1번</div>
-    <!-- 앱 판 네 장 -->
-    <div id="P1" class="app P" data-box="P1" data-box-bleed style="left:1360px"><div class="hd">리뷰</div>
-      <div class="rt" style="top:84px"><div class="av">손</div><div class="st">★★★★★</div><div class="dt">리뷰</div></div>
-      <div class="br" style="top:160px;width:84%"></div><div class="br" style="top:200px;width:52%"></div>
-      <div class="rpb"><b>가게 답글</b></div><div id="sl1" class="sl">새벽 5시에 불 올려서</div><div class="br" style="top:418px;width:50%"></div></div>
-    <div id="P2" class="app P" data-box="P2" data-box-bleed style="left:2240px"><div class="hd">소식</div>
-      <div class="rt" style="top:84px"><div class="av">○</div><div class="nm" style="font-size:28px;font-weight:800">○○국밥</div><div class="dt">방금</div></div>
-      <div class="br" style="top:196px;width:88%"></div><div class="br" style="top:236px;width:70%"></div>
-      <div id="sl2" class="sl">새벽 5시에 불 올려서</div><div class="br" style="top:410px;width:56%"></div>
-      <div class="th" style="left:36px;right:36px;top:462px;height:112px"></div></div>
-    <div id="P3" class="app P" data-box="P3" data-box-bleed style="left:3120px"><div class="hd">메뉴</div>
-      <div class="th" style="left:36px;top:88px;width:150px;height:150px"></div>
-      <div class="nm" style="position:absolute;left:214px;top:104px;font-size:36px;font-weight:900">돼지국밥</div>
-      <div class="br" style="left:214px;top:168px;width:230px"></div>
-      <div class="br" style="top:268px;width:90%"></div><div class="br" style="top:304px;width:60%;display:none"></div>
-      <div id="sl3" class="sl">새벽 5시에 불 올려서</div><div class="br" style="top:412px;width:62%"></div><div class="br" style="top:452px;width:40%"></div></div>
-    <div id="P4" class="app P" data-box="P4" data-box-bleed style="left:4000px"><div id="nm4">○○국밥<i></i></div>
-      <div class="rt" style="top:150px"><div class="av">손</div><div id="stars" class="st">★★★★★</div><div class="dt">리뷰</div></div>
-      <div class="br" style="top:236px;width:80%"></div><div class="br" style="top:274px;width:46%"></div>
-      <div id="sl4" class="sl">새벽 5시에 불 올려서</div>
-      <div id="rv" class="hand">아, 그 <span class="o">새벽 5시</span> 국밥집</div></div>
-    <div id="tv" class="chip or">새벽 5시에 불 올려서</div>
-  </div>
+  <img id="bl" alt="">
 </div>
 <script src="../data/s42.js"></script>
 <script src="../lib/sjk.js"></script>
-<script src="../lib/e4.js"></script>
+
 <script>
-window.PALETTE = ['#D9DBD6', '#1F2A33', '#F05A28'];   // 바탕·글 + 주홍(그 한 줄) — 회색은 «똑같은 것»
-const T = { odd: S.at('이상한 생각'), q: S.at('그거 한 줄'), one: S.at('한 번으로는'), ai: S.at('AI한테 시킬'), line: S.at('그 한 줄을 넣어서'),
-  rv: S.at('리뷰 답글에도'), nw: S.at('소식 글에도'), mn: S.at('메뉴판에도'), mo: S.at('한 달 쌓이면'), cust: S.at('손님이'), dawn: S.at('새벽'), mem: S.at('이렇게 기억을'), nm: S.at('가게 이름보다'), first: S.at('그 한 줄이 먼저') };
-// 카메라 구간(월드 중심 x) — 판 중심 1750·2630·3510·4390
-const CX = [1100, 1750, 2630, 3510, 4390];
-const SEG = [[7.55, 8.55], [8.75, 9.9], [10.1, 11.15], [11.35, 12.55]];
-// 떠다니는 주홍 한 줄: 판 슬롯(월드)로 건너감 — 도착 시각이 그 판 글이 써지는 시각
-const SL = [[950, 690], [1390, 536], [2270, 536], [3150, 536], [4030, 536]];
-const TV = [[6.45, 7.45], [7.45, 8.45], [8.65, 9.8], [10.0, 11.05], [11.25, 12.45]];  // [dep, arr] (0번은 나타남)
-S.focus([{ t0: T.dawn - 0.05, t1: T.dawn + 1.75, big: '새벽 5시 국밥집', color: 'or', size: 140 }]);
-S.ev(0.02, 'in', 'P1'); S.ev(T.odd, 'card_in', 'c0'); S.ev(T.q, 'marker', 'h1'); S.ev(T.one + 0.1, 'msg_in', 'c1'); 
-S.ev(TV[0][0], 'sweep', 'tv'); S.ev(TV[1][1], 'ok', 'sl1'); S.ev(TV[2][1], 'card_in', 'sl2'); S.ev(TV[3][1], 'sweep', 'sl3'); S.ev(TV[4][1], 'ok', 'sl4');
-S.ev(13.9, 'marker', 'rv'); S.ev(15.05, 'gauge', 'stars'); S.ev(T.nm + 0.05, 'no', 'nm4'); S.ev(T.first + 0.1, 'shine', 'sl4');
-function camX(tau) { let x = CX[0]; for (let i = 0; i < SEG.length; i++) { const k = S.EIO(S.P(tau, SEG[i][0], SEG[i][1])); if (k <= 0) break; x = S.lerp(CX[i], CX[i + 1], k); if (k < 1) break; } return x; }
-S.scene(tau => {
-  const x = camX(tau), pb = S.EIO(S.P(tau, T.mem, T.mem + 0.7));
-  const cam = { s: 1.18 * (1 - 0.14 * pb), x: x - 440 * pb, y: 540 };
-  S.css('#world', { transform: S.camCss(cam) });
-  // 판 기울기(각자 원근 7°)
-  [['#P1', -2.6], ['#P2', 1.6], ['#P3', -1.6], ['#P4', 2.2]].forEach(([id, a], i) => {
-    const k = S.ent(tau, 0.0 + i * 0.05, 0.16);
-    S.css(id, { opacity: k, transform: `perspective(2200px) rotateX(7deg) rotateZ(${a}deg) translateX(${((1 - k) * 40).toFixed(1)}px)` });
-  });
-  // 회색 손글씨 · 칩
-  E.pop('#c0', tau, T.odd, { dy: 8 });
-  E.wipe('#h1', tau, T.q, 1.0); E.wipe('#h2', tau, T.q + 1.0, 0.9);
-  E.pop('#c1', tau, T.one + 0.1, { dy: 8 });
-  // 떠다니는 주홍 한 줄
-  const tv = S.$('#tv');
-  let px = SL[0][0], py = SL[0][1], vis = tau >= TV[0][0] ? S.ent(tau, TV[0][0], 0.12) : 0;
-  for (let i = 1; i < TV.length; i++) {
-    if (tau < TV[i][0]) break;
-    const k = S.EIO(S.P(tau, TV[i][0], TV[i][1]));
-    px = S.lerp(SL[i - 1][0], SL[i][0], k); py = S.lerp(SL[i - 1][1], SL[i][1], k) - 70 * Math.sin(Math.PI * k);
-    vis = k >= 1 ? 0 : 1;
-  }
-  S.css(tv, { left: px.toFixed(1) + 'px', top: py.toFixed(1) + 'px', opacity: vis, transform: `scale(${(0.94 + 0.06 * vis).toFixed(3)})` });
-  // 판마다 글이 써짐(도착에 맞춰)
-  E.wipe('#sl1', tau, TV[1][1] - 0.12, 0.22); E.wipe('#sl2', tau, TV[2][1] - 0.12, 0.22);
-  E.wipe('#sl3', tau, TV[3][1] - 0.12, 0.22); E.wipe('#sl4', tau, TV[4][1] - 0.12, 0.22);
-  // 손님 손글씨 리뷰 · 별
-  E.wipe('#rv', tau, 13.9, 1.2);
-  const sk = S.EO(S.P(tau, 15.05, 15.5)); S.$('#stars').style.color = `rgb(${Math.round(201 + 41 * sk)},${Math.round(206 - 43 * sk)},${Math.round(210 - 148 * sk)})`;
-  // 가게 이름 → 회색, 줄
-  const nk = S.EO(S.P(tau, T.nm + 0.05, T.nm + 0.5));
-  S.css('#nm4', { color: `rgb(${Math.round(31 + 150 * nk)},${Math.round(42 + 145 * nk)},${Math.round(51 + 142 * nk)})` });
-  S.css('#nm4 i', { transform: `scaleX(${nk.toFixed(3)})` });
-  // 주홍 줄: 마지막에 형광 + 반짝
-  E.ring('#P4', tau, T.first + 0.1);
-  S.css('#sl4', { boxShadow: `0 0 0 ${(S.EO(S.P(tau, T.first + 0.1, T.first + 0.45)) * 6).toFixed(1)}px rgba(240,90,40,.45)` });
-});
+window.PALETTE = ['#3A4046', '#F4F3EF', '#F05A28'];
+window.DEVICES = ['R1 종이 책상(블렌더)', '주홍 실'];
+const T = { once: S.at('번으로는'), each: S.at('시킬'), rev: S.at('리뷰'), news: S.at('소식'), board: S.at('메뉴판에도'), month: S.at('쌓이면'),
+  cust: S.at('손님이', 1), name: S.at('이름보다'), first: S.at('먼저') };
+S.ev(T.once - 0.3, 'no', 'unmark');
+S.ev(T.each + 0.2, 'marker', 'mark');
+S.ev(T.rev - 0.15, 'paper', 'review');
+S.ev(T.news - 0.15, 'card_in', 'news');
+S.ev(T.board - 0.15, 'paper', 'board');
+S.ev(T.month + 0.05, 'sweep', 'pile');
+S.ev(T.cust - 0.1, 'msg_in', 'guest');
+S.ev(T.name, 'no', 'names');
+S.ev(T.first, 'shine', 'glow');
+S.scene(async tau => { await S.bl('#bl', 's42', tau); });
 </script>
 </body></html>

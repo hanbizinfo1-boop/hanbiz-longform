@@ -1,64 +1,52 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s70 정리 — 거리는 흑백, AI 는 누구나 같은 도구, 차이는 대표님한테서(가게 하나만 색이 돌아옴)</title>
+<title>s70 정리 — 같은 국자 여러 개가 회색, 손이 잡은 국자만 빛(스포트라이트) + 큰 글 «사람» 붓 밑줄(R7)</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#w{left:-100px;top:-300px;width:2400px;height:1600px}
-#ph,#phc{left:0;top:0;width:2400px;height:1600px}
-#phc{clip-path:inset(359px 314px 444px 1383px);opacity:0}
-#lab{left:60px;top:150px;opacity:0;font-size:36px;padding:12px 26px}
-.ck{opacity:0}
-#tl{left:60px;top:136px;width:640px;height:6px;border-radius:3px;background:#1FA39A;opacity:0}
-#big{left:110px;top:610px;opacity:0;font-size:200px;line-height:1;color:#fff;background:#F05A28;padding:20px 44px 28px;border-radius:14px;white-space:nowrap;box-shadow:0 20px 50px rgba(20,25,30,.4)}
+#cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background-size:100% 100%;background-repeat:no-repeat}
+.big{position:absolute;font-family:"Pre";font-weight:900;color:#fff;letter-spacing:-.03em;line-height:1.05;text-shadow:0 6px 30px rgba(0,0,0,.65);white-space:nowrap}
+.brush{fill:none;stroke:#F05A28;stroke-linecap:round;stroke-linejoin:round}
+.full{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:visible}
 </style></head>
 <body><div id="stage">
-  <div id="w" class="abs">
-    <div id="ph" class="photo abs"></div>
-    <div id="phc" class="photo abs"></div>
+  <div id="cam">
+    <div id="ph"></div>
+    <svg class="full"><defs><filter id="bl" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="46"/></filter>
+      <mask id="m" maskUnits="userSpaceOnUse" x="-800" y="-800" width="3600" height="2700"><rect x="-800" y="-800" width="3600" height="2700" fill="#fff"/><ellipse id="hole" cx="1290" cy="520" rx="260" ry="340" fill="#000" filter="url(#bl)"/></mask>
+      <radialGradient id="gl"><stop offset="0" stop-color="#FF8A5B" stop-opacity=".55"/><stop offset="1" stop-color="#FF8A5B" stop-opacity="0"/></radialGradient></defs>
+      <rect id="dim" x="-800" y="-800" width="3600" height="2700" fill="rgba(6,9,12,0)" mask="url(#m)"/>
+      <g style="mix-blend-mode:screen"><ellipse id="glow" cx="1280" cy="560" rx="260" ry="330" fill="url(#gl)" opacity="0"/></g></svg>
   </div>
-  <div id="lab" class="chip te" data-box="lab">AI = 누구나 같은 도구</div>
-  <div id="tl" class="abs"></div>
-  <div id="big" class="blk abs" data-box="big">대표님</div>
+  <div id="big" class="big" data-box="big" style="left:760px;top:230px;font-size:220px">사람</div>
+  <svg class="full"><path id="brush" class="brush" d="M740 480 C 880 462, 1020 468, 1160 478" stroke-width="26" opacity=".95"/></svg>
 </div>
 <script src="../data/s70.js"></script>
 <script src="../lib/sjk.js"></script>
-<script src="_e6.js"></script>
 <script>
-window.PALETTE = ['#D9DBD6', '#1FA39A', '#F05A28'];
-S.$('#ph').style.backgroundImage = S.ph('p03_shutter_row');
-S.$('#phc').style.backgroundImage = S.ph('p03_shutter_row');
-const CH = [];
-for (let i = 0; i < 6; i++) CH.push(E.mk('#stage', 'chip te ck', 'AI', `left:${60 + i * 124}px;top:60px;font-size:32px`));
-E.svg('#w', 2400, 1600, '<rect id="oln" x="1383" y="359" width="703" height="797" rx="18" fill="none" stroke="#F05A28" stroke-width="8" stroke-dasharray="18 14"/>');
-const oln = S.$('#oln');
-const T = { ai: S.at('AI는'), row: S.at('누구나'), lab: S.at('도구예요'), tl: S.at('AI만으로는'), gr: S.at('차이가'), oln: S.at('차이는'), big: S.at('대표님한테서') };
-S.ev(T.ai, 'card_in', 'c0'); S.ev(T.row, 'msg_in', 'c1'); S.ev(T.lab, 'card_in', 'lab'); S.ev(T.tl, 'marker', 'tl');
-S.ev(T.gr, 'no', 'lab'); S.ev(T.oln, 'marker', 'oln'); S.ev(T.big, 'big_in', 'big'); S.ev(T.big + 0.3, 'shine', 'phc');
+window.PALETTE = ['#2B3036', '#FFFFFF', '#F05A28'];
+window.DEVICES = ['R7 스포트라이트 + 큰 글'];
+S.$('#ph').style.backgroundImage = S.ph('n70_ladles_wall');
+const T = { gr: S.at('누구나'), sp: S.at('차이는'), big: S.at('대표님한테서') };
+const brush = S.$('#brush'), BL = brush.getTotalLength(); brush.style.strokeDasharray = BL;
+S.ev(T.gr, 'no', 'ph'); S.ev(T.sp, 'shine', 'glow'); S.ev(T.big, 'in', 'big'); S.ev(T.big + 0.4, 'marker', 'brush');
 S.scene(tau => {
-  const wl = E.pan(tau, -0.2, S.SC.dur, -100, -300);
-  S.css('#w', { left: wl + 'px' });
-  S.$('#ph').style.filter = S.desat(1);
-  CH.forEach((c, i) => {
-    const t0 = i === 0 ? T.ai : T.row + (i - 1) * 0.1;
-    const a = S.ent(tau, t0, 0.12), g = S.P(tau, T.gr + i * 0.04, T.gr + 0.3 + i * 0.04);
-    c.style.opacity = (a * (1 - 0.45 * g)).toFixed(3);
-    c.style.filter = `grayscale(${g.toFixed(2)})`;
-    c.style.transform = `translateY(${(1 - a) * -14}px) scale(${0.85 + 0.15 * a})`;
-  });
-  const lg = S.P(tau, T.gr, T.gr + 0.3);
-  E.in('#lab', tau, T.lab, { dy: -12 });
-  S.$('#lab').style.filter = `grayscale(${lg.toFixed(2)})`;
-  // AI만으로는 — 청록 줄이 칩 줄 아래로 그어짐
-  const tk = S.EO(S.P(tau, T.tl, T.tl + 0.45));
-  S.css('#tl', { opacity: tk * (1 - lg), clipPath: `inset(0 ${(1 - tk) * 100}% 0 0)`, top: '136px' });
-  // 가게 둘레 점선(차이는) → 색이 돌아옴(대표님한테서)
-  E.stroke(oln, tau, T.oln, 0.5);
-  const ck = S.EO(S.P(tau, T.big, T.big + 0.5));
-  oln.style.opacity = (S.EO(S.P(tau, T.oln, T.oln + 0.4)) * (1 - ck)).toFixed(3);
-  S.css('#phc', { opacity: ck });
-  // 대표님 — 왼쪽 아래 3분의 1, 주홍 밑판(가운데 정렬 아님)
-  const bk = S.EO(S.P(tau, T.big, T.big + 0.14));
-  S.css('#big', { opacity: bk, transform: `translateX(${(-70 * (1 - bk)).toFixed(1)}px)` });
+  // 카메라: 국자 줄을 따라 옆으로 천천히 → «차이는» 에 손 쪽으로 다가감
+  const a = S.EIO(S.P(tau, -0.2, T.sp)), z = S.cam(tau, T.sp, T.sp + 0.6);
+  S.$('#cam').style.transform = S.camCss({ s: S.lerp(1.1, 1.22, z) + 0.03 * a, x: S.lerp(S.lerp(880, 1040, a), 1130, z), y: S.lerp(520, 560, z) });
+  // «누구나 똑같이» — 국자 전부 회색으로 빠짐
+  const g = S.EIO(S.P(tau, T.gr, T.gr + 0.6));
+  S.$('#ph').style.filter = `saturate(${(1.5 * (1 - g)).toFixed(3)}) contrast(${(1.05 - 0.1 * g).toFixed(3)}) brightness(${(1 + 0.04 * g).toFixed(3)})`;
+  // «차이는» — 둘레가 어두워지고 손이 잡은 국자만 빛
+  const sp = S.EO(S.P(tau, T.sp, T.sp + 0.5));
+  S.$('#dim').setAttribute('fill', `rgba(6,9,12,${(0.74 * sp).toFixed(3)})`);
+  S.$('#glow').setAttribute('opacity', sp.toFixed(3));
+  S.$('#hole').setAttribute('rx', S.lerp(520, 250, sp).toFixed(1)); S.$('#hole').setAttribute('ry', S.lerp(620, 330, sp).toFixed(1));
+  // 큰 글 «사람» + 주홍 붓 밑줄
+  const b = S.ent(tau, T.big, 0.16);
+  S.css('#big', { opacity: b, transform: `translateY(${((1 - b) * 26).toFixed(1)}px)` });
+  const u = S.EO(S.P(tau, T.big + 0.4, T.big + 0.8));
+  brush.style.strokeDashoffset = BL * (1 - u); brush.style.opacity = tau >= T.big + 0.4 ? 0.95 : 0;
 });
 </script>
 </body></html>

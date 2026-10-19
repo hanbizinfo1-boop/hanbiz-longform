@@ -1,52 +1,60 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s59 사라지는 가게의 시간 쓰기 — 흐린 낮 가게 외벽에 신메뉴·할인·광고 판이 하나씩 붙고 벽 전체가 탈색</title>
+<title>s59 사라지는 가게의 시간 쓰기 — 가게 외벽의 빈 종이에 신메뉴·할인·배달앱 이벤트 포스터가 하나씩 붙고 기존에 하시던 걸 그대로 → 셋이 회색</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#pw{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:50% 50%}
-.sg{position:absolute;background:#F4F5F3;color:#6E767D;font-weight:900;text-align:center;box-shadow:0 14px 30px rgba(20,25,30,.35);transform-origin:50% 50%}
-#s0{left:190px;top:335px;width:345px;height:425px;font-size:84px;line-height:425px;border-radius:4px}
-#s1{left:700px;top:26px;width:830px;height:170px;font-size:100px;line-height:170px;border-radius:4px}
-#s2{left:600px;top:468px;width:138px;height:204px;font-size:50px;line-height:204px;border-radius:3px}
-.pl{position:absolute;width:34px;height:34px;border-radius:50%;background:#9AA0A6;color:#fff;font-size:30px;line-height:34px;text-align:center;font-weight:900;right:-12px;top:-14px}
-#fr{left:900px;top:250px;width:70px;height:70px;border-radius:10px;background:var(--or);box-shadow:0 10px 24px rgba(240,90,40,.4)}
-#fr2{left:990px;top:270px;width:70px;height:70px;border-radius:10px;background:var(--or);box-shadow:0 10px 24px rgba(240,90,40,.4)}
+#cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background-size:100% 100%;background-repeat:no-repeat}
+.po{position:absolute;left:0;top:0;background:#F6F1E6;font-family:"Pre";color:#2B2620;text-align:center;overflow:hidden;transform-origin:0 0}
+.po .a{color:#E2501C}
+.pl{position:absolute;width:56px;height:56px;border-radius:50%;background:#F05A28;color:#fff;font-size:46px;line-height:54px;text-align:center;font-weight:900;font-family:"Pre";box-shadow:0 6px 14px rgba(0,0,0,.4);border:3px solid #fff}
 </style></head>
 <body><div id="stage">
-  <div class="bg tex-conc"></div>
-  <div id="pw"><div id="ph" class="photo" style="left:0;top:0;width:1920px;height:1080px"></div>
-    <div id="s0" class="sg blk" data-box="s0">신메뉴<div class="pl" id="p0">＋</div></div>
-    <div id="s1" class="sg blk">할인<div class="pl" id="p1">＋</div></div>
-    <div id="s2" class="sg blk" data-box="s2">광고<div class="pl" id="p2">＋</div></div>
+  <div id="cam">
+    <div id="ph"></div>
+    <div id="p0" class="po" data-diegetic data-box="p0" style="width:300px;height:400px">
+      <div class="blk a" style="font-size:54px;margin-top:22px;line-height:1.05">신메뉴<br>출시</div>
+      <div style="margin:14px 22px 0;height:130px;border-radius:6px;background:url('../../../../소재/sjk02/codex/p67_pot_lid_steam.png') 42% 58%/190% auto"></div>
+      <div style="font-size:38px;font-weight:800;margin-top:12px">얼큰 국밥</div>
+      <div class="blk a" style="font-size:50px;line-height:1.1">10,000원</div>
+    </div>
+    <div id="p1" class="po" data-diegetic data-box="p1" style="width:112px;height:168px">
+      <div style="font-size:28px;font-weight:800;margin-top:10px">오늘만</div>
+      <div class="blk a" style="font-size:44px;line-height:1.1;margin-top:6px">20%</div>
+      <div style="font-size:32px;font-weight:800;margin-top:4px">할인</div>
+    </div>
+    <div id="p2" class="po" data-diegetic data-box="p2" style="width:90px;height:232px">
+      <div style="font-size:24px;font-weight:800;margin-top:20px">배달앱</div>
+      <div class="blk a" style="font-size:32px;margin-top:10px;line-height:1.15">리뷰</div>
+      <div style="font-size:26px;font-weight:800;margin-top:8px">이벤트</div>
+    </div>
+    <div id="b0" class="pl">＋</div><div id="b1" class="pl">＋</div><div id="b2" class="pl">＋</div>
   </div>
-  <div id="fr" class="abs" data-box="fr"></div><div id="fr2" class="abs" data-box="fr2"></div>
 </div>
 <script src="../data/s59.js"></script>
 <script src="../lib/sjk.js"></script>
 <script>
-window.PALETTE = ['#D9DBD6', '#9AA0A6', '#F05A28'];
+window.PALETTE = ['#E8E4DA', '#E2501C', '#2B2620'];
+window.DEVICES = ['R12 포스터'];
 S.$('#ph').style.backgroundImage = S.ph('p59_shop_wall');
-const T = { good: S.at('제대로'), a: S.at('메뉴하나'), b: S.at('할인행사'), c: S.at('광고하나'), th: S.at('이렇게'), keep: S.at('그대로') };
-S.ev(T.good, 'no', 'fr'); S.ev(T.a, 'card_in', 's0'); S.ev(T.b, 'msg_in', 's1'); S.ev(T.c, 'card_in', 's2'); S.ev(T.th, 'marker', 'p0'); S.ev(T.keep, 'no', 'pw');
+// 사진 속 빈 종이 세 장(눈으로 잰 네 점, 1536×1024 → 화면 x*1.25, y*1.25-100) — 왼위·오위·오아래·왼아래
+const sc = q => q.map(p => [p[0] * 1.25, p[1] * 1.25 - 100]);
+S.fitQuad(S.$('#p0'), 300, 400, sc([[152, 347], [431, 358], [427, 688], [145, 672]]));
+S.fitQuad(S.$('#p1'), 112, 168, sc([[480, 453], [590, 458], [582, 617], [477, 607]]));
+S.fitQuad(S.$('#p2'), 90, 232, sc([[1382, 415], [1467, 433], [1468, 648], [1388, 636]]));
+[[0, 510, 306], [1, 709, 444], [2, 1806, 413]].forEach(b => S.css('#b' + b[0], { left: b[1] + 'px', top: b[2] + 'px' }));
+const T = { push: S.at('제대로'), side: S.at('열심히'), a: S.at('메뉴하나'), b: S.at('할인행사'), c: S.at('광고하나'), th: S.at('이렇게'), keep: S.at('기존에') };
+S.ev(T.a, 'paper', 'p0'); S.ev(T.b, 'card_in', 'p1'); S.ev(T.c, 'paper', 'p2'); S.ev(T.th, 'marker', 'b0'); S.ev(T.keep, 'no', 'p0');
+const KEYS = [{ t: 0, s: 1.03, x: 960, y: 540 }, { t: T.push, s: 1.12, x: 880, y: 560, d: 0.5 }, { t: T.side, s: 1.05, x: 1000, y: 540, d: 0.7 }];
 S.scene(tau => {
-  // 벽 전체 느린 옆 흐름 · «그대로» 에 벽 전체 탈색
-  const dsat = S.EIO(S.P(tau, T.keep, T.keep + 0.7));
-  S.css('#pw', { transform: S.track(tau, -0.2, S.SC.dur, 24, -36, 1.06), filter: S.desat(dsat) });
-  // 앞 장면(58)의 주홍 빈 칸 조각 둘이 떠 있다가 «제대로» 에 회색으로 빠지며 떨어짐
-  const g = S.ent(tau, T.good, 0.25), f = S.P(tau, T.good + 0.2, T.good + 0.8);
-  ['fr', 'fr2'].forEach((id, i) => {
-    const e = S.$('#' + id);
-    e.style.opacity = (1 - S.EO(f)) * S.ent(tau, -0.2, 0.12);
-    e.style.background = g > 0.5 ? '#9AA0A6' : '#F05A28';
-    e.style.boxShadow = g > 0.5 ? '0 10px 24px rgba(20,25,30,.3)' : '0 10px 24px rgba(240,90,40,.4)';
-    e.style.transform = `translateY(${-6 * Math.sin(tau * 3 + i) + 160 * f * f}px) rotate(${(i ? 12 : -12) * f}deg)`;
-  });
-  // 판 셋: 벽에 붙듯(−3° 기울기) 한 장씩 붙음
-  [['s0', T.a, 190], ['s1', T.b, 160], ['s2', T.c, 150]].forEach((s, i) => {
-    const k = S.ent(tau, s[1], 0.12);
-    S.css('#' + s[0], { opacity: k, transform: `rotate(${-3 + (1 - k) * -4}deg) scale(${1.12 - 0.12 * k})` });
+  S.css('#cam', { transform: S.camCss(S.camState(tau, KEYS)) });
+  const g = S.EIO(S.P(tau, T.keep, T.keep + 0.7));
+  // 포스터 셋: 벽 종이 위에 한 장씩 붙음 · «기존에 하시던» 에 셋이 회색으로 빠짐
+  [['p0', T.a], ['p1', T.b], ['p2', T.c]].forEach((s, i) => {
+    const k = S.ent(tau, s[1], 0.14), e = S.$('#' + s[0]);
+    e.style.opacity = k; e.style.filter = S.desat(g);
     const pl = S.ent(tau, T.th + i * 0.28, 0.12);
-    S.css('#p' + i, { opacity: pl, transform: `scale(${0.5 + 0.5 * pl})` });
+    S.css('#b' + i, { opacity: pl * (1 - g), transform: `scale(${(0.5 + 0.5 * pl).toFixed(3)})` });
   });
 });
 </script>

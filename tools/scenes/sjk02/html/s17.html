@@ -1,43 +1,36 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s17 수수료랑 광고비 경쟁 — 콘크리트 벽 앞 감열지 띠 셋(로우앵글)</title>
+<title>s17 수수료랑 광고비 — 블렌더 유리 동전 통(R3): 관 둘로 동전이 빠져나가 통이 빔</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#wrap{position:absolute;left:0;top:0;width:1920px;height:1080px;perspective:1500px;perspective-origin:50% 100%}
-.sp{position:absolute;top:-300px;width:340px;height:1100px;transform-origin:50% 0}
-.sp .paper{position:absolute;left:0;top:0;width:340px;height:1100px;clip-path:polygon(0 0,100% 0,100% 98.4%,92% 99.4%,84% 98.2%,76% 99.5%,68% 98.3%,60% 99.4%,52% 98.1%,44% 99.5%,36% 98.4%,28% 99.4%,20% 98.2%,12% 99.5%,4% 98.3%,0 99.2%)}
-.sp .ln{position:absolute;left:0;right:0;text-align:center;font-family:"Pre";font-weight:900;font-size:78px;line-height:1;color:#1F2A33;letter-spacing:-.02em;white-space:nowrap}
-.sp .sh{position:absolute;left:0;top:0;width:340px;height:1100px;box-shadow:0 36px 44px rgba(20,25,30,.32)}
+#bl{position:absolute;left:0;top:0;width:1920px;height:1080px}
+.tg{position:absolute;left:0;top:0;padding:8px 18px 10px;border-radius:10px;background:#1F2A33;color:#fff;font-family:"Pre";font-weight:800;font-size:34px;white-space:nowrap;
+  box-shadow:0 0 0 3px rgba(255,255,255,.9),0 12px 26px rgba(10,14,18,.45)}
 </style></head>
 <body><div id="stage">
-  <div class="bg tex-conc"></div>
-  <div id="wrap">
-    <div id="s1" class="sp" style="left:350px;top:-300px"><div class="sh"></div><div class="paper thermal"></div><div class="ln" id="a1" style="top:760px">수수료</div></div>
-    <div id="s2" class="sp" style="left:790px;top:-200px"><div class="sh"></div><div class="paper thermal"></div><div class="ln" id="b1" style="top:800px">광고비</div></div>
-    <div id="s3" class="sp" style="left:1230px;top:-250px"><div class="sh"></div><div class="paper thermal"></div>
-      <div class="ln" id="c1" style="top:640px">수수료</div><div class="ln" id="c2" style="top:790px">광고비</div><div class="ln" id="c3" style="top:940px">수수료</div></div>
-  </div>
+  <img id="bl" alt="">
+  <div id="tf" class="tg">수수료</div><div id="ta" class="tg">광고비</div>
 </div>
 <script src="../data/s17.js"></script>
 <script src="../lib/sjk.js"></script>
+<script src="../../../../_tmp/sjk02/blender/s17/proj.js"></script>
 <script>
-window.PALETTE = ['#D9DBD6', '#1F2A33'];
-const T = { drop: S.at('남은'), fee: S.at('수수료랑'), ad: S.at('광고비'), comp: S.at('경쟁이에요') };
-S.ev(T.drop, 'paper', 's1'); S.ev(T.fee, 'page', 'a1'); S.ev(T.ad, 'card_in', 'b1'); S.ev(T.comp, 'page', 'c1');
-const wipe = (id, p) => S.css(id, { clipPath: `inset(-4% 0 ${((1 - S.clamp(p)) * 104).toFixed(1)}% 0)`, opacity: p > 0 ? 1 : 0 });
-S.scene(tau => {
-  // 띠 셋이 위 화면 밖에서 늘어져 내려옴(로우앵글 — 아래쪽이 크게)
-  const drops = [[0, 's1'], [0.1, 's2'], [0.2, 's3']];
-  const d = S.P(tau, 0, S.SC.dur);
-  drops.forEach(([dl, id]) => {
-    const p = S.EO(S.P(tau, T.drop + dl - 0.05, T.drop + dl + 0.45));
-    S.css('#' + id, { transform: `translateY(${((1 - p) * -760 + (id === 's3' ? 0 : 0)).toFixed(1)}px) rotateX(${(15 - 3 * d).toFixed(2)}deg) rotateZ(${(id === 's1' ? -1.2 : id === 's2' ? 0.8 : -0.6)}deg)` });
-  });
-  wipe('#a1', S.EO(S.P(tau, T.fee, T.fee + 0.4)));
-  wipe('#b1', S.EO(S.P(tau, T.ad, T.ad + 0.35)));
-  wipe('#c1', S.EO(S.P(tau, T.comp, T.comp + 0.25)));
-  wipe('#c2', S.EO(S.P(tau, T.comp + 0.15, T.comp + 0.4)));
-  wipe('#c3', S.EO(S.P(tau, T.comp + 0.3, T.comp + 0.55)));
+window.PALETTE = ['#B9BEC2', '#1F2A33', '#C9A15A'];
+window.DEVICES = ['R3 은유 기계(블렌더)'];
+const T = { fee: S.at('수수료랑'), ad: S.at('광고비') };
+S.ev(T.fee + 0.1, 'no', 'drainL');
+S.ev(T.ad, 'card_in', 'drainR');
+function place(el, p, dx, dy, k) {
+  if (!p) { el.style.opacity = 0; return; }
+  el.style.opacity = k;
+  // 관 끝 앵커가 화면 밖으로 나가 이름표가 잘림 → 화면 안 80px 여백에 가둠(10-19)
+  const x = S.clamp(p[0] - el.offsetWidth / 2 + dx, 80, 1920 - 80 - el.offsetWidth), y = S.clamp(p[1] - el.offsetHeight + dy, 80, 1080 - 200 - el.offsetHeight);
+  el.style.transform = `translate(${x.toFixed(1)}px,${(y + (1 - k) * 12).toFixed(1)}px)`;
+}
+S.scene(async tau => {
+  await S.bl('#bl', 's17', tau);
+  place(S.$('#tf'), S.proj('fee', tau), 40, -30, S.ent(tau, T.fee + 0.1, 0.12));
+  place(S.$('#ta'), S.proj('ad', tau), -40, -30, S.ent(tau, T.ad + 0.05, 0.12));
 });
 </script>
 </body></html>

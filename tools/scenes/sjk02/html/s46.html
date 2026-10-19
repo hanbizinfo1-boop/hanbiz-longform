@@ -7,10 +7,7 @@
 #cw{left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
 #ph{left:0;top:-100px;width:1920px;height:1280px;background-size:100% 100%}
 #sv{position:absolute;left:0;top:0}
-#cl{left:96px;top:780px;font-size:30px}
-#bar{position:absolute;left:96px;top:858px;width:150px;height:46px;border-radius:8px;background:#F05A28;box-shadow:0 10px 22px rgba(0,0,0,.4);transform-origin:0 50%}
-#ap{left:330px;top:790px;font-size:44px;padding:8px 22px}
-#cw2{left:700px;top:600px;font-size:34px}
+#big{position:absolute;left:1290px;top:790px;font-size:140px;line-height:1;color:#fff;text-shadow:0 8px 28px rgba(0,0,0,.75);white-space:nowrap;opacity:0}
 </style></head>
 <body><div id="stage">
   <div id="cw" class="abs">
@@ -19,30 +16,26 @@
       <path id="dot" d="M56 648 L380 388 L1578 664 L1318 1082 Z" fill="none" stroke="#D5D9DC" stroke-width="10" stroke-dasharray="2 20" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </div>
-  <div id="cl" class="chip gr" data-box="cl">수익</div>
-  <div id="bar" data-box="bar"></div>
-  <div id="ap" class="chip gr" data-box="ap">≒</div>
-  <div id="cw2" class="chip gr" data-box="cw2">월급</div>
+  <div id="big" class="blk" data-box="big">12시간</div>
 </div>
 <script src="../data/s46.js"></script>
 <script src="../lib/sjk.js"></script>
 <script src="../lib/e4.js"></script>
 <script>
 window.PALETTE = ['#D9DBD6', '#1F2A33', '#F05A28'];
+window.DEVICES = ['숫자 이름표(사진 위 12시간)'];
 S.$('#ph').style.backgroundImage = S.ph('p46_pay_envelope');
 const T = { rem: S.at('손에'), bar: S.at('남는'), job: S.at('직장'), pay: S.at('월급이랑'), diff: S.at('별 차이가'), but: S.at('근데 일은'), h12: S.at('12시간') };
-S.focus([{ t0: T.h12 - 0.05, t1: T.h12 + 1.1, big: '12시간', small: '하루', color: 'gr' }]);
-S.ev(T.rem, 'card_in', 'cl'); S.ev(T.bar, 'gauge', 'bar'); S.ev(T.job + 0.35, 'marker', 'dot'); S.ev(T.pay, 'msg_in', 'cw2'); S.ev(T.diff + 0.15, 'card_in', 'ap'); S.ev(T.but, 'no', 'bar');
+S.ev(T.bar, 'marker', 'dot'); S.ev(T.diff, 'shine', 'dot'); S.ev(T.but, 'no', 'dot'); S.ev(T.h12, 'card_in', 'big');
 S.scene(tau => {
   const d = S.P(tau, 0, S.SC.dur);
   S.css('#cw', { transform: `translate(${(-40 * d).toFixed(1)}px,${(-14 * d).toFixed(1)}px) scale(${(1.03 + 0.06 * d).toFixed(4)})` });
-  E.pop('#cl', tau, T.rem, { dx: -16, dy: 0 });
-  S.css('#bar', { opacity: tau >= T.bar ? 1 : 0, transform: `scaleX(${S.EO(S.P(tau, T.bar, T.bar + 0.45)).toFixed(3)})` });
-  E.stroke('#dot', tau, T.job + 0.35, 0.9);
-  E.pop('#cw2', tau, T.pay, { dy: 10 }); E.pop('#ap', tau, T.diff + 0.15, { dy: 10 });
+  E.stroke('#dot', tau, T.bar, 0.9);
+  const b = S.ent(tau, T.h12, 0.14);
+  S.css('#big', { opacity: b, transform: `translateY(${((1 - b) * 18).toFixed(1)}px)` });
   const g = S.P(tau, T.but, T.but + 0.4);
-  ['#cl', '#bar', '#ap', '#cw2'].forEach(s => { S.$(s).style.filter = S.desat(g); });
-  S.css('#sv', { opacity: 1 - 0.5 * g });
+  const sh = S.EO(S.P(tau, T.diff, T.diff + 0.2)) * (1 - S.P(tau, T.diff + 0.4, T.diff + 0.9));
+  S.css('#sv', { opacity: (0.7 + 0.3 * sh) * (1 - g), filter: `brightness(${(1 + 0.8 * sh).toFixed(2)})` });
 });
 </script>
 </body></html>

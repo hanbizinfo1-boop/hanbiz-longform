@@ -1,59 +1,78 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s58 AI 쓰면 시간이 남는다 — 콘크리트 판 위 가로 시간 막대 둘(정면 대칭), 줄어든 자리에 빈 칸, 주홍 물음표</title>
+<title>s58 AI 쓰면 시간이 남는다 — 클립보드 근무 기록지 사진, 표 칸에 30분 칸이 접혀 1칸만 남고 빈자리에 주홍 점선</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#slab{left:180px;top:170px;width:1560px;height:640px;background:#F7F8F7}
-#slab .hd{position:absolute;left:44px;top:28px;font-size:24px;color:#6E767D;letter-spacing:.18em;font-weight:600}
-.row{position:absolute;left:0;width:1560px;height:150px}
-.row .lb{position:absolute;left:44px;top:50px;width:250px;font-size:36px;font-weight:800}
-.row .tr{position:absolute;left:310px;top:36px;width:1000px;height:78px;border:3px dashed #C5C9CC;border-radius:10px}
-.row .bar{position:absolute;left:310px;top:36px;height:78px;border-radius:10px;background:#9AA0A6}
-.row .free{position:absolute;top:36px;height:78px;border-radius:10px;border:3px dashed #C5C9CC;background:rgba(240,90,40,0)}
-.row .val{position:absolute;top:44px;font-size:40px;font-weight:900;white-space:nowrap}
-#q{left:760px;top:122px;width:120px;height:120px;border-radius:50%;background:#fff;border:7px solid var(--or);color:var(--or);display:flex;align-items:center;justify-content:center;font-size:84px;font-weight:900;box-shadow:0 14px 30px rgba(240,90,40,.4)}
+#cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background-size:100% 100%;background-repeat:no-repeat}
+#tb{position:absolute;left:0;top:0;width:1200px;height:1000px;background:#EDEEF3;font-family:"Pre";color:#1F2A33}
+#tb .ln{position:absolute;left:0;height:3px;width:1200px;background:#C9CCD3}
+#tb .hd{position:absolute;left:40px;top:56px;font-size:40px;font-weight:800;color:#59636B;letter-spacing:.1em}
+#tb .lb{position:absolute;left:40px;font-size:46px;font-weight:800;white-space:nowrap}
+#tb .ce{position:absolute;height:64px;width:38px;background:#1F2A33;border-radius:5px;transform-origin:0 50%}
+#tb .vl{position:absolute;left:930px;font-size:48px;font-weight:900;white-space:nowrap}
+#tb .em{position:absolute;height:64px;border:5px dashed #F05A28;border-radius:8px;opacity:0}
 </style></head>
 <body><div id="stage">
-  <div class="bg tex-conc"></div>
-  <div id="slab" class="slab" data-box="slab">
-    <div class="hd">한 달</div>
-    <div id="r1" class="row" style="top:110px"><div class="lb">리뷰 답글</div><div class="tr"></div><div class="free" id="f1"></div><div class="bar" id="b1"></div><div class="val" id="v1">7시간 30분</div></div>
-    <div id="r2" class="row" style="top:330px"><div class="lb">근무표</div><div class="tr"></div><div class="free" id="f2"></div><div class="bar" id="b2"></div><div class="val" id="v2">1시간</div></div>
-    <div id="q" class="abs">?</div>
+  <div id="cam">
+    <div id="ph"></div>
+    <div id="tb" data-diegetic>
+      <div class="hd" id="hd">한 달</div>
+      <div class="ln" style="top:150px"></div><div class="ln" style="top:300px"></div><div class="ln" style="top:450px"></div>
+      <div class="lb" id="l1" style="top:196px">리뷰 답글</div><div id="c1"></div><div class="vl" id="v1" style="top:192px">7시간 30분</div><div class="em" id="e1" style="top:198px"></div>
+      <div class="lb" id="l2" style="top:346px">근무표</div><div id="c2"></div><div class="vl" id="v2" style="top:342px">1시간</div><div class="em" id="e2" style="top:348px"></div>
+    </div>
   </div>
 </div>
 <script src="../data/s58.js"></script>
 <script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
 <script>
-window.PALETTE = ['#D9DBD6', '#1FA39A', '#F05A28', '#9AA0A6'];
-const T = { gap: S.at('시간이'), rev: S.at('리뷰답글에'), h75: S.at('일곱'), m30: S.at('30분으로'), plan: S.at('근무표'), h1: S.at('한시간'), m5: S.at('5분이면'), rest: S.at('남은시간에'), q: S.at('뭐하세요') };
-const SC = 1000 / 450;                  // 7시간 30분 = 450분 = 1000px
-const W75 = 1000, W30 = 30 * SC, W60 = 60 * SC, W5 = 5 * SC;
-S.focus([{ t0: T.m30 + 0.05, t1: T.m30 + 1.4, big: '30분', small: '7시간 30분 →', color: 'te' }]);
-S.ev(T.gap, 'in', 'slab'); S.ev(T.h75, 'gauge', 'b1'); S.ev(T.h1, 'gauge', 'b2'); S.ev(T.m5, 'gauge', 'b2'); S.ev(T.rest, 'shine', 'f1'); S.ev(T.q, 'card_in', 'q');
+window.PALETTE = ['#2B3036', '#1F2A33', '#F05A28'];
+window.DEVICES = ['R10 근무 기록지'];
+S.$('#ph').style.backgroundImage = S.ph('n58_timesheet');
+// 사진 속 표 네 점(눈으로 잰 값, 1536×1024 → 화면 x*1.25, y*1.25-100) — 왼위·오위·오아래·왼아래. 아래쪽은 화면 밖
+const sc = q => q.map(p => [p[0] * 1.25, p[1] * 1.25 - 100]);
+S.fitQuad(S.$('#tb'), 1200, 1000, sc([[203, 266], [1060, 170], [1360, 848], [319, 1038]]));
+const T = { gap: S.at('시간이'), rev: S.at('리뷰 답글에'), h75: S.at('일곱'), m30: S.at('30분으로'), plan: S.at('근무표'), h1: S.at('한시간'), m5: S.at('5분이면'), rest: S.at('남은시간에'), q: S.at('뭐하세요') };
+const X0 = 270, PITCH = 42;
+let h1 = '', h2 = '';
+for (let i = 0; i < 15; i++) h1 += `<div class="ce" id="a${i}" style="left:${X0 + i * PITCH}px;top:198px"></div>`;
+for (let i = 0; i < 2; i++) h2 += `<div class="ce" id="b${i}" style="left:${X0 + i * PITCH}px;top:348px"></div>`;
+S.$('#c1').innerHTML = h1; S.$('#c2').innerHTML = h2;
+S.S1 = 1;
+S.css('#e1', { left: (X0 + PITCH - 4) + 'px', width: (14 * PITCH - 4 + 8) + 'px' });
+S.css('#e2', { left: (X0 + 14) + 'px', width: (PITCH * 2 - 14) + 'px' });
+S.ev(0.1, 'in', 'tb'); S.ev(T.rev, 'card_in', 'l1'); S.ev(T.h75, 'gauge', 'c1'); S.ev(T.m30, 'no', 'c1'); S.ev(T.plan, 'card_in', 'l2'); S.ev(T.h1, 'gauge', 'c2'); S.ev(T.m5, 'card_in', 'b0'); S.ev(T.q, 'marker', 'e1');
 S.scene(tau => {
-  const k = S.ent(tau, -0.1, 0.14);
-  S.css('#slab', { opacity: k, transform: `perspective(2200px) rotateX(${2 + 1 * S.P(tau, 0, S.SC.dur)}deg) translateY(${(1 - k) * 36}px)` });
-  S.css('#r1', { opacity: S.ent(tau, T.gap, 0.12) }); S.css('#r2', { opacity: S.ent(tau, T.gap + 0.25, 0.12) });
-  const o = S.EO(S.P(tau, T.rest, T.rest + 0.5));
-  // 행 1: 꽉 찬 회색 막대(7시간 30분) → 30분(청록)으로 줄고 줄어든 자리는 빈 칸
-  const g1 = S.EO(S.P(tau, T.h75, T.h75 + 0.55)), s1 = S.EO(S.P(tau, T.m30, T.m30 + 0.45));
-  const w1 = W75 * g1 * (1 - s1) + W30 * s1 * (g1 > 0 ? 1 : 0);
-  const b1 = S.$('#b1'); b1.style.width = w1 + 'px'; b1.style.background = s1 > 0.5 ? '#1FA39A' : '#9AA0A6';
-  const v1 = S.$('#v1'); v1.textContent = s1 > 0.5 ? '30분' : '7시간 30분'; v1.style.color = o > 0.5 ? '#fff' : (s1 > 0.5 ? '#1FA39A' : '#1F2A33');
-  v1.style.left = (330 + w1) + 'px'; v1.style.opacity = g1 > 0.6 ? 1 : 0;
-  S.css('#f1', { left: (310 + w1) + 'px', width: (W75 - w1) + 'px', opacity: s1 > 0.3 ? 1 : 0 });
-  // 행 2: 한 시간(회색) → 5분(청록)
-  const g2 = S.EO(S.P(tau, T.h1, T.h1 + 0.45)), s2 = S.EO(S.P(tau, T.m5, T.m5 + 0.4));
-  const w2 = W60 * g2 * (1 - s2) + W5 * s2 * (g2 > 0 ? 1 : 0);
-  const b2 = S.$('#b2'); b2.style.width = w2 + 'px'; b2.style.background = s2 > 0.5 ? '#1FA39A' : '#9AA0A6';
-  const v2 = S.$('#v2'); v2.textContent = s2 > 0.5 ? '5분' : '1시간'; v2.style.color = o > 0.5 ? '#fff' : (s2 > 0.5 ? '#1FA39A' : '#1F2A33');
-  v2.style.left = (330 + w2) + 'px'; v2.style.opacity = g2 > 0.6 ? 1 : 0;
-  S.css('#f2', { left: (310 + w2) + 'px', width: (W60 - w2) + 'px', opacity: s2 > 0.3 ? 1 : 0 });
-  // «남은 시간에» 빈 칸 둘이 주홍으로 칠해짐
-  ['f1', 'f2'].forEach(id => { const e = S.$('#' + id); e.style.background = `rgba(240,90,40,${0.85 * o})`; e.style.borderColor = o > 0.3 ? '#F05A28' : '#C5C9CC'; });
+  const d = S.P(tau, -0.2, S.SC.dur);
+  S.css('#cam', { transform: S.camCss({ s: S.lerp(1.0, 1.06, d), x: 960, y: 540 }) });
+  const k = S.ent(tau, 0.05, 0.3); S.css('#tb', { opacity: k });
+  S.css('#hd', { opacity: S.ent(tau, T.gap, 0.14) });
+  S.css('#l1', { opacity: S.ent(tau, T.rev, 0.14) }); S.css('#l2', { opacity: S.ent(tau, T.plan, 0.14) });
+  // 행 1: 30분 칸 15개가 차례로 채워짐(먹색) → «30분으로» 오른쪽 칸부터 접혀 1칸만 남음(주홍)
+  const fold = i => S.EO(S.P(tau, T.m30 + (14 - i) * 0.04, T.m30 + (14 - i) * 0.04 + 0.2));
+  for (let i = 0; i < 15; i++) {
+    const e = S.$('#a' + i), a = S.ent(tau, T.h75 + i * 0.04, 0.1), f = i > 0 ? fold(i) : 0;
+    e.style.opacity = a * (1 - f); e.style.transform = `scaleX(${(1 - f).toFixed(3)})`;
+    e.style.background = (i === 0 && tau >= T.m30 + 0.35) ? '#F05A28' : '#1F2A33';
+  }
+  const s1 = tau >= T.m30 + 0.1;
+  S.$('#v1').textContent = s1 ? '30분' : '7시간 30분'; S.$('#v1').style.color = s1 ? '#F05A28' : '#1F2A33';
+  S.css('#v1', { opacity: S.ent(tau, T.h75 + 0.6, 0.14) });
+  // 행 2: 한 시간 = 칸 2개 → «5분이면» 아주 얇은 한 칸
+  const s2 = S.EO(S.P(tau, T.m5, T.m5 + 0.3));
+  for (let i = 0; i < 2; i++) {
+    const e = S.$('#b' + i), a = S.ent(tau, T.h1 + i * 0.12, 0.1);
+    if (i === 0) { e.style.opacity = a; e.style.width = (38 - 31 * s2) + 'px'; e.style.background = s2 > 0.4 ? '#F05A28' : '#1F2A33'; }
+    else { e.style.opacity = a * (1 - s2); e.style.transform = `scaleX(${(1 - s2).toFixed(3)})`; }
+  }
+  const t2 = tau >= T.m5 + 0.1;
+  S.$('#v2').textContent = t2 ? '5분' : '1시간'; S.$('#v2').style.color = t2 ? '#F05A28' : '#1F2A33';
+  S.css('#v2', { opacity: S.ent(tau, T.h1 + 0.2, 0.14) });
+  // «뭐 하세요?» 접혀서 생긴 오른쪽 빈자리에 주홍 점선
   const q = S.ent(tau, T.q, 0.14);
-  S.css('#q', { opacity: q, transform: `scale(${0.7 + 0.3 * q})` });
+  S.css('#e1', { opacity: q }); S.css('#e2', { opacity: q });
 });
 </script>
 </body></html>

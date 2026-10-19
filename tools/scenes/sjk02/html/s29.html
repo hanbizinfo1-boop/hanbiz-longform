@@ -1,78 +1,74 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s29 국밥집 두 군데 — A 가게는 그냥 시켰어요 (앞 솥 선명 · 뒤 솥 흐림 초점 옮기기)</title>
+<title>s29 국밥집 두 군데 — A 가게는 그냥 시켰어요 (3차 시안: 흐린 바탕 · 글자 B · 뒤 솥 · 글자 A · 앞 솥 층 — 앞 솥에 초점)</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
 #world{left:0;top:0;width:1920px;height:1080px;transform-origin:50% 50%}
-.pl{left:0;top:0;width:1920px;height:1080px;transform:scale(1.04)}
-#cA,#cB{font-size:44px;padding:8px 26px}
-#cA{left:1230px;top:760px}
-#cB{left:640px;top:470px}
-#cAI{left:690px;top:176px}
-#dkw{left:1090px;top:36px;width:790px;height:390px;perspective:2000px}
-#dk{left:0;top:0;width:790px;height:390px;transform-origin:50% 55%}
-#dk .ai,#dk .me{font-size:30px}
-#dk .in{font-size:28px}
-#dk .in .ph{font-size:26px}
-#dk .cv{display:flex;flex-direction:column;justify-content:flex-end}
+.pl{left:0;top:0;width:1920px;height:1080px;background-image:url("../../../../소재/sjk02/codex/p29_two_pots.png");transform:scale(1.04)}
+#pBase{filter:blur(8px) saturate(.75) brightness(.92)}
+#pBack{clip-path:polygon(562px 331px,650px 312px,875px 306px,1125px 319px,1181px 337px,1181px 650px,1125px 700px,600px 700px,569px 600px)}
+#pFront{clip-path:polygon(819px 513px,950px 477px,1375px 465px,1750px 488px,1869px 550px,1875px 700px,1838px 850px,1825px 1180px,700px 1180px,700px 975px,863px 975px,900px 600px)}
+.lt{position:absolute;font-family:"Pre";font-weight:900;line-height:1;letter-spacing:-.04em;color:#fff;text-shadow:0 12px 40px rgba(0,0,0,.45)}
+#lA{left:1360px;top:200px;font-size:320px;opacity:0}
+#lB{left:770px;top:112px;font-size:230px;opacity:0}
+#dkw{left:60px;top:330px;width:760px;height:550px}
+#dkw .ai,#dkw .me{font-size:28px}
+#dkw .cv{display:flex;flex-direction:column;justify-content:flex-end}
+#dkw .in{font-size:26px}
 </style></head>
 <body><div id="stage">
   <div id="world" class="abs">
-    <div id="pB" class="photo pl"></div>
-    <div id="pA" class="photo pl"></div>
-    <div id="cB" class="chip gr" data-box="cB">B</div>
-    <div id="cA" class="chip gr" data-box="cA">A</div>
+    <div id="pBase" class="photo pl"></div>
+    <div id="lB" class="lt">B</div>
+    <div id="pBack" class="photo pl"></div>
+    <div id="lA" class="lt">A</div>
+    <div id="pFront" class="photo pl"></div>
   </div>
-  <div id="cAI" class="chip te" data-box="cAI">AI</div>
-  <div id="dkw" class="abs" data-box="dkw"><div id="dk" class="dk">
-    <div class="tb"><span class="md"><i></i>AI</span><span class="tab">새 대화</span></div>
+  <div id="dkw" class="dk abs" data-box="dkw"><div class="tb"><span class="md"><i></i>AI</span><span class="tab">새 대화</span></div>
     <div class="cv"><div class="col" id="col"></div></div>
-    <div class="in" id="inb"><span class="tx" id="inx"></span><span class="send" id="snd"></span></div>
-  </div></div>
+    <div class="in tall" id="inb"><span class="tx" id="inx"></span><span class="send" id="snd"></span></div>
+  </div>
 </div>
 <script src="../data/s29.js"></script>
 <script src="../lib/sjk.js"></script>
 <script src="../lib/e3.js"></script>
 <script>
-window.PALETTE = ['#3A4E66', '#E7EAEC', '#1FA39A'];   // 새벽 주방(청회색) · 다크 대화창 글 · 청록 AI
+window.PALETTE = ['#3A4E66', '#FFFFFF', '#E7EAEC'];
+window.DEVICES = ['R6 초점 옮기기 ①'];
 const T = {
-  two: S.at('두 군데'), ai: S.at('AI한테'), dk: S.at('시켰어요'), tp: S.at('메뉴 설명 써 줘'),
-  send: S.at('올렸어요'), rep: S.at('진한'), out: S.at('정성 가득한', 0) + 0.7
+  pull: S.at('두 군데'), dk: S.at('둘 다 AI한테'), foc: S.at('메뉴 설명을'), A: S.at('A 가게는'), tp: S.at('메뉴 설명 써 줘'),
+  send: S.at('이렇게만'), rep0: S.at('그대로 올렸어요') + 0.1, bl: 12.35
 };
 const REPLY = '진한 사골 육수에 푸짐한 고기를 담은 정성 가득한 한 그릇';
-S.css('#pA', { backgroundImage: S.ph('p29_two_pots'), clipPath: 'polygon(819px 513px,950px 477px,1375px 465px,1750px 488px,1869px 550px,1875px 700px,1838px 850px,1825px 1180px,700px 1180px,700px 975px,863px 975px,900px 600px)' });
-S.css('#pB', { backgroundImage: S.ph('p29_two_pots') });
 S.$('#snd').innerHTML = E3.SEND;
-S.ev(T.two, 'card_in', 'cA'); S.ev(T.ai, 'msg_in', 'cAI'); S.ev(T.dk, 'in', 'dk'); S.ev(T.tp, 'type', 'inx');
-S.ev(T.send, 'msg_in', 'col'); S.ev(T.out, 'no', 'pA');
-const PREV = '<div class="me"><div class="sk" style="width:190px;margin:4px 0"></div></div><div class="ai"><div class="av">AI</div><div class="tx">' + E3.sk([92, 64], 'gr') + '</div></div>';
+S.ev(T.pull, 'in', 'pFront'); S.ev(T.dk, 'in', 'dkw'); S.ev(T.foc, 'click', 'inb'); S.ev(T.A, 'card_in', 'lA'); S.ev(T.tp, 'type', 'inx');
+S.ev(T.send + 0.15, 'msg_in', 'col'); S.ev(T.rep0 + 0.3, 'type', 'col'); S.ev(T.bl, 'in', 'lB');
+const HAI = '<div class="ai"><div class="av">AI</div><div class="tx">정성을 다해 끓인 따뜻한 국밥 한 그릇으로 여러분을 기다립니다.</div></div>';
+const HIST = '<div class="me">가게 소개 한 줄 써 줘</div>' + HAI;
 S.scene(tau => {
-  // 바탕 아주 느린 흐름
+  // 바탕 아주 느린 흐름(층 전부 한 덩이)
   const dr = S.P(tau, 0, S.SC.dur);
-  S.css('#world', { transform: `scale(${1 + 0.05 * dr}) translateX(${(-14 * dr).toFixed(2)}px)` });
-  // 탈색(앞 솥·대화창 둘 다)
-  const g = S.EO(S.P(tau, T.out - 0.1, T.out + 0.35));
-  S.css('#pA', { filter: `blur(0px) ${S.desat(g)}` });
-  S.css('#pB', { filter: 'blur(7px) saturate(.78)' });
-  // 라벨 A·B
-  const l = S.ent(tau, T.two, 0.12), l2 = S.ent(tau, T.two + 0.14, 0.12);
-  S.css('#cA', { opacity: l, transform: `translateY(${(1 - l) * 14}px)`, filter: S.desat(g) });
-  S.css('#cB', { opacity: l2, transform: `translateY(${(1 - l2) * 14}px)` });
-  // AI 칩: «AI한테» 에 들어와 대화창이 열리면 물러남
-  const a = S.ent(tau, T.ai, 0.12), ao = 1 - S.P(tau, T.dk - 0.1, T.dk + 0.2);
-  S.css('#cAI', { opacity: a * ao, transform: `translateY(${(1 - a) * 14}px)` });
-  // 대화창(기울인 판 7°)
-  const k = S.ent(tau, T.dk, 0.12);
-  S.css('#dkw', { opacity: k });
-  S.css('#dk', { transform: `rotateX(${7 - 1.2 * S.P(tau, T.dk, S.SC.dur)}deg) rotateZ(-3deg) translateY(${(1 - k) * -26}px)`, filter: S.desat(g) });
-  // 입력창 타자 → 보내기 → 답
-  const sent = tau >= T.send;
-  const ty = E3.typed(tau, [{ t: '메뉴 설명 써 줘', t0: T.tp, t1: T.tp + 0.9 }]);
-  S.$('#inx').innerHTML = sent ? '<span class="ph">메시지 보내기</span>' : (ty.started ? ty.html : '<span class="ph">메시지 보내기</span>');
-  let h = sent ? '' : PREV;
+  S.css('#world', { transform: `scale(${(1 + 0.03 * dr).toFixed(4)}) translateX(${(-10 * dr).toFixed(2)}px)` });
+  // 초점: 처음 앞 솥이 살짝 흐리다가 «두 군데» 에 또렷해짐(뒤 솥은 흐림 유지)
+  const pf = S.EO(S.P(tau, T.pull, T.pull + 0.5));
+  S.css('#pFront', { filter: `blur(${(5 * (1 - pf)).toFixed(2)}px) saturate(.85)` });
+  S.css('#pBack', { filter: `blur(${(S.lerp(6, 9, pf)).toFixed(2)}px) saturate(.8)` });
+  // 글자 A: 앞 솥 테두리 뒤에서 솟음 · 글자 B: 뒤 솥 뒤에 흐린 채
+  const ka = S.ent(tau, T.A, 0.16);
+  S.css('#lA', { opacity: ka, transform: `translateY(${((1 - ka) * 150).toFixed(1)}px)` });
+  const kb = S.ent(tau, T.bl, 0.2);
+  S.css('#lB', { opacity: 0.5 * kb, filter: 'blur(7px)', transform: `translateY(${((1 - kb) * 60).toFixed(1)}px)` });
+  // 대화창: 들어옴(읽히는 대화 기록 있음) → 입력 포커스 → 타자 → 보내기 → 답
+  const k = S.ent(tau, T.dk, 0.14);
+  S.css('#dkw', { opacity: k, transform: `translateY(${((1 - k) * 30).toFixed(1)}px)` });
+  const sent = tau >= T.send + 0.15;
+  const ty = E3.typed(tau, [{ t: '메뉴 설명 써 줘', t0: T.tp, t1: T.tp + 0.9 }], tau >= T.foc);
+  S.$('#inx').innerHTML = sent ? '<span class="ph">메시지 보내기</span>' : (ty.started ? ty.html : (tau >= T.foc ? '<span class="caret"></span>' : '<span class="ph">메시지 보내기</span>'));
+  S.$('#inb').style.borderColor = tau >= T.foc && !sent ? 'rgba(67,201,191,.8)' : '#333B42';
+  let h = tau >= T.rep0 + 0.3 ? HAI : HIST;
   if (sent) h += '<div class="me">메뉴 설명 써 줘</div>';
-  if (tau >= T.rep) {
-    const r = E3.typed(tau, [{ t: REPLY, t0: T.rep, t1: 12.95 }]);
+  if (tau >= T.rep0 + 0.3) {
+    const r = E3.typed(tau, [{ t: REPLY, t0: T.rep0 + 0.3, t1: 12.5 }]);
     h += '<div class="ai"><div class="av">AI</div><div class="tx">' + r.html + '</div></div>';
   }
   S.$('#col').innerHTML = h;
