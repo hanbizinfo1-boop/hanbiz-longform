@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s34 그 한 줄은 대표님 입에서 — 어깨 너머 → 아침 채소 상자 → 어머니 공책 → 공책 위로 AI 입력창에 «이거 오늘 아침에 들어온 거예요»</title>
+<title>s34 그 한 줄은 대표님 입에서 — 어깨 너머 → 아침 채소 상자 + 말풍선 → 어머니 공책 + 말풍선 → 공책 위로 AI 입력창에 그 말을 타자</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
 .sh{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden}
@@ -13,8 +13,11 @@
 <body><div id="stage">
   <div id="s1" class="sh"><div id="i1" class="im"></div></div>
   <div id="s2" class="sh"><div id="i2" class="im"></div></div>
-  <div id="s3" class="sh"><div id="i3" class="im"></div></div>
+  <div id="s3" class="sh"><div id="i3" class="im"></div>
+    <div id="sp1" class="speech br" style="left:1080px;top:96px">이거 오늘 아침에<br>들어온 거예요</div>
+  </div>
   <div id="s4" class="sh"><div id="i4" class="im"></div>
+    <div id="sp2" class="speech bl" style="left:96px;top:96px">이건 우리 어머니가<br>하던 방식이에요</div>
     <div id="pill" class="dk" style="background:none;border:none;box-shadow:none;overflow:visible" data-box="pill"><div class="in"><span id="inT"></span><span class="send"><svg viewBox="0 0 24 24" fill="none" stroke="#171C21" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></span></div></div>
   </div>
 </div>
@@ -22,8 +25,11 @@
 <script src="../lib/sjk.js"></script>
 <script>
 window.PALETTE = ['#2D3A4B', '#E7EAEC', '#C98A3A'];
-window.DEVICES = ['사진 두 컷'];
-const T = { c2: 3.05, a: S.at('아침에'), b: S.at('어머니가'), dk: S.at('그거를') + 0.15, tp: S.at('AI한테') };
+window.DEVICES = ['사진 두 컷', '말풍선(대표님 대사)'];
+// 10-20 사장님 «이거 오늘아침에 들어온거에요, 이건 우리어머니가 하던 방식이에요 이런장면은 대사 말하는거처럼 넣어주면좋아 … 진짜 사장이 손님한테 말하는행위잖아 이런건 말풍선으로»
+// 컷은 대사 줄 시작에 맞춤(말풍선이 말과 같이 뜨게)
+const L = S.SC.lines;
+const T = { c2: 3.05, a: L[4].t0, b: L[5].t0, dk: S.at('그거를') + 0.15, tp: S.at('AI한테') };
 S.css('#i1', { backgroundImage: S.ph('p34_counter_handover') });
 S.css('#i2', { backgroundImage: S.ph('p34_counter_handover') });
 S.css('#i3', { backgroundImage: S.ph('n34a_vegetable_box') });
@@ -50,6 +56,9 @@ S.scene(tau => {
   const k = S.ent(tau, T.dk, 0.14);
   S.css('#pill', { opacity: k, transform: `translateY(${((1 - k) * -30).toFixed(1)}px)` });
   S.type('#inT', Q, tau, T.tp, 16, true);
+  // 말풍선: 대사 줄과 같이 뜨고, 다음 컷·입력창이 오면 빠짐
+  S.speech('#sp1', tau, T.a + 0.05, 99);
+  S.speech('#sp2', tau, T.b + 0.05, T.dk - 0.1);
 });
 </script>
 </body></html>

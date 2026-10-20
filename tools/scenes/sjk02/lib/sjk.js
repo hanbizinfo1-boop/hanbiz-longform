@@ -60,6 +60,11 @@
   S.ev = (tau, role, id) => window.EVENTS.push({ t: +(tau + SC.pre).toFixed(3), role, id });
 
   // 타자: 글을 n 글자까지
+  // 말풍선(10-20) — 가게 주인↔손님 대사. on 에 감속 확대로 뜨고 off 에 0.15초 사라짐(튕김 없음). 꼬리 쪽이 기준점(.speech.bl 등)
+  S.speech = (sel, tau, on, off) => {
+    const k = S.ent(tau, on, 0.14), o = off == null ? 1 : 1 - S.P(tau, off, off + 0.15);
+    S.css(sel, { opacity: (k * o).toFixed(3), transform: `scale(${(0.86 + 0.14 * k).toFixed(4)})` });
+  };
   S.type = (el, text, tau, t0, cps = 16, caret = true) => {
     if (typeof el === 'string') el = S.$(el);
     const arr = [...text];

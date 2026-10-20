@@ -20,6 +20,8 @@ html_motion 장면(HTML seek(t))을 헤드리스 Chrome 으로 열어 0.25초마
 
 재현 화면(말이 실제로 일어나는 자리의 글 — 앱·대화창·시트·영수증·메모 등)은 «얹은 글»이 아니다:
   선택자 DIEGETIC(아래) 또는 요소에 data-diegetic 을 달면 빠진다. 장면마다 다르면 data-diegetic 으로.
+말풍선(.speech, 10-20)도 빠진다 — 가게 주인↔손님이 실제로 말하는 대사(사장님 10-20 «진짜 사장이 손님한테 말하는행위 … 말풍선으로»).
+  대사가 아닌 말(해설·요약)을 말풍선에 넣지 않는다. 장면마다 말풍선 수를 «말풍선» 줄로 따로 알린다(검수자가 대사인지 본다).
 그림으로 치는 것: <img> · <video> · <canvas> · 배경 그림이 있는 요소(.tex-* 질감·.bg 바탕판은 뺀다) · 도형 4개 이상 든 SVG · 재현 화면 상자.
 """
 import argparse
@@ -38,7 +40,7 @@ try:
 except Exception:
     pass
 
-DIEGETIC = ".app,.dk,.sheet,.thermal,.memo,.rv,[data-diegetic]"
+DIEGETIC = ".app,.dk,.sheet,.thermal,.memo,.rv,.speech,[data-diegetic]"
 NOT_PICTURE = ".tex-conc,.tex-wall,.tex-dark,.tex-tile,.bg,[data-texture]"
 TEXTURE_RE = r"/t_[^/]*\.(png|jpg)|thermal\.png"          # 질감 파일 이름(바탕판) — 그림으로 치지 않는다
 
@@ -324,7 +326,9 @@ def main():
         rows.append((Path(sc).stem, found, devs))
         allf += [(Path(sc).stem, *f) for f in found]
         tag = "ERROR" if any(f[0] == "ERROR" for f in found) else ("WARN" if found else "ok")
-        print(f"{Path(sc).stem}: {tag} · 바탕 {devs.get('_bg') or '-'} · 장치 {', '.join(f'{k} {v:.1f}s' for k, v in sorted(devs.items()) if not k.startswith('_')) or '-'}", flush=True)
+        nsp = len(re.findall(r'class="speech', Path(sc).read_text(encoding="utf-8")))
+        print(f"{Path(sc).stem}: {tag} · 바탕 {devs.get('_bg') or '-'} · 장치 {', '.join(f'{k} {v:.1f}s' for k, v in sorted(devs.items()) if not k.startswith('_')) or '-'}"
+              + (f" · 말풍선 {nsp}(대사인지 눈으로 확인)" if nsp else ""), flush=True)
         for f in found:
             print(f"   {f[0]} {f[1]} — {f[2]}", flush=True)
     CONT = {Path(sc).stem: continues(sc) for sc in scenes}

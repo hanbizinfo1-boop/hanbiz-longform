@@ -27,8 +27,17 @@ glass = st.mat("glass", (0.93, 0.97, 0.98), rough=0.05, trans=1.0, ior=1.4)
 steel = st.mat("steel", "#9EA5AA", rough=0.3, metal=1.0)
 bpy.ops.mesh.primitive_cone_add(vertices=96, radius1=RB, radius2=RT, depth=ZT - ZB, end_fill_type="NOTHING", location=(0, 0, (ZT + ZB) / 2))
 cone = bpy.context.object; cone.modifiers.new("s", "SOLIDIFY").thickness = 0.004; cone.data.materials.append(glass); bpy.ops.object.shade_smooth()
-bpy.ops.mesh.primitive_cylinder_add(vertices=48, radius=RB, depth=SP, end_fill_type="NOTHING", location=(0, 0, ZB - SP / 2))
-sp = bpy.context.object; sp.modifiers.new("s", "SOLIDIFY").thickness = 0.004; sp.data.materials.append(glass); bpy.ops.object.shade_smooth()
+# 10-20 사장님 «공이 떨어지기전에 사라져» — 유리가 거의 안 보여 구슬이 허공에서 꺼지는 것처럼 보였다.
+# → 깔때기 목(아래 띠)과 주둥이를 짙은 쇠로 막아 구슬이 «구멍으로 빠져 들어가» 보이게 + 입구에 쇠 테두리(깔때기 모양이 읽히게)
+dark = st.mat("throat", "#3A3F44", rough=0.45, metal=1.0)
+ZN = ZB + 0.06                                       # 쇠 목 윗선
+RN = RB + (RT - RB) * (ZN - ZB) / (ZT - ZB)
+bpy.ops.mesh.primitive_cone_add(vertices=96, radius1=RB + 0.003, radius2=RN + 0.003, depth=ZN - ZB, end_fill_type="NOTHING", location=(0, 0, (ZN + ZB) / 2))
+nk = bpy.context.object; nk.modifiers.new("s", "SOLIDIFY").thickness = 0.004; nk.data.materials.append(dark); bpy.ops.object.shade_smooth()
+bpy.ops.mesh.primitive_cylinder_add(vertices=48, radius=RB + 0.003, depth=SP, end_fill_type="NOTHING", location=(0, 0, ZB - SP / 2))
+sp = bpy.context.object; sp.modifiers.new("s", "SOLIDIFY").thickness = 0.004; sp.data.materials.append(dark); bpy.ops.object.shade_smooth()
+bpy.ops.mesh.primitive_torus_add(major_radius=RT, minor_radius=0.004, location=(0, 0, ZT))
+bpy.context.object.data.materials.append(steel)
 # 받침: 쇠 고리 + 다리 셋
 bpy.ops.mesh.primitive_torus_add(major_radius=0.105, minor_radius=0.006, location=(0, 0, 0.40))
 bpy.context.object.data.materials.append(steel)
@@ -58,7 +67,8 @@ for i in range(N):
     if i < 10:
         t0 = -0.15 + 0.06 * i                                         # 첫 화면에 이미 몇 개 돌고 있음
     a0 = rnd.uniform(0, 2 * math.pi); turns = rnd.uniform(1.4, 2.2); dur = rnd.uniform(1.3, 1.8)
-    st.show(o, t0, t0 + 0.4 + dur)
+    t_end = t0 + 0.4 + dur
+    st.show(o, t0, t_end + 0.3)                                   # 목 구멍으로 빠져 들어간 뒤에 숨김
     o.location = (RT * 0.6 * math.cos(a0), RT * 0.6 * math.sin(a0), ZT + 0.35); o.keyframe_insert("location", frame=st.fr(t0))
     steps = 14
     for s_ in range(steps + 1):
@@ -68,6 +78,10 @@ for i in range(N):
         a = a0 + turns * 2 * math.pi * (p ** 0.8)
         o.location = (r * math.cos(a), r * math.sin(a), z)
         o.keyframe_insert("location", frame=st.fr(t0 + 0.4 + dur * (p ** 1.3)))
+    # 목 → 주둥이 안으로 빨려 들어감(작아지며 아래로) — 허공에서 꺼지지 않게
+    o.scale = (1, 1, 1); o.keyframe_insert("scale", frame=st.fr(t_end))
+    o.location = (0, 0, ZB - SP * 0.6); o.keyframe_insert("location", frame=st.fr(t_end + 0.28))
+    o.scale = (0.55, 0.55, 0.55); o.keyframe_insert("scale", frame=st.fr(t_end + 0.28))
 
 # 나오는 회색 구슬: «평균적인»에 한 번(작게), «제일 무난한»에 본 구슬 — 본 구슬은 앞으로 굴러 회색 줄 가운데로
 Y_ROW = -0.30

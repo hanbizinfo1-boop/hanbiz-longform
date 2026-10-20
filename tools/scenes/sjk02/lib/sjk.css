@@ -84,3 +84,17 @@ html,body{margin:0;padding:0;width:1920px;height:1080px;overflow:hidden;backgrou
 .sheet th{background:#F1F3F4;color:#6B747B;font-weight:600;text-align:center}
 .sheet td.rn{background:#F1F3F4;color:#6B747B;text-align:center;width:44px;padding:8px 0}
 .sheet td.l{text-align:left}
+
+/* 10-20 말풍선 — 가게 주인↔손님이 실제로 말하는 대사에만(사장님 10-20 «진짜 사장이 손님한테 말하는행위 … 말풍선으로 표현»).
+   흰 판(알파 255) + 꼬리 하나 · 따옴표 없음 · 등장은 감속 확대(튕김 없음). 꼬리 방향은 --tail(bl·br·tl·tr)로 말하는 사람 쪽. */
+.speech{position:absolute;padding:28px 44px 32px;border-radius:40px;background:#fff;color:#1A1F24;font-family:"Pre";font-weight:800;font-size:56px;line-height:1.28;
+  letter-spacing:-.01em;white-space:nowrap;box-shadow:0 18px 44px rgba(10,14,18,.38);opacity:0}
+.speech::after{content:"";position:absolute;width:64px;height:58px;background:#fff}
+.speech.bl::after{left:70px;bottom:-50px;clip-path:polygon(0 0,100% 0,8% 100%)}
+.speech.br::after{right:70px;bottom:-50px;clip-path:polygon(0 0,100% 0,92% 100%)}
+.speech.tl::after{left:70px;top:-50px;clip-path:polygon(8% 0,100% 100%,0 100%)}
+.speech.tr::after{right:70px;top:-50px;clip-path:polygon(92% 0,100% 100%,0 100%)}
+.speech.bl{transform-origin:70px 120%}.speech.br{transform-origin:calc(100% - 70px) 120%}
+.speech.tl{transform-origin:70px -20%}.speech.tr{transform-origin:calc(100% - 70px) -20%}
+.speech.r::after{right:-48px;top:calc(50% - 30px);width:56px;height:60px;clip-path:polygon(0 12%,100% 55%,0 88%)}
+.speech.r{transform-origin:110% 50%}

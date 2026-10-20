@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s67 한마디 — 건네는 국그릇 카운터 → 새벽 솥 김 → 나가는 손님 뒷모습 (사진 컷만, 글 없음)</title>
+<title>s67 한마디 — 건네는 국그릇 카운터 → 새벽 솥 김 + 대표님 말풍선 → 나가는 손님 뒷모습 + 손님 말풍선</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
 .cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
@@ -9,14 +9,19 @@
 <body><div id="stage">
   <div id="c0" class="cam"><div id="ph0" class="ph"></div></div>
   <div id="c1" class="cam"><div id="ph1" class="ph"></div></div>
-  <div id="c2" class="cam"><div id="ph2" class="ph"></div></div>
+  <div id="c2" class="cam"><div id="ph2" class="ph"></div>
+    <div id="spc" class="speech r" style="left:765px;top:257px">다음에 친구<br>데리고 올게요</div>
+  </div>
+  <div id="spa" class="speech tl" style="left:640px;top:120px">저희는 국물을<br>새벽부터 끓여요</div>
+  <div id="spb" class="speech tl" style="left:640px;top:120px">오늘 첫 솥이에요</div>
 </div>
 <script src="../data/s67.js"></script>
 <script src="../lib/sjk.js"></script>
 <script>S.camCssC = c => S.camCss({ s: c.s, x: Math.min(1920 - 960 / c.s, Math.max(960 / c.s, c.x)), y: Math.min(1180 - 540 / c.s, Math.max(540 / c.s - 100, c.y)) });</script>
 <script>
 window.PALETTE = ['#14191E', '#2B3036', '#E4E7EA'];
-window.DEVICES = ['사진 컷'];
+window.DEVICES = ['사진 컷', '말풍선(대표님·손님 대사)'];
+// 10-20 사장님 «진짜 사장이 손님한테 말하는행위잖아 이런건 말풍선으로 표현해주면좋고» — 대표님 말은 솥 위(꼬리 = 뚜껑 든 손), 손님 답은 손님 머리 쪽
 ['p34_counter_handover', 'p67_pot_lid_steam', 'p67b_customer_leaving'].forEach((n, i) => { S.$('#ph' + i).style.backgroundImage = S.ph(n); });
 const T = { a: S.at('이러시는데'), cut2: S.at('처음', 1), b: S.at('이'), cut3: S.at('손님이'), push: S.at('다음에') };
 T.b = S.at('이 첫', 0) || 9.17;
@@ -25,12 +30,17 @@ S.ev(T.cut2, 'in', 'c1'); S.ev(T.cut3, 'in', 'c2');
 const CAM = [
   tau => tau < T.a ? { s: S.lerp(1.0, 1.07, S.P(tau, 0, T.a)), x: 760, y: 540 } : { s: S.lerp(1.4, 1.47, S.P(tau, T.a, T.cut2)), x: 1330, y: 440 },
   tau => tau < T.b ? { s: S.lerp(1.0, 1.08, S.P(tau, T.cut2, T.b)), x: 960, y: 540 } : { s: S.lerp(1.42, 1.5, S.P(tau, T.b, T.cut3)), x: 860, y: 600 },
-  tau => ({ s: S.lerp(1.0, 1.06, S.P(tau, T.cut3, S.SC.dur)) + 0.24 * S.cam(tau, T.push - 0.3, T.push + 0.4), x: S.lerp(960, 1270, S.cam(tau, T.push - 0.3, T.push + 0.4)), y: S.lerp(540, 520, S.cam(tau, T.push - 0.3, T.push + 0.4)) })
+  tau => ({ s: S.lerp(1.0, 1.06, S.P(tau, T.cut3, S.SC.dur)) + 0.24 * S.cam(tau, T.push - 0.3, T.push + 0.4), x: S.lerp(960, 1270, S.cam(tau, T.push - 0.3, T.push + 0.4)), y: S.lerp(540, 430, S.cam(tau, T.push - 0.3, T.push + 0.4)) })   // 손님 머리·말풍선이 화면 안에 남게 위로
 ];
 S.scene(tau => {
   const idx = tau < T.cut2 ? 0 : tau < T.cut3 ? 1 : 2;
   for (let i = 0; i < 3; i++) S.$('#c' + i).style.display = i === idx ? 'block' : 'none';
   S.$('#c' + idx).style.transform = S.camCssC(CAM[idx](tau));
+  // 말풍선: 대표님 «저희는 국물을 새벽부터 끓여요» → (다시 말한 «이 첫 솥이에요»는 건너뜀) «오늘 첫 솥이에요» → 손님 «다음에 친구 데리고 올게요»
+  const L = S.SC.lines;
+  S.speech('#spa', tau, L[6].t0 + 0.05, L[8].t0 - 0.2);
+  S.speech('#spb', tau, L[8].t0 + 0.02, T.cut3 - 0.1);
+  S.speech('#spc', tau, L[11].t0 + 0.05, 99);
 });
 </script>
 </body></html>
