@@ -32,6 +32,8 @@ const CAM = [
   tau => tau < T.b ? { s: S.lerp(1.0, 1.08, S.P(tau, T.cut2, T.b)), x: 960, y: 540 } : { s: S.lerp(1.42, 1.5, S.P(tau, T.b, T.cut3)), x: 860, y: 600 },
   tau => ({ s: S.lerp(1.0, 1.06, S.P(tau, T.cut3, S.SC.dur)) + 0.24 * S.cam(tau, T.push - 0.3, T.push + 0.4), x: S.lerp(960, 1270, S.cam(tau, T.push - 0.3, T.push + 0.4)), y: S.lerp(540, 430, S.cam(tau, T.push - 0.3, T.push + 0.4)) })   // 손님 머리·말풍선이 화면 안에 남게 위로
 ];
+// 10-20 효과음 채움 — 대표님·손님 말풍선이 뜸(3개) · 첫 컷에서 «이러시는데» 에 탁 확대
+S.ev(S.SC.lines[6].t0 + 0.05, 'card', 'f_spa'); S.ev(S.SC.lines[8].t0 + 0.02, 'card', 'f_spb'); S.ev(S.SC.lines[11].t0 + 0.05, 'card', 'f_spc');
 S.scene(tau => {
   const idx = tau < T.cut2 ? 0 : tau < T.cut3 ? 1 : 2;
   for (let i = 0; i < 3; i++) S.$('#c' + i).style.display = i === idx ? 'block' : 'none';

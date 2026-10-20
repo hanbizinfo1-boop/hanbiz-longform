@@ -69,6 +69,8 @@ S.ev(T.ai, 'click', 'ui');
 S.ev(T.pass, 'card_in', 'row');
 S.ev(T.all, 'click', 'ai');
 const CAM = [{ t: 0, s: 1, x: 960, y: 540 }, { t: T.lead, s: 1.15, x: 1005, y: 330, d: 0.5 }, { t: T.pass, s: 0.9, x: 960, y: 540, d: 0.5 }];
+// 10-20 효과음 채움 — TV 대화창에 답이 한 글자씩 써지는 중 · «앞서가는» 에 카메라가 확대
+S.ev(T.ai + 0.4, 'type', 'f_ans'); S.ev(T.ai + 1.05, 'type', 'f_ans'); S.ev(T.lead, 'sweep', 'f_zoom');
 S.scene(tau => {
   S.css('#cam', { transform: S.camCss(S.camState(tau, CAM, 0.5)) });
   // 채널 바뀌듯 가로로 닦아 넘김(0.15초, 번쩍임 없음)

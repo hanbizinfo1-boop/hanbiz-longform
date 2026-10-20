@@ -17,6 +17,8 @@ window.DEVICES = ['R1 종이 책상(블렌더)'];
 const T = { same: S.at('비슷비슷해요') };
 S.ev(0.10, 'paper', 'sheets');
 S.ev(T.same, 'no', 'desat');
+// 10-20 효과음 채움 — 종이 낱장이 내려앉는 순간(0.205초 간격 중 셋) · 카메라가 «읽어» 에 미끄러짐
+S.ev(0.715, 'paper', 'f_sheet3'); S.ev(1.33, 'card', 'f_sheet6'); S.ev(1.945, 'paper', 'f_sheet9'); S.ev(S.at('읽어') - 0.1, 'sweep', 'f_glide');
 S.scene(async tau => { await S.bl('#bl', 's07', tau); });
 </script>
 </body></html>

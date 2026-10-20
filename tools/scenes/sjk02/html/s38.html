@@ -62,6 +62,8 @@ S.ev(0.02, 'in', 'pm'); S.ev(T.tp, 'click', 'aibtn'); S.ev(T.tp + 0.35, 'type', 
 S.ev(T.any, 'card_in', 'pc'); S.ev(T.any + 0.75, 'no', 'grey');
 S.ev(TB, 'in', 'shotB'); S.ev(T.sik + 0.5, 'type', 'dkt');
 S.ev(TC, 'card_in', 'pz'); S.ev(T.gae + 0.6, 'marker', 'hl'); S.ev(T.son + 0.3, 'gauge', 'likes'); S.ev(T.diff, 'shine', 'pz');
+// 10-20 효과음 채움 — 뻔한 글이 써지는 중 · «이런» 에 화면이 물러남 · 프롬프트가 써지는 중
+S.ev(T.nxt, 'sweep', 'f_pullback'); S.ev(T.bae + 0.1, 'type', 'f_dkt'); S.ev(T.kim + 1.5, 'type', 'f_dkt');
 S.scene(async tau => {
   if (tau >= TB - 0.2) await S.bl('#bl', 's38', tau, { t0: 7.55, pfx: 'f_' });
   S.$('#bl').style.visibility = tau >= TB ? 'visible' : 'hidden';

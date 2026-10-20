@@ -44,6 +44,8 @@ const CAM = {
   2: tau => ({ s: 1.38 + 0.04 * S.P(tau, T.c2, T.c3), x: S.lerp(470, 640, S.cam(tau, T.b, T.b + 0.5)) + 90 * S.cam(tau, T.c, T.c + 0.5), y: 640 }),
   3: tau => ({ s: S.lerp(1.0, 1.1, S.P(tau, T.c3, S.SC.dur)) + 0.05 * S.cam(tau, T.d, T.d + 0.5) + 0.05 * S.cam(tau, T.e, T.e + 0.5), x: 960 + 30 * S.cam(tau, T.d, T.d + 0.5), y: 560 })
 };
+// 10-20 효과음 채움 — 컷마다 첫 이름표 낱말이 뜸 · «새벽» 에 메뉴판 사진 위를 카메라가 옆으로 옮김
+SH.forEach((s, i) => S.ev(s.w1[1], 'msg', 'f_w1_' + i)); S.ev(T.c, 'sweep', 'f_pan');
 S.scene(tau => {
   const idx = tau < T.c1 ? 0 : tau < T.c2 ? 1 : tau < T.c3 ? 2 : 3;
   for (let i = 0; i < 4; i++) { S.$('#c' + i).style.display = i === idx ? 'block' : 'none'; }

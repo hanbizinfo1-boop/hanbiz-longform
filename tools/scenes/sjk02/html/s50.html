@@ -55,6 +55,8 @@ S.ev(0.1, 'in', 'rc');
 ROWS.forEach((r, i) => { if (r.ev) S.ev(r.t + 0.1, r.ev, 'r' + i); });
 S.ev(T.w15, 'marker', 'ul');
 const FEE = ROWS[7];
+// 10-20 효과음 채움 — «이렇게 보여요» 에 카메라가 띠 전체로 물러남
+S.ev(T.look - 0.1, 'sweep', 'f_back');
 S.scene(tau => {
   // 띠: 위에서 내려오며 시작(0.1~0.6)
   const k = S.ent(tau, 0.05, 0.5);

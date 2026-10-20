@@ -27,6 +27,8 @@ S.$('#sh').style.backgroundImage = S.ph('p01b_shutter_closed_front');
 const T = { no: S.at('안보니까'), keep: S.at('버티는'), rent: S.at('월세'), shut: S.at('문을'), me: S.at('대표님들'), good: S.at('잘됐으면'), end: S.at('끝까지') };
 const rr = S.$('#rr'); const per = 2 * (400 + 340); rr.style.strokeDasharray = `14 10`;
 S.ev(T.no, 'marker', 'rr'); S.ev(T.shut, 'shutter', 'sh'); S.ev(T.good, 'shine', 'slit');
+// 10-20 효과음 채움 — «버티는» 에 사진 색이 빠져 회색이 됨
+S.ev(T.keep, 'no', 'f_desat');
 S.scene(tau => {
   S.css('#pw', { transform: S.track(tau, -0.2, S.SC.dur, 12, -24, 1.06), filter: S.desat(S.EIO(S.P(tau, T.keep, T.keep + 1.2))) });
   // 고지서 둘레 회색 점선 테두리 — «안 보니까» 에 그려짐(바깥쪽 마스크 clip 으로 위→오른→아래 순)

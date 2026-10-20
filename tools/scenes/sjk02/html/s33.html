@@ -20,6 +20,8 @@ S.ev(T.avg + 0.1, 'no', 'grey1');
 S.ev(T.world, 'sweep', 'pour2');
 S.ev(T.pick + 0.2, 'no', 'grey2');
 S.ev(T.mem + 0.1, 'card_in', 'row');
+// 10-20 효과음 채움 — 회색 구슬이 주둥이에서 굴러 나와 바닥에 닿음 · 카메라가 낮게 내려감 · 구슬이 회색 줄로 굴러 들어감
+S.ev(T.pick + 0.6, 'marble', 'f_land'); S.ev(S.at('장사에서'), 'in', 'f_dive'); S.ev(T.mem - 0.35, 'marble', 'f_roll');
 S.scene(async tau => { await S.bl('#bl', 's33', tau); });
 </script>
 </body></html>

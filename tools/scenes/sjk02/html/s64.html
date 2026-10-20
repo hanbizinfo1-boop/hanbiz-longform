@@ -37,6 +37,8 @@ S.focus([{ t0: T.st, t1: T.st + 1.1, big: '석 달', color: 'or' }]);
 S.ev(T.c30, 'card_in', 'c30');
 S.ev(T.rg, 'marker', 'rg'); S.ev(T.pn, 'gauge', 'pn'); S.ev(T.ad, 'no', 'gb');
 const H = [90, 140, 200];
+// 10-20 효과음 채움 — «리뷰» «아낀» 에 카메라가 한 걸음 더 나아감
+S.ev(T.r1, 'sweep', 'f_step'); S.ev(T.r4, 'sweep', 'f_step');
 S.scene(tau => {
   // 옆으로 흐르며 «리뷰» «AI로» «아낀 시간에» 에 한 걸음씩 더 가고, 뒤는 아주 느린 흐름
   const stp = -40 * S.cam(tau, T.r1, T.r1 + 0.5) - 45 * S.cam(tau, T.r3, T.r3 + 0.5) - 45 * S.cam(tau, T.r4, T.r4 + 0.5) - 60 * S.EIO(S.P(tau, T.c30, S.SC.dur));

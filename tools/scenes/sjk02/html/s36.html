@@ -100,6 +100,8 @@ S.ev(T.cutB, 'in', 'dk'); S.ev(T.foc, 'click', 'inb'); S.ev(T.gray, 'no', 'col')
 S.ev(T.cutC, 'in', 'scr'); S.ev(T.post, 'msg_in', 'rbox'); S.ev(T.cnt, 'gauge', 'hn');
 const HAI = '<div class="ai"><div class="av">AI</div><div class="tx">정성을 다해 끓인 따뜻한 국밥 한 그릇으로 여러분을 기다립니다.</div></div>';
 const HME = '<div class="me">답글 써 줘</div>';
+// 10-20 효과음 채움 — 프롬프트 줄들이 써지는 중 · 답글 답이 써지는 중
+S.ev(S.at('오늘 수육은'), 'type', 'f_inx'); S.ev(S.at('라는 말'), 'type', 'f_inx'); S.ev(S.at('오늘 드신'), 'type', 'f_col'); S.ev(S.at('제일'), 'type', 'f_col');
 S.scene(tau => {
   const ph1 = tau < T.cutB, ph3 = tau >= T.cutC;
   S.css('#gA', { opacity: ph1 || ph3 ? 1 : 0 });

@@ -28,6 +28,8 @@ S.$('#ph').style.backgroundImage = S.ph('p48_receipts_row');
 const T = { daily: S.at('매일'), easy: S.at('보기가'), month: S.at('한 달'), cam: S.at('낼 때쯤'), late: S.at('늦은') };
 S.ev(T.daily, 'marker', 'ridge'); S.ev(T.easy, 'in', 'cw'); S.ev(T.month, 'card_in', 'd30'); S.ev(T.late - 0.05, 'marker', 'circ');
 const KEYS = [{ t: 0, s: 1.0, x: 960, y: 540 }, { t: T.easy, s: 1.12, x: 1080, y: 500, d: 0.9 }, { t: T.cam, s: 1.3, x: 1200, y: 430, d: 1.2 }];
+// 10-20 효과음 채움 — «낼 때쯤» 에 카메라가 오른쪽 위로 크게 다가감
+S.ev(T.cam, 'sweep', 'f_push');
 S.scene(tau => {
   const c = S.camState(tau, KEYS, 1.2);
   S.css('#cw', { transform: S.camCss({ s: c.s * (1 + 0.015 * S.P(tau, 0, T.easy)), x: c.x, y: c.y }) });

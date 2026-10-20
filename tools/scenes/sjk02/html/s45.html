@@ -38,6 +38,8 @@ function place(el, p, dy, k) {
   el.style.opacity = k;
   el.style.transform = `translate(${(p[0] - w / 2).toFixed(1)}px,${(p[1] - h - dy + (1 - k) * 12).toFixed(1)}px)`;
 }
+// 10-20 효과음 채움 — «숫자만» 에 카메라가 탑 아래로 내려감
+S.ev(S.at('숫자만') - 0.1, 'sweep', 'f_dive');
 S.scene(async tau => {
   await S.bl('#bl', 's45', tau);
   // 탑 위 숫자: «3천만»에 뜨고, 빠질 때마다 0.5초 동안 내려 셈

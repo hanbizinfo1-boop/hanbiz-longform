@@ -45,6 +45,8 @@ const T = {
 };
 T.shut = S.at('버텨져요') - 0.25;
 S.ev(T.bnd[0], 'no', 'ph'); S.ev(T.bnd[3], 'no', 'ph'); S.ev(T.gray, 'no', 'ph'); S.ev(T.shut, 'shutter', 'dr');
+// 10-20 효과음 채움 — 셔터 칸이 왼쪽부터 회색으로 빠지는 중 · 카메라 걸음(셋)
+S.ev(T.bnd[2], 'card', 'f_band2'); S.ev(T.bnd[4], 'card', 'f_band4'); S.ev(T.p1, 'sweep', 'f_step'); S.ev(T.p3, 'sweep', 'f_step');
 S.scene(tau => {
   const stp = 40 * S.P(tau, -0.2, S.SC.dur) + 90 * S.cam(tau, T.p1, T.p1 + 0.5) + 90 * S.cam(tau, T.p2, T.p2 + 0.5) + 90 * S.cam(tau, T.p3, T.p3 + 0.5);
   const wl = -420 + stp;

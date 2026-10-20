@@ -54,6 +54,8 @@ document.getElementById('bg').style.backgroundImage = S.ph('p22_two_reports');
 S.ev(-0.05, 'in', 'sh'); S.ev(T.num, 'card_in', 'hd'); S.ev(T.odd + 0.1, 'gauge', 'bh'); S.ev(T.rev, 'no', 'br'); S.ev(T.many + 0.1, 'card_in', 'cHr');
 S.focus([{ t0: T.half, t1: T.half + 1.25, big: '일 ½', small: '몇 달 뒤', color: 'te' }]);
 const BAR = 440;
+// 10-20 효과음 채움 — 월 라벨(1월·2월·3월) 줄이 차례로 뜸 · 오른쪽 칩 «매출 =»
+S.ev(T.m1 + 0.1, 'card', 'f_m1'); S.ev(T.m3, 'card', 'f_m3'); S.ev(T.man, 'card', 'f_cRv');
 S.scene(tau => {
   // 바탕 사진 흐림 + 아주 느린 옆 흐름
   S.css('#bg', { transform: `translateX(${(-40 * S.P(tau, 0, S.SC.dur)).toFixed(1)}px)` });

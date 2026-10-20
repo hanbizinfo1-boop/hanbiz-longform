@@ -56,6 +56,8 @@ S.$('#snd').innerHTML = E3.SEND;
 S.ev(0, 'in', 'dk'); S.ev(P[0].t0, 'type', 'inx'); S.ev(T.send, 'msg_in', 'col'); S.ev(T.bars, 'card_in', 'rep');
 S.ev(T.bars + 0.1, 'type', 'rep'); S.ev(T.mk, 'marker', 'mkx');
 const PREV = '<div class="me">가게 소개 한 줄 써 줘</div><div class="ai"><div class="av">AI</div><div class="tx">정성을 다해 끓인 따뜻한 국밥 한 그릇으로 여러분을 기다립니다.</div></div>';
+// 10-20 효과음 채움 — 프롬프트 둘째·다섯째 줄이 써지기 시작
+[P[1].t0, P[4].t0].forEach((t, i) => S.ev(t, 'type', 'f_pl' + i));
 S.scene(tau => {
   const k = S.ent(tau, T.in, 0.12), dr = S.P(tau, 0, S.SC.dur);
   S.css('#dk', { opacity: k, transform: `rotateX(${6 - 1.5 * dr}deg) rotateZ(${-2 + 0.6 * dr}deg) translateY(${((1 - k) * 26).toFixed(1)}px)` });

@@ -29,6 +29,8 @@ S.ev(T.yr, 'card_in', 'dot0');
 S.ev(T.how, 'shine', 'ring');
 S.ev(T.all, 'card_in', 'dots');
 S.ev(T.weapon, 'no', 'gray');
+// 10-20 효과음 채움 — 지붕 위 주홍 점이 연달아 켜지는 중간(6·11·16·20번째 점)
+S.ev(T.all + 0.7, 'card', 'f_dot6'); S.ev(T.all + 1.4, 'msg', 'f_dot11'); S.ev(T.all + 2.1, 'card', 'f_dot16'); S.ev(T.all + 2.66, 'msg', 'f_dot20');
 S.scene(tau => {
   const d = S.P(tau, -S.SC.pre, S.SC.dur);
   S.css('#ph', { left: (-20 - 120 * S.EIO(d)) + 'px' });

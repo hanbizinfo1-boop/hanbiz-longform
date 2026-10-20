@@ -51,6 +51,8 @@ Q.forEach((q, i) => {
 S.ev(T.alba + 0.1, 'paper', 'fl');
 S.ev(T.same, 'no', 'fl');
 const CAM = [{ t: 0, s: 1.12, x: 900, y: 520 }, { t: T.same, s: 1.0, x: 960, y: 540, d: 0.55 }];
+// 10-20 효과음 채움 — 빈 전단이 왼쪽부터 하나씩 나타남(셋째·여섯째)
+S.ev(T.alba + 0.45, 'paper', 'f_fl3'); S.ev(T.alba + 0.75, 'card', 'f_fl6');
 S.scene(tau => {
   // 느린 바탕 밀기(1.12→1.16) 뒤 «다 똑같잖아요» 에 물러남(1.0)
   const c = S.camState(tau, CAM, 0.55);

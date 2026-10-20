@@ -27,6 +27,8 @@ function place(el, p, dx, dy, k) {
   const x = S.clamp(p[0] - el.offsetWidth / 2 + dx, 80, 1920 - 80 - el.offsetWidth), y = S.clamp(p[1] - el.offsetHeight + dy, 80, 1080 - 200 - el.offsetHeight);
   el.style.transform = `translate(${x.toFixed(1)}px,${(y + (1 - k) * 12).toFixed(1)}px)`;
 }
+// 10-20 효과음 채움 — 동전이 관을 따라 흘러 내려가는 중
+S.ev(T.ad + 0.4, 'coin', 'f_flow');
 S.scene(async tau => {
   await S.bl('#bl', 's17', tau);
   place(S.$('#tf'), S.proj('fee', tau), 40, -30, S.ent(tau, T.fee + 0.1, 0.12));

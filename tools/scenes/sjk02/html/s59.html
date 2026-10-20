@@ -46,6 +46,8 @@ S.fitQuad(S.$('#p2'), 90, 232, sc([[1382, 415], [1467, 433], [1468, 648], [1388,
 const T = { push: S.at('제대로'), side: S.at('열심히'), a: S.at('메뉴하나'), b: S.at('할인행사'), c: S.at('광고하나'), th: S.at('이렇게'), keep: S.at('기존에') };
 S.ev(T.a, 'paper', 'p0'); S.ev(T.b, 'card_in', 'p1'); S.ev(T.c, 'paper', 'p2'); S.ev(T.th, 'marker', 'b0'); S.ev(T.keep, 'no', 'p0');
 const KEYS = [{ t: 0, s: 1.03, x: 960, y: 540 }, { t: T.push, s: 1.12, x: 880, y: 560, d: 0.5 }, { t: T.side, s: 1.05, x: 1000, y: 540, d: 0.7 }];
+// 10-20 효과음 채움 — «제대로» 에 카메라가 가게 벽으로 다가감
+S.ev(T.push, 'sweep', 'f_push');
 S.scene(tau => {
   S.css('#cam', { transform: S.camCss(S.camState(tau, KEYS)) });
   const g = S.EIO(S.P(tau, T.keep, T.keep + 0.7));

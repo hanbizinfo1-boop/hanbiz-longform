@@ -28,6 +28,8 @@ S.ev(T.fat + 0.15, 'marker', 'arrow');
 S.ev(T.fat + 0.75, 'card_in', 'label');
 // 프레임 → track 행(parallax.py: 프레임 1 = τ 0)
 const tr = tau => { const L = window.TRACK || []; if (!L.length) return null; return L[Math.min(L.length - 1, Math.max(0, Math.round(tau * 60000 / 1001)))]; };
+// 10-20 효과음 채움 — 카메라가 고기 손질하는 손 쪽으로 다가가는 중
+S.ev(T.morn - 0.3, 'sweep', 'f_dolly');
 S.scene(async tau => {
   await S.bl('#bl', 's40', tau, { t0: 0, pfx: 'f_' });
   // «평범한 고깃집»까지 색 빠지고 어둡게 → «얘기를 하다 보니까» 색이 돌아옴

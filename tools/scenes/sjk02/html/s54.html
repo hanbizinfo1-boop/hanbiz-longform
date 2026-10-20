@@ -47,6 +47,8 @@ const T = { c1: S.at('배달매출이'), c2: S.at('계속'), c3: S.at('대표님
 const cols = [...document.querySelectorAll('#cols i')];
 S.ev(T.c1, 'gauge', 'cols'); S.ev(T.g, 'card_in', 'prof'); S.ev(T.shot, 'in', 'unit'); S.ev(T.fee, 'no', 'sF'); S.ev(T.pk, 'no', 'sP'); S.ev(T.mat, 'no', 'sM');
 S.ev(T.zero, 'card_in', 't1'); S.ev(T.busy, 'shine', 'sR');
+// 10-20 효과음 채움 — 둘째·셋째 막대가 차례로 자람
+S.ev(T.c2, 'card', 'f_col2'); S.ev(T.c3, 'gauge', 'f_col3');
 S.scene(tau => {
   // 사진: 아주 느린 옆 흐름
   S.css('#cam', { transform: S.camCss({ s: S.lerp(1.04, 1.12, S.P(tau, 0, S.SC.dur)), x: 960 - 20 * S.P(tau, 0, S.SC.dur), y: 540 }) });

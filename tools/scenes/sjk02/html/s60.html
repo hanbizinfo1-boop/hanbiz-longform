@@ -51,6 +51,8 @@ S.$('#pos').innerHTML = html;
 S.ev(T.same, 'in', 'cam'); S.ev(T.blank, 'paper', 'oR0'); S.ev(T.a, 'card_in', 'oR0'); S.ev(T.b, 'msg_in', 'oR1'); S.ev(T.c, 'card_in', 'oR2');
 S.ev(T.war, 'paper', 'n0'); S.ev(T.war2 + 0.4, 'paper', 'n1'); S.ev(T.no, 'no', 'pw');
 const KEYS = [{ t: 0, s: 1.0, x: 960, y: 540 }, { t: T.same, s: 1.2, x: 1400, y: 520, d: 0.6 }, { t: T.war - 0.1, s: 1.0, x: 960, y: 540, d: 0.5 }];
+// 10-20 효과음 채움 — 옆 가게 빈 종이가 하나씩 더 붙음(둘째·셋째)
+S.ev(T.blank + 0.7, 'card', 'f_oR1blank'); S.ev(T.blank + 1.4, 'paper', 'f_oR2blank');
 S.scene(tau => {
   S.css('#cam', { transform: S.camCssC(S.camState(tau, KEYS)) });
   const g = S.EIO(S.P(tau, T.no, T.no + 0.7));

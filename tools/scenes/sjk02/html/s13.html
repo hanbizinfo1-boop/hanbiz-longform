@@ -21,6 +21,8 @@ window.DEVICES = ['R9 회색 번짐'];
 const T = { all: S.at('가게 전체로') };
 for (const id of ['col', 'gray']) document.getElementById(id).style.backgroundImage = S.ph('p13_miniature_street');
 S.ev(T.all, 'no', 'sweep');
+// 10-20 효과음 채움 — 회색이 사진 한 가게에서 번져 나감(반지름 절반 무렵)
+S.ev(T.all + 0.65, 'sweep', 'f_spread');
 S.scene(tau => {
   const d = S.P(tau, -S.SC.pre, S.SC.dur);
   S.css('#ph', { left: (-20 - 120 * S.EIO(d)) + 'px' });

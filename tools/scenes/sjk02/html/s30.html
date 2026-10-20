@@ -55,6 +55,8 @@ S.ev(SENDT, 'msg_in', 'col'); S.ev(T.mk, 'marker', 'col');
 const HAI = '<div class="ai"><div class="av">AI</div><div class="tx">정성을 다해 끓인 따뜻한 국밥 한 그릇으로 여러분을 기다립니다.</div></div>';
 const HIST = '<div class="me">가게 소개 한 줄 써 줘</div>' + HAI;
 const mix = (a, b, k) => a.map((v, i) => Math.round(v + (b[i] - v) * k));
+// 10-20 효과음 채움 — 프롬프트 둘째·셋째 줄이 써지기 시작
+S.ev(T.p2, 'type', 'f_inx'); S.ev(T.p3, 'type', 'f_inx');
 S.scene(tau => {
   const dr = S.P(tau, 0, S.SC.dur);
   S.css('#world', { transform: `scale(${(1.03 + 0.03 * dr).toFixed(4)}) translateX(${(-10 * dr).toFixed(2)}px)` });

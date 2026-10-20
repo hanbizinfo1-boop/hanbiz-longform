@@ -35,6 +35,8 @@ S.$('#ph').style.backgroundImage = S.ph('p52_finger_hesitate');
 const ANS = '배달앱 수수료가 지난주보다 15만 원 늘었어요.';
 const T = { push: S.at('그렇군'), boss: S.at('대표님이'), ans: S.at('배달앱'), lL: S.at('배달을'), lR: S.at('가격을'), q: S.at('누가') };
 S.ev(T.boss, 'in', 'dk'); S.ev(T.ans, 'msg_in', 'ans'); S.ev(T.lL, 'card_in', 'bL'); S.ev(T.lR + 0.05, 'card_in', 'bR');
+// 10-20 효과음 채움 — «그렇군» 에 손가락 쪽으로 사진이 다가감 · AI 답이 써지는 중
+S.ev(T.push, 'sweep', 'f_push'); S.ev(T.ans + 0.4, 'type', 'f_ans');
 S.scene(tau => {
   // 사진: 아이레벨 — «그렇군» 에 손가락 쪽으로 한 번 다가가고 이어서 아주 느린 흐름
   const p = S.cam(tau, T.push, T.push + 0.5), dr = S.P(tau, T.push + 0.5, S.SC.dur);

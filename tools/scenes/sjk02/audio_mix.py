@@ -48,20 +48,24 @@ VAR = {
     "big": [("SEL_文字表示の衝撃音1", 5, "attack"), ("SEL_文字表示の衝撃音2", 5, "attack"), ("SEL_文字表示の衝撃音3", 5, "attack"),
             ("ML_Movie whoosh impact", 5, "attack")],
     "ok": [("맑은소리", 7, "attack"), ("SEL_キラッ2", 0, "attack")],
-    "no": [("KN_error_003", 5, "attack"), ("KN_lowDown", 5, "attack")],
+    "no": [("KN_error_003", 5, "attack"), ("KN_lowDown", 5, "attack"), ("KN_error_004", 5, "attack"), ("KN_error_002", 5, "attack")],   # 10-20: 셋째·넷째 = 같은 케니 error 계열(3초 사슬 여유)
     "miss": [("KN_lowDown", 5, "attack")],
-    "type": [("SEL_キーボード2", 6, "attack"), ("SEL_キーボード1", 6, "attack")],
-    "marker": [("SEL_油性マーカーで字を書く", 3, "attack"), ("SEL_シャーペンで字を書く", 4, "attack"), ("24. 연필", 4, "attack")],
+    "type": [("SEL_キーボード2", 6, "attack"), ("SEL_キーボード1", 6, "attack"), ("Mechanical Keyboard Click 01", 5, "attack")],   # 10-20: 셋째 = 다운 폴더(청음 전 새 소리) — 타자 줄이 촘촘해져 두 파일로는 3초 사슬이 모자람
+    "marker": [("SEL_油性マーカーで字を書く", 3, "attack"), ("SEL_シャーペンで字を書く", 4, "attack"), ("24. 연필", 4, "attack"), ("볼펜소리", 4, "attack")],   # 10-20: 넷째 = 사장님 볼펜소리(3초 사슬 여유)
     "pen": [("SEL_シャーペンで字を書く", 4, "attack"), ("SEL_油性マーカーで字を書く", 3, "attack")],
     "stamp": [("도장.mp3", 5, "attack")],
     "page": [("ML_Page turn chime", 5, "attack")],
     "gauge": [("SEL_ゲージ回復1", 12, "attack"), ("SEL_ゲージ回復2", 12, "attack"), ("SEL_ゲージ回復3", 12, "attack")],
     "shine": [("SEL_キラッ1", -1, "attack"), ("SEL_キラッ2", -1, "attack")],
-    "click": [("마우스 클릭", 5, "attack"), ("15. 마우스클릭", 5, "attack")],
+    "click": [("마우스 클릭", 5, "attack"), ("15. 마우스클릭", 5, "attack"), ("ML_Hard pop click", 5, "attack")],   # 10-20: 셋째 = 예능 16_UI_타자_메시지
     "level": [("SEL_レベルアップ", 5, "attack")],
     # 2편 — 연출설계 3-3 «뜻이 맞으면 셔터·종이 찢김·감열지 출력·불 켜짐 소리로»(라이브러리에 철 셔터·프린터 소리가 없어 가까운 것)
     "shutter": [("Lightweight sliding door close", 4, "attack"), ("Closet sliding door", 4, "attack"), ("Cupboard sliding door", 4, "attack")],
     "paper": [("종이넘기는 소리", 3, "attack"), ("종이소리 화면전환", 3, "attack"), ("종이소리", 3, "attack")],
+    # 10-20 효과음 채움 — 블렌더 물리(동전·구슬·액체). 라이브러리에 정확한 소리가 없어 가까운 짧은 것: 동전 주머니 · 유리 틱 / 케니 드롭 / 물방울
+    "coin": [("ML_Bag of coins touch", 5, "attack"), ("KN_glass_004", 3, "attack"), ("KN_glass_005", 3, "attack")],
+    "marble": [("KN_drop_001", 5, "attack"), ("KN_drop_002", 5, "attack"), ("KN_drop_003", 5, "attack"), ("KN_drop_004", 5, "attack")],
+    "water": [("21. 물방울1", 5, "attack"), ("23. 물방울2", 5, "attack"), ("ML_Soap bubble sound", 3, "attack")],
 }
 ALIAS = {"msg": "msg", "card": "card", "big": "big", "in": "in", "sweep": "sweep", "chip": "card", "pop": "card", "bell": "msg", "print": "page", "tear": "paper"}
 DUR = {"marker": 0.35}
@@ -126,6 +130,8 @@ def assign(cues):
             continue
         if hold and c["t"] < hold[-1][1]:
             continue                                   # 앞 부각음이 울리는 중 — 아래에서 뺀다
+        if any(0 < c["t"] - d["t"] < 0.25 for d in cues if d is not c):
+            continue                                   # 10-20: 0.25초 안 앞 소리로 어차피 빠질 부각음 — 자리를 잡으면 뒤 2초가 통째로 비었다(s23·s64)
         vs = [v for v in VAR["big"] if c["t"] - blast.get(v[0], -99) >= 3.0] or VAR["big"]
         v = min(vs, key=lambda v: blast.get(v[0], -99))
         blast[v[0]] = c["t"]; bigpick[id(c)] = v

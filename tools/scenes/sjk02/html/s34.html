@@ -36,6 +36,8 @@ S.css('#i3', { backgroundImage: S.ph('n34a_vegetable_box') });
 S.css('#i4', { backgroundImage: S.ph('n34b_recipe_notebook') });
 S.ev(T.a, 'in', 's3'); S.ev(T.b, 'paper', 's4'); S.ev(T.tp, 'type', 'inT');
 const Q = '이거 오늘 아침에 들어온 거예요';
+// 10-20 효과음 채움 — 컷 2 — 같은 사진의 건네는 손 쪽을 탁 다가감
+S.ev(T.c2, 'in', 'f_c2');
 S.scene(tau => {
   // 컷: 겹쳐 쌓고 시각에 맞춰 위 층이 드러남(0.1초)
   const v2 = tau >= T.c2 ? 1 : 0, v3 = S.ent(tau, T.a, 0.1), v4 = S.ent(tau, T.b, 0.1);

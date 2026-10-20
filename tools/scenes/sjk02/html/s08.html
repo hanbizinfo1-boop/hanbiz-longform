@@ -15,6 +15,8 @@
 window.PALETTE = ['#3A4046', '#F4F3EF', '#9AA0A6'];
 window.DEVICES = ['R1 종이 책상(블렌더)'];
 window.CONTINUES = 's07';   // s07 카메라를 이어 찍는 한 숏(편집 경계만 컷) — 검사기 T5·T8 이어 찍기
+// 10-20 효과음 채움 — 카메라가 열 장 설명 줄 위를 미끄러지기 시작
+S.ev(0.2, 'sweep', 'f_glide');
 S.scene(async tau => { await S.bl('#bl', 's08', tau); });
 </script>
 </body></html>

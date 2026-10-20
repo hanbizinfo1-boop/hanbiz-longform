@@ -57,6 +57,8 @@ S.ev(-0.05, 'in', 'dk'); S.ev(T.app, 'card_in', 'app'); S.ev(T.q, 'type', 'inT')
 S.ev(TPASTE, 'paper', 'desc'); S.ev(TSAVE, 'click', 'sv'); S.ev(TUL, 'marker', 'ul');
 const $ = S.$;
 function rectOf(el) { const r = el.getBoundingClientRect(); return r; }
+// 10-20 효과음 채움 — 입력 칸 포커스 · 설명 칸 포커스 · AI 답이 써지기 시작 · 끌어 선택 시작
+S.ev(T.foc, 'click', 'f_focDesc'); S.ev(T.ask, 'click', 'f_focIn'); S.ev(TANS, 'type', 'f_ans'); S.ev(TSEL, 'marker', 'f_sel');
 S.scene(tau => {
   const k = S.ent(tau, -0.15, 0.14), d = S.P(tau, 0, S.SC.dur);
   S.css('#dk', { opacity: k, transform: `rotateX(${(5 - 1.5 * d).toFixed(2)}deg) rotateZ(${(-1.6 + 0.5 * d).toFixed(2)}deg) translateY(${((1 - k) * 36).toFixed(1)}px)` });

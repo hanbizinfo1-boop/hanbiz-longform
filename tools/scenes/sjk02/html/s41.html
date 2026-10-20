@@ -45,6 +45,8 @@ function crossing(i) { const c0 = ROW * i + ROW / 2; for (let t = 0; t < 20; t +
 const OIL = RV.map((r, i) => (r[2][0] === '{' ? i : -1)).filter(i => i >= 0);
 const HT = OIL.map((i, k) => Math.max(T.oil + 0.15 * k, crossing(i)));
 S.ev(-0.05, 'in', 'app'); S.ev(T.oil, 'marker', 'hk2'); S.ev(T.up, 'gauge', 'num');
+// 10-20 효과음 채움 — 기름 말이 든 리뷰마다 주홍 형광이 그어지는 순간(첫 줄은 기존 계기)
+HT.forEach((t, k) => { if (Math.abs(t - T.oil) > 0.3 && t < S.SC.dur - 0.5) S.ev(t, 'marker', 'f_hk' + k); });
 S.scene(tau => {
   const a = S.ent(tau, -0.15, 0.14), dr = S.P(tau, 0, S.SC.dur);
   S.css('#app', { opacity: a, transform: `rotateX(${(3 - 1 * dr).toFixed(2)}deg) rotateZ(${(-2.5 + 1 * dr).toFixed(2)}deg) translateY(${((1 - a) * 40).toFixed(1)}px)` });

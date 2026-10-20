@@ -25,6 +25,8 @@ S.ev(T.month + 0.05, 'sweep', 'pile');
 S.ev(T.cust - 0.1, 'msg_in', 'guest');
 S.ev(T.name, 'no', 'names');
 S.ev(T.first, 'shine', 'glow');
+// 10-20 효과음 채움 — 카메라가 «그거 한 줄…» 에 높이 물러남 · 종이 더미 일곱째 장이 떨어짐
+S.ev(S.at('그거') + 0.1, 'sweep', 'f_pullback'); S.ev(T.month + 0.05 + 0.12 * 6, 'paper', 'f_pile6');
 S.scene(async tau => { await S.bl('#bl', 's42', tau); });
 </script>
 </body></html>

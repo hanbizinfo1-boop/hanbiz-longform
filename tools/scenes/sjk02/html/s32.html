@@ -18,6 +18,8 @@ const T = { b: S.at('B는'), ai: S.at('AI한테'), one: S.at('줄') };
 S.ev(T.b + 0.05, 'paper', 'sheetB');
 S.ev(T.ai, 'click', 'lift');
 S.ev(T.one - 0.15, 'marker', 'hl');
+// 10-20 효과음 채움 — 카메라가 B 한 장 쪽으로 천천히 내려가 다가가기 시작
+S.ev(T.b + 0.5, 'sweep', 'f_dolly');
 S.scene(async tau => { await S.bl('#bl', 's32', tau); });
 </script>
 </body></html>

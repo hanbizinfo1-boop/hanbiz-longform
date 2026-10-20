@@ -45,6 +45,8 @@ S.fitQuad(S.$('#tb'), 1200, 1000, sc([[203, 266], [1060, 170], [1360, 848], [319
 const T = { cut: S.at('리뷰', 0), tbl: S.at('테이블을'), ai: S.at('AI를'), r1: S.at('근무표'), r2: S.at('매주'), fr: S.at('이렇게'), mv: S.at('시간을'), cus: S.at('손님한테') };
 S.ev(T.cut, 'in', 'tb'); S.ev(T.r1, 'card_in', 'l1'); S.ev(T.r2, 'card_in', 'l2'); S.ev(T.fr, 'card_in', 'hd'); S.ev(T.mv, 'sweep', 'c0'); S.ev(T.cus, 'shine', 'c0');
 const KA = [{ t: 0, s: 1.14, x: 640, y: 380 }];
+// 10-20 효과음 채움 — «테이블을» 에 카메라가 손님 쪽으로 옮김 · «AI를» 에 한 번 더 다가감
+S.ev(T.tbl - 0.05, 'in', 'f_tbl'); S.ev(T.ai - 0.3, 'sweep', 'f_push');
 S.scene(tau => {
   const A = tau < T.cut;
   S.$('#shotA').style.display = A ? 'block' : 'none'; S.$('#shotB').style.display = A ? 'none' : 'block';

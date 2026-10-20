@@ -86,6 +86,8 @@ S.$('#sm').innerHTML = FULL;
 S.ev(0.05, 'in', 'cal'); S.ev(T.week, 'marker', 'cr0'); S.ev(T.cut, 'in', 'dk'); S.ev(T.cut + 0.5, 'click', 'inb');
 S.ev(LN[0][1], 'type', 'pl'); S.ev(11.3, 'marker', 'ln2'); S.ev(LN[3][1], 'type', 'pl'); S.ev(SEND, 'msg_in', 'sm');
 const KEYS = [{ t: 0, s: 1, x: 960, y: 540 }, { t: T.how, s: 1.1, x: 930, y: 560, d: 0.5 }, { t: T.how + 0.6, s: 1.14, x: 920, y: 570, d: 1.9 }];
+// 10-20 효과음 채움 — «어떻게» 에 달력으로 카메라가 다가감 · 프롬프트 둘째·다섯째·여섯째 줄이 써지기 시작
+S.ev(T.how, 'sweep', 'f_push'); S.ev(LN[1][1], 'type', 'f_pl'); S.ev(LN[4][1], 'type', 'f_pl'); S.ev(LN[5][1], 'type', 'f_pl');
 S.scene(tau => {
   // ── 샷 A: 달력
   const inA = tau < T.cut;

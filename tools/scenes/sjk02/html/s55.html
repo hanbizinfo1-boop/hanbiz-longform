@@ -57,6 +57,8 @@ function place(el, p, dy, k) {
   el.style.opacity = k;
   el.style.transform = `translate(${(p[0] - el.offsetWidth / 2).toFixed(1)}px,${(p[1] - el.offsetHeight - dy + (1 - k) * 12).toFixed(1)}px)`;
 }
+// 10-20 효과음 채움 — 수익 통의 물이 차오르는 중 · «매출만» 에 매출 물이 회색으로 · «따져» 에 수익 통이 빛남 · 카메라가 수익 통으로 옮김
+S.ev(S.at('오히려') + 0.6, 'water', 'f_rise'); S.ev(S.at('매출만') + 0.1, 'no', 'f_salesGrey'); S.ev(S.at('따져'), 'shine', 'f_profGlow'); S.ev(S.at('따져') + 0.65, 'sweep', 'f_pan');
 S.scene(async tau => {
   await S.bl('#bl', 's55', tau);
   // 앞 4초: 통 무대는 흐리게 깔리고 메뉴 관리 화면이 위에

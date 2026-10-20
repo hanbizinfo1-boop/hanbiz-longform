@@ -38,6 +38,8 @@ S.ev(T.good, 'page', 'k2');
 S.ev(T.tel, 'card_in', 'ph2');
 S.ev(T.app, 'page', 'k3');
 S.ev(T.app + 0.25, 'card_in', 'k4');
+// 10-20 효과음 채움 — 주문서 둘째 장 출력(첫째 장 때문에 page 변형이 막혀 빠지던 자리 — 종이 소리로)
+S.ev(T.good - 0.06, 'paper', 'f_k2p');
 S.scene(tau => {
   const d = S.P(tau, -S.SC.pre, S.SC.dur);
   S.css('#ph', { left: (-20 - 100 * S.EIO(d)) + 'px' });
