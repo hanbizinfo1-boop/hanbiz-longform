@@ -9,7 +9,7 @@
 .full{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:visible}
 .big{position:absolute;font-family:"Pre";font-weight:900;color:#fff;letter-spacing:-.03em;line-height:1.05;text-shadow:0 6px 30px rgba(0,0,0,.6);white-space:nowrap}
 .brush{fill:none;stroke:#F05A28;stroke-linecap:round;stroke-linejoin:round}
-#ai{position:absolute;left:90px;top:96px;display:flex;align-items:center;gap:22px}
+#ai{position:absolute;left:330px;top:150px;display:flex;align-items:center;gap:22px}   /* 10-20: 구석(90,96) → 왼쪽 종이 위 — 숫자는 AI 가, 결정은 대표님이 */
 #ai i{width:76px;height:76px;border-radius:50%;background:#1FA39A;border:5px solid #fff;display:flex;align-items:center;justify-content:center;color:#fff;font-style:normal;font-family:"Pre";font-weight:900;font-size:34px;box-shadow:0 8px 20px rgba(0,0,0,.5)}
 #ai b{font-family:"Pre";font-weight:900;font-size:64px;color:#fff;text-shadow:0 4px 16px rgba(0,0,0,.7)}
 </style></head>
@@ -52,7 +52,7 @@ S.scene(tau => {
   S.$('#dim').setAttribute('fill', `rgba(6,9,12,${(0.32 + 0.34 * sh).toFixed(3)})`);
   S.$('#glow').setAttribute('opacity', sh.toFixed(3));
   const hole = S.$('#hole'); hole.setAttribute('rx', (S.lerp(520, 330, sh)).toFixed(1)); hole.setAttribute('ry', (S.lerp(560, 400, sh)).toFixed(1));
-  // 왼쪽 위 «AI» + «+15만»
+  // 왼쪽 종이 위 «AI» + «+15만»
   const k = S.ent(tau, T.ai + 0.3, 0.14);
   S.css('#ai', { opacity: k, transform: `translateX(${((1 - k) * -40).toFixed(1)}px)` });
   // 큰 글 «결정» + 붓 밑줄

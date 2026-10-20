@@ -7,9 +7,9 @@
 #ph{left:0;top:0;width:2150px;height:1434px}
 #dim{left:0;top:0;width:1920px;height:1080px;opacity:0}
 .cc{top:64px}
-#aip{left:690px;top:64px;width:480px;height:60px;opacity:0}
-#aip .aic{position:absolute;left:0;top:-8px;width:60px;height:60px;border-radius:50%;background:#fff;border:6px solid #1FA39A;color:#0B6E66;font-weight:900;font-size:26px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(20,25,30,.35)}
-#bar{left:120px;top:18px;width:300px;height:24px;border-radius:12px;background:#1FA39A;box-shadow:0 6px 16px rgba(20,25,30,.35)}
+#aip{left:600px;top:170px;width:720px;height:90px;opacity:0;transform-origin:0 50%}   /* 10-20: 위 끝(64px)·작음 → 1.5배, 아래로 */
+#aip .aic{position:absolute;left:0;top:-6px;width:96px;height:96px;border-radius:50%;background:#fff;border:6px solid #1FA39A;color:#0B6E66;font-weight:900;font-size:40px;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 16px rgba(20,25,30,.35)}
+#bar{left:130px;top:24px;width:450px;height:42px;border-radius:21px;background:#1FA39A;box-shadow:0 6px 16px rgba(20,25,30,.35)}
 #piece{left:0;top:0;width:150px;height:24px;border-radius:12px;background:#1FA39A;opacity:0;box-shadow:0 6px 16px rgba(20,25,30,.35)}
 .dot{width:34px;height:34px;border-radius:50%;background:#F4F1EA;box-shadow:0 0 0 3px rgba(240,90,40,.85),0 6px 14px rgba(0,0,0,.45);opacity:0}
 .tdot{width:46px;height:46px;border-radius:50%;background:#1FA39A;border:4px solid #F4F1EA;box-shadow:0 6px 14px rgba(0,0,0,.4);opacity:0}
@@ -89,7 +89,7 @@ S.scene(tau => {
   ring.style.stroke = rg > 0 ? `rgb(${Math.round(240 - 70 * rg)},${Math.round(90 + 80 * rg)},${Math.round(40 + 130 * rg)})` : '#F05A28';
   // AI 칩 + 줄어드는 막대
   const ak = E.in('#aip', tau, T.ai, { dy: -14 });
-  S.$('#bar').style.width = (300 - 150 * S.EO(S.P(tau, T.bar, T.bar + 0.5))) + 'px';
+  S.$('#bar').style.width = (450 - 225 * S.EO(S.P(tau, T.bar, T.bar + 0.5))) + 'px';
   // 모든 가게에 청록 점 → 똑같아요에 회색으로
   ALLS.forEach((p, i) => {
     const a = S.ent(tau, T.all + i * 0.1, 0.12), g = S.P(tau, T.same + i * 0.05, T.same + 0.3 + i * 0.05);

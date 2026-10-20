@@ -6,6 +6,11 @@
 #w{left:-40px;top:-170px;width:2150px;height:1433px}
 #ph{left:0;top:0;width:2150px;height:1433px}
 .ck{opacity:0}
+/* 10-20 «가생이 칩» 걷어 냄 → 대표님 머리 옆 시계 고리: 30분 = 반 바퀴가 돌아감 */
+#tm{left:935px;top:290px;width:190px;height:190px;opacity:0}
+#tm .dk{position:absolute;inset:22px;border-radius:50%;background:#1F2A33;box-shadow:0 14px 30px rgba(10,14,18,.45)}
+#tm svg{position:absolute;inset:0}
+#tm .v{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:"Pre";font-weight:900;font-size:46px;color:#fff;letter-spacing:-.02em}
 #pn{left:1390px;top:70px;width:470px;height:330px;opacity:0}
 #pn .hd{height:60px;font-size:24px;padding:0 22px;font-weight:700;letter-spacing:.06em}
 .vb{position:absolute;bottom:34px;width:60px;border-radius:10px 10px 0 0}
@@ -14,7 +19,10 @@
 </style></head>
 <body><div id="stage">
   <div id="w" class="abs"><div id="ph" class="photo abs"></div>
-    <div id="c30" class="chip or ck" data-box="c30" style="left:1110px;top:230px;font-size:32px">30분</div>
+    <div id="tm" class="abs ck" data-box="tm"><div class="dk"></div>
+      <svg viewBox="0 0 190 190"><circle cx="95" cy="95" r="84" fill="none" stroke="rgba(255,255,255,.92)" stroke-width="12"/>
+        <circle id="tma" cx="95" cy="95" r="84" fill="none" stroke="#F05A28" stroke-width="12" stroke-linecap="round" transform="rotate(-90 95 95)" stroke-dasharray="0 528"/></svg>
+      <div class="v">30분</div></div>
   </div>
   <div id="pn" class="app" data-box="pn">
     <div class="hd">다시 온 손님</div>
@@ -34,7 +42,7 @@ S.$('#ph').style.backgroundImage = S.ph('p64_hall_wide');
 E.svg('#w', 2150, 1433, '<ellipse id="rg" cx="1302" cy="720" rx="150" ry="330" fill="none" stroke="#F05A28" stroke-width="9"/>');
 const T = { r1: S.at('리뷰'), r2: S.at('소식'), r3: S.at('AI로'), r4: S.at('아낀'), c30: S.at('30분씩'), rg: S.at('인사만'), st: S.at('석'), pn: S.at('다시') + 0.35, ad: S.at('광고비는') };
 S.focus([{ t0: T.st, t1: T.st + 1.1, big: '석 달', color: 'or' }]);
-S.ev(T.c30, 'card_in', 'c30');
+S.ev(T.c30, 'card_in', 'tm'); S.ev(T.c30 + 0.25, 'gauge', 'tma');
 S.ev(T.rg, 'marker', 'rg'); S.ev(T.pn, 'gauge', 'pn'); S.ev(T.ad, 'no', 'gb');
 const H = [90, 140, 200];
 // 10-20 효과음 채움 — «리뷰» «아낀» 에 카메라가 한 걸음 더 나아감
@@ -43,7 +51,10 @@ S.scene(tau => {
   // 옆으로 흐르며 «리뷰» «AI로» «아낀 시간에» 에 한 걸음씩 더 가고, 뒤는 아주 느린 흐름
   const stp = -40 * S.cam(tau, T.r1, T.r1 + 0.5) - 45 * S.cam(tau, T.r3, T.r3 + 0.5) - 45 * S.cam(tau, T.r4, T.r4 + 0.5) - 60 * S.EIO(S.P(tau, T.c30, S.SC.dur));
   S.css('#w', { left: (-40 + stp) + 'px' });
-  E.in('#c30', tau, T.c30);
+  // 시계 고리: 뜨고 → 주홍 호가 반 바퀴(30분) 돌고 → «석 달» 부각 전에 빠짐
+  const tk = S.ent(tau, T.c30, 0.14) * (1 - S.ent(tau, T.st - 0.25, 0.2));
+  S.css('#tm', { opacity: tk.toFixed(3), transform: `scale(${(0.86 + 0.14 * S.ent(tau, T.c30, 0.14)).toFixed(3)})` });
+  S.$('#tma').setAttribute('stroke-dasharray', `${(264 * S.EIO(S.P(tau, T.c30 + 0.25, T.c30 + 1.1))).toFixed(1)} 528`);
   const rg = S.$('#rg'); E.stroke(rg, tau, T.rg, 0.5);
   E.in('#pn', tau, T.pn, { dy: 16 });
   [0, 1, 2].forEach(i => { S.$('#b' + (i + 1)).style.height = (H[i] * S.EO(S.P(tau, T.pn + 0.1 + i * 0.18, T.pn + 0.5 + i * 0.18))) + 'px'; });

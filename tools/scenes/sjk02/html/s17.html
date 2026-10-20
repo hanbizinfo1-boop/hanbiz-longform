@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
 #bl{position:absolute;left:0;top:0;width:1920px;height:1080px}
-.tg{position:absolute;left:0;top:0;padding:8px 18px 10px;border-radius:10px;background:#1F2A33;color:#fff;font-family:"Pre";font-weight:800;font-size:34px;white-space:nowrap;
+.tg{position:absolute;left:0;top:0;padding:8px 18px 10px;border-radius:10px;background:#1F2A33;color:#fff;font-family:"Pre";font-weight:800;font-size:50px;white-space:nowrap;
   box-shadow:0 0 0 3px rgba(255,255,255,.9),0 12px 26px rgba(10,14,18,.45)}
 </style></head>
 <body><div id="stage">
@@ -20,6 +20,10 @@ window.DEVICES = ['R3 은유 기계(블렌더)'];
 const T = { fee: S.at('수수료랑'), ad: S.at('광고비') };
 S.ev(T.fee + 0.1, 'no', 'drainL');
 S.ev(T.ad, 'card_in', 'drainR');
+function tag(el, cx, by, k) {
+  el.style.opacity = k;
+  el.style.transform = `translate(${(cx - el.offsetWidth / 2).toFixed(1)}px,${(by - el.offsetHeight + (1 - k) * 16).toFixed(1)}px) scale(${(0.9 + 0.1 * k).toFixed(3)})`;
+}
 function place(el, p, dx, dy, k) {
   if (!p) { el.style.opacity = 0; return; }
   el.style.opacity = k;
@@ -31,8 +35,9 @@ function place(el, p, dx, dy, k) {
 S.ev(T.ad + 0.4, 'coin', 'f_flow');
 S.scene(async tau => {
   await S.bl('#bl', 's17', tau);
-  place(S.$('#tf'), S.proj('fee', tau), 40, -30, S.ent(tau, T.fee + 0.1, 0.12));
-  place(S.$('#ta'), S.proj('ad', tau), -40, -30, S.ent(tau, T.ad + 0.05, 0.12));
+  // 10-20 사장님 «가생이에있어서 눈에띄지도 않아» — 관 끝(화면 밖) 대신 동전이 지나가는 관 굽이 바로 위(화면 안쪽 1/4)에 크게
+  tag(S.$('#tf'), 420, 470, S.ent(tau, T.fee + 0.1, 0.12));
+  tag(S.$('#ta'), 1480, 480, S.ent(tau, T.ad + 0.05, 0.12));
 });
 </script>
 </body></html>

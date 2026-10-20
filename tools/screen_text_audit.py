@@ -17,6 +17,8 @@ html_motion 장면(HTML seek(t))을 헤드리스 Chrome 으로 열어 0.25초마
 
   T7 회색 줄 자리표시 글 없는 납작한 회색 막대 3개 이상(그래프 막대는 data-chart 로 뺀다) — ERROR(절대금지 10-07)
   T8 같은 바탕 반복  연속 두 장면이 같은 바탕 그림 — ERROR · 한 바탕이 장면의 15% 넘게 — WARN(sjk-ref 7장 ① «같은 배경 반복 = AI 자동화 느낌»)
+  T9 가장자리 이름표 얹은 짧은 글(8글자 이하·글자 44px 미만)이 화면 끝 160px(위·아래 140px) 안에 0.5초 넘게 — ERROR
+                    부각 큰 글(#__focus) 머리말과 data-t9-ok(대상에 바로 붙은 표 — 이유를 주석으로)는 뺀다 · 그 밖에서 글자 40px 미만 — WARN(10-20 «전화 주문» 칩)
 
 재현 화면(말이 실제로 일어나는 자리의 글 — 앱·대화창·시트·영수증·메모 등)은 «얹은 글»이 아니다:
   선택자 DIEGETIC(아래) 또는 요소에 data-diegetic 을 달면 빠진다. 장면마다 다르면 data-diegetic 으로.
@@ -73,7 +75,7 @@ COLLECT_JS = r"""
       const own = [...el.childNodes].filter(n => n.nodeType === 3).map(n => n.textContent).join('').replace(/\s+/g, ' ').trim();
       const cs = getComputedStyle(el);
       texts.push({ s: own || s, x: r.left, y: r.top, w: r.width, h: r.height, fs: parseFloat(cs.fontSize),
-                   die: !!el.closest(DIE), op });
+                   die: !!el.closest(DIE), ok9: !!el.closest('[data-t9-ok],#__focus'), op });
     }
     for (const el of stage.querySelectorAll('*')) {
       const tag = el.tagName.toLowerCase();
@@ -262,6 +264,24 @@ def analyse(scene, samples, step):
         found.append(("ERROR", "T3 글자만", f"{textonly:.1f}초 동안 그림 15% 미만에 얹은 글만(처음 {t3_at:.2f}s)"))
     if many:
         found.append(("WARN", "T4 글 많음", f"{len(many) * step:.1f}초 동안 얹은 글 40글자 넘음(처음 {many[0]:.2f}s)"))
+    # T9 가장자리·작은 이름표(10-20 «전화 주문» 칩 — «가생이에있어서 눈에띄지도 않아 … 대충하지말고 제대로연출해줘»)
+    edge, small = {}, {}
+    for smp in samples:
+        for x in smp["texts"]:
+            k = norm(x["s"])
+            if x["die"] or x.get("ok9") or not k or len(k) > 8 or x["fs"] >= 90:   # ok9 = 부각 큰 글(#__focus)의 머리말 · data-t9-ok(대상에 붙은 표, 이유를 주석으로)
+                continue
+            at_edge = x["x"] < 160 or x["x"] + x["w"] > 1760 or x["y"] < 140 or x["y"] + x["h"] > 940
+            if at_edge and x["fs"] < 44:                  # 44px 넘는 큰 글(간판 위 칩·물건 아래 이름)은 눈에 띈다 — 작은 글만
+                edge.setdefault(k, []).append(smp["t"])
+            elif x["fs"] < 40:
+                small.setdefault(k, []).append(smp["t"])
+    for k, ts in edge.items():
+        if len(ts) * step >= 0.5:
+            found.append(("ERROR", "T9 가장자리 이름표", f"{ts[0]:.2f}s «{k}» {len(ts) * step:.1f}초 — 화면 끝 160px 안 작은 칩. 그 자리의 연출(사진·장면)로 바꾸거나 대상 바로 옆에 크게"))
+    for k, ts in small.items():
+        if len(ts) * step >= 0.5:
+            found.append(("WARN", "T9 작은 이름표", f"{ts[0]:.2f}s «{k}» 글자 40px 미만 — 눈에 띄는지 프레임으로 확인"))
     # T7 회색 줄 자리표시(절대금지 10-07 «이미지 속 화면 글을 회색 줄·블러로 때우지 않는다»)
     nb = max((smp.get("bars", 0) for smp in samples), default=0)
     if nb >= 3:

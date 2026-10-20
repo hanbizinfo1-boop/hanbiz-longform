@@ -21,7 +21,6 @@
 #rep .dotc{position:absolute;left:0;top:10px;width:46px;height:46px;border-radius:50%;background:#F05A28}
 #rep .nm2{position:absolute;left:70px;top:6px;font-size:23px;font-weight:800;color:#C8461A}
 #rep .cm2{position:absolute;left:70px;top:40px;font-size:30px;font-weight:600;color:#1F2A33;white-space:nowrap}
-#q{left:1600px;top:70px;opacity:0}
 #cover{position:absolute;left:0;top:0;width:1920px;height:1080px;opacity:0}
 #cta{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:960px 470px}
 #ch{left:520px;top:250px;width:880px;height:260px;background:#fff;border-radius:14px;box-shadow:0 18px 44px rgba(20,25,30,.28);opacity:0}
@@ -48,7 +47,6 @@
       <div id="ty"><i></i><i></i><i></i></div>
       <div id="rep"><div class="dotc"></div><div class="nm2">사장의 시스템</div><div class="cm2">확인해서 꼭 도움 되실 수 있게 달아 드리겠습니다.</div></div>
     </div>
-    <div id="q" class="chip gr" data-box="q">?</div>
   </div>
   <div id="cover" class="tex-conc"></div>
   <div id="cta">
@@ -68,7 +66,7 @@ const T = { q: S.at('감이'), q2: S.at('도움'), cmt: S.at('댓글'), rows: S.
 const C = { card: T.cov - 0.2, push: S.at('다음') - 0.05 };
 C.btn = C.card + 0.5; C.sub = C.btn + 0.35; C.like = S.at('눌러');
 const SUBP = { x: 800, y: 640 }, LKP = { x: 1170, y: 640 };
-S.ev(-0.1, 'in', 'pan'); S.ev(T.q, 'card_in', 'q'); S.ev(T.q2, 'shine', 'q'); S.ev(T.cmt, 'click', 'inp');
+S.ev(-0.1, 'in', 'pan'); S.ev(T.cmt, 'click', 'inp');
 S.ev(T.rows, 'card_in', 'r0'); S.ev(T.chk, 'ok', 'r0'); S.ev(T.ty, 'type', 'ty'); S.ev(T.rep, 'msg_in', 'rep');
 S.ev(C.card, 'card_in', 'ch'); S.ev(C.sub, 'click', 'sub'); S.ev(C.like, 'click', 'lk2');
 S.scene(tau => {
@@ -79,8 +77,6 @@ S.scene(tau => {
   S.css('#cam', { filter: bk > 0 ? `blur(${10 * bk}px)` : 'none', opacity: 1 - 0.3 * bk });
   S.css('#cover', { opacity: 0.55 * bk });
   // ? 칩(감이 안 잡혀서) — 도움에 한 번 진해짐
-  const qa = S.ent(tau, T.q, 0.12), qs = S.ent(tau, T.q2, 0.16) * (1 - S.P(tau, T.q2 + 0.3, T.q2 + 0.6));
-  S.css('#q', { opacity: qa, transform: `scale(${(0.8 + 0.2 * qa) * (1 + 0.1 * qs)})` });
   // 입력창: 포커스 + 커서
   const f = S.ent(tau, T.cmt, 0.12);
   S.$('#inp').style.borderBottomColor = f > 0 ? '#1F2A33' : '#CDD2D6';

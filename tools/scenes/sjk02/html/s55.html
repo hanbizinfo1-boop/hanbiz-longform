@@ -14,7 +14,7 @@
 .sec{padding:14px 26px 8px;font-size:22px;font-weight:700;letter-spacing:.12em;color:#8A9096;background:#F6F7F8}
 .cap{flex:none;font-size:20px;font-weight:700;color:#8A9096;margin-right:12px}
 #disc .bdg{font-size:22px}
-.tg{position:absolute;left:0;top:0;padding:8px 18px 10px;border-radius:10px;background:#1F2A33;color:#fff;font-family:"Pre";font-weight:800;font-size:34px;white-space:nowrap;
+.tg{position:absolute;left:0;top:0;padding:8px 18px 10px;border-radius:10px;background:#1F2A33;color:#fff;font-family:"Pre";font-weight:800;font-size:48px;white-space:nowrap;
   box-shadow:0 0 0 3px rgba(255,255,255,.9),0 12px 26px rgba(10,14,18,.45)}
 #tp{background:#F05A28}
 </style></head>
@@ -55,7 +55,8 @@ function sw(el, on) {
 function place(el, p, dy, k) {
   if (!p) { el.style.opacity = 0; return; }
   el.style.opacity = k;
-  el.style.transform = `translate(${(p[0] - el.offsetWidth / 2).toFixed(1)}px,${(p[1] - el.offsetHeight - dy + (1 - k) * 12).toFixed(1)}px)`;
+  // 10-20: 카메라가 통으로 다가가면 통 윗면이 화면 위 끝에 붙음 → 이름표는 위 170px 아래로(가장자리 이름표 금지)
+  el.style.transform = `translate(${(p[0] - el.offsetWidth / 2).toFixed(1)}px,${(Math.max(170, p[1] - el.offsetHeight - dy) + (1 - k) * 12).toFixed(1)}px)`;
 }
 // 10-20 효과음 채움 — 수익 통의 물이 차오르는 중 · «매출만» 에 매출 물이 회색으로 · «따져» 에 수익 통이 빛남 · 카메라가 수익 통으로 옮김
 S.ev(S.at('오히려') + 0.6, 'water', 'f_rise'); S.ev(S.at('매출만') + 0.1, 'no', 'f_salesGrey'); S.ev(S.at('따져'), 'shine', 'f_profGlow'); S.ev(S.at('따져') + 0.65, 'sweep', 'f_pan');
@@ -75,8 +76,8 @@ S.scene(async tau => {
   sw(S.$('#swd'), S.EO(S.P(tau, T.disc, T.disc + 0.18)));
   const bk = S.ent(tau, T.put, 0.12);
   S.css('#bd', { opacity: bk, display: 'inline-block', transform: `scale(${(0.8 + 0.2 * bk).toFixed(3)})` });
-  place(S.$('#ts'), S.proj('sales_top', tau), 4, S.ent(tau, T.then + 0.35, 0.12));
-  place(S.$('#tp'), S.proj('prof_top', tau), 4, S.ent(tau, T.then + 0.6, 0.12));
+  place(S.$('#ts'), S.proj('sales_top', tau), -150, S.ent(tau, T.then + 0.35, 0.12));
+  place(S.$('#tp'), S.proj('prof_top', tau), -150, S.ent(tau, T.then + 0.6, 0.12));
 });
 </script>
 </body></html>

@@ -14,14 +14,12 @@
 .bar{position:absolute;left:24px;height:40px;border-radius:8px;top:50%;margin-top:-20px;width:0}
 #tips{position:absolute;left:0;top:0;width:1300px;height:580px;pointer-events:none}
 .tag{position:absolute;opacity:0}
-#cHr{left:880px;top:206px}
-#cRv{left:1370px;top:206px}
 </style></head>
 <body><div id="stage">
   <div class="bg" style="background:#2b3035"></div>
   <div id="bg"></div>
   <div id="wrap">
-    <div id="sh" data-box="sh" data-box-group="sh">
+    <div id="sh" data-box="sh" data-box-group="sh" data-diegetic>
       <div class="cl" style="left:0;width:60px"></div><div class="cl" style="left:60px;width:200px">A</div><div class="cl" style="left:260px;width:520px">B</div><div class="cl" style="left:780px;width:520px">C</div>
       <div class="hd" id="h0" style="left:0;width:260px"></div>
       <div class="hd" id="h1" style="left:260px;width:520px">일한 시간</div>
@@ -40,8 +38,6 @@
       <div class="cell" style="left:780px;width:520px;top:328px;height:104px"><div class="bar" id="br3" style="background:#9AA0A6"></div></div>
       <svg id="tips" viewBox="0 0 1300 580"><line id="flat" x1="1252" y1="120" x2="1252" y2="432" stroke="#6E767D" stroke-width="3" stroke-dasharray="10 9" opacity="0"/></svg>
     </div>
-    <div id="cHr" class="chip te tag" data-box="cHr" data-box-group="sh">일 ↓</div>
-    <div id="cRv" class="chip gr tag" data-box="cRv" data-box-group="sh">매출 =</div>
   </div>
 </div>
 <script src="../data/s21.js"></script>
@@ -51,11 +47,11 @@ window.PALETTE = ['#D9DBD6', '#1F2A33', '#1FA39A', '#9AA0A6'];   // 시트 흰 �
 const T = { m1: S.at('몇'), m2: S.at('지나고'), m3: S.at('대표님들이랑'), num: S.at('숫자를'), odd: S.at('이상한'), half: S.at('반으로'),
   rev: S.at('매출은'), flat: S.at('그대로인'), many: S.at('생각보다'), man: S.at('많았어요') };
 document.getElementById('bg').style.backgroundImage = S.ph('p22_two_reports');
-S.ev(-0.05, 'in', 'sh'); S.ev(T.num, 'card_in', 'hd'); S.ev(T.odd + 0.1, 'gauge', 'bh'); S.ev(T.rev, 'no', 'br'); S.ev(T.many + 0.1, 'card_in', 'cHr');
+S.ev(-0.05, 'in', 'sh'); S.ev(T.num, 'card_in', 'hd'); S.ev(T.odd + 0.1, 'gauge', 'bh'); S.ev(T.rev, 'no', 'br');
 S.focus([{ t0: T.half, t1: T.half + 1.25, big: '일 ½', small: '몇 달 뒤', color: 'te' }]);
 const BAR = 440;
-// 10-20 효과음 채움 — 월 라벨(1월·2월·3월) 줄이 차례로 뜸 · 오른쪽 칩 «매출 =»
-S.ev(T.m1 + 0.1, 'card', 'f_m1'); S.ev(T.m3, 'card', 'f_m3'); S.ev(T.man, 'card', 'f_cRv');
+// 10-20 효과음 채움 — 월 라벨(1월·2월·3월) 줄이 차례로 뜸
+S.ev(T.m1 + 0.1, 'card', 'f_m1'); S.ev(T.m3, 'card', 'f_m3');
 S.scene(tau => {
   // 바탕 사진 흐림 + 아주 느린 옆 흐름
   S.css('#bg', { transform: `translateX(${(-40 * S.P(tau, 0, S.SC.dur)).toFixed(1)}px)` });
@@ -77,10 +73,6 @@ S.scene(tau => {
   const rg = S.EO(S.P(tau, T.rev, T.rev + 0.5));
   ['br1', 'br2', 'br3'].forEach(id => { document.getElementById(id).style.width = (BAR * rg).toFixed(1) + 'px'; });
   document.getElementById('flat').setAttribute('opacity', S.EO(S.P(tau, T.flat, T.flat + 0.3)).toFixed(3));
-  // 많았어요 쪽 칩
-  const c1 = S.ent(tau, T.many + 0.1, 0.12), c2 = S.ent(tau, T.man, 0.12);
-  S.css('#cHr', { opacity: c1, transform: `translateY(${(1 - c1) * 14}px)` });
-  S.css('#cRv', { opacity: c2, transform: `translateY(${(1 - c2) * 14}px)` });
 });
 </script>
 </body></html>

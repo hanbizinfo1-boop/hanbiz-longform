@@ -66,9 +66,11 @@ VAR = {
     "coin": [("ML_Bag of coins touch", 5, "attack"), ("KN_glass_004", 3, "attack"), ("KN_glass_005", 3, "attack")],
     "marble": [("KN_drop_001", 5, "attack"), ("KN_drop_002", 5, "attack"), ("KN_drop_003", 5, "attack"), ("KN_drop_004", 5, "attack")],
     "water": [("21. 물방울1", 5, "attack"), ("23. 물방울2", 5, "attack"), ("ML_Soap bubble sound", 3, "attack")],
+    # 10-20 s15 «전화가 오는 듯한 연출» — 옛 벽 전화기 벨(사장님 폴더). 첫 울림 0.1~2.2초 뒤 −55dB 아래 방 울림만 남아 2.4초에서 줄인다(둘째 울림 6.1초 전 — 울리는 소리를 자르지 않음)
+    "phone": [("전화벨소리", 0, "attack")],
 }
 ALIAS = {"msg": "msg", "card": "card", "big": "big", "in": "in", "sweep": "sweep", "chip": "card", "pop": "card", "bell": "msg", "print": "page", "tear": "paper"}
-DUR = {"marker": 0.35}
+DUR = {"marker": 0.35, "phone": 2.4}
 
 
 def role_key(r):

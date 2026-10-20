@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s15 먼저 들어간 가게가 잘됐잖아요 — 옛날 주문 프린터 매크로 + 주문서 출력</title>
+<title>s15 먼저 들어간 가게가 잘됐잖아요 — 옛날 주문 프린터 매크로 + 주문서 출력 → «전화 주문» 벽 전화기가 울리는 컷 → 앱 주문서가 쏟아짐</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
 #ph{left:-20px;top:-160px;width:2100px;height:1400px}
@@ -15,7 +15,10 @@
 #k2{left:1580px;top:250px}
 #k3{left:1340px;top:410px}
 #k4{left:1590px;top:600px}
-#ph2{left:90px;top:80px}
+/* 10-20 사장님 «전화주문 저런거 진짜 싫어 차라리 전화가 오는 듯한 연출을 … 가생이에있어서 눈에띄지도 않아» — 구석 칩 대신 벽 전화기가 울리는 컷 */
+#pS{left:0;top:0;width:1920px;height:1080px;overflow:hidden;opacity:0}
+#pP{left:0;top:-100px;width:1920px;height:1280px;background-size:1920px 1280px;filter:sepia(.22) saturate(.75) contrast(1.0);transform-origin:537px 475px}
+#rg{left:0;top:0;width:1920px;height:1080px}
 </style></head>
 <body><div id="stage">
   <div id="ph" class="abs"><div id="pic" class="abs"></div></div>
@@ -24,20 +27,29 @@
   <div id="k2" class="abs thermal tk" data-box="k2" data-box-group="tk"><div class="no">주문 2</div><div class="ln"></div><div class="mn">수육<em>1</em></div></div>
   <div id="k3" class="abs thermal tk" data-box="k3" data-box-group="tk"><div class="no">주문 3</div><div class="ln"></div><div class="mn">돼지국밥<em>1</em></div></div>
   <div id="k4" class="abs thermal tk" data-box="k4" data-box-group="tk"><div class="no">주문 4</div><div class="ln"></div><div class="mn">수육<em>2</em></div></div>
-  <div id="ph2" class="chip gr" data-box="ph2" style="font-size:34px;padding:12px 26px">전화 주문</div>
+  <div id="pS" class="abs"><div id="pP" class="abs"></div>
+    <svg id="rg" class="abs" viewBox="0 0 1920 1080"></svg></div>
 </div>
 <script src="../data/s15.js"></script>
 <script src="../lib/sjk.js"></script>
 <script>
-window.PALETTE = ['#D9DBD6', '#1F2A33', '#9AA0A6'];   // 바랜 사진 + 흰 감열지 + 회색 칩(전화 주문 = 옛날 방식)
+window.PALETTE = ['#D9DBD6', '#1F2A33', '#F3E6CC'];   // 바랜 사진 + 흰 감열지 + 전화벨 울림 고리(따뜻한 흰색)
+window.DEVICES = ['사진 컷(주문 프린터 → 벽 전화기)', '감열지 주문서'];
 const T = { first: S.at('먼저'), good: S.at('잘됐잖아요'), tel: S.at('전화'), app: S.at('앱으로'), many: S.at('주문이') };
 document.getElementById('pic').style.backgroundImage = S.ph('p15_old_order_printer');
-const K = [['k1', T.first, 5, 520], ['k2', T.good, -4, 520], ['k3', T.app, -6, 520], ['k4', T.app + 0.25, 4, 520]];
+document.getElementById('pP').style.backgroundImage = S.ph('p15b_wall_phone_macro');
+// 전화 컷: «남들은 전화 주문 받을 때» 줄 시작에 컷 → «앱으로» 에 프린터로 돌아오며 전화 컷은 왼쪽 작은 창으로 물러나 바램
+const PH = { a: S.SC.lines[2].t0, b: T.app };
+const HC = [537, 375];                                   // 수화기 가운데(화면 좌표)
+const RINGS = [0, 0.3, 0.6, 0.9, 1.2].map(d => PH.a + 0.08 + d);
+document.getElementById('rg').innerHTML = RINGS.map((_, i) => `<circle id="r${i}" cx="${HC[0]}" cy="${HC[1]}" r="0" fill="none" stroke="#F3E6CC" stroke-width="7"/>`).join('');
+// 셋째·넷째(앱 주문)는 전화벨 첫 울림(약 2.1초)이 끝난 뒤 «막 들어오니까» 에 연달아 — 벨과 출력음이 겹치지 않게
+const AP = PH.a + 2.3;
+const K = [['k1', T.first, 5, 520], ['k2', T.good, -4, 520], ['k3', AP, -6, 520], ['k4', AP + 0.18, 4, 520]];   // 넷째는 셋째와 한 덩이로 쏟아짐(소리는 셋째 출력음 하나)
 S.ev(T.first, 'page', 'k1');
 S.ev(T.good, 'page', 'k2');
-S.ev(T.tel, 'card_in', 'ph2');
-S.ev(T.app, 'page', 'k3');
-S.ev(T.app + 0.25, 'card_in', 'k4');
+S.ev(PH.a, 'phone', 'pS');
+S.ev(AP, 'page', 'k3');
 // 10-20 효과음 채움 — 주문서 둘째 장 출력(첫째 장 때문에 page 변형이 막혀 빠지던 자리 — 종이 소리로)
 S.ev(T.good - 0.06, 'paper', 'f_k2p');
 S.scene(tau => {
@@ -48,8 +60,17 @@ S.scene(tau => {
     const dur = i >= 2 ? 0.32 : 0.45, p = S.EO(S.P(tau, t, t + dur));
     S.css('#' + id, { opacity: p > 0.999 ? 1 : (p > 0.001 ? 0.84 : 0), transform: `translateY(${((p - 1) * h).toFixed(1)}px) rotate(${rot}deg)` });
   });
-  const k = S.ent(tau, T.tel, 0.12);
-  S.css('#ph2', { opacity: k, transform: `translateY(${((1 - k) * 14).toFixed(1)}px)` });
+  // 전화 컷: 하드 컷으로 들어와 수화기 쪽으로 천천히 밀고, «앱으로» 에 왼쪽 작은 창(560×373)으로 물러나며 바램 → 앱 주문서 앞에서 사라짐
+  const on = tau >= PH.a ? 1 : 0, back = S.EO(S.P(tau, PH.b, PH.b + 0.35)), gone = S.P(tau, AP - 0.3, AP);
+  const sc = 1 + 0.06 * S.P(tau, PH.a, PH.b), w = 1920 - (1920 - 560) * back, x = 230 * back, y = 330 * back;
+  S.css('#pS', { opacity: (on * (1 - gone)).toFixed(3), left: x.toFixed(1) + 'px', top: y.toFixed(1) + 'px', width: w.toFixed(1) + 'px', height: (w * 1080 / 1920).toFixed(1) + 'px',
+    borderRadius: (14 * back).toFixed(1) + 'px', boxShadow: back > 0 ? `0 0 0 ${(6 * back).toFixed(1)}px #fff, 0 24px 50px rgba(10,14,18,${(0.5 * back).toFixed(2)})` : 'none',
+    filter: `grayscale(${(0.6 * back).toFixed(2)}) brightness(${(1 - 0.12 * back).toFixed(3)})` });
+  S.css('#pP', { transform: `scale(${(sc * w / 1920).toFixed(4)})`, transformOrigin: '0 0', left: (-(sc - 1) * HC[0] * w / 1920).toFixed(1) + 'px', top: ((-100 - (sc - 1) * 475) * w / 1920).toFixed(1) + 'px' });
+  S.css('#rg', { transform: `scale(${(w / 1920).toFixed(4)})`, transformOrigin: '0 0' });
+  // 울림 고리: 수화기에서 0.3초마다 하나씩 퍼지며 옅어짐(벨이 울리는 동안만 — 흔들기 없음)
+  RINGS.forEach((t, i) => { const p = S.P(tau, t, t + 0.75), c = document.getElementById('r' + i);
+    c.setAttribute('r', (150 + 260 * S.EO(p)).toFixed(1)); c.setAttribute('opacity', (p > 0 && p < 1 ? 0.85 * (1 - p) : 0).toFixed(3)); });
 });
 </script>
 </body></html>
