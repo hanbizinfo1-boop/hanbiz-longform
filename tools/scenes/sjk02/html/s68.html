@@ -100,7 +100,7 @@ S.scene(tau => {
   });
   // 줄어든 시간 조각이 AI 막대에서 떨어져 주홍 가게로
   const pk = S.EZ(S.P(tau, T.piece, T.piece + 0.95));
-  const sx = 940, sy = 76, ex = wl + MAIN[0], ey = -200 + MAIN[1] + 20;
+  const sx = 880, sy = 196, ex = wl + MAIN[0], ey = -200 + MAIN[1] + 20;
   const px = S.lerp(sx, ex, pk), py = S.lerp(sy, ey, pk) - 120 * Math.sin(Math.PI * pk);
   const pa = S.ent(tau, T.piece, 0.1) * (1 - S.P(tau, T.piece + 0.9, T.piece + 1.05));
   S.css('#piece', { opacity: pa.toFixed(3), left: px + 'px', top: py + 'px', width: S.lerp(150, 30, pk) + 'px', height: S.lerp(24, 30, pk) + 'px', borderRadius: '15px', background: pk > 0.85 ? '#F05A28' : '#1FA39A' });

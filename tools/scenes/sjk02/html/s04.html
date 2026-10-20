@@ -7,9 +7,9 @@
 #pic{left:0;top:-100px;width:1920px;height:1280px;background-size:1920px 1280px;background-repeat:no-repeat;filter:saturate(.8) contrast(1.03)}
 #ln{left:0;top:0;width:1920px;height:1080px}
 #ph{left:0;top:0;width:400px;height:896px}
-#ins{left:1210px;top:200px;width:520px;height:570px;border-radius:14px;box-shadow:0 30px 60px rgba(0,0,0,.45);border:2px solid rgba(231,234,236,.9)}
+#ins{left:1210px;top:200px;width:520px;height:630px;border-radius:14px;box-shadow:0 30px 60px rgba(0,0,0,.45);border:2px solid rgba(231,234,236,.9)}
 .nl{background:#14191E;color:#E7EAEC;font-family:"Pre";overflow:hidden}
-.nl .hh{display:flex;align-items:center;gap:.5em;padding:.7em .8em .5em;font-weight:600;letter-spacing:.16em;color:#8C959C;font-size:.85em}
+.nl .hh{display:flex;align-items:center;gap:.5em;padding:.7em .8em .5em;font-weight:600;letter-spacing:.16em;color:#8C959C;font-size:1.4em}
 .nl .hh i{width:.5em;height:.5em;border-radius:50%;background:#1FA39A}
 .nl .rw{display:flex;align-items:center;gap:.6em;margin:.45em .6em;padding:.7em .8em;border-radius:.7em;background:#222A31;font-weight:700;white-space:nowrap}
 .nl .rw b{flex:none;width:.7em;height:.7em;border-radius:50%;background:#1FA39A}
@@ -25,7 +25,7 @@
       <line id="l1" x1="1052.3" y1="524.8" x2="1210" y2="200" stroke="#fff" stroke-opacity=".8" stroke-width="2.5" pathLength="1"/>
       <line id="l2" x1="993.9" y1="793.3" x2="1210" y2="770" stroke="#fff" stroke-opacity=".8" stroke-width="2.5" pathLength="1"/>
     </svg>
-    <div id="ins" class="abs nl" data-box="ins" style="font-size:26px"></div>
+    <div id="ins" class="abs nl" data-box="ins" style="font-size:30px"></div>
   </div>
 </div>
 <script src="../data/s04.js"></script>
@@ -33,7 +33,7 @@
 <script>
 window.PALETTE = ['#D9DBD6', '#1F2A33', '#1FA39A'];   // 사진 + 다크 알림(청록 점 = AI 가 한 일)
 const T = { odd: S.at('이상한'), ins: S.at('하나'), ai: S.at('AI'), min: S.at('1분이면'), news: S.at('소식'), once: S.at('한', 1) };
-const NT = [['답글 10개 완료', 'AI', T.ai], ['리뷰 답글 · 1분', '', T.min], ['소식 글 30개 예약 완료', '', T.news], ['메뉴 설명 완료', 'AI', T.once], ['공지 글 예약 완료', 'AI', T.once + 0.25]];
+const NT = [['답글 10개 완료', 'AI', T.ins + 0.3], ['리뷰 답글 · 1분', '', T.min], ['소식 글 30개 예약 완료', '', T.news], ['메뉴 설명 완료', 'AI', T.once], ['공지 글 예약 완료', 'AI', T.once + 0.25]];
 const rowsHtml = () => '<div class="hh"><i></i>오늘</div>' + NT.map((n, i) => `<div class="rw" data-i="${i}" style="opacity:0"><b></b><span>${n[0]}</span>${n[1] ? '<em>' + n[1] + '</em>' : ''}</div>`).join('');
 const ph = document.getElementById('ph'), ins = document.getElementById('ins');
 ph.innerHTML = rowsHtml(); ins.innerHTML = rowsHtml();
@@ -44,7 +44,7 @@ ph.style.borderRadius = '26px';
 S.focus([{ t0: T.min, t1: T.min + 1.2, big: '1분', small: '리뷰 답글' }]);
 S.ev(-0.05, 'in', 'photo');
 S.ev(T.ins, 'in', 'inset');
-S.ev(T.ai, 'msg_in', 'n0');
+S.ev(T.ins + 0.3, 'msg_in', 'n0');
 S.ev(T.min, 'card_in', 'n1');
 S.ev(T.news, 'msg_in', 'n2');
 S.ev(T.once, 'card_in', 'n34');

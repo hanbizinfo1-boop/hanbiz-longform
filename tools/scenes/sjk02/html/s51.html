@@ -18,9 +18,14 @@
 #shut i{width:68px;height:68px;border-radius:50%;background:#fff;display:block}
 #thumb{position:absolute;left:0;top:0;width:150px;height:200px;background:#F4F5F4;border-radius:8px;box-shadow:0 14px 30px rgba(0,0,0,.4);opacity:0;overflow:hidden}
 #thumb .it{position:absolute;left:12px;right:12px;height:18px;display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:#232A30;white-space:nowrap;font-family:"Pre"}
-#dk{left:1290px;top:50px;width:560px;height:380px;transform-origin:50% 50%}
-#dk .cv{bottom:96px}
-#dk .att{position:absolute;left:5%;bottom:90px;width:140px;height:70px;border:3px dashed #43C9BF;border-radius:12px;opacity:0;display:flex;align-items:center;justify-content:center;color:#43C9BF;font-size:22px;font-weight:700}
+#dk{left:1200px;top:300px;width:600px;height:480px;transform-origin:50% 50%}
+#dk .cv{bottom:110px}
+#dk .ai{font-size:32px}
+#dk .tb{font-size:26px}
+#dk .tb .md{font-size:28px}
+#dk .tb .tab{font-size:26px}
+#dk .in{font-size:28px;height:70px;border-radius:35px}
+#dk .att{position:absolute;left:5%;bottom:104px;width:180px;height:80px;border:3px dashed #43C9BF;border-radius:12px;opacity:0;display:flex;align-items:center;justify-content:center;color:#43C9BF;font-size:30px;font-weight:700}
 </style></head>
 <body><div id="stage">
   <div class="bg tex-dark"></div>
@@ -79,13 +84,13 @@ S.scene(tau => {
   // 셔터 눌림
   const pk = S.ent(tau, T.shot, 0.08) - S.ent(tau, T.shot + 0.16, 0.12);
   S.css('#shi', { transform: `scale(${1 - 0.22 * pk})` });
-  // 대화창 들어옴(화면 오른쪽 위, 기울인 판)
+  // 대화창 들어옴(화면 오른쪽 가운데, 기울인 판)
   const dk = S.ent(tau, T.hard - 0.05, 0.25);
   S.css('#dk', { opacity: dk, transform: `perspective(2200px) rotateX(5deg) rotateZ(2deg) translateX(${(1 - dk) * 120}px)` });
   S.css('#att', { opacity: S.ent(tau, T.hard + 0.3, 0.12) });
   // 찍은 사진이 작아지며 첨부 칸으로 날아감(곡선)
   const fp = S.cam(tau, T.put, T.put + 0.55);
-  const sx = cx - 75, sy = cy - 100, ex = 1290 + 560 * 0.05 + 6, ey = 50 + 380 - 90 - 70 + 2;
+  const sx = cx - 75, sy = cy - 100, ex = 1200 + 600 * 0.05 + 6, ey = 300 + 480 - 104 - 80 + 2;
   const x = S.lerp(sx, ex, fp), y = S.lerp(sy, ey, fp) - Math.sin(fp * Math.PI) * 110, sc = S.lerp(1.1, 0.46, fp);
   const vis = tau >= T.shot + 0.05 ? 1 : 0;
   S.css('#thumb', { opacity: vis * (fp < 1 ? 1 : 0), transform: `translate(${x}px,${y}px) scale(${sc})`, transformOrigin: '0 0' });

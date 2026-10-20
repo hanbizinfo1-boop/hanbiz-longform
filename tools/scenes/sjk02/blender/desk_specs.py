@@ -120,7 +120,7 @@ def s42():
         pile.append({"id": f"p{j}", "tex": f"pile{j}", "x": x + R2.uniform(-0.03, 0.03), "y": y + R2.uniform(-0.03, 0.03), "rz": R2.uniform(-14, 14),
                      "z": j % 3, "drop": round(t_month + 0.05 + 0.12 * j, 3)})
     s["sheets"] = [M, RV, NW, BD, GS] + pile
-    hl = [_w(M, -0.085, -0.064), _w(M, 0.075, -0.064), _w(RV, -0.01, -0.059), _w(NW, -0.06, -0.045), _w(BD, 0.0, -0.099), _w(GS, 0.0, 0.03)]
+    hl = [_w(M, -0.085, -0.064), _w(M, 0.075, -0.064), _w(RV, -0.01, -0.059), _w(NW, -0.06, -0.045), _w(BD, 0.0, -0.099), _w(GS, 0.035, -0.055)]   # 손님 쪽지는 글 아래 빈 자리에서 끝냄(글 위를 덮지 않게)
     pts = [hl[0], hl[1]]
     for a, b in zip(hl[1:], hl[2:]):
         pts.append([round((a[0] + b[0]) / 2, 4), round((a[1] + b[1]) / 2, 4), 0.055]); pts.append(b)

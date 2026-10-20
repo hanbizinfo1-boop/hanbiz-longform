@@ -3,24 +3,24 @@
 <title>s73 끝 — 댓글 입력창 → 채널 카드 → 구독 → 좋아요(콘크리트 · 주홍)</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#pan{left:360px;top:120px;width:1200px;height:700px}
+#pan{left:360px;top:90px;width:1200px;height:760px}
 #pan .hd{font-size:30px;gap:14px}
-#pan .hd span{font-weight:600;font-size:22px;letter-spacing:.12em;color:#7A838A}
-#inp{position:absolute;left:36px;top:84px;width:1128px;height:78px;border-bottom:3px solid #CDD2D6;display:flex;align-items:center;gap:20px;font-size:28px;color:#8A939A}
+#pan .hd span{font-weight:600;font-size:30px;letter-spacing:.12em;color:#7A838A}
+#inp{position:absolute;left:36px;top:84px;width:1128px;height:78px;border-bottom:3px solid #CDD2D6;display:flex;align-items:center;gap:20px;font-size:32px;color:#8A939A}
 #inp .a{width:52px;height:52px;border-radius:50%;background:#D7DCDF;flex:none}
 #cur{display:inline-block;width:3px;height:36px;background:#1F2A33;vertical-align:-8px;margin-right:6px}
-.rw{position:absolute;left:36px;width:1128px;height:104px}
-.rw .av2{position:absolute;left:0;top:10px;width:56px;height:56px;border-radius:50%;background:#D7DCDF;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;color:#59636B}
-.rw .nm{position:absolute;left:84px;top:6px;font-size:23px;font-weight:800;color:#59636B}
-.rw .cm{position:absolute;left:84px;top:40px;font-size:30px;font-weight:600;color:#1F2A33;white-space:nowrap}
+.rw{position:absolute;left:36px;width:1128px;height:118px}
+.rw .av2{position:absolute;left:0;top:14px;width:64px;height:64px;border-radius:50%;background:#D7DCDF;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:800;color:#59636B}
+.rw .nm{position:absolute;left:88px;top:2px;font-size:30px;font-weight:800;color:#59636B}
+.rw .cm{position:absolute;left:88px;top:46px;font-size:34px;font-weight:600;color:#1F2A33;white-space:nowrap}
 .rw .ok{position:absolute;right:20px;top:14px;width:46px;height:46px;border-radius:50%;background:#1FA39A;display:flex;align-items:center;justify-content:center;opacity:0}
 .rw .ok svg{width:26px;height:26px}
-#ty{position:absolute;left:190px;top:580px;display:flex;gap:9px;opacity:0}
+#ty{position:absolute;left:190px;top:610px;display:flex;gap:9px;opacity:0}
 #ty i{width:14px;height:14px;border-radius:50%;background:#9AA0A6}
-#rep{position:absolute;left:120px;top:540px;width:1044px;height:100px;opacity:0}
-#rep .dotc{position:absolute;left:0;top:10px;width:46px;height:46px;border-radius:50%;background:#F05A28}
-#rep .nm2{position:absolute;left:70px;top:6px;font-size:23px;font-weight:800;color:#C8461A}
-#rep .cm2{position:absolute;left:70px;top:40px;font-size:30px;font-weight:600;color:#1F2A33;white-space:nowrap}
+#rep{position:absolute;left:120px;top:570px;width:1044px;height:110px;opacity:0}
+#rep .dotc{position:absolute;left:0;top:14px;width:50px;height:50px;border-radius:50%;background:#F05A28}
+#rep .nm2{position:absolute;left:76px;top:2px;font-size:30px;font-weight:800;color:#C8461A}
+#rep .cm2{position:absolute;left:76px;top:46px;font-size:34px;font-weight:600;color:#1F2A33;white-space:nowrap}
 #cover{position:absolute;left:0;top:0;width:1920px;height:1080px;opacity:0}
 #cta{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:960px 470px}
 #ch{left:520px;top:250px;width:880px;height:260px;background:#fff;border-radius:14px;box-shadow:0 18px 44px rgba(20,25,30,.28);opacity:0}
@@ -41,9 +41,9 @@
     <div id="pan" class="app">
       <div class="hd">댓글 <span>전체</span></div>
       <div id="inp"><div class="a"></div><div><span id="cur"></span><span id="ph">댓글 추가...</span></div></div>
-      <div id="r0" class="rw" style="top:190px"><div class="av2">김</div><div class="nm">김**</div><div class="cm">리뷰 답글 시킬 때 어떤 말을 넣어야 할지 모르겠어요</div><div class="ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-      <div id="r1" class="rw" style="top:300px"><div class="av2">박</div><div class="nm">박**</div><div class="cm">주 1회 숫자 계산, 포스기 자료로도 되나요?</div><div class="ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-      <div id="r2" class="rw" style="top:410px"><div class="av2">이</div><div class="nm">이**</div><div class="cm">저희는 카페인데 한 줄 찾는 법 궁금합니다</div><div class="ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div id="r0" class="rw" style="top:180px"><div class="av2">김</div><div class="nm">김**</div><div class="cm">리뷰 답글 시킬 때 어떤 말을 넣어야 할지 모르겠어요</div><div class="ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div id="r1" class="rw" style="top:305px"><div class="av2">박</div><div class="nm">박**</div><div class="cm">주 1회 숫자 계산, 포스기 자료로도 되나요?</div><div class="ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div id="r2" class="rw" style="top:430px"><div class="av2">이</div><div class="nm">이**</div><div class="cm">저희는 카페인데 한 줄 찾는 법 궁금합니다</div><div class="ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
       <div id="ty"><i></i><i></i><i></i></div>
       <div id="rep"><div class="dotc"></div><div class="nm2">사장의 시스템</div><div class="cm2">확인해서 꼭 도움 되실 수 있게 달아 드리겠습니다.</div></div>
     </div>
@@ -62,7 +62,7 @@
 <script>
 window.PALETTE = ['#D9DBD6', '#1F2A33', '#F05A28'];
 window.DEVICES = ['댓글 CTA'];
-const T = { q: S.at('감이'), q2: S.at('도움'), cmt: S.at('댓글'), rows: S.at('하나하나'), chk: S.at('도움', 1), ty: S.at('생각해'), rep: S.at('달아'), cov: S.at('도움', 2) };
+const T = { q: S.at('감이'), q2: S.at('도움'), cmt: S.at('댓글'), rows: 0.1, chk: S.at('도움', 1), ty: S.at('생각해'), rep: S.at('달아'), cov: S.at('도움', 2) };
 const C = { card: T.cov - 0.2, push: S.at('다음') - 0.05 };
 C.btn = C.card + 0.5; C.sub = C.btn + 0.35; C.like = S.at('눌러');
 const SUBP = { x: 800, y: 640 }, LKP = { x: 1170, y: 640 };

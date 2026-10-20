@@ -5,7 +5,9 @@
 <style>
 .cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
 .ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background-size:100% 100%;background-repeat:no-repeat}
-.fb{position:absolute;border-radius:50%;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+/* 10-20 자가검수: 둥근 흐림 호 대신 위쪽 전체에 같은 흐림을 깔고 아래로 서서히 풀어 경계선이 안 보이게 */
+.fm{position:absolute;left:0;top:-100px;width:1920px;height:740px;-webkit-mask-image:linear-gradient(to bottom,#000 0,#000 66%,transparent 100%);mask-image:linear-gradient(to bottom,#000 0,#000 66%,transparent 100%)}
+.fi{position:absolute;left:-30px;top:-30px;width:1980px;height:800px;background-repeat:no-repeat;background-size:1920px 1280px;background-position:30px 30px;filter:blur(15px)}
 #tb{position:absolute;left:0;top:0;width:1200px;height:1000px;background:#EDEEF3;font-family:"Pre";color:#1F2A33}
 #tb .ln{position:absolute;left:0;height:3px;width:1200px;background:#C9CCD3}
 #tb .vl{position:absolute;top:0;width:3px;height:1000px;background:#C9CCD3}
@@ -17,8 +19,7 @@
 <body><div id="stage">
   <div id="shotA" class="cam">
     <div id="ph1" class="ph"></div>
-    <div class="fb" style="left:640px;top:-100px;width:1290px;height:740px"></div>
-    <div class="fb" style="left:420px;top:-100px;width:260px;height:400px"></div>
+    <div class="fm"><div id="ph1b" class="fi"></div></div>
   </div>
   <div id="shotB" class="cam">
     <div id="ph2" class="ph"></div>
@@ -39,6 +40,7 @@
 window.PALETTE = ['#2B3036', '#1F2A33', '#F05A28'];
 window.DEVICES = ['R10 되부름'];
 S.$('#ph1').style.backgroundImage = S.ph('n65_busy_lunch_hall');
+S.$('#ph1b').style.backgroundImage = S.ph('n65_busy_lunch_hall');
 S.$('#ph2').style.backgroundImage = S.ph('n58_timesheet');
 const sc = q => q.map(p => [p[0] * 1.25, p[1] * 1.25 - 100]);
 S.fitQuad(S.$('#tb'), 1200, 1000, sc([[203, 266], [1060, 170], [1360, 848], [319, 1038]]));

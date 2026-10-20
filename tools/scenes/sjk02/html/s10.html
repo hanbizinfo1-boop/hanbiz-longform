@@ -5,9 +5,9 @@
 <style>
 #cam{left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
 #bgw{left:-40px;top:-20px;width:2000px;height:1120px;background-size:cover;background-position:center}
-.shop{position:absolute;left:140px;width:180px;height:150px;border-radius:16px;background-color:#fff;background-repeat:no-repeat;background-size:338px 225px;background-position:-77px -33px;box-shadow:0 18px 36px rgba(0,0,0,.5),0 2px 6px rgba(0,0,0,.3)}
-.band{position:absolute;left:1220px;width:560px;height:70px;border-radius:12px;background:#fff;display:flex;align-items:center;padding:0 24px;font-size:25px;font-weight:700;white-space:nowrap;color:#1F2A33;box-shadow:0 14px 30px rgba(0,0,0,.45),0 2px 6px rgba(0,0,0,.3)}
-#ai{left:890px;top:400px;width:140px;height:140px;border-radius:50%;background:var(--te);color:#fff;display:flex;align-items:center;justify-content:center;font-size:64px;box-shadow:0 0 0 6px rgba(255,255,255,.9),0 18px 40px rgba(0,0,0,.5)}
+.shop{position:absolute;left:160px;width:150px;height:122px;border-radius:16px;background-color:#fff;background-repeat:no-repeat;background-size:282px 188px;background-position:-64px -28px;box-shadow:0 18px 36px rgba(0,0,0,.5),0 2px 6px rgba(0,0,0,.3)}
+.band{position:absolute;left:1190px;width:600px;height:84px;border-radius:12px;background:#fff;display:flex;align-items:center;padding:0 24px;font-size:31px;font-weight:700;white-space:nowrap;color:#1F2A33;box-shadow:0 14px 30px rgba(0,0,0,.45),0 2px 6px rgba(0,0,0,.3)}
+#ai{left:890px;top:430px;width:140px;height:140px;border-radius:50%;background:var(--te);color:#fff;display:flex;align-items:center;justify-content:center;font-size:64px;box-shadow:0 0 0 6px rgba(255,255,255,.9),0 18px 40px rgba(0,0,0,.5)}
 #ln{left:0;top:0;width:1920px;height:1080px}
 </style></head>
 <body><div id="stage">
@@ -27,19 +27,19 @@ window.PALETTE = ['#14191E', '#E7EAEC', '#1FA39A'];   // 어두운 책상 · 흰
 window.DEVICES = ['R8 흐름도'];
 const T = { why: S.at('왜'), same: S.at('같은'), alike: S.at('비슷한'), cust: S.at('손님'), all: S.at('다 같은') };
 const TXT = '정성을 다해 끓인 따뜻한 국밥 한 그릇';
-const CY = i => 125 + i * 174;
+const CY = i => 220 + i * 140;   // 10-20 자가검수 — 밀기 끝(×1.06)에도 위아래 여백 ≥ 90px
 const bg = document.getElementById('bgw'); bg.style.backgroundImage = S.ph('t_dark_desk');
 const ln = document.getElementById('ln'), shops = [], bands = [], lL = [], lR = [];
 const NS = 'http://www.w3.org/2000/svg';
 for (let i = 0; i < 5; i++) {
-  const s = document.createElement('div'); s.className = 'shop'; s.style.top = (CY(i) - 75) + 'px'; s.style.backgroundImage = S.ph('n10_shop_icon');
+  const s = document.createElement('div'); s.className = 'shop'; s.style.top = (CY(i) - 61) + 'px'; s.style.backgroundImage = S.ph('n10_shop_icon');
   s.dataset.box = 'sh' + i; document.getElementById('shops').appendChild(s); shops.push(s);
-  const b = document.createElement('div'); b.className = 'band'; b.style.top = (CY(i) - 35) + 'px'; b.textContent = TXT;
+  const b = document.createElement('div'); b.className = 'band'; b.style.top = (CY(i) - 42) + 'px'; b.textContent = TXT;
   b.dataset.box = 'bd' + i; document.getElementById('bands').appendChild(b); bands.push(b);
-  const l = document.createElementNS(NS, 'path'); l.setAttribute('d', `M322 ${CY(i)} C 600 ${CY(i)} 700 470 886 470`);
+  const l = document.createElementNS(NS, 'path'); l.setAttribute('d', `M312 ${CY(i)} C 600 ${CY(i)} 700 500 886 500`);
   l.setAttribute('fill', 'none'); l.setAttribute('stroke', '#C8CDD1'); l.setAttribute('stroke-width', 5); l.setAttribute('stroke-linecap', 'round'); l.id = 'l' + i;
   ln.appendChild(l); lL.push(l);
-  const r = document.createElementNS(NS, 'path'); r.setAttribute('d', `M1034 470 C 1120 470 1130 ${CY(i)} 1216 ${CY(i)}`);
+  const r = document.createElementNS(NS, 'path'); r.setAttribute('d', `M1034 500 C 1100 500 1110 ${CY(i)} 1186 ${CY(i)}`);
   r.setAttribute('fill', 'none'); r.setAttribute('stroke', '#1FA39A'); r.setAttribute('stroke-width', 5); r.setAttribute('stroke-linecap', 'round'); r.id = 'r' + i;
   ln.appendChild(r); lR.push(r);
 }

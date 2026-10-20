@@ -19,13 +19,13 @@
 <script>
 window.PALETTE = ['#D9DBD6', '#F05A28', '#1F2A33'];
 S.$('#ph').style.backgroundImage = S.ph('p63_regular_notebook');
-const T = { wr: S.at('얼굴을') };
+const T = { wr: 0.6 };   // 띠와 글이 앞 1초 안에 같이 시작(빈 띠 방지)
 S.ev(T.wr, 'marker', 'tx');
 S.scene(tau => {
   S.css('#w', { transform: `scale(${1 + 0.06 * S.P(tau, -0.2, S.SC.dur)})` });
   const k = S.ent(tau, T.wr - 0.1, 0.12);
   S.css('#tp', { opacity: k, transform: `rotate(-4deg) translateY(${(1 - k) * -14}px)` });
-  const w = S.EO(S.P(tau, T.wr, T.wr + 0.7));
+  const w = S.EO(S.P(tau, T.wr, T.wr + 0.9));
   S.css('#tx', { opacity: w > 0 ? 1 : 0, clipPath: `inset(-10px ${((1 - w) * 100).toFixed(1)}% -10px -10px)` });
 });
 </script>

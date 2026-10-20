@@ -11,11 +11,11 @@
 #tm .dk{position:absolute;inset:22px;border-radius:50%;background:#1F2A33;box-shadow:0 14px 30px rgba(10,14,18,.45)}
 #tm svg{position:absolute;inset:0}
 #tm .v{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:"Pre";font-weight:900;font-size:46px;color:#fff;letter-spacing:-.02em}
-#pn{left:1390px;top:70px;width:470px;height:330px;opacity:0}
-#pn .hd{height:60px;font-size:24px;padding:0 22px;font-weight:700;letter-spacing:.06em}
-.vb{position:absolute;bottom:34px;width:60px;border-radius:10px 10px 0 0}
-#gb{position:absolute;bottom:34px;left:330px;width:80px;border-radius:10px 10px 0 0;background:#9AA0A6}
-.cl{position:absolute;bottom:4px;font-size:22px;font-weight:700;color:#59636B;white-space:nowrap}
+#pn{left:1220px;top:170px;width:540px;height:440px;opacity:0}
+#pn .hd{height:84px;font-size:46px;padding:0 30px;font-weight:700;letter-spacing:.06em}
+.vb{position:absolute;bottom:84px;width:80px;border-radius:10px 10px 0 0}
+#gb{position:absolute;bottom:84px;left:370px;width:110px;border-radius:10px 10px 0 0;background:#9AA0A6}
+.cl{position:absolute;bottom:14px;font-size:46px;font-weight:700;color:#59636B;white-space:nowrap}
 </style></head>
 <body><div id="stage">
   <div id="w" class="abs"><div id="ph" class="photo abs"></div>
@@ -26,10 +26,10 @@
   </div>
   <div id="pn" class="app" data-box="pn">
     <div class="hd">다시 온 손님</div>
-    <div id="b1" class="vb" style="left:44px;background:#F05A28;height:0"></div>
-    <div id="b2" class="vb" style="left:124px;background:#F05A28;height:0"></div>
-    <div id="b3" class="vb" style="left:204px;background:#F05A28;height:0"></div>
-    <div id="gb"></div><div class="cl" style="left:312px">광고비</div>
+    <div id="b1" class="vb" style="left:40px;background:#F05A28;height:0"></div>
+    <div id="b2" class="vb" style="left:140px;background:#F05A28;height:0"></div>
+    <div id="b3" class="vb" style="left:240px;background:#F05A28;height:0"></div>
+    <div id="gb"></div><div class="cl" style="left:352px">광고비</div>
   </div>
 </div>
 <script src="../data/s64.js"></script>
@@ -44,7 +44,7 @@ const T = { r1: S.at('리뷰'), r2: S.at('소식'), r3: S.at('AI로'), r4: S.at(
 S.focus([{ t0: T.st, t1: T.st + 1.1, big: '석 달', color: 'or' }]);
 S.ev(T.c30, 'card_in', 'tm'); S.ev(T.c30 + 0.25, 'gauge', 'tma');
 S.ev(T.rg, 'marker', 'rg'); S.ev(T.pn, 'gauge', 'pn'); S.ev(T.ad, 'no', 'gb');
-const H = [90, 140, 200];
+const H = [110, 170, 240];
 // 10-20 효과음 채움 — «리뷰» «아낀» 에 카메라가 한 걸음 더 나아감
 S.ev(T.r1, 'sweep', 'f_step'); S.ev(T.r4, 'sweep', 'f_step');
 S.scene(tau => {
@@ -58,7 +58,7 @@ S.scene(tau => {
   const rg = S.$('#rg'); E.stroke(rg, tau, T.rg, 0.5);
   E.in('#pn', tau, T.pn, { dy: 16 });
   [0, 1, 2].forEach(i => { S.$('#b' + (i + 1)).style.height = (H[i] * S.EO(S.P(tau, T.pn + 0.1 + i * 0.18, T.pn + 0.5 + i * 0.18))) + 'px'; });
-  S.$('#gb').style.height = (170 - 120 * S.EO(S.P(tau, T.ad, T.ad + 0.5))) + 'px';
+  S.$('#gb').style.height = (250 - 180 * S.EO(S.P(tau, T.ad, T.ad + 0.5))) + 'px';
 });
 </script>
 </body></html>
