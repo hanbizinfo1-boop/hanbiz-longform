@@ -7,6 +7,10 @@
 /* 사진(1536x1024)을 1.25배로 깔고 위 130px 잘라 냄 → #ph 안은 사진 좌표 그대로 */
 #ph{left:0;top:-130px;width:1536px;height:1024px;transform-origin:0 0;transform:scale(1.25);background-size:1536px 1024px;filter:saturate(.8) contrast(1.03)}
 .fl{position:absolute;left:0;top:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;color:#1F2A33;font-family:"Pre";line-height:1.2}
+.fl{background-image:linear-gradient(100deg,rgba(255,255,255,.18) 0%,rgba(255,255,255,0) 35%,rgba(70,50,10,.14) 100%),linear-gradient(82deg,rgba(0,0,0,0) 46%,rgba(60,40,10,.20) 49%,rgba(255,255,255,.14) 52%,rgba(0,0,0,0) 56%),url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' seed='4'/><feColorMatrix values='0 0 0 0 .3  0 0 0 0 .2  0 0 0 0 .05  0 0 0 .5 0'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");box-shadow:inset 0 0 34px rgba(80,55,10,.28),0 6px 12px rgba(0,0,0,.38)}
+.fl::before,.fl::after{content:"";position:absolute;width:26%;height:7%;background:rgba(229,211,166,.72);box-shadow:0 1px 3px rgba(0,0,0,.3)}
+.fl::before{left:6%;top:-3.5%;transform:rotate(-14deg)}
+.fl::after{right:6%;top:-3.5%;transform:rotate(11deg);clip-path:polygon(0 0,100% 8%,96% 100%,4% 92%)}
 .fl .tt{font-weight:900;letter-spacing:-.02em;line-height:1.05}
 .fl .ln{font-weight:700}
 .fl .ph{font-weight:600;letter-spacing:-.02em;white-space:nowrap}
@@ -33,12 +37,16 @@ const Q = [
   [[1060, 720], [1195, 735], [1187, 925], [1045, 922]],  // 전봇대 아래
   [[1073, 160], [1180, 152], [1198, 347], [1080, 350]],  // 전봇대 위
 ];
+const COL = ['#E7D26B', '#E7A9B6', '#B9D58C', '#A5C9DF', '#EBC77A', '#E7A9B6', '#B9D58C'];   // 바랜 노랑·분홍·연두·하늘 — 장마다 다르게
 const dist = (a, b) => Math.hypot(a[0] - b[0], a[1] - b[1]);
 const fls = [];
 Q.forEach((q, i) => {
   const w = Math.round((dist(q[0], q[1]) + dist(q[3], q[2])) / 2 * 1.25), h = Math.round((dist(q[0], q[3]) + dist(q[1], q[2])) / 2 * 1.25);
   const m = w / 150;
-  const el = document.createElement('div'); el.className = 'fl'; el.setAttribute('data-diegetic',''); el.style.width = w + 'px'; el.style.height = h + 'px';
+  // 10-22 사진 속 빈 흰 종이가 처음부터 안 보이게 — 바랜 옛 색지를 먼저 깔고 새 전단이 그 위에 붙는다
+  const old = document.createElement('div'); old.className = 'fl'; old.setAttribute('data-diegetic',''); old.style.backgroundColor = COL[(i + 3) % COL.length]; old.style.filter = 'saturate(.55) brightness(.82)'; old.style.width = w + 'px'; old.style.height = h + 'px';
+  document.getElementById('ph').appendChild(old); S.fitQuad(old, w, h, q);
+  const el = document.createElement('div'); el.className = 'fl'; el.setAttribute('data-diegetic',''); el.style.backgroundColor = COL[i]; el.style.width = w + 'px'; el.style.height = h + 'px';
   el.style.padding = Math.round(10 * m) + 'px ' + Math.round(8 * m) + 'px';
   el.innerHTML = `<div class="tt" style="font-size:${Math.round(34 * m)}px">직원 구함</div>` +
     `<div class="ln" style="font-size:${Math.round(21 * m)}px;margin-top:${Math.round(8 * m)}px">성실한 분 구합니다</div>` +

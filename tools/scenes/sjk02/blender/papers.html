@@ -32,6 +32,24 @@ body{font-family:"Pre";color:#1F2A33;word-break:keep-all;position:relative}
 .dim{color:#C4C8CC!important}
 .board{background:#F4ECDC}
 .guest{background:#FFF6C9}
+/* 10-22 «하얀종이 별로» — 메뉴 카드는 어두운 앱 판(#1A1F25 · 글 #ECEEEF · 구분선 #2C343C) */
+body.dk{background:#1A1F25;color:#ECEEEF;box-shadow:inset 0 0 0 4px #2C343C}
+.dk .hdr,.dk .ftr{color:#8E979F}
+.dk .bar{border-bottom-color:#2C343C}
+.dk .st{color:#C3CAD0}
+.dk .lb{color:#8E979F}
+.dk .opt{border-top-color:#2C343C}
+.dk .opt i{border-color:#5E6670}
+.dk .mk{background:linear-gradient(transparent 52%,rgba(240,96,42,.6) 52%,rgba(240,96,42,.6) 92%,transparent 92%)}
+.dk .dim{color:#46505A!important}
+.dk .av{background:#323A42;color:#C3CAD0}
+.dk .rp{background:#242B32;color:#D2D7DB}
+/* 10-22 차림표 = 검은 칠판(분필 글) · 손님 쪽지 = 노란 리걸 패드(파란 줄 + 빨간 여백줄) — 둘 다 종이 결 */
+.board{background:#1E2124;color:#ECEEEF;box-shadow:inset 0 0 0 12px #3A3F44}
+.board .mk{background:linear-gradient(transparent 52%,rgba(240,96,42,.62) 52%,rgba(240,96,42,.62) 92%,transparent 92%)}
+.board .dim{color:#46505A!important}
+.guest{background-color:#F1E3A6;background-image:linear-gradient(90deg,transparent 70px,rgba(205,55,55,.55) 70px,rgba(205,55,55,.55) 74px,transparent 74px),linear-gradient(transparent 0,transparent 136px,rgba(60,110,200,.50) 136px,rgba(60,110,200,.50) 139px);background-size:100% 100%,100% 138px;background-position:0 0,0 114px}
+.tex::after{content:"";position:absolute;left:0;top:0;width:1000px;height:1414px;pointer-events:none;opacity:.55;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' seed='4'/><feColorMatrix values='0 0 0 0 .25 0 0 0 0 .2 0 0 0 0 .08 .8 0 0 0 -.28'/></filter><rect width='300' height='300' filter='url(%23n)'/></svg>")}
 </style></head>
 <body>
 <div id="root"></div>
@@ -49,10 +67,11 @@ const REV = ['1,204', '873', '2,310', '519', '1,066', '402', '958', '1,731', '64
 const PHOTO = [['p29_two_pots', '30% 40%'], ['p30_burner_flame', '50% 60%'], ['p67_pot_lid_steam', '50% 50%'], ['p40_meat_trimming', '40% 50%'], ['p29_two_pots', '72% 45%'],
   ['p67_pot_lid_steam', '30% 60%'], ['p30_burner_flame', '20% 40%'], ['p38_cabbage_macro', '50% 50%'], ['p29_two_pots', '50% 70%'], ['p40_meat_trimming', '70% 40%'], ['p30_burner_flame', '60% 50%']];
 const nmCls = NM ? '' : ' dim';
-const back = '<svg viewBox="0 0 24 24" fill="none" stroke="#1F2A33" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>';
+const back = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>';
 const head = (t) => `<div class="hdr"><span>${D} 오전 9:${String(10 + i * 3).padStart(2, '0')}</span><span>${t}</span></div><div class="ftr"><span></span><span>1/1</span></div>`;
 let h = '';
 if (k === 'menu') {
+  document.body.classList.add('dk');
   const ph = PHOTO[i % PHOTO.length], txt = B ? B_TXT : A_TXT;
   h = head('메뉴 상세') + `<div class="bar">${back}메뉴</div>
   <div class="ph" style="left:50px;top:180px;width:900px;height:500px;border-radius:22px;background-image:${P(ph[0])};background-position:${ph[1]}"></div>
@@ -68,6 +87,7 @@ if (k === 'menu') {
       <div class="opt"><i></i>포장 가능<span>-500원</span></div>
     </div></div>`;
 } else if (k === 'review') {
+  document.body.classList.add('dk');
   h = head('리뷰 관리') + `<div class="bar">${back}리뷰</div>
   <div style="position:absolute;left:50px;right:50px;top:200px">
     <div style="display:flex;gap:24px;align-items:center"><div class="av">${['김', '이', '박', '최'][i % 4]}</div>
@@ -78,6 +98,7 @@ if (k === 'menu') {
     <div class="rp" style="margin-top:14px"><span class="nm${nmCls}" style="font-size:30px;display:block;margin-bottom:10px">○○국밥</span>찾아 주셔서 감사합니다. ${MK || B ? '<span class="mk">새벽 5시에 불 올려 끓인 국물</span>이라 더 진하게 느끼셨을 거예요. 다음에도 점심 전에 오세요.' : '소중한 리뷰 감사합니다. 앞으로도 더 노력하는 가게가 되겠습니다.'}</div>
   </div>`;
 } else if (k === 'news') {
+  document.body.classList.add('dk');
   h = head('가게 소식') + `<div class="bar">${back}소식</div>
   <div style="position:absolute;left:50px;right:50px;top:196px">
     <div style="display:flex;gap:20px;align-items:center"><div class="av" style="background:#F6D9CC;color:#B8431B">○</div><div><div class="nm${nmCls}" style="font-size:34px">○○국밥</div><div style="font-size:26px;color:#8A9096;margin-top:4px">${D}</div></div></div>
@@ -87,13 +108,13 @@ if (k === 'menu') {
     <div style="margin-top:30px;font-size:28px;color:#8A9096">좋아요 ${[128, 96, 154][i % 3]} · 댓글 ${[14, 9, 21][i % 3]}</div>
   </div>`;
 } else if (k === 'board') {
-  document.body.classList.add('board');
+  document.body.classList.add('board', 'tex');
   const rows = [['돼지국밥', '9,000'], ['순대국밥', '9,500'], ['수육국밥', '10,500'], ['수육 (소)', '18,000'], ['수육 (대)', '26,000'], ['공기밥', '1,000']];
-  h = `<div style="position:absolute;left:80px;right:80px;top:110px;text-align:center"><div class="nm${nmCls}" style="font-size:64px">○○국밥</div><div style="font-size:44px;font-weight:800;letter-spacing:.4em;margin-top:16px;color:#5A4A3A">차 림 표</div></div>
-  <div style="position:absolute;left:110px;right:110px;top:360px;border-top:4px solid #5A4A3A">${rows.map(r => `<div style="display:flex;justify-content:space-between;font-size:52px;font-weight:700;padding:26px 0;border-bottom:2px dashed #BBA98F"><span>${r[0]}</span><span>${r[1]}</span></div>`).join('')}</div>
+  h = `<div style="position:absolute;left:80px;right:80px;top:110px;text-align:center"><div class="nm${nmCls}" style="font-size:64px">○○국밥</div><div style="font-size:44px;font-weight:800;letter-spacing:.4em;margin-top:16px;color:#A3ACB4">차 림 표</div></div>
+  <div style="position:absolute;left:110px;right:110px;top:360px;border-top:4px solid #A3ACB4">${rows.map(r => `<div style="display:flex;justify-content:space-between;font-size:52px;font-weight:700;padding:26px 0;border-bottom:2px dashed #58616A"><span>${r[0]}</span><span>${r[1]}</span></div>`).join('')}</div>
   <div style="position:absolute;left:110px;right:110px;top:1150px;text-align:center;font-size:52px;font-weight:900;letter-spacing:-.02em"><span class="mk">매일 새벽 5시, 딱 한 솥</span></div>`;
 } else if (k === 'guest') {
-  document.body.classList.add('guest');
+  document.body.classList.add('guest', 'tex');
   h = `<div style="position:absolute;left:90px;right:90px;top:150px;font-family:Hand;font-weight:700;font-size:92px;line-height:1.5;color:#2A3440;transform:rotate(-2deg)">새벽에 한 솥만<br>끓인다는 그 집!<br>국물이 확실히<br>달라요. 또 올게요</div>
   <div style="position:absolute;right:100px;bottom:140px;font-family:Hand;font-weight:700;font-size:64px;color:#55606A">- 302호 이웃</div>`;
 }

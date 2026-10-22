@@ -21,7 +21,16 @@ STACK = [("수익", 300, None), ("가스비", 90, ("가스비", 0)), ("전기세
 # 빠진 블록이 서는 자리(x) — 광고·전기·가스는 같은 자리에 쌓임
 SLOT = {"재료비": 0.24, "월세": 0.42, "인건비": 0.60, "수수료": 0.78, "광고비": 0.96, "전기세": 0.96, "가스비": 0.96}
 
-st.counter("steel", wall="p59_shop_wall", wall_dist=1.6, wall_bright=0.45)
+st.counter("dark", wall="p59_shop_wall", wall_dist=1.6, wall_bright=0.10)   # 10-22 흰 스테인리스 계산대 → 짙은 콘크리트 + 어두운 세상
+_cm = bpy.data.materials["counter"]; _nt = _cm.node_tree
+_im = [n for n in _nt.nodes if n.type == "TEX_IMAGE"][0]
+_im.image = bpy.data.images.load(str(B.ROOT / "소재/sjk02/codex/t_concrete.png")); _im.extension = "MIRROR"
+_tc = _nt.nodes.new("ShaderNodeTexCoord"); _mp = _nt.nodes.new("ShaderNodeMapping"); _mp.inputs["Scale"].default_value = (3, 2.2, 1)
+_nt.links.new(_tc.outputs["UV"], _mp.inputs[0]); _nt.links.new(_mp.outputs[0], _im.inputs[0])
+_bd = _nt.nodes["Principled BSDF"]; _bd.inputs["Roughness"].default_value = 0.8; _bd.inputs["Specular IOR Level"].default_value = 0.1
+_hv = _nt.nodes.new("ShaderNodeHueSaturation"); _hv.inputs["Value"].default_value = 0.05; _hv.inputs["Saturation"].default_value = 0.8   # 짙게
+_nt.links.new(_im.outputs[0], _hv.inputs["Color"]); _nt.links.new(_hv.outputs[0], _bd.inputs["Base Color"])
+_w = st.sc.world.node_tree.nodes["Background"]; _w.inputs[0].default_value = (0.02, 0.022, 0.025, 1); _w.inputs[1].default_value = 0.35
 st.lights(warm=True)
 
 t_build = 0.30

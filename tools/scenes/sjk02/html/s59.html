@@ -6,24 +6,30 @@
 #cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
 #ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background-size:100% 100%;background-repeat:no-repeat}
 .po{position:absolute;left:0;top:0;background:#F6F1E6;font-family:"Pre";color:#2B2620;text-align:center;overflow:hidden;transform-origin:0 0}
-.po .a{color:#E2501C}
+.cY{--bg:#F6E43B;--tx:#231C12;--ac:#D3281B}
+.cR{--bg:#F2452B;--tx:#FFF6D6;--ac:#FFE94A}
+.cG{--bg:#B8E63A;--tx:#1F2A10;--ac:#C2200F}
+.cO{--bg:#FF8A00;--tx:#1A1208;--ac:#fff}
+.cD{--bg:#E0201A;--tx:#fff;--ac:#FFE94A}
+.po{background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='2' seed='4'/><feColorMatrix values='0 0 0 0 0.2  0 0 0 0 0.15  0 0 0 0 0.05  0 0 0 0.45 -.08'/></filter><rect width='220' height='220' filter='url(%23n)'/></svg>"),linear-gradient(115deg,rgba(255,255,255,.2),transparent 42%,rgba(40,20,0,.2)),var(--bg)!important;color:var(--tx)!important;box-shadow:inset 0 0 22px rgba(60,30,0,.3),0 4px 10px rgba(0,0,0,.4)!important}
+.po .a{color:var(--ac)!important}
 .pl{position:absolute;width:56px;height:56px;border-radius:50%;background:#F05A28;color:#fff;font-size:46px;line-height:54px;text-align:center;font-weight:900;font-family:"Pre";box-shadow:0 6px 14px rgba(0,0,0,.4);border:3px solid #fff}
 </style></head>
 <body><div id="stage">
   <div id="cam">
     <div id="ph"></div>
-    <div id="p0" class="po" data-diegetic data-box="p0" style="width:300px;height:400px">
+    <div id="p0" class="po cY" data-diegetic data-box="p0" style="width:300px;height:400px">
       <div class="blk a" style="font-size:54px;margin-top:22px;line-height:1.05">신메뉴<br>출시</div>
       <div style="margin:14px 22px 0;height:130px;border-radius:6px;background:url('../../../../소재/sjk02/codex/p67_pot_lid_steam.png') 42% 58%/190% auto"></div>
       <div style="font-size:38px;font-weight:800;margin-top:12px">얼큰 국밥</div>
       <div class="blk a" style="font-size:50px;line-height:1.1">10,000원</div>
     </div>
-    <div id="p1" class="po" data-diegetic data-box="p1" style="width:112px;height:168px">
+    <div id="p1" class="po cR" data-diegetic data-box="p1" style="width:112px;height:168px">
       <div style="font-size:28px;font-weight:800;margin-top:10px">오늘만</div>
       <div class="blk a" style="font-size:44px;line-height:1.1;margin-top:6px">20%</div>
       <div style="font-size:32px;font-weight:800;margin-top:4px">할인</div>
     </div>
-    <div id="p2" class="po" data-diegetic data-box="p2" style="width:90px;height:232px">
+    <div id="p2" class="po cG" data-diegetic data-box="p2" style="width:90px;height:232px">
       <div style="font-size:24px;font-weight:800;margin-top:20px">배달앱</div>
       <div class="blk a" style="font-size:32px;margin-top:10px;line-height:1.15">리뷰</div>
       <div style="font-size:26px;font-weight:800;margin-top:8px">이벤트</div>

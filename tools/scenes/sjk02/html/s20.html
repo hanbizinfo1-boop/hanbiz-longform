@@ -8,13 +8,13 @@
 #tilt{left:880px;top:270px;width:900px;height:660px;transform:perspective(2200px) rotateX(8deg) rotateZ(-3deg);transform-origin:50% 50%}
 #pn{left:0;top:0;width:900px;height:510px}
 #pn .hd{height:70px;font-size:36px;padding:0 34px}
-#nm{height:84px;display:flex;align-items:center;padding:0 34px;font-size:38px;font-weight:800;border-bottom:1px solid #EEF0F1;color:#59636B}
-.sr{position:relative;height:116px;display:flex;align-items:center;padding:0 34px;border-bottom:1px solid #EEF0F1;font-size:40px;font-weight:800}
-.sr .sw{position:absolute;right:40px;top:30px;width:112px;height:56px;border-radius:28px;background:#C8CDD1}
-.sr .sw i{position:absolute;left:5px;top:5px;width:46px;height:46px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+#nm{height:84px;display:flex;align-items:center;padding:0 34px;font-size:38px;font-weight:800;border-bottom:1px solid #2C343C;color:#A3ACB4}
+.sr{position:relative;height:116px;display:flex;align-items:center;padding:0 34px;border-bottom:1px solid #262D34;color:#ECEEEF;font-size:40px;font-weight:800}
+.sr .sw{position:absolute;right:40px;top:30px;width:112px;height:56px;border-radius:28px;background:#4A525A}
+.sr .sw i{position:absolute;left:5px;top:5px;width:46px;height:46px;border-radius:50%;background:#E3E6E8;box-shadow:0 2px 6px rgba(0,0,0,.5)}
 #bar{left:0;top:590px;width:900px;height:72px}
-#bar .lab{position:absolute;left:34px;top:20px;font-size:30px;color:#1F2A33;letter-spacing:.08em}
-#bar .tr{position:absolute;left:250px;top:24px;width:600px;height:26px;border-radius:13px;background:#E3E6E8}
+#bar .lab{position:absolute;left:34px;top:20px;font-size:30px;color:#ECEEEF;letter-spacing:.08em}
+#bar .tr{position:absolute;left:250px;top:24px;width:600px;height:26px;border-radius:13px;background:#323A42}
 #bar .fl{position:absolute;left:250px;top:24px;height:26px;border-radius:13px;background:var(--te)}
 </style></head>
 <body><div id="stage">
@@ -34,7 +34,7 @@
 <script src="../lib/sjk.js"></script>
 <script src="../lib/e4.js"></script>
 <script>
-window.PALETTE = ['#D9DBD6', '#1F2A33', '#1FA39A'];   // 흐린 낮 사진 + 흰 앱 판 + 청록 스위치 = AI 가 하는 것
+window.PALETTE = ['#D9DBD6', '#1A1F25', '#1FA39A'];   // 흐린 낮 사진 + 어두운 앱 판 + 청록 스위치 = AI 가 하는 것
 window.DEVICES = ['실제 화면 동작'];
 const T = { nm: S.at('상담하는'), rows: S.at('무조건'), rv: S.at('리뷰도'), sk: S.at('소식'), mn: S.at('메뉴'), down: S.at('일은 진짜') };
 document.getElementById('ph').style.backgroundImage = S.ph('p20_consult_table');
@@ -42,7 +42,7 @@ S.ev(0.0, 'in', 'pn'); S.ev(T.nm, 'card_in', 'nm');
 S.ev(T.rv, 'click', 's1'); S.ev(T.sk, 'ok', 's2'); S.ev(T.mn, 'click', 's3'); S.ev(T.down, 'gauge', 'fl');
 const sw = (id, tau, t0) => {
   const el = document.getElementById(id), k = S.EO(S.P(tau, t0, t0 + 0.18));
-  el.style.background = `rgb(${Math.round(200 + (31 - 200) * k)},${Math.round(205 + (163 - 205) * k)},${Math.round(209 + (154 - 209) * k)})`;
+  el.style.background = `rgb(${Math.round(74 + (31 - 74) * k)},${Math.round(82 + (163 - 82) * k)},${Math.round(90 + (154 - 90) * k)})`;
   el.firstElementChild.style.left = (5 + 56 * k) + 'px';
 };
 S.scene(tau => {

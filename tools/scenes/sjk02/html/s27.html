@@ -15,11 +15,11 @@
 .ul{background-repeat:no-repeat;background-position:0 100%;background-size:0 4px;background-image:linear-gradient(#9AA0A6,#9AA0A6);padding-bottom:4px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 #toast{position:absolute;left:640px;top:372px;padding:8px 18px;border-radius:10px;background:#E7EAEC;color:#14191E;font-size:24px;font-weight:700;opacity:0}
 #app{left:1110px;top:230px;width:660px;height:580px;transform-origin:50% 50%}
-#app .fl{padding:12px 28px 0;font-size:22px;font-weight:600;color:#6B747B}
-#app .bx{margin:6px 28px 0;border:2px solid #D5DADD;border-radius:10px;padding:12px 16px;font-size:28px;font-weight:700;color:#1F2A33;line-height:1.45}
+#app .fl{padding:12px 28px 0;font-size:22px;font-weight:600;color:#9AA3AB}
+#app .bx{margin:6px 28px 0;border:2px solid #343D45;background:#13171C;border-radius:10px;padding:12px 16px;font-size:28px;font-weight:700;color:#ECEEEF;line-height:1.45}
 #app .bx.big{height:128px;font-weight:500;font-size:26px}
 #app .bx.on{border-color:#1FA39A;box-shadow:0 0 0 4px rgba(31,163,154,.18)}
-#app .sv{position:absolute;right:28px;bottom:22px;width:150px;height:60px;border-radius:12px;background:#1F2A33;color:#fff;font-size:26px;font-weight:800;display:flex;align-items:center;justify-content:center}
+#app .sv{position:absolute;right:28px;bottom:22px;width:150px;height:60px;border-radius:12px;background:#3A434C;color:#fff;font-size:26px;font-weight:800;display:flex;align-items:center;justify-content:center}
 #cur{position:absolute;left:0;top:0;width:36px;height:36px;opacity:0;z-index:50;filter:drop-shadow(0 3px 5px rgba(0,0,0,.5))}
 </style></head>
 <body><div id="stage">
@@ -93,7 +93,7 @@ S.scene(tau => {
   else dt.innerHTML = tau >= T.foc ? '<span class="caret"></span>' : '';
   // 저장 버튼 눌림
   const pr = S.EO(S.P(tau, TSAVE, TSAVE + 0.1)) * (1 - S.P(tau, TSAVE + 0.15, TSAVE + 0.3));
-  S.css('#sv', { transform: `scale(${(1 - 0.08 * pr).toFixed(3)})`, background: tau > TSAVE ? '#1FA39A' : '#1F2A33' });
+  S.css('#sv', { transform: `scale(${(1 - 0.08 * pr).toFixed(3)})`, background: tau > TSAVE ? '#1FA39A' : '#3A434C' });
   // 마우스 커서
   const cur = $('#cur');
   const answerR = rectOf(ans);

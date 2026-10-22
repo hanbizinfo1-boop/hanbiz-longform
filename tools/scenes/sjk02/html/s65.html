@@ -8,11 +8,12 @@
 /* 10-20 자가검수: 둥근 흐림 호 대신 위쪽 전체에 같은 흐림을 깔고 아래로 서서히 풀어 경계선이 안 보이게 */
 .fm{position:absolute;left:0;top:-100px;width:1920px;height:740px;-webkit-mask-image:linear-gradient(to bottom,#000 0,#000 66%,transparent 100%);mask-image:linear-gradient(to bottom,#000 0,#000 66%,transparent 100%)}
 .fi{position:absolute;left:-30px;top:-30px;width:1980px;height:800px;background-repeat:no-repeat;background-size:1920px 1280px;background-position:30px 30px;filter:blur(15px)}
-#tb{position:absolute;left:0;top:0;width:1200px;height:1000px;background:#EDEEF3;font-family:"Pre";color:#1F2A33}
-#tb .ln{position:absolute;left:0;height:3px;width:1200px;background:#C9CCD3}
-#tb .vl{position:absolute;top:0;width:3px;height:1000px;background:#C9CCD3}
-#tb .hd{position:absolute;top:70px;font-size:40px;font-weight:800;color:#59636B;letter-spacing:.1em}
-#tb .lb{position:absolute;left:40px;font-size:44px;font-weight:800;white-space:nowrap}
+#sh{position:absolute;left:0;top:0;width:1920px;height:1080px;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='2' seed='4'/><feColorMatrix values='0 0 0 0 0.3  0 0 0 0 0.22  0 0 0 0 0.05  0 0 0 0.5 -.08'/></filter><rect width='220' height='220' filter='url(%23n)'/></svg>"),linear-gradient(115deg,rgba(255,250,215,.22),transparent 40%,rgba(90,60,10,.2)),#E9DA9C;clip-path:polygon(190px 167px,506px 167px,1050px 160px,1047px 87px,1322px 32px,1821px 1043px,390px 1225px);opacity:0}
+#tb{position:absolute;left:0;top:0;width:1200px;height:1000px;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='2' seed='4'/><feColorMatrix values='0 0 0 0 0.3  0 0 0 0 0.22  0 0 0 0 0.05  0 0 0 0.5 -.08'/></filter><rect width='220' height='220' filter='url(%23n)'/></svg>"),repeating-linear-gradient(to bottom,rgba(70,120,190,.75) 0 3px,transparent 3px 50px),linear-gradient(90deg,transparent 0 21px,rgba(205,60,50,.8) 21px 24px,transparent 24px 29px,rgba(205,60,50,.8) 29px 32px,transparent 32px),linear-gradient(115deg,rgba(255,250,215,.22),transparent 40%,rgba(90,60,10,.2)),#F1E3A6;box-shadow:inset 0 0 40px rgba(110,80,20,.35);font-family:"Pre";color:#1F2A33}
+#tb .ln{position:absolute;left:0;height:3px;width:1200px;background:rgba(70,120,190,.75)}
+#tb .vl{position:absolute;top:0;width:3px;height:1000px;background:rgba(70,120,190,.85)}
+#tb .hd{position:absolute;top:70px;font-size:40px;font-weight:800;color:#5B4A24;letter-spacing:.1em}
+#tb .lb{position:absolute;left:56px;font-size:44px;font-weight:800;white-space:nowrap}
 #tb .ce{position:absolute;left:340px;width:230px;height:66px;border-radius:6px;background:#1F2A33;color:#fff;font-size:38px;font-weight:800;display:flex;align-items:center;justify-content:center}
 #tb .cl{position:absolute;left:790px;top:20px;width:340px;height:760px;border:5px dashed rgba(240,90,40,.0);border-radius:10px}
 </style></head>
@@ -23,6 +24,7 @@
   </div>
   <div id="shotB" class="cam">
     <div id="ph2" class="ph"></div>
+    <div id="sh"></div>
     <div id="tb" data-diegetic>
       <div class="ln" style="top:150px"></div><div class="ln" style="top:300px"></div><div class="ln" style="top:450px"></div><div class="ln" style="top:600px"></div>
       <div class="vl" style="left:780px"></div>
@@ -60,7 +62,7 @@ S.scene(tau => {
   S.$('#shotA').style.transform = S.camCssC({ s, x, y });
   // 샷 B: 근무 기록지 — 줄 셋의 접힌 칸이 차례로, «시간을» 에 «손님» 열로 미끄러져 모임, «손님한테» 에 주홍
   S.$('#shotB').style.transform = S.camCssC({ s: S.lerp(1.0, 1.07, S.P(tau, T.cut, S.SC.dur)), x: 960, y: 540 });
-  S.css('#tb', { opacity: S.ent(tau, T.cut, 0.25) });
+  S.css('#tb', { opacity: S.ent(tau, T.cut, 0.25) }); S.css('#sh', { opacity: S.ent(tau, T.cut, 0.25) });
   const R = [T.cut, T.r1, T.r2];
   const m = S.EZ(S.P(tau, T.mv, T.mv + 0.6)), o = S.ent(tau, T.cus, 0.2);
   R.forEach((t, i) => {

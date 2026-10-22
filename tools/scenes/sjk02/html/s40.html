@@ -7,7 +7,7 @@
 #bl{position:absolute;left:0;top:0;width:1920px;height:1080px}
 #arw{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:visible}
 #arw path{fill:none;stroke:#F05A28;stroke-width:9;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 3px 6px rgba(0,0,0,.45))}
-#lb{position:absolute;left:0;top:0;font-family:"Hand";font-weight:700;font-size:64px;color:#fff;white-space:nowrap;text-shadow:0 3px 14px rgba(0,0,0,.7)}
+#lb{position:absolute;left:0;top:0;font-family:"Pre";font-weight:900;font-size:72px;line-height:1;letter-spacing:-.02em;color:#fff;white-space:nowrap;padding:14px 30px 18px;border-radius:14px;background:#14191E;box-shadow:0 0 0 4px #fff,0 14px 30px rgba(0,0,0,.5)}
 </style></head>
 <body><div id="stage">
   <img id="bl" alt="">
@@ -19,7 +19,7 @@
 <script src="../lib/e4.js"></script>
 <script src="../../../../_tmp/sjk02/blender/s40/track.js"></script>
 <script>
-window.PALETTE = ['#6B5A50', '#FFFFFF', '#F05A28'];   // 고기 손질 사진 · 흰 손글씨 · 주홍 화살표
+window.PALETTE = ['#6B5A50', '#14191E', '#F05A28'];   // 고기 손질 사진 · 먹판 이름표(흰 글) · 주홍 화살표
 window.DEVICES = ['R5 사진 2.5D(블렌더)', 'R11 손그림 화살표'];
 const T = { plain: S.at('평범한'), talk: S.at('얘기를'), morn: S.at('매일'), self: S.at('직접'), fat: S.at('기름을'), others: S.at('남들은'), obv: S.at('당연해서') };
 S.ev(0.0, 'in', 'photo');
@@ -39,14 +39,14 @@ S.scene(async tau => {
   if (!p) return;
   const [fx, fy] = p[0];                       // 들어 올린 기름 조각
   // 화살표: 오른쪽 아래(고기 판 위 빈자리)에서 곡선으로 올라와 들어 올린 기름 조각을 가리킴
-  const sx = fx + 360, sy = fy + 260, ex = fx + 50, ey = fy + 40;
+  const sx = fx + 360, sy = fy + 260, ex = fx + 30, ey = fy + 55;
   S.$('#ap').setAttribute('d', `M${sx} ${sy} C ${sx - 30} ${sy - 150}, ${ex + 170} ${ey + 20}, ${ex} ${ey}`);
   S.$('#ah').setAttribute('d', `M${ex + 50} ${ey + 8} L${ex} ${ey} L${ex + 22} ${ey + 46}`);
   S.$('#ap')._len = 0; S.$('#ah')._len = 0;              // 화살표가 사진을 따라 움직여 길이가 바뀜 → 매 프레임 다시 잼
   E.stroke('#ap', tau, T.fat + 0.15, 0.45);
   E.stroke('#ah', tau, T.fat + 0.55, 0.15);
   const k = S.ent(tau, T.fat + 0.75, 0.12);
-  S.css('#lb', { opacity: k, transform: `translate(${(sx - 50).toFixed(1)}px,${(sy + 10 + (1 - k) * 10).toFixed(1)}px)` });
+  S.css('#lb', { opacity: k, transform: `translate(${(sx - 100).toFixed(1)}px,${(sy + 4 + (1 - k) * 10).toFixed(1)}px)` });
 });
 </script>
 </body></html>

@@ -5,13 +5,13 @@
 <style>
 #cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 500px}
 #bgw{left:-40px;top:-30px;width:2000px;height:1140px;background-size:cover;background-position:center;filter:brightness(.82) saturate(.9)}
-.rv{position:absolute;width:390px;height:330px;border-radius:14px;background:#fff;overflow:hidden;box-shadow:0 24px 50px rgba(10,14,18,.42),0 3px 8px rgba(10,14,18,.3);padding:20px 24px;font-family:"Pre"}
+.rv{position:absolute;width:390px;height:330px;border-radius:14px;background:#1A1F25;border:1px solid #2C343C;color:#ECEEEF;overflow:hidden;box-shadow:0 24px 50px rgba(0,0,0,.55),0 3px 8px rgba(0,0,0,.4);padding:20px 24px;font-family:"Pre"}
 .rv .tp{display:flex;align-items:center;gap:14px}
 .rv .av{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:24px;color:#fff}
 .rv .st{color:#F2A33A;font-size:26px;letter-spacing:3px}
 .rv .tx{margin-top:12px;font-size:25px;line-height:1.4;font-weight:600;height:72px;overflow:hidden}
-.rv .rp{margin-top:12px;background:#F2F4F5;border:2px solid #9AA0A6;border-radius:10px;padding:10px 14px;font-size:22px;line-height:1.4;color:#3A444C;height:148px;overflow:hidden}
-.rv .rp b{font-size:22px;color:#1F2A33;margin-right:6px}
+.rv .rp{margin-top:12px;background:#242B32;border:2px solid #5E6670;border-radius:10px;padding:10px 14px;font-size:22px;line-height:1.4;color:#D2D7DB;height:148px;overflow:hidden}
+.rv .rp b{font-size:22px;color:#ECEEEF;margin-right:6px}
 </style></head>
 <body><div id="stage">
   <div id="cam" class="abs">
@@ -22,7 +22,7 @@
 <script src="../data/s09.js"></script>
 <script src="../lib/sjk.js"></script>
 <script>
-window.PALETTE = ['#D9DBD6', '#1F2A33', '#9AA0A6'];   // 나무 바탕 + 흰 카드 → 같은 답글이 회색으로 빠짐
+window.PALETTE = ['#D9DBD6', '#1A1F25', '#9AA0A6'];   // 나무 바탕 + 어두운 카드 → 같은 답글이 회색으로 빠짐
 window.DEVICES = ['리뷰 콜라주'];
 const T = { rv: S.at('리뷰'), thx: S.at('소중한'), end: S.at('되겠습니다') };
 const R = '소중한 리뷰 감사합니다. 앞으로도 더 노력하는 가게가 되겠습니다.';

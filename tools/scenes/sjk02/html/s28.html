@@ -6,10 +6,10 @@
 #world{left:0;top:0;width:1920px;height:1080px;transform-origin:1145px 450px}
 #ph{left:0;top:0;width:1920px;height:1080px;filter:saturate(.7)}
 #glow{position:absolute;left:0;top:0;width:300px;height:440px;background:rgba(255,255,255,.10);box-shadow:0 0 0 3px rgba(255,255,255,.95),0 0 60px 16px rgba(255,200,170,.45)}
-#memo{position:absolute;left:0;top:0;width:300px;height:440px}
+#memo{position:absolute;left:0;top:0;width:300px;height:440px;background-color:#E6D160;background-image:linear-gradient(180deg,rgba(255,255,255,.18) 0,rgba(255,255,255,0) 14%),linear-gradient(0deg,rgba(90,60,0,.20) 0,rgba(90,60,0,0) 18%),linear-gradient(100deg,rgba(255,255,255,.10),rgba(60,40,0,.10)),url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' seed='3'/><feColorMatrix values='0 0 0 0 .35  0 0 0 0 .25  0 0 0 0 .02  0 0 0 .45 0'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");box-shadow:0 12px 22px rgba(0,0,0,.45),inset 0 0 30px rgba(110,80,0,.22)}
 .hl{position:absolute;left:28px;font-size:72px;line-height:1;color:#1F2A33;white-space:nowrap;font-family:"Hand";font-weight:700}
 #brush{position:absolute;left:0;top:0;width:300px;height:440px;overflow:visible}
-#brush path{fill:none;stroke:#F05A28;stroke-linecap:round;stroke-linejoin:round;opacity:.85;mix-blend-mode:multiply}
+#brush path{fill:none;stroke:#F05A28;stroke-linecap:round;stroke-linejoin:round;opacity:.9;mix-blend-mode:multiply}
 #shade{position:absolute;left:0;top:0;width:1920px;height:1080px}
 #big{position:absolute;left:1400px;top:330px;font-size:230px;line-height:1;color:#fff;text-shadow:0 8px 34px rgba(0,0,0,.65);white-space:nowrap;opacity:0}
 </style></head>
@@ -22,7 +22,7 @@
       <div id="l2" class="hl" style="top:118px">불 올림</div>
       <div id="l3" class="hl" style="top:232px">점심 전</div>
       <div id="l4" class="hl" style="top:316px">한 솥</div>
-      <svg id="brush" viewBox="0 0 300 440"><path id="bp" d="M18 206 C 80 194, 170 200, 262 190" stroke-width="22"/></svg>
+      <svg id="brush" viewBox="0 0 300 440"><path id="bp" d="M18 206 C 80 194, 170 200, 262 190" stroke-width="12"/></svg>
     </div>
   </div>
   <svg id="shade"><defs><filter id="bl" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="46"/></filter>
@@ -44,7 +44,13 @@ S.ev(T.w1, 'marker', 'l1'); S.ev(T.w2, 'paper', 'l3'); S.ev(T.narrow, 'shine', '
 const KEYS = [{ t: 0, s: 1.3, x: 1145, y: 450 }, { t: T.zoom, s: 1.4, x: 1145, y: 450, d: 0.5 }];
 // 10-20 효과음 채움 — 메모에 «차이가» 로 카메라가 한 번 더 다가감
 S.ev(T.zoom - 0.1, 'sweep', 'f_zoom');
+// 밑줄 = «불 올림» 글 상자(offset 좌표 = 메모 안 좌표)에서 계산 — 글 아래 6px, 글 폭 + 양쪽 6px
+function fitUnder() {
+  const t = S.$('#l2'), x0 = t.offsetLeft - 6, x1 = t.offsetLeft + t.offsetWidth + 6, y = t.offsetTop + t.offsetHeight + 4;
+  S.$('#bp').setAttribute('d', `M${x0} ${y + 3} C ${x0 + (x1 - x0) * .3} ${y - 3}, ${x0 + (x1 - x0) * .7} ${y + 2}, ${x1} ${y - 2}`);
+}
 S.scene(tau => {
+  fitUnder();
   const c = S.camState(tau, KEYS), drift = S.P(tau, 0, S.SC.dur);
   S.css('#world', { transform: `scale(${(c.s * (1 + 0.012 * drift)).toFixed(4)})` });
   // 메모 글: 왼→오 닦아 써짐(1~2줄 «살아남는», 3~4줄 «시키기 전에»)

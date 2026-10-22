@@ -7,15 +7,15 @@
 #ph{left:0;top:0;width:2150px;height:1433px}
 .ck{opacity:0}
 /* 10-20 «가생이 칩» 걷어 냄 → 대표님 머리 옆 시계 고리: 30분 = 반 바퀴가 돌아감 */
-#tm{left:935px;top:290px;width:190px;height:190px;opacity:0}
+#tm{left:520px;top:280px;width:190px;height:190px;opacity:0}
 #tm .dk{position:absolute;inset:22px;border-radius:50%;background:#1F2A33;box-shadow:0 14px 30px rgba(10,14,18,.45)}
 #tm svg{position:absolute;inset:0}
 #tm .v{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:"Pre";font-weight:900;font-size:46px;color:#fff;letter-spacing:-.02em}
 #pn{left:1220px;top:170px;width:540px;height:440px;opacity:0}
 #pn .hd{height:84px;font-size:46px;padding:0 30px;font-weight:700;letter-spacing:.06em}
 .vb{position:absolute;bottom:84px;width:80px;border-radius:10px 10px 0 0}
-#gb{position:absolute;bottom:84px;left:370px;width:110px;border-radius:10px 10px 0 0;background:#9AA0A6}
-.cl{position:absolute;bottom:14px;font-size:46px;font-weight:700;color:#59636B;white-space:nowrap}
+#gb{position:absolute;bottom:84px;left:370px;width:110px;border-radius:10px 10px 0 0;background:#5E6670}
+.cl{position:absolute;bottom:14px;font-size:46px;font-weight:700;color:#A3ACB4;white-space:nowrap}
 </style></head>
 <body><div id="stage">
   <div id="w" class="abs"><div id="ph" class="photo abs"></div>
@@ -39,7 +39,7 @@
 window.PALETTE = ['#D9DBD6', '#F05A28', '#1FA39A'];
 window.DEVICES = ['(기존) 홀 사진 + 그래프'];
 S.$('#ph').style.backgroundImage = S.ph('p64_hall_wide');
-E.svg('#w', 2150, 1433, '<ellipse id="rg" cx="1302" cy="720" rx="150" ry="330" fill="none" stroke="#F05A28" stroke-width="9"/>');
+E.svg('#w', 2150, 1433, '<ellipse id="rg" cx="1254" cy="633" rx="210" ry="420" fill="none" stroke="#F0602A" stroke-width="9"/>');
 const T = { r1: S.at('리뷰'), r2: S.at('소식'), r3: S.at('AI로'), r4: S.at('아낀'), c30: S.at('30분씩'), rg: S.at('인사만'), st: S.at('석'), pn: S.at('다시') + 0.35, ad: S.at('광고비는') };
 S.focus([{ t0: T.st, t1: T.st + 1.1, big: '석 달', color: 'or' }]);
 S.ev(T.c30, 'card_in', 'tm'); S.ev(T.c30 + 0.25, 'gauge', 'tma');

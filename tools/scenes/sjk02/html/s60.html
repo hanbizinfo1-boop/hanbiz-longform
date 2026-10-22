@@ -7,7 +7,14 @@
 #pw{position:absolute;left:0;top:0;width:1920px;height:1080px}
 #ph{position:absolute;left:0;top:-100px;width:1920px;height:1280px;background-size:100% 100%;background-repeat:no-repeat}
 .po{position:absolute;background:#F6F1E6;font-family:"Pre";color:#2B2620;text-align:center;overflow:hidden;box-shadow:0 4px 10px rgba(0,0,0,.35);transform-origin:50% 50%;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.po .a{color:#E2501C;font-weight:900}
+.cY{--bg:#F6E43B;--tx:#231C12;--ac:#D3281B}
+.cR{--bg:#F2452B;--tx:#FFF6D6;--ac:#FFE94A}
+.cG{--bg:#B8E63A;--tx:#1F2A10;--ac:#C2200F}
+.cO{--bg:#FF8A00;--tx:#1A1208;--ac:#fff}
+.cD{--bg:#E0201A;--tx:#fff;--ac:#FFE94A}
+.po{background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='2' seed='4'/><feColorMatrix values='0 0 0 0 0.2  0 0 0 0 0.15  0 0 0 0 0.05  0 0 0 0.45 -.08'/></filter><rect width='220' height='220' filter='url(%23n)'/></svg>"),linear-gradient(115deg,rgba(255,255,255,.2),transparent 42%,rgba(40,20,0,.2)),var(--bg)!important;color:var(--tx)!important;box-shadow:inset 0 0 22px rgba(60,30,0,.3),0 4px 10px rgba(0,0,0,.4)!important}
+.po .a{color:var(--ac)!important}
+.po .a{font-weight:900}
 .po b{font-weight:800}
 </style></head>
 <body><div id="stage">
@@ -26,7 +33,7 @@ const SP = {
   L0: [150, 447, 150, 138], L1: [332, 447, 170, 140], L2: [548, 468, 88, 150],
   R0: [938, 437, 126, 145], R1: [1315, 437, 120, 140], R2: [1096, 592, 124, 90]
 };
-const kind = { 0: 'A', 1: 'B', 2: 'C' };
+const kind = { 0: 'A', 1: 'B', 2: 'C' }, KC = { A: 'cY', B: 'cR', C: 'cG' };
 function inner(k, w, pct) {
   const f = w / 150;
   if (k === 'A') return `<div class="a" style="font-size:${30 * f}px;line-height:1.1">신메뉴<br>출시</div><b style="font-size:${28 * f}px;margin-top:${6 * f}px">얼큰 국밥</b><div class="a" style="font-size:${28 * f}px">10,000원</div>`;
@@ -39,13 +46,13 @@ Object.keys(SP).forEach(id => {
   const [x, y, w, h] = SP[id], k = kind[+id[1]];
   const L = { id: 'o' + id, x: x * 1.25, y: y * 1.25 - 100, w: w * 1.25, h: h * 1.25, k, pct: 20, rot: id[0] === 'L' ? -1.5 : 1.2 };
   P.push(L);
-  html += `<div id="${L.id}" class="po" data-diegetic style="left:${L.x}px;top:${L.y}px;width:${L.w}px;height:${L.h}px;transform:rotate(${L.rot}deg)"><div class="ct" style="display:flex;flex-direction:column;align-items:center">${inner(k, L.w, 20)}</div></div>`;
+  html += `<div id="${L.id}" class="po ${KC[k]}" data-diegetic style="left:${L.x}px;top:${L.y}px;width:${L.w}px;height:${L.h}px;transform:rotate(${L.rot}deg)"><div class="ct" style="display:flex;flex-direction:column;align-items:center">${inner(k, L.w, 20)}</div></div>`;
 });
 // 20% 위에 덧붙는 새 포스터(30%, 40%) — 양쪽 가게 «할인» 포스터 위
 [['L1', 30], ['L1', 40], ['R1', 30], ['R1', 40]].forEach((q, i) => {
   const [x, y, w, h] = SP[q[0]], g = q[1] === 30 ? 1.1 : 1.22;
   const cx = (x + w / 2) * 1.25, cy = (y + h / 2) * 1.25 - 100, W = w * 1.25 * g, H = h * 1.25 * g;
-  html += `<div id="n${i}" class="po" data-diegetic style="left:${cx - W / 2}px;top:${cy - H / 2}px;width:${W}px;height:${H}px;transform:rotate(${(i % 2 ? 2.4 : -2.4)}deg);opacity:0">${inner('B', W, q[1])}</div>`;
+  html += `<div id="n${i}" class="po ${q[1] === 30 ? 'cO' : 'cD'}" data-diegetic style="left:${cx - W / 2}px;top:${cy - H / 2}px;width:${W}px;height:${H}px;transform:rotate(${(i % 2 ? 2.4 : -2.4)}deg);opacity:0">${inner('B', W, q[1])}</div>`;
 });
 S.$('#pos').innerHTML = html;
 S.ev(T.same, 'in', 'cam'); S.ev(T.blank, 'paper', 'oR0'); S.ev(T.a, 'card_in', 'oR0'); S.ev(T.b, 'msg_in', 'oR1'); S.ev(T.c, 'card_in', 'oR2');
@@ -57,12 +64,11 @@ S.scene(tau => {
   S.css('#cam', { transform: S.camCssC(S.camState(tau, KEYS)) });
   const g = S.EIO(S.P(tau, T.no, T.no + 0.7));
   S.css('#pw', { filter: S.desat(g) });
-  // 왼쪽 가게 포스터 셋: 앞 장면에서 이어져 처음부터 회색
-  ['L0', 'L1', 'L2'].forEach(id => S.css('#o' + id, { filter: S.desat(1) }));
+  // 왼쪽 가게 포스터 셋: 처음부터 형광 색지(마지막 «다 회색» 은 #pw 전체 채도 빼기)
   // 옆 가게: 빈 종이가 하나씩 붙고(«시간 남았다고») → 글이 «메뉴 늘리고·할인하고·광고 걸어요» 에 채워짐
   [['R0', T.blank, T.a], ['R1', T.blank + 0.7, T.b], ['R2', T.blank + 1.4, T.c]].forEach(s => {
-    const e = S.$('#o' + s[0]); e.style.opacity = S.ent(tau, s[1], 0.14);
-    e.querySelector('.ct').style.opacity = S.ent(tau, s[2], 0.12);
+    const e = S.$('#o' + s[0]); e.style.opacity = S.ent(tau, s[2], 0.14);   // 빈 색지 단계 없이 글이 인쇄된 채로 붙음
+    e.querySelector('.ct').style.opacity = 1;
   });
   [[0, T.war], [1, T.war2 + 0.4], [2, T.war], [3, T.war2 + 0.4]].forEach(s => {
     const k = S.ent(tau, s[1], 0.14), e = S.$('#n' + s[0]); e.style.opacity = k; e.style.transform = e.style.transform.replace(/ ?scale\([^)]*\)/, '') + ` scale(${(1.08 - 0.08 * k).toFixed(3)})`;

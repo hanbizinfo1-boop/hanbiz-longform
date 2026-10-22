@@ -6,8 +6,8 @@
 #world{left:0;top:0;width:1920px;height:1080px;transform-origin:50% 60%}
 #ph{left:0;top:0;width:1920px;height:1080px;filter:saturate(.8)}
 #wrap{left:0;top:0;width:1920px;height:1080px;perspective:1500px;perspective-origin:50% 38%}
-.pp{position:absolute;top:300px;width:480px;height:600px;background:#F6F4EE;color:#1F2A33;font-family:"Pre";padding:36px 38px;box-shadow:0 30px 44px rgba(0,0,0,.55),0 3px 8px rgba(0,0,0,.4);transform-origin:50% 50%}
-.pp .t{font-size:32px;font-weight:800;line-height:1.35;border-bottom:3px solid #1F2A33;padding-bottom:12px}
+.pp{position:absolute;top:300px;width:480px;height:600px;background:#1E2124 linear-gradient(115deg,rgba(255,255,255,.07) 0,rgba(255,255,255,0) 40%,rgba(255,255,255,.04) 70%,rgba(255,255,255,0) 100%);color:#ECEEEF;font-family:"Pre";padding:36px 38px;border:2px solid #3A4046;border-radius:10px;box-shadow:0 30px 44px rgba(0,0,0,.65),0 3px 8px rgba(0,0,0,.5),inset 0 0 0 8px #15181B;transform-origin:50% 50%}
+.pp .t{font-size:32px;font-weight:800;line-height:1.35;border-bottom:3px solid #8A939B;padding-bottom:12px}
 .pp .b{font-size:40px;font-weight:600;line-height:1.5;margin-top:22px}
 #pA{left:330px}
 #pB{left:1000px}
@@ -20,7 +20,7 @@
     <div id="wrap" class="abs">
       <div id="pA" class="pp" data-diegetic data-box="pA"><div class="t">○○국밥 · 돼지국밥 9,000원</div><div class="b">진한 사골 육수에 푸짐한 고기를 담은 정성 가득한 한 그릇</div></div>
       <div id="pB" class="pp" data-diegetic data-box="pB"><div class="t">○○국밥 · 돼지국밥 9,000원</div><div class="b">새벽 5시에 불 올려서 점심 전에 딱 한 솥만 끓입니다.</div>
-        <svg id="circ" viewBox="0 0 480 600"><path id="cp" d="M60 130 C 180 70, 420 90, 450 230 C 470 400, 400 470, 250 480 C 90 490, 20 400, 24 270 C 28 160, 110 100, 260 98"/></svg></div>
+        <svg id="circ" viewBox="0 0 480 600"><path id="cp" d=""/></svg></div>
     </div>
   </div>
 </div>
@@ -28,12 +28,21 @@
 <script src="../lib/sjk.js"></script>
 <script src="../lib/e4.js"></script>
 <script>
-window.PALETTE = ['#2A2420', '#F6F4EE', '#F05A28'];
+window.PALETTE = ['#2A2420', '#1E2124', '#F05A28'];   // 검은 아크릴 메뉴판
 window.DEVICES = ['R2 볼펜 동그라미'];
 const T = { p: S.at('손님이면'), no: S.at('어디'), ok: S.at('당연히') };
 S.css('#ph', { backgroundImage: S.ph('n31_counter_angle') });
 S.ev(T.p, 'paper', 'pA'); S.ev(T.no, 'no', 'pA'); S.ev(T.ok, 'marker', 'cp');
+// 동그라미 = B 카드 설명 글 덩어리 상자에서 계산 — 사방 14px 여유 타원 한 바퀴
+function fitCircle() {
+  const card = S.$('#pB'), t = card.querySelector('.t'), b = card.querySelector('.b');
+  const L = b.offsetLeft, T = b.offsetTop, R = b.offsetLeft + b.offsetWidth, Bm = b.offsetTop + b.offsetHeight;
+  const m = 14, x0 = L - m, x1 = R + m, y0 = T - m, y1 = Bm + m, cx = (x0 + x1) / 2, cy = (y0 + y1) / 2 + 12, rx = (x1 - x0) / 2 * 1.38, ry = (y1 - y0) / 2 * 1.2;
+  const pts = []; for (let i = 0; i <= 36; i++) { const a = -2.1 + (i / 36) * 6.5; pts.push([cx + rx * Math.cos(a) * (1 + 0.012 * i / 36), cy + ry * Math.sin(a) * (1 + 0.012 * i / 36)]); }
+  S.$('#cp').setAttribute('d', 'M' + pts.map(q => q[0].toFixed(1) + ' ' + q[1].toFixed(1)).join(' L'));
+}
 S.scene(tau => {
+  fitCircle();
   const dr = S.P(tau, 0, S.SC.dur);
   S.css('#world', { transform: `scale(${(1 + 0.05 * dr).toFixed(4)})` });
   const a = S.ent(tau, T.p, 0.14), b = S.ent(tau, T.p + 0.2, 0.14), g = S.EO(S.P(tau, T.no, T.no + 0.35));

@@ -65,24 +65,24 @@ html,body{margin:0;padding:0;width:1920px;height:1080px;overflow:hidden;backgrou
 .dk .te{color:#43C9BF;font-weight:700}
 
 /* ── 앱 화면 공통(밝은 앱 — 배달앱·리뷰·소식·구인·은행) : 흰 판 · 얇은 구분선 · 상표·실제 앱 이름 없음 */
-.app{position:absolute;background:#fff;border-radius:14px;overflow:hidden;font-family:"Pre";color:#1F2A33;box-shadow:0 26px 54px rgba(20,25,30,.30),0 3px 8px rgba(20,25,30,.2)}
-.app .hd{height:64px;display:flex;align-items:center;padding:0 24px;gap:12px;font-size:26px;font-weight:800;border-bottom:1px solid #E7E9EB}
-.app .row{display:flex;gap:16px;padding:18px 24px;border-bottom:1px solid #EEF0F1;align-items:flex-start}
+.app{position:absolute;background:#1A1F25;border:1px solid #2C343C;border-radius:14px;overflow:hidden;font-family:"Pre";color:#ECEEEF;box-shadow:0 30px 64px rgba(0,0,0,.45),0 3px 8px rgba(0,0,0,.3)}
+.app .hd{height:64px;display:flex;align-items:center;padding:0 24px;gap:12px;font-size:26px;font-weight:800;border-bottom:1px solid #2C343C}
+.app .row{display:flex;gap:16px;padding:18px 24px;border-bottom:1px solid #262D34;align-items:flex-start}
 .app .th{flex:none;border-radius:10px;background-size:cover;background-position:center}
 .app .nm{font-size:26px;font-weight:800}
 .app .pr{font-size:24px;font-weight:700;margin-top:4px}
-.app .ds{font-size:22px;line-height:1.45;color:#59636B;margin-top:6px}
+.app .ds{font-size:22px;line-height:1.45;color:#A3ACB4;margin-top:6px}
 .app .st{color:#F2A33A;font-size:22px;letter-spacing:2px}
-.app .av{flex:none;width:44px;height:44px;border-radius:50%;background:#D7DCDF;display:flex;align-items:center;justify-content:center;font-weight:800;color:#59636B;font-size:20px}
-.app .rp{margin-top:10px;background:#F2F4F5;border-radius:10px;padding:10px 14px;font-size:22px;line-height:1.45;color:#3A444C}
-.app .rp b{display:block;font-size:20px;color:#1F2A33;margin-bottom:2px}
-.app .bdg{display:inline-block;font-size:18px;font-weight:800;padding:2px 8px;border-radius:6px;background:#FDE6DC;color:var(--or);vertical-align:3px;margin-left:6px}
-/* 스프레드시트 */
-.sheet{position:absolute;background:#fff;border-radius:10px;overflow:hidden;font-family:"Pre";box-shadow:0 26px 54px rgba(20,25,30,.30)}
+.app .av{flex:none;width:44px;height:44px;border-radius:50%;background:#323A42;display:flex;align-items:center;justify-content:center;font-weight:800;color:#C3CAD0;font-size:20px}
+.app .rp{margin-top:10px;background:#242B32;border-radius:10px;padding:10px 14px;font-size:22px;line-height:1.45;color:#D2D7DB}
+.app .rp b{display:block;font-size:20px;color:#ECEEEF;margin-bottom:2px}
+.app .bdg{display:inline-block;font-size:18px;font-weight:800;padding:2px 8px;border-radius:6px;background:#3A2A22;color:var(--or);vertical-align:3px;margin-left:6px}
+/* 스프레드시트 — 10-22 «하얀종이 별로» 로 .app·.sheet 를 어두운 판(.dk 와 같은 결)으로 바꿈 */
+.sheet{position:absolute;background:#1A1F25;color:#ECEEEF;border:1px solid #2C343C;border-radius:10px;overflow:hidden;font-family:"Pre";box-shadow:0 30px 64px rgba(0,0,0,.45)}
 .sheet table{border-collapse:collapse;font-size:24px;table-layout:fixed}
-.sheet td,.sheet th{border:1px solid #DADDDF;padding:8px 12px;white-space:nowrap;text-align:right}
-.sheet th{background:#F1F3F4;color:#6B747B;font-weight:600;text-align:center}
-.sheet td.rn{background:#F1F3F4;color:#6B747B;text-align:center;width:44px;padding:8px 0}
+.sheet td,.sheet th{border:1px solid #2E363E;padding:8px 12px;white-space:nowrap;text-align:right}
+.sheet th{background:#222930;color:#8E979F;font-weight:600;text-align:center}
+.sheet td.rn{background:#222930;color:#8E979F;text-align:center;width:44px;padding:8px 0}
 .sheet td.l{text-align:left}
 
 /* 10-20 말풍선 — 가게 주인↔손님이 실제로 말하는 대사에만(사장님 10-20 «진짜 사장이 손님한테 말하는행위 … 말풍선으로 표현»).

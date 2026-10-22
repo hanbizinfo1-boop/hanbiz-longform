@@ -5,23 +5,29 @@
 <style>
 #w{left:0;top:0;width:1920px;height:1080px;transform-origin:1270px 560px}
 #ph{left:-40px;top:-20px;width:2000px;height:1120px;background-size:cover;background-position:center}
-.note{position:absolute;width:350px;height:300px;top:400px;background:#FBFBF8;box-shadow:0 18px 34px rgba(10,16,22,.38),0 2px 5px rgba(10,16,22,.3);border-radius:3px;opacity:0}
-.note .tp{position:absolute;left:125px;top:-18px;width:100px;height:36px;background:rgba(190,198,204,.78);transform:rotate(-4deg);box-shadow:0 2px 4px rgba(0,0,0,.18)}
-.note .no{position:absolute;left:22px;top:12px;font-family:"Hand";font-weight:700;font-size:44px;color:#9AA0A6;opacity:0}
+.note{position:absolute;width:350px;height:300px;top:400px;border-radius:2px 2px 6px 3px;opacity:0;
+  box-shadow:0 20px 30px -6px rgba(8,12,16,.50),0 3px 6px rgba(8,12,16,.34),inset 0 -26px 30px -22px rgba(60,40,10,.30);overflow:visible}
+.note .gr{position:absolute;left:0;top:0;width:100%;height:100%;border-radius:inherit;pointer-events:none}
+.note .tp{display:none}
+.note .no{position:absolute;left:22px;top:12px;font-family:"Hand";font-weight:700;font-size:44px;color:rgba(31,42,51,.50);opacity:0}
 .note .tx{position:absolute;left:24px;right:20px;top:64px;font-family:"Hand";font-weight:700;font-size:50px;line-height:1.18;color:#1F2A33}
-.note svg.ul{position:absolute;left:22px;bottom:26px;width:306px;height:26px}
+.note svg.ul{position:absolute;left:22px;top:0;width:306px;height:26px;overflow:visible}
+.c1{background:linear-gradient(180deg,rgba(255,255,255,.16) 0,rgba(255,255,255,0) 16%),linear-gradient(160deg,#EBD56F,#E2C85A)}
+.c2{background:linear-gradient(180deg,rgba(255,255,255,.14) 0,rgba(255,255,255,0) 16%),linear-gradient(160deg,#AEDBC5,#98CDB4)}
+.c3{background:linear-gradient(180deg,rgba(255,255,255,.14) 0,rgba(255,255,255,0) 16%),linear-gradient(160deg,#EDB7C2,#E3A2B0)}
 #n1{left:540px;transform:rotate(-3deg)} #n2{left:925px;transform:rotate(2deg);top:420px} #n3{left:1310px;transform:rotate(-1deg)}
 #pin{position:absolute;left:1463px;top:390px;width:44px;height:44px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FF8A5B,#F05A28 60%,#C8411A);box-shadow:0 10px 12px rgba(0,0,0,.45),0 2px 3px rgba(0,0,0,.4);opacity:0}
 </style></head>
-<body><div id="stage">
+<body><svg width="0" height="0" style="position:absolute"><filter id="grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".85 .6" numOctaves="2" seed="7"/><feColorMatrix values="0 0 0 0 .30  0 0 0 0 .22  0 0 0 0 .08  .75 0 0 0 -.20"/></filter></svg>
+<div id="stage">
   <div id="w" class="abs">
     <div id="ph" class="photo abs"></div>
-    <div id="n1" class="note" data-diegetic data-box="n1"><div class="tp"></div><div id="k1" class="no">1</div><div id="t1" class="tx">왜 시작?</div>
-      <svg class="ul" viewBox="0 0 306 26"><path id="u1" d="M4 16 C 60 6, 120 24, 190 12 S 270 14, 300 10" fill="none" stroke="#F05A28" stroke-width="7" stroke-linecap="round"/></svg></div>
-    <div id="n2" class="note" data-diegetic data-box="n2"><div class="tp"></div><div id="k2" class="no">2</div><div id="t2" class="tx">제일 많이 듣는 칭찬?</div>
-      <svg class="ul" viewBox="0 0 306 26"><path id="u2" d="M4 14 C 70 24, 130 6, 200 16 S 270 10, 300 14" fill="none" stroke="#F05A28" stroke-width="7" stroke-linecap="round"/></svg></div>
-    <div id="n3" class="note" data-diegetic data-box="n3"><div class="tp"></div><div id="k3" class="no">3</div><div id="t3" class="tx">나만 귀찮게 하는 것?</div>
-      <svg class="ul" viewBox="0 0 306 26"><path id="u3" d="M4 12 C 60 22, 120 6, 190 16 S 270 8, 300 14" fill="none" stroke="#F05A28" stroke-width="7" stroke-linecap="round"/></svg></div>
+    <div id="n1" class="note c1" data-diegetic data-box="n1"><svg class="gr" viewBox="0 0 350 300" preserveAspectRatio="none"><rect width="350" height="300" filter="url(#grain)"/></svg><div class="tp"></div><div id="k1" class="no">1</div><div id="t1" class="tx">왜 시작?</div>
+      <svg class="ul" viewBox="0 0 306 26"><path id="u1" d="M4 16 C 60 6, 120 24, 190 12 S 270 14, 300 10" fill="none" stroke="#E5461A" stroke-width="7" stroke-linecap="round"/></svg></div>
+    <div id="n2" class="note c2" data-diegetic data-box="n2"><svg class="gr" viewBox="0 0 350 300" preserveAspectRatio="none"><rect width="350" height="300" filter="url(#grain)"/></svg><div class="tp"></div><div id="k2" class="no">2</div><div id="t2" class="tx">제일 많이 듣는 칭찬?</div>
+      <svg class="ul" viewBox="0 0 306 26"><path id="u2" d="M4 14 C 70 24, 130 6, 200 16 S 270 10, 300 14" fill="none" stroke="#E5461A" stroke-width="7" stroke-linecap="round"/></svg></div>
+    <div id="n3" class="note c3" data-diegetic data-box="n3"><svg class="gr" viewBox="0 0 350 300" preserveAspectRatio="none"><rect width="350" height="300" filter="url(#grain)"/></svg><div class="tp"></div><div id="k3" class="no">3</div><div id="t3" class="tx">나만 귀찮게 하는 것?</div>
+      <svg class="ul" viewBox="0 0 306 26"><path id="u3" d="M4 12 C 60 22, 120 6, 190 16 S 270 8, 300 14" fill="none" stroke="#E5461A" stroke-width="7" stroke-linecap="round"/></svg></div>
     <div id="pin"></div>
   </div>
 </div>
@@ -37,7 +43,30 @@ const T = { a: S.at('어? 나는'), b: S.at('딱히'), c: S.at('다 있어요'),
 S.ev(T.a, 'paper', 'n1'); S.ev(T.b, 'card_in', 'n2'); S.ev(T.c, 'paper', 'n3'); S.ev(T.nums, 'card_in', 'k1');
 S.ev(T.f1, 'marker', 't1'); S.ev(10.3, 'card_in', 'u1'); S.ev(T.f2, 'marker', 't2'); S.ev(13.0, 'card_in', 'u2');
 S.ev(T.f3, 'marker', 't3'); S.ev(16.4, 'card_in', 'u3'); S.ev(T.mid, 'no', 'n1'); S.ev(T.one, 'click', 'pin');
+// 10-22 밑줄: 글 마지막 줄의 실제 위치(offset 기준 — 카메라·기울기와 무관)에서 폭·높이를 잰다
+let ULOK = false;
+function fitUnderlines() {
+  [['#t1', '#u1'], ['#t2', '#u2'], ['#t3', '#u3']].forEach(([ts, us]) => {
+    const t = S.$(ts), path = S.$(us), svg = path.parentNode;
+    if (!t.dataset.raw) {
+      t.dataset.raw = t.textContent;
+      t.innerHTML = t.textContent.split(' ').map(w => `<span class="w">${w}</span>`).join(' ');
+    }
+    const ws = [...t.querySelectorAll('.w')];
+    const lastTop = Math.max(...ws.map(w => w.offsetTop));
+    const L = ws.filter(w => w.offsetTop === lastTop);
+    const x0 = Math.min(...L.map(w => w.offsetLeft)), x1 = Math.max(...L.map(w => w.offsetLeft + w.offsetWidth));
+    const bottom = lastTop + L[0].offsetHeight;                       // 마지막 줄 글 상자 아래(.tx 안 좌표)
+    const wd = x1 - x0;
+    svg.style.left = (t.offsetLeft + x0) + 'px'; svg.style.top = (t.offsetTop + bottom - 2) + 'px';
+    svg.style.width = wd + 'px'; svg.setAttribute('viewBox', `0 0 ${wd.toFixed(1)} 26`);
+    path.setAttribute('d', `M2 14 C ${wd * .2} 8, ${wd * .4} 20, ${wd * .62} 12 S ${wd * .88} 10, ${wd - 2} 9`);
+    path._len = 0;
+  });
+  ULOK = true;
+}
 S.scene(tau => {
+  if (!ULOK) fitUnderlines();
   const c1 = S.cam(tau, T.push, T.push + 0.4), c2 = S.cam(tau, T.cam2, T.cam2 + 0.5);
   S.css('#w', { transform: `scale(${(1 + 0.07 * c1 + 0.06 * c2 + 0.01 * S.P(tau, 0, S.SC.dur)).toFixed(4)})` });
   S.css('#ph', { transform: `translateX(${(-24 * S.P(tau, 0, S.SC.dur)).toFixed(1)}px)` });

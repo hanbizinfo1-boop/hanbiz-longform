@@ -6,7 +6,7 @@
 #cam{left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
 #bgw{left:-40px;top:-20px;width:2000px;height:1120px;background-size:cover;background-position:center}
 .shop{position:absolute;left:160px;width:150px;height:122px;border-radius:16px;background-color:#fff;background-repeat:no-repeat;background-size:282px 188px;background-position:-64px -28px;box-shadow:0 18px 36px rgba(0,0,0,.5),0 2px 6px rgba(0,0,0,.3)}
-.band{position:absolute;left:1190px;width:600px;height:84px;border-radius:12px;background:#fff;display:flex;align-items:center;padding:0 24px;font-size:31px;font-weight:700;white-space:nowrap;color:#1F2A33;box-shadow:0 14px 30px rgba(0,0,0,.45),0 2px 6px rgba(0,0,0,.3)}
+.band{position:absolute;left:1190px;width:600px;height:84px;border-radius:12px;background:#1A1F25;border:1px solid #2C343C;display:flex;align-items:center;padding:0 24px;font-size:31px;font-weight:700;white-space:nowrap;color:#ECEEEF;box-shadow:0 14px 30px rgba(0,0,0,.45),0 2px 6px rgba(0,0,0,.3)}
 #ai{left:890px;top:430px;width:140px;height:140px;border-radius:50%;background:var(--te);color:#fff;display:flex;align-items:center;justify-content:center;font-size:64px;box-shadow:0 0 0 6px rgba(255,255,255,.9),0 18px 40px rgba(0,0,0,.5)}
 #ln{left:0;top:0;width:1920px;height:1080px}
 </style></head>
@@ -62,7 +62,7 @@ S.scene(tau => {
     const bk = S.ent(tau, T.alike + 0.4 + 0.1 * i, 0.12);
     bands[i].style.opacity = bk; bands[i].style.transform = `translateX(${((1 - bk) * 40).toFixed(1)}px)`;
     bands[i].style.filter = S.desat(g) + ` brightness(${(1 - 0.12 * g).toFixed(3)})`;
-    bands[i].style.color = `rgb(${Math.round(31 + 100 * g)},${Math.round(42 + 100 * g)},${Math.round(51 + 100 * g)})`;
+    bands[i].style.color = `rgb(${Math.round(236 - 98 * g)},${Math.round(238 - 91 * g)},${Math.round(239 - 84 * g)})`;
   }
 });
 </script>

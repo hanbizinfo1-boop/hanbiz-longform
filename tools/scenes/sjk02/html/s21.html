@@ -5,12 +5,12 @@
 <style>
 #bg{position:absolute;left:-60px;top:-40px;width:2040px;height:1160px;background-size:cover;background-position:center;filter:blur(11px) saturate(.7) brightness(.82)}
 #wrap{position:absolute;left:0;top:0;width:1920px;height:1080px;perspective:2200px}
-#sh{position:absolute;left:310px;top:150px;width:1300px;height:580px;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 36px 70px rgba(20,25,30,.45),0 4px 10px rgba(20,25,30,.3);transform-origin:50% 60%}
-.cl{position:absolute;top:0;height:46px;background:#F1F3F4;border-bottom:1px solid #DADDDF;color:#6B747B;font-weight:600;font-size:24px;display:flex;align-items:center;justify-content:center;border-right:1px solid #DADDDF}
-.hd{position:absolute;top:46px;height:74px;background:#F7F8F8;border-bottom:2px solid #C9CED2;font-weight:800;font-size:32px;display:flex;align-items:center;padding:0 24px;border-right:1px solid #DADDDF;opacity:0}
-.rn{position:absolute;left:0;width:60px;background:#F1F3F4;color:#6B747B;font-size:24px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid #DADDDF;border-right:1px solid #DADDDF}
-.mo{position:absolute;left:60px;width:200px;font-size:34px;font-weight:700;display:flex;align-items:center;padding:0 24px;border-bottom:1px solid #DADDDF;border-right:1px solid #DADDDF;opacity:0}
-.cell{position:absolute;border-bottom:1px solid #DADDDF;border-right:1px solid #DADDDF}
+#sh{position:absolute;left:310px;top:150px;width:1300px;height:580px;background:#1A1F25;border:1px solid #2C343C;border-radius:10px;overflow:hidden;box-shadow:0 36px 70px rgba(0,0,0,.55),0 4px 10px rgba(0,0,0,.4);transform-origin:50% 60%}
+.cl{position:absolute;top:0;height:46px;background:#222930;border-bottom:1px solid #2E363E;color:#8E979F;font-weight:600;font-size:24px;display:flex;align-items:center;justify-content:center;border-right:1px solid #2E363E}
+.hd{position:absolute;top:46px;height:74px;background:#242B32;color:#ECEEEF;border-bottom:2px solid #3A444C;font-weight:800;font-size:32px;display:flex;align-items:center;padding:0 24px;border-right:1px solid #2E363E;opacity:0}
+.rn{position:absolute;left:0;width:60px;background:#222930;color:#8E979F;font-size:24px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid #2E363E;border-right:1px solid #2E363E}
+.mo{position:absolute;left:60px;width:200px;font-size:34px;font-weight:700;color:#ECEEEF;display:flex;align-items:center;padding:0 24px;border-bottom:1px solid #2E363E;border-right:1px solid #2E363E;opacity:0}
+.cell{position:absolute;border-bottom:1px solid #2E363E;border-right:1px solid #2E363E}
 .bar{position:absolute;left:24px;height:40px;border-radius:8px;top:50%;margin-top:-20px;width:0}
 #tips{position:absolute;left:0;top:0;width:1300px;height:580px;pointer-events:none}
 .tag{position:absolute;opacity:0}
@@ -33,9 +33,9 @@
       <div class="cell" style="left:260px;width:520px;top:120px;height:104px"><div class="bar" id="bh1" style="background:#1FA39A"></div></div>
       <div class="cell" style="left:260px;width:520px;top:224px;height:104px"><div class="bar" id="bh2" style="background:#1FA39A"></div></div>
       <div class="cell" style="left:260px;width:520px;top:328px;height:104px"><div class="bar" id="bh3" style="background:#1FA39A"></div></div>
-      <div class="cell" style="left:780px;width:520px;top:120px;height:104px"><div class="bar" id="br1" style="background:#9AA0A6"></div></div>
-      <div class="cell" style="left:780px;width:520px;top:224px;height:104px"><div class="bar" id="br2" style="background:#9AA0A6"></div></div>
-      <div class="cell" style="left:780px;width:520px;top:328px;height:104px"><div class="bar" id="br3" style="background:#9AA0A6"></div></div>
+      <div class="cell" style="left:780px;width:520px;top:120px;height:104px"><div class="bar" id="br1" style="background:#7D868E"></div></div>
+      <div class="cell" style="left:780px;width:520px;top:224px;height:104px"><div class="bar" id="br2" style="background:#7D868E"></div></div>
+      <div class="cell" style="left:780px;width:520px;top:328px;height:104px"><div class="bar" id="br3" style="background:#7D868E"></div></div>
       <svg id="tips" viewBox="0 0 1300 580"><line id="flat" x1="1252" y1="120" x2="1252" y2="432" stroke="#6E767D" stroke-width="3" stroke-dasharray="10 9" opacity="0"/></svg>
     </div>
   </div>
@@ -43,7 +43,7 @@
 <script src="../data/s21.js"></script>
 <script src="../lib/sjk.js"></script>
 <script>
-window.PALETTE = ['#D9DBD6', '#1F2A33', '#1FA39A', '#9AA0A6'];   // 시트 흰 판 + 청록(일 시간) + 회색(매출 그대로)
+window.PALETTE = ['#D9DBD6', '#1A1F25', '#1FA39A', '#9AA0A6'];   // 시트 어두운 판 + 청록(일 시간) + 회색(매출 그대로)
 const T = { m1: S.at('몇'), m2: S.at('지나고'), m3: S.at('대표님들이랑'), num: S.at('숫자를'), odd: S.at('이상한'), half: S.at('반으로'),
   rev: S.at('매출은'), flat: S.at('그대로인'), many: S.at('생각보다'), man: S.at('많았어요') };
 document.getElementById('bg').style.backgroundImage = S.ph('p22_two_reports');

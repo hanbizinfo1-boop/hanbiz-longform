@@ -15,7 +15,15 @@ import bpy  # noqa: E402
 import bmesh  # noqa: E402
 
 st = B.Stage(17, "s17")
-st.counter("steel", wall="p14_old_counter_film", wall_dist=1.4, wall_bright=0.45)
+st.counter("dark", wall="p14_old_counter_film", wall_dist=1.4, wall_bright=0.20)   # 10-22 흰 스테인리스 탁자 → 짙은 콘크리트 탁자 + 어두운 세상
+_cm = bpy.data.materials["counter"]; _nt = _cm.node_tree
+_im = [n for n in _nt.nodes if n.type == "TEX_IMAGE"][0]; _im.extension = "MIRROR"
+_tc = _nt.nodes.new("ShaderNodeTexCoord"); _mp = _nt.nodes.new("ShaderNodeMapping"); _mp.inputs["Scale"].default_value = (3, 2.2, 1)
+_nt.links.new(_tc.outputs["UV"], _mp.inputs[0]); _nt.links.new(_mp.outputs[0], _im.inputs[0])
+_bd = _nt.nodes["Principled BSDF"]; _bd.inputs["Roughness"].default_value = 0.85; _bd.inputs["Specular IOR Level"].default_value = 0.08
+_hv = _nt.nodes.new("ShaderNodeHueSaturation"); _hv.inputs["Value"].default_value = 0.16; _hv.inputs["Saturation"].default_value = 0.8   # 짙게
+_nt.links.new(_im.outputs[0], _hv.inputs["Color"]); _nt.links.new(_hv.outputs[0], _bd.inputs["Base Color"])
+_w = st.sc.world.node_tree.nodes["Background"]; _w.inputs[0].default_value = (0.02, 0.022, 0.025, 1); _w.inputs[1].default_value = 0.35
 st.lights(warm=True, key=200)
 t_fee, t_ad = st.at("수수료랑"), st.at("광고비")
 

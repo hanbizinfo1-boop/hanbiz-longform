@@ -10,12 +10,12 @@
 #cols i{position:absolute;bottom:0;width:190px;background:var(--te);border-radius:8px 8px 0 0;display:block}
 #prof{position:absolute;left:44px;top:560px;width:792px;height:70px}
 #prof .lb{position:absolute;left:0;top:10px;font-size:34px;font-weight:800}
-#prof .tr{position:absolute;left:150px;top:18px;width:640px;height:38px;background:#EEF0F1;border-radius:6px}
+#prof .tr{position:absolute;left:150px;top:18px;width:640px;height:38px;background:#2C343C;border-radius:6px}
 #prof .fl{position:absolute;left:150px;top:18px;height:38px;background:var(--or);border-radius:6px;width:0}
 #unit{position:absolute;left:0;top:76px;width:880px;height:640px;opacity:0}
 #unit .tl{position:absolute;font-size:46px;font-weight:900;white-space:nowrap}
-#unit .sg{position:absolute;top:150px;height:96px;border-radius:6px;background:#1F2A33;box-shadow:inset -4px 0 0 #fff}
-#unit .nm{position:absolute;font-size:30px;font-weight:800;white-space:nowrap;color:#59636B}
+#unit .sg{position:absolute;top:150px;height:96px;border-radius:6px;background:#1FB596;box-shadow:inset -4px 0 0 #1A1F25}
+#unit .nm{position:absolute;font-size:30px;font-weight:800;white-space:nowrap;color:#A3ACB4}
 #unit .ld{position:absolute;width:2px;background:#C5C9CC}
 </style></head>
 <body><div id="stage">
@@ -65,12 +65,12 @@ S.scene(tau => {
   // 조각이 아래로 빠지며 회색 + 이름표
   function drop(id, nm, t0, dx) {
     const k = S.EO(S.P(tau, t0, t0 + 0.4));
-    S.css('#' + id, { transform: `translate(${(dx * k).toFixed(1)}px,${(190 * k).toFixed(1)}px)`, background: k > 0.02 ? '#9AA0A6' : '#1F2A33' });
+    S.css('#' + id, { transform: `translate(${(dx * k).toFixed(1)}px,${(190 * k).toFixed(1)}px)`, background: k > 0.02 ? '#5E6670' : '#1FB596' });
     S.css('#' + nm, { opacity: S.ent(tau, t0 + 0.15, 0.12) });
   }
   drop('sF', 'nF', T.fee, 0); drop('sP', 'nP', T.pk, 0); drop('sM', 'nM', T.mat, 0);
   const rm = S.EO(S.P(tau, T.mat, T.mat + 0.4));
-  S.$('#sR').style.background = rm > 0.5 ? '#F05A28' : '#1F2A33';
+  S.$('#sR').style.background = rm > 0.5 ? '#F0602A' : '#1FB596';
   S.css('#t1', { opacity: S.ent(tau, T.zero, 0.12), transform: `translateY(${((1 - S.ent(tau, T.zero, 0.12)) * 14).toFixed(1)}px)` });
   const rg = S.ent(tau, T.busy, 0.2);
   S.$('#sR').style.boxShadow = `0 0 0 ${(rg * 8).toFixed(1)}px rgba(240,90,40,${(0.45 * rg).toFixed(2)})`;

@@ -5,8 +5,8 @@
 <style>
 #pw{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:50% 50%}
 #n3{left:590px;top:480px;width:220px;height:300px;font-size:250px;line-height:300px;text-align:center;color:#14191E;transform:rotate(-4deg)}
-#grid{left:1390px;top:110px;width:420px;height:420px;background:rgba(244,245,243,.86);border-radius:16px;box-shadow:0 18px 40px rgba(20,25,30,.3)}
-#grid i{position:absolute;width:26px;height:26px;border-radius:50%;background:#9AA0A6}
+#grid{left:1390px;top:110px;width:420px;height:420px;background:#1A1F25;border:1px solid #2C343C;border-radius:14px;box-shadow:0 30px 64px rgba(0,0,0,.45),0 3px 8px rgba(0,0,0,.3)}
+#grid i{position:absolute;width:26px;height:26px;border-radius:50%;background:#6B747C}
 #grid i.o{background:var(--or)}
 #tm{left:1180px;top:660px;font-size:120px;color:#fff;text-shadow:0 4px 18px rgba(0,0,0,.6);letter-spacing:.12em;font-weight:800}
 #tmu{left:1176px;top:810px;width:300px;height:14px;background:var(--or);border-radius:7px;transform-origin:0 50%}
@@ -49,7 +49,7 @@ S.scene(tau => {
     const on = S.clamp((fill * 1.25 - o) * 6);
     const isO = r === 4 && c === 9;
     d.style.opacity = isO ? (on > 0 ? 1 : 0) : on * (1 - 0.9 * S.ent(tau, T.p1, 0.15) * 0);
-    d.style.background = isO && tau >= T.p1 ? '#F05A28' : '#9AA0A6';
+    d.style.background = isO && tau >= T.p1 ? '#F0602A' : '#6B747C';
     d.style.transform = isO ? `scale(${1 + 0.8 * S.ent(tau, T.p1, 0.2) + 0.25 * Math.max(0, Math.sin(S.P(tau, T.split, T.split + 0.6) * Math.PI))})` : 'none';
     if (isO) d.style.boxShadow = tau >= T.p1 ? `0 0 ${14 + 14 * Math.sin(S.P(tau, T.split, T.split + 0.7) * Math.PI)}px rgba(240,90,40,.8)` : 'none';
   });
