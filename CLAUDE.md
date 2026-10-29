@@ -83,7 +83,7 @@
 | AI 이미지·영상 생성 | `ai-video.md` (유료 영상화 직전 «영상화 직전 점검») |
 | 사장님 말씀 기록 · 새 장면 틀 | `feedback-log.md` |
 | **자동 연출 모드**(원문 → 완성본, 템플릿 서랍·느낌) | `auto-pipeline.md` (설계 v1) → 편집 구간 상황별 원칙 `situation-playbook.md` → 템플릿 `templates/README.md` · `templates/카탈로그.md` |
-| **성제관 채널 기획**(C 모드) | **영상 전개 구조 = `study/gupd-1028.md`**(10-28 구피디 벤치마킹 — **말투도 구피디체 4장 G1~G10**, 문장 규칙·AI 티 금지는 bisa-script) · **채널 소개·설명란·업로드 세팅 = `study/channel-setup-1016.md`**(10-16) · **주제 = `study/trend-1014.md`(최근 90일 상위만)** · **대본 = `study/bisa-script-1014.md`(빡이사 대본결 · AI 티 금지 · 점검기 `.claude/skills/longform/scripts/script_check.py`)** → `study/sjk-ref-1014.md`(레퍼런스 9채널 · **구성 규칙 v1**) → `study/sjk-channel-1013.md`(자기 채널) → 데이터 `study/sjk-ref-1014-data/` · `study/sjk-data-1013/` |
+| **성제관 채널 기획**(C 모드) | **모냐구 채널 14편 정독 = `study/monyagu-1029.md`** — 화면 두 층(3편~) · 대본 뼈대 M1~M9·말투·제목(4편~) · 4편 규칙 S1~S8 · 기존 규칙 충돌 정리 5-4(10-29 «연출은 3편부터 적용 4편은 구조도 저 형태로가보자» · «저 채널 정독 제대로 해») · ~~영상 전개 구조 = `study/gupd-1028.md`~~(10-29부터 3편까지만)(10-28 구피디 벤치마킹 — **말투도 구피디체 4장 G1~G10**, 문장 규칙·AI 티 금지는 bisa-script) · **채널 소개·설명란·업로드 세팅 = `study/channel-setup-1016.md`**(10-16) · **주제 = `study/trend-1014.md`(최근 90일 상위만)** · **대본 = `study/bisa-script-1014.md`(빡이사 대본결 · AI 티 금지 · 점검기 `.claude/skills/longform/scripts/script_check.py`)** → `study/sjk-ref-1014.md`(레퍼런스 9채널 · **구성 규칙 v1**) → `study/sjk-channel-1013.md`(자기 채널) → 데이터 `study/sjk-ref-1014-data/` · `study/sjk-data-1013/` |
 | 효과음·연출·전환·자막·모자이크 기준을 정할 때(모든 모드) | `study/fusion-1013.md` — 기존 영상제작·쇼츠광고 로그 정독 융합(10-13 규칙 2) |
 | 납품 직전 | `checklist.md` |
 
