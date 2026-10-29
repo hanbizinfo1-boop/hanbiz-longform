@@ -9,6 +9,8 @@ spec.json:
    "line1": "사장님 99%가 모르는", "line2": "AI 활용법 10가지", "line2_color": "yellow"|"red",
    "inner": {"text": "이걸 밤새 내가 했다니..", "x": 70, "y": 40, "size": 46},      # 속마음(선택, 출력 px)
    "screens": [{"box": [x0,y0,x1,y1], "lines": [["user","리뷰 10개 답글 써 줘"], ["ai","..."]]}],  # 원본 px — 화면 속 읽히는 글
+   "tables": [{"box": [x0,y0,x1,y1], "title": "정산 내역", "rows": [["주문 금액","12,000원"], ["배달비","-3,300원","red"]], "total": ["정산 금액","5,400원"], "size": 30}],  # 원본 px — 정산서·표 화면(10-23)
+   "marks": [{"box": [x0,y0,x1,y1]}],                           # 빨간 네모 표시(출력 px)
    "labels": [{"box": [x0,y0,x1,y1], "text": "이거 알려 줘"}],    # 그림 속 말풍선에 글만(원본 px)
    "arrow": {"x": 640, "y": 250}}                                # 빨간 화살표(선택, 출력 px)
 틀(고정): 1280×720 · 아래 45% 두 줄(1줄 흰 · 2줄 노랑/빨강) · 왼쪽 정렬 · 배민 도현체 · 검정 테두리 + 그림자 · 아래로 어두워지는 받침(단색 판 아님).
@@ -57,6 +59,32 @@ def draw_screen(img, box, lines, size=None):
         d.rounded_rectangle([bx0, y, bx1, y + bh], radius=int(fs * 0.6), fill=fill)
         d.text((bx0 + pad, y + pad - 2), text, font=f, fill=(30, 30, 30))
         y += bh + int(fs * 0.5)
+
+
+def draw_table(img, box, title, rows, total=None, size=None):
+    # 원본 화면 영역에 읽히는 표(항목 · 금액)를 그린다 — 정산서·영수증 화면(10-23 사장의 시스템 3편)
+    x0, y0, x1, y1 = box
+    d = ImageDraw.Draw(img)
+    d.rectangle(box, fill=(250, 251, 253))
+    w, h = x1 - x0, y1 - y0
+    fs = size or max(12, int(h * 0.05))
+    f = ImageFont.truetype(UI, fs)
+    fb = ImageFont.truetype("C:/Windows/Fonts/malgunbd.ttf", int(fs * 1.15))
+    px = int(w * 0.07)
+    y = y0 + int(h * 0.05)
+    if title:
+        d.text((x0 + px, y), title, font=fb, fill=(25, 25, 25)); y += int(fs * 2.0)
+        d.line([x0 + px, y - int(fs * 0.5), x1 - px, y - int(fs * 0.5)], fill=(200, 202, 208), width=2)
+    for r in rows:
+        col = COLORS.get(r[2], (30, 30, 30)) if len(r) > 2 else (30, 30, 30)
+        d.text((x0 + px, y), r[0], font=f, fill=(70, 70, 75))
+        d.text((x1 - px - f.getbbox(r[1])[2], y), r[1], font=f, fill=col)
+        y += int(fs * 1.75)
+    if total:
+        y += int(fs * 0.3)
+        d.line([x0 + px, y, x1 - px, y], fill=(40, 40, 45), width=3); y += int(fs * 0.6)
+        d.text((x0 + px, y), total[0], font=fb, fill=(25, 25, 25))
+        d.text((x1 - px - fb.getbbox(total[1])[2], y), total[1], font=fb, fill=COLORS["red"])
 
 
 def outlined(d, xy, text, font, fill, stroke=8, accent=None):
@@ -126,6 +154,8 @@ def main():
     src = Image.open(spec["scene"]).convert("RGB")
     for s in spec.get("screens", []):
         draw_screen(src, s["box"], s["lines"], s.get("size"))
+    for tb in spec.get("tables", []):
+        draw_table(src, tb["box"], tb.get("title"), tb["rows"], tb.get("total"), tb.get("size"))
     for lb in spec.get("labels", []):          # 그림 속 기존 말풍선 자리에 글만 바꿔 넣기(원본 px)
         x0, y0, x1, y1 = lb["box"]; dd = ImageDraw.Draw(src)
         dd.rounded_rectangle(lb["box"], radius=(y1 - y0) // 2, fill=tuple(lb.get("bg", [234, 235, 239])))
@@ -176,6 +206,8 @@ def main():
         d.polygon([(tx, y1b - 4), (tx + 34, y1b - 4), (tx + 8, y1b + 30)], fill=(255, 255, 255, 255), outline=(0, 0, 0, 255))
         d.line([(tx + 2, y1b - 2), (tx + 32, y1b - 2)], fill=(255, 255, 255, 255), width=6)
         d.text((x0 + 22, y0 + 13), b["text"], font=fb, fill=(20, 20, 20))
+    for rk in spec.get("marks", []):           # 빨간 네모 표시(출력 px) — «이 줄»이 가리키는 곳(10-23)
+        d.rounded_rectangle(rk["box"], radius=10, outline=tuple(rk.get("color", [255, 40, 40])) + (255,), width=rk.get("width", 7))
     if spec.get("border"):
         bw = spec["border"].get("width", 14)
         d.rectangle([0, 0, W - 1, H - 1], outline=tuple(spec["border"]["color"]) + (255,), width=bw)   # 바깥 끝에 틈 없이(PIL 은 안쪽으로 두께를 그린다)
