@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s43 큰 숫자 20.8% — 광고비 / 주문 금액 + 막대 + 출처 줄 (설명 층)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#art{left:0;top:0;width:1920px;height:1080px}
+#num{left:960px;top:330px;font-size:200px;transform:translate(-50%,-50%)}
+#lab{left:960px;top:490px;font-size:56px;transform:translate(-50%,-50%)}
+#src{left:960px;top:728px;transform:translate(-50%,-50%)}
+</style></head>
+<body><div id="stage">
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <svg id="art" class="abs" viewBox="0 0 1920 1080">
+      <rect id="slot" class="ln mu w4" style="stroke-dasharray:none" x="620" y="220" width="680" height="220" rx="20"/>
+      <rect id="bar" class="ln w4" x="310" y="600" width="1300" height="76" rx="10"/>
+      <rect id="fill" x="312" y="602" width="0" height="72" rx="8" style="fill:#1F5FD1"/>
+      <path id="ul" class="ln bl w6" d="M660 438 H1260"/>
+      <path id="tick" class="ln w4" d="M580 580 V696"/>
+    </svg>
+    <div id="num" class="abs big" data-box="num">20.8%</div>
+    <div id="lab" class="abs t" data-box="lab"><span id="l1" class="bl">광고비</span><span id="l2"> / 주문 금액</span></div>
+    <div id="src" class="abs src" data-box="src">출처: 서울특별시 배달플랫폼 상생지수 (2025.12)</div>
+  </div>
+</div>
+<script src="../data/s43.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];   // 모눈 · 선 · 파랑(큰 숫자)
+const T0 = 0.02;
+const T = { src: S.at('서울시'), l1: S.at('광고비로만'), l2: S.at('주문'), num: S.at('20.8%를'), end: S.at('있었습니다') };
+S.ev(T0, 'in', 'bar'); S.ev(T.src, 'paper', 'src'); S.ev(T.l1, 'marker', 'l1'); S.ev(T.num, 'gauge', 'fill'); S.ev(T.num + 0.2, 'shine', 'num');
+S.scene(tau => {
+  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  E.stroke('#bar', tau, T0, 0.6); E.stroke('#slot', tau, T0 + 0.1, 0.5);
+  E.wipe('#src', tau, T.src, 0.5);
+  S.css('#l1', { opacity: S.ent(tau, T.l1, 0.12) }); S.css('#l2', { opacity: S.ent(tau, T.l2, 0.12) });
+  const k = S.EO(S.P(tau, T.num, T.num + 0.9));
+  S.css('#fill', { opacity: tau >= T.num ? 1 : 0 }); document.getElementById('fill').setAttribute('width', (1296 * 0.208 * k).toFixed(1));
+  E.stroke('#tick', tau, T.num + 0.9, 0.2);
+  S.css('#slot', { opacity: tau >= T.num ? 0 : (tau >= T0 + 0.1 ? 1 : 0) });
+  const num = document.getElementById('num');
+  num.textContent = (20.8 * k).toFixed(1) + '%';
+  S.css(num, { opacity: tau >= T.num ? 1 : 0 });
+  E.stroke('#ul', tau, T.end - 0.4, 0.4);
+});
+</script>
+</body></html>

@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s66 열 명 중 한두 명 → 진짜 내 손님 → 몇 달 쌓인 기둥 → s57 매달린 줄(<svg id="hang"> 복사)이 느슨해짐 · 설명 층</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#fan{left:0;top:0;width:1920px;height:1080px}
+.dot{position:absolute;width:100px;height:100px;border-radius:50%;background:#D5D9DC;border:4px solid #A9B0B6;transform-origin:50% 50%}
+#hang{left:890px;top:215px;width:942px;height:502px;overflow:visible}
+#hang text{font-family:"Pre";font-weight:800}
+#cap{left:110px;top:168px;font-size:48px;font-weight:800}
+.chip{position:absolute;top:590px;height:84px;background:#fff;border:3px solid var(--rd);border-radius:12px;display:flex;align-items:center;padding:0 22px;font-size:50px;font-weight:900;color:var(--rd);gap:16px}
+.chip svg{width:44px;height:44px}
+#own{left:890px;top:752px;width:400px;text-align:center;font-size:54px;font-weight:900;color:var(--bl)}
+#axis{left:110px;top:884px;width:660px;height:12px}
+.pd{position:absolute;width:58px;height:58px;border-radius:50%;background:var(--bl);opacity:0}
+#mo{left:110px;top:906px;width:660px;text-align:center;font-size:36px;font-weight:700}
+</style></head>
+<body><div id="stage">
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <svg id="fan" class="abs" viewBox="0 0 1920 1080">
+      <g id="fl"></g><g id="tr"></g>
+    </svg>
+    <div id="dots"></div>
+    <!-- ===== hang: s57 에서 복사(같은 모양) — 처음엔 s57 끝 모습(줄 팽팽·레버 올라감), 뒤에 줄이 느슨해짐 ===== -->
+    <svg id="hang" class="abs" viewBox="0 0 1520 810" data-box="hang" data-box-group="m">
+      <g id="ap"><rect class="ln w4" x="120" y="10" width="880" height="160" rx="10" fill="#fff"/><text id="apt" x="560" y="112" font-size="76" text-anchor="middle" fill="#20262D">배달앱</text></g>
+      <g id="lv1"><rect class="ln w4" x="240" y="170" width="200" height="90" rx="8" fill="#fff"/><text x="340" y="231" font-size="48" text-anchor="middle" fill="#20262D">수수료</text></g>
+      <g id="lv2"><rect class="ln w4" x="680" y="170" width="200" height="90" rx="8" fill="#fff"/><text x="780" y="231" font-size="48" text-anchor="middle" fill="#20262D">순위</text></g>
+      <path id="s1" class="ln w4" d="M340 260 L320 540"/>
+      <path id="s2" class="ln w4" d="M780 260 L800 540"/>
+      <g id="st">
+        <rect id="strect" class="ln w4" x="260" y="540" width="600" height="250" rx="10" fill="#fff"/>
+        <text id="stt" x="292" y="596" font-size="48" fill="#20262D">가게 매출</text>
+        <path id="stc" class="ln w6" d="M292 760 L372 718 L452 736 L544 664 L640 702 L726 646 L828 684"/>
+      </g>
+      <text id="tag" x="1290" y="470" font-size="50" text-anchor="middle" fill="#1F5FD1">앱 밖 루트</text>
+      <path id="bs1" class="ln bl w6" d="M0 0"/>
+      <path id="bs2" class="ln bl w6" d="M0 0"/>
+      <g id="b1"><rect x="1100" y="550" width="380" height="100" rx="10" fill="#DCE6F8" stroke="#1F5FD1" stroke-width="3"/><text x="1290" y="618" font-size="60" text-anchor="middle" fill="#1F5FD1">매장</text></g>
+      <g id="b2"><rect x="1100" y="690" width="380" height="100" rx="10" fill="#DCE6F8" stroke="#1F5FD1" stroke-width="3"/><text x="1290" y="758" font-size="60" text-anchor="middle" fill="#1F5FD1">포장</text></g>
+    </svg>
+    <div id="cap" class="abs t" data-box="cap">열 명 중 <span id="cap2" class="bl">한두 명</span></div>
+    <div class="chip" id="ch1" style="left:110px" data-box="ch1"><span>수수료</span><svg viewBox="0 0 44 44"><path id="x1" class="ln rd w4" d="M6 6 L38 38 M38 6 L6 38"/></svg></div>
+    <div class="chip" id="ch2" style="left:420px" data-box="ch2"><span>광고비</span><svg viewBox="0 0 44 44"><path id="x2" class="ln rd w4" d="M6 6 L38 38 M38 6 L6 38"/></svg></div>
+    <div id="own" class="abs t" data-box="own">내 손님</div>
+    <svg id="axis" class="abs" viewBox="0 0 660 12"><path id="ax" class="ln w4" d="M0 6 L660 6"/></svg>
+    <div id="mo" class="abs t" data-box="mo">몇 달</div>
+    <div id="pds"></div>
+  </div>
+</div>
+<script src="../data/s66.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1', '#D63A3A'];   // 모눈 · 선 · 파랑(진짜 내 손님·기둥) · 빨강(앱에 묶인 줄·수수료·광고비 — 연출표 뜻 색)
+const T = { cap: S.at('열 명'), two: S.at('한두'), ord: S.at('그 손님들의'), fee: S.at('수수료도'), ad: S.at('광고비도'), no: S.at('안 나가는'), own: S.at('진짜'),
+  mo: S.at('이 손님이'), m1: S.at('몇 달'), m2: S.at('쌓이면'), m3: S.at('어떻게'), loose: S.at('그때는'), lev: S.at('뭘'), pow: S.at('버틸') };
+const T0 = 0.02, TF = 0.79;
+S.ev(T0, 'in', 'hang'); S.ev(TF, 'marker', 'fan'); S.ev(T.cap, 'card_in', 'cap'); S.ev(T.two, 'click', 'blue'); S.ev(T.ord, 'marker', 'route');
+S.ev(T.fee, 'no', 'fee'); S.ev(T.own, 'ok', 'own'); S.ev(T.m1, 'gauge', 'm1'); S.ev(T.m2 + 0.2, 'in', 'm2'); S.ev(T.m3 + 0.3, 'shine', 'm3');
+S.ev(T.loose, 'sweep', 'loose'); S.ev(T.lev, 'click', 'lever'); S.ev(T.pow, 'shine', 'pow');
+const $ = id => document.getElementById(id);
+const NS = 'http://www.w3.org/2000/svg';
+const C = (t, a, b) => S.cam(t, a, b);
+const mix = (a, b, k) => a.map((v, i) => Math.round(v + (b[i] - v) * k));
+// 사람 점 열 개(2×5)
+const DOTS = [], dwrap = $('dots');
+for (let i = 0; i < 10; i++) {
+  const d = document.createElement('div'); d.className = 'dot'; d.dataset.box = 'd' + i; d.dataset.boxGroup = 'm';
+  const x = 110 + (i % 5) * 136, y = 250 + Math.floor(i / 5) * 150; d.style.left = x + 'px'; d.style.top = y + 'px'; dwrap.appendChild(d);
+  DOTS.push({ el: d, x: x + 50, y: y + 50 });
+}
+// 앱에 묶인 줄(회색 팬) — 앱 블록 왼쪽 가운데로
+const AP = [890 + 0.62 * 120, 215 + 0.62 * 90];
+const FL = [];
+DOTS.forEach(d => { const p = document.createElementNS(NS, 'path'); p.setAttribute('class', 'ln mu w4'); $('fl').appendChild(p); FL.push(p); });
+const TRB = [4, 9].map(() => { const p = document.createElementNS(NS, 'path'); p.setAttribute('class', 'ln bl w4'); $('tr').appendChild(p); return p; });
+const TG = [[1028, 580], [1028, 636]];   // 가게 왼쪽 가장자리 옆
+// 기둥(파랑 점이 쌓임): 세 칸 = 1 · 3 · 5
+const PD = [];
+[[220, 1], [430, 3], [640, 5]].forEach(([cx, n], ci) => { for (let j = 0; j < n; j++) { const e = document.createElement('div'); e.className = 'pd'; e.style.left = (cx - 29) + 'px'; e.style.top = (870 - 66 * (j + 1) + 8) + 'px'; $('pds').appendChild(e); PD.push({ el: e, t: [T.m1, T.m2, T.m3][ci] + 0.12 * j }); } });
+// 가게 자세(s57 끝 모습) · 레버
+const PX = 560, PY = 200;
+function rot(p, a, dx, dy) { const r = a * Math.PI / 180, c = Math.cos(r), s = Math.sin(r), x = p[0] - PX, y = p[1] - PY; return [PX + x * c - y * s + dx, PY + x * s + y * c + dy]; }
+function slack(a, b, L0, side) { const D = Math.hypot(b[0] - a[0], b[1] - a[1]); const h = Math.sqrt(0.375 * D * Math.max(0, L0 - D)); const m = [(a[0] + b[0]) / 2 + side * 2 * h, (a[1] + b[1]) / 2]; return `M${a[0].toFixed(1)} ${a[1].toFixed(1)} Q${m[0].toFixed(1)} ${m[1].toFixed(1)} ${b[0].toFixed(1)} ${b[1].toFixed(1)}`; }
+const L1i = Math.hypot(320 - 340, 540 - 230), L2i = Math.hypot(800 - 780, 540 - 290);
+S.scene(tau => {
+  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  // --- 사람 점
+  DOTS.forEach((d, i) => {
+    const o = S.ent(tau, T0 + 0.04 * i, 0.12);
+    d.el.style.opacity = o;
+    let x = d.x, y = d.y, sc = 1, blue = 0;
+    if (i === 4 || i === 9) {
+      const j = i === 4 ? 0 : 1, a = j ? 3.4 : 3.2, k = C(tau, a, a + 0.7);
+      blue = S.ent(tau, T.two + 0.18 * j, 0.14);
+      x = S.lerp(d.x, TG[j][0], k); y = S.lerp(d.y, TG[j][1], k); sc = S.lerp(1, 0.46, k);
+      d.el.style.background = `rgb(${mix([213, 217, 220], [31, 95, 209], blue)})`; d.el.style.borderColor = `rgb(${mix([169, 176, 182], [31, 95, 209], blue)})`;
+      // 파랑 길(남는 줄)
+      TRB[j].setAttribute('d', k > 0 ? `M${d.x} ${d.y} L${x.toFixed(1)} ${y.toFixed(1)}` : 'M0 0'); TRB[j].style.opacity = k > 0 ? 1 : 0;
+    }
+    d.el.style.left = (x - 50) + 'px'; d.el.style.top = (y - 50) + 'px'; d.el.style.transform = `scale(${sc.toFixed(3)})`;
+    // 앱 줄: 그려짐 → 바뀐 점의 줄은 앱 쪽으로 끊겨 사라짐
+    const draw = C(tau, TF + 0.03 * i, TF + 0.03 * i + 0.4), cut = (i === 4 || i === 9) ? C(tau, T.two + 0.18 * (i === 9 ? 1 : 0), T.two + 0.18 * (i === 9 ? 1 : 0) + 0.35) : 0;
+    const ex = AP[0] + (d.x - AP[0]) * draw * (1 - cut), ey = AP[1] + (d.y - AP[1]) * draw * (1 - cut);
+    FL[i].setAttribute('d', draw > 0 && cut < 1 ? `M${AP[0].toFixed(1)} ${AP[1].toFixed(1)} L${ex.toFixed(1)} ${ey.toFixed(1)}` : 'M0 0');
+  });
+  // --- 글·칩
+  E.wipe('#cap', tau, T.cap, 0.5); S.$('#cap2').style.opacity = S.ent(tau, T.two, 0.14);
+  const cf = 1 - S.P(tau, T.mo - 0.05, T.mo + 0.15);
+  [['#ch1', T.fee, 'x1'], ['#ch2', T.ad, 'x2']].forEach(([id, t0, x]) => { E.pop(id, tau, t0, { dy: 10 }); S.$(id).style.opacity = S.ent(tau, t0, 0.12) * cf; E.stroke('#' + x, tau, t0 + 0.2, 0.3); });
+  S.$('#own').style.opacity = 0; E.wipe('#own', tau, T.own, 0.55);
+  // --- 기둥
+  E.stroke('#ax', tau, T.mo, 0.5); E.wipe('#mo', tau, T.m1 - 0.05, 0.4);
+  PD.forEach(p => { p.el.style.opacity = S.ent(tau, p.t, 0.12); p.el.style.transform = `translateY(${(-14 * (1 - S.ent(tau, p.t, 0.12))).toFixed(2)}px)`; });
+  // --- 매달린 줄(hang): s57 끝 모습 → 줄이 느슨해짐 → 레버가 바뀌어도 가게는 그대로
+  const ha = S.ent(tau, T0, 0.14); $('hang').style.opacity = ha;
+  const up = C(tau, T.loose, T.loose + 0.7);
+  const o1 = -30 + 60 * C(tau, T.lev, T.lev + 0.55), o2 = 30 - 60 * C(tau, T.lev + 0.25, T.lev + 0.8);
+  const dx = 0, dy = -80 * up;
+  $('lv1').setAttribute('transform', `translate(0 ${o1.toFixed(2)})`); $('lv2').setAttribute('transform', `translate(0 ${o2.toFixed(2)})`);
+  $('st').setAttribute('transform', `translate(${dx} ${dy.toFixed(2)})`);
+  const a1 = [340, 260 + o1], a2 = [780, 260 + o2], b1 = [320 + dx, 540 + dy], b2 = [800 + dx, 540 + dy];
+  $('s1').setAttribute('d', slack(a1, b1, S.lerp(L1i, 360, up), -1)); $('s2').setAttribute('d', slack(a2, b2, S.lerp(L2i, 360, up), 1));
+  const lc = mix([214, 58, 58], [169, 176, 182], up), cs = `rgb(${lc})`;
+  $('s1').style.stroke = $('s2').style.stroke = cs;
+  const bl = S.ent(tau, T.pow, 0.2); $('stc').style.stroke = `rgb(${mix([214, 58, 58], [31, 95, 209], bl)})`;
+  $('tag').textContent = tau < T.pow ? '앱 밖 루트' : '버틸 동력';
+  // 앱 밖 파랑 줄 + 매장·포장(57 끝 모습 그대로, 가게를 따라 움직임)
+  const e0 = [860 + dx, 665 + dy];
+  const bz = (p0, p3) => { const p1 = [p0[0] + 110, p0[1]], p2 = [1010, p3[1]]; let d = ''; for (let i = 0; i <= 28; i++) { const t = i / 28, u = 1 - t; const x = u * u * u * p0[0] + 3 * u * u * t * p1[0] + 3 * u * t * t * p2[0] + t * t * t * p3[0]; const y = u * u * u * p0[1] + 3 * u * u * t * p1[1] + 3 * u * t * t * p2[1] + t * t * t * p3[1]; d += (i ? 'L' : 'M') + x.toFixed(1) + ' ' + y.toFixed(1); } return d; };
+  $('bs1').setAttribute('d', bz(e0, [1100, 600])); $('bs2').setAttribute('d', bz(e0, [1100, 740]));
+});
+</script>
+</body></html>

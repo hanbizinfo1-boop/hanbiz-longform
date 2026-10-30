@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s55 67.7% — 큰 숫자 + 열 칸 원 일곱 칸 · 출처 줄 · 스위치 꺼짐(수수료 블록·주문 일곱 칸 빨강으로 사라짐) · 설명 층</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#big{left:360px;top:70px;width:1200px;text-align:center;font-size:200px}
+#lab{left:189px;top:300px;font-size:44px;font-weight:700;color:var(--ln)}
+.circ{position:absolute;top:372px;width:120px;height:120px;border-radius:50%;border:6px solid var(--ln);background:transparent}
+#brk{left:180px;top:516px;width:1100px;height:50px}
+#app{left:189px;top:574px;font-size:56px;font-weight:900;color:var(--bl);width:1070px;text-align:center}
+#src{left:360px;top:682px;width:1200px;text-align:center}
+#sw{left:220px;top:730px;width:300px;height:150px}
+#swl{left:560px;top:772px;font-size:60px;font-weight:900}
+#fee{left:900px;top:730px;width:400px;height:150px;background:#fff;border:3px solid var(--ln);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:64px;font-weight:900}
+</style></head>
+<body><div id="stage">
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <div id="big" class="abs big" data-box="big">0%</div>
+    <div id="lab" class="abs t" data-box="lab">배달하는 가게 주문</div>
+    <div class="circ" style="left:189px" data-box="c0"></div><div class="circ" style="left:347px" data-box="c1"></div>
+    <div class="circ" style="left:505px" data-box="c2"></div><div class="circ" style="left:663px" data-box="c3"></div>
+    <div class="circ" style="left:821px" data-box="c4"></div><div class="circ" style="left:979px" data-box="c5"></div>
+    <div class="circ" style="left:1137px" data-box="c6"></div><div class="circ" style="left:1295px" data-box="c7"></div>
+    <div class="circ" style="left:1453px" data-box="c8"></div><div class="circ" style="left:1611px" data-box="c9"></div>
+    <svg id="brk" class="abs" viewBox="0 0 1100 50" data-box="brk"><path id="bk" class="ln bl w4" d="M6 4 L6 40 L1094 40 L1094 4"/></svg>
+    <div id="app" class="abs t" data-box="app">배달앱</div>
+    <div id="src" class="abs src" data-box="src">출처: 중소벤처기업부 2025 배달앱 입점업체 조사</div>
+    <svg id="sw" class="abs" viewBox="0 0 300 150" data-box="sw" data-box-group="sw">
+      <rect id="swt" x="4" y="4" width="292" height="142" rx="71" fill="#1F5FD1" stroke="#1F5FD1" stroke-width="5"/>
+      <circle id="swk" cx="225" cy="75" r="56" fill="#fff"/>
+    </svg>
+    <div id="swl" class="abs t" data-box="swl" data-box-group="sw">배달앱</div>
+    <div id="fee" class="abs t" data-box="fee">수수료</div>
+  </div>
+</div>
+<script src="../data/s55.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1', '#D63A3A'];   // 모눈 · 선 · 파랑(큰 숫자·들어온 주문) · 빨강(끄면 사라지는 돈·주문 — 연출표 뜻 색)
+const T = { lab: S.at('배달하는'), src: S.at('중기부'), big: S.at('67.7%'), app: S.at('배달앱으로'), sw: S.at('배달앱은'), fee: S.at('부담스럽죠'),
+  off: S.at('끄는'), only: S.at('수수료만'), ord: S.at('주문도') };
+const T0 = 0.02;
+S.ev(T0, 'in', 'circles'); S.ev(T.src, 'paper', 'src'); S.ev(T.big, 'shine', 'big'); S.ev(T.app, 'marker', 'brk'); S.ev(T.sw, 'card_in', 'sw');
+S.ev(T.fee, 'in', 'fee'); S.ev(T.off, 'click', 'off'); S.ev(T.only, 'coin', 'fee'); S.ev(T.ord, 'no', 'circles');
+const C = [...document.querySelectorAll('.circ')];
+function lerp3(a, b, k) { return a.map((v, i) => Math.round(v + (b[i] - v) * k)); }
+S.scene(tau => {
+  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  const gone = S.P(tau, T.ord + 0.7, T.ord + 1.05);       // 주문·수수료 같이 사라짐
+  // 열 칸 원: 처음 윤곽만 → 일곱 칸이 파랑으로 채워짐 → 주문도 같이: 빨강 → 사라짐
+  C.forEach((c, i) => {
+    const o = S.ent(tau, T0 + 0.05 * i, 0.12);
+    const fill = i < 7 ? S.ent(tau, T.big + 0.14 * i, 0.12) : 0;
+    const red = i < 7 ? S.ent(tau, T.ord, 0.12) : 0;
+    const col = lerp3(lerp3([32, 38, 45], [31, 95, 209], fill), [214, 58, 58], red);
+    c.style.opacity = (o * (i < 7 ? 1 - gone : 1)).toFixed(3);
+    c.style.borderColor = `rgb(${col})`;
+    c.style.background = fill > 0 ? `rgba(${col},${fill.toFixed(3)})` : 'transparent';
+  });
+  E.wipe('#lab', tau, T.lab, 0.5);
+  E.wipe('#src', tau, T.src, 0.6);
+  const bk = S.count(tau, T.big, T.big + 1.2, 0, 67.7);
+  const b = S.$('#big'); b.textContent = (tau >= T.big - 0.01 ? bk.toFixed(1) : '0.0') + '%';
+  b.style.opacity = tau >= T.big - 0.01 ? 1 : 0;
+  E.stroke('#bk', tau, T.app, 0.5); E.wipe('#app', tau, T.app + 0.15, 0.45);
+  // 스위치: 켜짐(파랑) → 끄는 순간 꺼짐(회색)
+  const swIn = E.pop('#sw', tau, T.sw, { dy: 12 }); E.pop('#swl', tau, T.sw + 0.1, { dy: 0 });
+  const off = S.ent(tau, T.off, 0.2);
+  S.$('#swk').setAttribute('cx', (225 - 150 * off).toFixed(1));
+  const tc = lerp3([31, 95, 209], [185, 191, 197], off);
+  S.$('#swt').setAttribute('fill', `rgb(${tc})`); S.$('#swt').setAttribute('stroke', `rgb(${tc})`);
+  // 수수료 블록: 나타남 → 끄는 순간 «수수료만 없어지는 게» 빨강 → 주문과 같이 사라짐
+  E.pop('#fee', tau, T.fee, { dy: 12 });
+  const fr = S.ent(tau, T.only, 0.12);
+  const fc = lerp3([32, 38, 45], [214, 58, 58], fr);
+  S.css('#fee', { borderColor: `rgb(${fc})`, color: `rgb(${fc})`, background: `rgba(247,222,222,${(fr * 0.9).toFixed(3)})` });
+  S.$('#fee').style.opacity = (S.ent(tau, T.fee, 0.12) * (1 - gone)).toFixed(3);
+});
+</script>
+</body></html>

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s61 막국수 하나 서비스 쪽지 — 포장 쪽지 극접사, 손글씨 쪽지가 봉투 안으로(실물 층, Codex 사진 + 손글씨)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#wrap{left:0;top:0;width:1920px;height:1080px;transform-origin:1100px 600px}
+#fx{left:0;top:0;width:1920px;height:1080px}
+#note{left:0;top:0;width:600px;height:480px}
+.nt{position:absolute;left:100px;width:480px;text-align:center;font-size:74px;line-height:1;color:#2C2118;opacity:.93;white-space:nowrap}
+.ph1{font-size:58px}
+</style></head>
+<body><div id="stage">
+  <div id="wrap" class="abs">
+    <div id="ph" class="photo"></div>
+    <div id="note" class="abs">
+      <div id="n1" class="nt hand" style="top:56px">다음에 포장</div>
+      <div id="n2" class="nt hand" style="top:140px">전화 주시면</div>
+      <div id="n3" class="nt hand" style="top:224px">막국수 하나</div>
+      <div id="n4" class="nt hand" style="top:308px">서비스로 드려요</div>
+      <div id="n5" class="nt hand ph1" style="top:400px">010-0000-0000</div>
+    </div>
+    <svg id="fx" class="abs" viewBox="0 0 1920 1080">
+      <path id="po" class="ln bl w6" d="M960 160 L1669 360 L1484 1000 L719 694 Z"/>
+      <path id="ar" class="ln bl w6" style="stroke-width:12" d="M1100 846 L1100 962"/>
+      <path id="ah" class="ln bl w6" style="stroke-width:12" d="M1050 910 L1100 964 L1150 910"/>
+    </svg>
+  </div>
+</div>
+<script src="../data/s61.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#20262D', '#1F5FD1', '#C9A57A'];
+S.$('#ph').style.backgroundImage = S.ph('p61_note_macro');
+// 사진 속 크라프트 쪽지 네 모서리(사진 좌표 (768,208) (1335,368) (1187,880) (575,635) → 판 좌표 ×1.25, y −100)
+S.fitQuad(S.$('#note'), 600, 480, [[960, 160], [1669, 360], [1484, 1000], [719, 694]]);
+const T = { bong: S.at('봉투에'), da: S.at('다음에'), jeon: S.at('전화', 0), mak: S.at('막국수'), seo: S.at('서비스로'), dryeo: S.at('드려요'), ra: S.at('라고'), neon: S.at('넣는다고'), saeng: S.at('생각해') };
+S.ev(0.3, 'marker', 'po'); S.ev(T.da, 'type', 'n1'); S.ev(T.mak, 'paper', 'n3'); S.ev(T.dryeo, 'ok', 'n5'); S.ev(T.ra, 'marker', 'po'); S.ev(T.neon, 'sweep', 'ar'); S.ev(T.saeng + 0.15, 'shine', 'po');
+S.scene(tau => {
+  S.css('#wrap', { transform: `scale(${(1 + 0.08 * S.P(tau, 0, S.SC.dur)).toFixed(4)})` });
+  // 쪽지 테두리: 처음 한 번 그려졌다가 글이 쓰이는 동안 사라지고, «쪽지를» 에 다시
+  const po = S.$('#po'); if (!po._len) { po._len = po.getTotalLength(); po.style.strokeDasharray = po._len; }
+  const d1 = S.EO(S.P(tau, 0.3, 0.9)), d2 = S.EO(S.P(tau, T.ra, T.ra + 0.5));
+  const fade = 1 - S.P(tau, T.da - 0.15, T.da + 0.1);
+  po.style.strokeDashoffset = po._len * (1 - (tau < T.da ? d1 : d2)); po.style.opacity = tau < T.da ? (tau >= 0.3 ? 1 : 0) * fade + 0 : (tau >= T.ra ? 1 : 0);
+  E.wipe('#n1', tau, T.da, 0.55); E.wipe('#n2', tau, T.jeon, 0.6); E.wipe('#n3', tau, T.mak, 0.55); E.wipe('#n4', tau, T.seo, 0.8); E.wipe('#n5', tau, T.dryeo - 0.05, 0.45);
+  E.stroke('#ar', tau, T.neon, 0.3); E.stroke('#ah', tau, T.neon + 0.25, 0.2);
+});
+</script>
+</body></html>

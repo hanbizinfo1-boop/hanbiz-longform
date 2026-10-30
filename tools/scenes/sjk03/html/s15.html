@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s15 거의 30% — 파랑 큰 숫자 + 그릇 열 개 한 줄 → 세 개가 빨강으로 바뀌어 아래로 빠짐 (설명 층)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#row{left:0;top:0;width:1920px;height:1080px}
+#big{left:460px;top:130px;width:1000px;text-align:center;font-size:280px}
+#cost{left:1000px;top:800px;font-size:60px;color:var(--rd)}
+</style></head>
+<body><div id="stage">
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <svg id="row" class="abs" viewBox="0 0 1920 1080"></svg>
+    <div id="big" class="abs big" data-box="big">30%</div>
+    <div id="cost" class="abs t" data-box="cost">비용</div>
+  </div>
+</div>
+<script src="../data/s15.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1', '#D63A3A'];   // 빨강 = 비용으로 나가는 세 개
+const BOWL = 'M-72 0 L72 0 C 68 90, 44 150, 0 150 C -44 150, -68 90, -72 0 Z';
+let svg = '<path id="tray" class="ln rd w4" d="M1264 738 L1772 738 L1772 925 L1264 925 Z"/>';
+for (let i = 0; i < 10; i++) {
+  const cx = 220 + i * 162;
+  svg += `<g id="g${i}" transform="translate(${cx},560)"><path id="f${i}" d="${BOWL}" fill="#F4F5F2" stroke="none"/><path id="b${i}" class="ln w4" d="${BOWL}"/><path id="r${i}" class="ln w4" d="M-80 0 L80 0"/></g>`;
+}
+svg += '<path id="ring" class="ln bl w6" d="M126 524 L1282 524 L1282 726 L126 726 Z"/>';
+document.getElementById('row').innerHTML = svg;
+const T = { big: S.at('30%'), yeol: S.at('열'), se: S.at('세'), bi: S.at('비용으로'), nagan: S.at('나간다는'), ddeu: S.at('뜻이죠') };
+const T0 = 0.02;
+S.ev(T0, 'marker', 'bowls'); S.ev(T.big, 'shine', 'big'); S.ev(T.yeol, 'gauge', 'fill'); S.ev(T.se, 'no', 'red3'); S.ev(T.bi, 'coin', 'drop'); S.ev(T.nagan, 'marker', 'tray'); S.ev(T.ddeu, 'ok', 'ring');
+const lerpC = (a, b, k) => `rgb(${Math.round(a[0] + (b[0] - a[0]) * k)},${Math.round(a[1] + (b[1] - a[1]) * k)},${Math.round(a[2] + (b[2] - a[2]) * k)})`;
+S.scene(tau => {
+  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  E.wipe('#big', tau, T.big, 0.5);
+  for (let i = 0; i < 10; i++) {
+    E.stroke('#b' + i, tau, T0 + i * 0.03, 0.4); E.stroke('#r' + i, tau, T0 + i * 0.03 + 0.1, 0.2);
+    const k = S.ent(tau, T.yeol + i * 0.05, 0.12);            // 열 개 — 파랑 옅게 차오름
+    let col = lerpC([244, 245, 242], [220, 230, 248], k);
+    if (i >= 7) {
+      const r = S.ent(tau, T.se + (i - 7) * 0.12, 0.14);      // 세 개 — 빨강으로
+      col = lerpC([244 - 24 * k, 245 - 15 * k, 242 + 6 * k].map(Math.round), [247, 190, 190], r);
+      S.$('#b' + i).style.stroke = r > 0.5 ? '#D63A3A' : '#20262D'; S.$('#r' + i).style.stroke = r > 0.5 ? '#D63A3A' : '#20262D';
+      const d = S.ent(tau, T.bi + (i - 7) * 0.1, 0.25);       // 비용으로 — 아래 빨강 칸으로 빠짐
+      S.$('#g' + i).setAttribute('transform', `translate(${220 + i * 162},${560 + 190 * d})`);
+    }
+    S.$('#f' + i).style.fill = col;
+  }
+  E.stroke('#tray', tau, T.bi + 0.25, 0.4);
+  E.wipe('#cost', tau, T.nagan, 0.4);
+  E.stroke('#ring', tau, T.ddeu, 0.4);
+});
+</script>
+</body></html>

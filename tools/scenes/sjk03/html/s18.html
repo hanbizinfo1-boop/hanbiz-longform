@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s18 밤 가게 앞 — 배달 기사가 작은 봉투 하나만 들고 오토바이에(싼 주문 · 배달료 비슷 · 남는 게 거의 없다)(실물 층 · 로우앵글 2.5D)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#ov{left:0;top:0;width:1920px;height:1080px}
+#ch{left:330px;top:320px;width:760px;height:250px;padding:26px 34px 26px}
+#ch .lb{position:absolute;left:34px;font-size:50px;font-weight:800;color:#fff;white-space:nowrap}
+#ch .tr{position:absolute;left:230px;height:44px;border-radius:8px}
+#fb{background:#7FA8F5;top:34px}
+#dl{background:#FF6B6B;top:120px}
+#sl{position:absolute;left:230px;top:34px;height:44px;border-radius:8px;background:#7FA8F5;transform-origin:0 50%}
+</style></head>
+<body><div id="stage">
+  <div id="ph" class="photo">
+    <svg id="ov" class="abs" viewBox="0 0 1920 1080">
+      <ellipse id="rg" class="ln bl w6" cx="1215" cy="522" rx="82" ry="86"/>
+      <ellipse id="rg2" class="ln bl w6" cx="1214" cy="522" rx="96" ry="100" style="stroke:#7FA8F5"/>
+    </svg>
+    <div id="ch" class="dpan abs" data-box="ch">
+      <div class="lb" style="top:42px">음식값</div><div id="fb" class="tr" style="left:230px;width:0"></div>
+      <div class="lb" style="top:128px">배달료</div><div id="dl" class="tr" style="left:230px;width:0"></div>
+    </div>
+  </div>
+</div>
+<script src="../data/s18.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#1B1E22', '#FFFFFF', '#1F5FD1'];
+S.css('#ph', { backgroundImage: S.ph('p18_rider_small_bag') });
+const T = { ring: S.at('싼'), ch: S.at('비용', 0), dl: S.at('커집니다'), cheap: S.at('싸게'), slide: S.at('배달료는'), fin: S.at('남는') };
+S.ev(T.ring, 'marker', 'rg'); S.ev(T.ch, 'card_in', 'ch'); S.ev(T.dl, 'gauge', 'dl'); S.ev(T.cheap, 'in', 'fb'); S.ev(T.slide, 'coin', 'dl'); S.ev(T.fin, 'shine', 'rg2');
+S.scene(tau => {
+  S.css('#ph', { transform: `scale(${E.drift(tau, 1, 1.07).toFixed(4)})` });   // 아주 느린 밀기
+  E.stroke('#rg', tau, T.ring, 0.4);
+  E.pop('#ch', tau, T.ch, { dy: 14 });
+  // 음식값 막대(파랑): 처음 길게 → «싸게» 에서 짧아짐 · 배달료 막대(빨강): «커집니다» 에서 같은 길이로 → «배달료는 비슷하게» 에서 음식값 위로 겹쳐 덮음
+  const a0 = S.EO(S.P(tau, T.ch + 0.15, T.ch + 0.5));
+  const shrink = S.EO(S.P(tau, T.cheap, T.cheap + 0.4));
+  const fbW = S.lerp(400, 210, shrink) * a0;
+  const fb = S.$('#fb'); fb.style.width = fbW.toFixed(1) + 'px';
+  const dlk = S.EO(S.P(tau, T.dl, T.dl + 0.4));
+  S.$('#dl').style.width = (190 * dlk).toFixed(1) + 'px';
+  // 배달료 막대가 음식값 막대 쪽으로 올라와 겹침: 빨강이 파랑을 덮어 파랑 한 조각만 남는다
+  const cov = S.EO(S.P(tau, T.slide, T.slide + 0.5));
+  const dl = S.$('#dl'); dl.style.top = S.lerp(120, 34, cov).toFixed(1) + 'px';
+  dl.style.width = S.lerp(190 * dlk, 190, cov).toFixed(1) + 'px';
+  dl.style.opacity = 1;
+  E.stroke('#rg2', tau, T.fin, 0.4);
+});
+</script>
+</body></html>

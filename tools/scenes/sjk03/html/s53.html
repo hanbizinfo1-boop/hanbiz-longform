@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s53 진행표 카드 — 두 칸 켜진 채 셋째 칸 «단골»이 아래로 내려가 두 칸을 받치는 받침이 됨 (설명 층 · 진행표 카드)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#art{left:0;top:0;width:1920px;height:1080px;pointer-events:none}
+#brl{left:755px;top:728px;font-size:48px;transform:translate(-50%,-50%)}
+</style></head>
+<body><div id="stage">
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <svg id="art" class="abs" viewBox="0 0 1920 1080">
+      <path id="br" class="ln bl w6" d="M362 652 V676 H1150 V652"/>
+      <path id="sp0" class="ln bl w6" d="M753 694 V654 M737 670 L753 652 L769 670"/>
+      <path id="sp1" class="ln bl w6" d="M1163 694 V654 M1147 670 L1163 652 L1179 670"/>
+    </svg>
+    <div id="brl" class="abs t bl" data-box="brl">여기까지</div>
+  </div>
+</div>
+<script src="../data/s53.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script src="../lib/prog.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];   // 모눈 · 선 · 파랑(켜진 칸)
+const RX = 360, RY = 260, CW = (1200 - 56) / 3, GAP = 28;
+const pc = PROG.mount('#cam', { x: RX, y: RY, w: 1200, h: 380 });
+const cells = pc.root.querySelectorAll('.pcell');
+cells.forEach((c, i) => { c.dataset.box = 'c' + i; });
+const T = { c1: 0.12, c2: 0.5, br: S.at('여기까지'), dash: S.at('않을'), c3: S.at('세번째가'), drop: S.at('앞의'), slide: S.at('앞의') + 0.42, sup: S.at('버티게') };
+S.ev(T.c1, 'card_in', 'c1'); S.ev(T.br, 'marker', 'bracket'); S.ev(T.c3, 'click', 'c3'); S.ev(T.drop, 'sweep', 'drop'); S.ev(T.sup, 'ok', 'support');
+const c3 = cells[2], word3 = c3.querySelector('.pword'), icon3 = c3.querySelector('.picon'), num3 = c3.querySelector('.pnum');
+S.scene(tau => {
+  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  const on3 = S.P(tau, T.c3, T.c3 + 0.2);
+  const dropK = S.EZ(S.P(tau, T.drop, T.drop + 0.4)), slideK = S.EZ(S.P(tau, T.slide, T.slide + 0.5));
+  const gone = S.P(tau, T.drop, T.drop + 0.2);
+  PROG.draw(pc, [{ show: 1, on: S.P(tau, T.c1, T.c1 + 0.2) }, { show: 1, on: S.P(tau, T.c2, T.c2 + 0.2) }, { show: 1, on: on3 }], 1);
+  // 셋째 칸이 켜지기 전: 파랑 점선 테두리로 «다음은 이것»
+  if (tau >= T.dash && on3 < 0.5) { c3.style.borderColor = '#1F5FD1'; c3.style.borderStyle = 'dashed'; c3.style.borderWidth = '3px'; }
+  else { c3.style.borderStyle = 'solid'; c3.style.borderWidth = '1px'; }
+  // 첫 두 칸은 가운데로 비켜서고, 셋째 칸은 아래로 내려가 받침이 됨
+  const shift = 203 * slideK;
+  cells[0].style.transform += ` translateX(${shift.toFixed(1)}px)`; cells[1].style.transform += ` translateX(${shift.toFixed(1)}px)`;
+  const h = S.lerp(380, 130, dropK), top = S.lerp(0, 440, dropK), left = S.lerp(2 * (CW + GAP), 203, slideK), w = S.lerp(CW, 794, slideK);
+  c3.style.top = top.toFixed(1) + 'px'; c3.style.height = h.toFixed(1) + 'px'; c3.style.left = left.toFixed(1) + 'px'; c3.style.width = w.toFixed(1) + 'px';
+  word3.style.top = S.lerp(243, (130 - 87) / 2, dropK).toFixed(1) + 'px'; icon3.style.opacity = 1 - gone;
+  num3.style.opacity = 1 - gone;
+  // 여기까지: 두 칸 아래 대괄호 — 받침이 내려오기 전에 걷힘
+  const bo = tau >= T.br ? 1 - S.P(tau, T.drop - 0.05, T.drop + 0.15) : 0;
+  E.stroke('#br', tau, T.br, 0.5); S.css('#br', { opacity: bo });
+  E.pop('#brl', tau, T.br + 0.2, { base: 'translate(-50%,-50%)', dy: 0 }); S.css('#brl', { opacity: S.ent(tau, T.br + 0.2, 0.12) * bo });
+  // 버티게 해 주는: 받침에서 두 칸으로 올라가는 화살표
+  E.stroke('#sp0', tau, T.sup, 0.35); E.stroke('#sp1', tau, T.sup + 0.15, 0.35);
+});
+</script>
+</body></html>

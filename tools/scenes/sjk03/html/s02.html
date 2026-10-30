@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s02 통장에 얼마가 — 모눈 흐름도(그릇 → 통장 → 5천~6천 원) · 설명 층 본보기</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#bowlBox{left:250px;top:300px;width:400px;height:360px}
+#bankBox{left:1180px;top:270px;width:520px;height:420px}
+#qm{left:1452px;top:470px;width:200px;height:130px;border:3px dashed #A9B0B6;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:84px;font-weight:900;color:#A9B0B6}
+#amt{left:1110px;top:735px;font-size:118px}
+#lbl0{left:330px;top:690px;font-size:44px}
+</style></head>
+<body><div id="stage">
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <!-- 찌개 그릇 선화 -->
+    <svg id="bowlBox" class="abs" viewBox="0 0 400 360" data-box="bowl">
+      <path id="b1" class="ln w4" d="M40 160 L360 160 C 352 270, 290 320, 200 320 C 110 320, 48 270, 40 160 Z"/>
+      <path id="b2" class="ln w4" d="M20 160 L380 160"/>
+      <path id="b3" class="ln w4 rd" d="M130 120 C 120 95, 145 80, 135 55 M200 120 C 190 95, 215 80, 205 55 M270 120 C 260 95, 285 80, 275 55"/>
+    </svg>
+    <div id="lbl0" class="abs t" data-box="lbl0">12,000원</div>
+    <!-- 화살표 -->
+    <svg class="abs" style="left:700px;top:420px;width:440px;height:120px" viewBox="0 0 440 120">
+      <path id="ar" class="ln w6" d="M10 60 L410 60"/>
+      <path id="ah" class="ln w6" d="M372 26 L414 60 L372 94"/>
+    </svg>
+    <!-- 통장 선화 -->
+    <svg id="bankBox" class="abs" viewBox="0 0 520 420" data-box="bank" data-box-group="bank">
+      <path id="k1" class="ln w4" d="M30 40 L490 40 L490 380 L30 380 Z"/>
+      <path id="k2" class="ln w4" d="M260 40 L260 380"/>
+      <path id="k3" class="ln" d="M60 110 L230 110 M60 160 L230 160 M60 210 L200 210"/>
+      <path id="k4" class="ln bl w4" d="M30 40 L30 380"/>
+    </svg>
+    <div id="qm" class="abs" data-box="qm" data-box-group="bank">?</div>
+    <div id="amt" class="abs big" data-box="amt">5천~6천 원</div>
+  </div>
+</div>
+<script src="../data/s02.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];   // 모눈 · 선 · 파랑(통장에 들어오는 돈). 김 빨강은 그릇 그림의 일부
+const T = { bank: S.at('통장에는'), q: S.at('얼마가'), amt: S.at('5천'), six: S.at('6천') };
+const T0 = 0.02;   // 장면 첫 프레임부터 그릇이 그려지기 시작(빈 모눈 1초 금지)
+S.ev(T0, 'in', 'bowl'); S.ev(T.bank, 'marker', 'bank'); S.ev(T.q, 'card_in', 'qm'); S.ev(T.amt, 'shine', 'amt');
+S.scene(tau => {
+  // 바탕: 아주 느린 밀기(1.00→1.04)
+  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  E.stroke('#b1', tau, T0, 0.45); E.stroke('#b2', tau, T0 + 0.1, 0.3); E.stroke('#b3', tau, T0 + 0.3, 0.4);
+  E.pop('#lbl0', tau, T0 + 0.35);
+  E.stroke('#ar', tau, T.bank - 0.25, 0.35); E.stroke('#ah', tau, T.bank + 0.05, 0.15);
+  ['#k1', '#k2', '#k3', '#k4'].forEach((p, i) => E.stroke(p, tau, T.bank + i * 0.1, 0.35));
+  // 빈 칸(물음표) → 숫자가 들어오면 빈 칸은 파랑 테두리로 채워진 칸이 됨
+  const q = E.pop('#qm', tau, T.q, { dy: 0 });
+  const a = S.ent(tau, T.amt, 0.12);
+  S.css('#qm', { borderColor: a > 0 ? '#1F5FD1' : '#A9B0B6', color: a > 0 ? '#1F5FD1' : '#A9B0B6', background: a > 0 ? 'rgba(31,95,209,.10)' : 'transparent' });
+  document.getElementById('qm').textContent = a > 0 ? '₩' : '?';
+  S.css('#amt', { opacity: a, transform: `translateY(${(30 * (1 - a)).toFixed(2)}px)` });
+  E.wipe('#amt', tau, T.amt, 0.7);   // «5천» 에서 «6천» 까지 왼→오로 차례로 보임
+});
+</script>
+</body></html>

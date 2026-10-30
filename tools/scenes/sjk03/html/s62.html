@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s62 막국수 서비스 — 그릇 + 두 꼬리표(원가 작게 · 메뉴 가격 크게) → 손님 머리엔 큰 꼬리표만 → 장면 13 탑의 조각 하나가 그릇으로 (설명 층)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#fx{left:0;top:0;width:1920px;height:1080px}
+.tg{position:absolute;display:flex;align-items:center;justify-content:center;border-radius:14px;font-weight:900}
+#tgC{left:790px;top:640px;width:170px;height:70px;background:#E9ECEF;border:3px solid #A9B0B6;color:#7A828A;font-size:42px}
+#tgM{left:1365px;top:326px;width:170px;height:70px;background:#E9ECEF;border:3px solid #A9B0B6;color:#7A828A;font-size:42px}
+#tgB{left:1280px;top:270px;width:340px;height:130px;background:var(--bl);border:3px solid var(--bl);color:#fff;font-size:60px}
+#lbN{left:330px;top:838px;width:380px;text-align:center;font-size:56px}
+#lbF{left:330px;top:250px;font-size:56px;color:var(--rd)}
+.pc{position:absolute;left:330px;top:340px;width:440px;height:72px;background:#F7DEDE;border:3px solid var(--rd);border-radius:8px}
+</style></head>
+<body><div id="stage">
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <svg id="fx" class="abs" viewBox="0 0 1920 1080">
+      <g transform="translate(520,620)">
+        <path id="b1" class="ln w4" d="M-190 0 L190 0 C 180 130, 110 200, 0 200 C -110 200, -180 130, -190 0 Z"/>
+        <path id="b2" class="ln w4" d="M-215 0 L215 0"/>
+        <path id="b3" class="ln" d="M-120 0 C -140 -30, -90 -40, -110 -70 M-30 0 C -50 -30, 0 -40, -20 -75 M60 0 C 40 -30, 90 -40, 70 -70 M130 0 C 115 -25, 150 -35, 140 -60"/>
+        <path id="b4" class="ln w4" d="M70 -150 L-10 -25 M105 -150 L25 -15"/>
+      </g>
+      <path id="str" class="ln mu" d="M790 672 L690 620"/>
+      <path id="gg" class="ln w4" d="M990 590 L990 710 L1030 710 L1030 590 Z"/>
+      <rect id="gf" x="994" y="686" width="32" height="0" fill="#A9B0B6"/>
+      <circle id="hd" class="ln w4" cx="1450" cy="500" r="80"/>
+      <path id="sh" class="ln w4" d="M1290 780 C 1290 660, 1370 610, 1450 610 C 1530 610, 1610 660, 1610 780 L1290 780"/>
+      <path id="ar" class="ln w6" d="M790 540 L1270 540"/>
+      <path id="ah" class="ln w6" d="M1236 506 L1272 540 L1236 574"/>
+      <path id="xx" class="ln rd w6" d="M1360 322 L1540 402 M1540 322 L1360 402"/>
+      <circle id="ring" class="ln bl w6" cx="1450" cy="500" r="112"/>
+      <path id="bring" class="ln bl w6" d="M280 470 L760 470 L760 826 L280 826 Z"/>
+    </svg>
+    <div id="lbN" class="abs t" data-box="lbN">막국수</div>
+    <div id="tgC" class="tg" data-box="tgC">원가</div>
+    <div id="tgM" class="tg" data-box="tgM" data-box-group="tg">원가</div>
+    <div id="tgB" class="tg" data-box="tgB" data-box-group="tg">메뉴 가격</div>
+    <div id="lbF" class="abs t" data-box="lbF">앱 수수료</div>
+    <div id="pc" class="pc"></div>
+  </div>
+</div>
+<script src="../data/s62.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1', '#D63A3A'];   // 빨강 = 앱 수수료로 나갈 돈(탑의 조각 · 장면 13)
+const T = { mak: S.at('막국수'), won: S.at('원가'), sol: S.at('솔직히'), bi: S.at('비싸지'), geun: S.at('근데'), son: S.at('손님은'), wonga: S.at('원가가'), ani: S.at('아니라'), menu: S.at('메뉴'), gi: S.at('기억합니다'),
+  eo: S.at('어차피'), app: S.at('앱'), geunyang: S.at('그냥'), sonnim: S.at('손님에게'), deu: S.at('드리는'), geo: S.at('거죠') };
+const T0 = 0.02;
+S.ev(T0, 'in', 'bowl'); S.ev(T.won, 'card_in', 'tgC'); S.ev(T.bi, 'gauge', 'gf'); S.ev(T.geun, 'in', 'cust'); S.ev(T.wonga, 'card_in', 'tgM'); S.ev(T.ani, 'no', 'xx'); S.ev(T.menu, 'shine', 'tgB'); S.ev(T.gi, 'marker', 'ring');
+S.ev(T.eo, 'card_in', 'pc'); S.ev(T.app, 'marker', 'lbF'); S.ev(T.geunyang, 'sweep', 'pc'); S.ev(T.deu, 'coin', 'pc'); S.ev(T.geo, 'ok', 'bring');
+S.scene(tau => {
+  S.css('#cam', { transform: `scale(${(1.1 * E.drift(tau)).toFixed(4)})` });
+  ['#b1', '#b2', '#b3', '#b4'].forEach((p, i) => E.stroke(p, tau, T0 + i * 0.1, 0.4));
+  E.pop('#lbN', tau, T.mak, { dy: 8 });
+  // 작은 원가 꼬리표 + 끈 + 낮은 눈금
+  E.pop('#tgC', tau, T.won, { dy: 8 }); E.stroke('#str', tau, T.won + 0.15, 0.25);
+  E.stroke('#gg', tau, T.bi - 0.35, 0.3);
+  S.$('#gf').setAttribute('height', 26 * S.EO(S.P(tau, T.bi, T.bi + 0.3))); S.$('#gf').setAttribute('y', 710 - 26 * S.EO(S.P(tau, T.bi, T.bi + 0.3)));
+  // 손님(얼굴 없음) + 그릇 → 손님 화살표
+  E.stroke('#hd', tau, T.geun, 0.35); E.stroke('#sh', tau, T.geun + 0.1, 0.4);
+  E.stroke('#ar', tau, T.son, 0.4); E.stroke('#ah', tau, T.son + 0.35, 0.12);
+  // 손님 머리 위: 원가 → ✕ → 큰 꼬리표(메뉴 가격)
+  const out = 1 - S.P(tau, T.menu - 0.05, T.menu + 0.1);
+  E.pop('#tgM', tau, T.wonga, { dy: 8 }); S.$('#tgM').style.opacity = parseFloat(S.$('#tgM').style.opacity) * out;
+  E.stroke('#xx', tau, T.ani, 0.3); S.css('#xx', { opacity: (tau >= T.ani ? 1 : 0) * out });
+  E.pop('#tgB', tau, T.menu, { dy: 10, sc: 0.12 });
+  E.stroke('#ring', tau, T.gi, 0.4);
+  // 앱 수수료 — 장면 13 탑의 조각 하나가 그릇 쪽으로 옮겨감
+  const kp = S.ent(tau, T.eo, 0.12), mv = S.cam(tau, T.geunyang, T.sonnim + 0.5), dp = S.P(tau, T.deu, T.deu + 0.3);
+  const pc = S.$('#pc');
+  pc.style.opacity = kp * (1 - dp);
+  pc.style.transform = `translate(${(0 * mv).toFixed(1)}px,${(160 * mv + 60 * dp).toFixed(1)}px) translateY(${(-30 * (1 - kp)).toFixed(1)}px)`;
+  E.wipe('#lbF', tau, T.app, 0.45);
+  S.css('#lbF', { opacity: parseFloat(S.$('#lbF').style.opacity) * (1 - S.P(tau, T.geunyang, T.geunyang + 0.2)) });
+  E.stroke('#bring', tau, T.geo, 0.45);
+});
+</script>
+</body></html>

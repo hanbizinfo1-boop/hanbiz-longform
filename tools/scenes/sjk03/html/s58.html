@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s58 앱 손님한테 전화로 시키라고 — 배달 봉투 손잡이에 끼운 쪽지 «다음엔 전화로» 위로 빨강 ✕ (실물 층, Codex 사진 + 쪽지 글)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#wrap{left:0;top:0;width:1920px;height:1080px;transform-origin:1180px 440px}
+#fx{left:0;top:0;width:1920px;height:1080px}
+#note{left:0;top:0;width:400px;height:344px}
+.nt{position:absolute;left:0;width:400px;text-align:center;font-size:112px;line-height:1;color:#2C2118;opacity:.92}
+#xx{position:absolute;left:0;top:0;width:400px;height:344px}
+.rz{fill:rgba(214,58,58,.14);opacity:0}
+</style></head>
+<body><div id="stage">
+  <div id="wrap" class="abs">
+    <div id="ph" class="photo"></div>
+    <svg id="fx" class="abs" viewBox="0 0 1920 1080">
+      <path id="pb" class="ln bl w6" d="M940 394 L1231 216 L1409 450 L1118 628 Z"/>
+      <path id="pg" class="ln bl w6" d="M940 394 L1231 216 L1409 450 L1118 628 Z" style="opacity:0;transform-box:fill-box;transform-origin:50% 50%"/>
+      <path id="pz" class="rz" d="M940 394 L1231 216 L1409 450 L1118 628 Z"/>
+      <path id="pr" class="ln rd w6" d="M940 394 L1231 216 L1409 450 L1118 628 Z"/>
+    </svg>
+    <div id="note" class="abs">
+      <div id="n1" class="nt hand" style="top:60px">다음엔</div>
+      <div id="n2" class="nt hand" style="top:176px">전화로</div>
+      <svg id="xx" viewBox="0 0 400 344"><path id="x1" class="ln rd" style="stroke-width:18" d="M52 36 L348 300"/><path id="x2" class="ln rd" style="stroke-width:18" d="M348 36 L52 300"/></svg>
+    </div>
+  </div>
+</div>
+<script src="../data/s58.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#20262D', '#1F5FD1', '#D63A3A'];   // 빨강 = 하면 안 되는 것(✕ · 계약 문제) — 뜻 색
+S.$('#ph').style.backgroundImage = S.ph('p58_bag_handle_macro');
+// 사진 속 크라프트 쪽지(왼 모서리 → 위 모서리 방향으로 글이 읽힘): 판 좌표 = 사진 ×1.25, y −100
+S.fitQuad(S.$('#note'), 400, 344, [[940, 394], [1231, 216], [1409, 450], [1118, 628]]);
+const T = { ju: S.at('주의하실'), app: S.at('앱으로'), da: S.at('다음엔'), jeon: S.at('전화로'), oh: S.at('오시면'), an: S.at('안', 0), yak: S.at('약관에'), gye: S.at('계약') };
+S.ev(T.ju, 'marker', 'pb'); S.ev(T.app, 'sweep', 'pg'); S.ev(T.da, 'type', 'n1'); S.ev(T.oh, 'no', 'x1'); S.ev(T.yak, 'marker', 'pr'); S.ev(T.gye, 'shine', 'pz');
+S.scene(tau => {
+  S.css('#wrap', { transform: `scale(${(1 + 0.08 * S.P(tau, 0, S.SC.dur)).toFixed(4)})` });
+  E.stroke('#pb', tau, T.ju, 0.6);
+  { const k = S.EO(S.P(tau, T.app, T.app + 0.6)); S.css('#pg', { opacity: tau >= T.app ? (1 - k) * 0.9 : 0, transform: `scale(${(1 + 0.2 * k).toFixed(4)})` }); }
+  E.wipe('#n1', tau, T.da, 0.38); E.wipe('#n2', tau, T.jeon, 0.4);
+  E.stroke('#x1', tau, T.oh, 0.3); E.stroke('#x2', tau, T.oh + 0.34, 0.3);
+  E.stroke('#pr', tau, T.yak, 0.5);
+  S.css('#pz', { opacity: S.EO(S.P(tau, T.gye, T.gye + 0.4)) });
+});
+</script>
+</body></html>

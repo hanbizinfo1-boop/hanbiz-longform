@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s04 계단 막대 — 12,000 → 수수료 → 재료비 → 포장 용기 → 천 원 남짓 (설명 층)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#stair{left:0;top:0;width:1920px;height:1080px}
+#stair text{font-family:"Pre";font-weight:900;letter-spacing:-.02em}
+#fin{left:1020px;top:430px;font-size:126px}
+#fin2{display:none}   /* 10-30 설계자: 화면 글 검사 T2 세 단 글 — «수익은» 머리말 뺌 */
+</style></head>
+<body><div id="stage">
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <svg id="stair" class="abs" viewBox="0 0 1920 1080">
+      <path id="base" class="ln w4" d="M150 880 L1700 880"/>
+      <!-- 단계 점선(윗면 높이) -->
+      <path id="st1" class="ln mu" stroke-dasharray="10 10" d="M490 280 L590 280"/>
+      <path id="st2" class="ln mu" stroke-dasharray="10 10" d="M850 605 L950 605"/>
+      <path id="st3" class="ln mu" stroke-dasharray="10 10" d="M1210 735 L1310 735"/>
+      <!-- 1열: 12,000 (아래 5~6천 남는 쪽 + 위 수수료 덩어리) -->
+      <g id="c1">
+        <rect x="230" y="605" width="260" height="275" fill="#DCE6F8"/>
+        <rect x="230" y="280" width="260" height="325" fill="#F7DEDE"/>
+        <path class="ln w4" d="M230 880 L230 280 L490 280 L490 880"/>
+        <path class="ln" d="M230 605 L490 605"/>
+      </g>
+      <text id="t1" x="360" y="248" text-anchor="middle" font-size="56" fill="#20262D">12,000원</text>
+      <text id="t1r" x="360" y="455" text-anchor="middle" font-size="46" fill="#D63A3A">수수료</text>
+      <!-- 2열: 5천~6천 + 빠진 수수료 자리(점선) -->
+      <g id="c2">
+        <rect x="590" y="605" width="260" height="275" fill="#DCE6F8"/>
+        <path class="ln w4" d="M590 880 L590 605 L850 605 L850 880"/>
+      </g>
+      <path id="g2" class="ln rd w4" stroke-dasharray="14 10" d="M590 605 L590 280 L850 280 L850 605"/>
+      <text id="t2" x="720" y="760" text-anchor="middle" font-size="46" fill="#20262D">5천~6천</text>
+      <!-- 3열: 재료비 빠짐 -->
+      <g id="c3">
+        <rect x="950" y="735" width="260" height="145" fill="#DCE6F8"/>
+        <path class="ln w4" d="M950 880 L950 735 L1210 735 L1210 880"/>
+      </g>
+      <g id="r3"><rect x="950" y="605" width="260" height="130" fill="#F7DEDE"/><path class="ln rd w4" d="M950 735 L950 605 L1210 605 L1210 735 Z"/></g>
+      <text id="t3" x="1080" y="685" text-anchor="middle" font-size="46" fill="#D63A3A">재료비</text>
+      <!-- 4열: 포장 용기 빠짐 → 천 원 남짓 -->
+      <g id="c4">
+        <rect x="1310" y="830" width="260" height="50" fill="#DCE6F8"/>
+        <path class="ln w4" d="M1310 880 L1310 830 L1570 830 L1570 880"/>
+      </g>
+      <g id="r4"><rect x="1310" y="735" width="260" height="95" fill="#F7DEDE"/><path class="ln rd w4" d="M1310 830 L1310 735 L1570 735 L1570 830 Z"/></g>
+      <text id="t4" x="1440" y="800" text-anchor="middle" font-size="40" fill="#D63A3A">포장 용기</text>
+      <path id="fin_ring" class="ln bl w6" d="M1296 880 L1296 816 L1584 816 L1584 880"/>
+    </svg>
+    <div id="fin2" class="abs t" data-box="fin2" data-box-group="fin">수익은</div>
+    <div id="fin" class="abs big" data-box="fin" data-box-group="fin">천 원 남짓</div>
+  </div>
+</div>
+<script src="../data/s04.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1', '#D63A3A'];   // 빨강 = 빠져나가는 돈(수수료·재료비·포장 용기)
+const T = { c2: S.at('여기서'), jae: S.at('재료비랑'), pack: S.at('포장'), yong: S.at('용기값까지'), bbae: S.at('빼면'), prof: S.at('수익은'), cheon: S.at('천'), nam: S.at('남짓이죠') };
+const T0 = 0.02;
+S.ev(T0, 'gauge', 'c1'); S.ev(T.c2, 'coin', 'fee'); S.ev(T.jae, 'coin', 'jae'); S.ev(T.pack + 0.1, 'coin', 'pack'); S.ev(T.prof, 'gauge', 'c4'); S.ev(T.cheon, 'shine', 'fin');
+// 막대가 바닥에서 자란다
+function grow(id, tau, t0, d, base) {
+  const g = document.getElementById(id), k = S.EO(S.P(tau, t0, t0 + d));
+  g.setAttribute('transform', `translate(0,${base}) scale(1,${k.toFixed(4)}) translate(0,${-base})`);
+  g.style.opacity = tau >= t0 ? 1 : 0;
+  return k;
+}
+function drop(id, tau, t0, dy = -60) {   // 위에서 떨어져 자리를 잡음(감속, 튕김 0)
+  const g = document.getElementById(id), k = S.ent(tau, t0, 0.12);
+  g.style.opacity = k; g.style.transform = `translateY(${(dy * (1 - k)).toFixed(2)}px)`;
+  return k;
+}
+S.scene(tau => {
+  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  E.stroke('#base', tau, T0, 0.4);
+  grow('c1', tau, T0, 0.5, 880);
+  E.pop('#t1', tau, T0 + 0.25, { dy: 0 });
+  E.pop('#t1r', tau, T0 + 0.5, { dy: 0 });
+  // 여기서 → 수수료가 빠지고 5~6천이 남는 열
+  E.stroke('#st1', tau, T.c2 - 0.15, 0.3);
+  grow('c2', tau, T.c2, 0.35, 880);
+  E.stroke('#g2', tau, T.c2 + 0.2, 0.45);
+  E.pop('#t2', tau, T.c2 + 0.35, { dy: 0 });
+  // 재료비
+  E.stroke('#st2', tau, T.jae - 0.15, 0.3);
+  grow('c3', tau, T.jae, 0.3, 880);
+  drop('r3', tau, T.jae + 0.2, -50); E.pop('#t3', tau, T.jae + 0.32, { dy: 0 });
+  // 포장 용기
+  E.stroke('#st3', tau, T.pack - 0.15, 0.3);
+  grow('c4', tau, T.pack, 0.3, 880);
+  drop('r4', tau, T.pack + 0.45, -40); E.pop('#t4', tau, T.yong, { dy: 0 });
+  // 수익은 천 원 남짓 — 마지막 막대가 파랑으로
+  const f = S.ent(tau, T.prof, 0.12);
+  document.querySelector('#c4 rect').style.fill = f > 0 ? `rgb(${Math.round(220 - 189 * f)},${Math.round(230 - 135 * f)},${Math.round(248 - 39 * f)})` : '#DCE6F8';
+  E.pop('#fin2', tau, T.prof, { dy: 0 });
+  E.wipe('#fin', tau, T.cheon, 0.55);
+  E.stroke('#fin_ring', tau, T.nam, 0.4);
+});
+</script>
+</body></html>

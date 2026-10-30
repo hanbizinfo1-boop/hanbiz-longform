@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s38 광고부터 거시거든요 — 밤 카운터 휴대폰, 광고 신청 화면(주문 막대 줄어듦 → 광고 켬 → 엄지가 «신청» 누름) · 실물 층</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#wrap{left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#q{left:0;top:0;width:300px;height:740px}
+#q .app{left:0;top:0;width:300px;height:740px;border-radius:22px;border:0;background:#16191D}
+.lbl{position:absolute;left:24px;font-size:28px;font-weight:800;color:#ECEEF0;white-space:nowrap}
+.bar{position:absolute;bottom:0;width:36px;background:#1F5FD1;border-radius:6px 6px 0 0;height:0}
+#chart{position:absolute;left:30px;top:130px;width:240px;height:170px}
+#adc{position:absolute;left:20px;top:350px;width:260px;height:92px;border:1px solid #2A3038;border-radius:14px;background:#1D2128;opacity:0}
+#adc .t1{position:absolute;left:20px;top:28px;font-size:30px;font-weight:800;color:#ECEEF0}
+#adc .sw{position:absolute;right:18px;top:20px;width:80px;height:46px;border-radius:23px;background:#3A414A}
+#adc .sw i{position:absolute;top:5px;left:5px;width:36px;height:36px;border-radius:50%;background:#fff}
+#adc .ok{position:absolute;right:112px;top:24px;width:40px;height:40px;opacity:0}
+#sin{position:absolute;left:40px;top:555px;width:220px;height:70px;border-radius:14px;background:#1F5FD1;color:#fff;font-size:32px;font-weight:800;display:flex;align-items:center;justify-content:center;opacity:0}
+.pring{position:absolute;width:90px;height:90px;margin:-45px 0 0 -45px;border-radius:50%;border:6px solid #7FA8F5;background:rgba(127,168,245,.28);opacity:0}
+</style></head>
+<body><div id="stage">
+  <div id="wrap" class="abs">
+    <div id="ph" class="photo"></div>
+    <div id="q" class="abs" data-quad="1">
+      <div class="app">
+        <div class="hd" style="height:72px;font-size:28px">광고 신청</div>
+        <div class="lbl" id="l0" style="top:92px">주문</div>
+        <div id="chart"><i class="bar" id="b1" style="left:0"></i><i class="bar" id="b2" style="left:52px"></i><i class="bar" id="b3" style="left:104px"></i><i class="bar" id="b4" style="left:156px"></i><i class="bar" id="b5" style="left:208px"></i></div>
+        <div id="adc"><span class="t1">광고</span><span class="sw" id="sw"><i id="swk"></i></span>
+          <svg class="ok" id="okc" viewBox="0 0 40 40"><path d="M6 21 L16 31 L34 9" fill="none" stroke="#1E9E5A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div id="sin">신청</div>
+        <div id="r1" class="pring" style="left:134px;top:590px"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../data/s38.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#16191D', '#ECEEF0', '#1F5FD1', '#D63A3A'];   // 어두운 앱 · 글 · 파랑(켜짐·신청) · 빨강(줄어든 막대 하나)
+const R = {};
+R.ring = (sel, tau, t0, d = 0.5) => { const el = S.$(sel), k = S.P(tau, t0, t0 + d); el.style.opacity = (tau < t0 || k >= 1) ? 0 : (1 - k * k).toFixed(3); el.style.transform = `scale(${(0.55 + S.EO(k)).toFixed(3)})`; };
+const T = { ju: S.at('주문이'), jul: S.at('줄면'), gwang: S.at('광고부터'), son: S.at('손님이'), jul2: S.at('줄어든'), iyu: S.at('이유가'), ga: S.at('광고가'), bu: S.at('부족해서라고'), sa: S.at('생각하시는') };
+const H = [150, 118, 88, 58, 34];
+S.ev(T.ju + 0.05, 'gauge', 'bars'); S.ev(T.gwang, 'card_in', 'ad'); S.ev(T.son, 'no', 'redbar'); S.ev(T.iyu + 0.1, 'in', 'btn'); S.ev(T.bu + 0.05, 'click', 'press'); S.ev(T.sa + 0.15, 'ok', 'check');
+S.css('#ph', { backgroundImage: S.ph('d38_phone_counter_side_clean') });
+S.fitQuad(S.$('#q'), 300, 740, [[923.0, 303.8], [1098.2, 227.2], [1300.1, 688.9], [1124.9, 765.5]]);
+S.scene(tau => {
+  // 휴대폰 클로즈업 프레이밍(글자가 읽히게 1.8배) + 아주 느린 밀기
+  const s = 1.8 + 0.08 * S.P(tau, 0, S.SC.dur);
+  S.css('#wrap', { transform: `translate(960px,540px) scale(${s.toFixed(4)}) translate(-1110px,-500px)` });
+  E.pop('#l0', tau, T.ju, { dy: 0 });
+  ['b1', 'b2', 'b3', 'b4', 'b5'].forEach((id, i) => {
+    const t0 = T.ju + 0.05 + 0.25 * i;
+    S.css('#' + id, { height: (H[i] * S.EO(S.P(tau, t0, t0 + 0.35))).toFixed(1) + 'px', background: (i === 4 && tau >= T.son) ? '#D63A3A' : '#1F5FD1' });
+  });
+  const ac = S.ent(tau, T.gwang, 0.12);
+  S.css('#adc', { opacity: ac, transform: `translateY(${(12 * (1 - ac)).toFixed(1)}px)` });
+  const on = S.EO(S.P(tau, T.ga, T.ga + 0.2));
+  S.css('#sw', { background: on > 0.5 ? '#1F5FD1' : '#3A414A' }); S.css('#swk', { left: (5 + 34 * on).toFixed(1) + 'px' });
+  const bt = S.ent(tau, T.iyu + 0.1, 0.12);
+  const pr = S.P(tau, T.bu + 0.05, T.bu + 0.3), pd = tau >= T.bu + 0.05 ? (1 - 0.06 * Math.sin(Math.PI * Math.min(1, pr))) : 1;
+  S.css('#sin', { opacity: bt, transform: `scale(${pd.toFixed(4)})`, background: tau >= T.bu + 0.05 ? '#2F6FE6' : '#1F5FD1' });
+  R.ring('#r1', tau, T.bu + 0.05, 0.5);
+  S.css('#okc', { opacity: S.ent(tau, T.sa + 0.15, 0.12) });
+});
+</script>
+</body></html>

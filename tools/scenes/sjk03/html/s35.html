@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s35 라이더 부르는 횟수 — 해 질 녘 가게 앞 대기 오토바이 여러 대 → 한 대(두 장 겹침), 배달비 줄어듦 · 실물 층</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#wrap{left:0;top:0;width:1920px;height:1080px}
+#ph2{opacity:0}
+.pcw{position:absolute;left:0;top:-100px;width:1536px;height:1024px;transform:scale(1.25);transform-origin:0 0}
+.pcw svg{position:absolute;left:0;top:0;width:1536px;height:1024px;overflow:visible}
+#pcb{opacity:0}
+</style></head>
+<body><div id="stage">
+  <div id="wrap" class="abs">
+    <div id="ph" class="photo"></div>
+    <div id="pca" class="pcw"><svg id="fa" viewBox="0 0 1536 1024"></svg></div>
+    <div id="ph2" class="photo"></div>
+    <div id="pcb" class="pcw"><svg id="fb" viewBox="0 0 1536 1024"></svg></div>
+  </div>
+</div>
+<script src="../data/s35.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#FFFFFF', '#1F5FD1', '#D63A3A', '#1E9E5A'];   // 흰 바탕선 · 파랑(짚는 것) · 빨강(줄어드는 배달비) · 초록(확인 한 번)
+const NS = 'http://www.w3.org/2000/svg';
+const MK = {};
+function mk(par, id, d, col = '#1F5FD1', w = 6) {
+  const mkp = (pid, c, ww) => { const p = document.createElementNS(NS, 'path'); p.setAttribute('id', pid); p.setAttribute('d', d); p.setAttribute('fill', 'none'); p.setAttribute('stroke', c); p.setAttribute('stroke-width', ww); p.setAttribute('stroke-linecap', 'round'); p.setAttribute('stroke-linejoin', 'round'); document.getElementById(par).appendChild(p); return p; };
+  mkp(id + 'w', '#fff', w + 5); mkp(id, col, w); MK[id] = [id + 'w', id];
+}
+function draw(id, tau, t0, d, op = 1) { MK[id].forEach(p => { E.stroke('#' + p, tau, t0, d); document.getElementById(p).style.opacity = tau >= t0 ? op : 0; }); }
+const ell = (cx, cy, rx, ry) => `M${cx - rx} ${cy} a${rx} ${ry} 0 1 0 ${2 * rx} 0 a${rx} ${ry} 0 1 0 ${-2 * rx} 0`;
+mk('fa', 'r1', ell(235, 630, 165, 270)); mk('fa', 'r2', ell(590, 630, 165, 270)); mk('fa', 'r3', ell(1060, 630, 185, 270)); mk('fa', 'r4', ell(1395, 640, 130, 265));
+mk('fb', 'one', ell(385, 670, 335, 240));
+mk('fb', 'dn', 'M470 255 V395 M430 355 L470 402 L510 355', '#D63A3A', 8);
+mk('fb', 'chk', 'M1040 330 L1075 366 L1147 284', '#1E9E5A', 10);
+const T = { ju: S.at('주문'), rid: S.at('라이더'), jul: S.at('줄면', 0), bae: S.at('배달비가'), gat: S.at('같이'), jud: S.at('줄어들고'), cha: S.at('없다는') };
+S.ev(T.ju, 'marker', 'riders'); S.ev(T.jul, 'in', 'cross'); S.ev(T.gat, 'marker', 'one'); S.ev(T.jud, 'no', 'down'); S.ev(T.cha + 0.0, 'ok', 'check');
+S.css('#ph', { backgroundImage: S.ph('p35a_scooters_many') });
+S.css('#ph2', { backgroundImage: S.ph('p35b_scooters_one') });
+S.scene(tau => {
+  S.css('#wrap', { transformOrigin: '900px 640px', transform: `scale(${E.drift(tau, 1, 1.08).toFixed(4)})` });
+  const x = S.EO(S.P(tau, T.jul, T.jul + 0.5));       // 라이더 부르는 횟수가 «줄면» — 여러 대 → 한 대
+  S.css('#ph2', { opacity: x }); S.css('#pcb', { opacity: x });
+  S.css('#pca', { opacity: 1 - x });
+  ['r1', 'r2', 'r3', 'r4'].forEach((id, i) => draw(id, tau, T.ju + 0.25 * i, 0.4));
+  draw('one', tau, T.gat, 0.5);
+  draw('dn', tau, T.jud, 0.4);
+  draw('chk', tau, T.cha, 0.35);
+});
+</script>
+</body></html>

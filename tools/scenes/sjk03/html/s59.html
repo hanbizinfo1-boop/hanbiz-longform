@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s59 앱 손님(회색) · 앱 밖 손님(파랑) 원 두 개 — 매장 그릇·포장 봉투가 앱 밖 원 안으로 · 설명 층</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#lc{left:230px;top:230px;width:540px;height:540px}
+#rc{left:900px;top:100px;width:800px;height:800px}
+#lt{left:230px;top:462px;width:540px;text-align:center;font-size:76px;font-weight:900;color:#7A828A}
+#rt{left:900px;top:206px;width:800px;text-align:center;font-size:84px;font-weight:900;color:var(--bl)}
+#ib{left:1010px;top:420px;width:260px;height:240px}
+#ig{left:1330px;top:420px;width:260px;height:240px}
+#ibt{left:1010px;top:690px;width:260px;text-align:center;font-size:64px;font-weight:900;color:var(--ln)}
+#igt{left:1330px;top:690px;width:260px;text-align:center;font-size:64px;font-weight:900;color:var(--ln)}
+#rfill{left:900px;top:100px;width:800px;height:800px;border-radius:50%;background:rgba(31,95,209,.10);opacity:0}
+</style></head>
+<body><div id="stage">
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <div id="rfill" class="abs"></div>
+    <svg id="lc" class="abs" viewBox="0 0 540 540" data-box="lc" data-box-group="lc"><circle id="lcc" class="ln mu w6" cx="270" cy="270" r="262" transform="rotate(-90 270 270)"/></svg>
+    <div id="lt" class="abs t" data-box="lt" data-box-group="lc">앱 손님</div>
+    <svg id="rc" class="abs" viewBox="0 0 800 800" data-box="rc" data-box-group="rc"><circle id="rcc" class="ln bl w6" cx="400" cy="400" r="392" transform="rotate(-90 400 400)"/></svg>
+    <div id="rt" class="abs t" data-box="rt" data-box-group="rc">앱 밖 손님</div>
+    <svg id="ib" class="abs" viewBox="0 0 160 150" data-box="ib" data-box-group="rc"><path class="ln bl w4" d="M26 62 L134 62 C130 108 108 132 80 132 C52 132 30 108 26 62 Z"/><path class="ln bl w4" d="M16 62 L144 62"/><path class="ln bl w4" d="M60 46 C54 32 66 26 60 12"/><path class="ln bl w4" d="M98 46 C92 32 104 26 98 12"/></svg>
+    <div id="ibt" class="abs t" data-box="ibt" data-box-group="rc">매장</div>
+    <svg id="ig" class="abs" viewBox="0 0 160 150" data-box="ig" data-box-group="rc"><path class="ln bl w4" d="M30 52 L130 52 L142 140 L18 140 Z"/><path class="ln bl w4" d="M54 52 C54 16 106 16 106 52"/><path class="ln bl w4" d="M52 84 L108 84"/></svg>
+    <div id="igt" class="abs t" data-box="igt" data-box-group="rc">포장</div>
+  </div>
+</div>
+<script src="../data/s59.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];   // 모눈 · 선 · 파랑(앱 밖 손님). 앱 손님은 회색 선
+const T = { lt: S.at('배달앱'), rc: S.at('밖에서'), foc: S.at('집중하시면'), ib: S.at('매장에서'), ig: S.at('포장하러') };
+const T0 = 0.02;
+S.ev(T0, 'marker', 'lc'); S.ev(T.rc, 'in', 'rc'); S.ev(T.foc, 'click', 'focus'); S.ev(T.ib, 'card_in', 'ib'); S.ev(T.ig, 'in', 'ig');
+S.scene(tau => {
+  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  E.stroke('#lcc', tau, T0, 0.6); E.wipe('#lt', tau, T0 + 0.35, 0.45);
+  E.stroke('#rcc', tau, T.rc - 0.35, 0.7); E.wipe('#rt', tau, T.rc + 0.1, 0.5);
+  const f = S.ent(tau, T.foc, 0.2);
+  S.css('#rfill', { opacity: f * (S.P(tau, T.rc, T.rc + 0.3) > 0 ? 1 : 0) });
+  S.$('#rcc').style.strokeWidth = (6 + 3 * f).toFixed(2);
+  // 매장 그릇 → 포장 봉투가 앱 밖 원 안으로 들어옴
+  document.querySelectorAll('#ib .ln').forEach((p, i) => E.stroke(p, tau, T.ib + 0.1 * i, 0.4));
+  E.wipe('#ibt', tau, T.ib + 0.45, 0.4);
+  document.querySelectorAll('#ig .ln').forEach((p, i) => E.stroke(p, tau, T.ig + 0.1 * i, 0.4));
+  E.wipe('#igt', tau, T.ig + 0.45, 0.4);
+});
+</script>
+</body></html>

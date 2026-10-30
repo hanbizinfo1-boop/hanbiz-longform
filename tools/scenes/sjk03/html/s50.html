@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s50 약점 먼저 → 리뷰 → 광고 — 계단 세 칸(칸이 차례로 파랑, 광고에 초록 체크) · 설명 층</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+.st{position:absolute;width:480px;background:#fff;border:2px solid var(--bd);border-radius:10px;overflow:hidden}
+.st .n{position:absolute;left:22px;top:14px;font-size:34px;font-weight:800;color:var(--mute)}
+.st .lb{position:absolute;left:0;width:100%;text-align:center;font-size:72px;font-weight:900;color:var(--ln)}
+.st .sb{position:absolute;left:0;width:100%;text-align:center;font-size:36px;font-weight:700;color:var(--mute)}
+.st .fill{position:absolute;left:0;top:0;width:100%;height:100%;background:var(--bl);opacity:0}
+#s1{left:200px;top:640px;height:240px}
+#s2{left:720px;top:500px;height:380px}
+#s3{left:1240px;top:360px;height:520px}
+#s1 .lb{top:60px}#s1 .sb{top:160px}
+#s2 .lb{top:60px}
+#s3 .lb{top:60px}
+#chart2{left:760px;top:600px;width:400px;height:240px}
+#chart3{left:1280px;top:470px;width:400px;height:360px}
+#ck{left:1540px;top:196px;width:150px;height:150px}
+#gl{left:180px;top:880px;width:1520px;height:12px}
+</style></head>
+<body><div id="stage">
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <svg id="gl" class="abs" viewBox="0 0 1520 12"><path id="g1" class="ln w4" d="M0 6 L1520 6"/></svg>
+    <div class="st" id="s1" data-box="s1" data-box-group="stair"><div class="fill"></div><div class="n t">1</div><div class="lb t">약점 고치기</div></div>
+    <div class="st" id="s2" data-box="s2" data-box-group="stair"><div class="fill"></div><div class="n t">2</div><div class="lb t">리뷰</div></div>
+    <div class="st" id="s3" data-box="s3" data-box-group="stair"><div class="fill"></div><div class="n t">3</div><div class="lb t">광고</div></div>
+    <svg id="chart2" class="abs" viewBox="0 0 400 240" data-box="chart2" data-box-group="stair">
+      <path id="c2a" class="ln w4" style="stroke:#fff" d="M20 220 L380 220"/>
+      <path id="c2b" class="ln w6" style="stroke:#fff" d="M30 200 L110 170 L170 180 L250 110 L320 90 L370 40"/>
+      <circle id="c2c" cx="370" cy="40" r="14" fill="#fff"/>
+    </svg>
+    <svg id="chart3" class="abs" viewBox="0 0 400 360" data-box="chart3" data-box-group="stair">
+      <path id="c3a" class="ln w6" style="stroke:#fff" d="M40 320 L360 80"/>
+      <path id="c3b" class="ln w6" style="stroke:#fff" d="M250 76 L362 76 L362 188"/>
+    </svg>
+    <svg id="ck" class="abs" viewBox="0 0 150 150" data-box="ck">
+      <circle id="ckc" cx="75" cy="75" r="68" fill="#1E9E5A"/>
+      <path id="ckp" class="ln w6" style="stroke:#fff;stroke-width:12" d="M38 78 L65 105 L112 48"/>
+    </svg>
+  </div>
+</div>
+<script src="../data/s50.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1', '#1E9E5A'];   // 모눈 · 선 · 파랑 · 초록(확인 체크 — 연출표 1장 «확인»). 초록은 광고 칸 체크 한 곳
+const T = { ai: S.at('AI가'), w: S.at('약점부터'), r: S.at('리뷰가'), g: S.at('좋아지기'), a: S.at('광고를'), e: S.at('효율이'), ok: S.at('100%') };
+const T0 = 0.02;
+S.ev(T0, 'marker', 'ground'); S.ev(T.w, 'click', 's1'); S.ev(T.r, 'gauge', 's2'); S.ev(T.a, 'click', 's3'); S.ev(T.e, 'marker', 'chart3'); S.ev(T.ok, 'ok', 'ck');
+function on(id, k) {
+  const el = S.$(id); el.querySelector('.fill').style.opacity = k.toFixed(3);
+  const w = k > 0.5; el.style.borderColor = w ? '#1F5FD1' : '#C9CED3';
+  el.querySelector('.lb').style.color = w ? '#fff' : '#20262D'; el.querySelector('.n').style.color = w ? 'rgba(255,255,255,.8)' : '#7A828A';
+  const sb = el.querySelector('.sb'); if (sb) sb.style.color = w ? 'rgba(255,255,255,.9)' : '#7A828A';
+}
+S.scene(tau => {
+  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  E.stroke('#g1', tau, T0, 0.5);
+  ['#s1', '#s2', '#s3'].forEach((s, i) => E.pop(s, tau, T0 + 0.12 + 0.26 * i, { dy: 22 }));
+  // 10-30 설계자: «AI가 말해 주는 약점» 작은 글 뺌(화면 글 검사 T2 세 단 글)
+  on('#s1', S.ent(tau, T.w, 0.12)); on('#s2', S.ent(tau, T.r, 0.12)); on('#s3', S.ent(tau, T.a, 0.12));
+  // ② 리뷰 칸: 별점 선이 오름
+  E.stroke('#c2a', tau, T.r + 0.15, 0.3); E.stroke('#c2b', tau, T.g, 0.9);
+  S.css('#c2c', { opacity: S.ent(tau, T.g + 0.85, 0.1) });
+  // ③ 광고 칸: 효율 화살표가 오름
+  E.stroke('#c3a', tau, T.e, 0.8); E.stroke('#c3b', tau, T.e + 0.7, 0.35);
+  // 확인 체크(초록)
+  const k = S.ent(tau, T.ok, 0.14);
+  S.css('#ck', { opacity: k, transform: `scale(${(0.85 + 0.15 * k).toFixed(4)})` });
+  E.stroke('#ckp', tau, T.ok + 0.05, 0.3);
+});
+</script>
+</body></html>

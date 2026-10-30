@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s03 계산대 위 정산서 — 실물 층(Codex 사진 + 종이 카드 #sheet · 위에서 천천히 내려옴). s12·s69 가 같은 종이를 쓴다</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+/* 정산서 종이 — #sheet 한 덩어리(항목 이름 다섯 줄 + 금액 칸 막대). 다른 장면은 이 블록을 통째로 복사해 쓴다 */
+#sheet{left:640px;top:170px;width:640px;height:610px;background:#EFEAE0;border-radius:4px;
+  background-image:radial-gradient(rgba(120,100,70,.10) 1px,transparent 1.3px);background-size:6px 6px;
+  box-shadow:0 22px 44px rgba(0,0,0,.50),0 2px 3px rgba(0,0,0,.35);transform-origin:50% 50%;color:#26211A}
+#sheet .ttl{position:absolute;left:44px;top:30px;font-size:46px;font-weight:900;letter-spacing:.02em}
+#sheet .rule{position:absolute;left:36px;right:36px;height:2px;background:#8C8472}
+#sheet .nm{position:absolute;left:44px;font-size:36px;font-weight:700;white-space:nowrap}
+#sheet .bar{position:absolute;left:366px;height:30px;background:#D63A3A;transform-origin:0 50%}
+#sheet .cell{position:absolute;left:350px;width:250px;height:48px;border-left:2px solid #8C8472}
+#sheetSrc{left:560px;top:872px;width:800px;text-align:center;color:#C4C9CF}
+</style></head>
+<body><div id="stage">
+  <div id="ph" class="photo">
+    <div id="sheet" class="abs" data-box="sheet" data-box-group="sh">
+      <div class="ttl">정산서</div>
+      <div class="rule" style="top:98px"></div>
+      <div class="nm" id="n0" style="top:126px">중개 수수료</div><div class="cell" style="top:122px"></div><div class="bar" id="b0" style="top:131px;width:90px"></div>
+      <div class="rule" style="top:182px"></div>
+      <div class="nm" id="n1" style="top:210px">결제 수수료</div><div class="cell" style="top:206px"></div><div class="bar" id="b1" style="top:215px;width:56px"></div>
+      <div class="rule" style="top:266px"></div>
+      <div class="nm" id="n2" style="top:294px">배달비</div><div class="cell" style="top:290px"></div><div class="bar" id="b2" style="top:299px;width:200px"></div>
+      <div class="rule" style="top:350px"></div>
+      <div class="nm" id="n3" style="top:378px">할인 쿠폰</div><div class="cell" style="top:374px"></div><div class="bar" id="b3" style="top:383px;width:120px"></div>
+      <div class="rule" style="top:434px"></div>
+      <div class="nm" id="n4" style="top:462px">광고비</div><div class="cell" style="top:458px"></div><div class="bar" id="b4" style="top:467px;width:170px"></div>
+      <div class="rule" style="top:518px"></div>
+    </div>
+    <div id="sheetSrc" class="src abs" data-box="src" data-box-group="sh">방송 보도 찌개집 정산 사례 · 다시 그림</div>
+  </div>
+</div>
+<script src="../data/s03.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#EFEAE0', '#26211A', '#D63A3A'];
+S.css('#ph', { backgroundImage: S.ph('p03_counter_top') });
+const T = { sheet: 0.2, r0: 0.45, bars: 1.5, src: S.at('정산서인데요') };
+S.ev(T.sheet, 'paper', 'sheet'); S.ev(T.r0, 'marker', 'rows'); S.ev(T.bars, 'gauge', 'bars'); S.ev(T.src, 'shine', 'src');
+S.scene(tau => {
+  // 위에서 천천히 내려옴: 사진이 위→아래로 흐른다
+  const k = S.P(tau, 0, S.SC.dur);
+  S.css('#ph', { transform: `translateY(${S.lerp(-34, 14, k).toFixed(2)}px) scale(1.05)` });
+  const a = S.ent(tau, T.sheet, 0.12);
+  S.css('#sheet', { opacity: a, transform: `perspective(2100px) scale(1.2) rotateX(14deg) rotateZ(-2.2deg) translateY(${(-26 * (1 - a)).toFixed(2)}px)` });
+  for (let i = 0; i < 5; i++) {
+    const t = T.r0 + i * 0.3;
+    E.wipe('#n' + i, tau, t, 0.28);
+    const b = S.EO(S.P(tau, T.bars + i * 0.12, T.bars + i * 0.12 + 0.35));
+    S.css('#b' + i, { transform: `scaleX(${b.toFixed(3)})`, opacity: tau >= T.bars + i * 0.12 ? 1 : 0 });
+  }
+  E.pop('#sheetSrc', tau, T.src, { dy: 8 });
+});
+</script>
+</body></html>

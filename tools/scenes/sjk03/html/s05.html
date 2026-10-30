@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s05 주방 주문 프린터 — 주문서가 연달아 나와 걸이에 쌓임(실물 층 · 프린터 클로즈업 옆)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+.tk{left:0;top:0;width:150px;height:300px;color:#2B2A22;font-family:"Pre";font-weight:800;text-align:center;line-height:1.1;font-size:36px;padding-top:62px;opacity:0}
+#tp{width:210px;height:290px;padding-top:34px}
+#tp .big2{font-size:40px}
+</style></head>
+<body><div id="stage">
+  <div id="ph" class="photo">
+    <div id="tA" class="abs tk">김치찌개</div>
+    <div id="tB" class="abs tk">떡볶이</div>
+    <div id="tC" class="abs tk">막국수</div>
+    <div id="tD" class="abs tk">족발</div>
+    <div id="tp" class="abs tk"><div id="tpt" class="big2">김치찌개</div></div>
+  </div>
+</div>
+<script src="../data/s05.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#2B2A22', '#FFFFFF', '#1F5FD1'];
+S.css('#ph', { backgroundImage: S.ph('p05_order_printer') });
+const Q = q => q.map(([x, y]) => [x * 1.25, y * 1.25 - 100]);
+const QA = Q([[708, 156], [810, 148], [800, 390], [686, 398]]);
+const QB = Q([[846, 128], [958, 120], [972, 372], [888, 388]]);
+const QC = Q([[990, 92], [1108, 80], [1086, 312], [964, 314]]);
+const QD = Q([[1148, 52], [1292, 36], [1272, 350], [1124, 380]]);
+const QP = Q([[968, 545], [1138, 537], [1036, 815], [850, 798]]);
+const T = { p0: 0.25, a: S.at('배달'), b: S.at('주문은'), c: S.at('꾸준한데'), d: S.at('통장에'), p1: S.at('쌓이는'), p2: S.at('영상입니다') };
+S.ev(T.p0, 'page', 'tp'); S.ev(T.a, 'paper', 'tA'); S.ev(T.c, 'paper', 'tC'); S.ev(T.d, 'paper', 'tD'); S.ev(T.p1, 'page', 'tp'); S.ev(T.p2, 'page', 'tp');
+const texts = ['김치찌개', '떡볶이', '막국수'];
+S.scene(tau => {
+  S.css('#ph', { transform: `scale(${E.drift(tau, 1, 1.04).toFixed(4)})` });
+  S.fitQuad(S.$('#tA'), 150, 300, QA); S.fitQuad(S.$('#tB'), 150, 300, QB); S.fitQuad(S.$('#tC'), 150, 300, QC); S.fitQuad(S.$('#tD'), 150, 300, QD);
+  S.fitQuad(S.$('#tp'), 210, 290, QP);
+  [['#tA', T.a], ['#tB', T.b], ['#tC', T.c], ['#tD', T.d]].forEach(([s, t]) => {
+    const e = S.$(s); const k = S.ent(tau, t, 0.14);
+    e.style.opacity = k; e.style.clipPath = `inset(0 ${((1 - k) * 100).toFixed(1)}% 0 0)`;
+  });
+  // 프린터에서 주문서가 나온다: 위→아래로 드러남(0.4초) + 글이 바뀜
+  const times = [T.p0, T.p1, T.p2];
+  let idx = -1; times.forEach((t, i) => { if (tau >= t) idx = i; });
+  const e = S.$('#tp');
+  if (idx < 0) { e.style.opacity = 0; }
+  else {
+    const k = S.EO(S.P(tau, times[idx], times[idx] + 0.4));
+    e.style.opacity = 1; e.style.clipPath = `inset(0 0 ${((1 - k) * 100).toFixed(1)}% 0)`;
+    S.$('#tpt').textContent = texts[idx];
+  }
+});
+</script>
+</body></html>

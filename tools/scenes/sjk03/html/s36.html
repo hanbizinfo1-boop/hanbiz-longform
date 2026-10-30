@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s36 앞 그림 둘 다시 — 시계 고리(시급 3,000원 위에 빨강 줄) 옆에 가게 선화, 별이 커짐 (설명 층)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#art{left:0;top:0;width:1920px;height:1080px}
+#rate{left:500px;top:505px;width:420px;text-align:center;transform:translate(-50%,-50%)}
+#rate .s1{font-size:46px;font-weight:800;color:#20262D;line-height:1}
+#rate .s2{font-size:100px;margin-top:12px}
+</style></head>
+<body><div id="stage">
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <svg id="art" class="abs" viewBox="0 0 1920 1080">
+      <!-- ① 시계 고리(s25 복사: 세 칸 다 찬 고리) -->
+      <g id="clock"><g id="trk"></g><g id="fil"></g><g id="tick"></g></g>
+      <!-- ② 가게 선화(s29 복사) -->
+      <g id="store" transform="translate(1010 250) scale(0.8)"></g>
+      <g id="ppl"></g>
+      <path id="strike" class="ln w6 rd" style="stroke-width:10" d="M285 540 L715 540"/>
+      <circle id="ringS" class="ln bl w4" cx="1634" cy="250" r="132"/>
+    </svg>
+    <div id="rate" class="abs" data-box="rate"><div class="s1 t">시급</div><div class="s2 big rd">3,000원</div></div>
+  </div>
+</div>
+<script src="../data/s36.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1', '#D63A3A'];   // 모눈 · 선 · 파랑(별 = 기억되는 가게) · 빨강(시급 3,000원 줄)
+const NS = 'http://www.w3.org/2000/svg';
+function mk(parent, attrs, tag = 'path') { const p = document.createElementNS(NS, tag); for (const k in attrs) p.setAttribute(k, attrs[k]); document.getElementById(parent).appendChild(p); return p; }
+// ── 시계 고리(s25 와 같은 모양: 3칸·가운데 «시급 3,000원»)
+const CX = 500, CY = 500, R = 250;
+const pt = (a, r = R) => [CX + r * Math.sin(a * Math.PI / 180), CY - r * Math.cos(a * Math.PI / 180)];
+const arc = (a0, a1) => { const [x0, y0] = pt(a0), [x1, y1] = pt(a1); return `M${x0.toFixed(1)} ${y0.toFixed(1)} A${R} ${R} 0 0 1 ${x1.toFixed(1)} ${y1.toFixed(1)}`; };
+for (let i = 0; i < 3; i++) {
+  mk('trk', { id: 'trk' + i, d: arc(i * 120 + 3, i * 120 + 117), class: 'ln', style: 'stroke:#CBD0D5;stroke-width:48;stroke-linecap:butt' });
+  mk('fil', { id: 'fil' + i, d: arc(i * 120 + 3, i * 120 + 117), class: 'ln', style: 'stroke:#20262D;stroke-width:48;stroke-linecap:butt' });
+  const [x0, y0] = pt(i * 120, R - 38), [x1, y1] = pt(i * 120, R + 38);
+  mk('tick', { id: 'tk' + i, d: `M${x0.toFixed(1)} ${y0.toFixed(1)} L${x1.toFixed(1)} ${y1.toFixed(1)}`, class: 'ln w4' });
+}
+// ── 가게(s29 와 같은 조각)
+const STORE = [
+  ['wall', 'M60 210 V600 H840 V210', 'ln w4'], ['lint', 'M40 210 H860', 'ln w4'], ['awn', 'M70 210 L96 130 H804 L830 210', 'ln w4'],
+  ['sign', 'M270 20 H630 V110 H270 Z', 'ln w4'], ['door', 'M360 600 V380 H540 V600', 'ln w4'],
+  ['wl', 'M110 300 H300 V470 H110 Z', 'ln w4'], ['wr', 'M600 300 H790 V470 H600 Z', 'ln w4'],
+  ['ml', 'M205 300 V470 M110 385 H300', 'ln'], ['mr', 'M695 300 V470 M600 385 H790', 'ln'],
+  ['aw1', 'M180 130 L172 210 M270 130 L266 210 M360 130 L360 210 M450 130 V210 M540 130 L544 210 M630 130 L638 210 M720 130 L730 210', 'ln'], ['knob', 'M516 500 h1', 'ln w6']
+];
+STORE.forEach(([id, d, cls]) => mk('store', { id: 'st_' + id, d, class: cls }));
+function star(cx, cy, Ro, r) { let d = ''; for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r : Ro; d += (i ? 'L' : 'M') + (cx + rr * Math.cos(a)).toFixed(1) + ' ' + (cy + rr * Math.sin(a)).toFixed(1); } return d + 'Z'; }
+const starEl = mk('store', { id: 'st_star', d: star(750, 62, 52, 22), class: 'ln bl w4', style: 'fill:#1F5FD1;transform-box:fill-box;transform-origin:center' });
+// 손님(작은 사람 셋) — 가게 앞으로
+[820, 910, 1000].forEach((x, i) => {
+  const gy = 730;
+  mk('ppl', { id: 'pp' + i, d: `M${x - 22} ${gy - 78} a22 22 0 1 0 44 0 a22 22 0 1 0 -44 0 M${x} ${gy - 56} V${gy - 22} M${x - 20} ${gy - 44} H${x + 20} M${x} ${gy - 22} L${x - 14} ${gy} M${x} ${gy - 22} L${x + 14} ${gy}`, class: 'ln w4' });
+});
+const T0 = 0.02;
+const T = { st: S.at('그러니까'), str: S.at('3천'), dim: S.at('하는'), p0: S.at('손님들로'), p1: S.at('하여금'), p2: S.at('어떻게든'), grow: S.at('기억되게'), ring: S.at('된다는') };
+S.ev(T0, 'in', 'clock'); S.ev(T.st, 'card_in', 'store'); S.ev(T.str, 'marker', 'strike'); S.ev(T.p0, 'in', 'ppl'); S.ev(T.grow, 'shine', 'star'); S.ev(T.ring, 'click', 'ring');
+S.scene(tau => {
+  S.css('#cam', { transform: `scale(${E.drift(tau, 1, 1.05).toFixed(4)})` });
+  // 시계 고리: 앞 그림 그대로 빠르게
+  for (let i = 0; i < 3; i++) { E.stroke('#trk' + i, tau, T0 + i * 0.05, 0.3); E.stroke('#fil' + i, tau, T0 + 0.2 + i * 0.1, 0.3); E.stroke('#tk' + i, tau, T0 + 0.1, 0.2); }
+  E.pop('#rate', tau, T0 + 0.4, { base: 'translate(-50%,-50%)', dy: 0 });
+  // 가게: 처음엔 작은 별
+  const t = T.st;
+  E.stroke('#st_wall', tau, t, 0.45); E.stroke('#st_lint', tau, t + 0.05, 0.3); E.stroke('#st_awn', tau, t + 0.15, 0.35); E.stroke('#st_aw1', tau, t + 0.3, 0.3);
+  E.stroke('#st_wl', tau, t + 0.35, 0.3); E.stroke('#st_ml', tau, t + 0.5, 0.2); E.stroke('#st_wr', tau, t + 0.4, 0.3); E.stroke('#st_mr', tau, t + 0.55, 0.2);
+  E.stroke('#st_door', tau, t + 0.5, 0.3); E.stroke('#st_knob', tau, t + 0.75, 0.1); E.stroke('#st_sign', tau, t + 0.6, 0.35);
+  // 시급 3천 원 일 → 빨강 줄 + 고리가 옅어짐
+  E.stroke('#strike', tau, T.str, 0.4);
+  const dim = S.P(tau, T.dim, T.dim + 0.4);
+  S.css('#clock', { opacity: (1 - 0.55 * dim).toFixed(3) });
+  S.css('#rate', { opacity: (S.ent(tau, T0 + 0.4, 0.12) * (1 - 0.35 * dim)).toFixed(3) });
+  // 손님들 → 가게 앞으로 한 명씩
+  ['p0', 'p1', 'p2'].forEach((k, i) => E.stroke('#pp' + i, tau, T[k], 0.4));
+  // 별: 작은 별 → 커짐(위로 올라가며) → 파랑 링
+  const sk = S.ent(tau, t + 0.9, 0.12), gk = S.cam(tau, T.grow, T.grow + 0.5);
+  starEl.style.opacity = sk;
+  starEl.style.transform = `translate(${(30 * gk).toFixed(1)}px,${(-62 * gk).toFixed(1)}px) scale(${((0.5 + 0.5 * sk) + 1.4 * gk).toFixed(3)})`;
+  E.stroke('#ringS', tau, T.ring, 0.45);
+});
+</script>
+</body></html>

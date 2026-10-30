@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s12 정산서 종이 결 극접사 — 항목 다섯 줄에 파란 펜 밑줄이 단어 시각에 한 줄씩(실물 층 · 매크로 · 줄 따라 아래로)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+/* 사진 속 종이(p12) 의 줄 칸 위에 맞춘 평면 — 펴 놓은 1000x800 을 종이 네 점에 fitQuad. 줄 간격은 펴 본 사진에서 잰 값 */
+#pg{left:0;top:0;width:1000px;height:800px}
+#pg .nm{position:absolute;left:78px;font-family:"Pre";font-weight:800;font-size:46px;color:#2A2118;white-space:nowrap;mix-blend-mode:multiply;transform:rotate(1.1deg);transform-origin:0 50%;opacity:0;line-height:1}
+#pg .ul{position:absolute;left:70px;height:10px;border-radius:5px;background:#1F5FD1;transform-origin:0 50%;transform:scaleX(0) rotate(1.1deg);opacity:.92;mix-blend-mode:multiply}
+</style></head>
+<body><div id="stage">
+  <div id="ph" class="photo">
+    <div id="pg" class="abs">
+      <div class="nm" id="n0" style="top:295px">중개 수수료</div><div class="ul" id="u0" style="top:340px"></div>
+      <div class="nm" id="n1" style="top:369px">결제 수수료</div><div class="ul" id="u1" style="top:414px"></div>
+      <div class="nm" id="n2" style="top:452px">배달비</div><div class="ul" id="u2" style="top:497px"></div>
+      <div class="nm" id="n3" style="top:549px">할인 쿠폰</div><div class="ul" id="u3" style="top:594px"></div>
+      <div class="nm" id="n4" style="top:649px">광고비</div><div class="ul" id="u4" style="top:694px"></div>
+    </div>
+  </div>
+</div>
+<script src="../data/s12.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#2A2118', '#FFFFFF', '#1F5FD1'];
+S.css('#ph', { backgroundImage: S.ph('p12_paper_macro') });
+// 사진 속 종이 줄 칸 네 점(사진 좌표 → 판 좌표): 왼위·오위·오아래·왼아래
+const QP = [[770, 425], [1375, 478], [1100, 1010], [110, 718]].map(([x, y]) => [x * 1.25, y * 1.25 - 100]);
+const T = { name0: 0.25, u: [S.at('중개'), S.at('결제'), S.at('배달비'), S.at('할인'), S.at('광고비')] };
+S.ev(0.25, 'page', 'n0'); S.ev(1.45, 'paper', 'n3');
+T.u.forEach((t, i) => S.ev(t, 'marker', 'u' + i));
+S.scene(tau => {
+  const k = S.P(tau, 0, S.SC.dur);
+  S.css('#ph', { transformOrigin: '700px 600px', transform: `translateY(${S.lerp(10, -50, k).toFixed(2)}px) scale(${S.lerp(1.2, 1.36, k).toFixed(4)})` });   // 줄 따라 아래로(사진이 위로 올라감)
+  S.fitQuad(S.$('#pg'), 1000, 800, QP);
+  for (let i = 0; i < 5; i++) {
+    const n = S.$('#n' + i), t = T.name0 + i * 0.3;
+    const q = S.EO(S.P(tau, t, t + 0.3)); n.style.opacity = tau >= t ? 1 : 0; n.style.clipPath = `inset(-8px ${((1 - q) * 100).toFixed(1)}% -8px -6px)`;
+    const u = S.$('#u' + i); u.style.width = (n.offsetWidth + 20) + 'px';
+    const w = S.EO(S.P(tau, T.u[i], T.u[i] + 0.4));
+    u.style.transform = `scaleX(${w.toFixed(3)}) rotate(1.1deg)`; u.style.opacity = tau >= T.u[i] ? 0.92 : 0;
+  }
+});
+</script>
+</body></html>

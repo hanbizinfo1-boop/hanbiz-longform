@@ -1,0 +1,68 @@
+/* 성제관03 장면 공용 — 모냐구 화면 두 층(20_연출표.md 1장)
+   실물 층: 따뜻한 저녁 실사(Codex) · 사진 위 숫자는 어두운 판(#1B1E22 알파 255 · 반경 12) 하나에
+   설명 층: 옅은 회백 모눈 도면 #F4F5F2 + 모눈선 #E3E6E8(40px, 5칸마다 #D5D9DC) · 선 #20262D 2.5px · 카드 테두리 1px #C9CED3 · 그림자 거의 없음
+   색: 주제 색 파랑 #1F5FD1(큰 숫자·수익 내는 쪽·지금 짚는 것) · 빨강 #D63A3A(손해·빠져나가는 돈) · 초록 #1E9E5A(확인, 몇 번만)
+   1편(남색·여러 색·명조) · 2편(콘크리트·주홍·청록)과 겹치지 않는다. */
+@font-face{font-family:"Pre";src:url("../../../../소재/fonts/Pretendard-Regular.otf");font-weight:400}
+@font-face{font-family:"Pre";src:url("../../../../소재/fonts/Pretendard-Medium.otf");font-weight:500}
+@font-face{font-family:"Pre";src:url("../../../../소재/fonts/Pretendard-SemiBold.otf");font-weight:600}
+@font-face{font-family:"Pre";src:url("../../../../소재/fonts/Pretendard-Bold.otf");font-weight:700}
+@font-face{font-family:"Pre";src:url("../../../../소재/fonts/Pretendard-ExtraBold.otf");font-weight:800}
+@font-face{font-family:"Pre";src:url("../../../../소재/fonts/Pretendard-Black.otf");font-weight:900}
+@font-face{font-family:"Hand";src:url("../../../../소재/fonts/Gaegu-Regular.ttf");font-weight:400}
+@font-face{font-family:"Hand";src:url("../../../../소재/fonts/Gaegu-Bold.ttf");font-weight:700}
+
+:root{--paper:#F4F5F2;--gl:#E3E6E8;--gl5:#D5D9DC;--ln:#20262D;--bd:#C9CED3;--bl:#1F5FD1;--blt:#DCE6F8;--rd:#D63A3A;--rdt:#F7DEDE;--gn:#1E9E5A;--mute:#7A828A;--dpan:#1B1E22}
+html,body{margin:0;padding:0;width:1920px;height:1080px;overflow:hidden;background:#000}
+*{box-sizing:border-box}
+#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;word-break:keep-all;transform-origin:960px 540px;font-family:"Pre",sans-serif;color:var(--ln)}
+.abs{position:absolute}
+
+/* ── 설명 층 바탕: 모눈 도면(빈 단색판 금지 — 모눈선이 반드시 보이게). 카메라 밀기 여유로 2400×1500 을 깔고 #grid 를 움직인다 */
+.grid{position:absolute;left:-240px;top:-210px;width:2400px;height:1500px;background-color:var(--paper);
+  background-image:
+    linear-gradient(var(--gl5) 1.5px,transparent 1.5px),linear-gradient(90deg,var(--gl5) 1.5px,transparent 1.5px),
+    linear-gradient(var(--gl) 1px,transparent 1px),linear-gradient(90deg,var(--gl) 1px,transparent 1px);
+  background-size:200px 200px,200px 200px,40px 40px,40px 40px;background-position:0 0,0 0,0 0,0 0}
+/* 선 그림(SVG) */
+.ln{fill:none;stroke:var(--ln);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.ln.bl{stroke:var(--bl)} .ln.rd{stroke:var(--rd)} .ln.gn{stroke:var(--gn)} .ln.mu{stroke:#A9B0B6}
+.ln.w4{stroke-width:4} .ln.w6{stroke-width:6}
+.fbl{fill:var(--bl)} .frd{fill:var(--rd)} .fblt{fill:var(--blt)} .frdt{fill:var(--rdt)} .fpa{fill:var(--paper)} .fwh{fill:#fff}
+/* 도면 카드: 흰 칸 + 1px 테두리 · 그림자 거의 없음 */
+.card{position:absolute;background:#fff;border:1px solid var(--bd);border-radius:10px;box-shadow:0 1px 2px rgba(32,38,45,.06)}
+/* 글 */
+.t{font-family:"Pre";font-weight:700;color:var(--ln);white-space:nowrap;line-height:1.15}
+.t.m{font-weight:600}
+.t.s{font-size:30px}.t.md{font-size:40px}.t.lg{font-size:56px}
+.big{font-family:"Pre";font-weight:900;letter-spacing:-.03em;line-height:1;color:var(--bl);white-space:nowrap}
+.big.rd{color:var(--rd)}
+.bl{color:var(--bl)} .rd{color:var(--rd)} .gn{color:var(--gn)} .mu{color:var(--mute)}
+/* 출처 줄 — 카드·사진 바로 아래(화면 구석에 따로 띄우지 않음) */
+.src{position:absolute;font-family:"Pre";font-weight:500;font-size:24px;color:var(--mute);white-space:nowrap;letter-spacing:.01em}
+/* 형광펜 — 파랑 반투명, 글자 뒤(글자를 침범해 가리지 않게 — 절대금지 10-12) */
+.hl{background-image:linear-gradient(transparent 52%,rgba(31,95,209,.30) 52%,rgba(31,95,209,.30) 94%,transparent 94%);background-repeat:no-repeat;background-size:0% 100%}
+/* 손글씨(쪽지·노트) */
+.hand{font-family:"Hand";font-weight:700}
+
+/* ── 실물 층 */
+.photo{position:absolute;left:0;top:0;width:1920px;height:1080px;background-size:cover;background-position:center;transform-origin:960px 540px;filter:saturate(1.02) contrast(1.03)}
+/* 사진 위 숫자 판(어두운 판 하나에 숫자만) */
+.dpan{position:absolute;background:var(--dpan);border-radius:12px;color:#fff;font-family:"Pre";font-weight:900;padding:18px 34px 22px;white-space:nowrap;line-height:1;box-shadow:0 16px 36px rgba(0,0,0,.40)}
+.dpan .rd{color:#FF6B6B}.dpan .bl{color:#7FA8F5}
+/* 재현 화면(배달앱·사장님 앱·대화창) — 어두운 판(10-22 흰 판 지적), 상표·로고 없음, 파랑 강조 */
+.app{position:absolute;background:#16191D;border:1px solid #2A3038;border-radius:14px;overflow:hidden;font-family:"Pre";color:#ECEEF0}
+.app .hd{height:72px;display:flex;align-items:center;padding:0 26px;gap:12px;font-size:28px;font-weight:800;border-bottom:1px solid #2A3038}
+.app .row{display:flex;gap:16px;padding:18px 26px;border-bottom:1px solid #23282F;align-items:center}
+.app .nm{font-size:28px;font-weight:800}
+.app .pr{font-size:26px;font-weight:700}
+.app .ds{font-size:24px;line-height:1.45;color:#A2AAB2}
+.app .st{color:#F2B33A;font-size:24px;letter-spacing:2px}
+.app .btn{display:inline-flex;align-items:center;justify-content:center;border-radius:12px;background:var(--bl);color:#fff;font-weight:800;font-size:28px;padding:14px 30px}
+.app .sw{width:96px;height:52px;border-radius:26px;background:#3A414A;position:relative}
+.app .sw i{position:absolute;top:6px;left:6px;width:40px;height:40px;border-radius:50%;background:#fff}
+.app .sw.on{background:var(--bl)} .app .sw.on i{left:50px}
+.caret{display:inline-block;width:3px;height:1em;background:currentColor;vertical-align:-0.12em;margin-left:2px}
+/* 쪽지·메모(실물 종이 재질 — 크라프트·노랑) */
+.kraft{position:absolute;background:#C9A57A;background-image:radial-gradient(rgba(90,60,30,.10) 1px,transparent 1.2px);background-size:7px 7px;color:#2C2118;box-shadow:0 10px 24px rgba(0,0,0,.30)}
+.memo{position:absolute;background:#F5D96B;color:#2B2A22;box-shadow:0 8px 20px rgba(0,0,0,.28)}

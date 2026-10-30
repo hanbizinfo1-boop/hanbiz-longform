@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s24 1인 세트 — 정면 화면 가득(메뉴 편집 → 최소 주문 금액 눈금 → 정산 막대) · 실물 층(바탕 d08 흐림)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#bg{left:0;top:0;width:1920px;height:1080px;background-size:cover;background-position:center;filter:blur(18px) brightness(.55);transform-origin:960px 540px}
+#pan{left:210px;top:130px;width:1500px;height:820px;border-radius:18px;transform-origin:50% 50%;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+#hd1{position:absolute;left:0;top:0;width:1500px;height:90px;background:#1B1F25;border-bottom:1px solid #2A3038;display:flex;align-items:center;padding:0 50px;gap:24px;font-size:44px;font-weight:800}
+#hd1 .mu2{font-size:32px;font-weight:600;color:#8D969F}
+#hd1 .dot{width:14px;height:14px;border-radius:50%;background:#1F5FD1}
+#vp{position:absolute;left:0;top:90px;width:1500px;height:730px;overflow:hidden}
+#sc{position:absolute;left:0;top:0;width:1500px;height:1100px}
+.mrow{position:absolute;left:50px;width:1400px;height:112px;background:#1D2128;border:1px solid #2A3038;border-radius:14px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;font-size:46px;font-weight:800}
+.mrow .pr2{font-size:44px;font-weight:700;color:#C9CED3}
+#row3{background:#17294D;border-color:#1F5FD1}
+#row3 .pl{width:12px;height:60px;background:#1F5FD1;border-radius:6px;margin-right:24px}
+#addb{position:absolute;left:50px;top:330px;width:1400px;height:112px;border:3px dashed #5A6470;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:44px;font-weight:800;color:#9FA8B1}
+.lab2{position:absolute;left:50px;font-size:46px;font-weight:800;color:#ECEEF0}
+#trk{position:absolute;left:80px;top:690px;width:1340px;height:8px;background:#3A414A;border-radius:4px}
+#fil{position:absolute;left:80px;top:690px;width:0;height:8px;background:#1F5FD1;border-radius:4px}
+.tk{position:absolute;top:672px;width:6px;height:44px;background:#5A6470;border-radius:3px}
+#kn{position:absolute;top:668px;width:52px;height:52px;margin-left:-26px;border-radius:50%;background:#1F5FD1;border:6px solid #fff;opacity:0}
+#bar1{position:absolute;left:80px;top:910px;width:1340px;height:84px;background:#4A5560;border-radius:10px;overflow:hidden;opacity:0}
+#red{position:absolute;right:0;top:0;height:84px;width:0;background:#D63A3A;display:flex;align-items:center;justify-content:flex-end;padding-right:30px;color:#fff;font-size:40px;font-weight:800;white-space:nowrap;overflow:hidden}
+#blu{position:absolute;left:0;top:0;height:84px;width:0;background:#1F5FD1}
+.pring{position:absolute;width:90px;height:90px;margin:-45px 0 0 -45px;border-radius:50%;border:6px solid #7FA8F5;background:rgba(127,168,245,.28);opacity:0}
+</style></head>
+<body><div id="stage">
+  <div id="bg" class="abs"></div>
+  <div id="pan" class="app" data-box="pan">
+    <div id="hd1"><span class="dot"></span><span>메뉴 편집</span><span class="mu2">가게 관리</span></div>
+    <div id="vp"><div id="sc">
+      <div class="lab2" style="top:14px;font-size:32px;color:#8D969F">메뉴</div>
+      <div class="mrow" id="row1" style="top:62px"><span>김치찌개</span><span class="pr2">12,000원</span></div>
+      <div class="mrow" id="row2" style="top:196px"><span>떡볶이</span><span class="pr2">8,000원</span></div>
+      <div id="addb"><span>+ 메뉴 추가</span></div>
+      <div class="mrow" id="row3" style="top:330px;opacity:0"><span style="display:flex;align-items:center"><i class="pl"></i>1인 세트</span><span class="pr2" style="color:#7FA8F5">+</span></div>
+      <div id="r1" class="pring" style="left:750px;top:386px"></div>
+      <div class="lab2" id="lab2" style="top:550px">최소 주문 금액</div>
+      <div id="trk"></div><div id="fil"></div>
+      <div class="tk" style="left:77px"></div><div class="tk" style="left:345px"></div><div class="tk" style="left:613px"></div><div class="tk" style="left:881px"></div><div class="tk" style="left:1149px"></div><div class="tk" style="left:1417px"></div>
+      <div id="kn"></div>
+      <div id="r2" class="pring" style="left:613px;top:694px"></div>
+      <div class="lab2" id="lab3" style="top:820px">정산</div>
+      <div id="bar1"><div id="blu"></div><div id="red">수수료</div></div>
+    </div></div>
+  </div>
+</div>
+<script src="../data/s24.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#16191D', '#ECEEF0', '#1F5FD1', '#D63A3A'];   // 어두운 앱 · 글 · 파랑(켜짐) · 빨강(수수료 막대 — 빠져나가는 돈)
+const R = {};
+R.ring = (sel, tau, t0, d = 0.5) => { const el = S.$(sel), k = S.P(tau, t0, t0 + d); el.style.opacity = (tau < t0 || k >= 1) ? 0 : (1 - k * k).toFixed(3); el.style.transform = `scale(${(0.55 + S.EO(k)).toFixed(3)})`; };
+const T = { add: S.at('1인분만'), jul: S.at('줄어들겠지만'), net: S.at('순수익으로'), res: S.at('결과적으론'), big: S.at('큰'), why: S.at('왜냐하면'), fee: S.at('수수료를'), first: S.at('애초에'), rest: S.at('남는'), none: S.at('없었으니까요') };
+const TICK = [80, 348, 616, 884, 1152, 1420];
+S.ev(0.02, 'in', 'pan'); S.ev(0.45, 'card_in', 'rows'); S.ev(1.1, 'click', 'add'); S.ev(2.0, 'marker', 'row3'); S.ev(2.45, 'sweep', 'scroll');
+S.ev(T.net, 'marker', 'track'); S.ev(T.res, 'click', 'knob'); S.ev(5.56, 'card_in', 'lab3'); S.ev(6.7, 'gauge', 'bar'); S.ev(T.fee, 'coin', 'red'); S.ev(T.rest, 'shine', 'blu');
+S.init = async () => { await document.fonts.ready; };
+S.css('#bg', { backgroundImage: S.ph('d08_phone_counter_thumb_clean') });
+S.scene(tau => {
+  const pk = S.ent(tau, 0.02, 0.12);
+  S.css('#bg', { transform: `scale(${(1.07 + 0.02 * S.P(tau, 0, S.SC.dur)).toFixed(4)})` });
+  S.css('#pan', { opacity: pk, transform: `perspective(2200px) rotateX(6deg) translateY(${(18 * (1 - pk)).toFixed(1)}px)` });
+  E.pop('#row1', tau, 0.25, { dy: 10 }); E.pop('#row2', tau, 0.45, { dy: 10 });
+  // «메뉴 추가» 칸 → 눌림 → «1인 세트» 줄
+  const ab = S.ent(tau, T.add, 0.12), pressed = tau >= 1.1;
+  S.css('#addb', { opacity: pressed ? 0 : ab });
+  R.ring('#r1', tau, 1.1, 0.5);
+  const r3 = S.ent(tau, 1.1, 0.12);
+  S.css('#row3', { opacity: r3, transform: `translateY(${(14 * (1 - r3)).toFixed(2)}px)` });
+  E.ring('#row3', tau, 2.0, '31,95,209');
+  // 아래로 스크롤
+  S.css('#sc', { transform: `translateY(${(-300 * S.cam(tau, 2.45, 3.0)).toFixed(1)}px)` });
+  // 최소 주문 금액 눈금
+  E.pop('#lab2', tau, 0.8, { dy: 0 });
+  S.css('#trk', { opacity: S.ent(tau, 0.9, 0.12) });
+  document.querySelectorAll('.tk').forEach((t, i) => { t.style.opacity = S.ent(tau, T.net + 0.1 + 0.1 * i, 0.12); });
+  const kk = S.ent(tau, 3.95, 0.12);
+  const kx = S.lerp(TICK[1], TICK[2], S.EO(S.P(tau, T.res, T.res + 0.35)));
+  S.css('#kn', { opacity: kk, left: kx + 'px' });
+  S.css('#fil', { width: (kx - 80) * (kk > 0 ? 1 : 0) + 'px', opacity: kk });
+  R.ring('#r2', tau, T.res, 0.5);
+  // 정산 막대(수수료 빨강 → 남는 건 파랑 조금)
+  E.pop('#lab3', tau, 5.56, { dy: 0 });
+  S.css('#bar1', { opacity: S.ent(tau, 6.7, 0.12) });
+  const w1 = 800 * S.EO(S.P(tau, T.fee, T.fee + 0.65)), w2 = 380 * S.EO(S.P(tau, T.first, T.first + 0.6)), w3 = 130 * S.EO(S.P(tau, T.none, T.none + 0.55));
+  S.css('#red', { width: (w1 + w2 + w3).toFixed(1) + 'px' });
+  const bw = 80 * S.ent(tau, T.rest, 0.12) - 50 * S.EO(S.P(tau, T.none, T.none + 0.55));
+  S.css('#blu', { width: bw.toFixed(1) + 'px' });
+});
+</script>
+</body></html>

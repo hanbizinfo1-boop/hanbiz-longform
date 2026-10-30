@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s19 모의 계산 — 계산 노트(가정 · 중개 수수료 7.8% · 결제 수수료 3% · 점주 배달비 3천 원) (설명 층)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#fx{left:0;top:0;width:1920px;height:1080px}
+#nb{left:260px;top:150px;width:1400px;height:690px;background:#fff;border-radius:10px;opacity:0}
+#hd{left:260px;top:150px;width:1400px;height:120px;background:#E9ECEF;border-radius:10px 10px 0 0}
+#hdt{left:310px;top:176px;font-size:62px}
+.st{position:absolute;left:236px;width:14px;background:var(--bl);border-radius:6px;opacity:0}
+.lab{position:absolute;left:310px;font-size:68px}
+.val{position:absolute;left:1050px;font-size:112px}
+#brk{left:226px;top:280px;width:2px;height:550px}
+</style></head>
+<body><div id="stage">
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <div id="nb" class="abs"></div>
+    <div id="hd" class="abs"></div>
+    <div id="hdt" class="abs t" data-box="hdt">가정</div>
+    <div id="s1" class="st" style="top:280px;height:170px"></div>
+    <div id="s2" class="st" style="top:470px;height:170px"></div>
+    <div id="s3" class="st" style="top:660px;height:170px"></div>
+    <svg id="fx" class="abs" viewBox="0 0 1920 1080">
+      <path id="fr" class="ln w4" d="M260 150 L1660 150 L1660 840 L260 840 Z"/>
+      <path id="la" class="ln w4" d="M260 270 L1660 270"/>
+      <path id="lb" class="ln w4" d="M260 460 L1660 460"/>
+      <path id="lc" class="ln w4" d="M260 650 L1660 650"/>
+      <path id="lv" class="ln" d="M1000 270 L1000 840"/>
+      <path id="bk" class="ln bl w6" d="M232 284 L220 284 L220 826 L232 826"/>
+    </svg>
+    <div id="l1" class="lab t" style="top:330px" data-box="l1">중개 수수료</div>
+    <div id="v1" class="val big" style="top:312px" data-box="v1">7.8%</div>
+    <div id="l2" class="lab t" style="top:520px" data-box="l2">결제 수수료</div>
+    <div id="v2" class="val big" style="top:502px" data-box="v2">3%</div>
+    <div id="l3" class="lab t" style="top:710px" data-box="l3">점주 배달비</div>
+    <div id="v3" class="val big" style="top:692px" data-box="v3">3천 원</div>
+  </div>
+</div>
+<script src="../data/s19.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];
+const T = { mo: S.at('모의로'), gye: S.at('계산해'), bo: S.at('보겠습니다'), su: S.at('수수료로'), ye: S.at('예시'), deul: S.at('들어서'),
+  jung: S.at('중개'), v1: S.at('7.8%'), gyeol: S.at('결제'), v2: S.at('3%'), jum: S.at('점주가'), bae: S.at('배달비'), v3: S.at('3천'), ireo: S.at('이렇게'), hae: S.at('볼게요') - 0.3 };
+const T0 = 0.02;
+S.ev(T0, 'paper', 'note'); S.ev(0.25, 'card_in', 'hd'); S.ev(T.mo, 'marker', 'la'); S.ev(T.gye + 0.1, 'marker', 'lb'); S.ev(T.su, 'marker', 'lv');
+S.ev(T.jung, 'type', 'r1'); S.ev(T.v1, 'shine', 'v1'); S.ev(T.gyeol, 'type', 'r2'); S.ev(T.v2, 'shine', 'v2'); S.ev(T.jum, 'type', 'r3'); S.ev(T.v3, 'shine', 'v3'); S.ev(T.ireo, 'ok', 'hd'); S.ev(T.hae + 0.3, 'marker', 'bk');
+S.scene(tau => {
+  S.css('#cam', { transform: `scale(${E.drift(tau, 1, 1.05).toFixed(4)})` });
+  E.stroke('#fr', tau, T0, 0.5); S.css('#nb', { opacity: S.ent(tau, T0 + 0.1, 0.12) });
+  E.wipe('#hd', tau, 0.25, 0.3); E.pop('#hdt', tau, 0.5, { dy: 0 });
+  E.stroke('#la', tau, T.mo, 0.35); E.stroke('#lb', tau, T.gye, 0.35); E.stroke('#lc', tau, T.bo - 0.2, 0.35);
+  E.stroke('#lv', tau, T.su, 0.4);
+  // 지금 쓰는 줄 = 파랑 띠(왼쪽), 쓴 줄은 옅게 남음
+  const rows = [[T.deul, T.jung, T.v1, T.gyeol - 0.6], [T.gyeol - 0.4, T.gyeol, T.v2, T.jum - 0.4], [T.jum - 0.3, T.jum, T.v3, 99]];
+  rows.forEach((r, i) => {
+    const on = S.ent(tau, r[0], 0.12), off = S.P(tau, r[3], r[3] + 0.2);
+    S.css('#s' + (i + 1), { opacity: on * (1 - 0.65 * off) });
+    E.wipe('#l' + (i + 1), tau, r[1], 0.45);
+    E.wipe('#v' + (i + 1), tau, r[2], 0.35);
+  });
+  // 이렇게 가정을 해 볼게요 — 가정 칸이 파랑으로, 세 줄이 하나로 묶임
+  const h = S.ent(tau, T.ireo, 0.15);
+  S.css('#hd', { background: `rgb(${Math.round(233 - 13 * h)},${Math.round(236 - 6 * h)},${Math.round(239 + 9 * h)})` });
+  S.css('#hdt', { color: h > 0.5 ? '#1F5FD1' : '#20262D' });
+  E.stroke('#bk', tau, T.hae + 0.3, 0.4);
+});
+</script>
+</body></html>

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s70 계산 노트 다시 — 메뉴 · 가격 · 수수료 · 배달비 빈 칸 + 첫 칸 커서(채우지 않음) (설명 층 · 장면 19 노트 복사)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#fx{left:0;top:0;width:1920px;height:1080px}
+#nb{left:260px;top:150px;width:1400px;height:720px;background:#fff;border-radius:10px;opacity:0}
+#hd{left:260px;top:150px;width:1400px;height:120px;background:#E9ECEF;border-radius:10px 10px 0 0}
+#hdt{left:310px;top:176px;font-size:62px}
+.st{position:absolute;left:236px;width:14px;height:130px;background:var(--bl);border-radius:6px;opacity:0}
+.lab{position:absolute;left:310px;font-size:68px}
+.ph{position:absolute;left:1050px;width:520px;height:0;border-bottom:4px dashed #C9CED3;opacity:0}
+#cursor{left:1056px;top:306px;width:7px;height:92px;background:var(--bl);border-radius:3px;opacity:0}
+</style></head>
+<body><div id="stage">
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <div id="nb" class="abs"></div>
+    <div id="hd" class="abs"></div>
+    <div id="hdt" class="abs t" data-box="hdt">계산</div>
+    <div id="s1" class="st" style="top:280px"></div>
+    <div id="s2" class="st" style="top:430px"></div>
+    <div id="s3" class="st" style="top:580px"></div>
+    <div id="s4" class="st" style="top:730px"></div>
+    <div id="p1" class="ph" style="top:386px"></div>
+    <div id="p2" class="ph" style="top:536px"></div>
+    <div id="p3" class="ph" style="top:686px"></div>
+    <div id="p4" class="ph" style="top:836px"></div>
+    <svg id="fx" class="abs" viewBox="0 0 1920 1080">
+      <path id="fr" class="ln w4" d="M260 150 L1660 150 L1660 870 L260 870 Z"/>
+      <path id="la" class="ln w4" d="M260 270 L1660 270"/>
+      <path id="lb" class="ln w4" d="M260 420 L1660 420"/>
+      <path id="lc" class="ln w4" d="M260 570 L1660 570"/>
+      <path id="ld" class="ln w4" d="M260 720 L1660 720"/>
+      <path id="lv" class="ln" d="M1000 270 L1000 870"/>
+      <path id="fo" class="ln bl w4" d="M1030 288 L1640 288 L1640 402 L1030 402 Z"/>
+      <path id="bk" class="ln bl w6" d="M232 284 L220 284 L220 856 L232 856"/>
+    </svg>
+    <div id="l1" class="lab t" style="top:306px" data-box="l1">메뉴</div>
+    <div id="l2" class="lab t" style="top:456px" data-box="l2">가격</div>
+    <div id="l3" class="lab t" style="top:606px" data-box="l3">수수료</div>
+    <div id="l4" class="lab t" style="top:756px" data-box="l4">배달비</div>
+    <div id="cursor" class="abs"></div>
+  </div>
+</div>
+<script src="../data/s70.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];
+const T = { gye: S.at('계산해'), bwa: S.at('봤는데'), gam: S.at('감이'), jal: S.at('잘'), an: S.at('안'), jab: S.at('잡히시면'), dat: S.at('댓글'), nam: S.at('남겨'), ju: S.at('주세요'),
+  je: S.at('제가'), se: S.at('세세하게'), dap: S.at('답변'), dal: S.at('달아'), deu: S.at('드리겠습니다') };
+const T0 = 0.02;
+S.ev(T0, 'paper', 'note'); S.ev(T.gye, 'card_in', 'hd'); S.ev(T.bwa, 'marker', 'la'); S.ev(T.jab, 'marker', 'lv'); S.ev(T.dat, 'type', 'l2'); S.ev(T.je, 'click', 'cursor'); S.ev(T.dap, 'ok', 'st3'); S.ev(T.deu, 'marker', 'bk');
+S.scene(tau => {
+  S.css('#cam', { transform: `scale(${E.drift(tau, 1, 1.04).toFixed(4)})` });
+  E.stroke('#fr', tau, T0, 0.5); S.css('#nb', { opacity: S.ent(tau, T0 + 0.1, 0.12) });
+  E.wipe('#hd', tau, T.gye, 0.3); E.pop('#hdt', tau, T.gye + 0.2, { dy: 0 });
+  E.stroke('#la', tau, T.bwa, 0.3); E.stroke('#lb', tau, T.gam, 0.3); E.stroke('#lc', tau, T.jal, 0.3); E.stroke('#ld', tau, T.an, 0.3);
+  E.stroke('#lv', tau, T.jab, 0.4);
+  // 빈 칸(점선 밑줄) — 칸 이름이 차례로
+  const ls = [T.jab, T.dat, T.nam, T.ju];
+  ls.forEach((t, i) => { E.wipe('#l' + (i + 1), tau, t, 0.35); S.css('#p' + (i + 1), { opacity: S.ent(tau, t, 0.12) }); });
+  // 제가 — 첫 칸에 커서(가만히 켜져 있음) + 파랑 테두리
+  S.css('#cursor', { opacity: S.ent(tau, T.je, 0.12) });
+  E.stroke('#fo', tau, T.je, 0.35);
+  // 세세하게 — 줄마다 파랑 띠가 차례로(채우지 않음)
+  [T.se, T.se + 0.4, T.dap, T.dal].forEach((t, i) => S.css('#s' + (i + 1), { opacity: S.ent(tau, t, 0.12) }));
+  E.stroke('#bk', tau, T.deu, 0.4);
+});
+</script>
+</body></html>

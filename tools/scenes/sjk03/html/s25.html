@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s25 시계 고리 — 20분 칸이 채워지며 1,000원 → 세 칸 → 시급 3,000원 (설명 층)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#art{left:0;top:0;width:1920px;height:1080px}
+.cx{transform:translate(-50%,-50%)}
+#lbl1{left:410px;top:850px;font-size:38px}
+#lm20{left:1620px;top:690px;font-size:46px;color:#4A525A}
+#lm40{left:900px;top:690px;font-size:46px;color:#4A525A}
+#lm60{left:1260px;top:116px;font-size:46px;color:#4A525A}
+#c1k{left:1260px;top:490px;font-size:128px}
+#rate{left:1260px;top:490px;width:520px;text-align:center}
+#rate .s1{font-size:56px;font-weight:800;color:#20262D;line-height:1}
+#rate .s2{font-size:124px;margin-top:14px}
+</style></head>
+<body><div id="stage">
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <svg id="art" class="abs" viewBox="0 0 1920 1080">
+      <g id="trk"></g><g id="fil"></g><g id="tick"></g>
+      <g id="slips"></g>
+      <path id="ar" class="ln w6" d="M545 490 L895 490"/>
+      <path id="ah" class="ln w6" d="M858 456 L898 490 L858 524"/>
+      <path id="ul" class="ln w6 rd" d="M1040 596 L1480 596"/>
+    </svg>
+    <div id="lbl1" class="abs t cx" data-box="lbl1">1인분 주문</div>
+    <div id="lm20" class="abs t cx" data-box="lm20">20분</div>
+    <div id="lm40" class="abs t cx" data-box="lm40">40분</div>
+    <div id="lm60" class="abs t cx" data-box="lm60">60분</div>
+    <div id="c1k" class="abs big cx" data-box="c1k">1,000원</div>
+    <div id="rate" class="abs cx" data-box="rate"><div class="s1 t">시급</div><div class="s2 big rd">3,000원</div></div>
+  </div>
+</div>
+<script src="../data/s25.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1', '#D63A3A'];   // 모눈 · 선 · 파랑(1,000원) · 빨강(시급 3,000원 = 손해 쪽)
+const NS = 'http://www.w3.org/2000/svg';
+const CX = 1260, CY = 490, R = 300;
+const pt = (a, r = R) => [CX + r * Math.sin(a * Math.PI / 180), CY - r * Math.cos(a * Math.PI / 180)];
+const arc = (a0, a1) => { const [x0, y0] = pt(a0), [x1, y1] = pt(a1); return `M${x0.toFixed(1)} ${y0.toFixed(1)} A${R} ${R} 0 0 1 ${x1.toFixed(1)} ${y1.toFixed(1)}`; };
+function mk(parent, attrs) { const p = document.createElementNS(NS, 'path'); for (const k in attrs) p.setAttribute(k, attrs[k]); document.getElementById(parent).appendChild(p); return p; }
+for (let i = 0; i < 3; i++) {
+  mk('trk', { id: 'trk' + i, d: arc(i * 120 + 3, i * 120 + 117), class: 'ln', style: 'stroke:#CBD0D5;stroke-width:56;stroke-linecap:butt' });
+  mk('fil', { id: 'fil' + i, d: arc(i * 120 + 3, i * 120 + 117), class: 'ln', style: 'stroke:#20262D;stroke-width:56;stroke-linecap:butt' });
+  const [x0, y0] = pt(i * 120, R - 44), [x1, y1] = pt(i * 120, R + 44);
+  mk('tick', { id: 'tk' + i, d: `M${x0.toFixed(1)} ${y0.toFixed(1)} L${x1.toFixed(1)} ${y1.toFixed(1)}`, class: 'ln w4' });
+}
+// 주문서 슬립 세 장(왼쪽 세로)
+const SL = [[320, 160], [320, 380], [320, 600]];
+SL.forEach(([x, y], i) => {
+  let d = `M${x} ${y} H${x + 150} V${y + 196}`;
+  for (let k = 0; k < 5; k++) d += ` L${x + 135 - k * 30} ${y + 184} L${x + 120 - k * 30} ${y + 196}`;
+  d += ` L${x} ${y + 184} Z`;
+  mk('slips', { id: 'sl' + i, d, class: 'ln w4' });
+  mk('slips', { id: 'sn' + i, d: `M${x + 26} ${y + 44} H${x + 124} M${x + 26} ${y + 84} H${x + 124} M${x + 26} ${y + 124} H${x + 94}`, class: 'ln' });
+});
+const T0 = 0.02;
+const T = { s1: S.at('1인분'), s2: S.at('배달'), s3: S.at('주문이'), that: S.at('그주문이'), m20: S.at('20분에'), k: S.at('천원'), j: S.at('즉'), sg: S.at('시급'), r: S.at('3천'), up: S.at('업무였다는') };
+S.ev(T0, 'in', 'ring'); S.ev(T.s3, 'page', 'slips'); S.ev(T.m20, 'gauge', 'arc1'); S.ev(T.k, 'shine', 'c1k'); S.ev(T.j, 'gauge', 'arc2'); S.ev(T.r, 'shine', 'rate'); S.ev(T.up, 'marker', 'ul');
+S.scene(tau => {
+  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  for (let i = 0; i < 3; i++) { E.stroke('#trk' + i, tau, T0 + i * 0.12, 0.4); E.stroke('#tk' + i, tau, T0 + 0.3 + i * 0.1, 0.25); }
+  // 주문서 세 장: 1인분 / 배달 / 주문이 말에 한 장씩
+  [T.s1, T.s2 + 0.1, T.s3 + 0.1].forEach((t, i) => { E.stroke('#sl' + i, tau, t, 0.35); E.stroke('#sn' + i, tau, t + 0.2, 0.25); });
+  E.pop('#lbl1', tau, T.s1 + 0.1, { base: 'translate(-50%,-50%)' });
+  E.stroke('#ar', tau, T.that, 0.35); E.stroke('#ah', tau, T.that + 0.25, 0.15);
+  // 20분 칸 → 1,000원
+  E.stroke('#fil0', tau, T.m20, 0.5);
+  E.pop('#lm20', tau, T.m20, { base: 'translate(-50%,-50%)' });
+  E.pop('#c1k', tau, T.k, { base: 'translate(-50%,-50%)' });
+  // 40분, 60분 칸
+  E.stroke('#fil1', tau, T.j, 0.4); E.pop('#lm40', tau, T.j, { base: 'translate(-50%,-50%)' });
+  E.stroke('#fil2', tau, T.sg, 0.4); E.pop('#lm60', tau, T.sg, { base: 'translate(-50%,-50%)' });
+  // 가운데: 1,000원 → 시급 3,000원(빨강)
+  const kr = S.ent(tau, T.r, 0.12);
+  S.css('#c1k', { opacity: (S.ent(tau, T.k, 0.12) * (1 - kr)).toFixed(3) });
+  E.pop('#rate', tau, T.r, { base: 'translate(-50%,-50%)' });
+  E.stroke('#ul', tau, T.up, 0.4);
+});
+</script>
+</body></html>

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s34 같은 간판 가게 셋 — 그릇 속 재료 아이콘이 조금씩 다름 → 한 곳만 파랑 테두리 (설명 층)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#art{left:0;top:0;width:1920px;height:1080px}
+.sg{font-size:46px;font-weight:900;transform:translate(-50%,-50%)}
+#jb{left:960px;top:104px;font-size:66px;transform:translate(-50%,-50%)}
+</style></head>
+<body><div id="stage">
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <svg id="art" class="abs" viewBox="0 0 1920 1080"><g id="g"></g></svg>
+    <div id="sg0" class="abs t sg" data-box="sg0">○○</div>
+    <div id="sg1" class="abs t sg" data-box="sg1">○○</div>
+    <div id="sg2" class="abs t sg" data-box="sg2">○○</div>
+    <div id="jb" class="abs t" data-box="jb">점바점</div>
+  </div>
+</div>
+<script src="../data/s34.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];   // 모눈 · 선 · 파랑(한 곳만 짚음)
+const NS = 'http://www.w3.org/2000/svg';
+const G = document.getElementById('g');
+function mk(id, d, cls, extra) { const e = document.createElementNS(NS, 'path'); e.setAttribute('id', id); e.setAttribute('d', d); e.setAttribute('class', cls); if (extra) e.setAttribute('style', extra); G.appendChild(e); return e; }
+const sh = (v, x, y, s) => v.replace(/(-?\d+\.?\d*) (-?\d+\.?\d*)/g, (m, a, b) => `${(x + a * s).toFixed(1)} ${(y + b * s).toFixed(1)}`);   // 좌표쌍 평행이동·배율(M/L/C/H/V 는 쌍만 쓰도록 아래 데이터를 씀)
+// 가게 선화(s29 와 같은 모양 · 쌍 좌표만) — 900×620 원점 기준, 0.5 배
+const STORE = [
+  'M60 600 L60 210 L840 210 L840 600',   // 벽
+  'M40 210 L860 210',
+  'M70 210 L96 130 L804 130 L830 210',   // 처마
+  'M270 20 L630 20 L630 110 L270 110 Z',   // 간판
+  'M360 600 L360 380 L540 380 L540 600',   // 문
+  'M110 300 L300 300 L300 470 L110 470 Z', 'M600 300 L790 300 L790 470 L600 470 Z',
+  'M205 300 L205 470 M110 385 L300 385', 'M695 300 L695 470 M600 385 L790 385'
+];
+const CX = [380, 960, 1540], TOP = 215, SC = 0.56, BK = 0.8;
+CX.forEach((cx, c) => {
+  STORE.forEach((d, i) => mk(`s${c}_${i}`, sh(d, cx - 450 * SC, TOP, SC), 'ln w4'));
+  document.getElementById('sg' + c).style.left = cx + 'px';
+  document.getElementById('sg' + c).style.top = (TOP + 65 * SC) + 'px';
+  // 그릇(같은 모양) · 김 · 재료 · 시계
+  const bx = cx - 212, by = 650;
+  mk(`bw${c}`, sh('M40 160 L360 160 C352 270 290 320 200 320 C110 320 48 270 40 160 Z', bx, by, BK), 'ln w4');
+  mk(`br${c}`, sh('M20 160 L380 160', bx, by, BK), 'ln w4');
+  mk(`stm${c}`, `M${cx - 114} 730 C ${cx - 126} 708, ${cx - 102} 696, ${cx - 114} 674 M${cx - 52} 730 C ${cx - 64} 708, ${cx - 40} 696, ${cx - 52} 674 M${cx + 10} 730 C ${cx - 2} 708, ${cx + 22} 696, ${cx + 10} 674`, 'ln w4 mu');
+  const clx = cx + 170, cly = 790, ang = [40, 150, 255][c] * Math.PI / 180;
+  mk(`clk${c}`, `M${clx - 54} ${cly} a54 54 0 1 0 108 0 a54 54 0 1 0 -108 0`, 'ln w4');
+  mk(`clh${c}`, `M${clx} ${cly} L${(clx + 38 * Math.sin(ang)).toFixed(1)} ${(cly - 38 * Math.cos(ang)).toFixed(1)} M${clx} ${cly} L${clx} ${cly - 26}`, 'ln w4');
+  // 재료 아이콘(그릇 둘레 위): 칸마다 모양이 조금씩 다름
+  const kinds = [['c', 'c', 't'], ['s', 't', 'c'], ['t', 's', 's']][c];
+  kinds.forEach((k, j) => {
+    const x = cx - 112 + j * 60, y = 752;
+    const d = k === 'c' ? `M${x - 16} ${y} a16 16 0 1 0 32 0 a16 16 0 1 0 -32 0` : k === 's' ? `M${x - 14} ${y - 14} L${x + 14} ${y - 14} L${x + 14} ${y + 14} L${x - 14} ${y + 14} Z` : `M${x} ${y - 17} L${x + 17} ${y + 13} L${x - 17} ${y + 13} Z`;
+    mk(`in${c}_${j}`, d, 'ln w4 bl');
+  });
+});
+// = 두 개, ≠ 로 바뀜(사선)
+mk('eq0', 'M645 372 L695 372 M645 404 L695 404', 'ln w6'); mk('eq1', 'M1225 372 L1275 372 M1225 404 L1275 404', 'ln w6');
+mk('ne0', 'M660 428 L680 348', 'ln w6 rd'); mk('ne1', 'M1240 428 L1260 348', 'ln w6 rd');
+mk('same', 'M128 590 L128 610 L1792 610 L1792 590', 'ln w4');
+mk('frame', 'M704 175 H1216 V925 H704 Z', 'ln bl w6');
+const T0 = 0.02;
+const T = { s0: S.at('프랜차이즈라고'), jb: S.at('점바점이라는'), b0: S.at('점포마다'), ne: S.at('똑같지'), stm: S.at('레시피여도'), clk: S.at('조리법을'), clk1: S.at('어떻게'), clk2: S.at('준수해서'), clr: S.at('어떤'), ing: S.at('재료를'), ing1: S.at('쓰는지에'), ing2: S.at('따라'), fr: S.at('다르거든요'), same: S.at('같은', 0) };
+S.ev(T0, 'in', 's0'); S.ev(T.s0 + 0.9, 'card_in', 's2'); S.ev(T.jb, 'shine', 'jb'); S.ev(T.same, 'marker', 'same'); S.ev(T.b0, 'page', 'bowls'); S.ev(T.ne, 'no', 'ne'); S.ev(T.stm, 'marker', 'steam'); S.ev(T.clk, 'click', 'clock'); S.ev(T.ing, 'in', 'ing'); S.ev(T.fr, 'ok', 'frame');
+S.scene(tau => {
+  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  CX.forEach((cx, c) => {
+    const t0 = T0 + c * 0.35;
+    STORE.forEach((d, i) => E.stroke(`#s${c}_${i}`, tau, t0 + i * 0.04, 0.35));
+    E.pop('#sg' + c, tau, t0 + 0.5, { base: 'translate(-50%,-50%)', dy: 0 });
+    const tb = [T.b0, T.b0 + 0.36, T.b0 + 0.7][c];
+    E.stroke(`#bw${c}`, tau, tb, 0.4); E.stroke(`#br${c}`, tau, tb + 0.15, 0.25);
+    // 김(같은 레시피) → 재료 보이면 걷힘
+    E.stroke(`#stm${c}`, tau, T.stm + c * 0.1, 0.4);
+    document.getElementById('stm' + c).style.opacity = tau >= T.stm + c * 0.1 ? 1 - S.P(tau, T.clr, T.clr + 0.25) : 0;
+    // 시계(조리법·시간): 칸마다 다른 바늘
+    const tk = [T.clk, T.clk1, T.clk2][c];
+    E.stroke(`#clk${c}`, tau, tk, 0.3); E.stroke(`#clh${c}`, tau, tk + 0.2, 0.2);
+    // 재료(칸마다 다름)
+    [0, 1, 2].forEach(j => E.stroke(`#in${c}_${j}`, tau, [T.ing, T.ing1, T.ing2][c] + j * 0.1, 0.25));
+  });
+  E.pop('#jb', tau, T.jb, { base: 'translate(-50%,-50%)', dy: 0 });
+  ['eq0', 'eq1'].forEach((id, i) => E.stroke('#' + id, tau, T.s0 + 0.9 + i * 0.1, 0.25));
+  ['ne0', 'ne1'].forEach((id, i) => E.stroke('#' + id, tau, T.ne + i * 0.1, 0.2));
+  E.stroke('#same', tau, T.same, 0.6);
+  E.stroke('#frame', tau, T.fr, 0.5);
+});
+</script>
+</body></html>

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s42 클릭만 해도 나가는 광고 — 정면 화면 가득(광고 보고: 클릭 막대 계속 오름 · 주문 막대 그대로 · 광고비 막대 빨강, 숫자 없이) · 실물 층(바탕 d38 흐림)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#bg{left:0;top:0;width:1920px;height:1080px;background-size:cover;background-position:center;filter:blur(18px) brightness(.55);transform-origin:960px 540px}
+#pan{left:210px;top:130px;width:1500px;height:820px;border-radius:18px;transform-origin:50% 50%;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+#hd1{position:absolute;left:0;top:0;width:1500px;height:90px;background:#1B1F25;border-bottom:1px solid #2A3038;display:flex;align-items:center;padding:0 50px;gap:24px;font-size:44px;font-weight:800}
+#hd1 .dot{width:14px;height:14px;border-radius:50%;background:#1F5FD1}
+#vp{position:absolute;left:0;top:90px;width:1500px;height:730px;overflow:hidden}
+#sc{position:absolute;left:0;top:0;width:1500px;height:900px}
+.rl{position:absolute;left:60px;font-size:56px;font-weight:900;color:#ECEEF0;white-space:nowrap;opacity:0}
+.tr{position:absolute;left:330px;width:1100px;height:96px;background:#222831;border-radius:12px;opacity:0;overflow:hidden}
+.fl{position:absolute;left:0;top:0;height:96px;width:0}
+#fa{background:#1F5FD1} #fb{background:#1F5FD1;width:28px} #fc{background:#D63A3A}
+#dash{position:absolute;left:358px;top:335px;width:1070px;height:6px;opacity:0;background:repeating-linear-gradient(90deg,#8D969F 0 22px,transparent 22px 40px);clip-path:inset(0 100% 0 0)}
+.pring{position:absolute;width:90px;height:90px;margin:-45px 0 0 -45px;border-radius:50%;border:6px solid #7FA8F5;background:rgba(127,168,245,.28);opacity:0}
+</style></head>
+<body><div id="stage">
+  <div id="bg" class="abs"></div>
+  <div id="pan" class="app" data-box="pan">
+    <div id="hd1"><span class="dot"></span><span>광고 보고</span></div>
+    <div id="vp"><div id="sc">
+      <div class="rl" id="la" style="top:98px">클릭</div><div class="tr" id="ta" style="top:90px"><div class="fl" id="fa"></div></div>
+      <div class="rl" id="lb" style="top:298px">주문</div><div class="tr" id="tb" style="top:290px"><div class="fl" id="fb"></div></div>
+      <div id="dash"></div>
+      <div id="rg" class="pring" style="left:44px;top:268px;width:1400px;height:140px;border-radius:24px;margin:0;background:rgba(127,168,245,.12)"></div>
+      <div class="rl" id="lc" style="top:498px">광고비</div><div class="tr" id="tc" style="top:490px"><div class="fl" id="fc"></div></div>
+    </div></div>
+  </div>
+</div>
+<script src="../data/s42.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#16191D', '#ECEEF0', '#1F5FD1', '#D63A3A'];   // 어두운 앱 · 글 · 파랑(클릭·주문) · 빨강(광고비 막대 — 나가는 돈)
+const T = { gw: S.at('광고'), son: S.at('손님이'), nu: S.at('누르기만'), hae: S.at('해도'), don: S.at('돈이'), nag: S.at('나가는'), geu: S.at('그렇게'), jum: S.at('주문은'), an: S.at('안'), gv: S.at('광고비만'), gye: S.at('계속'), gum: S.at('겁니다') };
+S.ev(0.02, 'in', 'pan'); S.ev(0.35, 'card_in', 'rows'); S.ev(T.nu, 'gauge', 'click'); S.ev(T.don, 'coin', 'red'); S.ev(3.9, 'sweep', 'scroll'); S.ev(T.jum, 'marker', 'order'); S.ev(T.gv, 'gauge', 'red2'); S.ev(T.gum, 'shine', 'red3');
+S.css('#bg', { backgroundImage: S.ph('d38_phone_counter_side_clean') });
+const seg = (tau, a, b, from, to) => S.lerp(from, to, S.EO(S.P(tau, a, b)));
+S.scene(tau => {
+  const pk = S.ent(tau, 0.02, 0.12);
+  S.css('#bg', { transform: `scale(${(1.07 + 0.02 * S.P(tau, 0, S.SC.dur)).toFixed(4)})` });
+  S.css('#pan', { opacity: pk, transform: `perspective(2200px) rotateX(6deg) translateY(${(18 * (1 - pk)).toFixed(1)}px)` });
+  S.css('#sc', { transform: `translateY(${(-50 * S.cam(tau, 3.9, 4.4)).toFixed(1)}px)` });
+  // 클릭 — 계속 오름
+  const a = S.ent(tau, 0.25, 0.12); S.css('#la', { opacity: a }); S.css('#ta', { opacity: a });
+  const wa = seg(tau, 1.82, 2.6, 0, 0.40) + seg(tau, 3.0, 3.8, 0, 0.25) + seg(tau, 4.5, 5.4, 0, 0.23) + seg(tau, 6.0, 6.9, 0, 0.12);
+  S.css('#fa', { width: (1100 * wa).toFixed(1) + 'px' });
+  // 주문 — 그대로(작은 막대 하나)
+  const b = S.ent(tau, 0.45, 0.12); S.css('#lb', { opacity: b }); S.css('#tb', { opacity: b });
+  // 광고비 — 빨강, 계속 나감(숫자 없음)
+  const c = S.ent(tau, 0.65, 0.12); S.css('#lc', { opacity: c }); S.css('#tc', { opacity: c });
+  const wc = seg(tau, 2.84, 3.6, 0, 0.30) + seg(tau, 3.9, 4.6, 0, 0.20) + seg(tau, T.gv, T.gv + 0.8, 0, 0.28) + seg(tau, T.gye + 0.4, T.gum + 0.3, 0, 0.16);
+  S.css('#fc', { width: (1100 * wc).toFixed(1) + 'px' });
+  // «주문은 안 들어오고» — 주문 줄에 고리 → 막대 끝에서 점선이 쭉 나가 그대로임을 보임
+  const rk = S.P(tau, T.jum, T.jum + 0.5);
+  S.css('#rg', { opacity: (tau < T.jum) ? 0 : (1 - 0.7 * rk).toFixed(3) });
+  S.css('#dash', { opacity: tau >= T.an ? 1 : 0, clipPath: `inset(0 ${((1 - S.EO(S.P(tau, T.an, T.an + 0.6))) * 100).toFixed(1)}% 0 0)` });
+});
+</script>
+</body></html>

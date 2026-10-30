@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s27 저울 — 시급 3천 원 일(빨강) vs 잘될 방법(파랑) → 오른쪽으로 기울어짐 (설명 층)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#art{left:0;top:0;width:1920px;height:1080px}
+.pan{width:440px;height:140px;border-radius:14px;border:4px solid;display:flex;align-items:center;justify-content:center;font-size:54px;font-weight:800;background:#fff}
+.pan.rdp{border-color:#D63A3A;color:#D63A3A;background:#F7DEDE}
+.pan.blp{border-color:#1F5FD1;color:#1F5FD1;background:#DCE6F8}
+.pan.gy{border:4px dashed #A9B0B6;color:#7A828A;background:#F4F5F2}
+#later{left:1472px;top:300px;font-size:44px;color:#7A828A;transform:translate(-50%,-50%)}
+</style></head>
+<body><div id="stage">
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <svg id="art" class="abs" viewBox="0 0 1920 1080">
+      <path id="pole" class="ln w6" d="M960 380 V840"/>
+      <path id="base" class="ln w6" d="M780 840 H1140"/>
+      <path id="beam" class="ln w6" d="M440 380 H1480"/>
+      <circle id="pv" class="ln w4" cx="960" cy="380" r="18" style="fill:#F4F5F2"/>
+      <path id="sl1" class="ln" d="M0 0"/><path id="sl2" class="ln" d="M0 0"/>
+      <path id="sr1" class="ln" d="M0 0"/><path id="sr2" class="ln" d="M0 0"/>
+      <rect id="ring" class="ln rd w4" x="0" y="0" width="460" height="190" rx="22"/>
+      <path id="lat" class="ln mu w4" d="M0 0 L320 0"/><path id="lah" class="ln mu w4" d="M0 0 L10 0"/>
+    </svg>
+    <div id="pL" class="abs pan rdp" data-box="pL"></div>
+    <div id="pR" class="abs pan blp" data-box="pR"></div>
+    <svg id="art2" class="abs" style="left:0;top:0;width:1920px;height:1080px;pointer-events:none" viewBox="0 0 1920 1080"><path id="x1" class="ln rd w6" d="M0 0 L100 100"/><path id="x2" class="ln rd w6" d="M0 0 L100 100"/></svg>
+    <div id="later" class="abs t" data-box="later">나중에</div>
+  </div>
+</div>
+<script src="../data/s27.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1', '#D63A3A'];   // 모눈 · 선 · 파랑(잘될 방법) · 빨강(시급 3천 원 일 = 손해 쪽)
+const PX = 960, PY = 380, RL = 560;
+const T0 = 0.02;
+const T = { left: S.at('그 시간에'), right: S.at('잘될'), tilt: S.at('찾아야'), ring: S.at('장사'), nothing: S.at('아무것도'), later: S.at('나중에는'), no: S.at('안 됩니다', 0) };
+T.no = S.at('안됩니다');
+S.ev(T0, 'in', 'stand'); S.ev(T.left, 'card_in', 'pL'); S.ev(T.right, 'msg_in', 'pR'); S.ev(T.tilt, 'sweep', 'tilt'); S.ev(T.ring, 'marker', 'ring'); S.ev(T.nothing, 'paper', 'gray'); S.ev(T.later, 'click', 'later'); S.ev(T.no, 'no', 'x');
+document.getElementById('pL').textContent = '시급 3천 원 일';
+document.getElementById('pR').textContent = '잘될 방법';
+function ang(tau) {
+  // 0 → +10°(오른쪽 내려감, 찾아야 해요) → −7°(아무것도 안 하면 왼쪽으로 돌아옴)
+  const a = S.lerp(0, 10, S.cam(tau, T.tilt, T.tilt + 0.55));
+  return S.lerp(a, -7, S.cam(tau, T.nothing, T.nothing + 0.55));
+}
+S.scene(tau => {
+  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  const th = ang(tau) * Math.PI / 180, c = Math.cos(th), s = Math.sin(th);
+  const Lx = PX - RL * c, Ly = PY - RL * s, Rx = PX + RL * c, Ry = PY + RL * s;
+  document.getElementById('beam').setAttribute('d', `M${Lx.toFixed(1)} ${Ly.toFixed(1)} L${Rx.toFixed(1)} ${Ry.toFixed(1)}`);
+  E.stroke('#pole', tau, T0, 0.4); E.stroke('#base', tau, T0 + 0.1, 0.3); E.stroke('#beam', tau, T0 + 0.2, 0.4);
+  S.css('#pv', { opacity: tau >= T0 + 0.4 ? 1 : 0 });
+  // 접시: 줄 + 판
+  const pan = (id, ex, ey, t0, s1, s2) => {
+    const k = S.ent(tau, t0, 0.12);
+    const top = ey + 200;
+    document.getElementById(s1).setAttribute('d', `M${ex.toFixed(1)} ${ey.toFixed(1)} L${(ex - 180).toFixed(1)} ${top.toFixed(1)}`);
+    document.getElementById(s2).setAttribute('d', `M${ex.toFixed(1)} ${ey.toFixed(1)} L${(ex + 180).toFixed(1)} ${top.toFixed(1)}`);
+    S.css('#' + s1, { opacity: k }); S.css('#' + s2, { opacity: k });
+    const el = document.getElementById(id);
+    S.css(el, { left: (ex - 220).toFixed(1) + 'px', top: (top - 4 + 14 * (1 - k)).toFixed(1) + 'px', opacity: k });
+    return k;
+  };
+  pan('pL', Lx, Ly, T.left, 'sl1', 'sl2');
+  pan('pR', Rx, Ry, T.right, 'sr1', 'sr2');
+  // 아무것도 안 하고 → 오른쪽 접시가 회색 점선으로
+  const g = tau >= T.nothing;
+  const pr = document.getElementById('pR');
+  pr.className = 'abs pan ' + (g ? 'gy' : 'blp');
+  pr.textContent = g ? '아무것도 안 함' : '잘될 방법';
+  // 지금 장사 안 돼서 힘든데: 왼쪽 접시에 빨간 테두리(꺼지기 전)
+  const ringEl = document.getElementById('ring');
+  const lx = Lx, ly = Ly + 200 - 4;
+  ringEl.setAttribute('x', (lx - 220 - 18).toFixed(1)); ringEl.setAttribute('y', (ly - 18).toFixed(1));
+  ringEl.setAttribute('width', 476); ringEl.setAttribute('height', 176);
+  if (!ringEl._len) { ringEl._len = ringEl.getTotalLength(); ringEl.style.strokeDasharray = ringEl._len; }
+  const rk = S.EO(S.P(tau, T.ring, T.ring + 0.5)) * (1 - S.P(tau, T.nothing - 0.1, T.nothing + 0.1));
+  ringEl.style.strokeDashoffset = ringEl._len * (1 - S.EO(S.P(tau, T.ring, T.ring + 0.5)));
+  ringEl.style.opacity = tau >= T.ring ? (1 - S.P(tau, T.nothing - 0.1, T.nothing + 0.1)) : 0;
+  // 나중에는 → 접시 아래 점선 화살표(미래 쪽으로) + «나중에»
+  const ex = Rx, yb = Ry + 200 + 140 + 54;
+  document.getElementById('lat').setAttribute('d', `M${(ex - 170).toFixed(1)} ${yb.toFixed(1)} L${(ex + 150).toFixed(1)} ${yb.toFixed(1)}`);
+  document.getElementById('lah').setAttribute('d', `M${(ex + 118).toFixed(1)} ${(yb - 26).toFixed(1)} L${(ex + 156).toFixed(1)} ${yb.toFixed(1)} L${(ex + 118).toFixed(1)} ${(yb + 26).toFixed(1)}`);
+  E.stroke('#lat', tau, T.later, 0.35); E.stroke('#lah', tau, T.later + 0.3, 0.15);
+  S.css('#later', { left: ex.toFixed(1) + 'px', top: (yb + 76).toFixed(1) + 'px' });
+  E.pop('#later', tau, T.later + 0.1, { base: 'translate(-50%,-50%)' });
+  // 안 됩니다 → 빨강 ✕(오른쪽 접시 위)
+  const cx = Rx - 10, cy = Ry + 200 + 140 + 54;
+  document.getElementById('x1').setAttribute('d', `M${cx - 44} ${cy - 44} L${cx + 44} ${cy + 44}`);
+  document.getElementById('x2').setAttribute('d', `M${cx + 44} ${cy - 44} L${cx - 44} ${cy + 44}`);
+  E.stroke('#x1', tau, T.no, 0.25); E.stroke('#x2', tau, T.no + 0.12, 0.25);
+});
+</script>
+</body></html>

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s56 배고프면 배달앱부터 — 밤 거실 휴대폰 홈 화면(재현), 엄지가 배달앱 아이콘으로(실물 층, 초록 화면 사진)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#wrap{left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#ui{left:0;top:0;width:400px;height:900px;border:0;border-radius:0;background:linear-gradient(165deg,#1B2432,#0F1318)}
+.ic{position:absolute;width:80px;height:80px;border-radius:20px;display:flex;align-items:center;justify-content:center}
+.lb{position:absolute;width:160px;text-align:center;font-family:"Pre";font-weight:800;font-size:32px;color:#fff;white-space:nowrap;line-height:1}
+#dock{position:absolute;left:20px;top:770px;width:360px;height:110px;border-radius:30px;background:rgba(255,255,255,.08)}
+#dim{position:absolute;left:0;top:0;width:400px;height:900px;background:radial-gradient(circle 150px at 250px 640px,rgba(0,0,0,0) 0,rgba(0,0,0,0) 60%,rgba(0,0,0,.5) 100%);opacity:0}
+#tap{position:absolute;width:90px;height:90px;border-radius:50%;border:5px solid #fff;opacity:0;left:219px;top:575px}
+#open{position:absolute;background:#1F5FD1;opacity:0;overflow:hidden}
+#fxl{position:absolute;left:0;top:0;width:400px;height:900px}
+</style></head>
+<body><div id="stage">
+  <div id="wrap" class="abs">
+    <div id="ph" class="photo"></div>
+    <div id="ui" class="app">
+      <div id="dock"></div>
+      <div id="grid"></div>
+      <div id="shop" class="ic" style="left:110px;top:600px;background:#4A525C;opacity:0"><svg width="52" height="52" viewBox="0 0 52 52"><path d="M6 20 L10 6 L42 6 L46 20 Z M10 20 L10 46 L42 46 L42 20 M20 46 L20 30 L32 30 L32 46" fill="none" stroke="#fff" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/></svg></div>
+      <div id="shoplb" class="lb" style="left:70px;top:690px;opacity:0">가게</div>
+      <div id="dv" class="ic" style="left:210px;top:600px;background:#1F5FD1;box-shadow:0 0 0 0 rgba(127,168,245,0)"><svg width="52" height="52" viewBox="0 0 52 52"><path d="M10 18 L42 18 L40 46 L12 46 Z M18 18 C18 8 34 8 34 18" fill="none" stroke="#fff" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/></svg></div>
+      <div id="dvlb" class="lb" style="left:170px;top:690px">배달앱</div>
+      <svg id="fxl" viewBox="0 0 400 900"><path id="cut" class="ln rd w6" d="M104 706 L196 706"/></svg>
+      <div id="dim"></div>
+      <div id="tap"></div>
+      <div id="open"><svg width="120" height="120" viewBox="0 0 52 52" style="position:absolute;left:140px;top:390px"><path d="M10 18 L42 18 L40 46 L12 46 Z M18 18 C18 8 34 8 34 18" fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></svg></div>
+    </div>
+  </div>
+</div>
+<script src="../data/s56.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];
+S.$('#ph').style.backgroundImage = S.ph('d56_home_phone_top_clean');
+const QUAD = [[983.4, 150.7], [1216.1, 226.9], [1044.4, 751.3], [811.7, 675.1]];   // quads.json d56 stage — 사진 확인: 화면 위쪽 = 오른쪽 위(왼위·오위·오아래·왼아래 순서 그대로)
+S.fitQuad(S.$('#ui'), 400, 900, QUAD);
+// 홈 화면 아이콘(상표 없는 일반 모양) — 배달앱 · 가게 칸은 비워 둠
+const COL = ['#3C4A5E', '#5A3C52', '#2F5D56', '#59503A', '#3E3F66', '#5E3C3C'];
+const GL = ['<circle cx="26" cy="26" r="13" fill="none" stroke="#fff" stroke-width="4"/>', '<path d="M12 18 L40 18 M12 28 L40 28 M12 38 L30 38" stroke="#fff" stroke-width="4" stroke-linecap="round"/>', '<path d="M26 10 L42 40 L10 40 Z" fill="none" stroke="#fff" stroke-width="4" stroke-linejoin="round"/>', '<rect x="12" y="12" width="28" height="28" rx="6" fill="none" stroke="#fff" stroke-width="4"/>', '<path d="M8 30 C16 12 24 44 32 26 C36 18 40 24 44 22" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>'];
+const g = S.$('#grid'); let n = 0;
+for (let r = 0; r < 5; r++) for (let c = 0; c < 4; c++) {
+  if (r === 4 && (c === 1 || c === 2)) continue;
+  const d = document.createElement('div'); d.className = 'ic'; d.style.left = (10 + c * 100) + 'px'; d.style.top = (80 + r * 130 + (r === 4 ? 0 : 0)) + 'px';
+  d.style.background = COL[(n * 5 + r) % COL.length]; d.innerHTML = '<svg width="52" height="52" viewBox="0 0 52 52">' + GL[(n * 3 + c) % GL.length] + '</svg>'; n++;
+  if (r === 4) d.style.top = '600px';
+  g.appendChild(d);
+}
+for (let c = 0; c < 4; c++) { const d = document.createElement('div'); d.className = 'ic'; d.style.left = (10 + c * 100) + 'px'; d.style.top = '785px'; d.style.background = COL[(c + 2) % COL.length]; d.innerHTML = '<svg width="52" height="52" viewBox="0 0 52 52">' + GL[(c * 2 + 1) % GL.length] + '</svg>'; g.appendChild(d); }
+const T = { aps: S.at('앱으로'), ga: S.at('가게를'), gi: S.at('기억하기보단'), dal: S.at('배달앱을'), go: S.at('배고프면'), name: S.at('이름보다'), bu: S.at('배달앱부터'), ky: S.at('켜잖아요') };
+S.ev(T.aps, 'click', 'dv'); S.ev(T.ga, 'in', 'shop'); S.ev(T.dal, 'shine', 'dv'); S.ev(T.go, 'sweep', 'dim'); S.ev(T.name, 'no', 'cut'); S.ev(T.bu, 'click', 'tap'); S.ev(T.ky, 'sweep', 'open');
+S.scene(tau => {
+  // 아주 느린 당기기 — 화면 글이 읽히는 크기(1.75)에서 1.55 로
+  S.css('#wrap', { transform: S.camCss({ s: S.lerp(1.78, 1.56, S.EIO(S.P(tau, 0, S.SC.dur))), x: 1014, y: 451 }), transformOrigin: '0 0' });
+  // 배달앱 아이콘 — «앱으로 시킨»에 파랑 테두리 숨, «배달앱을 기억»에 크게
+  const a = S.EO(S.P(tau, T.aps, T.aps + 0.35)), d = S.EO(S.P(tau, T.dal, T.dal + 0.4));
+  S.css('#dv', { boxShadow: `0 0 0 ${(6 * a).toFixed(1)}px rgba(127,168,245,${(0.9 * a).toFixed(2)})`, transform: `scale(${(1 + 0.12 * d).toFixed(3)})` });
+  // 가게 아이콘은 «가게를»에 나타났다가 «기억하기보단»에 흐려짐, «가게 이름보다»에 빨강 줄
+  const s1 = S.ent(tau, T.ga, 0.12), fd = S.EO(S.P(tau, T.gi, T.gi + 0.4));
+  S.css('#shop', { opacity: s1 * (1 - 0.6 * fd) }); S.css('#shoplb', { opacity: s1 * (1 - 0.6 * fd) });
+  E.stroke('#cut', tau, T.name, 0.35);
+  S.css('#dim', { opacity: S.EO(S.P(tau, T.go, T.go + 0.4)) * (1 - S.P(tau, T.ky, T.ky + 0.2)) });
+  // 엄지가 눌림: 고리가 줄어들며 아이콘이 눌림
+  const tp = S.P(tau, T.bu, T.bu + 0.45);
+  S.css('#tap', { opacity: tau >= T.bu && tau < T.ky ? 1 - 0.4 * tp : 0, transform: `scale(${(1.5 - 0.6 * S.EO(tp)).toFixed(3)})` });
+  // 앱이 켜짐: 아이콘 자리에서 화면 가득으로
+  const o = S.cam(tau, T.ky, T.ky + 0.4), op = S.$('#open');
+  op.style.opacity = tau >= T.ky ? 1 : 0;
+  op.style.left = S.lerp(210, 0, o) + 'px'; op.style.top = S.lerp(600, 0, o) + 'px';
+  op.style.width = S.lerp(80, 400, o) + 'px'; op.style.height = S.lerp(80, 900, o) + 'px'; op.style.borderRadius = S.lerp(20, 0, o) + 'px';
+});
+</script>
+</body></html>

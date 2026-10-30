@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s20 조리대 위 떡볶이 한 그릇 + 영수증 «8,000원» → 어두운 판 «≈ 4,000원»(빨강 숫자) → 절반이 빠짐(실물 층 · 탑다운 · 고정)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#ov{left:0;top:0;width:1920px;height:1080px}
+#rc{left:0;top:0;width:220px;height:300px;font-family:"Pre";font-weight:900;color:#2B2A22;font-size:50px;text-align:center;padding-top:44px;opacity:0;line-height:1.1}
+#dp{left:360px;top:150px;font-size:112px}
+</style></head>
+<body><div id="stage">
+  <div id="ph" class="photo">
+    <svg id="ov" class="abs" viewBox="0 0 1920 1080">
+      <defs><clipPath id="rhalf"><rect x="856" y="300" width="400" height="640"/></clipPath></defs>
+      <ellipse id="half" cx="856" cy="606" rx="282" ry="248" fill="rgba(214,58,58,.38)" clip-path="url(#rhalf)" opacity="0"/>
+      <ellipse id="bw" class="ln bl w6" cx="856" cy="606" rx="290" ry="256"/>
+      <path id="rr" class="ln bl w6" d="M946 892 L1138 822 L1264 1030 L1080 1100 Z"/>
+    </svg>
+    <div id="rc" class="abs">8,000원</div>
+    <div id="dp" class="dpan abs" data-box="dp"><span class="rd">≈ 4,000원</span></div>
+  </div>
+</div>
+<script src="../data/s20.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#1B1E22', '#FFFFFF', '#1F5FD1'];
+S.css('#ph', { backgroundImage: S.ph('p20_tteokbokki_top') });
+const QR = [[768, 797], [912, 745], [1005, 925], [860, 978]].map(([x, y]) => [x * 1.25, y * 1.25 - 100]);
+const T = { bw: S.at('떡볶이'), rc: S.at('8천'), in: S.at('주문이'), fee: S.at('수수료로'), dp: S.at('무려'), half: S.at('절반이') };
+S.ev(T.bw, 'marker', 'bw'); S.ev(T.rc, 'type', 'rc'); S.ev(T.in, 'marker', 'rr'); S.ev(T.fee, 'click', 'bw'); S.ev(T.dp, 'shine', 'dp'); S.ev(T.half, 'coin', 'half');
+S.scene(tau => {
+  S.css('#ph', { transform: `scale(${E.drift(tau, 1, 1.03).toFixed(4)})` });   // 고정(미세)
+  S.fitQuad(S.$('#rc'), 220, 300, QR);
+  E.stroke('#bw', tau, T.bw, 0.45);
+  const q = S.EO(S.P(tau, T.rc, T.rc + 0.3)); const rc = S.$('#rc'); rc.style.opacity = tau >= T.rc ? 1 : 0; rc.style.clipPath = `inset(0 ${((1 - q) * 100).toFixed(1)}% 0 0)`;
+  E.stroke('#rr', tau, T.in, 0.4);
+  // 수수료로 나가는 돈 → 그릇 테두리가 빨강으로
+  S.$('#bw').style.stroke = tau >= T.fee ? '#D63A3A' : '#1F5FD1';
+  E.pop('#dp', tau, T.dp, { dy: 12 });
+  S.$('#half').setAttribute('opacity', S.ent(tau, T.half, 0.3).toFixed(3));
+});
+</script>
+</body></html>

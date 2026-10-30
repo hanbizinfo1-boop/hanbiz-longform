@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s51 좋은 가게를 알려 주는 광고 — 저녁 붐비는 가게 문 앞(실물 층, Codex 사진 + 선·빛)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#wrap{left:0;top:0;width:1920px;height:1080px;transform-origin:910px 500px}
+#fx{left:0;top:0;width:1920px;height:1080px}
+#vg{left:0;top:0;width:1920px;height:1080px;background:radial-gradient(ellipse 1000px 760px at 910px 470px,rgba(0,0,0,0) 38%,rgba(12,8,4,.62) 100%);opacity:0}
+#gl{left:0;top:0;width:1920px;height:1080px;background:radial-gradient(ellipse 420px 360px at 930px 230px,rgba(255,196,110,.55),rgba(255,196,110,0) 70%);mix-blend-mode:screen;opacity:0}
+.zone{fill:rgba(31,95,209,.16);opacity:0}
+.rg{fill:none;stroke:#4F86F0;stroke-width:8;opacity:0}
+</style></head>
+<body><div id="stage">
+  <div id="wrap" class="abs">
+    <div id="ph" class="photo"></div>
+    <div id="vg" class="abs"></div>
+    <div id="gl" class="abs"></div>
+    <svg id="fx" class="abs" viewBox="0 0 1920 1080">
+      <rect id="zc" class="zone" x="750" y="0" width="325" height="862"/>
+      <rect id="zl" class="zone" x="394" y="0" width="306" height="550"/>
+      <rect id="zr" class="zone" x="1325" y="0" width="344" height="862"/>
+      <path id="dc" class="ln bl w6" d="M750 862 L750 8 L1075 8 L1075 862"/>
+      <path id="dl" class="ln bl w6" d="M394 550 L394 8 L700 8 L700 550 Z"/>
+      <path id="dr" class="ln bl w6" d="M1325 862 L1325 8 L1669 8 L1669 862"/>
+      <circle id="g1" class="rg" cx="910" cy="450" r="150"/>
+      <circle id="g2" class="rg" cx="910" cy="450" r="150"/>
+      <circle id="g3" class="rg" cx="910" cy="450" r="150"/>
+    </svg>
+  </div>
+</div>
+<script src="../data/s51.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];
+S.$('#ph').style.backgroundImage = S.ph('p51_busy_door');
+const T = { jo: S.at('좋은'), al: S.at('알려'), gat: S.at('같은'), gyeol: S.at('결과가'), dal: S.at('달라지는') };
+S.ev(0.3, 'in', 'vg'); S.ev(T.jo, 'marker', 'dc'); S.ev(T.al, 'sweep', 'rings'); S.ev(T.gat, 'marker', 'dl'); S.ev(T.gyeol, 'ok', 'dr'); S.ev(T.dal, 'shine', 'zone');
+S.scene(tau => {
+  S.css('#wrap', { transform: `scale(${(1 + 0.08 * S.P(tau, 0, S.SC.dur)).toFixed(4)})` });
+  S.css('#vg', { opacity: S.ent(tau, 0.3, 0.12) * 0.0 + S.EO(S.P(tau, 0.1, 0.9)) });
+  S.css('#gl', { opacity: 0.7 * S.EO(S.P(tau, T.jo, T.jo + 0.6)) });
+  E.stroke('#dc', tau, T.jo, 0.6);
+  [0, 1, 2].forEach(i => {
+    const t = T.al + i * 0.38, k = S.EO(S.P(tau, t, t + 0.95)), el = S.$('#g' + (i + 1));
+    el.setAttribute('r', (150 + 620 * k).toFixed(1)); el.style.opacity = tau >= t ? (1 - k) * 0.9 : 0;
+  });
+  E.stroke('#dl', tau, T.gat, 0.6); E.stroke('#dr', tau, T.gyeol, 0.6);
+  const z = S.EO(S.P(tau, T.dal, T.dal + 0.35));
+  S.css('#zc', { opacity: z }); S.css('#zl', { opacity: z }); S.css('#zr', { opacity: z });
+});
+</script>
+</body></html>

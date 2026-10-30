@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s68 수수료로 단골을 만들어야 — 저녁 계산대 너머 홀, 포장 손님이 봉투 받아 나가고 다음 손님이 들어옴(실물 층, Codex 사진 + 선)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#wrap{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#fx{left:0;top:0;width:1920px;height:1080px}
+.rg{fill:none;stroke:#D63A3A;stroke-width:8;opacity:0}
+</style></head>
+<body><div id="stage">
+  <div id="wrap" class="abs">
+    <div id="ph" class="photo"></div>
+    <svg id="fx" class="abs" viewBox="0 0 1920 1080">
+      <rect id="pos" class="ln rd w6" x="112" y="466" width="530" height="346" rx="18"/>
+      <rect id="rg1" class="rg" x="112" y="466" width="530" height="346" rx="18" style="transform-box:fill-box;transform-origin:50% 50%"/>
+      <path id="x1" class="ln rd" style="stroke-width:12" d="M200 530 L560 760"/>
+      <path id="x2" class="ln rd" style="stroke-width:12" d="M560 530 L200 760"/>
+      <rect id="bag" class="ln bl w6" x="1340" y="430" width="156" height="190" rx="14"/>
+      <path id="ar" class="ln bl w6" d="M1490 660 C 1250 840, 940 850, 690 720"/>
+      <path id="ah" class="ln bl w6" d="M742 722 L688 718 L716 672"/>
+      <rect id="wm" class="ln bl w6" x="1480" y="200" width="190" height="440" rx="20"/>
+      <rect id="wg" class="ln bl w4" x="1480" y="200" width="190" height="440" rx="20" style="opacity:0;transform-box:fill-box;transform-origin:50% 50%"/>
+    </svg>
+  </div>
+</div>
+<script src="../data/s68.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#20262D', '#1F5FD1', '#D63A3A'];
+S.$('#ph').style.backgroundImage = S.ph('p68_counter_hall');
+const T = { bae: S.at('배달앱에'), su: S.at('수수료', 0), ma: S.at('마시고'), iy: S.at('수수료를', 1), dan: S.at('단골을'), man: S.at('만드셔야'), sal: S.at('살아남는'), ga: S.at('가게가') };
+const T3 = S.at('이용해서');
+S.ev(T.bae, 'marker', 'pos'); S.ev(T.su + 0.4, 'coin', 'rg1'); S.ev(T.ma, 'no', 'x1'); S.ev(T3, 'ok', 'pos'); S.ev(T.dan, 'marker', 'bag'); S.ev(T.man, 'sweep', 'ar'); S.ev(T.sal, 'click', 'wm');
+S.scene(tau => {
+  // 아주 느린 옆 흐름(±30px) + 1.06 배
+  S.css('#wrap', { transform: `translateX(${S.lerp(30, -30, S.P(tau, 0, S.SC.dur)).toFixed(2)}px) scale(1.06)` });
+  E.stroke('#pos', tau, T.bae, 0.6);
+  // 수수료 = 빨강 → «이 수수료를 이용해서» 파랑으로 바뀜
+  const c = S.EO(S.P(tau, T3, T3 + 0.3)), pos = S.$('#pos');
+  pos.style.stroke = `rgb(${Math.round(214 + (31 - 214) * c)},${Math.round(58 + (95 - 58) * c)},${Math.round(58 + (209 - 58) * c)})`;
+  { const t = T.su + 0.4, k = S.EO(S.P(tau, t, t + 0.8)), el = S.$('#rg1'); el.style.opacity = tau >= t ? (1 - k) * 0.9 : 0; el.style.transform = `scale(${(1 + 0.22 * k).toFixed(4)})`; }
+  E.stroke('#x1', tau, T.ma, 0.28); E.stroke('#x2', tau, T.ma + 0.3, 0.28);
+  const xo = 1 - S.P(tau, T3 - 0.1, T3 + 0.15); S.$('#x1').style.opacity *= xo; S.$('#x2').style.opacity *= xo;
+  E.stroke('#bag', tau, T.dan, 0.5);
+  E.stroke('#ar', tau, T.man, 0.7); E.stroke('#ah', tau, T.man + 0.65, 0.15);
+  E.stroke('#wm', tau, T.sal, 0.5);
+  { const k = S.EO(S.P(tau, T.ga, T.ga + 0.7)), el = S.$('#wg'); el.style.opacity = tau >= T.ga ? (1 - k) * 0.9 : 0; el.style.transform = `scale(${(1 + 0.18 * k).toFixed(4)})`; }
+});
+</script>
+</body></html>

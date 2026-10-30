@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s65 단골이 많은 집은 서비스 관리 — 낮 계산대 옆 벽 메모판, 포장 전화 주문 메모가 여러 장(실물 층, Codex 사진 + 메모)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#wrap{left:0;top:0;width:1920px;height:1080px;transform-origin:1450px 420px}
+#fx{left:0;top:0;width:1920px;height:1080px}
+.mm{width:244px;height:190px;padding:20px 8px 0;text-align:center;color:#2B2A22;opacity:0;box-sizing:border-box;border-radius:3px}
+.mm .a{font-size:62px;line-height:1;font-family:"Hand";font-weight:700;white-space:nowrap}
+.mm .b{font-size:29px;letter-spacing:-.02em;line-height:1.2;margin-top:18px;font-family:"Hand";font-weight:700;white-space:nowrap}
+.mm i{position:absolute;left:50%;top:-8px;margin-left:-11px;width:22px;height:22px;border-radius:50%;box-shadow:0 3px 5px rgba(0,0,0,.35)}
+</style></head>
+<body><div id="stage">
+  <div id="wrap" class="abs">
+    <div id="ph" class="photo"></div>
+    <div id="m1" class="memo mm" style="left:1215px;top:60px"><i style="background:#D63A3A"></i><div class="a">막국수</div><div class="b">010-0000-0000</div></div>
+    <div id="m2" class="memo mm" style="left:1340px;top:290px"><i style="background:#2D6BD6"></i><div class="a">족발</div><div class="b">010-0000-0000</div></div>
+    <div id="m3" class="memo mm" style="left:1085px;top:560px"><i style="background:#E9C23A"></i><div class="a">떡볶이</div><div class="b">010-0000-0000</div></div>
+    <div id="m4" class="memo mm" style="left:1320px;top:545px"><i style="background:#D63A3A"></i><div class="a">김치찌개</div><div class="b">010-0000-0000</div></div>
+    <div id="m5" class="memo mm" style="left:1555px;top:470px"><i style="background:#2D6BD6"></i><div class="a">막국수</div><div class="b">010-0000-0000</div></div>
+    <svg id="fx" class="abs" viewBox="0 0 1920 1080">
+      <rect id="fr" class="ln bl w6" x="1070" y="30" width="740" height="780" rx="14"/>
+      <rect id="fg" class="ln bl w4" x="1070" y="30" width="740" height="780" rx="14" style="opacity:0;transform-box:fill-box;transform-origin:50% 50%"/>
+    </svg>
+  </div>
+</div>
+<script src="../data/s65.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#20262D', '#1F5FD1', '#F5D96B'];
+S.$('#ph').style.backgroundImage = S.ph('p65_memo_board');
+const T = { dan: S.at('단골이'), man: S.at('많은'), jip: S.at('집은'), ireo: S.at('이런'), gwan: S.at('관리를'), kkok: S.at('꼭'), jo: S.at('좋겠네요') };
+const MT = [T.dan, T.man, T.jip, T.ireo + 0.15, T.gwan];
+S.ev(MT[0], 'paper', 'm1'); S.ev(MT[2], 'card_in', 'm3'); S.ev(MT[4], 'paper', 'm5'); S.ev(T.kkok, 'marker', 'fr'); S.ev(T.jo, 'shine', 'fg');
+const ROT = [-5, 3, -3, 4, -4];
+S.scene(tau => {
+  S.css('#wrap', { transform: `scale(${(1 + 0.08 * S.P(tau, 0, S.SC.dur)).toFixed(4)})` });
+  MT.forEach((t, i) => {
+    const k = S.ent(tau, t, 0.12);
+    S.css('#m' + (i + 1), { opacity: k, transform: `rotate(${ROT[i]}deg) translateY(${(-18 * (1 - k)).toFixed(1)}px) scale(${(1.06 - 0.06 * k).toFixed(3)})` });
+  });
+  E.stroke('#fr', tau, T.kkok, 0.6);
+  { const k = S.EO(S.P(tau, T.jo, T.jo + 0.6)); S.css('#fg', { opacity: tau >= T.jo ? (1 - k) * 0.9 : 0, transform: `scale(${(1 + 0.08 * k).toFixed(4)})` }); }
+});
+</script>
+</body></html>

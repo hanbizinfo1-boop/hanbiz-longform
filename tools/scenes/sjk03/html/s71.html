@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s71 첫 장면으로 — 같은 포장대, 봉투가 배달 기사 손으로 넘어가며 끝(수미상관, 실물 층, Codex 사진 + 선)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#wrap{left:0;top:0;width:1920px;height:1080px;transform-origin:900px 500px}
+#fx{left:0;top:0;width:1920px;height:1080px}
+.rg{fill:none;stroke:#4F86F0;stroke-width:8;opacity:0}
+</style></head>
+<body><div id="stage">
+  <div id="wrap" class="abs">
+    <div id="ph" class="photo"></div>
+    <svg id="fx" class="abs" viewBox="0 0 1920 1080">
+      <rect id="bag" class="ln bl w6" x="676" y="292" width="404" height="390" rx="24"/>
+      <rect id="rg1" class="rg" x="676" y="292" width="404" height="390" rx="24" style="transform-box:fill-box;transform-origin:50% 50%"/>
+      <path id="ar" class="ln bl w6" d="M880 410 C 980 450, 1010 520, 960 590"/>
+      <path id="ah" class="ln bl w6" d="M930 556 L958 594 L992 560"/>
+      <path id="rd" class="ln bl w6" d="M1290 1080 L1290 340 Q1290 300 1330 300 L1920 300"/>
+      <rect id="rg2" class="rg" x="676" y="292" width="404" height="390" rx="24" style="transform-box:fill-box;transform-origin:50% 50%"/>
+      <circle id="rg3" class="rg" cx="920" cy="640" r="70"/>
+    </svg>
+  </div>
+</div>
+<script src="../data/s71.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#20262D', '#1F5FD1', '#F4F5F2'];
+S.$('#ph').style.backgroundImage = S.ph('p71_pack_handover');
+const T = { o: S.at('오늘'), gu: S.at('구독은'), dae: S.at('대신'), dp: S.at('대표님'), i: S.at('이', 3), bo: S.at('보내') };
+const TI = S.at('영상', 1), TB = S.at('보내');
+S.ev(T.o, 'marker', 'bag'); S.ev(T.gu, 'shine', 'rg1'); S.ev(T.dae, 'sweep', 'ar'); S.ev(T.dp, 'marker', 'rd'); S.ev(TI - 0.1, 'shine', 'rg2'); S.ev(TB, 'click', 'rg3');
+function ring(id, t, tau, r0, grow, dur) { const k = S.EO(S.P(tau, t, t + dur)), el = S.$(id); el.style.opacity = tau >= t ? (1 - k) * 0.9 : 0; if (r0) el.setAttribute('r', (r0 + grow * k).toFixed(1)); else el.style.transform = `scale(${(1 + grow * k).toFixed(4)})`; }
+S.scene(tau => {
+  // 천천히 당기기(1.08 → 1.00) — 첫 장면(포장대)으로 돌아오며 닫힘
+  S.css('#wrap', { transform: `scale(${(1.08 - 0.08 * S.EIO(S.P(tau, 0, S.SC.dur))).toFixed(4)})` });
+  E.stroke('#bag', tau, T.o, 0.55);
+  ring('#rg1', T.gu, tau, 0, 0.2, 0.8);
+  E.stroke('#ar', tau, T.dae, 0.5); E.stroke('#ah', tau, T.dae + 0.45, 0.15);
+  E.stroke('#rd', tau, T.dp, 0.6);
+  ring('#rg2', TI - 0.1, tau, 0, 0.22, 0.8);
+  ring('#rg3', TB, tau, 70, 160, 0.8);
+});
+</script>
+</body></html>

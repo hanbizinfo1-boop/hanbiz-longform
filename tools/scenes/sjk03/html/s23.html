@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s23 주문 단위를 키운다 — 주문 단위 계단(왼) · 1인분 셋 → 세트 상자(오른 위) · 최소 주문 금액 눈금 한 칸(오른 아래) (설명 층)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#fx{left:0;top:0;width:1920px;height:1080px}
+.sb{position:absolute;width:170px;background:#E9ECEF;border:3px solid var(--ln);border-radius:6px 6px 0 0;transform-origin:50% 100%}
+.mb{position:absolute;top:310px;width:190px;height:130px;display:flex;align-items:center;justify-content:center;font-size:48px;font-weight:800}
+#lbU{left:160px;top:210px;font-size:64px}
+#lbS{left:1050px;top:196px;font-size:64px;color:var(--bl)}
+#lbM{left:940px;top:690px;font-size:60px}
+</style></head>
+<body><div id="stage">
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <svg id="fx" class="abs" viewBox="0 0 1920 1080">
+      <path id="base" class="ln w4" d="M140 800 L800 800"/>
+      <path id="up" class="ln bl w6" d="M850 790 L850 400"/>
+      <path id="uh" class="ln bl w6" d="M820 440 L850 396 L880 440"/>
+      <path id="setbox" class="ln bl w6" d="M1010 280 L1660 280 L1660 470 L1010 470 Z"/>
+      <path id="rul" class="ln w4" d="M940 790 L1690 790"/>
+      <path id="tk" class="ln w4" d="M940 764 L940 816 M1090 764 L1090 816 M1240 764 L1240 816 M1390 764 L1390 816 M1540 764 L1540 816 M1690 764 L1690 816"/>
+      <rect id="fill" x="940" y="778" width="0" height="24" fill="#1F5FD1" rx="4"/>
+      <circle id="mk" cx="1240" cy="790" r="22" fill="#1F5FD1" opacity="0"/>
+    </svg>
+    <div id="sb1" class="sb" style="left:160px;top:620px;height:180px"></div>
+    <div id="sb2" class="sb" style="left:360px;top:500px;height:300px"></div>
+    <div id="sb3" class="sb" style="left:560px;top:370px;height:430px"></div>
+    <div id="lbU" class="abs t" data-box="lbU">주문 단위</div>
+    <div id="m1" class="card mb" style="left:900px" data-box="m1">1인분</div>
+    <div id="m2" class="card mb" style="left:1210px" data-box="m2">1인분</div>
+    <div id="m3" class="card mb" style="left:1520px" data-box="m3">1인분</div>
+    <div id="lbS" class="abs t" data-box="lbS">세트</div>
+    <div id="lbM" class="abs t" data-box="lbM">최소 주문 금액</div>
+  </div>
+</div>
+<script src="../data/s23.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];
+const T = { bo: S.at('보통'), ju: S.at('주문'), dan: S.at('단위를'), meon: S.at('먼저'), kiw: S.at('키웁니다'), one: S.at('1인분'), me: S.at('메뉴는'), set: S.at('세트로'), muk: S.at('묶고'),
+  min: S.at('최소'), jm: S.at('주문', 1), geu: S.at('금액을'), jo: S.at('조금'), ol: S.at('올려놓는'), geo: S.at('거죠') };
+const T0 = 0.02;
+S.ev(T0, 'marker', 'base'); S.ev(T.bo, 'gauge', 'sb1'); S.ev(T.dan, 'gauge', 'sb2'); S.ev(T.meon, 'gauge', 'sb3'); S.ev(T.kiw, 'marker', 'up');
+S.ev(T.one, 'card_in', 'm1'); S.ev(T.set, 'page', 'merge'); S.ev(T.muk, 'marker', 'setbox'); S.ev(T.min, 'marker', 'rul'); S.ev(T.geu, 'click', 'mk'); S.ev(T.jo, 'gauge', 'step'); S.ev(T.geo, 'ok', 'mk');
+const tick = i => 940 + 150 * i;
+S.scene(tau => {
+  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  E.stroke('#base', tau, T0, 0.4);
+  [['#sb1', T.bo], ['#sb2', T.dan], ['#sb3', T.meon]].forEach(([s, t]) => { const k = S.EO(S.P(tau, t, t + 0.3)); S.css(s, { opacity: tau >= t ? 1 : 0, transform: `scaleY(${k.toFixed(4)})` }); });
+  E.pop('#lbU', tau, T.ju, { dy: 0 });
+  E.stroke('#up', tau, T.kiw, 0.4); E.stroke('#uh', tau, T.kiw + 0.3, 0.15);
+  // 1인분 셋(흩어져 나옴) → 세트로 모임 → 상자
+  const xs0 = [900, 1210, 1520], xs1 = [1050, 1250, 1450], ts = [T.one, T.one + 0.2, T.me + 0.05];
+  const mv = S.cam(tau, T.set, T.set + 0.4);
+  [0, 1, 2].forEach(i => {
+    const k = S.ent(tau, ts[i], 0.12);
+    S.css('#m' + (i + 1), { opacity: k, left: S.lerp(xs0[i], xs1[i], mv) + 'px', transform: `translateY(${(14 * (1 - k)).toFixed(1)}px)` });
+  });
+  E.stroke('#setbox', tau, T.set + 0.3, 0.45);
+  E.pop('#lbS', tau, T.muk, { dy: 8 });
+  // 최소 주문 금액 — 눈금 바 한 칸 올라감
+  E.stroke('#rul', tau, T.min, 0.4); E.stroke('#tk', tau, T.min + 0.1, 0.4);
+  E.wipe('#lbM', tau, T.jm, 0.45);
+  const idx = 2 + S.cam(tau, T.jo, T.jo + 0.35);
+  const on = S.ent(tau, T.geu, 0.12);
+  S.$('#mk').setAttribute('cx', tick(idx)); S.$('#mk').style.opacity = on;
+  S.$('#fill').setAttribute('width', Math.max(0, (tick(idx) - 940) * on));
+});
+</script>
+</body></html>

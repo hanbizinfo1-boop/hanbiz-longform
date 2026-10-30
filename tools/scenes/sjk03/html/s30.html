@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s30 레시피·응대·쿠폰북·인테리어 — 2×2 사진 격자(단어마다 한 칸씩) · 실물 층</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#wrap{left:0;top:0;width:1920px;height:1080px}
+#bgp{left:0;top:0;width:1920px;height:1080px;background-size:cover;background-position:center;filter:blur(28px) brightness(.38) saturate(.9);transform:scale(1.08)}
+.cell{position:absolute;width:830px;height:420px;overflow:hidden;border-radius:10px;opacity:0;background:#1E1710}
+.cin{position:absolute;left:0;top:0;width:830px;height:553px;background-size:830px 553px;background-repeat:no-repeat}
+.cin svg{position:absolute;left:0;top:0;width:830px;height:553px}
+#fx{left:0;top:0;width:1920px;height:1080px}
+</style></head>
+<body><div id="stage">
+  <div id="wrap" class="abs">
+    <div id="bgp" class="abs"></div>
+    <div class="cell" id="c1" data-box="c1" style="left:120px;top:90px"><div class="cin" id="i1"><svg id="s1" viewBox="0 0 830 553"></svg></div></div>
+    <div class="cell" id="c2" data-box="c2" style="left:970px;top:90px"><div class="cin" id="i2"><svg id="s2" viewBox="0 0 830 553"></svg></div></div>
+    <div class="cell" id="c3" data-box="c3" style="left:120px;top:530px"><div class="cin" id="i3"><svg id="s3" viewBox="0 0 830 553"></svg></div></div>
+    <div class="cell" id="c4" data-box="c4" style="left:970px;top:530px"><div class="cin" id="i4"><svg id="s4" viewBox="0 0 830 553"></svg></div></div>
+    <svg id="fx" class="abs" viewBox="0 0 1920 1080"></svg>
+  </div>
+</div>
+<script src="../data/s30.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#F4EFE6', '#1F5FD1', '#1E1710'];   // 크림 틀 · 파랑(짚는 것) · 따뜻한 어둠 바탕
+const NS = 'http://www.w3.org/2000/svg';
+const MK = {};
+function mk(par, id, d, col = '#1F5FD1', w = 6) {
+  const mkp = (pid, c, ww) => { const p = document.createElementNS(NS, 'path'); p.setAttribute('id', pid); p.setAttribute('d', d); p.setAttribute('fill', 'none'); p.setAttribute('stroke', c); p.setAttribute('stroke-width', ww); p.setAttribute('stroke-linecap', 'round'); p.setAttribute('stroke-linejoin', 'round'); par.appendChild(p); return p; };
+  if (col === '#F4EFE6') { mkp(id, col, w); MK[id] = [id]; } else { mkp(id + 'w', '#fff', w + 5); mkp(id, col, w); MK[id] = [id + 'w', id]; }
+}
+function draw(id, tau, t0, d, op = 1) { MK[id].forEach(p => { E.stroke('#' + p, tau, t0, d); document.getElementById(p).style.opacity = tau >= t0 ? op : 0; }); }
+const fx = document.getElementById('fx');
+const CELLS = [[120, 90], [970, 90], [120, 530], [970, 530]];
+CELLS.forEach(([x, y], i) => mk(fx, 'fr' + i, `M${x} ${y} H${x + 830} V${y + 420} H${x} Z`, '#F4EFE6', 3));
+CELLS.forEach(([x, y], i) => mk(fx, 'bf' + i, `M${x - 6} ${y - 6} H${x + 836} V${y + 426} H${x - 6} Z`, '#1F5FD1', 6));
+mk(fx, 'all', 'M104 76 H1816 V958 H104 Z', '#1F5FD1', 6);
+mk(document.getElementById('s3'), 'stamp', 'M386 388 a36 36 0 1 0 -0.1 0', '#1F5FD1', 6);
+const T = { rec: S.at('레시피'), res: S.at('응대'), cou: S.at('쿠폰북'), dan: S.at('단골'), man: S.at('만들기'), int: S.at('인테리어나'), ire: S.at('이런'), don: S.at('돈을'), yeon: S.at('연구해야') };
+S.ev(0.05, 'in', 'frames'); S.ev(T.rec, 'card_in', 'c1'); S.ev(T.res, 'in', 'c2'); S.ev(T.cou, 'card_in', 'c3'); S.ev(T.man, 'marker', 'stamp'); S.ev(T.int, 'in', 'c4');
+S.ev(T.ire, 'marker', 'bf0'); S.ev(T.ire + 0.27, 'click', 'bf1'); S.ev(T.ire + 0.54, 'marker', 'bf2'); S.ev(T.ire + 0.81, 'click', 'bf3'); S.ev(T.don, 'sweep', 'all'); S.ev(T.yeon, 'shine', 'c1');
+const PHOTO = ['p30a_recipe_note', 'p30b_bowl_handing', 'p30c_stamp_card', 'p30d_warm_hall'];
+const BASEY = [-133, -74, -133, -66], T_IN = [T.rec, T.res, T.cou, T.int], DIR = [1, -1, 1, -1];
+S.css('#bgp', { backgroundImage: S.ph('p30d_warm_hall') });
+PHOTO.forEach((n, i) => S.css('#i' + (i + 1), { backgroundImage: S.ph(n) }));
+S.scene(tau => {
+  S.css('#wrap', { transform: `scale(${E.drift(tau, 1, 1.03).toFixed(4)})` });
+  CELLS.forEach((c, i) => draw('fr' + i, tau, 0.05 + 0.1 * i, 0.5));
+  CELLS.forEach((c, i) => {
+    const k = S.ent(tau, T_IN[i], 0.12);
+    const dim = i === 0 ? 0 : 0.55 * S.EO(S.P(tau, T.yeon, T.yeon + 0.3));
+    S.css('#c' + (i + 1), { opacity: k, transform: `scale(${(0.96 + 0.04 * k).toFixed(4)})`, filter: `brightness(${(1 - dim).toFixed(3)})` });
+    // 칸마다 살짝 밀기: 칸 안 사진이 자기 방향으로 천천히 옆 흐름 + 아주 조금 확대
+    const p = S.P(tau, T_IN[i], S.SC.dur);
+    const sc = 1.06 + (i === 0 ? 0.04 * S.EO(S.P(tau, T.yeon, T.yeon + 1.2)) : 0);
+    S.css('#i' + (i + 1), { transform: `translate(${(DIR[i] * (-14 + 28 * p)).toFixed(2)}px,${BASEY[i]}px) scale(${sc.toFixed(4)})` });
+    draw('bf' + i, tau, T.ire + 0.27 * i, 0.4, tau < T.don ? 1 : 0);
+  });
+  draw('stamp', tau, T.man, 0.4);
+  draw('all', tau, T.don, 0.6);
+});
+</script>
+</body></html>

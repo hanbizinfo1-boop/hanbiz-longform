@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s13 작은 조각 하나 → 주문마다 쌓여 탑 — 주문서 줄줄이(아래) + 빨강 조각 탑(오른쪽) (설명 층)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#fx{left:0;top:0;width:1920px;height:1080px}
+.slip{position:absolute;width:96px;height:126px;top:694px}
+.pc{position:absolute;left:300px;width:440px;height:72px;background:#F7DEDE;border:3px solid var(--rd);border-radius:8px}
+#lab1{left:300px;top:672px;font-size:52px}
+#lab2{left:520px;top:672px;font-size:52px}
+</style></head>
+<body><div id="stage">
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <svg id="fx" class="abs" viewBox="0 0 1920 1080">
+      <path id="base" class="ln mu" d="M250 826 L1790 826"/>
+      <path id="arr" class="ln mu" d="M864 784 L776 784"/>
+      <path id="arh" class="ln mu" d="M800 764 L774 784 L800 804"/>
+      <path id="tw" class="ln mu" stroke-dasharray="12 12" d="M282 826 L282 186 L758 186 L758 826"/>
+      <path id="tring" class="ln rd w6" d="M282 826 L282 186 L758 186 L758 826"/>
+    </svg>
+    <div id="lab1" class="abs t" data-box="lab1" data-box-group="lab">몇 %</div>
+    <div id="lab2" class="abs t" data-box="lab2" data-box-group="lab">몇 천 원</div>
+  </div>
+</div>
+<script src="../data/s13.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1', '#D63A3A'];   // 빨강 = 빠져나가는 돈 조각
+const SLIP = '<svg viewBox="0 0 100 130"><path class="ln w4" d="M6 6 L94 6 L94 124 L78 112 L62 124 L47 112 L31 124 L16 112 L6 124 Z"/><path class="ln" d="M24 34 L76 34 M24 58 L76 58 M24 82 L58 82"/></svg>';
+const cam = document.getElementById('cam');
+const N = 8, slips = [], pcs = [];
+for (let i = 0; i < N; i++) {
+  const s = document.createElement('div'); s.className = 'slip'; s.style.left = (880 + i * 112) + 'px'; s.innerHTML = SLIP; cam.appendChild(s); slips.push(s);
+  const p = document.createElement('div'); p.className = 'pc'; p.style.top = (820 - 72 - 78 * i) + 'px'; cam.appendChild(p); pcs.push(p);
+}
+const T = { pct: S.at('퍼센트'), cheon: S.at('천'), an: S.at('안'), gu: S.at('그런데'), ju: S.at('주문마다'), gye: S.at('계속'), jeok: S.at('적용되면'), yae: S.at('얘기가'), dal: S.at('달라집니다') };
+const T0 = 0.02;
+const TS = [T0, T.ju, T.ju + 0.19, T.ju + 0.37, T.gye, T.gye + 0.17, T.jeok, T.jeok + 0.22];   // 주문서(와 조각)가 줄줄이
+S.ev(T0, 'page', 'slip0'); S.ev(T.pct, 'in', 'lab1'); S.ev(T.cheon, 'in', 'lab2'); S.ev(T.gu, 'marker', 'tw'); S.ev(T.ju, 'page', 'slips'); S.ev(T.gye + 0.15, 'coin', 'pieces'); S.ev(T.yae, 'gauge', 'tower'); S.ev(T.dal, 'shine', 'tring');
+S.scene(tau => {
+  const c = S.camState(tau, [{ t: -9, s: 1.7, x: 640, y: 750 }, { t: T.gu, s: 1, x: 960, y: 540, d: 0.55 }]);
+  const slow = 1 + 0.05 * S.P(tau, 0, T.gu);
+  S.css('#cam', { transform: S.camCss({ s: c.s * slow, x: c.x, y: c.y }) });
+  E.stroke('#base', tau, T0, 0.4);
+  for (let i = 0; i < N; i++) {
+    const k = S.ent(tau, TS[i], 0.12);
+    slips[i].style.opacity = k; slips[i].style.transform = `translateX(${(-24 * (1 - k)).toFixed(1)}px)`;
+    // 조각 = 주문서마다 하나씩 위로 쌓임(첫 조각은 처음부터)
+    const kp = S.ent(tau, i === 0 ? T0 + 0.1 : TS[i] + 0.12, 0.12);
+    pcs[i].style.opacity = kp; pcs[i].style.transform = `translateY(${(-40 * (1 - kp)).toFixed(1)}px)`;
+    // 얘기가 달라집니다 — 조각이 진한 빨강으로 차오름(아래에서 위로)
+    const kf = S.ent(tau, T.yae + i * 0.04, 0.14);
+    pcs[i].style.background = `rgb(${Math.round(247 - 33 * kf)},${Math.round(222 - 164 * kf)},${Math.round(222 - 164 * kf)})`;
+  }
+  // 처음: 주문서 하나 → 조각 하나(연결 화살표)
+  E.stroke('#arr', tau, 0.3, 0.45); E.stroke('#arh', tau, 0.7, 0.1);
+  const ao = 1 - S.P(tau, T.ju - 0.05, T.ju + 0.1);
+  S.css('#arr', { opacity: ao * (tau >= 0.3 ? 1 : 0) }); S.css('#arh', { opacity: ao * (tau >= 0.7 ? 1 : 0) });
+  // 몇 % · 몇 천 원 — 작다(회색으로 빠짐) → 사라짐
+  const lo = 1 - S.P(tau, 3.9, 4.1), gr = S.ent(tau, T.an, 0.15);
+  E.pop('#lab1', tau, T.pct, { dy: 8 }); E.pop('#lab2', tau, T.cheon, { dy: 8 });
+  ['#lab1', '#lab2'].forEach(s => { const el = S.$(s); el.style.opacity = parseFloat(el.style.opacity) * lo; el.style.color = gr > 0 ? '#7A828A' : '#20262D'; });
+  // 그런데 — 쌓일 자리(점선 탑)
+  S.css('#tw', { opacity: S.ent(tau, T.gu, 0.2) * (1 - S.P(tau, T.ju + 1.3, T.ju + 1.6)) });
+  const tr = S.ent(tau, T.dal, 0.2);
+  E.stroke('#tring', tau, T.dal, 0.35);
+});
+</script>
+</body></html>

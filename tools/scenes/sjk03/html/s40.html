@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s40 별점·리뷰 → 뒤로 가기 — 밤 버스 안 손님 휴대폰(가게 화면 스크롤 → 낮은 별점 리뷰 카드 셋 → 뒤로 가기 눌림) · 실물 층</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#wrap{left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#q{left:0;top:0;width:300px;height:700px}
+#q .app{left:0;top:0;width:300px;height:700px;border-radius:22px;border:0;background:#16191D}
+#hdr{position:absolute;left:0;top:0;width:300px;height:72px;background:#1B1F25;border-bottom:1px solid #2A3038;z-index:5;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:800}
+#bak{position:absolute;left:12px;top:18px;width:36px;height:36px}
+#vpp{position:absolute;left:0;top:72px;width:300px;height:628px;overflow:hidden}
+#bk2{position:absolute;left:0;top:0;width:300px;height:628px}
+#bk2 i{position:absolute;left:20px;width:260px;height:70px;border-radius:12px;background:#1D2128;border:1px solid #2A3038}
+#pg{position:absolute;left:0;top:-72px;width:300px;height:1300px;background:#16191D}
+#bn{position:absolute;left:0;top:72px;width:300px;height:150px;background:linear-gradient(135deg,#2B323B,#1E242B)}
+#tg{position:absolute;left:18px;top:86px;padding:6px 16px;background:#1F5FD1;color:#fff;font-size:28px;font-weight:800;border-radius:8px;opacity:0}
+#nm{position:absolute;left:20px;top:240px;font-size:38px;font-weight:900;opacity:0}
+#strw{position:absolute;left:20px;top:300px;width:260px;height:44px}
+#strw .l{position:absolute;left:0;top:4px;font-size:28px;font-weight:800;color:#ECEEF0}
+#strw svg{position:absolute;top:2px;width:34px;height:34px}
+#rv{position:absolute;left:20px;top:380px;font-size:34px;font-weight:900;opacity:0}
+.cd{position:absolute;left:16px;width:268px;height:112px;background:#1D2128;border:1px solid #2A3038;border-radius:12px;opacity:0}
+.cd .tx{position:absolute;left:16px;top:56px;font-size:30px;font-weight:700;color:#ECEEF0;white-space:nowrap}
+.cd .sr{position:absolute;left:14px;top:10px;height:36px}
+.sk{position:absolute;left:16px;width:268px;height:112px;background:#1D2128;border:1px solid #2A3038;border-radius:12px;opacity:0}
+.sk i{position:absolute;left:16px;height:12px;border-radius:6px;background:#2E353E}
+.pring{position:absolute;width:90px;height:90px;margin:-45px 0 0 -45px;border-radius:50%;border:6px solid #7FA8F5;background:rgba(127,168,245,.28);opacity:0;z-index:9}
+</style></head>
+<body><div id="stage">
+  <div id="wrap" class="abs">
+    <div id="ph" class="photo"></div>
+    <div id="q" class="abs">
+      <div class="app">
+        <div id="hdr"><svg id="bak" viewBox="0 0 36 36"><path d="M23 6 L11 18 L23 30" fill="none" stroke="#ECEEF0" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>○○</span></div>
+        <div id="vpp">
+          <div id="bk2"><i style="top:30px"></i><i style="top:116px"></i><i style="top:202px"></i><i style="top:288px"></i></div>
+          <div id="pg">
+            <div id="bn"></div><div id="tg">광고</div>
+            <div id="nm">○○</div>
+            <div id="strw"><span class="l">별점</span></div>
+            <div id="rv">리뷰</div>
+            <div class="cd" id="cd1" style="top:430px"><span class="sr"></span><span class="tx">맛이 없다</span></div>
+            <div class="cd" id="cd2" style="top:552px"><span class="sr"></span><span class="tx">양이 적다</span></div>
+            <div class="cd" id="cd3" style="top:674px"><span class="sr"></span><span class="tx">포장이 엉망이다</span></div>
+            <div class="sk" id="sk1" style="top:796px"><i style="top:56px;width:150px"></i><i style="top:80px;width:200px"></i></div>
+            <div class="sk" id="sk2" style="top:918px"><i style="top:56px;width:180px"></i><i style="top:80px;width:130px"></i></div>
+            <div class="sk" id="sk3" style="top:1040px"><i style="top:56px;width:120px"></i><i style="top:80px;width:210px"></i></div>
+          </div>
+        </div>
+        <div id="r1" class="pring" style="left:30px;top:36px"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../data/s40.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#16191D', '#ECEEF0', '#1F5FD1'];   // 어두운 앱 · 글·별 · 파랑(광고 표시·눌림 고리)
+const R = {};
+R.ring = (sel, tau, t0, d = 0.5) => { const el = S.$(sel), k = S.P(tau, t0, t0 + d); el.style.opacity = (tau < t0 || k >= 1) ? 0 : (1 - k * k).toFixed(3); el.style.transform = `scale(${(0.55 + S.EO(k)).toFixed(3)})`; };
+const STAR = (on, sz) => `<svg viewBox="0 0 24 24" width="${sz}" height="${sz}" style="margin-right:2px"><polygon points="12,1.8 15.2,8.4 22.4,9.3 17.1,14.3 18.5,21.5 12,18 5.5,21.5 6.9,14.3 1.6,9.3 8.8,8.4" fill="${on ? '#ECEEF0' : 'none'}" stroke="${on ? '#ECEEF0' : '#59626C'}" stroke-width="1.6" stroke-linejoin="round"/></svg>`;
+// 카드 별점: 낮게(1~2개)
+['cd1', 'cd2', 'cd3'].forEach((id, i) => { document.querySelector('#' + id + ' .sr').innerHTML = [1, 2, 1].map(n => n)[i] && [0, 1, 2, 3, 4].map(k => STAR(k < [1, 2, 1][i], 34)).join(''); });
+// 가게 별점 줄: 5개 중 2개 채움(0.12초씩 차례로)
+(function () { const w = document.getElementById('strw'); for (let k = 0; k < 5; k++) { const d = document.createElement('span'); d.id = 'sg' + k; d.style.cssText = 'position:absolute;top:2px;left:' + (86 + 34 * k) + 'px;opacity:0'; d.innerHTML = STAR(k < 2, 30); w.appendChild(d); } })();
+const T = { gw: S.at('광고', 0), deul: S.at('들어와서'), jeil: S.at('제일'), byeol: S.at('별점이랑'), rev: S.at('리뷰입니다'), m1: S.at('맛이'), m2: S.at('양이'), m3: S.at('포장이'), isw: S.at('쌓여'), son: S.at('손님은'), dwi: S.at('뒤로') };
+S.ev(0.25, 'in', 'page'); S.ev(T.gw, 'card_in', 'tag'); S.ev(2.0, 'sweep', 'scroll'); S.ev(T.byeol, 'gauge', 'stars'); S.ev(T.rev, 'in', 'rv'); S.ev(T.m1, 'msg_in', 'cd1'); S.ev(T.m3, 'msg_in', 'cd3'); S.ev(8.21, 'card_in', 'sk'); S.ev(T.son, 'sweep', 'scroll2'); S.ev(T.dwi, 'click', 'back');
+S.css('#ph', { backgroundImage: S.ph('d40_bus_phone_clean') });
+S.fitQuad(S.$('#q'), 300, 700, [[915.1, 284.4], [1113.9, 335.5], [1001.5, 773.5], [802.6, 722.4]]);
+S.scene(tau => {
+  const s = 1.9 + 0.06 * S.P(tau, 0, S.SC.dur);
+  S.css('#wrap', { transform: `translate(960px,540px) scale(${s.toFixed(4)}) translate(-958px,-530px)` });
+  const pk = S.ent(tau, 0.25, 0.12);
+  S.css('#pg', { opacity: pk });
+  // 아래로 스크롤(위로 밀어 올림)
+  const sc = 120 * S.cam(tau, 2.0, 2.5) + 100 * S.cam(tau, 3.9, 4.4) + 140 * S.cam(tau, 8.0, 8.5) + 120 * S.cam(tau, T.son, T.son + 0.5);
+  const back = S.cam(tau, T.dwi + 0.15, T.dwi + 0.5);       // 뒤로 가기 → 페이지가 오른쪽으로 빠짐
+  S.css('#pg', { transform: `translate(${(300 * back).toFixed(1)}px,${(-sc).toFixed(1)}px)` });
+  S.css('#bk2', { opacity: S.ent(tau, T.dwi + 0.15, 0.3) });
+  S.css('#tg', { opacity: S.ent(tau, T.gw, 0.12) });
+  S.css('#nm', { opacity: S.ent(tau, T.deul, 0.12) });
+  for (let k = 0; k < 5; k++) S.css('#sg' + k, { opacity: S.ent(tau, T.byeol + 0.12 * k, 0.12) });
+  S.css('#strw .l', { opacity: S.ent(tau, T.byeol, 0.12) });
+  S.css('#rv', { opacity: S.ent(tau, T.rev, 0.12) });
+  [['cd1', T.m1], ['cd2', T.m2], ['cd3', T.m3]].forEach(([id, t0]) => { const k = S.ent(tau, t0, 0.12); S.css('#' + id, { opacity: k, transform: `translateY(${(14 * (1 - k)).toFixed(1)}px)` }); });
+  [['sk1', 8.21], ['sk2', 8.55], ['sk3', 8.8]].forEach(([id, t0]) => { const k = S.ent(tau, t0, 0.12); S.css('#' + id, { opacity: k, transform: `translateY(${(14 * (1 - k)).toFixed(1)}px)` }); });
+  R.ring('#r1', tau, T.dwi, 0.5);
+});
+</script>
+</body></html>

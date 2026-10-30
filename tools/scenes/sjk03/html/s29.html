@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s29 가게 정면 선화 — 비어 있던 간판 옆에 파랑 별이 붙음 (설명 층)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#art{left:0;top:0;width:1920px;height:1080px}
+#qa{left:830px;top:92px;font-size:150px;line-height:1}
+#qb{left:1010px;top:92px;font-size:150px;line-height:1}
+#tag{left:1356px;top:282px;font-size:60px}
+</style></head>
+<body><div id="stage">
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <svg id="art" class="abs" viewBox="0 0 1920 1080">
+      <!-- 옆 가게(회색, 다른 가게에는 없는) -->
+      <g id="nL" style="opacity:0"></g><g id="nR" style="opacity:0"></g>
+      <!-- 우리 가게(원본 모양 — s36 이 이 SVG 조각을 복사해 씀) -->
+      <g id="store" transform="translate(510 250)"></g>
+      <g id="sparkG"></g>
+    </svg>
+    <div id="qa" class="abs big" data-box="qa">?</div>
+    <div id="qb" class="abs big" data-box="qb">?</div>
+    <div id="tag" class="abs t bl" data-box="tag">특징</div>
+  </div>
+</div>
+<script src="../data/s29.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];   // 모눈 · 선 · 파랑(별 = 우리 가게의 특징)
+const NS = 'http://www.w3.org/2000/svg';
+// ── 가게 선화(900×620, 원점 = 왼위) — 복사용 조각
+const STORE = [
+  ['wall', 'M60 210 V600 H840 V210', 'ln w4'], ['lint', 'M40 210 H860', 'ln w4'], ['awn', 'M70 210 L96 130 H804 L830 210', 'ln w4'],
+  ['sign', 'M270 20 H630 V110 H270 Z', 'ln w4'], ['door', 'M360 600 V380 H540 V600', 'ln w4'],
+  ['wl', 'M110 300 H300 V470 H110 Z', 'ln w4'], ['wr', 'M600 300 H790 V470 H600 Z', 'ln w4'],
+  ['ml', 'M205 300 V470 M110 385 H300', 'ln'], ['mr', 'M695 300 V470 M600 385 H790', 'ln'],
+  ['aw1', 'M180 130 L172 210 M270 130 L266 210 M360 130 L360 210 M450 130 V210 M540 130 L544 210 M630 130 L638 210 M720 130 L730 210', 'ln'], ['knob', 'M516 500 h1', 'ln w6']
+];
+function mk(parent, tag, attrs) { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; }
+const g = document.getElementById('store');
+STORE.forEach(([id, d, cls]) => mk(g, 'path', { id: 'st_' + id, d, class: cls }));
+function star(cx, cy, R, r) { let d = ''; for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r : R; d += (i ? 'L' : 'M') + (cx + rr * Math.cos(a)).toFixed(1) + ' ' + (cy + rr * Math.sin(a)).toFixed(1); } return d + 'Z'; }
+const starEl = mk(g, 'path', { id: 'st_star', d: star(750, 62, 52, 22), class: 'ln bl w4', style: 'fill:#1F5FD1;transform-box:fill-box;transform-origin:center;opacity:0' });
+// 옆 가게 두 채: 같은 선화를 작게 · 옅게
+[['nL', 120, 330], ['nR', 1470, 330]].forEach(([id, x, y]) => {
+  const gg = document.getElementById(id); gg.setAttribute('transform', `translate(${x} ${y}) scale(0.36)`);
+  STORE.slice(0, 10).forEach(([i2, d, cls]) => mk(gg, 'path', { d, class: cls }));
+});
+const T0 = 0.02;
+const T = { aw: S.at('시간에'), win: S.at('장사가'), door: S.at('잘될'), sgn: S.at('요건을'), nb: S.at('가게에는'), star: S.at('특별한'), tag: S.at('특징을'), ring: S.at('한다는'), q1: S.at('특징', 1), q2: S.at('특징', 2), p: S.at('특징이라고', 1), big: S.at('거창한') };
+S.ev(T0, 'in', 'store'); S.ev(T.sgn, 'marker', 'sign'); S.ev(T.nb, 'card_in', 'nb'); S.ev(T.star, 'shine', 'star'); S.ev(T.ring, 'click', 'ring'); S.ev(T.q1, 'msg_in', 'q1'); S.ev(T.p, 'ok', 'ring2');
+// 별 둘레 링(파랑 원)
+const ringEl = mk(document.getElementById('sparkG'), 'circle', { id: 'sp1', cx: 1260, cy: 312, r: 74, class: 'ln bl w4' });
+const ringEl2 = mk(document.getElementById('sparkG'), 'circle', { id: 'sp2', cx: 1260, cy: 312, r: 74, class: 'ln bl w4' });
+S.scene(tau => {
+  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  // 가게 그리기(처음 0.1초 안에 첫 선): 벽 → 처마 → 창 → 문
+  E.stroke('#st_wall', tau, T0, 0.5); E.stroke('#st_lint', tau, T0 + 0.1, 0.35);
+  E.stroke('#st_awn', tau, T.aw, 0.4); E.stroke('#st_aw1', tau, T.aw + 0.25, 0.4);
+  E.stroke('#st_wl', tau, T.win, 0.35); E.stroke('#st_ml', tau, T.win + 0.2, 0.25); E.stroke('#st_wr', tau, T.win + 0.1, 0.35); E.stroke('#st_mr', tau, T.win + 0.3, 0.25);
+  E.stroke('#st_door', tau, T.door, 0.4); E.stroke('#st_knob', tau, T.door + 0.35, 0.1);
+  // 요건 자리: 간판 윤곽(비어 있음)
+  E.stroke('#st_sign', tau, T.sgn, 0.45);
+  // 다른 가게(회색)
+  const nk = S.ent(tau, T.nb, 0.14);
+  document.getElementById('nL').style.opacity = (0.42 * nk).toFixed(3); document.getElementById('nR').style.opacity = (0.42 * S.ent(tau, T.nb + 0.25, 0.14)).toFixed(3);
+  // 별(파랑) — 감속 확대로 붙음
+  const sk = S.ent(tau, T.star, 0.12);
+  starEl.style.opacity = sk; starEl.style.transform = `scale(${(0.4 + 0.6 * sk).toFixed(3)})`;
+  E.pop('#tag', tau, T.tag);
+  // 한다는 소리: 별 둘레 링 한 번
+  E.stroke('#sp1', tau, T.ring, 0.45);
+  const o1 = S.P(tau, T.q1 - 0.1, T.q1);   // 물음표가 나오면 링은 걷힘
+  ringEl.style.opacity = tau >= T.ring ? (1 - S.P(tau, T.q1 - 0.05, T.q1 + 0.2)) : 0;
+  // 특징? 무슨 특징?
+  E.pop('#qa', tau, T.q1); E.pop('#qb', tau, T.q2);
+  const gone = S.P(tau, T.p, T.p + 0.25);
+  S.css('#qa', { opacity: (S.ent(tau, T.q1, 0.12) * (1 - gone)).toFixed(3) }); S.css('#qb', { opacity: (S.ent(tau, T.q2, 0.12) * (1 - gone)).toFixed(3) });
+  // 특징이라고 해서 거창한 게 아니에요: 별 둘레에 링이 다시 한 번(작은 것도 별)
+  E.stroke('#sp2', tau, T.big, 0.45);
+});
+</script>
+</body></html>

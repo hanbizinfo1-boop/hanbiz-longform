@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s69 오늘 장사 끝나시면 정산서를 — 마감 뒤 반쯤 꺼진 계산대, 사진 속 흰 종이 위에 장면 3 정산서(실물 층, Codex 사진 + 종이 글)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#wrap{left:0;top:0;width:1920px;height:1080px;transform-origin:1250px 800px}
+#fx{left:0;top:0;width:1920px;height:1080px}
+/* 정산서 종이 — s03.html 의 #sheet 항목 그대로(항목 이름 다섯 줄 + 금액 칸 막대). 사진 속 흰 종이의 결·펜이 비치도록 배경 없이 곱하기(multiply)로 얹는다 */
+#sh{left:0;top:0;width:640px;height:610px;mix-blend-mode:multiply}
+#sheet{left:0;top:0;width:640px;height:610px;color:#26211A}
+#sheet .ttl{position:absolute;left:44px;top:30px;font-size:46px;font-weight:900;letter-spacing:.02em}
+#sheet .rule{position:absolute;left:36px;right:36px;height:2px;background:#8C8472}
+#sheet .nm{position:absolute;left:44px;font-size:36px;font-weight:700;white-space:nowrap}
+#sheet .bar{position:absolute;left:366px;height:30px;background:#D63A3A;transform-origin:0 50%}
+#sheet .cell{position:absolute;left:350px;width:250px;height:48px;border-left:2px solid #8C8472}
+</style></head>
+<body><div id="stage">
+  <div id="wrap" class="abs">
+    <div id="ph" class="photo"></div>
+    <div id="sh" class="abs">
+      <div id="sheet" class="abs">
+        <div class="ttl" id="ttl">정산서</div>
+        <div class="rule" style="top:98px"></div>
+        <div class="nm" id="n0" style="top:126px">중개 수수료</div><div class="cell" style="top:122px"></div><div class="bar" id="b0" style="top:131px;width:90px"></div>
+        <div class="rule" style="top:182px"></div>
+        <div class="nm" id="n1" style="top:210px">결제 수수료</div><div class="cell" style="top:206px"></div><div class="bar" id="b1" style="top:215px;width:56px"></div>
+        <div class="rule" style="top:266px"></div>
+        <div class="nm" id="n2" style="top:294px">배달비</div><div class="cell" style="top:290px"></div><div class="bar" id="b2" style="top:299px;width:200px"></div>
+        <div class="rule" style="top:350px"></div>
+        <div class="nm" id="n3" style="top:378px">할인 쿠폰</div><div class="cell" style="top:374px"></div><div class="bar" id="b3" style="top:383px;width:120px"></div>
+        <div class="rule" style="top:434px"></div>
+        <div class="nm" id="n4" style="top:462px">광고비</div><div class="cell" style="top:458px"></div><div class="bar" id="b4" style="top:467px;width:170px"></div>
+        <div class="rule" style="top:518px"></div>
+      </div>
+    </div>
+    <svg id="fx" class="abs" viewBox="0 0 1920 1080">
+      <path id="pp" class="ln bl w6" d="M1163 678 L1513 896 L1169 1032 L866 765 Z"/>
+      <path id="cc" class="ln bl w6" d="M1225 668 L1385 622 L1590 738 L1584 782 L1420 818 Z"/>
+      <path id="cg" class="ln bl w4" d="M1225 668 L1385 622 L1590 738 L1584 782 L1420 818 Z" style="opacity:0;transform-box:fill-box;transform-origin:50% 50%"/>
+    </svg>
+  </div>
+</div>
+<script src="../data/s69.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#26211A', '#1F5FD1', '#D63A3A'];
+S.$('#ph').style.backgroundImage = S.ph('p69_closing_counter');
+// 사진 속 흰 종이 네 모서리(사진 (930,622) (1210,797) (935,905) (693,692) → 판 ×1.25, y −100): 글이 읽히는 방향 = 위 모서리(오른쪽 위→오른쪽 아래) 따라
+S.fitQuad(S.$('#sh'), 640, 610, [[1163, 678], [1513, 896], [1169, 1032], [866, 765]]);
+const T = { jeong: S.at('정산서를'), yeo: S.at('열어'), bo: S.at('보세요'), je: S.at('제일'), pal: S.at('팔리는'), jin: S.at('진짜'), sun: S.at('순수익') };
+S.ev(0.3, 'marker', 'pp'); S.ev(T.jeong, 'paper', 'sheet'); S.ev(T.yeo, 'marker', 'n0'); S.ev(T.pal - 0.2, 'gauge', 'bars'); S.ev(T.jin, 'click', 'cc'); S.ev(T.sun, 'shine', 'cg');
+S.scene(tau => {
+  S.css('#wrap', { transform: `scale(${(1 + 0.2 * S.P(tau, 0, S.SC.dur)).toFixed(4)})` });
+  E.stroke('#pp', tau, 0.3, 0.6);
+  S.css('#sheet', { opacity: S.ent(tau, T.jeong, 0.12) });
+  E.wipe('#ttl', tau, T.jeong, 0.3);
+  for (let i = 0; i < 5; i++) {
+    E.wipe('#n' + i, tau, T.jeong + 0.5 + i * 0.32, 0.28);
+    const t = T.pal - 0.2 + i * 0.14, b = S.EO(S.P(tau, t, t + 0.4));
+    S.css('#b' + i, { transform: `scaleX(${b.toFixed(3)})`, opacity: tau >= t ? 1 : 0 });
+  }
+  // 종이 테두리는 정산서가 올라온 뒤 옅어짐
+  S.$('#pp').style.opacity = tau >= 0.3 ? 1 - 0.6 * S.P(tau, T.jeong + 0.3, T.jeong + 0.6) : 0;
+  E.stroke('#cc', tau, T.jin, 0.5);
+  { const k = S.EO(S.P(tau, T.sun, T.sun + 0.7)); S.css('#cg', { opacity: tau >= T.sun ? (1 - k) * 0.9 : 0, transform: `scale(${(1 + 0.16 * k).toFixed(4)})` }); }
+});
+</script>
+</body></html>

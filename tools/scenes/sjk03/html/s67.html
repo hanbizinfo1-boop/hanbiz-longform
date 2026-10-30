@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s67 정리 — 진행표 세 칸 다 켜진 같은 카드 + 칸마다 앞 그림(s04 계단 · s52 문 안으로 · 쪽지 봉투) · 계산하면서 파랑 선 · 설명 층</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+.fg{position:absolute;overflow:visible;z-index:5}
+#fin,#link{z-index:5}
+.fg text{font-family:"Pre"}
+#fin{top:664px;font-size:56px;text-align:center;width:561px}
+#link{left:340px;top:782px;width:1240px;height:70px}
+.prog .pfill{height:120px !important}
+.prog .picon{display:none}
+.prog .pword{top:20px !important;font-size:72px !important}
+</style></head>
+<body><div id="stage">
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <!-- 가격: s04 <svg id="stair"> 끝 모습(마지막 막대 파랑) — 작은 글은 칸이 좁아 빼고 «천 원 남짓» 만 아래 글로 -->
+    <svg id="stair" class="fg" viewBox="200 250 1400 650" style="left:110px;top:384px;width:520px;height:241px" data-box="stair">
+      <path id="base" class="ln w4" d="M150 880 L1700 880"/>
+      <path id="st1" class="ln mu" stroke-dasharray="10 10" d="M490 280 L590 280"/>
+      <path id="st2" class="ln mu" stroke-dasharray="10 10" d="M850 605 L950 605"/>
+      <path id="st3" class="ln mu" stroke-dasharray="10 10" d="M1210 735 L1310 735"/>
+      <g id="c1"><rect x="230" y="605" width="260" height="275" fill="#DCE6F8"/><rect x="230" y="280" width="260" height="325" fill="#F7DEDE"/><path class="ln w4" d="M230 880 L230 280 L490 280 L490 880"/><path class="ln" d="M230 605 L490 605"/></g>
+      <g id="c2"><rect x="590" y="605" width="260" height="275" fill="#DCE6F8"/><path class="ln w4" d="M590 880 L590 605 L850 605 L850 880"/></g>
+      <path id="g2" class="ln rd w4" stroke-dasharray="14 10" d="M590 605 L590 280 L850 280 L850 605"/>
+      <g id="c3"><rect x="950" y="735" width="260" height="145" fill="#DCE6F8"/><path class="ln w4" d="M950 880 L950 735 L1210 735 L1210 880"/></g>
+      <g id="r3"><rect x="950" y="605" width="260" height="130" fill="#F7DEDE"/><path class="ln rd w4" d="M950 735 L950 605 L1210 605 L1210 735 Z"/></g>
+      <g id="c4"><rect x="1310" y="830" width="260" height="50" fill="#1F5FD1"/><path class="ln w4" d="M1310 880 L1310 830 L1570 830 L1570 880"/></g>
+      <g id="r4"><rect x="1310" y="735" width="260" height="95" fill="#F7DEDE"/><path class="ln rd w4" d="M1310 830 L1310 735 L1570 735 L1570 830 Z"/></g>
+      <path id="fin_ring" class="ln bl w6" d="M1296 880 L1296 816 L1584 816 L1584 880"/>
+    </svg>
+    <div id="fin" class="abs big" style="left:90px" data-box="fin">천 원 남짓</div>
+    <!-- 광고: s52 <svg id="route"> 끝 모습(초록 체크 · 문 안으로 들어간 화살표 ar2 · 지난 U턴 흔적) — 가게 쪽만 잘라 보임 -->
+    <svg id="route" class="fg" viewBox="1150 200 700 620" style="left:750px;top:310px;width:418px;height:370px" data-box="route">
+      <path id="bw" class="ln w4" d="M1560 780 V220 H1800 V780"/>
+      <path id="bd" class="ln w4" d="M1620 780 V560 H1740 V780"/>
+      <path id="bsg" class="ln w4" d="M1590 330 H1770 V420 H1590 Z"/>
+      <path id="bwin" class="ln" d="M1590 470 H1770"/>
+      <path id="gr" class="ln w4" d="M1150 780 H1830"/>
+      <path id="bd1" class="ln w4" d="M1260 440 H1530 V640 H1260 Z"/>
+      <path id="bl1" class="ln w4" d="M1330 640 V780 M1460 640 V780"/>
+      <path id="s0" class="ln w4" d="M0 0"/><path id="s1" class="ln w4" d="M0 0"/><path id="s2" class="ln w4" d="M0 0"/><path id="s3" class="ln w4" d="M0 0"/><path id="s4" class="ln w4" d="M0 0"/>
+      <path id="chk" class="ln gn w6" d="M1335 575 L1385 620 L1465 540"/>
+      <path id="ar" class="ln bl w6" d="M1150 700 H1190"/><path id="ar2" class="ln bl w6" d="M1190 700 H1650"/>
+      <path id="ah" class="ln bl w6" d="M1612 666 L1656 700 L1612 734"/>
+      <path id="ut" class="ln rd w6" stroke-dasharray="16 12" d="M1190 700 C 1250 700, 1250 580, 1190 580 L1150 580"/>
+      <rect id="ring" class="ln bl w4" x="1236" y="416" width="318" height="250" rx="22"/>
+    </svg>
+    <!-- 단골: 쪽지가 꽂힌 봉투(새로, 파랑) -->
+    <svg id="env" class="fg" viewBox="0 0 420 370" style="left:1340px;top:310px;width:418px;height:370px" data-box="env">
+      <path id="n1" class="ln bl w4" d="M120 40 H300 V190 H120 Z"/>
+      <path id="n2" class="ln bl" d="M148 76 H272 M148 104 H272 M148 130 H228"/>
+      <g id="eb"><path id="e1" class="ln bl w4" d="M40 130 H380 V340 H40 Z" style="fill:#fff"/></g>
+      <path id="e2" class="ln bl w4" d="M40 130 L210 250 L380 130"/>
+    </svg>
+    <svg id="link" class="abs" viewBox="0 0 1240 70"><path id="lk" class="ln bl w6" d="M31 6 V56 H1209 V6 M619 56 V6"/></svg>
+  </div>
+</div>
+<script src="../data/s67.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script src="../lib/prog.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1', '#D63A3A'];   // 모눈 · 선 · 파랑(켜진 칸·앞 그림 속 이기는 쪽) · 빨강(앞 그림 s04·s52 에 들어 있는 빠져나간 돈·돌려보낸 길 흔적) · 초록 체크는 s52 그대로
+const pc = PROG.mount('#cam', { x: 90, y: 170, w: 1740, h: 600 });
+// 칸: 흰 카드 + 위쪽 파랑 띠(번호·단어) — 그림은 카드 안
+pc.root.querySelectorAll('.pcell').forEach(c => { c.querySelector('.pfill').style.height = '120px'; c.querySelector('.picon').style.display = 'none'; const w = c.querySelector('.pword'); w.style.top = '20px'; w.style.fontSize = '72px'; });
+function star(cx, cy, R, r) { let d = ''; for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r : R; d += (i ? 'L' : 'M') + (cx + rr * Math.cos(a)).toFixed(1) + ' ' + (cy + rr * Math.sin(a)).toFixed(1); } return d + 'Z'; }
+for (let i = 0; i < 5; i++) { const e = document.getElementById('s' + i); e.setAttribute('d', star(1285 + i * 50, 500, 24, 10)); e.style.fill = '#1F5FD1'; e.style.stroke = '#1F5FD1'; }
+const T = { f1: S.at('딱'), f2: S.at('꼭'), f3: S.at('배달앱은'), calc: S.at('계산하면서') };
+const T0 = 0.02;
+S.ev(T0, 'card_in', 'prog'); S.ev(T.f1, 'marker', 'stair'); S.ev(T.f2, 'in', 'route'); S.ev(T.f3, 'marker', 'env'); S.ev(T.calc, 'shine', 'link');
+const DASH = ['st1', 'st2', 'st3', 'g2', 'ut'];
+function fig(svgId, tau, t0) {
+  const svg = document.getElementById(svgId), a = S.ent(tau, t0, 0.14);
+  svg.style.opacity = tau >= t0 ? 1 : 0;
+  let i = 0;
+  svg.querySelectorAll('.ln').forEach(p => {
+    if (DASH.includes(p.id)) { p.style.opacity = S.ent(tau, t0 + 0.4, 0.2) * (p.id === 'ut' ? 0.55 : 1); return; }
+    if (p.getAttribute('d') === 'M0 0') return;
+    E.stroke(p, tau, t0 + 0.05 * i++, 0.32);
+  });
+  svg.querySelectorAll('rect:not(.ln)').forEach(r => { r.style.opacity = S.ent(tau, t0 + 0.35, 0.2); });
+  return a;
+}
+S.scene(tau => {
+  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  const fr = S.ent(tau, T0, 0.14);
+  PROG.draw(pc, [{ show: 1, on: 1 }, { show: 1, on: 1 }, { show: 1, on: 1 }], fr);
+  fig('stair', tau, T.f1); E.wipe('#fin', tau, T.f1 + 0.55, 0.5);
+  fig('route', tau, T.f2); S.$('#ut').style.opacity = S.ent(tau, T.f2 + 0.4, 0.2) * 0.55;
+  fig('env', tau, T.f3);
+  E.stroke('#lk', tau, T.calc, 0.7);
+});
+</script>
+</body></html>

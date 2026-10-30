@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s07 진행표 카드 첫 등장 — 가격 · 광고 · 단골 (설명 층)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#brk{left:0;top:0;width:1920px;height:1080px}
+#cnt{left:760px;top:878px;width:400px;text-align:center;font-size:56px}
+</style></head>
+<body><div id="stage">
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <svg id="brk" class="abs" viewBox="0 0 1920 1080">
+      <path id="bk" class="ln w6" d="M240 810 L240 840 L1680 840 L1680 810 M960 840 L960 866"/>
+    </svg>
+    <div id="cnt" class="abs t" data-box="cnt">세 가지</div>
+  </div>
+</div>
+<script src="../data/s07.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script src="../lib/prog.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];
+const T = { gyeok: S.at('가격'), gwang: S.at('광고'), dan: S.at('단골'), se: S.at('세'), cha: S.at('차이가') };
+const T0 = 0.02;
+const pc = PROG.mount('#cam', { x: 240, y: 260, w: 1440, h: 520 });
+S.ev(T0, 'card_in', 'prog'); S.ev(T.gyeok, 'click', 'c0'); S.ev(T.gwang, 'click', 'c1'); S.ev(T.dan, 'click', 'c2'); S.ev(T.se, 'marker', 'bk'); S.ev(T.cha, 'shine', 'bk');
+S.scene(tau => {
+  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  const fr = S.ent(tau, T0, 0.12);
+  const sh = t => S.ent(tau, t, 0.12);
+  PROG.draw(pc, [{ show: sh(T.gyeok), on: 0 }, { show: sh(T.gwang), on: 0 }, { show: sh(T.dan), on: 0 }], fr);
+  // 세 가지 — 세 칸을 묶는 괄호, 차이가 에서 파랑
+  E.stroke('#bk', tau, T.se - 0.1, 0.4);
+  const b = S.ent(tau, T.cha, 0.12);
+  S.css('#bk', { stroke: b > 0 ? '#1F5FD1' : '#20262D' });
+  E.pop('#cnt', tau, T.se + 0.1, { dy: 8 });
+  S.css('#cnt', { color: b > 0 ? '#1F5FD1' : '#20262D' });
+});
+</script>
+</body></html>

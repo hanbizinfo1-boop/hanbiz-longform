@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s21 절반에서 4분의 1로 — 원 두 개(한 그릇 · 세 그릇) 빨강 몫이 ½ → ¼ (설명 층)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#pie{left:0;top:0;width:1920px;height:1080px}
+.lb{position:absolute;width:640px;text-align:center;font-size:54px}
+#mid{left:660px;top:350px;width:600px;text-align:center;font-size:132px}
+</style></head>
+<body><div id="stage">
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <svg id="pie" class="abs" viewBox="0 0 1920 1080">
+      <circle cx="470" cy="430" r="248" fill="#DCE6F8"/>
+      <path id="sL" fill="#E26B6B" d=""/>
+      <path id="cL" class="ln w4" d="M222 430 a248 248 0 1 0 496 0 a248 248 0 1 0 -496 0"/>
+      <circle cx="1450" cy="430" r="248" fill="#DCE6F8" id="fRbase" opacity="0"/>
+      <path id="sR" fill="#E26B6B" d=""/>
+      <path id="cR" class="ln w4" d="M1202 430 a248 248 0 1 0 496 0 a248 248 0 1 0 -496 0"/>
+      <path id="cRb" class="ln bl w6" d="M1182 430 a268 268 0 1 0 536 0 a268 268 0 1 0 -536 0"/>
+      <path id="ar" class="ln bl w6" d="M0 0"/>
+    </svg>
+    <div id="la1" class="lb t" style="left:150px;top:715px" data-box="la1">한 그릇</div>
+    <div id="la2" class="lb t mu" style="left:150px;top:785px;color:#7A828A" data-box="la2">8천 원</div>
+    <div id="lb1" class="lb t" style="left:1130px;top:715px" data-box="lb1">세 그릇</div>
+    <div id="lb2" class="lb t" style="left:1130px;top:785px;color:#7A828A" data-box="lb2">2만 4천 원</div>
+    <div id="lb3" class="lb t rd" style="left:1130px;top:855px" data-box="lb3">6,000원 미만</div>
+    <div id="mid" class="abs big" data-box="mid">½ → ¼</div>
+  </div>
+</div>
+<script src="../data/s21.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1', '#D63A3A'];   // 빨강 = 수수료로 빠지는 몫
+const sec = (cx, cy, r, deg) => {
+  if (deg <= 0.05) return '';
+  const a0 = -Math.PI / 2, a1 = a0 + deg * Math.PI / 180;
+  const f = a => `${(cx + r * Math.cos(a)).toFixed(2)} ${(cy + r * Math.sin(a)).toFixed(2)}`;
+  return `M${cx} ${cy} L${f(a0)} A${r} ${r} 0 ${deg > 180 ? 1 : 0} 1 ${f(a1)} Z`;
+};
+const T = { man: S.at('만약'), gat: S.at('같은'), se: S.at('세'), m2: S.at('2만'), su: S.at('수수료로'), don: S.at('돈은'), cheon: S.at('6천'), jeol: S.at('절반에서'), bun: S.at('4분의'), shem: S.at('셈이죠') };
+const T0 = 0.02;
+S.ev(T0, 'in', 'cL'); S.ev(0.3, 'gauge', 'sL'); S.ev(T.gat, 'in', 'la'); S.ev(T.se, 'in', 'cR'); S.ev(T.m2, 'in', 'lb2'); S.ev(T.su, 'gauge', 'sR'); S.ev(T.cheon, 'shine', 'lb3'); S.ev(T.jeol, 'shine', 'half'); S.ev(T.bun, 'marker', 'quarter'); S.ev(T.shem, 'ok', 'ring');
+S.scene(tau => {
+  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  E.stroke('#cL', tau, T0, 0.5);
+  S.$('#sL').setAttribute('d', sec(470, 430, 248, 180 * S.EO(S.P(tau, 0.3, 0.9))));
+  E.pop('#la1', tau, T.gat, { dy: 8 }); E.pop('#la2', tau, T.gat + 0.45, { dy: 8 });
+  // 세 그릇 — 오른쪽 원이 그려지고 전부 파랑(남는 몫)으로 시작, 수수료로 빠지는 몫이 4분의 1만큼 빨강
+  E.stroke('#cR', tau, T.se - 0.15, 0.5);
+  S.css('#fRbase', { opacity: S.ent(tau, T.se + 0.25, 0.12) });
+  E.pop('#lb1', tau, T.se + 0.2, { dy: 8 }); E.pop('#lb2', tau, T.m2, { dy: 8 });
+  S.$('#sR').setAttribute('d', sec(1450, 430, 248, 90 * S.EO(S.P(tau, T.su, T.don + 0.25))));
+  E.wipe('#lb3', tau, T.cheon, 0.55);
+  // ½ → ¼ : 한 줄로 왼→오 차례로(½ 절반에서 · → 4분의 · ¼ 1로)
+  const k = S.clamp((tau - T.jeol) / 1.5);
+  const mid = S.$('#mid'); mid.style.opacity = tau >= T.jeol ? 1 : 0; mid.style.clipPath = `inset(-14px ${((1 - k) * 100).toFixed(2)}% -14px -6px)`;
+  E.stroke('#cRb', tau, T.shem, 0.45);
+});
+</script>
+</body></html>

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s31 위에서 본 지도 — 큰길 모퉁이 가게(입지) · 골목 가게 여럿(회색) · 별 붙은 골목 가게만 파랑 (설명 층)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#art{left:0;top:0;width:1920px;height:1080px}
+#loc{left:1340px;top:535px;font-size:64px;transform:translate(-50%,-50%)}
+</style></head>
+<body><div id="stage">
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <svg id="art" class="abs" viewBox="0 0 1920 1080"><g id="g"></g></svg>
+    <div id="loc" class="abs t" data-box="loc">입지</div>
+  </div>
+</div>
+<script src="../data/s31.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];   // 모눈 · 선 · 파랑(별 붙은 가게)
+const NS = 'http://www.w3.org/2000/svg';
+const G = document.getElementById('g');
+function mk(id, d, cls, extra) { const e = document.createElementNS(NS, 'path'); e.setAttribute('id', id); e.setAttribute('d', d); e.setAttribute('class', cls); if (extra) e.setAttribute('style', extra); G.appendChild(e); return e; }
+const rect = (x, y, w, h) => `M${x} ${y} H${x + w} V${y + h} H${x} Z`;
+function star(cx, cy, R, r) { let d = ''; for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r : R; d += (i ? 'L' : 'M') + (cx + rr * Math.cos(a)).toFixed(1) + ' ' + (cy + rr * Math.sin(a)).toFixed(1); } return d + 'Z'; }
+// 길: 큰길 가로 두 줄 + 가운데 점선, 골목 세로 두 줄
+mk('av1', 'M80 640 H900 M1100 640 H1840', 'ln w4'); mk('av2', 'M80 780 H1840', 'ln w4'); mk('avc', 'M120 710 H1800', 'ln mu', 'stroke-dasharray:22 20');
+mk('al1', 'M900 640 V110', 'ln w4'); mk('al2', 'M1100 640 V110', 'ln w4');
+// 골목 안 가게(회색) — 별 가게(sh4)만 파랑으로 바뀜
+const SH = [rect(700, 130, 180, 140), rect(700, 290, 180, 140), rect(700, 450, 180, 140), rect(1120, 130, 180, 140), rect(1120, 290, 180, 140), rect(440, 130, 180, 140), rect(440, 290, 180, 140)];
+SH.forEach((d, i) => mk('sh' + i, d, 'ln mu w4'));
+// 큰길 건너 남쪽 가게 줄(회색)
+for (let i = 0; i < 5; i++) mk('so' + i, rect(200 + i * 330, 820, 240, 100), 'ln mu w4');
+// 큰길 모퉁이 가게(입지) — 크고 진한 선
+mk('corner', rect(1120, 440, 440, 180), 'ln w6'); mk('cdoor', 'M1300 620 V570 H1380 V620', 'ln w4');
+// 별 가게: 파랑 테두리(덧그림) + 별
+mk('blue', rect(1120, 130, 180, 140), 'ln bl w6'); mk('bfill', rect(1128, 138, 164, 124), 'ln', 'stroke:none;fill:rgba(31,95,209,.14)');
+mk('star', star(1210, 200, 46, 20), 'ln bl w4', 'fill:#1F5FD1;transform-box:fill-box;transform-origin:center');
+mk('ring', 'M1210 112 a 98 98 0 1 1 -0.1 0', 'ln bl w4');
+const T0 = 0.02;
+const T = { sh: S.at('특징이'), corner: S.at('진짜'), loc: S.at('입지가'), star: S.at('잘되기가'), ring: S.at('어렵습니다') };
+S.ev(T0, 'in', 'roads'); S.ev(T.sh + 0.3, 'marker', 'shops'); S.ev(T.corner, 'card_in', 'corner'); S.ev(T.loc, 'shine', 'loc'); S.ev(T.star, 'ok', 'star'); S.ev(T.ring, 'click', 'ring');
+S.scene(tau => {
+  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  E.stroke('#av2', tau, T0, 0.45); E.stroke('#av1', tau, T0 + 0.05, 0.45); E.stroke('#avc', tau, T0 + 0.15, 0.4);
+  E.stroke('#al1', tau, T0 + 0.1, 0.45); E.stroke('#al2', tau, T0 + 0.15, 0.45);
+  // 골목 가게들: 특징이 없는 가게는 — 하나씩
+  SH.forEach((d, i) => E.stroke('#sh' + i, tau, T.sh + i * 0.1, 0.3));
+  for (let i = 0; i < 5; i++) E.stroke('#so' + i, tau, T.sh + 0.2 + i * 0.12, 0.3);
+  // 진짜 입지가 엄청 좋은 → 큰길 모퉁이 가게 + 이름
+  E.stroke('#corner', tau, T.corner, 0.45); E.stroke('#cdoor', tau, T.corner + 0.35, 0.2);
+  E.pop('#loc', tau, T.loc, { base: 'translate(-50%,-50%)' });
+  // 잘되기가 → 별 붙은 골목 가게 하나만 파랑
+  E.stroke('#blue', tau, T.star, 0.3);
+  S.css('#bfill', { opacity: S.ent(tau, T.star + 0.1, 0.12) });
+  const sk = S.ent(tau, T.star + 0.15, 0.12);
+  S.css('#star', { opacity: sk, transform: `scale(${(0.4 + 0.6 * sk).toFixed(3)})` });
+  E.stroke('#ring', tau, T.ring, 0.4);
+});
+</script>
+</body></html>

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s45 순서가 중요 — 집 단면도(기초 세 블록 음식·서비스·분위기 → 맨 위 작은 지붕 광고) · 설명 층</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#roof{left:660px;top:120px;width:600px;height:220px}
+#roofT{left:660px;top:238px;width:600px;text-align:center;font-size:64px;font-weight:900;color:#7A828A}
+.slot{position:absolute;top:370px;width:480px;height:400px;border:3px dashed #A9B0B6;border-radius:12px}
+.blk{position:absolute;top:370px;width:480px;height:400px;background:var(--blt);border:3px solid var(--bl);border-radius:12px}
+.blk svg{position:absolute;left:140px;top:28px;width:200px;height:180px}
+.blk .w{position:absolute;left:0;width:100%;top:236px;text-align:center;font-size:84px;font-weight:900;color:var(--bl)}
+.blk .s{position:absolute;left:0;width:100%;top:330px;text-align:center;font-size:40px;font-weight:700;color:var(--ln)}
+#tie{left:200px;top:790px;width:1520px;height:30px}
+#bar{left:200px;top:836px;width:1520px;height:110px;background:var(--bl);border-radius:12px;color:#fff;font-size:62px;font-weight:900;display:flex;align-items:center;justify-content:center}
+</style></head>
+<body><div id="stage">
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <svg id="roof" class="abs" viewBox="0 0 600 220" data-box="roof" data-box-group="roof">
+      <path id="rf1" class="ln mu w6" d="M20 210 L300 20 L580 210 Z"/>
+    </svg>
+    <div id="roofT" class="abs t" data-box="roofT" data-box-group="roof">광고</div>
+    <div class="slot" id="sl0" style="left:200px" data-box="sl0"></div>
+    <div class="slot" id="sl1" style="left:720px" data-box="sl1"></div>
+    <div class="slot" id="sl2" style="left:1240px" data-box="sl2"></div>
+    <div class="blk" id="b0" style="left:200px" data-box="b0">
+      <svg viewBox="0 0 200 180"><path class="ln bl w4" d="M40 80 L160 80 C156 130 130 155 100 155 C70 155 44 130 40 80 Z"/><path class="ln bl w4" d="M28 80 L172 80"/><path class="ln bl w4" d="M78 60 C72 45 86 38 80 22"/><path class="ln bl w4" d="M120 60 C114 45 128 38 122 22"/></svg>
+      <div class="w t">음식</div><div class="s t">맛 · 양</div>
+    </div>
+    <div class="blk" id="b1" style="left:720px" data-box="b1">
+      <svg viewBox="0 0 200 180"><path class="ln bl w4" d="M30 138 L170 138"/><path class="ln bl w4" d="M48 138 C48 82 152 82 152 138"/><path class="ln bl w4" d="M100 82 L100 66"/><path class="ln bl w4" d="M86 66 L114 66"/><path class="ln bl w4" d="M72 110 C76 98 84 92 94 90"/></svg>
+      <div class="w t">서비스</div><div class="s t">응대 · 단골</div>
+    </div>
+    <div class="blk" id="b2" style="left:1240px" data-box="b2">
+      <svg viewBox="0 0 200 180"><path class="ln bl w4" d="M100 8 L100 58"/><path class="ln bl w4" d="M52 112 C58 78 78 58 100 58 C122 58 142 78 148 112 Z"/><path class="ln bl w4" d="M86 130 C92 146 108 146 114 130"/><path class="ln bl w4" d="M58 142 L44 154"/><path class="ln bl w4" d="M142 142 L156 154"/><path class="ln bl w4" d="M100 150 L100 170"/></svg>
+      <div class="w t">분위기</div><div class="s t">인테리어</div>
+    </div>
+    <svg id="tie" class="abs" viewBox="0 0 1520 30"><path id="tp" class="ln bl w6" d="M4 14 L1516 14"/></svg>
+    <div id="bar" class="abs t" data-box="bar">본질</div>
+  </div>
+</div>
+<script src="../data/s45.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];   // 모눈 · 선 · 파랑(본질 세 블록). 지붕은 회색
+const T = { roof: S.at('광고보단'), slot: S.at('본질이'), food: S.at('맛이나'), svc: S.at('응대'), atm: S.at('인테리어와'),
+  all: S.at('이 모든 게'), our: S.at('우리 가게만의') };
+const T0 = 0.02;
+S.ev(T.roof, 'marker', 'roof'); S.ev(T.slot, 'card_in', 'slots'); S.ev(T.food, 'in', 'b0'); S.ev(T.svc, 'card_in', 'b1');
+S.ev(T.atm, 'in', 'b2'); S.ev(T.all, 'marker', 'tie'); S.ev(T.our, 'shine', 'bar');
+function icon(id, tau, t0) { document.querySelectorAll('#' + id + ' svg .ln').forEach((p, i) => E.stroke(p, tau, t0 + 0.12 * i, 0.45)); }
+S.scene(tau => {
+  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  // 장면 첫 순간부터: 지붕 모양이 아니라 «바닥에 놓일 자리» 점선이 먼저 — 빈 모눈 방지로 세 칸 틀을 바로 그린다
+  ['#sl0', '#sl1', '#sl2'].forEach((s, i) => E.pop(s, tau, T0 + 0.06 * i, { dy: 0 }));
+  E.stroke('#rf1', tau, T.roof, 0.45);
+  E.pop('#roofT', tau, T.roof + 0.25, { dy: 0 });
+  [['#b0', T.food], ['#b1', T.svc], ['#b2', T.atm]].forEach(([id, t0], i) => {
+    E.pop(id, tau, t0, { dy: -36, sc: 0.03 });
+    icon(id.slice(1), tau, t0 + 0.1);
+    S.css(id, { opacity: tau >= t0 ? S.ent(tau, t0, 0.12) : 0 });
+    S.css('#sl' + i, { opacity: tau >= t0 ? 0 : S.$('#sl' + i).style.opacity });
+  });
+  E.stroke('#tp', tau, T.all, 0.9);
+  E.wipe('#bar', tau, T.our, 1.1);
+});
+</script>
+</body></html>

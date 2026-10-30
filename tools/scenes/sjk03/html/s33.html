@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s33 매운 감칠맛 — 집 식탁 배달 덮밥(김 오름 → 용기에 괄호 → 소스 윤기 빛 지나감 → 초록 확인) · 실물 층</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#wrap{left:0;top:0;width:1920px;height:1080px}
+#pc{position:absolute;left:0;top:-100px;width:1536px;height:1024px;transform:scale(1.25);transform-origin:0 0}
+#pc svg{position:absolute;left:0;top:0;width:1536px;height:1024px;overflow:visible}
+.gl{position:absolute;left:430px;top:300px;width:610px;height:490px;border-radius:50%;overflow:hidden;opacity:0}
+.gl i{position:absolute;top:-80px;left:0;width:150px;height:660px;background:linear-gradient(90deg,rgba(255,236,200,0),rgba(255,236,200,.62) 50%,rgba(255,236,200,0));transform:rotate(20deg)}
+#vig{left:0;top:0;width:1920px;height:1080px;background:radial-gradient(ellipse 560px 470px at 919px 581px,rgba(0,0,0,0) 55%,rgba(8,4,0,.62) 100%);opacity:0}
+</style></head>
+<body><div id="stage">
+  <div id="wrap" class="abs">
+    <div id="ph" class="photo"></div>
+    <div id="pc">
+      <div class="gl" id="g1"><i id="b1"></i></div>
+      <div class="gl" id="g2"><i id="b2"></i></div>
+      <svg id="fx" viewBox="0 0 1536 1024"></svg>
+    </div>
+    <div id="vig" class="abs"></div>
+  </div>
+</div>
+<script src="../data/s33.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#FFFFFF', '#1F5FD1', '#1E9E5A'];   // 김 · 파랑 괄호 · 초록 확인(한 번)
+const NS = 'http://www.w3.org/2000/svg', fx = document.getElementById('fx');
+const MK = {};
+function mk(id, d, col = '#1F5FD1', w = 5, under = true, extra = {}) {
+  const mkp = (pid, c, ww) => { const p = document.createElementNS(NS, 'path'); p.setAttribute('id', pid); p.setAttribute('d', d); p.setAttribute('fill', 'none'); p.setAttribute('stroke', c); p.setAttribute('stroke-width', ww); p.setAttribute('stroke-linecap', 'round'); p.setAttribute('stroke-linejoin', 'round'); for (const k in extra) p.setAttribute(k, extra[k]); fx.appendChild(p); return p; };
+  if (under) { mkp(id + 'w', '#fff', w + 4); mkp(id, col, w); MK[id] = [id + 'w', id]; } else { mkp(id, col, w); MK[id] = [id]; }
+}
+function draw(id, tau, t0, d, op = 1) { MK[id].forEach(p => { E.stroke('#' + p, tau, t0, d); document.getElementById(p).style.opacity = tau >= t0 ? op : 0; }); }
+// 김(용기 위로 올라감)
+mk('st1', 'M740 330 C705 285 775 245 740 195 C712 155 770 125 745 85', '#fff', 11, false, { opacity: 0.5 });
+mk('st2', 'M820 322 C790 280 850 240 820 190 C796 150 846 118 826 78', '#fff', 9, false, { opacity: 0.45 });
+mk('st3', 'M900 334 C872 292 928 256 902 206 C880 168 922 138 904 100', '#fff', 8, false, { opacity: 0.4 });
+mk('bowl', 'M425 545 a310 250 0 1 0 620 0 a310 250 0 1 0 -620 0');
+mk('chk', 'M965 330 L1000 366 L1072 284', '#1E9E5A', 10);
+const T = { bae: S.at('마찬가지예요'), gage: S.at('가게만의'), mae: S.at('매운'), meok: S.at('먹고'), jung: S.at('중요하다는'), geo: S.at('거예요') };
+S.ev(0.62, 'in', 'steam'); S.ev(T.gage, 'marker', 'bowl'); S.ev(T.mae, 'shine', 'glint1'); S.ev(T.meok, 'sweep', 'focus'); S.ev(T.jung, 'shine', 'glint2'); S.ev(T.geo, 'ok', 'check');
+S.css('#ph', { backgroundImage: S.ph('p33_rice_bowl_top') });
+S.scene(tau => {
+  // 아주 느린 당기기 1.08→1.00 (용기 중심)
+  S.css('#wrap', { transformOrigin: '919px 581px', transform: `scale(${E.drift(tau, 1.08, 1.0).toFixed(4)})` });
+  const rise = -40 * S.P(tau, 0.6, S.SC.dur);
+  ['st1', 'st2', 'st3'].forEach((id, i) => { const t0 = 0.62 + 0.15 * i; draw(id, tau, t0, 0.9, 0.5 - 0.05 * i); MK[id].forEach(p => { document.getElementById(p).style.transform = `translateY(${rise.toFixed(2)}px)`; }); });
+  draw('bowl', tau, T.gage, 0.6, 1 - 0.8 * S.EO(S.P(tau, T.meok, T.meok + 0.5)));
+  // 소스 윤기 — 빛 띠가 한 번 지나감(두 번)
+  [['g1', 'b1', T.mae], ['g2', 'b2', T.jung]].forEach(([g, b, t0]) => {
+    const k = S.P(tau, t0, t0 + 1.0);
+    S.css('#' + g, { opacity: (k > 0 && k < 1) ? 1 : 0 });
+    S.css('#' + b, { left: S.lerp(-200, 700, S.EIO(k)).toFixed(1) + 'px' });
+  });
+  // 초점: 용기 밖이 어두워짐
+  S.css('#vig', { opacity: S.EO(S.P(tau, T.meok, T.meok + 0.5)) });
+  draw('chk', tau, T.geo, 0.35);
+});
+</script>
+</body></html>

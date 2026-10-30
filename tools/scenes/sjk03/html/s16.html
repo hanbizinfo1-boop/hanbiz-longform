@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s16 주방 직원 둘 + 식재료 박스(원가·근로자 짚기, 20%~30%) → 손에 지폐 몇 장만(실물 층 · 와이드 하이앵글 · 옆 흐름)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+.lay{position:absolute;left:0;top:0;width:1920px;height:1080px}
+.sv{position:absolute;left:0;top:0;width:1920px;height:1080px}
+#dp1{left:610px;top:96px;font-size:92px}
+#vg{left:0;top:0;width:1920px;height:1080px;background:radial-gradient(ellipse 360px 260px at 1040px 650px,rgba(0,0,0,0) 0%,rgba(0,0,0,0) 55%,rgba(8,5,2,.62) 100%);opacity:0}
+</style></head>
+<body><div id="stage">
+  <div id="phA" class="photo lay">
+    <svg class="sv" viewBox="0 0 1920 1080">
+      <rect id="bx" class="ln bl w6" x="330" y="640" width="720" height="316" rx="14"/>
+      <rect id="w1" class="ln bl w6" x="640" y="92" width="318" height="680" rx="16"/>
+      <rect id="w2" class="ln bl w6" x="1366" y="240" width="336" height="620" rx="16"/>
+    </svg>
+    <div id="dp1" class="dpan abs" data-box="dp1"><span class="rd">20% ~ 30%</span></div>
+  </div>
+  <div id="phB" class="photo lay" style="opacity:0">
+    <div id="vg" class="abs"></div>
+    <svg class="sv" viewBox="0 0 1920 1080">
+      <rect id="rb" class="ln bl w6" x="816" y="480" width="468" height="358" rx="40"/>
+    </svg>
+  </div>
+</div>
+<script src="../data/s16.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#1B1E22', '#FFFFFF', '#1F5FD1'];
+S.css('#phA', { backgroundImage: S.ph('p16_kitchen_staff') }); S.css('#phB', { backgroundImage: S.ph('p16b_hand_bills') });
+const T = { cost: S.at('원가'), wk: S.at('근로자를'), dp: S.at('20%에서'), fall: S.at('빠지면'), cut: S.at('진짜'), ring: S.at('남는'), vg: S.at('많지') };
+S.ev(T.cost, 'marker', 'bx'); S.ev(T.wk, 'marker', 'w1'); S.ev(T.dp, 'shine', 'dp1'); S.ev(T.fall, 'coin', 'dp1'); S.ev(T.ring, 'marker', 'rb');
+S.scene(tau => {
+  const A = tau < T.cut;
+  S.css('#phA', { opacity: A ? 1 : 0 }); S.css('#phB', { opacity: A ? 0 : 1 });
+  S.css('#phA', { transform: `translateX(${S.lerp(34, -34, S.P(tau, 0, T.cut)).toFixed(2)}px) scale(1.06)` });   // 아주 느린 옆 흐름
+  S.css('#phB', { transform: `scale(${S.lerp(1.0, 1.05, S.P(tau, T.cut, S.SC.dur)).toFixed(4)})` });
+  E.stroke('#bx', tau, T.cost, 0.45);
+  E.stroke('#w1', tau, T.wk, 0.4); E.stroke('#w2', tau, T.wk + 0.2, 0.4);
+  // 20% ~ 30% 가 판으로 뜨고(빨강), «빠지면» 에서 아래로 한 칸 내려앉는다
+  const d = E.pop('#dp1', tau, T.dp, { dy: 0 });
+  const f = S.EO(S.P(tau, T.fall, T.fall + 0.35));
+  S.$('#dp1').style.transform += ` translateY(${(f * 26).toFixed(1)}px)`;
+  E.stroke('#rb', tau, T.ring, 0.45);
+  S.css('#vg', { opacity: S.ent(tau, T.vg, 0.35) });
+});
+</script>
+</body></html>

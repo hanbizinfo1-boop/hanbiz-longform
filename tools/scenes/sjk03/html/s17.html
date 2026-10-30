@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s17 제일 큰 건 배달비 — 비용 띠(배달비가 제일 큼) → 주문 막대 2만 원 · 8천 원 끝에 같은 길이 빨강 배달비 (설명 층)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#fx{left:0;top:0;width:1920px;height:1080px}
+.seg{position:absolute;top:196px;height:84px;background:#E9ECEF;border:3px solid var(--ln);display:flex;align-items:center;justify-content:center;color:#fff;font-family:"Pre";font-weight:900;font-size:48px}
+.bar{position:absolute;left:180px;background:#E9ECEF;border:3px solid var(--ln);border-radius:6px}
+.red{position:absolute;width:230px;height:100px;background:var(--rd);border:3px solid var(--rd);border-radius:6px;color:#fff;font-family:"Pre";font-weight:900;font-size:44px;display:flex;align-items:center;justify-content:center}
+.gho{position:absolute;width:230px;height:100px;border:4px dashed var(--rd);border-radius:6px;opacity:0}
+#lbA{left:216px;top:436px;font-size:60px}
+#lbB{left:216px;top:656px;font-size:60px}
+#same{left:850px;top:652px;font-size:72px;color:var(--rd)}
+</style></head>
+<body><div id="stage">
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <!-- 비용 띠: 배달비가 제일 큼 -->
+    <div id="strip" class="abs" style="left:0;top:0;width:1920px;height:400px">
+    <div id="h0" class="seg" style="left:180px;width:330px"></div>
+    <div id="h1" class="seg" style="left:507px;width:206px"></div>
+    <div id="h2" class="seg" style="left:710px;width:453px">배달비</div>
+    <div id="h3" class="seg" style="left:1160px;width:253px"></div>
+    <div id="h4" class="seg" style="left:1410px;width:333px"></div>
+    </div>
+    <svg id="fx" class="abs" viewBox="0 0 1920 1080">
+      <path id="ax" class="ln w4" d="M180 380 L180 790"/>
+      <path id="brA" class="ln rd w4" d="M1100 552 L1100 566 L1330 566 L1330 552"/>
+      <path id="brB" class="ln rd w4" d="M548 772 L548 786 L778 786 L778 772"/>
+    </svg>
+    <div id="bA" class="bar" style="top:420px;height:100px;width:920px"></div>
+    <div id="bB" class="bar" style="top:640px;height:100px;width:368px"></div>
+    <div id="lbA" class="abs t" data-box="lbA">2만 원</div>
+    <div id="lbB" class="abs t" data-box="lbB">8천 원</div>
+    <div id="gA" class="gho" style="left:1100px;top:420px"></div>
+    <div id="gB" class="gho" style="left:548px;top:640px"></div>
+    <div id="rA" class="red" style="left:1100px;top:420px">배달비</div>
+    <div id="rB" class="red" style="left:548px;top:640px">배달비</div>
+    <div id="same" class="abs t" data-box="same">똑같다</div>
+  </div>
+</div>
+<script src="../data/s17.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1', '#D63A3A'];   // 빨강 = 배달비(빠져나가는 돈)
+const T = { big: S.at('배달비입니다'), bw: S.at('배달비는'), ju: S.at('주문'), geum: S.at('금액이랑'), geo: S.at('거의'), bi: S.at('비슷하게'), bu: S.at('붙는데요'),
+  m2: S.at('2만'), c8: S.at('8천'), same: S.at('똑같다는') };
+const T0 = 0.02;
+S.ev(T0, 'gauge', 'strip'); S.ev(T.big, 'shine', 'h2'); S.ev(T.bw, 'marker', 'ax'); S.ev(T.ju, 'gauge', 'bA'); S.ev(T.geum, 'gauge', 'bB'); S.ev(T.geo, 'marker', 'ghostA');
+S.ev(T.bu, 'card_in', 'ghostB'); S.ev(T.m2, 'coin', 'rA'); S.ev(T.c8, 'coin', 'rB'); S.ev(T.same, 'marker', 'brackets');
+S.scene(tau => {
+  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  S.css('#strip', { transform: `translateY(${(250 * (1 - S.cam(tau, T.bw - 0.05, T.bw + 0.45))).toFixed(2)}px)` });
+  // 비용 띠가 왼→오로 이어서 그려지고, 배달비 칸이 빨강으로 켜짐
+  for (let i = 0; i < 5; i++) E.wipe('#h' + i, tau, T0 + i * 0.12, 0.3);
+  const k = S.ent(tau, T.big, 0.14);
+  S.css('#h2', { background: `rgb(${Math.round(233 - 19 * k)},${Math.round(236 - 178 * k)},${Math.round(239 - 181 * k)})`, borderColor: k > 0.5 ? '#D63A3A' : '#20262D', color: '#fff', fontSize: '48px' });
+  S.$('#h2').style.color = k > 0 ? '#fff' : 'transparent';
+  // 주문 막대
+  E.stroke('#ax', tau, T.bw, 0.4);
+  E.wipe('#bA', tau, T.ju, 0.4); E.wipe('#bB', tau, T.geum, 0.3);
+  E.pop('#lbA', tau, T.ju + 0.35, { dy: 0 });   // 2만 원 라벨은 말에 맞춰
+  E.pop('#lbB', tau, T.c8, { dy: 0 });
+  S.css('#lbA', { opacity: S.ent(tau, T.m2, 0.12) }); S.css('#lbB', { opacity: S.ent(tau, T.c8, 0.12) });
+  // 같은 길이로 붙을 자리(점선) → 진짜 블록
+  const gA = S.ent(tau, T.geo, 0.12) * (1 - S.ent(tau, T.m2, 0.1));
+  const gB = S.ent(tau, T.bi, 0.12) * (1 - S.ent(tau, T.c8, 0.1));
+  S.css('#gA', { opacity: gA }); S.css('#gB', { opacity: gB });
+  E.wipe('#rA', tau, T.m2, 0.3); E.wipe('#rB', tau, T.c8, 0.3);
+  // 똑같다 — 두 블록 아래 같은 길이 괄호 + 글
+  E.stroke('#brA', tau, T.same, 0.35); E.stroke('#brB', tau, T.same + 0.1, 0.35);
+  E.wipe('#same', tau, T.same + 0.2, 0.4);
+});
+</script>
+</body></html>

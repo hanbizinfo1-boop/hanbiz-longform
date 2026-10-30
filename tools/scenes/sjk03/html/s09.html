@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s09 첫 번째는 가격 — 진행표 첫 칸 켜짐 → 칸으로 들어감 → 가격표 뒤집힘(메뉴판 가격 → 배달 가격) (설명 층)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#bf{left:240px;top:300px;width:461px;height:460px;background:#fff;border:2px solid #C9CED3;border-radius:14px;opacity:0}
+#bs{left:240px;top:300px;width:461px;height:40px;background:var(--bl);border-radius:14px 14px 0 0;opacity:0}
+#hd{left:260px;top:301px;font-size:28px;color:#fff;font-weight:900;line-height:38px}
+#tag{left:186px;top:402px;width:570px;height:330px;background:#fff;border:6px solid var(--ln);border-radius:26px;display:flex;align-items:center;justify-content:center;padding-top:40px;font-size:72px;font-weight:900;color:var(--ln);white-space:nowrap}
+#hole{left:451px;top:424px;width:40px;height:40px;border-radius:50%;border:6px solid var(--ln);background:#fff;opacity:0}
+</style></head>
+<body><div id="stage">
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <div id="bf" class="abs"></div>
+    <div id="bs" class="abs"></div>
+    <div id="hd" class="abs t" data-box="hd" data-box-group="pan">1 가격</div>
+    <div id="tag" class="abs" data-box="tag" data-box-group="pan">가격</div>
+    <div id="hole" class="abs"></div>
+  </div>
+</div>
+<script src="../data/s09.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script src="../lib/prog.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];
+const T = { first: S.at('첫'), gyeok2: S.at('여기서'), menu: S.at('메뉴판'), bae: S.at('배달로'), pal: S.at('팔'), badn: S.at('받는') };
+const pc = PROG.mount('#cam', { x: 240, y: 300, w: 1440, h: 460 });
+// bf·hd·tag 는 카드 위로
+['#bf', '#bs', '#hd', '#tag', '#hole'].forEach(s => document.getElementById('cam').appendChild(S.$(s)));
+const C0 = { x: 470.67, y: 530 };
+S.ev(-0.1, 'click', 'cell0'); S.ev(0.3, 'sweep', 'into'); S.ev(0.6, 'card_in', 'panel'); S.ev(T.gyeok2, 'card_in', 'tag'); S.ev(T.menu, 'msg_in', 'menu'); S.ev(T.bae, 'page', 'flip'); S.ev(T.badn, 'shine', 'ring');
+const cell = i => pc.root.querySelectorAll('.pcell')[i];
+S.scene(tau => {
+  // 카메라: 칸 0 으로 밀고 들어감
+  const keys = [{ t: -9, s: 1, x: 960, y: 540 }, { t: 0.3, s: 1.9, x: C0.x, y: C0.y, d: 0.5 }];
+  const c = S.camState(tau, keys);
+  const slow = 1 + 0.03 * S.P(tau, 0.8, S.SC.dur);
+  S.css('#cam', { transform: S.camCss({ s: c.s * slow, x: c.x, y: c.y }) });
+  // 카드: 세 칸 다 나와 있고 첫 칸이 파랑으로 켜짐(-0.1 → 0.1)
+  const on0 = S.ent(tau, -0.1, 0.2);
+  PROG.draw(pc, [{ show: 1, on: on0 }, { show: 1, on: 0 }, { show: 1, on: 0 }], 1);
+  const fo = 1 - S.P(tau, 0.35, 0.6);
+  cell(1).style.opacity = fo; cell(2).style.opacity = fo; cell(0).style.opacity = tau >= 0.55 ? 0 : 1;
+  // 칸이 넓어져 칸 안(파랑 판)이 됨
+  const ex = S.EO(S.P(tau, 0.55, 0.95));
+  const L = S.lerp(240, 121, ex) + 'px', Wd = S.lerp(461, 700, ex) + 'px', Tp = S.lerp(300, 312, ex) + 'px';
+  S.css('#bf', { opacity: tau >= 0.55 ? 1 : 0, left: L, width: Wd, top: Tp, height: S.lerp(460, 436, ex) + 'px' });
+  S.css('#bs', { opacity: tau >= 0.55 ? 1 : 0, left: L, width: Wd, top: Tp });
+  S.css('#hd', { left: (S.lerp(240, 121, ex) + 20) + 'px', top: (S.lerp(300, 312, ex) + 1) + 'px' });
+  E.pop('#hd', tau, 0.8, { dy: 0 });
+  // 가격표 한 장: 메뉴판 가격 → (배달로) 뒤집혀 배달 가격
+  const k = S.ent(tau, T.gyeok2, 0.12);
+  const fl = S.P(tau, T.bae, T.bae + 0.36);
+  const tg = S.$('#tag');
+  const sx = Math.abs(1 - 2 * fl);
+  const back = fl >= 0.5;
+  tg.textContent = tau < T.menu ? '가격' : (back ? '배달 가격' : '메뉴판 가격');
+  tg.style.color = back ? '#1F5FD1' : '#20262D'; tg.style.borderColor = back ? '#1F5FD1' : '#20262D';
+  const ring = S.ent(tau, T.badn, 0.2);
+  tg.style.boxShadow = `0 0 0 ${(ring * 10).toFixed(1)}px rgba(31,95,209,${(0.35 * ring).toFixed(2)})`;
+  tg.style.opacity = k;
+  tg.style.transform = `translateY(${(14 * (1 - k)).toFixed(2)}px) scaleX(${(sx < 0.02 ? 0.02 : sx).toFixed(3)})`;
+  // 구멍(가격표 끈 자리)
+  S.css('#hole', { opacity: k, borderColor: back ? '#1F5FD1' : '#20262D', transform: `scaleX(${(sx < 0.02 ? 0.02 : sx).toFixed(3)})` });
+});
+</script>
+</body></html>

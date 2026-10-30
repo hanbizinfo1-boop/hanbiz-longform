@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s63 더 큰 서비스를 받았다고 생각 — 밤 집 냉장고 앞, 손님이 쪽지를 자석으로 붙임(실물 층, Codex 사진 + 선)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#wrap{left:0;top:0;width:1920px;height:1080px;transform-origin:1600px 240px}
+#fx{left:0;top:0;width:1920px;height:1080px}
+.rg{fill:none;stroke:#4F86F0;stroke-width:8;opacity:0}
+</style></head>
+<body><div id="stage">
+  <div id="wrap" class="abs">
+    <div id="ph" class="photo"></div>
+    <svg id="fx" class="abs" viewBox="0 0 1920 1080">
+      <rect id="nb" class="ln bl w6" x="1560" y="66" width="176" height="252" rx="12"/>
+      <circle id="g1" class="rg" cx="1645" cy="190" r="140"/>
+      <circle id="g2" class="rg" cx="1645" cy="190" r="140"/>
+      <circle id="g3" class="rg" cx="1645" cy="190" r="140"/>
+      <path id="ck" class="ln gn" style="stroke-width:12" d="M1588 352 L1630 396 L1712 306"/>
+      <circle id="g4" class="rg" cx="1645" cy="190" r="140"/>
+    </svg>
+  </div>
+</div>
+<script src="../data/s63.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#20262D', '#1F5FD1', '#1E9E5A'];
+S.$('#ph').style.backgroundImage = S.ph('p63_fridge_magnet');
+const T = { gson: S.at('그', 0), keun: S.at('큰'), bad: S.at('받았다고'), ak: S.at('아까운가요') };
+S.ev(T.gson + 0.1, 'marker', 'nb'); S.ev(T.keun, 'sweep', 'rings'); S.ev(T.bad, 'ok', 'ck'); S.ev(T.ak, 'shine', 'g4');
+S.scene(tau => {
+  S.css('#wrap', { transform: `scale(${(1 + 0.08 * S.P(tau, 0, S.SC.dur)).toFixed(4)})` });
+  E.stroke('#nb', tau, T.gson + 0.1, 0.55);
+  [0, 1, 2].forEach(i => {
+    const t = T.keun + i * 0.4, k = S.EO(S.P(tau, t, t + 1.0)), el = S.$('#g' + (i + 1));
+    el.setAttribute('r', (140 + 700 * k).toFixed(1)); el.style.opacity = tau >= t ? (1 - k) * 0.9 : 0;
+  });
+  E.stroke('#ck', tau, T.bad, 0.4);
+  { const k = S.EO(S.P(tau, T.ak, T.ak + 0.7)), el = S.$('#g4'); el.setAttribute('r', (140 + 420 * k).toFixed(1)); el.style.opacity = tau >= T.ak ? (1 - k) * 0.9 : 0; }
+});
+</script>
+</body></html>

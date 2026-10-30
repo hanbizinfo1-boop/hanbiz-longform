@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s10 홀 벽 메뉴판 → 휴대폰 앱 메뉴 화면(빨강 밑줄) → 계산기 위 손이 배달 가격을 따로 두드림(실물 층)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+.lay{position:absolute;left:0;top:0;width:1920px;height:1080px}
+#bd{left:700px;top:215px;width:860px;height:200px;font-family:"Pre";font-weight:900;color:#F2E4C6;text-shadow:0 2px 10px rgba(0,0,0,.6);white-space:nowrap}
+#bdn{position:absolute;left:30px;top:44px;font-size:96px}
+#bdp{position:absolute;left:560px;top:44px;font-size:96px}
+#appP{left:1290px;top:560px;width:540px;height:360px;transform:perspective(1500px) rotateY(-8deg) rotateZ(1.5deg);opacity:0}
+#appP .hd{height:92px;font-size:40px}
+#appP .row{padding:28px 30px}
+#appP .nm{font-size:44px}
+#appP .ul2{position:absolute;left:340px;top:176px;width:170px;height:8px;background:#D63A3A;border-radius:4px;transform-origin:0 50%;transform:scaleX(0)}
+#dpb{left:860px;top:360px;font-size:84px}
+#cring{width:110px;height:110px;border:6px solid #fff;border-radius:50%;opacity:0;left:0;top:0}
+</style></head>
+<body><div id="stage">
+  <div id="phA" class="photo lay">
+    <div id="bd" class="abs"><span id="bdn">김치찌개</span><span id="bdp">12,000</span></div>
+    <div id="appP" class="app" data-box="appP">
+      <div class="hd">가게 메뉴</div>
+      <div class="row"><span class="nm">김치찌개</span><span class="pr" id="appPr" style="margin-left:auto;font-size:46px;font-weight:900">12,000</span></div>
+      <div class="ul2" id="ul2"></div>
+    </div>
+  </div>
+  <div id="phB" class="photo lay" style="opacity:0">
+    <div id="dpb" class="dpan abs" data-box="dpb">배달 가격<div id="dbl" style="height:8px;background:#7FA8F5;border-radius:4px;margin-top:12px;transform-origin:0 50%;transform:scaleX(0)"></div></div>
+    <div id="cring" class="abs"></div>
+  </div>
+</div>
+<script src="../data/s10.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#16191D', '#F2E4C6', '#1F5FD1'];
+S.css('#phA', { backgroundImage: S.ph('p10_menu_wall') }); S.css('#phB', { backgroundImage: S.ph('p10b_calculator_hand') });
+const T = { nm: 0.25, pr: S.at('매장'), app: S.at('배달앱에'), ul: S.at('올립니다'), cut: S.at('근데'), dp: S.at('배달', 1), dl: S.at('따로'), press: S.at('계산하죠') };
+S.ev(T.nm, 'marker', 'bdn'); S.ev(T.pr, 'shine', 'bdp'); S.ev(T.app, 'card_in', 'appP'); S.ev(T.ul, 'marker', 'ul2'); S.ev(T.dp, 'card_in', 'dpb'); S.ev(T.press, 'click', 'cring');
+S.scene(tau => {
+  const A = tau < T.cut;
+  S.css('#phA', { opacity: A ? 1 : 0 }); S.css('#phB', { opacity: A ? 0 : 1 });
+  // 벽 메뉴판: 옆으로 흐름 · 계산기: 천천히 밀기
+  S.css('#phA', { transform: `translateX(${S.lerp(30, -30, S.P(tau, 0, T.cut)).toFixed(2)}px) scale(1.06)` });
+  S.css('#phB', { transform: `scale(${S.lerp(1.0, 1.06, S.P(tau, T.cut, S.SC.dur)).toFixed(4)})` });
+  E.wipe('#bdn', tau, T.nm, 0.45); E.wipe('#bdp', tau, T.pr, 0.4);
+  if (A) {
+    const a = S.ent(tau, T.app, 0.14); S.css('#appP', { opacity: a });
+    S.$('#ul2').style.transform = `scaleX(${S.EO(S.P(tau, T.ul, T.ul + 0.35)).toFixed(3)})`;
+    S.$('#ul2').style.opacity = tau >= T.ul ? 1 : 0;
+  } else {
+    E.pop('#dpb', tau, T.dp, { dy: 10 });
+    S.$('#dbl').style.transform = `scaleX(${S.EO(S.P(tau, T.dl, T.dl + 0.35)).toFixed(3)})`;
+    const rk = S.P(tau, T.press, T.press + 0.5), rg = S.$('#cring');
+    rg.style.left = '815px'; rg.style.top = '620px';
+    rg.style.opacity = tau >= T.press && rk < 1 ? (1 - rk).toFixed(3) : 0;
+    rg.style.transform = `scale(${S.lerp(0.5, 1.4, S.EO(rk)).toFixed(3)})`;
+  }
+});
+</script>
+</body></html>

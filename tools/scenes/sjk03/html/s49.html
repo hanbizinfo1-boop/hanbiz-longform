@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s49 AI한테 물어보기 — 밤 노트북 대화창(재현): 리뷰 목록 → 붙여 넣기 → 타자 → 보내기 → 세 줄 (실물 층, 초록 화면 사진)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#wrap{left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#ui{left:0;top:0;width:1120px;height:800px;border-radius:0;border:0;background:#14171B}
+.bar{position:absolute;left:0;top:0;width:1120px;height:64px;background:#1B1F24;border-bottom:1px solid #2A3038}
+.dot{position:absolute;top:22px;width:20px;height:20px;border-radius:50%;background:#3A414A}
+#vA{position:absolute;left:0;top:64px;width:1120px;height:736px;overflow:hidden}
+#list{position:absolute;left:0;top:0;width:1120px}
+.rv{position:absolute;left:36px;width:1048px;height:92px;border-radius:12px;background:#1E2328;border:1px solid #2A3038;display:flex;align-items:center;gap:26px;padding:0 28px;font-size:40px;font-weight:700;color:#ECEEF0;white-space:nowrap}
+.rv svg{flex:none}
+.rv .bar2{position:absolute;left:0;top:0;width:10px;height:100%;border-radius:12px 0 0 12px;background:#1F5FD1;opacity:0}
+#vB{position:absolute;left:0;top:64px;width:1120px;height:736px;opacity:0}
+.bub{position:absolute;border-radius:20px;font-family:"Pre";opacity:0}
+.cl{font-size:30px;line-height:1.4;color:#A2AAB2;font-weight:500;white-space:nowrap}
+.pm{font-size:36px;font-weight:700;color:#ECEEF0;white-space:nowrap}
+#comp{position:absolute;left:50px;width:1020px;border-radius:22px;background:#1E2328;border:2px solid #343B44}
+#send{position:absolute;right:26px;width:78px;height:78px;border-radius:50%;background:#1F5FD1;display:flex;align-items:center;justify-content:center}
+#ring{position:absolute;width:78px;height:78px;border-radius:50%;border:5px solid #7FA8F5;opacity:0}
+.ar{display:flex;align-items:center;gap:24px;font-size:48px;font-weight:800;color:#fff;height:70px;opacity:0;white-space:nowrap}
+.ar i{display:block;width:22px;height:22px;border-radius:50%;background:#4F86F0;flex:none}
+#dots{position:absolute;left:84px;top:410px;opacity:0}
+#dots b{display:inline-block;width:22px;height:22px;border-radius:50%;background:#7FA8F5;margin-right:14px}
+#fxl{position:absolute;left:0;top:0;width:1920px;height:1080px}
+</style></head>
+<body><div id="stage">
+  <div id="wrap" class="abs">
+    <div id="ph" class="photo"></div>
+    <div id="ui" class="app">
+      <div class="bar"><span class="dot" style="left:28px"></span><span class="dot" style="left:62px"></span><span class="dot" style="left:96px"></span></div>
+      <div id="vA"><div id="list"></div></div>
+      <div id="vB">
+        <div id="ub" class="bub" style="left:170px;top:16px;width:880px;height:314px;background:#2B3139;padding:22px 36px">
+          <div id="ubc" class="cl"></div>
+          <div id="ubp" class="pm" style="margin-top:12px"></div>
+        </div>
+        <div id="dots"><b></b><b></b><b></b></div>
+        <div id="ab" class="bub" style="left:50px;top:348px;width:860px;height:250px;background:#1E2328;border:1px solid #2A3038;padding:20px 36px 0">
+          <div id="r1" class="ar"><i></i>맛이 없다</div>
+          <div id="r2" class="ar"><i></i>양이 적다</div>
+          <div id="r3" class="ar"><i></i>포장이 엉망이다</div>
+        </div>
+        <div id="comp">
+          <div id="chunk" class="cl" style="position:absolute;left:34px;top:26px"></div>
+          <div id="div" style="position:absolute;left:34px;right:34px;height:2px;background:#343B44"></div>
+          <div id="prompt" class="pm" style="position:absolute;left:34px"></div>
+          <div id="send"><svg width="40" height="40" viewBox="0 0 40 40"><path d="M20 32 L20 9 M9 19 L20 8 L31 19" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <div id="ring"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../data/s49.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];
+S.$('#ph').style.backgroundImage = S.ph('d49_laptop_night_clean');
+const QUAD = [[413.4, 382.6], [1027.6, 293.5], [1091.4, 733.2], [477.1, 822.2]];   // quads.json d49 stage — 왼위·오위·오아래·왼아래 (사진 확인: 화면 위쪽이 위)
+S.fitQuad(S.$('#ui'), 1120, 800, QUAD);
+// 리뷰 목록(글 = 녹음 원고의 리뷰 말만)
+const RV = [['맛이 없다', 2], ['양이 적다', 2], ['포장이 엉망이다', 1], ['맛이 없다 · 양이 적다', 2], ['포장이 엉망이다', 1], ['양이 적다', 2], ['맛이 없다 · 포장이 엉망이다', 1], ['양이 적다', 3], ['맛이 없다', 2], ['포장이 엉망이다 · 양이 적다', 1]];
+const STAR = '<polygon points="12,1.5 15,8.6 22.5,9.3 16.8,14.3 18.6,21.7 12,17.8 5.4,21.7 7.2,14.3 1.5,9.3 9,8.6"/>';
+const list = S.$('#list');
+RV.forEach((r, i) => {
+  const d = document.createElement('div'); d.className = 'rv'; d.id = 'rv' + i; d.style.top = (40 + i * 104) + 'px';
+  let st = '<svg width="170" height="30" viewBox="0 0 125 24">';
+  for (let k = 0; k < 5; k++) st += `<g transform="translate(${k * 25},0)" fill="${k < r[1] ? '#F2B33A' : '#3A414A'}">${STAR}</g>`;
+  st += '</svg>';
+  d.innerHTML = '<span class="bar2"></span>' + st + '<span>' + r[0] + '</span>';
+  list.appendChild(d);
+});
+const CH = ['맛이 없다', '양이 적다 · 포장이 엉망이다', '맛이 없다 · 양이 적다', '포장이 엉망이다', '양이 적다 · 맛이 없다'];
+const PR = '손님들이 자주 하는 불만 세 가지로 정리해 줘';
+S.$('#ubc').innerHTML = CH.join('<br>'); S.$('#ubp').textContent = PR;
+const T = { ai: S.at('AI한테라도'), gyeol: S.at('결정은'), data: S.at('데이터'), eotteo: S.at('어떻게'), paste: S.at('붙여'), son: S.at('손님들이'), jeong: S.at('정리해', 0), ireo: S.at('이렇게'), bar: S.at('바로'), jj: S.at('정리해', 1) };
+const PTR = [1.57, 2.7, 3.88, 5.0, 6.17, 7.2, 8.05, 9.0];     // 읽는 줄이 한 줄씩 내려감(분석)
+const TSWAP = 10.05, TTYPE0 = S.at('손님들이'), TTYPE1 = 12.9, TSEND = T.ireo, TRES = [14.1, 14.4, 14.7];
+S.ev(PTR[0], 'click', 'rv1'); S.ev(PTR[3], 'marker', 'rv4'); S.ev(T.paste, 'shine', 'sel'); S.ev(TSWAP, 'paper', 'chunk');
+S.ev(TTYPE0 + 0.1, 'type', 'prompt'); S.ev(TSEND, 'click', 'send'); S.ev(TRES[0], 'msg_in', 'r1'); S.ev(TRES[2], 'ok', 'r3');
+S.scene(tau => {
+  // 카메라: 노트북 화면이 가운데로 — 천천히 밀기(1.45 → 1.9, 글이 읽히는 크기까지)
+  const c = { s: S.lerp(1.45, 1.92, S.EIO(S.P(tau, 0, 10.5))), x: 752, y: 558 };
+  S.css('#wrap', { transformOrigin: '0 0', transform: S.camCss(c) });
+  // A. 리뷰 목록
+  const sc = 300 * S.P(tau, 0, 9.9);
+  S.css('#list', { transform: `translateY(${(-sc).toFixed(2)}px)` });
+  RV.forEach((r, i) => {
+    let a = 0;
+    PTR.forEach((t, k) => { if (i === k + 1 && tau >= t && tau < (PTR[k + 1] || T.paste)) a = 1; });
+    if (tau >= T.paste) a = 1;
+    const e = S.$('#rv' + i);
+    e.style.background = a ? (tau >= T.paste ? '#243553' : '#1E2D4A') : '#1E2328';
+    e.querySelector('.bar2').style.opacity = a;
+  });
+  const swap = tau >= TSWAP;
+  S.css('#vA', { opacity: swap ? 1 - S.P(tau, TSWAP, TSWAP + 0.12) : 1, visibility: tau >= TSWAP + 0.12 ? 'hidden' : 'visible' });
+  S.css('#vB', { opacity: S.ent(tau, TSWAP, 0.12) });
+  // B. 붙여 넣기 → 타자 → 보내기 → 답
+  const sent = tau >= TSEND, comp = S.$('#comp');
+  const ch = S.$('#chunk');
+  if (!sent) {
+    S.$('#div').style.display = 'block';
+    S.css('#comp', { top: '150px', height: '560px' });
+    S.css('#div', { top: '300px' }); S.css('#prompt', { top: '326px' });
+    S.css('#send', { top: '444px' }); S.css('#ring', { top: '444px', right: '26px' });
+    ch.innerHTML = CH.join('<br>'); ch.style.opacity = S.ent(tau, TSWAP + 0.02, 0.12);
+    S.css('#chunk', { transform: `translateY(${(12 * (1 - S.ent(tau, TSWAP + 0.02, 0.12))).toFixed(2)}px)` });
+    E.line('#prompt', PR, tau, TTYPE0, TTYPE1, true);
+  } else {
+    S.css('#comp', { top: '624px', height: '90px' });
+    ch.innerHTML = ''; S.$('#div').style.display = 'none';
+    S.$('#prompt').innerHTML = '<span class="caret"></span>'; S.css('#prompt', { top: '22px' });
+    S.css('#send', { top: '6px' }); S.css('#ring', { top: '6px', right: '26px' });
+  }
+  const rg = S.P(tau, TSEND, TSEND + 0.45);
+  S.css('#ring', { opacity: tau >= TSEND && tau < TSEND + 0.45 ? (1 - rg) : 0, transform: `scale(${(1 + 0.9 * rg).toFixed(3)})` });
+  S.css('#send', { transform: `scale(${(1 - 0.12 * Math.sin(Math.PI * S.P(tau, TSEND, TSEND + 0.2))).toFixed(3)})` });
+  // 보낸 글(붙인 덩어리 + 물어본 말)이 위로 올라가 말풍선이 됨
+  const ub = S.ent(tau, TSEND + 0.12, 0.14);
+  S.css('#ub', { opacity: ub, transform: `translateY(${(36 * (1 - ub)).toFixed(2)}px)` });
+  // 답 대기 점 → 세 줄
+  const dd = tau >= TSEND + 0.3 && tau < TRES[0] ? 1 : 0;
+  S.css('#dots', { opacity: dd });
+  S.css('#ab', { opacity: S.ent(tau, TRES[0] - 0.05, 0.12) });
+  ['#r1', '#r2', '#r3'].forEach((id, i) => E.pop(id, tau, TRES[i], { dy: 10 }));
+  document.querySelectorAll('#dots b').forEach((b, i) => { b.style.opacity = S.ent(tau, TSEND + 0.35 + i * 0.28, 0.12); });
+});
+</script>
+</body></html>

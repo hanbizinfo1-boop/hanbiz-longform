@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s57 앱 레버에 매달린 가게 매출 줄 → 앱 밖 파랑 줄(매장·포장) — 설명 층 (s66 이 <svg id="hang"> 를 복사해 씀)</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#hang{left:200px;top:100px;width:1520px;height:810px;overflow:visible}
+#hang text{font-family:"Pre";font-weight:800}
+</style></head>
+<body><div id="stage">
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <!-- ===== hang: 앱 블록 + 레버 둘 + 가게 매출 줄 + 앱 밖 줄(복사해서 s66 에서 씀) ===== -->
+    <svg id="hang" class="abs" viewBox="0 0 1520 810" data-box="hang">
+      <g id="ap"><rect class="ln w4" x="120" y="10" width="880" height="160" rx="10" fill="#fff"/><text id="apt" x="560" y="112" font-size="76" text-anchor="middle" fill="#20262D">배달앱</text></g>
+      <g id="lv1"><rect class="ln w4" x="240" y="170" width="200" height="90" rx="8" fill="#fff"/><text x="340" y="231" font-size="46" text-anchor="middle" fill="#20262D">수수료</text></g>
+      <g id="lv2"><rect class="ln w4" x="680" y="170" width="200" height="90" rx="8" fill="#fff"/><text x="780" y="231" font-size="46" text-anchor="middle" fill="#20262D">순위</text></g>
+      <path id="s1" class="ln w4" d="M340 260 L320 540"/>
+      <path id="s2" class="ln w4" d="M780 260 L800 540"/>
+      <g id="st">
+        <rect id="strect" class="ln w4" x="260" y="540" width="600" height="250" rx="10" fill="#fff"/>
+        <text id="stt" x="292" y="596" font-size="44" fill="#20262D">가게 매출</text>
+        <path id="stc" class="ln w6" d="M292 760 L372 718 L452 736 L544 664 L640 702 L726 646 L828 684"/>
+      </g>
+      <text id="tag" x="1290" y="470" font-size="46" text-anchor="middle" fill="#D63A3A">배달앱 의존성 큼</text>
+      <path id="bs1" class="ln bl w4" d="M0 0"/>
+      <path id="bs2" class="ln bl w4" d="M0 0"/>
+      <g id="b1"><rect x="1100" y="550" width="380" height="100" rx="10" fill="#DCE6F8" stroke="#1F5FD1" stroke-width="3"/><text x="1290" y="618" font-size="60" text-anchor="middle" fill="#1F5FD1">매장</text></g>
+      <g id="b2"><rect x="1100" y="690" width="380" height="100" rx="10" fill="#DCE6F8" stroke="#1F5FD1" stroke-width="3"/><text x="1290" y="758" font-size="60" text-anchor="middle" fill="#1F5FD1">포장</text></g>
+    </svg>
+  </div>
+</div>
+<script src="../data/s57.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1', '#D63A3A'];   // 모눈 · 선 · 파랑(앱 밖 루트) · 빨강(앱에 매달려 흔들리는 매출 — 연출표 뜻 색)
+const T = { app: S.at('배달앱에서'), lv1: S.at('올리거나'), lv2: S.at('바꿀'), red: S.at('가게', 0), dep: S.at('의존성이'), out: S.at('근데'), b1: S.at('배달앱', 2), b2: S.at('주문이'), root: S.at('루트를'), n1: S.at('수수료를'), n2: S.at('순위를') };
+const T0 = 0.02, TS = 1.0;
+S.ev(T0, 'marker', 'ap'); S.ev(TS, 'card_in', 'st'); S.ev(T.n1, 'in', 'lv1'); S.ev(T.lv1 + 0.0, 'click', 'lv1m'); S.ev(T.n2, 'card_in', 'lv2'); S.ev(T.red, 'no', 'red');
+S.ev(T.dep, 'in', 'tag'); S.ev(T.out, 'marker', 'bs1'); S.ev(T.b1, 'card_in', 'b1'); S.ev(T.b2, 'in', 'b2');
+const NS = 'http://www.w3.org/2000/svg';
+const $ = id => document.getElementById(id);
+const mix = (a, b, k) => a.map((v, i) => Math.round(v + (b[i] - v) * k));
+const PX = 560, PY = 200;      // 매달림 축(앱 블록 아래 가운데)
+function rot(p, a, dx, dy) { const r = a * Math.PI / 180, c = Math.cos(r), s = Math.sin(r), x = p[0] - PX, y = p[1] - PY; return [PX + x * c - y * s + dx, PY + x * s + y * c + dy]; }
+function bez(p0, p1, p2, p3, k, n = 28) { let d = ''; const m = Math.max(1, Math.round(n * k)); for (let i = 0; i <= m; i++) { const t = k * i / m, u = 1 - t; const x = u * u * u * p0[0] + 3 * u * u * t * p1[0] + 3 * u * t * t * p2[0] + t * t * t * p3[0]; const y = u * u * u * p0[1] + 3 * u * u * t * p1[1] + 3 * u * t * t * p2[1] + t * t * t * p3[1]; d += (i ? 'L' : 'M') + x.toFixed(1) + ' ' + y.toFixed(1); } return d; }
+S.scene(tau => {
+  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  // 앱 블록
+  const ak = S.ent(tau, T0, 0.14); $('ap').style.opacity = ak; $('apt').style.opacity = S.ent(tau, T.app, 0.12);
+  // 레버: 나타남 → 올림/바뀜
+  const l1 = S.ent(tau, T.n1, 0.12), l2 = S.ent(tau, T.n2, 0.12);
+  const m1 = S.cam(tau, T.lv1, T.lv1 + 0.4), m2 = S.cam(tau, T.lv2, T.lv2 + 0.4);
+  const o1 = -30 * m1, o2 = 30 * m2;
+  $('lv1').style.opacity = l1; $('lv1').setAttribute('transform', `translate(0 ${o1.toFixed(2)})`);
+  $('lv2').style.opacity = l2; $('lv2').setAttribute('transform', `translate(0 ${o2.toFixed(2)})`);
+  // 가게 블록 자세: 레버 움직임 → 가게가 끌려 내려가고 기울며, «흔들립니다» 뒤엔 천천히 출렁(느린 진자)
+  const st = S.ent(tau, TS, 0.14);
+  const rs = S.cam(tau, T.out, T.out + 0.45), ang = (-2.5 * m1 + 2.5 * m2) * (1 - rs), dx = 30 * m2 * (1 - rs), dy = 28 * m1 * (1 - rs);
+  $('st').style.opacity = st; $('st').setAttribute('transform', `translate(${dx.toFixed(2)} ${dy.toFixed(2)}) rotate(${ang.toFixed(3)} ${PX} ${PY})`);
+  // 줄: 레버 아래 → 가게 윗면(둘 다 빨강으로 바뀜)
+  const redk = S.ent(tau, T.red, 0.16), col = mix([32, 38, 45], [214, 58, 58], redk), cs = `rgb(${col})`;
+  const a1 = [340, 260 + o1], a2 = [780, 260 + o2], b1 = rot([320, 540], ang, dx, dy), b2 = rot([800, 540], ang, dx, dy);
+  $('s1').setAttribute('d', `M${a1[0]} ${a1[1].toFixed(1)} L${b1[0].toFixed(1)} ${b1[1].toFixed(1)}`);
+  $('s2').setAttribute('d', `M${a2[0]} ${a2[1].toFixed(1)} L${b2[0].toFixed(1)} ${b2[1].toFixed(1)}`);
+  $('s1').style.opacity = $('s2').style.opacity = st;
+  $('s1').style.stroke = $('s2').style.stroke = cs; $('stc').style.stroke = cs;
+  $('stc').style.opacity = 1;
+  E.stroke('#stc', tau, TS + 0.1, 0.6);
+  $('stc').style.stroke = cs;
+  // 태그: «배달앱 의존성 큼»(빨강) → 앱 밖 파랑 줄이 뻗으면 «앱 밖 루트»(파랑)
+  const tg = $('tag');
+  if (tau < T.root) { tg.textContent = '배달앱 의존성 큼'; tg.setAttribute('fill', '#D63A3A'); tg.style.opacity = S.ent(tau, T.dep, 0.14) * (1 - S.P(tau, T.out, T.out + 0.2)); }
+  else { tg.textContent = '앱 밖 루트'; tg.setAttribute('fill', '#1F5FD1'); tg.style.opacity = S.ent(tau, T.root, 0.14); }
+  // 파랑 줄 둘: 가게 오른쪽에서 매장 · 포장 블록으로
+  const e0 = rot([860, 665], ang, dx, dy), k1 = S.cam(tau, T.out, T.b1), k2 = S.cam(tau, T.b1 + 0.1, T.b2);
+  $('bs1').setAttribute('d', k1 > 0 ? bez(e0, [e0[0] + 110, e0[1]], [1010, 600], [1100, 600], k1) : 'M0 0');
+  $('bs2').setAttribute('d', k2 > 0 ? bez(e0, [e0[0] + 110, e0[1]], [1010, 740], [1100, 740], k2) : 'M0 0');
+  const w = 4 + 2.4 * S.ent(tau, T.root, 0.3);
+  $('bs1').style.strokeWidth = $('bs2').style.strokeWidth = w;
+  $('b1').style.opacity = S.ent(tau, T.b1, 0.12); $('b2').style.opacity = S.ent(tau, T.b2, 0.12);
+});
+</script>
+</body></html>

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<title>s44 광고가 알려 준다 — 밤 거실 소파 손(피드에 같은 광고가 또 뜨고 엄지가 넘김) → 같은 사진 2×3 격자(칸마다 같은 배너, 빨강 테두리가 칸에서 칸으로 번짐) · 실물 층</title>
+<link rel="stylesheet" href="../lib/sjk.css">
+<style>
+#w1{left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#q1{left:0;top:0;width:300px;height:720px}
+#q1 .app{left:0;top:0;width:300px;height:720px;border-radius:22px;border:0;background:#16191D}
+#h1{position:absolute;left:0;top:0;width:300px;height:72px;background:#1B1F25;border-bottom:1px solid #2A3038;z-index:5;display:flex;align-items:center;padding:0 20px;font-size:30px;font-weight:800}
+#vp1{position:absolute;left:0;top:72px;width:300px;height:648px;overflow:hidden}
+#fd{position:absolute;left:0;top:0;width:300px;height:2500px}
+.po{position:absolute;left:16px;width:268px;height:200px;background:#1D2128;border:1px solid #2A3038;border-radius:12px}
+.po i{position:absolute;left:16px;height:14px;border-radius:7px;background:#2E353E}
+.ad{position:absolute;left:16px;width:268px;height:220px;background:linear-gradient(135deg,#22345A,#18233D);border:1px solid #2F4A80;border-radius:12px}
+.ad b{position:absolute;left:14px;top:12px;padding:3px 14px;background:#1F5FD1;color:#fff;font-size:28px;font-weight:800;border-radius:8px}
+.ad span{position:absolute;left:0;top:96px;width:100%;text-align:center;font-size:56px;font-weight:900;color:#fff}
+.ad em{position:absolute;left:16px;top:184px;width:140px;height:14px;border-radius:7px;background:rgba(255,255,255,.28)}
+.ad .rf{position:absolute;left:-4px;top:-4px;width:276px;height:228px;border:6px solid #D63A3A;border-radius:14px;opacity:0;background:transparent}
+.pring{position:absolute;width:90px;height:90px;margin:-45px 0 0 -45px;border-radius:50%;border:6px solid #7FA8F5;background:rgba(127,168,245,.28);opacity:0;z-index:9}
+#g2{left:0;top:0;width:1920px;height:1080px;opacity:0;transform-origin:960px 540px}
+#gbg{left:0;top:0;width:1920px;height:1080px;background-size:cover;background-position:center;filter:blur(28px) brightness(.38);transform:scale(1.08)}
+.gc{position:absolute;width:540px;height:400px;overflow:hidden;border-radius:10px;opacity:0;background:#1E1710}
+.gc .cph{position:absolute;left:0;top:0;width:540px;height:400px;background-size:1184px 789px;background-position:-231px -139px;background-repeat:no-repeat}
+.gc .cq{position:absolute;left:0;top:0;width:300px;height:720px;background:linear-gradient(135deg,#22345A,#18233D);border-radius:30px;overflow:hidden}
+.gc .cq b{position:absolute;left:24px;top:36px;padding:6px 26px;background:#1F5FD1;color:#fff;font-size:60px;font-weight:800;border-radius:12px}
+.gc .cq span{position:absolute;left:0;top:300px;width:100%;text-align:center;font-size:120px;font-weight:900;color:#fff}
+.gc .cq i{position:absolute;left:30px;height:26px;border-radius:13px;background:rgba(255,255,255,.28)}
+.gc svg.cb{position:absolute;left:0;top:0;width:540px;height:400px}
+</style></head>
+<body><div id="stage">
+  <div id="w1" class="abs">
+    <div id="ph" class="photo"></div>
+    <div id="q1" class="abs">
+      <div class="app">
+        <div id="h1">피드</div>
+        <div id="vp1"><div id="fd"></div></div>
+        <div id="r1" class="pring" style="left:175px;top:440px"></div>
+      </div>
+    </div>
+  </div>
+  <div id="g2" class="abs">
+    <div id="gbg" class="abs"></div>
+  </div>
+</div>
+<script src="../data/s44.js"></script>
+<script src="../lib/sjk.js"></script>
+<script src="../lib/e4.js"></script>
+<script>
+window.PALETTE = ['#16191D', '#ECEEF0', '#1F5FD1', '#D63A3A'];   // 어두운 앱 · 글 · 파랑(광고 표시) · 빨강(퍼지는 나쁜 기억 테두리)
+const R = {};
+R.ring = (sel, tau, t0, d = 0.5) => { const el = S.$(sel), k = S.P(tau, t0, t0 + d); return (tau < t0 || k >= 1) ? 0 : (1 - k * k); };
+// ── 첫 장면: 피드(글 같은 가게 광고가 4번 — 글 사이사이 일반 글)
+const fd = document.getElementById('fd');
+for (let k = 0; k < 5; k++) {
+  fd.insertAdjacentHTML('beforeend', `<div class="po" style="top:${90 + 460 * k}px"><i style="top:30px;width:150px"></i><i style="top:60px;width:210px"></i><i style="top:150px;width:120px"></i></div>` +
+    `<div class="ad" id="ad${k}" style="top:${310 + 460 * k}px"><b>광고</b><span>○○</span><em></em><div class="rf"></div></div>`);
+}
+// ── 둘째 장면: 같은 사진 2×3 격자
+const g2 = document.getElementById('g2'), GX = [130, 690, 1250], GY = [95, 515];
+const GQ = [[145.7, 57.2], [277.9, 15.0], [377.8, 327.6], [245.3, 369.8]];
+for (let i = 0; i < 6; i++) {
+  const x = GX[i % 3], y = GY[Math.floor(i / 3)];
+  g2.insertAdjacentHTML('beforeend', `<div class="gc" id="gc${i}" data-box="gc${i}" style="left:${x}px;top:${y}px"><div class="cph" id="cp${i}"></div><div class="cq" id="cq${i}"><b>광고</b><span>○○</span><i style="top:520px;width:170px"></i><i style="top:570px;width:230px"></i></div><svg class="cb" viewBox="0 0 540 400"><path id="rb${i}" d="M4 4 H536 V396 H4 Z" fill="none" stroke="#D63A3A" stroke-width="8" stroke-linejoin="round"/></svg></div>`);
+}
+const T = { mu: S.at('무서운'), gwang: S.at('광고가'), bye: S.at('별로였지'), geu: S.at('기억하거든요'), sur: S.at('광고를'), nap: S.at('나쁜'), gi: S.at('기억도') };
+const STEP = [2.9, 4.2, 5.75, 7.05];
+S.ev(0.25, 'in', 'feed'); S.ev(1.34, 'card_in', 'tag'); S.ev(2.52, 'shine', 'ad0'); S.ev(STEP[0], 'sweep', 'swipe1'); S.ev(STEP[1], 'click', 'swipe2'); S.ev(STEP[2], 'sweep', 'swipe3');
+S.ev(T.geu, 'no', 'redad'); S.ev(7.5, 'in', 'grid'); S.ev(T.nap, 'no', 'red1'); S.ev(9.45, 'marker', 'red4'); S.ev(10.05, 'shine', 'red6');
+S.css('#ph', { backgroundImage: S.ph('d44_sofa_phone_clean') });
+S.css('#gbg', { backgroundImage: S.ph('d44_sofa_phone_clean') });
+S.fitQuad(S.$('#q1'), 300, 720, [[611.3, 218.0], [825.6, 149.5], [987.5, 656.2], [773.2, 724.7]]);
+for (let i = 0; i < 6; i++) { S.css('#cp' + i, { backgroundImage: S.ph('d44_sofa_phone_clean') }); S.fitQuad(S.$('#cq' + i), 300, 720, GQ); }
+const GT = 0.22;
+S.scene(tau => {
+  // 첫 장면 — 휴대폰 클로즈업 프레이밍 + 아주 느린 밀기
+  const s1 = 1.5 + 0.06 * S.P(tau, 0, 7.6);
+  S.css('#w1', { transform: `translate(960px,540px) scale(${s1.toFixed(4)}) translate(-800px,-450px)` });
+  const sw = STEP.map((t, i) => S.cam(tau, t, t + 0.3));
+  S.css('#fd', { transform: `translateY(${(-460 * sw.reduce((a, b) => a + b, 0)).toFixed(1)}px)` });
+  S.css('#fd', { opacity: S.ent(tau, 0.25, 0.12) });
+  // «광고» 표시 / 파랑 고리 / 빨강 테두리(앞으로 올 빨강)
+  document.querySelectorAll('.ad b').forEach(b => { b.style.opacity = S.ent(tau, 1.34, 0.12); });
+  const ad0 = document.getElementById('ad0');
+  const pu = R.ring('#r1', tau, 2.52, 0.5);
+  ad0.style.boxShadow = pu > 0 ? `0 0 0 ${(6 * pu).toFixed(1)}px rgba(127,168,245,${(0.9 * pu).toFixed(2)})` : 'none';
+  // 엄지 눌림 고리(넘길 때마다)
+  const rr = STEP.map(t => R.ring('#r1', tau, t, 0.45)).reduce((a, b) => Math.max(a, b), 0);
+  const rel = S.$('#r1'); rel.style.opacity = rr.toFixed(3); rel.style.transform = `scale(${(0.6 + 0.9 * (1 - rr)).toFixed(3)})`;
+  const rf = document.querySelector('#ad3 .rf'); rf.style.opacity = S.EO(S.P(tau, T.geu, T.geu + 0.3)).toFixed(3);
+  // 둘째 장면 — 화면이 빠지며 여러 대
+  const gk = S.EO(S.P(tau, 7.3, 7.7));
+  S.css('#g2', { opacity: gk, transform: `scale(${(1.06 - 0.06 * gk + 0.02 * S.P(tau, 7.7, S.SC.dur + S.SC.post)).toFixed(4)})` });
+  for (let i = 0; i < 6; i++) {
+    const k = S.ent(tau, 7.5 + GT * i, 0.12);
+    S.css('#gc' + i, { opacity: k, transform: `scale(${(0.96 + 0.04 * k).toFixed(4)})` });
+    const t0 = T.nap + 0.26 * i;
+    const path = document.getElementById('rb' + i);
+    if (!path._len) { path._len = path.getTotalLength(); path.style.strokeDasharray = path._len; }
+    path.style.strokeDashoffset = (path._len * (1 - S.EO(S.P(tau, t0, t0 + 0.3)))).toFixed(1);
+    path.style.opacity = tau >= t0 ? 1 : 0;
+  }
+});
+</script>
+</body></html>
