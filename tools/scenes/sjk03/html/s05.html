@@ -6,6 +6,12 @@
 .tk{left:0;top:0;width:150px;height:300px;color:#2B2A22;font-family:"Pre";font-weight:800;text-align:center;line-height:1.1;font-size:36px;padding-top:62px;opacity:0}
 #tp{width:210px;height:290px;padding-top:34px}
 #tp .big2{font-size:40px}
+#pan{left:410px;top:120px;width:400px;height:200px;padding:0;opacity:0}
+#pan .lb{position:absolute;left:28px;font-size:40px;font-weight:900;color:#fff}
+#pan .tr{position:absolute;left:150px;width:222px;height:36px;border-radius:6px;background:rgba(255,255,255,.12)}
+#pan .fl{position:absolute;left:150px;height:36px;border-radius:6px;width:0}
+#ob{background:#7FA8F5}
+#tb{background:#7FA8F5}
 </style></head>
 <body><div id="stage">
   <div id="ph" class="photo">
@@ -13,6 +19,10 @@
     <div id="tB" class="abs tk">떡볶이</div>
     <div id="tC" class="abs tk">막국수</div>
     <div id="tD" class="abs tk">족발</div>
+    <div id="pan" class="dpan abs" data-box="pan">
+      <div class="lb" style="top:34px">주문</div><div class="tr" style="top:42px"></div><div id="ob" class="fl" style="top:42px"></div>
+      <div class="lb" style="top:112px">통장</div><div class="tr" style="top:120px"></div><div id="tb" class="fl" style="top:120px"></div>
+    </div>
     <div id="tp" class="abs tk"><div id="tpt" class="big2">김치찌개</div></div>
   </div>
 </div>
@@ -28,7 +38,7 @@ const QB = Q([[846, 128], [958, 120], [972, 372], [888, 388]]);
 const QC = Q([[990, 92], [1108, 80], [1086, 312], [964, 314]]);
 const QD = Q([[1148, 52], [1292, 36], [1272, 350], [1124, 380]]);
 const QP = Q([[968, 545], [1138, 537], [1036, 815], [850, 798]]);
-const T = { p0: 0.25, a: S.at('배달'), b: S.at('주문은'), c: S.at('꾸준한데'), d: S.at('통장에'), p1: S.at('쌓이는'), p2: S.at('영상입니다') };
+const T = { p0: 0.25, a: S.at('배달'), b: S.at('주문은'), c: S.at('꾸준한데'), d: S.at('통장에'), p1: S.at('쌓이는'), p2: S.at('영상입니다'), no: S.at('안') };
 S.ev(T.p0, 'page', 'tp'); S.ev(T.a, 'paper', 'tA'); S.ev(T.c, 'paper', 'tC'); S.ev(T.d, 'paper', 'tD'); S.ev(T.p1, 'page', 'tp'); S.ev(T.p2, 'page', 'tp');
 const texts = ['김치찌개', '떡볶이', '막국수'];
 S.scene(tau => {
@@ -42,6 +52,12 @@ S.scene(tau => {
   // 프린터에서 주문서가 나온다: 위→아래로 드러남(0.4초) + 글이 바뀜
   const times = [T.p0, T.p1, T.p2];
   let idx = -1; times.forEach((t, i) => { if (tau >= t) idx = i; });
+  // 막대 판: 주문서가 걸릴 때마다 «주문» 이 한 칸씩, «안 쌓이는» 에서 «통장» 이 조금 자라다 멈추고 회색
+  E.pop('#pan', tau, T.a, { dy: 0 });
+  const nOrd = [T.a, T.b, T.c, T.d].reduce((n, t) => n + S.ent(tau, t + 0.05, 0.3), 0);
+  S.css('#ob', { width: (222 * nOrd / 4).toFixed(2) + 'px' });
+  const gk = S.EO(S.P(tau, T.no, T.no + 0.35)), gg = S.P(tau, T.no + 0.35, T.no + 0.6);
+  S.css('#tb', { width: (24 * gk).toFixed(2) + 'px', background: `rgb(${[127, 168, 245].map((v, i) => Math.round(v + ([122, 130, 138][i] - v) * gg)).join(',')})` });
   const e = S.$('#tp');
   if (idx < 0) { e.style.opacity = 0; }
   else {

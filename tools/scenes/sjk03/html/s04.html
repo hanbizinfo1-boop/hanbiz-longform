@@ -1,102 +1,154 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s04 계단 막대 — 12,000 → 수수료 → 재료비 → 포장 용기 → 천 원 남짓 (설명 층)</title>
+<title>s04 재료비·포장 용기 빼면 천 원 남짓 — 판 A 마무리: 회색 조각이 떨어지고 얇은 파랑 + 천 원 남짓 (설명 층)</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
-#stair{left:0;top:0;width:1920px;height:1080px}
-#stair text{font-family:"Pre";font-weight:900;letter-spacing:-.02em}
-#fin{left:1020px;top:430px;font-size:126px}
-#fin2{display:none}   /* 10-30 설계자: 화면 글 검사 T2 세 단 글 — «수익은» 머리말 뺌 */
+/* 판 A «주문 한 건 정산 막대» — 장면 2·3·4 가 같은 코드(drawA)로 같은 판을 이어 그린다(REDESIGN_1031 판 A) */
+#cam{left:0;top:0;width:1920px;height:1080px}
+#lbl12{left:340px;top:130px;width:240px;text-align:center;font-size:56px}
+#lblDish{left:240px;top:852px;width:440px;text-align:center;font-size:40px}
+#oBar{left:340px;top:200px;width:240px;height:352px;border:3px dashed #A9B0B6;border-radius:6px;opacity:0}
+.blk{position:absolute;box-sizing:border-box;border:4px solid #20262D;display:flex;align-items:center;justify-content:center;font-family:"Pre";font-weight:800;font-size:40px;white-space:nowrap;line-height:1}
+#bBlue{left:340px;width:240px;background:#DCE6F8;opacity:0}
+#chunk{left:340px;top:200px;width:240px;height:352px;background:#DCE6F8;opacity:0;color:#D63A3A}
+#pJae{left:340px;top:552px;width:240px;height:150px;opacity:0;color:#4A5158}
+#pPack{left:340px;top:702px;width:240px;height:85px;opacity:0;color:#4A5158}
+.blk span{opacity:0}
+#slot{left:1532px;top:215px;width:252px;height:70px;border:3px dashed #A9B0B6;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:"Pre";font-weight:900;white-space:nowrap;line-height:1;color:#A9B0B6;font-size:56px;opacity:0}
+#big{left:1190px;top:390px;font-size:130px;transform-origin:0 0;opacity:0}
+#fin{left:880px;top:640px;font-size:150px;opacity:0}
+#strike{left:1550px;top:248px;width:216px;height:4px;background:#7A828A;opacity:0}
+#coin{left:0;top:0;width:28px;height:28px;border-radius:50%;background:#1F5FD1;opacity:0}
+#card{left:890px;top:530px;width:560px;height:330px;background:#EFEAE0;border-radius:4px;opacity:0;
+  background-image:radial-gradient(rgba(120,100,70,.10) 1px,transparent 1.3px);background-size:6px 6px;
+  box-shadow:0 10px 22px rgba(0,0,0,.18),0 1px 2px rgba(0,0,0,.25);color:#26211A}
+#card .ttl{position:absolute;left:34px;top:8px;font-size:44px;font-weight:900;line-height:1;opacity:0}
+#card .rule{position:absolute;left:24px;right:24px;height:2px;background:#8C8472;opacity:.55}
+#card .nm{position:absolute;left:34px;font-size:44px;font-weight:700;white-space:nowrap;line-height:1.15}
+#card .bar{position:absolute;left:330px;height:26px;background:#D63A3A}
+#src{left:890px;top:868px;width:560px;text-align:center;opacity:0}
 </style></head>
 <body><div id="stage">
   <div id="cam" class="abs">
     <div class="grid"></div>
-    <svg id="stair" class="abs" viewBox="0 0 1920 1080">
-      <path id="base" class="ln w4" d="M150 880 L1700 880"/>
-      <!-- 단계 점선(윗면 높이) -->
-      <path id="st1" class="ln mu" stroke-dasharray="10 10" d="M498 280 L582 280"/>
-      <path id="st2" class="ln mu" stroke-dasharray="10 10" d="M858 605 L942 605"/>
-      <path id="st3" class="ln mu" stroke-dasharray="10 10" d="M1218 735 L1302 735"/>
-      <!-- 1열: 12,000 (아래 5~6천 남는 쪽 + 위 수수료 덩어리) -->
-      <g id="c1">
-        <rect x="230" y="605" width="260" height="275" fill="#DCE6F8"/>
-        <rect x="230" y="280" width="260" height="325" fill="#F7DEDE"/>
-        <path class="ln w4" d="M230 880 L230 280 L490 280 L490 880"/>
-        <path class="ln" d="M230 605 L490 605"/>
-      </g>
-      <text id="t1" x="360" y="248" text-anchor="middle" font-size="56" fill="#20262D">12,000원</text>
-      <text id="t1r" x="360" y="455" text-anchor="middle" font-size="46" fill="#D63A3A">수수료</text>
-      <!-- 2열: 5천~6천 + 빠진 수수료 자리(점선) -->
-      <g id="c2">
-        <rect x="590" y="605" width="260" height="275" fill="#DCE6F8"/>
-        <path class="ln w4" d="M590 880 L590 605 L850 605 L850 880"/>
-      </g>
-      <path id="g2" class="ln rd w4" stroke-dasharray="14 10" d="M590 605 L590 280 L850 280 L850 605"/>
-      <text id="t2" x="720" y="760" text-anchor="middle" font-size="46" fill="#20262D">5천~6천</text>
-      <!-- 3열: 재료비 빠짐 -->
-      <g id="c3">
-        <rect x="950" y="735" width="260" height="145" fill="#DCE6F8"/>
-        <path class="ln w4" d="M950 880 L950 735 L1210 735 L1210 880"/>
-      </g>
-      <g id="r3"><rect x="950" y="605" width="260" height="130" fill="#F7DEDE"/><path class="ln rd w4" d="M950 735 L950 605 L1210 605 L1210 735 Z"/></g>
-      <text id="t3" x="1080" y="685" text-anchor="middle" font-size="46" fill="#D63A3A">재료비</text>
-      <!-- 4열: 포장 용기 빠짐 → 천 원 남짓 -->
-      <g id="c4">
-        <rect x="1310" y="830" width="260" height="50" fill="#DCE6F8"/>
-        <path class="ln w4" d="M1310 880 L1310 830 L1570 830 L1570 880"/>
-      </g>
-      <g id="r4"><rect x="1310" y="735" width="260" height="95" fill="#F7DEDE"/><path class="ln rd w4" d="M1310 830 L1310 735 L1570 735 L1570 830 Z"/></g>
-      <text id="t4" x="1440" y="800" text-anchor="middle" font-size="40" fill="#D63A3A">포장 용기</text>
+    <div id="oBar" class="abs"></div>
+    <div id="bBlue" class="blk" data-box="barA" data-box-group="bar"></div>
+    <div id="chunk" class="blk" data-box="chunk" data-box-group="bar"><span id="chunkTx">배달앱 비용</span></div>
+    <div id="pJae" class="blk" data-box="jae" data-box-group="bar"><span>재료비</span></div>
+    <div id="pPack" class="blk" data-box="pack" data-box-group="bar"><span>포장 용기</span></div>
+    <div id="lbl12" class="abs t" data-box="lbl12">12,000원</div>
+    <div id="lblDish" class="abs t" data-box="dish">김치찌개 배달 1그릇</div>
+    <svg id="bank" class="abs" style="left:1440px;top:150px;width:360px;height:200px" viewBox="0 0 360 200" data-box="bank" data-box-group="bk">
+      <path id="k1" class="ln w4" d="M6 6 L354 6 L354 194 L6 194 Z"/>
+      <path id="k2" class="ln w4" d="M80 6 L80 194"/>
+      <path id="k3" class="ln" d="M20 50 L66 50 M20 100 L66 100 M20 150 L56 150"/>
+      <path id="k4" class="ln bl w4" d="M6 6 L6 194"/>
     </svg>
-    <div id="fin2" class="abs t" data-box="fin2" data-box-group="fin">수익은</div>
-    <div id="fin" class="abs big" data-box="fin" data-box-group="fin">천 원 남짓</div>
+    <svg id="road" class="abs" style="left:0;top:0;width:1920px;height:400px" viewBox="0 0 1920 400">
+      <mask id="rmask" maskUnits="userSpaceOnUse" x="0" y="0" width="1920" height="400"><path id="rm" d="M610 165 C 860 95, 1180 105, 1420 250" fill="none" stroke="#fff" stroke-width="24" stroke-linecap="butt"/></mask>
+      <path id="rd" mask="url(#rmask)" d="M610 165 C 860 95, 1180 105, 1420 250" fill="none" stroke="#A9B0B6" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 17"/>
+    </svg>
+    <div id="coin" class="abs"></div>
+    <div id="slot" class="abs" data-box="slot" data-box-group="bk">?</div>
+    <div id="strike" class="abs"></div>
+    <div id="big" class="abs big" data-box="big">5천~6천 원</div>
+    <svg id="brcS" class="abs" style="left:846px;top:488px;width:48px;height:352px" viewBox="0 0 48 352">
+      <path id="brc" class="ln w4" d="M6 8 Q 26 8 26 40 L26 150 Q 26 176 42 176 Q 26 176 26 202 L26 312 Q 26 344 6 344"/>
+    </svg>
+    <div id="card" class="abs" data-box="card" data-box-group="bar">
+      <div class="ttl" id="ttl">정산서</div>
+      <div class="rule" style="top:58px"></div>
+      <div class="nm" style="top:62px">중개 수수료</div><div class="bar" style="top:70px;width:90px"></div>
+      <div class="rule" style="top:108px"></div>
+      <div class="nm" style="top:112px">결제 수수료</div><div class="bar" style="top:120px;width:56px"></div>
+      <div class="rule" style="top:158px"></div>
+      <div class="nm" style="top:162px">배달비</div><div class="bar" style="top:170px;width:180px"></div>
+      <div class="rule" style="top:208px"></div>
+      <div class="nm" style="top:212px">할인 쿠폰</div><div class="bar" style="top:220px;width:110px"></div>
+      <div class="rule" style="top:258px"></div>
+      <div class="nm" style="top:262px">광고비</div><div class="bar" style="top:270px;width:150px"></div>
+      <div class="rule" style="top:308px"></div>
+    </div>
+    <div id="src" class="src abs" data-box="src" data-box-group="bar">방송 보도 찌개집 정산 사례 · 다시 그림</div>
+    <div id="fin" class="abs big" data-box="fin" data-box-group="bar">천 원 남짓</div>
   </div>
 </div>
 <script src="../data/s04.js"></script>
 <script src="../lib/sjk.js"></script>
 <script src="../lib/e4.js"></script>
 <script>
-window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1', '#D63A3A'];   // 빨강 = 빠져나가는 돈(수수료·재료비·포장 용기)
-const T = { c2: S.at('여기서'), jae: S.at('재료비랑'), pack: S.at('포장'), yong: S.at('용기값까지'), bbae: S.at('빼면'), prof: S.at('수익은'), cheon: S.at('천'), nam: S.at('남짓이죠') };
-const T0 = 0.02;
-S.ev(T0, 'gauge', 'c1'); S.ev(T.c2, 'coin', 'fee'); S.ev(T.jae, 'coin', 'jae'); S.ev(T.pack + 0.1, 'coin', 'pack'); S.ev(T.prof, 'gauge', 'c4'); S.ev(T.cheon, 'shine', 'fin');
-// 막대가 바닥에서 자란다
-function grow(id, tau, t0, d, base) {
-  const g = document.getElementById(id), k = S.EO(S.P(tau, t0, t0 + d));
-  g.setAttribute('transform', `translate(0,${base}) scale(1,${k.toFixed(4)}) translate(0,${-base})`);
-  g.style.opacity = tau >= t0 ? 1 : 0;
-  return k;
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1', '#D63A3A'];   // 모눈 · 선 · 파랑(통장에 남는 돈) · 빨강(빠져나가는 돈). 정산서 종이 #EFEAE0 은 사진 아닌 HTML 종이
+// ── 판 A: 아래 블록(A 시각표 · drawA)은 s02·s03·s04 세 파일에 똑같이 들어 있다. 고치면 세 파일을 같이 고친다 ──
+const A0 = { cam: 9.18, strike: 11.668 };
+const A = { grow: 2.457, bank: 3.068, q: 3.65, five: 4.85, card: 6.40, brk: 7.199, src: 8.122, shr: 9.665, jae: 10.065, pack: 10.706, fin: 12.149 };
+const EVA = [[2.46, 'gauge', 'bar'], [3.65, 'card_in', 'slot'], [4.85, 'no', 'chunk'], [5.455, 'shine', 'big'], [6.40, 'paper', 'card'], [7.199, 'marker', 'brace'], [10.065, 'coin', 'jae'], [10.706, 'no', 'pack'], [12.149, 'shine', 'fin']];
+EVA.forEach(([t, r, id]) => { const u = t - S.SC.t0; if (u >= 0 && u < S.SC.dur) S.ev(u, r, id); });
+function drawA(T) {
+  const $ = id => document.getElementById(id), EO = S.EO, P = S.P;
+  // 카메라: «심지어 여기서» 남은 파랑 막대 쪽으로 1.00→1.06, «천 원 남짓» 에서 1.00
+  const cs = 1 + 0.06 * S.cam(T, A0.cam, A0.cam + 0.6) - 0.06 * S.cam(T, A.fin, A.fin + 0.5);
+  S.css('#cam', { transformOrigin: '480px 860px', transform: `scale(${cs.toFixed(4)})` });
+  const BL = [220, 230, 248], RDT = [247, 222, 222], GR = [227, 230, 232], LN = [32, 38, 45], RD = [214, 58, 58], MU = [122, 130, 138], BLU = [31, 95, 209];
+  const mix = (a, b, k) => `rgb(${a.map((v, i) => Math.round(v + (b[i] - v) * k)).join(',')})`;
+  // 막대(12,000원 한 그릇): 바닥에서 자라고, 빨강 조각 → 회색 조각이 차례로 떨어져 나가 얇은 파랑만 남는다
+  const kg = EO(P(T, A.grow, A.grow + 0.55));
+  let bTop, bH;
+  if (T < A.five) { bH = 640 * kg; bTop = 840 - bH; } else if (T < A.jae) { bTop = 552; bH = 288; } else if (T < A.pack) { bTop = 702; bH = 138; } else { bTop = 787; bH = 53; }
+  const kf = S.ent(T, A.fin, 0.2), bb = $('bBlue');
+  bb.style.opacity = kg > 0 ? 1 : 0; bb.style.top = bTop + 'px'; bb.style.height = Math.max(bH, 0.1) + 'px';
+  bb.style.borderColor = mix(LN, BLU, kf); bb.style.boxShadow = kf > 0 ? `0 0 0 ${(kf * 8).toFixed(1)}px rgba(31,95,209,${(0.35 * kf).toFixed(2)})` : 'none';
+  E.pop('#lbl12', T, A.grow + 0.2, { dy: 0 }); E.pop('#lblDish', T, A.grow + 0.3, { dy: 0 });
+  const ch = $('chunk');
+  if (T >= A.five) {
+    const kc = EO(P(T, A.five, A.five + 0.2)), km = EO(P(T, A.five + 0.25, A.five + 0.8));
+    ch.style.opacity = 1; ch.style.background = mix(BL, RDT, kc); ch.style.borderColor = mix(LN, RD, kc);
+    ch.style.left = (340 + 260 * km).toFixed(2) + 'px'; ch.style.top = (200 + 288 * km).toFixed(2) + 'px';
+    $('chunkTx').style.opacity = P(T, A.five + 0.8, A.five + 0.95).toFixed(3);
+  } else ch.style.opacity = 0;
+  $('oBar').style.opacity = P(T, A.five + 0.5, A.five + 0.7).toFixed(3);
+  [['pJae', A.jae, 552, 690], ['pPack', A.pack, 702, 605]].forEach(([id, t0, y0, y1]) => {
+    const el = $(id);
+    if (T < t0) { el.style.opacity = 0; return; }
+    const kc = EO(P(T, t0, t0 + 0.2)), km = EO(P(T, t0 + 0.15, t0 + 0.6));
+    el.style.opacity = 1; el.style.background = mix(BL, GR, kc); el.style.borderColor = mix(LN, MU, kc);
+    el.style.left = (340 - 220 * km).toFixed(2) + 'px'; el.style.top = (y0 + (y1 - y0) * km).toFixed(2) + 'px'; el.style.width = (240 - 40 * km).toFixed(2) + 'px';
+    el.firstChild.style.opacity = P(T, t0 + 0.45, t0 + 0.6).toFixed(3);
+  });
+  // 통장: 선이 그려지고 빈 칸 «?» → 같은 숫자로 채워짐
+  ['#k1', '#k2', '#k3', '#k4'].forEach((p, i) => E.stroke(p, T, A.bank + i * 0.1, 0.35));
+  const sl = $('slot'), filled = T >= A.five + 0.5;   // 동전이 도착하는 순간 채움
+  E.pop('#slot', T, A.q, { dy: 0 });
+  // 점선 길: «얼마가 들어올까요?» 에서 그려지고(회색) «5천 원에서» 에 파랑으로 바뀌며 동전이 0.5초에 통장으로 들어감
+  const rd = $('rd');
+  E.stroke('#rm', T, A.q + 0.05, 0.9);
+  const kb = P(T, A.five, A.five + 0.15);
+  rd.style.stroke = `rgb(${[169, 176, 182].map((v, i) => Math.round(v + ([31, 95, 209][i] - v) * kb)).join(',')})`;
+  const cc = $('coin'), kc2 = EO(P(T, A.five, A.five + 0.5));
+  if (T >= A.five && T < A.five + 0.5) {
+    const pt = rd.getPointAtLength(rd.getTotalLength() * kc2);
+    cc.style.opacity = 1; cc.style.left = (pt.x - 14).toFixed(2) + 'px'; cc.style.top = (pt.y - 14).toFixed(2) + 'px';
+  } else cc.style.opacity = 0;
+  // «빼면»: 통장 칸 숫자에 회색 가로줄
+  E.wipe('#strike', T, A0.strike, 0.3);
+  sl.textContent = filled ? '5천~6천 원' : '?';
+  sl.style.fontSize = filled ? '40px' : '56px'; sl.style.color = filled ? '#1F5FD1' : '#A9B0B6';
+  sl.style.borderColor = filled ? '#1F5FD1' : '#A9B0B6'; sl.style.borderStyle = filled ? 'solid' : 'dashed';
+  sl.style.background = filled ? 'rgba(31,95,209,.10)' : 'transparent';
+  // 큰 파랑 숫자: 왼→오로 나오고, 재료비 직전에 작아지며 위로 비킴(지우지 않음)
+  E.wipe('#big', T, A.five, 0.7);
+  const ks = EO(P(T, A.shr, A.shr + 0.35)), bg = $('big');
+  if (T >= A.shr) bg.style.opacity = (1 - ks).toFixed(3);   // 작아진 숫자는 통장 칸 안에만 남고 가운데 큰 글은 걷힘(같은 숫자 두 번 금지)
+  // 정산서 종이(HTML) · 괄호 · 출처
+  const ca = S.ent(T, A.card, 0.14), cd = $('card');
+  const kd = EO(P(T, A.fin - 0.1, A.fin + 0.15)), dm = 1 - kd, dc = 1 - 0.75 * EO(P(T, A.fin, A.fin + 0.3));   // 천 원 남짓 — 카드·괄호·출처는 0, 빨강 덩어리는 0.25
+  if (T >= A.five) ch.style.opacity = dc; $('brcS').style.opacity = dm;
+  cd.style.opacity = ca * dm; cd.style.transform = `translateX(${(60 * (1 - ca)).toFixed(2)}px)`;
+  $('ttl').style.opacity = 1;
+  E.stroke('#brc', T, A.brk, 0.5);
+  [90, 56, 180, 110, 150].forEach((w, i) => { document.querySelectorAll('#card .bar')[i].style.width = (w * S.ent(T, A.brk + i * 0.12, 0.3)).toFixed(2) + 'px'; });
+  E.pop('#src', T, A.src, { dy: 8 }); $('src').style.opacity = (parseFloat($('src').style.opacity) * dm).toFixed(3);
+  E.wipe('#fin', T, A.fin, 0.35);
 }
-function drop(id, tau, t0, dy = -60) {   // 위에서 떨어져 자리를 잡음(감속, 튕김 0)
-  const g = document.getElementById(id), k = S.ent(tau, t0, 0.12);
-  g.style.opacity = k; g.style.transform = `translateY(${(dy * (1 - k)).toFixed(2)}px)`;
-  return k;
-}
-S.scene(tau => {
-  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
-  E.stroke('#base', tau, T0, 0.4);
-  grow('c1', tau, T0, 0.5, 880);
-  E.pop('#t1', tau, T0 + 0.25, { dy: 0 });
-  E.pop('#t1r', tau, T0 + 0.5, { dy: 0 });
-  // 여기서 → 수수료가 빠지고 5~6천이 남는 열
-  E.stroke('#st1', tau, T.c2 - 0.15, 0.3);
-  grow('c2', tau, T.c2, 0.35, 880);
-  E.stroke('#g2', tau, T.c2 + 0.2, 0.45);
-  E.pop('#t2', tau, T.c2 + 0.35, { dy: 0 });
-  // 재료비
-  E.stroke('#st2', tau, T.jae - 0.15, 0.3);
-  grow('c3', tau, T.jae, 0.3, 880);
-  drop('r3', tau, T.jae + 0.2, -50); E.pop('#t3', tau, T.jae + 0.32, { dy: 0 });
-  // 포장 용기
-  E.stroke('#st3', tau, T.pack - 0.15, 0.3);
-  grow('c4', tau, T.pack, 0.3, 880);
-  drop('r4', tau, T.pack + 0.45, -40); E.pop('#t4', tau, T.yong, { dy: 0 });
-  // 수익은 천 원 남짓 — 마지막 막대가 파랑으로
-  const f = S.ent(tau, T.prof, 0.12);
-  document.querySelector('#c4 rect').style.fill = f > 0 ? `rgb(${Math.round(220 - 189 * f)},${Math.round(230 - 135 * f)},${Math.round(248 - 39 * f)})` : '#DCE6F8';
-  E.pop('#fin2', tau, T.prof, { dy: 0 });
-  E.wipe('#fin', tau, T.cheon, 0.55);
-});
+S.scene(tau => drawA(S.SC.t0 + tau));
 </script>
 </body></html>

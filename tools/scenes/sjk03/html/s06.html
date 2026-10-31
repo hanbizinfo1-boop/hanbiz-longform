@@ -5,12 +5,19 @@
 <style>
 #ov{left:0;top:0;width:1920px;height:1080px}
 #dim{left:1100px;top:0;width:820px;height:1080px;background:linear-gradient(90deg,rgba(14,10,6,.0),rgba(14,10,6,.55) 18%,rgba(14,10,6,.55));opacity:0}
+#pw1,#pw2,#py{width:300px;text-align:center;padding:16px 0 18px;font-size:56px;opacity:0}
+#pw1{left:440px;top:220px}
+#pw2{left:1350px;top:220px}
+#py{left:440px;top:344px}
 #glow{left:120px;top:290px;width:960px;height:520px;background:radial-gradient(ellipse at 50% 50%,rgba(255,190,110,.30),rgba(255,190,110,0) 70%);opacity:0}
 </style></head>
 <body><div id="stage">
   <div id="ph" class="photo">
     <div id="glow" class="abs"></div>
     <div id="dim" class="abs"></div>
+    <div id="pw1" class="dpan abs" data-box="pw1"><span class="rd">수수료</span></div>
+    <div id="pw2" class="dpan abs" data-box="pw2"><span class="rd">수수료</span></div>
+    <div id="py" class="dpan abs" data-box="py"><span class="bl">수익</span></div>
   </div>
 </div>
 <script src="../data/s06.js"></script>
@@ -20,13 +27,16 @@
 window.PALETTE = ['#D63A3A', '#FFFFFF', '#1F5FD1'];
 S.css('#ph', { backgroundImage: S.ph('p06_two_shops') });
 const T = { fee: S.at('수수료를'), win: S.at('수익을'), shop: S.at('가게가') };
-S.ev(T.fee, 'sweep', 'push'); S.ev(T.shop, 'shine', 'glow');
+S.ev(T.fee, 'sweep', 'push'); S.ev(T.win + 0.05, 'coin', 'py'); S.ev(T.shop, 'shine', 'glow');
 S.scene(tau => {
   // 아주 느린 옆 흐름 + «수수료를» 에서 기사 둘 쪽으로 천천히 밀고 들어감(원점 = 기사 둘)
   const s = 1.08 + 0.10 * S.cam(tau, T.fee, T.fee + 0.7), ox = 420, oy = 680;
   const fl = S.lerp(20, -20, S.P(tau, 0, S.SC.dur));
   S.css('#ph', { transformOrigin: '0 0', transform: `translate(${(ox * (1 - s) + fl).toFixed(2)}px,${(oy * (1 - s)).toFixed(2)}px) scale(${s.toFixed(4)})` });
   S.css('#dim', { opacity: S.ent(tau, T.win + 0.2, 0.3) });
+  E.pop('#pw1', tau, T.fee + 0.1, { dy: 0 }); E.pop('#pw2', tau, T.fee + 0.22, { dy: 0 });
+  S.css('#pw2', { opacity: (S.ent(tau, T.fee + 0.22, 0.12) * (1 - 0.45 * S.ent(tau, T.win + 0.2, 0.3))).toFixed(3) });
+  E.pop('#py', tau, T.win + 0.05, { dy: 0 });
   S.css('#glow', { opacity: S.ent(tau, T.shop, 0.3) });
 });
 </script>

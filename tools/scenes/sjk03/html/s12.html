@@ -1,46 +1,99 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s12 정산서 종이 결 극접사 — 항목 다섯 줄에 파란 펜 밑줄이 단어 시각에 한 줄씩(실물 층 · 매크로 · 줄 따라 아래로)</title>
+<title>s12 정산서 항목 → 비용 조각이 막대 윗부분에 하나씩 얹힘 — 판 C 시작(극접사 사진 삭제) (설명 층)</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-/* 사진 속 종이(p12) 의 줄 칸 위에 맞춘 평면 — 펴 놓은 1000x800 을 종이 네 점에 fitQuad. 줄 간격은 펴 본 사진에서 잰 값 */
-#pg{left:0;top:0;width:1000px;height:800px}
-#pg .nm{position:absolute;left:78px;font-family:"Pre";font-weight:800;font-size:46px;color:#2A2118;white-space:nowrap;mix-blend-mode:multiply;transform:rotate(1.1deg);transform-origin:0 50%;opacity:0;line-height:1}
-#pg .ul{position:absolute;left:70px;height:10px;border-radius:5px;background:#1F5FD1;transform-origin:0 50%;transform:scaleX(0) rotate(1.1deg);opacity:.92;mix-blend-mode:multiply}
+/* 판 C «비용이 쌓이는 주문서» — 장면 12·13 이 같은 코드(drawC)로 같은 판을 이어 그린다(REDESIGN_1031 판 C, 극접사 사진 삭제) */
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+.ob{position:absolute;background:#DCE6F8;border:4px solid #20262D;box-sizing:border-box;opacity:0}
+.pc{position:absolute;background:#D63A3A;border:2px solid #fff;box-sizing:border-box;opacity:0}
+#lbl1{top:852px;width:200px;text-align:center;font-size:44px}
+#list{left:810px;top:300px;width:600px;height:290px;opacity:0}
+#list .li{position:absolute;left:0;width:100%;height:48px;display:flex;align-items:center;gap:24px;padding-left:34px;font-size:44px;font-weight:700;white-space:nowrap;color:#A9B0B6;line-height:1}
+#list .li i{display:block;width:26px;height:26px;background:#D63A3A;border-radius:4px;opacity:.35}
+#brk{left:0;top:0;width:1920px;height:1080px}
 </style></head>
 <body><div id="stage">
-  <div id="ph" class="photo">
-    <div id="pg" class="abs">
-      <div class="nm" id="n0" style="top:295px">중개 수수료</div><div class="ul" id="u0" style="top:340px"></div>
-      <div class="nm" id="n1" style="top:369px">결제 수수료</div><div class="ul" id="u1" style="top:414px"></div>
-      <div class="nm" id="n2" style="top:452px">배달비</div><div class="ul" id="u2" style="top:497px"></div>
-      <div class="nm" id="n3" style="top:549px">할인 쿠폰</div><div class="ul" id="u3" style="top:594px"></div>
-      <div class="nm" id="n4" style="top:649px">광고비</div><div class="ul" id="u4" style="top:694px"></div>
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <div id="orders"></div>
+    <div id="lbl1" class="abs t" data-box="lbl1">주문 1건</div>
+    <div id="list" class="card" data-box="list" data-box-group="ls">
+      <div class="li" id="li0" style="top:22px"><i></i><span>중개 수수료</span></div>
+      <div class="li" id="li1" style="top:74px"><i></i><span>결제 수수료</span></div>
+      <div class="li" id="li2" style="top:126px"><i></i><span>배달비</span></div>
+      <div class="li" id="li3" style="top:178px"><i></i><span>할인 쿠폰</span></div>
+      <div class="li" id="li4" style="top:230px"><i></i><span>광고비</span></div>
     </div>
+    <svg id="brk" class="abs" viewBox="0 0 1920 1080">
+      <path id="bk" class="ln w6 rd" d="M260 436 L260 414 L1661 414 L1661 436 M960 414 L960 394"/>
+    </svg>
   </div>
 </div>
 <script src="../data/s12.js"></script>
 <script src="../lib/sjk.js"></script>
 <script src="../lib/e4.js"></script>
 <script>
-window.PALETTE = ['#2A2118', '#FFFFFF', '#1F5FD1'];
-S.css('#ph', { backgroundImage: S.ph('p12_paper_macro') });
-// 사진 속 종이 줄 칸 네 점(사진 좌표 → 판 좌표): 왼위·오위·오아래·왼아래
-const QP = [[770, 425], [1375, 478], [1100, 1010], [110, 718]].map(([x, y]) => [x * 1.25, y * 1.25 - 100]);
-const T = { name0: 0.25, u: [S.at('중개'), S.at('결제'), S.at('배달비'), S.at('할인'), S.at('광고비')] };
-S.ev(0.25, 'page', 'n0'); S.ev(1.45, 'paper', 'n3');
-T.u.forEach((t, i) => S.ev(t, 'marker', 'u' + i));
-S.scene(tau => {
-  const k = S.P(tau, 0, S.SC.dur);
-  S.css('#ph', { transformOrigin: '700px 600px', transform: `translateY(${S.lerp(10, -50, k).toFixed(2)}px) scale(${S.lerp(1.2, 1.36, k).toFixed(4)})` });   // 줄 따라 아래로(사진이 위로 올라감)
-  S.fitQuad(S.$('#pg'), 1000, 800, QP);
-  for (let i = 0; i < 5; i++) {
-    const n = S.$('#n' + i), t = T.name0 + i * 0.3;
-    const q = S.EO(S.P(tau, t, t + 0.3)); n.style.opacity = tau >= t ? 1 : 0; n.style.clipPath = `inset(-8px ${((1 - q) * 100).toFixed(1)}% -8px -6px)`;
-    const u = S.$('#u' + i); u.style.width = (n.offsetWidth + 20) + 'px';
-    const w = S.EO(S.P(tau, T.u[i], T.u[i] + 0.4));
-    u.style.transform = `scaleX(${w.toFixed(3)}) rotate(1.1deg)`; u.style.opacity = tau >= T.u[i] ? 0.92 : 0;
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1', '#D63A3A'];   // 모눈 · 선 · 파랑(주문 한 건) · 빨강(비용 조각)
+// ── 판 C: 아래 블록(C 시각표 · drawC)은 s12·s13 두 파일에 똑같이 들어 있다. 고치면 두 파일을 같이 고친다 ──
+const C = { bar: 47.96, list: 48.19, it: [51.06, 51.96, 52.84, 53.49, 54.5], slide: 59.684, copy0: 59.9, copyStep: 0.12, brk: 61.0 };
+const PH = [28, 20, 62, 32, 44];   // 조각 두께(합 186 = 막대 높이 620 의 30%, 배달비가 제일 두껍게) — 막대 윗부분에 하나씩 얹힘
+const EVC = [[47.96, 'gauge', 'bar'], [48.19, 'card_in', 'list'], [51.06, 'coin', 'p0'], [51.96, 'click', 'p1'], [52.84, 'coin', 'p2'], [53.49, 'click', 'p3'], [54.5, 'coin', 'p4'], [59.9, 'page', 'copies'], [61.0, 'marker', 'brace']];
+EVC.forEach(([t, r, id]) => { const u = t - S.SC.t0; if (u >= 0 && u < S.SC.dur) S.ev(u, r, id); });
+const orders = document.getElementById('orders'), OB = [], PCS = [];
+for (let k = 0; k < 8; k++) {
+  const ob = document.createElement('div');
+  ob.className = 'ob'; ob.dataset.box = 'ob' + k; ob.dataset.boxGroup = 'ord'; orders.appendChild(ob); OB.push(ob);
+  const col = [];
+  PH.forEach(() => { const p = document.createElement('div'); p.className = 'pc'; p.dataset.box = 'pc' + k; p.dataset.boxGroup = 'ord'; orders.appendChild(p); col.push(p); });
+  PCS.push(col);
+}
+const LI = [0, 1, 2, 3, 4].map(i => document.getElementById('li' + i));
+// 막대 k 를 (x, w, H) 로 놓고 조각을 윗부분에 쌓는다. 바닥은 y 840
+function place(k, x, w, H, h) {
+  const top = 840 - H * h;                         // h = 자라는 정도(0~1)
+  const ob = OB[k]; ob.style.left = x.toFixed(2) + 'px'; ob.style.width = w.toFixed(2) + 'px'; ob.style.top = top.toFixed(2) + 'px'; ob.style.height = (H * h).toFixed(2) + 'px';
+  let y = top;
+  PCS[k].forEach((p, i) => { const th = PH[i] / 620 * H; p.style.left = x.toFixed(2) + 'px'; p.style.width = w.toFixed(2) + 'px'; p.style.top = y.toFixed(2) + 'px'; p.style.height = th.toFixed(2) + 'px'; y += th; });
+}
+function drawC(T) {
+  const EO = S.EO, P = S.P;
+  // 카메라: 하나하나 보면(55.14) 첫 막대 빨강 조각 쪽으로 1.0→1.45(0.7초) → 그런데 이게(59.06) 1.0 으로 빠짐
+  const zi = S.EZ(P(T, 55.14, 55.84)), zo = S.EZ(P(T, 59.06, 59.76)), zz = zi * (1 - zo);
+  const cs = S.lerp(1.0, 1.03, P(T, 47.94, 61.93)) * (1 + 0.45 * zz);
+  const cx = 960 + (800 - 960) * zz, cy = 540 + (566 - 540) * zz;   // 첫 막대(x510~710 · 빨강 조각은 윗부분 y 220~406)가 목록과 함께 화면 안에 남도록
+  S.css('#cam', { transformOrigin: '0 0', transform: `translate(960px,540px) scale(${cs.toFixed(4)}) translate(${-cx.toFixed(2)}px,${-cy.toFixed(2)}px)` });
+  // 주문 한 건 막대(바닥에서 자람): 가운데 한 쌍 — 막대 x510 폭200 높이620 · 목록 x810 폭600
+  const kb = EO(P(T, C.bar, C.bar + 0.5)), s = EO(P(T, C.slide, C.slide + 0.4));
+  const x0 = S.lerp(510, 260, s), w0 = S.lerp(200, 120, s), H0 = S.lerp(620, 400, s);
+  place(0, x0, w0, H0, kb);
+  OB[0].style.opacity = kb > 0 ? 1 : 0;
+  const lb = document.getElementById('lbl1'); lb.style.left = (x0 + w0 / 2 - 100).toFixed(2) + 'px';
+  E.pop('#lbl1', T, C.bar + 0.3, { dy: 0 });
+  lb.style.opacity = (parseFloat(lb.style.opacity) * (1 - S.P(zz, 0, 0.3))).toFixed(3);   // 밀고 들어간 동안 이름표는 걷힘
+  // 항목 목록 칸: 말하는 줄만 진하게(그 칸만 진하게·나머지 옅게)
+  const kl = S.ent(T, C.list, 0.14), ls = document.getElementById('list');
+  ls.style.opacity = kl;
+  ls.style.left = (810 + 290 * s).toFixed(2) + 'px'; ls.style.top = (300 - 210 * s).toFixed(2) + 'px';
+  LI.forEach((el, i) => { const on = T >= C.it[i]; el.style.color = on ? '#20262D' : '#A9B0B6'; el.firstChild.style.opacity = on ? 1 : 0.35; });
+  // 빨강 조각: 항목을 말할 때마다 첫 막대 윗부분에 하나씩 얹힘 — 크게 안 느껴지는데요(57.7)엔 옅은 분홍으로 바래졌다가 그런데 이게(59.06) 다시 진한 빨강
+  const fade = S.ent(T, 57.7, 0.5) * (1 - S.ent(T, 59.06, 0.3));
+  PCS[0].forEach((p, i) => { const k = S.ent(T, C.it[i], 0.15); p.style.opacity = k * (1 - 0.6 * fade); p.style.transform = `translateY(${(-40 * (1 - k)).toFixed(1)}px)`; });
+  // 각종 수수료들이 많죠(49.41): 목록 다섯 줄이 위→아래 0.1초 간격으로 한 번 훑듯 진해졌다 회색으로 돌아감(항목 줄이 이미 켜진 뒤엔 건드리지 않음)
+  LI.forEach((el, i) => {
+    if (T >= C.it[i]) return;
+    const a = 49.41 + 0.1 * i, p = S.P(T, a, a + 0.12) * (1 - S.P(T, a + 0.12, a + 0.3));
+    if (p > 0) { el.style.color = '#6B747D'; el.firstChild.style.opacity = 0.35 + 0.4 * p; el.style.color = `rgb(${Math.round(169 - 137 * p)},${Math.round(176 - 138 * p)},${Math.round(182 - 137 * p)})`; }
+  });
+  // 주문마다 계속 적용되면: 막대(와 조각)가 오른쪽으로 7번 복제 — 8개가 x260~1660 가운데로
+  for (let k = 1; k < 8; k++) {
+    const t = C.copy0 + (k - 1) * C.copyStep, e = S.ent(T, t, 0.12);
+    place(k, 260 + 183 * k, 120, 400, 1);
+    OB[k].style.opacity = e; OB[k].style.transform = `translateX(${(-30 * (1 - e)).toFixed(1)}px)`;
+    PCS[k].forEach(p => { p.style.opacity = e; p.style.transform = `translateX(${(-30 * (1 - e)).toFixed(1)}px)`; });
   }
-});
+  E.stroke('#bk', T, C.brk, 0.3);
+}
+S.scene(tau => drawC(S.SC.t0 + tau));
 </script>
 </body></html>

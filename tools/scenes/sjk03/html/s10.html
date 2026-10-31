@@ -11,7 +11,8 @@
 #appP .hd{height:92px;font-size:40px}
 #appP .row{padding:28px 30px}
 #appP .nm{font-size:44px}
-#appP .ul2{position:absolute;left:340px;top:176px;width:170px;height:8px;background:#D63A3A;border-radius:4px;transform-origin:0 50%;transform:scaleX(0)}
+#appPr{border:3px dashed #6B747D;border-radius:8px;padding:0 12px;color:transparent}
+#fly{position:absolute;left:0;top:0;font-family:"Pre";font-weight:900;white-space:nowrap;line-height:1;opacity:0;text-shadow:0 2px 10px rgba(0,0,0,.6);z-index:5}
 #dpb{left:860px;top:360px;font-size:84px}
 #cring{width:110px;height:110px;border:6px solid #fff;border-radius:50%;opacity:0;left:0;top:0}
 </style></head>
@@ -21,8 +22,8 @@
     <div id="appP" class="app" data-box="appP">
       <div class="hd">가게 메뉴</div>
       <div class="row"><span class="nm">김치찌개</span><span class="pr" id="appPr" style="margin-left:auto;font-size:46px;font-weight:900">12,000</span></div>
-      <div class="ul2" id="ul2"></div>
     </div>
+    <div id="fly" class="abs">12,000</div>
   </div>
   <div id="phB" class="photo lay" style="opacity:0">
     <div id="dpb" class="dpan abs" data-box="dpb">배달 가격<div id="dbl" style="height:8px;background:#7FA8F5;border-radius:4px;margin-top:12px;transform-origin:0 50%;transform:scaleX(0)"></div></div>
@@ -36,7 +37,7 @@
 window.PALETTE = ['#16191D', '#F2E4C6', '#1F5FD1'];
 S.css('#phA', { backgroundImage: S.ph('p10_menu_wall') }); S.css('#phB', { backgroundImage: S.ph('p10b_calculator_hand') });
 const T = { nm: 0.25, pr: S.at('매장'), app: S.at('배달앱에'), ul: S.at('올립니다'), cut: S.at('근데'), dp: S.at('배달', 1), dl: S.at('따로'), press: S.at('계산하죠') };
-S.ev(T.nm, 'marker', 'bdn'); S.ev(T.pr, 'shine', 'bdp'); S.ev(T.app, 'card_in', 'appP'); S.ev(T.ul, 'marker', 'ul2'); S.ev(T.dp, 'card_in', 'dpb'); S.ev(T.press, 'click', 'cring');
+S.ev(T.nm, 'marker', 'bdn'); S.ev(T.pr, 'shine', 'bdp'); S.ev(T.app, 'card_in', 'appP'); S.ev(T.ul + 0.5, 'coin', 'fly'); S.ev(T.dp, 'card_in', 'dpb'); S.ev(T.press, 'click', 'cring');
 S.scene(tau => {
   const A = tau < T.cut;
   S.css('#phA', { opacity: A ? 1 : 0 }); S.css('#phB', { opacity: A ? 0 : 1 });
@@ -46,8 +47,19 @@ S.scene(tau => {
   E.wipe('#bdn', tau, T.nm, 0.45); E.wipe('#bdp', tau, T.pr, 0.4);
   if (A) {
     const a = S.ent(tau, T.app, 0.14); S.css('#appP', { opacity: a });
-    S.$('#ul2').style.transform = `scaleX(${S.EO(S.P(tau, T.ul, T.ul + 0.35)).toFixed(3)})`;
-    S.$('#ul2').style.opacity = tau >= T.ul ? 1 : 0;
+    // 올립니다: 벽 메뉴판의 12,000 이 앱 판 가격 칸(처음 빈 점선)으로 날아가 앉음(0.5초)
+    const sc = 1.06, ax = S.lerp(30, -30, S.P(tau, 0, T.cut));
+    const loc = el => { const r = el.getBoundingClientRect(); return { x: 960 + ((r.left + r.width / 2) - ax - 960) / sc, y: 540 + ((r.top + r.height / 2) - 540) / sc }; };
+    const f = S.EO(S.P(tau, T.ul, T.ul + 0.5)), land = tau >= T.ul + 0.5;
+    const pa = loc(S.$('#bdp')), b = loc(S.$('#appPr'));
+    const fl = S.$('#fly');
+    fl.style.opacity = tau >= T.ul && !land ? 1 : 0;
+    fl.style.fontSize = S.lerp(96, 46, f).toFixed(1) + 'px';
+    fl.style.color = f > 0.6 ? '#ECEEF0' : '#F2E4C6';
+    fl.style.transform = `translate(${S.lerp(pa.x, b.x, f).toFixed(1)}px,${S.lerp(pa.y, b.y, f).toFixed(1)}px) translate(-50%,-50%)`;
+    S.$('#appPr').style.color = land ? '#ECEEF0' : 'transparent';
+    S.$('#appPr').style.borderColor = land ? 'transparent' : '#6B747D';
+    S.$('#bdp').style.opacity = tau >= T.ul ? 0.4 : S.$('#bdp').style.opacity;
   } else {
     E.pop('#dpb', tau, T.dp, { dy: 10 });
     S.$('#dbl').style.transform = `scaleX(${S.EO(S.P(tau, T.dl, T.dl + 0.35)).toFixed(3)})`;

@@ -4,9 +4,9 @@
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
 #cam{left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
-#bf{left:240px;top:300px;width:461px;height:460px;background:#fff;border:2px solid #C9CED3;border-radius:14px;opacity:0}
-#bs{left:240px;top:300px;width:461px;height:40px;background:var(--bl);border-radius:14px 14px 0 0;opacity:0}
-#hd{left:260px;top:301px;font-size:28px;color:#fff;font-weight:900;line-height:38px}
+#bf{left:240px;top:200px;width:461px;height:520px;background:#fff;border:2px solid #C9CED3;border-radius:14px;opacity:0}
+#bs{left:240px;top:200px;width:461px;height:40px;background:var(--bl);border-radius:14px 14px 0 0;opacity:0}
+#hd{left:260px;top:201px;font-size:28px;color:#fff;font-weight:900;line-height:38px}
 #tag{left:186px;top:402px;width:570px;height:330px;background:#fff;border:6px solid var(--ln);border-radius:26px;display:flex;align-items:center;justify-content:center;padding-top:40px;font-size:72px;font-weight:900;color:var(--ln);white-space:nowrap}
 #hole{left:451px;top:424px;width:40px;height:40px;border-radius:50%;border:6px solid var(--ln);background:#fff;opacity:0}
 </style></head>
@@ -15,9 +15,11 @@
     <div class="grid"></div>
     <div id="bf" class="abs"></div>
     <div id="bs" class="abs"></div>
+    <div id="band" class="abs" style="left:240px;top:200px;width:461px;height:12px;background:#1F5FD1;border-radius:10px 10px 0 0"></div>
     <div id="hd" class="abs t" data-box="hd" data-box-group="pan">1 가격</div>
     <div id="tag" class="abs" data-box="tag" data-box-group="pan">가격</div>
     <div id="hole" class="abs"></div>
+    <div id="strike" class="abs" style="left:262px;top:581px;width:418px;height:9px;background:#D63A3A;border-radius:5px;opacity:0;transform-origin:0 50%"></div>
   </div>
 </div>
 <script src="../data/s09.js"></script>
@@ -26,30 +28,33 @@
 <script src="../lib/prog.js"></script>
 <script>
 window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];
-const T = { first: S.at('첫'), gyeok2: S.at('여기서'), menu: S.at('메뉴판'), bae: S.at('배달로'), pal: S.at('팔'), badn: S.at('받는') };
-const pc = PROG.mount('#cam', { x: 240, y: 300, w: 1440, h: 460 });
+const T = { first: S.at('첫'), gyeok2: S.at('여기서'), menu: S.at('메뉴판'), bae: S.at('배달로'), ani: S.at('아니라'), pal: S.at('팔'), badn: S.at('받는') };
+const pc = PROG.mount('#cam', { x: 240, y: 200, w: 1440, h: 520 });
 // bf·hd·tag 는 카드 위로
-['#bf', '#bs', '#hd', '#tag', '#hole'].forEach(s => document.getElementById('cam').appendChild(S.$(s)));
+['#bf', '#bs', '#band', '#hd', '#tag', '#hole', '#strike'].forEach(s => document.getElementById('cam').appendChild(S.$(s)));
 const C0 = { x: 470.67, y: 530 };
 S.ev(-0.1, 'click', 'cell0'); S.ev(0.3, 'sweep', 'into'); S.ev(0.6, 'card_in', 'panel'); S.ev(T.gyeok2, 'card_in', 'tag'); S.ev(T.menu, 'msg_in', 'menu'); S.ev(T.bae, 'page', 'flip'); S.ev(T.badn, 'shine', 'ring');
 const cell = i => pc.root.querySelectorAll('.pcell')[i];
 S.scene(tau => {
   // 카메라: 칸 0 으로 밀고 들어감
-  const keys = [{ t: -9, s: 1, x: 960, y: 540 }, { t: 0.3, s: 1.7, x: C0.x, y: 565, d: 0.5 }];
+  const keys = [{ t: -9, s: 1.06, x: 960, y: 540 }, { t: 0.3, s: 1.7, x: C0.x, y: 565, d: 0.5 }];
   const c = S.camState(tau, keys);
   const slow = 1 + 0.03 * S.P(tau, 0.8, S.SC.dur);
   S.css('#cam', { transform: S.camCss({ s: c.s * slow, x: c.x, y: c.y }) });
   // 카드: 세 칸 다 나와 있고 첫 칸이 파랑으로 켜짐(-0.1 → 0.1)
+  // 시작 상태 = 장면 8 끝 상태(첫 칸 파랑 테두리·띠, 나머지 두 칸 옅게) → 첫 칸이 파랑으로 가득 켜짐
   const on0 = S.ent(tau, -0.1, 0.2);
   PROG.draw(pc, [{ show: 1, on: on0 }, { show: 1, on: 0 }, { show: 1, on: 0 }], 1);
-  const fo = 1 - S.P(tau, 0.35, 0.6);
+  const fo = 0.35 * (1 - S.P(tau, 0.35, 0.6));
   cell(1).style.opacity = fo; cell(2).style.opacity = fo; cell(0).style.opacity = tau >= 0.55 ? 0 : 1;
+  cell(0).style.borderColor = '#1F5FD1'; cell(0).style.boxShadow = '0 0 0 5px rgba(31,95,209,.40)';
+  S.css('#band', { opacity: tau >= 0.1 ? 0 : 1 });
   // 칸이 넓어져 칸 안(파랑 판)이 됨
   const ex = S.EO(S.P(tau, 0.55, 0.95));
-  const L = S.lerp(240, 121, ex) + 'px', Wd = S.lerp(461, 700, ex) + 'px', Tp = S.lerp(300, 312, ex) + 'px';
-  S.css('#bf', { opacity: tau >= 0.55 ? 1 : 0, left: L, width: Wd, top: Tp, height: S.lerp(460, 436, ex) + 'px' });
+  const L = S.lerp(240, 121, ex) + 'px', Wd = S.lerp(461, 700, ex) + 'px', Tp = S.lerp(200, 312, ex) + 'px';
+  S.css('#bf', { opacity: tau >= 0.55 ? 1 : 0, left: L, width: Wd, top: Tp, height: S.lerp(520, 436, ex) + 'px' });
   S.css('#bs', { opacity: tau >= 0.55 ? 1 : 0, left: L, width: Wd, top: Tp });
-  S.css('#hd', { left: (S.lerp(240, 121, ex) + 20) + 'px', top: (S.lerp(300, 312, ex) + 1) + 'px' });
+  S.css('#hd', { left: (S.lerp(240, 121, ex) + 20) + 'px', top: (S.lerp(200, 312, ex) + 1) + 'px' });
   E.pop('#hd', tau, 0.8, { dy: 0 });
   // 가격표 한 장: 메뉴판 가격 → (배달로) 뒤집혀 배달 가격
   const k = S.ent(tau, T.gyeok2, 0.12);
@@ -63,6 +68,8 @@ S.scene(tau => {
   tg.style.boxShadow = `0 0 0 ${(ring * 10).toFixed(1)}px rgba(31,95,209,${(0.35 * ring).toFixed(2)})`;
   tg.style.opacity = k;
   tg.style.transform = `translateY(${(14 * (1 - k)).toFixed(2)}px) scaleX(${(sx < 0.02 ? 0.02 : sx).toFixed(3)})`;
+  // 메뉴판 가격이 아니라: «메뉴판 가격» 위에 빨강 가로줄 → 배달로 뒤집힐 때 사라짐
+  S.css('#strike', { opacity: tau >= T.ani ? (1 - S.P(tau, T.bae, T.bae + 0.1)).toFixed(3) : 0, transform: `scaleX(${S.EO(S.P(tau, T.ani, T.ani + 0.3)).toFixed(3)})` });
   // 구멍(가격표 끈 자리)
   S.css('#hole', { opacity: k, borderColor: back ? '#1F5FD1' : '#20262D', transform: `scaleX(${(sx < 0.02 ? 0.02 : sx).toFixed(3)})` });
 });

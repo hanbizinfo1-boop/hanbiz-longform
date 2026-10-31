@@ -1,67 +1,56 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s08 카운터 위 휴대폰 가게 관리 앱 — 엄지가 «영업 중» 스위치 위에서 멈춤(실물 층 · 재현 화면)</title>
+<title>s08 진행표 카드 그대로 — 휴대폰 사진 삭제, 장면 7 끝 상태(세 칸 다 나온 카드)를 이어 그림 · «첫 번째부터» 에서 첫 칸만 진하게 (설명 층 · 판 B)</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#scr{left:0;top:0;width:390px;height:900px;background:#16191D;border-radius:36px;overflow:hidden;font-family:"Pre";color:#ECEEF0;opacity:0}
-#scr .hd{position:absolute;left:0;top:0;width:390px;height:120px;border-bottom:2px solid #2A3038;padding:46px 0 0 34px;font-size:46px;font-weight:800}
-#scr .shop{position:absolute;left:34px;top:150px;font-size:58px;font-weight:900;color:#fff}
-#scr .card{position:absolute;left:24px;top:480px;width:342px;height:210px;background:#1E2329;border:3px solid #2E353D;border-radius:24px}
-#scr .card .lb{position:absolute;left:26px;top:34px;font-size:50px;font-weight:900;color:#fff;white-space:nowrap}
-#scr .card .ul{position:absolute;left:26px;top:100px;width:172px;height:8px;background:#1F5FD1;border-radius:4px;transform-origin:0 50%;transform:scaleX(0)}
-#scr .sw2{position:absolute;left:190px;top:120px;width:130px;height:70px;border-radius:35px;background:#3A414A}
-#scr .sw2 i{position:absolute;top:8px;left:8px;width:54px;height:54px;border-radius:50%;background:#fff}
-#scr .ln1{position:absolute;left:34px;width:322px;height:20px;border-radius:10px;background:#262C33}
-#ring{width:90px;height:90px;border:6px solid #7FA8F5;border-radius:50%;opacity:0;left:0;top:0}
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#brk{left:0;top:0;width:1920px;height:1080px}
+#cnt{left:760px;top:806px;width:400px;text-align:center;font-size:56px;color:#1F5FD1}
+#band{left:240px;top:200px;width:461px;height:12px;background:#1F5FD1;opacity:0;border-radius:10px 10px 0 0}
 </style></head>
 <body><div id="stage">
-  <div id="ph" class="photo">
-    <div id="scr" class="abs" data-box="scr">
-      <div class="hd">가게 관리</div>
-      <div class="shop" id="shop">○○</div>
-      <div class="ln1" id="l1" style="top:270px"></div>
-      <div class="ln1" id="l2" style="top:320px;width:240px"></div>
-      <div class="ln1" id="l3" style="top:370px;width:290px"></div>
-      <div class="card" id="cd"><div class="lb">영업 중</div><div class="ul" id="ul"></div><div class="sw2" id="sw"><i></i></div></div>
-      <div class="ln1" id="l4" style="top:740px"></div>
-      <div class="ln1" id="l5" style="top:790px;width:200px"></div>
-    </div>
-    <div id="ring" class="abs"></div>
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <svg id="brk" class="abs" viewBox="0 0 1920 1080">
+      <path id="bk" class="ln w6" style="stroke:#1F5FD1" d="M240 750 L240 774 L1680 774 L1680 750 M960 774 L960 794"/>
+      <path id="ck" class="ln w6" style="stroke:#1F5FD1;opacity:0" d="M890 800 L945 852 L1040 768"/>
+    </svg>
+    <div id="cnt" class="abs t" data-box="cnt">세 가지</div>
+    <div id="band" class="abs"></div>
   </div>
 </div>
 <script src="../data/s08.js"></script>
 <script src="../lib/sjk.js"></script>
 <script src="../lib/e4.js"></script>
+<script src="../lib/prog.js"></script>
 <script>
-window.PALETTE = ['#16191D', '#FFFFFF', '#1F5FD1'];
-S.css('#ph', { backgroundImage: S.ph('d08_phone_counter_thumb_clean') });
-const QUAD = [[748.8, 124.5], [1008.4, 61.2], [1152.5, 652.3], [893.0, 715.6]];   // quads.json stage: 왼위·오위·오아래·왼아래(화면 위쪽 = 왼위, 사진 확인)
-const T = { scr: 0.25, rows: S.at('끝까지'), biz: S.at('배달을'), press: S.at('바로'), ul: S.at('첫'), };
-S.ev(T.scr, 'card_in', 'scr'); S.ev(T.biz, 'marker', 'cd'); S.ev(T.press, 'click', 'ring'); S.ev(T.ul, 'marker', 'ul');
-// 스위치 중심 위치(판 좌표) → 화면 좌표는 fitQuad 행렬 근사: 아래서 쌍선형으로 계산
-function bil(u, v) { const [a, b, c, d] = QUAD; const x = (1 - v) * ((1 - u) * a[0] + u * b[0]) + v * ((1 - u) * d[0] + u * c[0]), y = (1 - v) * ((1 - u) * a[1] + u * b[1]) + v * ((1 - u) * d[1] + u * c[1]); return [x, y]; }
-const SWC = bil(255 / 390, 585 / 900);
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];
+// 장면 7 끝 상태와 같은 카드(x240 y200 w1440 h520) — 세 칸 다 나와 있고, 바탕은 장면 7 끝 배율 1.04 에서 이어 1.06 까지 아주 느리게
+const T = { first: S.at('첫'), v0: S.at('영상을'), pan: S.at('판단이') };
+const pc = PROG.mount('#cam', { x: 240, y: 200, w: 1440, h: 520 });
+['#band'].forEach(s => document.getElementById('cam').appendChild(S.$(s)));
+S.ev(T.first, 'click', 'cell0'); S.ev(T.pan, 'marker', 'check');
 S.scene(tau => {
-  const k = S.P(tau, 0, S.SC.dur + S.SC.post);
-  S.css('#ph', { transform: `scale(${S.lerp(1.0, 1.06, k).toFixed(4)})` });   // 아주 느린 당기기
-  S.fitQuad(S.$('#scr'), 390, 900, QUAD);
-  const a = S.ent(tau, T.scr, 0.14);
-  S.css('#scr', { opacity: a });
-  [['#shop', 0.5], ['#l1', 0.75], ['#l2', 0.95], ['#l3', 1.15], ['#cd', 0.7], ['#l4', 1.3], ['#l5', 1.45]].forEach(([s, t]) => {
-    const e = S.$(s); const q = S.ent(tau, t, 0.12); e.style.opacity = q;
+  S.css('#cam', { transform: `scale(${S.lerp(1.04, 1.06, S.P(tau, 0, S.SC.dur - 0.3)).toFixed(4)})` });
+  PROG.draw(pc, [{ show: 1, on: 0 }, { show: 1, on: 0 }, { show: 1, on: 0 }], 1);
+  // 이 영상을 끝까지 보시면: 카드 세 칸이 왼→오 0.35초 간격으로 하나씩 살짝 진해졌다 돌아감(가격→광고→단골 훑기)
+  pc.root.querySelectorAll('.pcell').forEach((c, i) => {
+    const a = T.v0 + 0.35 * i, p = S.P(tau, a, a + 0.15) * (1 - S.P(tau, a + 0.15, a + 0.35));
+    c.querySelector('.pfill').style.opacity = (0.16 * p).toFixed(3);
   });
-  // «영업 중» 카드 테두리가 파랑으로(배달을) + 스위치는 켜진 채로 — 엄지가 위에서 멈춤
-  const b = S.ent(tau, T.biz, 0.15);
-  S.css('#cd', { borderColor: b > 0 ? '#1F5FD1' : '#2E353D', boxShadow: b > 0 ? `0 0 0 ${(b * 4).toFixed(1)}px rgba(31,95,209,.35)` : 'none' });
-  const on = tau >= T.biz;
-  S.$('#sw').style.background = on ? '#1F5FD1' : '#3A414A';
-  S.$('#sw i').style.left = on ? '70px' : '8px';
-  // 눌림 고리(바로 판단이) — 스위치 위에서 한 번 번지고 사라짐
-  const rk = S.P(tau, T.press, T.press + 0.5), rg = S.$('#ring');
-  rg.style.left = (SWC[0] - 45) + 'px'; rg.style.top = (SWC[1] - 45) + 'px';
-  rg.style.opacity = tau >= T.press && rk < 1 ? (1 - rk).toFixed(3) : 0;
-  rg.style.transform = `scale(${S.lerp(0.5, 1.5, S.EO(rk)).toFixed(3)})`;
-  S.$('#ul').style.transform = `scaleX(${S.EO(S.P(tau, T.ul, T.ul + 0.35)).toFixed(3)})`;
+  // 장면 7 끝에 남아 있던 괄호·«세 가지» 는 앞 0.6초 동안 서서히 걷힘(경계가 안 보이게)
+  const fo = 1 - S.P(tau, 0.1, 0.7);
+  S.css('#bk', { opacity: fo }); S.css('#cnt', { opacity: fo });
+  // 첫 번째부터: 첫 칸만 진하게(파랑 띠 · 파랑 테두리), 나머지 두 칸은 옅게
+  const k = S.ent(tau, T.first, 0.2);
+  const cs = pc.root.querySelectorAll('.pcell');
+  cs[0].style.borderColor = k > 0 ? '#1F5FD1' : '';
+  cs[0].style.boxShadow = k > 0 ? `0 0 0 ${(k * 5).toFixed(1)}px rgba(31,95,209,.40)` : '';
+  cs[1].style.opacity = (1 - 0.65 * k).toFixed(3); cs[2].style.opacity = (1 - 0.65 * k).toFixed(3);
+  // 바로 판단이 서실 겁니다: 카드 아래 가운데 파랑 체크 선이 그려지고, 첫 번째부터 0.3초에 걷힘
+  E.stroke('#ck', tau, T.pan, 0.5);
+  S.css('#ck', { opacity: tau >= T.pan ? (1 - S.P(tau, T.first, T.first + 0.3)) : 0 });
+  S.css('#band', { opacity: k, transform: `translateY(${(0).toFixed(1)}px)` });
 });
 </script>
 </body></html>

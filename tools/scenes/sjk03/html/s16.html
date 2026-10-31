@@ -5,15 +5,24 @@
 <style>
 .lay{position:absolute;left:0;top:0;width:1920px;height:1080px}
 .sv{position:absolute;left:0;top:0;width:1920px;height:1080px}
-#dp1{left:610px;top:96px;font-size:92px}
+#dp1{left:1400px;top:140px;width:460px;height:650px;padding:0;overflow:visible}
+.sk{position:absolute;left:30px;width:400px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:44px;font-weight:900;color:#fff;opacity:0;white-space:nowrap}
+#kc{top:388px;height:230px;background:#4A525B}
+#ki{top:248px;height:116px;background:#6B747D}
+#ks{top:116px;height:108px;background:#D63A3A}
+#kn{top:26px;height:66px;background:#1F5FD1;font-size:44px}
 #vg{left:0;top:0;width:1920px;height:1080px;background:radial-gradient(ellipse 360px 260px at 1040px 650px,rgba(0,0,0,0) 0%,rgba(0,0,0,0) 55%,rgba(8,5,2,.62) 100%);opacity:0}
 </style></head>
 <body><div id="stage">
-  <div id="phA" class="photo lay">
-    <div id="dp1" class="dpan abs" data-box="dp1"><span class="rd">20% ~ 30%</span></div>
-  </div>
+  <div id="phA" class="photo lay"></div>
   <div id="phB" class="photo lay" style="opacity:0">
     <div id="vg" class="abs"></div>
+  </div>
+  <div id="dp1" class="dpan abs" data-box="dp1" style="opacity:0">
+    <div id="kn" class="sk">수익</div>
+    <div id="ks" class="sk">수수료 20~30%</div>
+    <div id="ki" class="sk">인건비</div>
+    <div id="kc" class="sk">원가</div>
   </div>
 </div>
 <script src="../data/s16.js"></script>
@@ -22,8 +31,8 @@
 <script>
 window.PALETTE = ['#1B1E22', '#FFFFFF', '#1F5FD1'];
 S.css('#phA', { backgroundImage: S.ph('p16_kitchen_staff') }); S.css('#phB', { backgroundImage: S.ph('p16b_hand_bills') });
-const T = { cost: S.at('원가'), wk: S.at('근로자를'), dp: S.at('20%에서'), fall: S.at('빠지면'), cut: S.at('진짜'), ring: S.at('남는'), vg: S.at('많지') };
-S.ev(T.cost, 'sweep', 'push1'); S.ev(T.dp, 'shine', 'dp1'); S.ev(T.fall, 'coin', 'dp1'); S.ev(T.ring, 'sweep', 'push2');
+const T = { cost: S.at('원가'), wk: S.at('근로자를'), dp: S.at('20%에서'), fall: S.at('빠지면'), wk2: S.at('근로자를'), nm: S.at('남는'), cut: S.at('진짜'), ring: S.at('남는'), vg: S.at('많지') };
+S.ev(T.cost, 'sweep', 'push1'); S.ev(T.dp, 'shine', 'dp1'); S.ev(T.fall, 'coin', 'dp1'); S.ev(T.ring, 'sweep', 'push2'); S.ev(T.wk, 'paper', 'ki');
 // 카메라: 원점(ox,oy)을 잡고 s 배로 천천히 밀기(키 순서대로 0.7초씩 이어짐) — 1.00 이상이라 가장자리가 드러나지 않는다
 const CAMT = (tau, keys) => { let c = keys[0]; for (let i = 1; i < keys.length; i++) { const k = keys[i], p = S.cam(tau, k.t, k.t + (k.d || 0.7)); c = { s: S.lerp(c.s, k.s, p), ox: S.lerp(c.ox, k.ox, p), oy: S.lerp(c.oy, k.oy, p) }; if (p < 1) break; } return c; };
 const CAMX = (c, fl = 0, k = 1) => `translate(${(c.ox * (1 - c.s * k) + fl).toFixed(2)}px,${(c.oy * (1 - c.s * k)).toFixed(2)}px) scale(${(c.s * k).toFixed(4)})`;
@@ -35,10 +44,14 @@ S.scene(tau => {
   S.css('#phA', { transformOrigin: '0 0', transform: CAMX(cA, S.lerp(24, -24, S.P(tau, 0, T.cut)), E.drift(tau, 1, 1.03)) });
   const cB = CAMT(tau, [{ s: 1.0, ox: 1050, oy: 660 }, { t: T.ring, s: 1.12, ox: 1050, oy: 660 }]);
   S.css('#phB', { transformOrigin: '0 0', transform: CAMX(cB, 0, E.drift(tau, 1, 1.04)) });
-  // 20% ~ 30% 가 판으로 뜨고(빨강), «빠지면» 에서 아래로 한 칸 내려앉는다
-  const d = E.pop('#dp1', tau, T.dp, { dy: 0 });
-  const f = S.EO(S.P(tau, T.fall, T.fall + 0.35));
-  S.$('#dp1').style.transform += ` translateY(${(f * 26).toFixed(1)}px)`;
+  // 세로 쌓기 막대 판(사진 교체와 상관없이 그대로): 원가 → 인건비 → 수수료(빠지면에서 내려앉음) → 남는(맨 위 얇은 파랑 칸만 빛남)
+  const kc = S.ent(tau, T.cost, 0.3), ki = S.ent(tau, T.wk, 0.3), ks = S.ent(tau, T.dp, 0.3), kn = S.ent(tau, T.nm, 0.3);
+  const f = S.EO(S.P(tau, T.fall, T.fall + 0.35)), dim = 1 - 0.65 * kn;
+  S.css('#dp1', { opacity: kc });
+  S.css('#kc', { opacity: (kc * dim).toFixed(3) });
+  S.css('#ki', { opacity: (ki * dim).toFixed(3), transform: `translateY(${(-16 * (1 - ki)).toFixed(1)}px)` });
+  S.css('#ks', { opacity: (ks * dim).toFixed(3), transform: `translateY(${(-70 * (1 - f) - 16 * (1 - ks)).toFixed(1)}px)` });
+  S.css('#kn', { opacity: kn.toFixed(3), transform: `translateY(${(-16 * (1 - kn)).toFixed(1)}px)`, boxShadow: `0 0 ${(30 * kn).toFixed(0)}px rgba(127,168,245,${(0.9 * kn).toFixed(2)})` });
   S.css('#vg', { opacity: S.ent(tau, T.vg, 0.35) });
 });
 </script>

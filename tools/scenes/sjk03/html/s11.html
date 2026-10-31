@@ -3,7 +3,8 @@
 <title>s11 왜 따로 계산할까 — 매장 주문 그릇 ↔ 배달 주문 그릇 + 붙는 블록(포장·배달·앱) → 빨강 테두리 (설명 층)</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#q{left:1250px;top:330px;width:220px;text-align:center;font-size:120px;font-weight:900;color:#A9B0B6;opacity:0}
 #bowls{left:0;top:0;width:1920px;height:1080px}
 .blk{width:520px;height:130px}
 .blk svg{position:absolute;left:34px;top:15px;width:100px;height:100px}
@@ -44,6 +45,7 @@
     <div id="b3" class="card blk" style="left:1100px;top:224px" data-box="b3" data-box-group="stk">
       <svg viewBox="0 0 100 100"><rect class="ln w4" x="30" y="10" width="40" height="80" rx="8"/><path class="ln w4" d="M42 30 L58 30 M42 48 L58 48 M42 66 L58 66"/></svg>
       <div class="t">앱</div></div>
+    <div id="q" class="abs t" data-box="q">?</div>
     <div id="fr_lab" class="abs t" data-box="fr_lab" data-box-group="stk">매장에 없는 비용</div>
   </div>
 </div>
@@ -52,11 +54,16 @@
 <script src="../lib/e4.js"></script>
 <script>
 window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1', '#D63A3A'];   // 빨강 = 매장에 없는 비용(붙는 쪽)
-const T = { tt: S.at('따로'), gye: S.at('계산하는'), bae: S.at('배달'), ju: S.at('주문'), han: S.at('한'), mae: S.at('매장에'), eop: S.at('없는'), bi: S.at('비용이'), but: S.at('붙기') };
+const T = { wae: S.at('왜'), tt: S.at('따로'), gye: S.at('계산하는'), bae: S.at('배달'), ju: S.at('주문'), han: S.at('한'), mae: S.at('매장에'), eop: S.at('없는'), bi: S.at('비용이'), but: S.at('붙기') };
 const T0 = 0.02;
 S.ev(T0, 'in', 'bowlL'); S.ev(T.tt, 'marker', 'div'); S.ev(T.gye, 'in', 'bowlR'); S.ev(T.ju, 'card_in', 'b1'); S.ev(T.han, 'card_in', 'b2'); S.ev(T.mae, 'marker', 'ghost'); S.ev(T.eop, 'card_in', 'b3'); S.ev(T.bi, 'marker', 'frame'); S.ev(T.but, 'no', 'frlab');
 S.scene(tau => {
-  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  // 시작: 그릇 쪽으로 1.25 밀어 둔 카메라가 «주문» 까지 1.00 으로 천천히 빠짐 → 이어서 아주 느린 밀기
+  const cs = S.EIO(S.P(tau, 0, T.ju)), ds = 1 + 0.04 * S.P(tau, T.ju, S.SC.dur);
+  S.css('#cam', { transform: S.camCss({ s: S.lerp(1.25, 1.0, cs) * ds, x: S.lerp(915, 960, cs), y: S.lerp(700, 540, cs) }) });
+  // 왜: 오른쪽 그릇 위 빈 자리에 큰 회색 «?» → 첫 블록이 앉을 때 걷힘
+  E.pop('#q', tau, T.wae, { dy: 10 });
+  S.css('#q', { opacity: (S.ent(tau, T.wae, 0.2) * (1 - S.P(tau, T.ju, T.ju + 0.25))).toFixed(3) });
   E.stroke('#bL1', tau, T0, 0.45); E.stroke('#bL2', tau, T0 + 0.1, 0.3);
   E.pop('#labL', tau, 0.3, { dy: 0 });
   E.stroke('#div', tau, T.tt, 0.45);

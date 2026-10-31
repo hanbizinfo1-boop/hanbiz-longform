@@ -21,10 +21,12 @@ S.css('#ph', { backgroundImage: S.ph('p01_pack_counter') });
 const T = { dp: 0.1, ring: S.at('배달로') };
 S.ev(T.dp, 'in', 'dp'); S.ev(T.ring, 'sweep', 'push');
 S.scene(tau => {
-  // 강조 = 영수증 쪽으로 천천히 밀기 + 바깥 비네트(선 표시 없음)
-  const push = S.cam(tau, T.ring, T.ring + 0.7);
-  S.css('#ph', { transformOrigin: '760px 745px', transform: `scale(${(E.drift(tau, 1, 1.04) * (1 + 0.12 * push)).toFixed(4)})` });
-  S.css('#vg', { opacity: push.toFixed(3), background: 'radial-gradient(ellipse 560px 400px at 760px 745px, rgba(0,0,0,0) 40%, rgba(0,0,0,.38) 100%)' });
+  // 두 번 밀기: 먼저 찌개 그릇 쪽(0.3초~) → «배달로» 에서 영수증 쪽으로 옮겨 감 + 바깥 비네트(선 표시 없음)
+  const p1 = S.cam(tau, 0.3, 1.2), push = S.cam(tau, T.ring, T.ring + 0.7);
+  const ox = S.lerp(1130, 760, push), oy = S.lerp(530, 745, push);
+  const sc = E.drift(tau, 1, 1.04) * (1 + 0.06 * p1 + 0.06 * push);
+  S.css('#ph', { transformOrigin: `${ox.toFixed(2)}px ${oy.toFixed(2)}px`, transform: `scale(${sc.toFixed(4)})` });
+  S.css('#vg', { opacity: (0.6 * p1 + 0.4 * push).toFixed(3), background: `radial-gradient(ellipse 560px 400px at ${ox.toFixed(1)}px ${oy.toFixed(1)}px, rgba(0,0,0,0) 40%, rgba(0,0,0,.38) 100%)` });
   E.pop('#dp', tau, T.dp, { dy: 10 });
 });
 </script>

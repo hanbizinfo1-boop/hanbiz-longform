@@ -1,59 +1,154 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8">
-<title>s03 계산대 위 정산서 — 실물 층(Codex 사진 + 종이 카드 #sheet · 위에서 천천히 내려옴). s12·s69 가 같은 종이를 쓴다</title>
+<title>s03 방송에 나온 정산서 — 판 A 그대로 이어서: 빨강 덩어리 옆에 정산서 종이 카드(HTML) · 5천~6천 원 그대로 (설명 층)</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-/* 정산서 종이 — #sheet 한 덩어리(항목 이름 다섯 줄 + 금액 칸 막대). 다른 장면은 이 블록을 통째로 복사해 쓴다 */
-#sheet{left:640px;top:140px;width:640px;height:610px;background:#EFEAE0;border-radius:4px;
+/* 판 A «주문 한 건 정산 막대» — 장면 2·3·4 가 같은 코드(drawA)로 같은 판을 이어 그린다(REDESIGN_1031 판 A) */
+#cam{left:0;top:0;width:1920px;height:1080px}
+#lbl12{left:340px;top:130px;width:240px;text-align:center;font-size:56px}
+#lblDish{left:240px;top:852px;width:440px;text-align:center;font-size:40px}
+#oBar{left:340px;top:200px;width:240px;height:352px;border:3px dashed #A9B0B6;border-radius:6px;opacity:0}
+.blk{position:absolute;box-sizing:border-box;border:4px solid #20262D;display:flex;align-items:center;justify-content:center;font-family:"Pre";font-weight:800;font-size:40px;white-space:nowrap;line-height:1}
+#bBlue{left:340px;width:240px;background:#DCE6F8;opacity:0}
+#chunk{left:340px;top:200px;width:240px;height:352px;background:#DCE6F8;opacity:0;color:#D63A3A}
+#pJae{left:340px;top:552px;width:240px;height:150px;opacity:0;color:#4A5158}
+#pPack{left:340px;top:702px;width:240px;height:85px;opacity:0;color:#4A5158}
+.blk span{opacity:0}
+#slot{left:1532px;top:215px;width:252px;height:70px;border:3px dashed #A9B0B6;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:"Pre";font-weight:900;white-space:nowrap;line-height:1;color:#A9B0B6;font-size:56px;opacity:0}
+#big{left:1190px;top:390px;font-size:130px;transform-origin:0 0;opacity:0}
+#fin{left:880px;top:640px;font-size:150px;opacity:0}
+#strike{left:1550px;top:248px;width:216px;height:4px;background:#7A828A;opacity:0}
+#coin{left:0;top:0;width:28px;height:28px;border-radius:50%;background:#1F5FD1;opacity:0}
+#card{left:890px;top:530px;width:560px;height:330px;background:#EFEAE0;border-radius:4px;opacity:0;
   background-image:radial-gradient(rgba(120,100,70,.10) 1px,transparent 1.3px);background-size:6px 6px;
-  box-shadow:0 22px 44px rgba(0,0,0,.50),0 2px 3px rgba(0,0,0,.35);transform-origin:50% 50%;color:#26211A}
-#sheet .ttl{position:absolute;left:44px;top:30px;font-size:46px;font-weight:900;letter-spacing:.02em}
-#sheet .rule{position:absolute;left:36px;right:36px;height:2px;background:#8C8472}
-#sheet .nm{position:absolute;left:44px;font-size:36px;font-weight:700;white-space:nowrap}
-#sheet .bar{position:absolute;left:366px;height:30px;background:#D63A3A;transform-origin:0 50%}
-#sheet .cell{position:absolute;left:350px;width:250px;height:48px;border-left:2px solid #8C8472}
-#sheetSrc{left:560px;top:800px;width:800px;text-align:center;color:#C4C9CF}
+  box-shadow:0 10px 22px rgba(0,0,0,.18),0 1px 2px rgba(0,0,0,.25);color:#26211A}
+#card .ttl{position:absolute;left:34px;top:8px;font-size:44px;font-weight:900;line-height:1;opacity:0}
+#card .rule{position:absolute;left:24px;right:24px;height:2px;background:#8C8472;opacity:.55}
+#card .nm{position:absolute;left:34px;font-size:44px;font-weight:700;white-space:nowrap;line-height:1.15}
+#card .bar{position:absolute;left:330px;height:26px;background:#D63A3A}
+#src{left:890px;top:868px;width:560px;text-align:center;opacity:0}
 </style></head>
 <body><div id="stage">
-  <div id="ph" class="photo">
-    <div id="sheet" class="abs" data-box="sheet" data-box-group="sh">
-      <div class="ttl">정산서</div>
-      <div class="rule" style="top:98px"></div>
-      <div class="nm" id="n0" style="top:126px">중개 수수료</div><div class="cell" style="top:122px"></div><div class="bar" id="b0" style="top:131px;width:90px"></div>
-      <div class="rule" style="top:182px"></div>
-      <div class="nm" id="n1" style="top:210px">결제 수수료</div><div class="cell" style="top:206px"></div><div class="bar" id="b1" style="top:215px;width:56px"></div>
-      <div class="rule" style="top:266px"></div>
-      <div class="nm" id="n2" style="top:294px">배달비</div><div class="cell" style="top:290px"></div><div class="bar" id="b2" style="top:299px;width:200px"></div>
-      <div class="rule" style="top:350px"></div>
-      <div class="nm" id="n3" style="top:378px">할인 쿠폰</div><div class="cell" style="top:374px"></div><div class="bar" id="b3" style="top:383px;width:120px"></div>
-      <div class="rule" style="top:434px"></div>
-      <div class="nm" id="n4" style="top:462px">광고비</div><div class="cell" style="top:458px"></div><div class="bar" id="b4" style="top:467px;width:170px"></div>
-      <div class="rule" style="top:518px"></div>
+  <div id="cam" class="abs">
+    <div class="grid"></div>
+    <div id="oBar" class="abs"></div>
+    <div id="bBlue" class="blk" data-box="barA" data-box-group="bar"></div>
+    <div id="chunk" class="blk" data-box="chunk" data-box-group="bar"><span id="chunkTx">배달앱 비용</span></div>
+    <div id="pJae" class="blk" data-box="jae" data-box-group="bar"><span>재료비</span></div>
+    <div id="pPack" class="blk" data-box="pack" data-box-group="bar"><span>포장 용기</span></div>
+    <div id="lbl12" class="abs t" data-box="lbl12">12,000원</div>
+    <div id="lblDish" class="abs t" data-box="dish">김치찌개 배달 1그릇</div>
+    <svg id="bank" class="abs" style="left:1440px;top:150px;width:360px;height:200px" viewBox="0 0 360 200" data-box="bank" data-box-group="bk">
+      <path id="k1" class="ln w4" d="M6 6 L354 6 L354 194 L6 194 Z"/>
+      <path id="k2" class="ln w4" d="M80 6 L80 194"/>
+      <path id="k3" class="ln" d="M20 50 L66 50 M20 100 L66 100 M20 150 L56 150"/>
+      <path id="k4" class="ln bl w4" d="M6 6 L6 194"/>
+    </svg>
+    <svg id="road" class="abs" style="left:0;top:0;width:1920px;height:400px" viewBox="0 0 1920 400">
+      <mask id="rmask" maskUnits="userSpaceOnUse" x="0" y="0" width="1920" height="400"><path id="rm" d="M610 165 C 860 95, 1180 105, 1420 250" fill="none" stroke="#fff" stroke-width="24" stroke-linecap="butt"/></mask>
+      <path id="rd" mask="url(#rmask)" d="M610 165 C 860 95, 1180 105, 1420 250" fill="none" stroke="#A9B0B6" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 17"/>
+    </svg>
+    <div id="coin" class="abs"></div>
+    <div id="slot" class="abs" data-box="slot" data-box-group="bk">?</div>
+    <div id="strike" class="abs"></div>
+    <div id="big" class="abs big" data-box="big">5천~6천 원</div>
+    <svg id="brcS" class="abs" style="left:846px;top:488px;width:48px;height:352px" viewBox="0 0 48 352">
+      <path id="brc" class="ln w4" d="M6 8 Q 26 8 26 40 L26 150 Q 26 176 42 176 Q 26 176 26 202 L26 312 Q 26 344 6 344"/>
+    </svg>
+    <div id="card" class="abs" data-box="card" data-box-group="bar">
+      <div class="ttl" id="ttl">정산서</div>
+      <div class="rule" style="top:58px"></div>
+      <div class="nm" style="top:62px">중개 수수료</div><div class="bar" style="top:70px;width:90px"></div>
+      <div class="rule" style="top:108px"></div>
+      <div class="nm" style="top:112px">결제 수수료</div><div class="bar" style="top:120px;width:56px"></div>
+      <div class="rule" style="top:158px"></div>
+      <div class="nm" style="top:162px">배달비</div><div class="bar" style="top:170px;width:180px"></div>
+      <div class="rule" style="top:208px"></div>
+      <div class="nm" style="top:212px">할인 쿠폰</div><div class="bar" style="top:220px;width:110px"></div>
+      <div class="rule" style="top:258px"></div>
+      <div class="nm" style="top:262px">광고비</div><div class="bar" style="top:270px;width:150px"></div>
+      <div class="rule" style="top:308px"></div>
     </div>
-    <div id="sheetSrc" class="src abs" data-box="src" data-box-group="sh">방송 보도 찌개집 정산 사례 · 다시 그림</div>
+    <div id="src" class="src abs" data-box="src" data-box-group="bar">방송 보도 찌개집 정산 사례 · 다시 그림</div>
+    <div id="fin" class="abs big" data-box="fin" data-box-group="bar">천 원 남짓</div>
   </div>
 </div>
 <script src="../data/s03.js"></script>
 <script src="../lib/sjk.js"></script>
 <script src="../lib/e4.js"></script>
 <script>
-window.PALETTE = ['#EFEAE0', '#26211A', '#D63A3A'];
-S.css('#ph', { backgroundImage: S.ph('p03_counter_top') });
-const T = { sheet: 0.2, r0: 0.45, bars: 1.5, src: S.at('정산서인데요') };
-S.ev(T.sheet, 'paper', 'sheet'); S.ev(T.r0, 'marker', 'rows'); S.ev(T.bars, 'gauge', 'bars'); S.ev(T.src, 'shine', 'src');
-S.scene(tau => {
-  // 위에서 천천히 내려옴: 사진이 위→아래로 흐른다
-  const k = S.P(tau, 0, S.SC.dur);
-  S.css('#ph', { transform: `translateY(${S.lerp(-34, 14, k).toFixed(2)}px) scale(1.05)` });
-  const a = S.ent(tau, T.sheet, 0.12);
-  S.css('#sheet', { opacity: a, transform: `perspective(2100px) scale(1.1) rotateX(14deg) rotateZ(-2.2deg) translateY(${(-26 * (1 - a)).toFixed(2)}px)` });
-  for (let i = 0; i < 5; i++) {
-    const t = T.r0 + i * 0.3;
-    E.wipe('#n' + i, tau, t, 0.28);
-    const b = S.EO(S.P(tau, T.bars + i * 0.12, T.bars + i * 0.12 + 0.35));
-    S.css('#b' + i, { transform: `scaleX(${b.toFixed(3)})`, opacity: tau >= T.bars + i * 0.12 ? 1 : 0 });
-  }
-  E.pop('#sheetSrc', tau, T.src, { dy: 8 });
-});
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1', '#D63A3A'];   // 모눈 · 선 · 파랑(통장에 남는 돈) · 빨강(빠져나가는 돈). 정산서 종이 #EFEAE0 은 사진 아닌 HTML 종이
+// ── 판 A: 아래 블록(A 시각표 · drawA)은 s02·s03·s04 세 파일에 똑같이 들어 있다. 고치면 세 파일을 같이 고친다 ──
+const A0 = { cam: 9.18, strike: 11.668 };
+const A = { grow: 2.457, bank: 3.068, q: 3.65, five: 4.85, card: 6.40, brk: 7.199, src: 8.122, shr: 9.665, jae: 10.065, pack: 10.706, fin: 12.149 };
+const EVA = [[2.46, 'gauge', 'bar'], [3.65, 'card_in', 'slot'], [4.85, 'no', 'chunk'], [5.455, 'shine', 'big'], [6.40, 'paper', 'card'], [7.199, 'marker', 'brace'], [10.065, 'coin', 'jae'], [10.706, 'no', 'pack'], [12.149, 'shine', 'fin']];
+EVA.forEach(([t, r, id]) => { const u = t - S.SC.t0; if (u >= 0 && u < S.SC.dur) S.ev(u, r, id); });
+function drawA(T) {
+  const $ = id => document.getElementById(id), EO = S.EO, P = S.P;
+  // 카메라: «심지어 여기서» 남은 파랑 막대 쪽으로 1.00→1.06, «천 원 남짓» 에서 1.00
+  const cs = 1 + 0.06 * S.cam(T, A0.cam, A0.cam + 0.6) - 0.06 * S.cam(T, A.fin, A.fin + 0.5);
+  S.css('#cam', { transformOrigin: '480px 860px', transform: `scale(${cs.toFixed(4)})` });
+  const BL = [220, 230, 248], RDT = [247, 222, 222], GR = [227, 230, 232], LN = [32, 38, 45], RD = [214, 58, 58], MU = [122, 130, 138], BLU = [31, 95, 209];
+  const mix = (a, b, k) => `rgb(${a.map((v, i) => Math.round(v + (b[i] - v) * k)).join(',')})`;
+  // 막대(12,000원 한 그릇): 바닥에서 자라고, 빨강 조각 → 회색 조각이 차례로 떨어져 나가 얇은 파랑만 남는다
+  const kg = EO(P(T, A.grow, A.grow + 0.55));
+  let bTop, bH;
+  if (T < A.five) { bH = 640 * kg; bTop = 840 - bH; } else if (T < A.jae) { bTop = 552; bH = 288; } else if (T < A.pack) { bTop = 702; bH = 138; } else { bTop = 787; bH = 53; }
+  const kf = S.ent(T, A.fin, 0.2), bb = $('bBlue');
+  bb.style.opacity = kg > 0 ? 1 : 0; bb.style.top = bTop + 'px'; bb.style.height = Math.max(bH, 0.1) + 'px';
+  bb.style.borderColor = mix(LN, BLU, kf); bb.style.boxShadow = kf > 0 ? `0 0 0 ${(kf * 8).toFixed(1)}px rgba(31,95,209,${(0.35 * kf).toFixed(2)})` : 'none';
+  E.pop('#lbl12', T, A.grow + 0.2, { dy: 0 }); E.pop('#lblDish', T, A.grow + 0.3, { dy: 0 });
+  const ch = $('chunk');
+  if (T >= A.five) {
+    const kc = EO(P(T, A.five, A.five + 0.2)), km = EO(P(T, A.five + 0.25, A.five + 0.8));
+    ch.style.opacity = 1; ch.style.background = mix(BL, RDT, kc); ch.style.borderColor = mix(LN, RD, kc);
+    ch.style.left = (340 + 260 * km).toFixed(2) + 'px'; ch.style.top = (200 + 288 * km).toFixed(2) + 'px';
+    $('chunkTx').style.opacity = P(T, A.five + 0.8, A.five + 0.95).toFixed(3);
+  } else ch.style.opacity = 0;
+  $('oBar').style.opacity = P(T, A.five + 0.5, A.five + 0.7).toFixed(3);
+  [['pJae', A.jae, 552, 690], ['pPack', A.pack, 702, 605]].forEach(([id, t0, y0, y1]) => {
+    const el = $(id);
+    if (T < t0) { el.style.opacity = 0; return; }
+    const kc = EO(P(T, t0, t0 + 0.2)), km = EO(P(T, t0 + 0.15, t0 + 0.6));
+    el.style.opacity = 1; el.style.background = mix(BL, GR, kc); el.style.borderColor = mix(LN, MU, kc);
+    el.style.left = (340 - 220 * km).toFixed(2) + 'px'; el.style.top = (y0 + (y1 - y0) * km).toFixed(2) + 'px'; el.style.width = (240 - 40 * km).toFixed(2) + 'px';
+    el.firstChild.style.opacity = P(T, t0 + 0.45, t0 + 0.6).toFixed(3);
+  });
+  // 통장: 선이 그려지고 빈 칸 «?» → 같은 숫자로 채워짐
+  ['#k1', '#k2', '#k3', '#k4'].forEach((p, i) => E.stroke(p, T, A.bank + i * 0.1, 0.35));
+  const sl = $('slot'), filled = T >= A.five + 0.5;   // 동전이 도착하는 순간 채움
+  E.pop('#slot', T, A.q, { dy: 0 });
+  // 점선 길: «얼마가 들어올까요?» 에서 그려지고(회색) «5천 원에서» 에 파랑으로 바뀌며 동전이 0.5초에 통장으로 들어감
+  const rd = $('rd');
+  E.stroke('#rm', T, A.q + 0.05, 0.9);
+  const kb = P(T, A.five, A.five + 0.15);
+  rd.style.stroke = `rgb(${[169, 176, 182].map((v, i) => Math.round(v + ([31, 95, 209][i] - v) * kb)).join(',')})`;
+  const cc = $('coin'), kc2 = EO(P(T, A.five, A.five + 0.5));
+  if (T >= A.five && T < A.five + 0.5) {
+    const pt = rd.getPointAtLength(rd.getTotalLength() * kc2);
+    cc.style.opacity = 1; cc.style.left = (pt.x - 14).toFixed(2) + 'px'; cc.style.top = (pt.y - 14).toFixed(2) + 'px';
+  } else cc.style.opacity = 0;
+  // «빼면»: 통장 칸 숫자에 회색 가로줄
+  E.wipe('#strike', T, A0.strike, 0.3);
+  sl.textContent = filled ? '5천~6천 원' : '?';
+  sl.style.fontSize = filled ? '40px' : '56px'; sl.style.color = filled ? '#1F5FD1' : '#A9B0B6';
+  sl.style.borderColor = filled ? '#1F5FD1' : '#A9B0B6'; sl.style.borderStyle = filled ? 'solid' : 'dashed';
+  sl.style.background = filled ? 'rgba(31,95,209,.10)' : 'transparent';
+  // 큰 파랑 숫자: 왼→오로 나오고, 재료비 직전에 작아지며 위로 비킴(지우지 않음)
+  E.wipe('#big', T, A.five, 0.7);
+  const ks = EO(P(T, A.shr, A.shr + 0.35)), bg = $('big');
+  if (T >= A.shr) bg.style.opacity = (1 - ks).toFixed(3);   // 작아진 숫자는 통장 칸 안에만 남고 가운데 큰 글은 걷힘(같은 숫자 두 번 금지)
+  // 정산서 종이(HTML) · 괄호 · 출처
+  const ca = S.ent(T, A.card, 0.14), cd = $('card');
+  const kd = EO(P(T, A.fin - 0.1, A.fin + 0.15)), dm = 1 - kd, dc = 1 - 0.75 * EO(P(T, A.fin, A.fin + 0.3));   // 천 원 남짓 — 카드·괄호·출처는 0, 빨강 덩어리는 0.25
+  if (T >= A.five) ch.style.opacity = dc; $('brcS').style.opacity = dm;
+  cd.style.opacity = ca * dm; cd.style.transform = `translateX(${(60 * (1 - ca)).toFixed(2)}px)`;
+  $('ttl').style.opacity = 1;
+  E.stroke('#brc', T, A.brk, 0.5);
+  [90, 56, 180, 110, 150].forEach((w, i) => { document.querySelectorAll('#card .bar')[i].style.width = (w * S.ent(T, A.brk + i * 0.12, 0.3)).toFixed(2) + 'px'; });
+  E.pop('#src', T, A.src, { dy: 8 }); $('src').style.opacity = (parseFloat($('src').style.opacity) * dm).toFixed(3);
+  E.wipe('#fin', T, A.fin, 0.35);
+}
+S.scene(tau => drawA(S.SC.t0 + tau));
 </script>
 </body></html>
