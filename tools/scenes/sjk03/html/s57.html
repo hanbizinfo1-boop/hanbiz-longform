@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
 #cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
-#hang{left:200px;top:100px;width:1520px;height:810px;overflow:visible}
+#hang{left:200px;top:90px;width:1520px;height:810px;overflow:visible}
 #hang text{font-family:"Pre";font-weight:800}
 </style></head>
 <body><div id="stage">
@@ -13,10 +13,10 @@
     <!-- ===== hang: 앱 블록 + 레버 둘 + 가게 매출 줄 + 앱 밖 줄(복사해서 s66 에서 씀) ===== -->
     <svg id="hang" class="abs" viewBox="0 0 1520 810" data-box="hang">
       <g id="ap"><rect class="ln w4" x="120" y="10" width="880" height="160" rx="10" fill="#fff"/><text id="apt" x="560" y="112" font-size="76" text-anchor="middle" fill="#20262D">배달앱</text></g>
-      <g id="lv1"><rect class="ln w4" x="240" y="170" width="200" height="90" rx="8" fill="#fff"/><text x="340" y="231" font-size="46" text-anchor="middle" fill="#20262D">수수료</text></g>
-      <g id="lv2"><rect class="ln w4" x="680" y="170" width="200" height="90" rx="8" fill="#fff"/><text x="780" y="231" font-size="46" text-anchor="middle" fill="#20262D">순위</text></g>
-      <path id="s1" class="ln w4" d="M340 260 L320 540"/>
-      <path id="s2" class="ln w4" d="M780 260 L800 540"/>
+      <g id="lv1"><rect class="ln w4" x="240" y="230" width="200" height="90" rx="8" fill="#fff"/><text x="340" y="292" font-size="46" text-anchor="middle" fill="#20262D">수수료</text></g>
+      <g id="lv2"><rect class="ln w4" x="680" y="230" width="200" height="90" rx="8" fill="#fff"/><text x="780" y="292" font-size="46" text-anchor="middle" fill="#20262D">순위</text></g>
+      <path id="s1" class="ln w4" d="M340 320 L320 540"/>
+      <path id="s2" class="ln w4" d="M780 320 L800 540"/>
       <g id="st">
         <rect id="strect" class="ln w4" x="260" y="540" width="600" height="250" rx="10" fill="#fff"/>
         <text id="stt" x="292" y="596" font-size="44" fill="#20262D">가게 매출</text>
@@ -52,7 +52,7 @@ S.scene(tau => {
   // 레버: 나타남 → 올림/바뀜
   const l1 = S.ent(tau, T.n1, 0.12), l2 = S.ent(tau, T.n2, 0.12);
   const m1 = S.cam(tau, T.lv1, T.lv1 + 0.4), m2 = S.cam(tau, T.lv2, T.lv2 + 0.4);
-  const o1 = -30 * m1, o2 = 30 * m2;
+  const o1 = -20 * m1, o2 = 20 * m2;
   $('lv1').style.opacity = l1; $('lv1').setAttribute('transform', `translate(0 ${o1.toFixed(2)})`);
   $('lv2').style.opacity = l2; $('lv2').setAttribute('transform', `translate(0 ${o2.toFixed(2)})`);
   // 가게 블록 자세: 레버 움직임 → 가게가 끌려 내려가고 기울며, «흔들립니다» 뒤엔 천천히 출렁(느린 진자)
@@ -61,7 +61,7 @@ S.scene(tau => {
   $('st').style.opacity = st; $('st').setAttribute('transform', `translate(${dx.toFixed(2)} ${dy.toFixed(2)}) rotate(${ang.toFixed(3)} ${PX} ${PY})`);
   // 줄: 레버 아래 → 가게 윗면(둘 다 빨강으로 바뀜)
   const redk = S.ent(tau, T.red, 0.16), col = mix([32, 38, 45], [214, 58, 58], redk), cs = `rgb(${col})`;
-  const a1 = [340, 260 + o1], a2 = [780, 260 + o2], b1 = rot([320, 540], ang, dx, dy), b2 = rot([800, 540], ang, dx, dy);
+  const a1 = [340, 320 + o1], a2 = [780, 320 + o2], b1 = rot([320, 540], ang, dx, dy), b2 = rot([800, 540], ang, dx, dy);
   $('s1').setAttribute('d', `M${a1[0]} ${a1[1].toFixed(1)} L${b1[0].toFixed(1)} ${b1[1].toFixed(1)}`);
   $('s2').setAttribute('d', `M${a2[0]} ${a2[1].toFixed(1)} L${b2[0].toFixed(1)} ${b2[1].toFixed(1)}`);
   $('s1').style.opacity = $('s2').style.opacity = st;

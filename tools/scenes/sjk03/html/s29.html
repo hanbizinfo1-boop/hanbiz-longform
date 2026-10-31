@@ -7,7 +7,7 @@
 #art{left:0;top:0;width:1920px;height:1080px}
 #qa{left:830px;top:92px;font-size:150px;line-height:1}
 #qb{left:1010px;top:92px;font-size:150px;line-height:1}
-#tag{left:1356px;top:282px;font-size:60px}
+#tag{left:1366px;top:238px;font-size:60px}
 </style></head>
 <body><div id="stage">
   <div id="cam" class="abs">
@@ -42,7 +42,7 @@ function mk(parent, tag, attrs) { const e = document.createElementNS(NS, tag); f
 const g = document.getElementById('store');
 STORE.forEach(([id, d, cls]) => mk(g, 'path', { id: 'st_' + id, d, class: cls }));
 function star(cx, cy, R, r) { let d = ''; for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r : R; d += (i ? 'L' : 'M') + (cx + rr * Math.cos(a)).toFixed(1) + ' ' + (cy + rr * Math.sin(a)).toFixed(1); } return d + 'Z'; }
-const starEl = mk(g, 'path', { id: 'st_star', d: star(750, 62, 52, 22), class: 'ln bl w4', style: 'fill:#1F5FD1;transform-box:fill-box;transform-origin:center;opacity:0' });
+const starEl = mk(g, 'path', { id: 'st_star', d: star(750, 20, 52, 22), class: 'ln bl w4', style: 'fill:#1F5FD1;transform-box:fill-box;transform-origin:center;opacity:0' });
 // 옆 가게 두 채: 같은 선화를 작게 · 옅게
 [['nL', 120, 330], ['nR', 1470, 330]].forEach(([id, x, y]) => {
   const gg = document.getElementById(id); gg.setAttribute('transform', `translate(${x} ${y}) scale(0.36)`);
@@ -52,8 +52,8 @@ const T0 = 0.02;
 const T = { aw: S.at('시간에'), win: S.at('장사가'), door: S.at('잘될'), sgn: S.at('요건을'), nb: S.at('가게에는'), star: S.at('특별한'), tag: S.at('특징을'), ring: S.at('한다는'), q1: S.at('특징', 1), q2: S.at('특징', 2), p: S.at('특징이라고', 1), big: S.at('거창한') };
 S.ev(T0, 'in', 'store'); S.ev(T.sgn, 'marker', 'sign'); S.ev(T.nb, 'card_in', 'nb'); S.ev(T.star, 'shine', 'star'); S.ev(T.ring, 'click', 'ring'); S.ev(T.q1, 'msg_in', 'q1'); S.ev(T.p, 'ok', 'ring2');
 // 별 둘레 링(파랑 원)
-const ringEl = mk(document.getElementById('sparkG'), 'circle', { id: 'sp1', cx: 1260, cy: 312, r: 74, class: 'ln bl w4' });
-const ringEl2 = mk(document.getElementById('sparkG'), 'circle', { id: 'sp2', cx: 1260, cy: 312, r: 74, class: 'ln bl w4' });
+const ringEl = mk(document.getElementById('sparkG'), 'circle', { id: 'sp1', cx: 1260, cy: 270, r: 74, class: 'ln bl w4' });
+const ringEl2 = mk(document.getElementById('sparkG'), 'circle', { id: 'sp2', cx: 1260, cy: 270, r: 74, class: 'ln bl w4' });
 S.scene(tau => {
   S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
   // 가게 그리기(처음 0.1초 안에 첫 선): 벽 → 처마 → 창 → 문

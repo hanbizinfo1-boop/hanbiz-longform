@@ -5,16 +5,12 @@
 <style>
 #ov{left:0;top:0;width:1920px;height:1080px}
 #rc{left:0;top:0;width:220px;height:300px;font-family:"Pre";font-weight:900;color:#2B2A22;font-size:50px;text-align:center;padding-top:44px;opacity:0;line-height:1.1}
+#vg{left:0;top:0;width:1920px;height:1080px;background:radial-gradient(ellipse 330px 300px at 856px 606px,rgba(0,0,0,0) 0%,rgba(0,0,0,0) 55%,rgba(8,5,2,.5) 100%);opacity:0}
 #dp{left:360px;top:150px;font-size:112px}
 </style></head>
 <body><div id="stage">
   <div id="ph" class="photo">
-    <svg id="ov" class="abs" viewBox="0 0 1920 1080">
-      <defs><clipPath id="rhalf"><rect x="856" y="300" width="400" height="640"/></clipPath></defs>
-      <ellipse id="half" cx="856" cy="606" rx="282" ry="248" fill="rgba(214,58,58,.38)" clip-path="url(#rhalf)" opacity="0"/>
-      <ellipse id="bw" class="ln bl w6" cx="856" cy="606" rx="290" ry="256"/>
-      <path id="rr" class="ln bl w6" d="M946 892 L1138 822 L1264 1030 L1080 1100 Z"/>
-    </svg>
+    <div id="vg" class="abs"></div>
     <div id="rc" class="abs">8,000원</div>
     <div id="dp" class="dpan abs" data-box="dp"><span class="rd">≈ 4,000원</span></div>
   </div>
@@ -27,17 +23,18 @@ window.PALETTE = ['#1B1E22', '#FFFFFF', '#1F5FD1'];
 S.css('#ph', { backgroundImage: S.ph('p20_tteokbokki_top') });
 const QR = [[768, 797], [912, 745], [1005, 925], [860, 978]].map(([x, y]) => [x * 1.25, y * 1.25 - 100]);
 const T = { bw: S.at('떡볶이'), rc: S.at('8천'), in: S.at('주문이'), fee: S.at('수수료로'), dp: S.at('무려'), half: S.at('절반이') };
-S.ev(T.bw, 'marker', 'bw'); S.ev(T.rc, 'type', 'rc'); S.ev(T.in, 'marker', 'rr'); S.ev(T.fee, 'click', 'bw'); S.ev(T.dp, 'shine', 'dp'); S.ev(T.half, 'coin', 'half');
+S.ev(T.bw, 'sweep', 'push1'); S.ev(T.rc, 'type', 'rc'); S.ev(T.dp, 'shine', 'dp'); S.ev(T.half, 'sweep', 'push2');
+// 카메라: 원점(ox,oy)을 잡고 s 배로 천천히 밀기(키 순서대로 0.7초씩 이어짐) — 1.00 이상이라 가장자리가 드러나지 않는다
+const CAMT = (tau, keys) => { let c = keys[0]; for (let i = 1; i < keys.length; i++) { const k = keys[i], p = S.cam(tau, k.t, k.t + (k.d || 0.7)); c = { s: S.lerp(c.s, k.s, p), ox: S.lerp(c.ox, k.ox, p), oy: S.lerp(c.oy, k.oy, p) }; if (p < 1) break; } return c; };
+const CAMX = (c, fl = 0, k = 1) => `translate(${(c.ox * (1 - c.s * k) + fl).toFixed(2)}px,${(c.oy * (1 - c.s * k)).toFixed(2)}px) scale(${(c.s * k).toFixed(4)})`;
 S.scene(tau => {
-  S.css('#ph', { transform: `scale(${E.drift(tau, 1, 1.03).toFixed(4)})` });   // 고정(미세)
+  // «떡볶이» 에서 그릇 쪽으로 밀고 들어감 · «수수료로» 에서 그릇 밖이 어두워짐 · «절반이» 에서 한 번 더 밀기
+  const c = CAMT(tau, [{ s: 1.0, ox: 856, oy: 606 }, { t: T.bw, s: 1.10, ox: 856, oy: 606 }, { t: T.half, s: 1.19, ox: 856, oy: 606 }]);
+  S.css('#ph', { transformOrigin: '0 0', transform: CAMX(c, 0, E.drift(tau, 1, 1.02)) });
+  S.css('#vg', { opacity: S.ent(tau, T.fee, 0.4) });
   S.fitQuad(S.$('#rc'), 220, 300, QR);
-  E.stroke('#bw', tau, T.bw, 0.45);
   const q = S.EO(S.P(tau, T.rc, T.rc + 0.3)); const rc = S.$('#rc'); rc.style.opacity = tau >= T.rc ? 1 : 0; rc.style.clipPath = `inset(0 ${((1 - q) * 100).toFixed(1)}% 0 0)`;
-  E.stroke('#rr', tau, T.in, 0.4);
-  // 수수료로 나가는 돈 → 그릇 테두리가 빨강으로
-  S.$('#bw').style.stroke = tau >= T.fee ? '#D63A3A' : '#1F5FD1';
   E.pop('#dp', tau, T.dp, { dy: 12 });
-  S.$('#half').setAttribute('opacity', S.ent(tau, T.half, 0.3).toFixed(3));
 });
 </script>
 </body></html>

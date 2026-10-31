@@ -10,18 +10,10 @@
 </style></head>
 <body><div id="stage">
   <div id="phA" class="photo lay">
-    <svg class="sv" viewBox="0 0 1920 1080">
-      <rect id="bx" class="ln bl w6" x="330" y="640" width="720" height="316" rx="14"/>
-      <rect id="w1" class="ln bl w6" x="640" y="92" width="318" height="680" rx="16"/>
-      <rect id="w2" class="ln bl w6" x="1366" y="240" width="336" height="620" rx="16"/>
-    </svg>
     <div id="dp1" class="dpan abs" data-box="dp1"><span class="rd">20% ~ 30%</span></div>
   </div>
   <div id="phB" class="photo lay" style="opacity:0">
     <div id="vg" class="abs"></div>
-    <svg class="sv" viewBox="0 0 1920 1080">
-      <rect id="rb" class="ln bl w6" x="816" y="480" width="468" height="358" rx="40"/>
-    </svg>
   </div>
 </div>
 <script src="../data/s16.js"></script>
@@ -31,19 +23,22 @@
 window.PALETTE = ['#1B1E22', '#FFFFFF', '#1F5FD1'];
 S.css('#phA', { backgroundImage: S.ph('p16_kitchen_staff') }); S.css('#phB', { backgroundImage: S.ph('p16b_hand_bills') });
 const T = { cost: S.at('원가'), wk: S.at('근로자를'), dp: S.at('20%에서'), fall: S.at('빠지면'), cut: S.at('진짜'), ring: S.at('남는'), vg: S.at('많지') };
-S.ev(T.cost, 'marker', 'bx'); S.ev(T.wk, 'marker', 'w1'); S.ev(T.dp, 'shine', 'dp1'); S.ev(T.fall, 'coin', 'dp1'); S.ev(T.ring, 'marker', 'rb');
+S.ev(T.cost, 'sweep', 'push1'); S.ev(T.dp, 'shine', 'dp1'); S.ev(T.fall, 'coin', 'dp1'); S.ev(T.ring, 'sweep', 'push2');
+// 카메라: 원점(ox,oy)을 잡고 s 배로 천천히 밀기(키 순서대로 0.7초씩 이어짐) — 1.00 이상이라 가장자리가 드러나지 않는다
+const CAMT = (tau, keys) => { let c = keys[0]; for (let i = 1; i < keys.length; i++) { const k = keys[i], p = S.cam(tau, k.t, k.t + (k.d || 0.7)); c = { s: S.lerp(c.s, k.s, p), ox: S.lerp(c.ox, k.ox, p), oy: S.lerp(c.oy, k.oy, p) }; if (p < 1) break; } return c; };
+const CAMX = (c, fl = 0, k = 1) => `translate(${(c.ox * (1 - c.s * k) + fl).toFixed(2)}px,${(c.oy * (1 - c.s * k)).toFixed(2)}px) scale(${(c.s * k).toFixed(4)})`;
 S.scene(tau => {
   const A = tau < T.cut;
   S.css('#phA', { opacity: A ? 1 : 0 }); S.css('#phB', { opacity: A ? 0 : 1 });
-  S.css('#phA', { transform: `translateX(${S.lerp(34, -34, S.P(tau, 0, T.cut)).toFixed(2)}px) scale(1.06)` });   // 아주 느린 옆 흐름
-  S.css('#phB', { transform: `scale(${S.lerp(1.0, 1.05, S.P(tau, T.cut, S.SC.dur)).toFixed(4)})` });
-  E.stroke('#bx', tau, T.cost, 0.45);
-  E.stroke('#w1', tau, T.wk, 0.4); E.stroke('#w2', tau, T.wk + 0.2, 0.4);
+  // 원가(식재료 박스) → 근로자 둘 쪽으로 천천히 밀기 · 손에 쥔 지폐 쪽으로 밀기
+  const cA = CAMT(tau, [{ s: 1.08, ox: 690, oy: 800 }, { t: T.cost, s: 1.18, ox: 690, oy: 800 }, { t: T.wk, s: 1.10, ox: 1040, oy: 450, d: 0.8 }]);
+  S.css('#phA', { transformOrigin: '0 0', transform: CAMX(cA, S.lerp(24, -24, S.P(tau, 0, T.cut)), E.drift(tau, 1, 1.03)) });
+  const cB = CAMT(tau, [{ s: 1.0, ox: 1050, oy: 660 }, { t: T.ring, s: 1.12, ox: 1050, oy: 660 }]);
+  S.css('#phB', { transformOrigin: '0 0', transform: CAMX(cB, 0, E.drift(tau, 1, 1.04)) });
   // 20% ~ 30% 가 판으로 뜨고(빨강), «빠지면» 에서 아래로 한 칸 내려앉는다
   const d = E.pop('#dp1', tau, T.dp, { dy: 0 });
   const f = S.EO(S.P(tau, T.fall, T.fall + 0.35));
   S.$('#dp1').style.transform += ` translateY(${(f * 26).toFixed(1)}px)`;
-  E.stroke('#rb', tau, T.ring, 0.45);
   S.css('#vg', { opacity: S.ent(tau, T.vg, 0.35) });
 });
 </script>

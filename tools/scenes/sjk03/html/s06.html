@@ -11,11 +11,6 @@
   <div id="ph" class="photo">
     <div id="glow" class="abs"></div>
     <div id="dim" class="abs"></div>
-    <svg id="ov" class="abs" viewBox="0 0 1920 1080">
-      <rect id="r1" class="ln rd w6" x="90" y="596" width="238" height="188" rx="12"/>
-      <rect id="r2" class="ln rd w6" x="482" y="610" width="214" height="168" rx="12"/>
-      <rect id="r3" class="ln bl w6" x="122" y="292" width="946" height="526" rx="14"/>
-    </svg>
   </div>
 </div>
 <script src="../data/s06.js"></script>
@@ -25,12 +20,12 @@
 window.PALETTE = ['#D63A3A', '#FFFFFF', '#1F5FD1'];
 S.css('#ph', { backgroundImage: S.ph('p06_two_shops') });
 const T = { fee: S.at('수수료를'), win: S.at('수익을'), shop: S.at('가게가') };
-S.ev(T.fee, 'marker', 'r1'); S.ev(T.win, 'marker', 'r3'); S.ev(T.shop, 'shine', 'glow');
+S.ev(T.fee, 'sweep', 'push'); S.ev(T.shop, 'shine', 'glow');
 S.scene(tau => {
-  // 아주 느린 옆 흐름(±40px)
-  S.css('#ph', { transform: `translateX(${S.lerp(34, -34, S.P(tau, 0, S.SC.dur)).toFixed(2)}px) scale(1.06)` });
-  E.stroke('#r1', tau, T.fee, 0.3); E.stroke('#r2', tau, T.fee + 0.12, 0.3);
-  E.stroke('#r3', tau, T.win, 0.5);
+  // 아주 느린 옆 흐름 + «수수료를» 에서 기사 둘 쪽으로 천천히 밀고 들어감(원점 = 기사 둘)
+  const s = 1.08 + 0.10 * S.cam(tau, T.fee, T.fee + 0.7), ox = 420, oy = 680;
+  const fl = S.lerp(20, -20, S.P(tau, 0, S.SC.dur));
+  S.css('#ph', { transformOrigin: '0 0', transform: `translate(${(ox * (1 - s) + fl).toFixed(2)}px,${(oy * (1 - s)).toFixed(2)}px) scale(${s.toFixed(4)})` });
   S.css('#dim', { opacity: S.ent(tau, T.win + 0.2, 0.3) });
   S.css('#glow', { opacity: S.ent(tau, T.shop, 0.3) });
 });

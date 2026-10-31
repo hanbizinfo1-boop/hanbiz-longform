@@ -7,8 +7,8 @@
 #fx{left:0;top:0;width:1920px;height:1080px}
 .tg{position:absolute;display:flex;align-items:center;justify-content:center;border-radius:14px;font-weight:900}
 #tgC{left:790px;top:640px;width:170px;height:70px;background:#E9ECEF;border:3px solid #A9B0B6;color:#7A828A;font-size:42px}
-#tgM{left:1365px;top:326px;width:170px;height:70px;background:#E9ECEF;border:3px solid #A9B0B6;color:#7A828A;font-size:42px}
-#tgB{left:1280px;top:270px;width:340px;height:130px;background:var(--bl);border:3px solid var(--bl);color:#fff;font-size:60px}
+#tgM{left:1365px;top:296px;width:170px;height:70px;background:#E9ECEF;border:3px solid #A9B0B6;color:#7A828A;font-size:42px}
+#tgB{left:1280px;top:240px;width:340px;height:130px;background:var(--bl);border:3px solid var(--bl);color:#fff;font-size:60px}
 #lbN{left:330px;top:838px;width:380px;text-align:center;font-size:56px}
 #lbF{left:330px;top:250px;font-size:56px;color:var(--rd)}
 .pc{position:absolute;left:330px;top:340px;width:440px;height:72px;background:#F7DEDE;border:3px solid var(--rd);border-radius:8px}
@@ -20,8 +20,8 @@
       <g transform="translate(520,620)">
         <path id="b1" class="ln w4" d="M-190 0 L190 0 C 180 130, 110 200, 0 200 C -110 200, -180 130, -190 0 Z"/>
         <path id="b2" class="ln w4" d="M-215 0 L215 0"/>
-        <path id="b3" class="ln" d="M-120 0 C -140 -30, -90 -40, -110 -70 M-30 0 C -50 -30, 0 -40, -20 -75 M60 0 C 40 -30, 90 -40, 70 -70 M130 0 C 115 -25, 150 -35, 140 -60"/>
-        <path id="b4" class="ln w4" d="M70 -150 L-10 -25 M105 -150 L25 -15"/>
+        <path id="b3" class="ln" d="M-160 0 C -180 -30, -130 -40, -150 -70 M-90 0 C -110 -30, -60 -40, -80 -75 M-20 0 C -40 -30, 10 -40, -10 -70"/>
+        <path id="b4" class="ln w4" d="M100 -150 L20 -25 M135 -150 L55 -15"/>
       </g>
       <path id="str" class="ln mu" d="M790 672 L690 620"/>
       <path id="gg" class="ln w4" d="M990 590 L990 710 L1030 710 L1030 590 Z"/>
@@ -30,8 +30,7 @@
       <path id="sh" class="ln w4" d="M1290 780 C 1290 660, 1370 610, 1450 610 C 1530 610, 1610 660, 1610 780 L1290 780"/>
       <path id="ar" class="ln w6" d="M790 540 L1270 540"/>
       <path id="ah" class="ln w6" d="M1236 506 L1272 540 L1236 574"/>
-      <path id="xx" class="ln rd w6" d="M1360 322 L1540 402 M1540 322 L1360 402"/>
-      <circle id="ring" class="ln bl w6" cx="1450" cy="500" r="112"/>
+      <path id="xx" class="ln rd w6" d="M1360 292 L1540 372 M1540 292 L1360 372"/>
       <path id="bring" class="ln bl w6" d="M280 470 L760 470 L760 826 L280 826 Z"/>
     </svg>
     <div id="lbN" class="abs t" data-box="lbN">막국수</div>
@@ -68,7 +67,7 @@ S.scene(tau => {
   E.pop('#tgM', tau, T.wonga, { dy: 8 }); S.$('#tgM').style.opacity = parseFloat(S.$('#tgM').style.opacity) * out;
   E.stroke('#xx', tau, T.ani, 0.3); S.css('#xx', { opacity: (tau >= T.ani ? 1 : 0) * out });
   E.pop('#tgB', tau, T.menu, { dy: 10, sc: 0.12 });
-  E.stroke('#ring', tau, T.gi, 0.4);
+  { const rk = S.ent(tau, T.gi, 0.3), h = S.$('#hd'); h.style.stroke = rk > 0 ? '#1F5FD1' : ''; h.style.strokeWidth = rk > 0 ? (4 + 4 * rk).toFixed(2) : ''; }
   // 앱 수수료 — 장면 13 탑의 조각 하나가 그릇 쪽으로 옮겨감
   const kp = S.ent(tau, T.eo, 0.12), mv = S.cam(tau, T.geunyang, T.sonnim + 0.5), dp = S.P(tau, T.deu, T.deu + 0.3);
   const pc = S.$('#pc');

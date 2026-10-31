@@ -3,23 +3,20 @@
 <title>s60 족발집 예 — 밤 족발집 포장대, 족발 포장을 봉투에 담는 손(실물 층, Codex 사진 + 선 · 가게 이름 ○○)</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#wrap{left:0;top:0;width:1920px;height:1080px;transform-origin:1100px 560px}
-#fx{left:0;top:0;width:1920px;height:1080px}
+#wrap{left:0;top:0;width:1920px;height:1080px;transform-origin:1300px 760px}
+.fv{left:0;top:0;width:1920px;height:1080px;pointer-events:none;opacity:0}
+#fT{background:radial-gradient(ellipse 420px 300px at 1056px 650px,rgba(0,0,0,0) 40%,rgba(0,0,0,.38) 100%)}
+#fH{background:radial-gradient(ellipse 300px 380px at 1220px 392px,rgba(0,0,0,0) 40%,rgba(0,0,0,.38) 100%)}
+#fB{background:radial-gradient(ellipse 320px 340px at 1595px 551px,rgba(0,0,0,0) 40%,rgba(0,0,0,.38) 100%)}
 #stk{left:1500px;top:760px;width:250px;height:120px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:62px;white-space:nowrap;color:#2C2118;transform:rotate(-4deg);opacity:0}
 .rg{fill:none;stroke:#4F86F0;stroke-width:8;opacity:0}
 </style></head>
 <body><div id="stage">
   <div id="wrap" class="abs">
     <div id="ph" class="photo"></div>
-    <svg id="fx" class="abs" viewBox="0 0 1920 1080">
-      <rect id="tr" class="ln bl w6" x="780" y="498" width="552" height="304" rx="16"/>
-      <rect id="tg" class="ln bl w4" x="780" y="498" width="552" height="304" rx="16" style="opacity:0;transform-box:fill-box;transform-origin:50% 50%"/>
-      <rect id="hn" class="ln bl w6" x="1070" y="196" width="300" height="392" rx="20"/>
-      <path id="ar" class="ln bl w6" d="M1312 640 C 1380 600, 1420 560, 1486 540"/>
-      <path id="ah" class="ln bl w6" d="M1446 520 L1488 538 L1466 584"/>
-      <rect id="bo" class="ln bl w6" x="1488" y="436" width="214" height="230" rx="18"/>
-      <rect id="bg2" class="ln bl w4" x="1488" y="436" width="214" height="230" rx="18" style="opacity:0;transform-box:fill-box;transform-origin:50% 50%"/>
-    </svg>
+    <div id="fT" class="abs fv"></div>
+    <div id="fH" class="abs fv"></div>
+    <div id="fB" class="abs fv"></div>
     <div id="stk" class="kraft hand">○○ 족발</div>
   </div>
 </div>
@@ -30,17 +27,17 @@
 window.PALETTE = ['#20262D', '#1F5FD1', '#C9A57A'];
 S.$('#ph').style.backgroundImage = S.ph('p60_jokbal_pack');
 const T = { jok: S.at('족발집을'), jip: S.at('족발집에'), po: S.at('포장하러'), dae: S.at('대부분'), pojang: S.at('포장해서'), geun: S.at('근데'), man: S.at('만약') };
-S.ev(0.3, 'card_in', 'stk'); S.ev(T.jip, 'marker', 'tr'); S.ev(T.po, 'shine', 'tg'); S.ev(T.dae, 'marker', 'hn'); S.ev(T.pojang, 'sweep', 'ar'); S.ev(T.geun, 'click', 'bo');
+S.ev(0.3, 'card_in', 'stk'); S.ev(T.jip, 'sweep', 'push1'); S.ev(T.geun, 'sweep', 'push2');
 S.scene(tau => {
-  S.css('#wrap', { transform: `scale(${(1 + 0.08 * S.P(tau, 0, S.SC.dur)).toFixed(4)})` });
+  // 강조 = 천천히 밀기 두 번(족발집에 · 근데) + 대상 밖 어둡게(포장 통 → 손 → 봉투) — 선·화살표 없음
+  const p1 = S.cam(tau, T.jip, T.jip + 0.7), p2 = S.cam(tau, T.geun, T.geun + 0.7);
+  S.css('#wrap', { transform: `scale(${((1 + 0.04 * S.P(tau, 0, S.SC.dur)) * (1 + 0.04 * p1 + 0.05 * p2)).toFixed(4)})` });
+  const on = (a, b) => S.EO(S.P(tau, a, a + 0.3)) * (b == null ? 1 : 1 - S.EO(S.P(tau, b, b + 0.3)));
+  S.css('#fT', { opacity: on(T.jip, T.dae).toFixed(3) });
+  S.css('#fH', { opacity: on(T.dae, T.pojang).toFixed(3) });
+  S.css('#fB', { opacity: on(T.geun).toFixed(3) });
   const a = S.ent(tau, T.jok, 0.12);
   S.css('#stk', { opacity: a, transform: `rotate(-4deg) translateY(${(14 * (1 - a)).toFixed(1)}px) scale(${(0.94 + 0.06 * a).toFixed(3)})` });
-  E.stroke('#tr', tau, T.jip, 0.6);
-  { const k = S.EO(S.P(tau, T.po, T.po + 0.6)); S.css('#tg', { opacity: tau >= T.po ? (1 - k) * 0.9 : 0, transform: `scale(${(1 + 0.12 * k).toFixed(4)})` }); }
-  E.stroke("#hn", tau, T.dae, 0.6); S.$("#tr").style.opacity = tau >= T.jip ? 1 - S.P(tau, T.dae, T.dae + 0.25) : 0; S.$("#hn").style.opacity = tau >= T.dae ? 1 - S.P(tau, T.pojang - 0.2, T.pojang + 0.05) : 0;
-  E.stroke('#ar', tau, T.pojang, 0.4); E.stroke('#ah', tau, T.pojang + 0.35, 0.15);
-  E.stroke('#bo', tau, T.geun, 0.5);
-  { const k = S.EO(S.P(tau, T.man, T.man + 0.6)); S.css('#bg2', { opacity: tau >= T.man ? (1 - k) * 0.9 : 0, transform: `scale(${(1 + 0.18 * k).toFixed(4)})` }); }
 });
 </script>
 </body></html>

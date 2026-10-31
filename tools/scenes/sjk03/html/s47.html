@@ -4,33 +4,33 @@
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
 #cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
-#frame{left:196px;top:326px;width:1528px;height:438px}
-#gseg{left:210px;top:340px;width:360px;height:410px;background:#E9ECEE;border:2px solid #C9CED3;border-radius:8px}
+#frame{left:196px;top:330px;width:1528px;height:480px}
+#gseg{left:236px;top:370px;width:340px;height:400px;background:#E9ECEE;border:2px solid #C9CED3;border-radius:8px}
 #gseg .t{position:absolute;left:0;width:100%;top:150px;text-align:center;font-size:48px;line-height:1.3;white-space:normal;color:var(--mute)}
-#bseg{left:590px;top:340px;width:1124px;height:410px;background:var(--blt);border:3px solid var(--bl);border-radius:8px}
-#hq{left:210px;top:200px;font-size:92px;font-weight:900;color:#A9B0B6}
-#hn{left:590px;top:200px;font-size:92px;font-weight:900;color:var(--bl)}
-.cell{position:absolute;top:372px;width:340px;height:346px;background:#fff;border:2px solid var(--bl);border-radius:10px}
-.cell svg{position:absolute;left:70px;top:24px;width:200px;height:180px}
+#bseg{left:604px;top:370px;width:1080px;height:400px;background:var(--blt);border:3px solid var(--bl);border-radius:8px}
+#hq{left:236px;top:200px;font-size:92px;font-weight:900;color:#A9B0B6}
+#hn{left:604px;top:200px;font-size:92px;font-weight:900;color:var(--bl)}
+.cell{position:absolute;top:402px;width:320px;height:336px;background:#fff;border:2px solid var(--bl);border-radius:10px}
+.cell svg{position:absolute;left:60px;top:24px;width:200px;height:180px}
 .cell .t{position:absolute;left:0;width:100%;top:236px;text-align:center;font-size:58px;font-weight:900;color:var(--bl)}
 </style></head>
 <body><div id="stage">
   <div id="cam" class="abs">
     <div class="grid"></div>
-    <svg id="frame" class="abs" viewBox="0 0 1528 438" data-box="frame" data-box-group="bar"><path id="f1" class="ln w4" d="M8 8 L1520 8 L1520 430 L8 430 Z"/></svg>
+    <svg id="frame" class="abs" viewBox="0 0 1528 480" data-box="frame" data-box-group="bar"><path id="f1" class="ln w4" d="M8 8 L1520 8 L1520 472 L8 472 Z"/></svg>
     <div id="hq" class="abs t" data-box="hq">언제?</div>
     <div id="hn" class="abs t" data-box="hn">남는 시간</div>
     <div id="gseg" class="abs" data-box="gseg" data-box-group="bar"><div class="t">배달 단가<br>조정</div></div>
     <div id="bseg" class="abs" data-box="bseg" data-box-group="bar"></div>
-    <div class="cell" id="c0" style="left:632px" data-box="c0" data-box-group="bar">
+    <div class="cell" id="c0" style="left:636px" data-box="c0" data-box-group="bar">
       <svg viewBox="0 0 200 180"><path class="ln bl w4" d="M100 8 L100 58"/><path class="ln bl w4" d="M52 112 C58 78 78 58 100 58 C122 58 142 78 148 112 Z"/><path class="ln bl w4" d="M86 130 C92 146 108 146 114 130"/><path class="ln bl w4" d="M58 142 L44 154"/><path class="ln bl w4" d="M142 142 L156 154"/><path class="ln bl w4" d="M100 150 L100 170"/></svg>
       <div class="t">인테리어</div>
     </div>
-    <div class="cell" id="c1" style="left:1002px" data-box="c1" data-box-group="bar">
+    <div class="cell" id="c1" style="left:984px" data-box="c1" data-box-group="bar">
       <svg viewBox="0 0 200 180"><path class="ln bl w4" d="M40 80 L160 80 C156 130 130 155 100 155 C70 155 44 130 40 80 Z"/><path class="ln bl w4" d="M28 80 L172 80"/><path class="ln bl w4" d="M78 60 C72 45 86 38 80 22"/><path class="ln bl w4" d="M120 60 C114 45 128 38 122 22"/></svg>
       <div class="t">맛 · 양</div>
     </div>
-    <div class="cell" id="c2" style="left:1372px" data-box="c2" data-box-group="bar">
+    <div class="cell" id="c2" style="left:1332px" data-box="c2" data-box-group="bar">
       <svg viewBox="0 0 200 180"><path class="ln bl w4" d="M26 24 L174 24 L174 112 L26 112 Z"/><path class="ln bl w4" d="M50 50 L150 50"/><path class="ln bl w4" d="M50 78 L120 78"/><path class="ln bl w4" d="M168 150 C 168 132, 130 132, 92 142"/><path class="ln bl w4" d="M106 128 L90 142 L108 154"/></svg>
       <div class="t">리뷰 답변</div>
     </div>

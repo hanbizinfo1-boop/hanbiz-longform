@@ -5,7 +5,6 @@
 <style>
 #wrap{left:0;top:0;width:1920px;height:1080px}
 #pc{position:absolute;left:0;top:-100px;width:1536px;height:1024px;transform:scale(1.25);transform-origin:0 0}
-#pc svg{position:absolute;left:0;top:0;width:1536px;height:1024px}
 #sgn{position:absolute;left:885px;top:105px;width:300px;height:100px;display:flex;align-items:center;justify-content:center;font-family:"Pre";font-weight:900;font-size:96px;color:#2A2118;letter-spacing:.08em}
 #glow{position:absolute;left:700px;top:260px;width:700px;height:620px;background:radial-gradient(ellipse 50% 50% at 50% 55%,rgba(255,196,110,.50),rgba(255,196,110,0) 72%);opacity:0}
 </style></head>
@@ -15,7 +14,6 @@
     <div id="pc">
       <div id="glow"></div>
       <div id="sgn" data-box="sgn">○○</div>
-      <svg id="fx" viewBox="0 0 1536 1024"></svg>
     </div>
   </div>
 </div>
@@ -23,28 +21,19 @@
 <script src="../lib/sjk.js"></script>
 <script src="../lib/e4.js"></script>
 <script>
-window.PALETTE = ['#2A2118', '#1F5FD1', '#FFFFFF'];   // 간판 글 · 파랑(짚는 것) · 흰 바탕선
-const NS = 'http://www.w3.org/2000/svg', fx = document.getElementById('fx');
-const MK = {};
-function mk(id, d, col = '#1F5FD1', w = 5) {
-  const mkp = (pid, c, ww) => { const p = document.createElementNS(NS, 'path'); p.setAttribute('id', pid); p.setAttribute('d', d); p.setAttribute('fill', 'none'); p.setAttribute('stroke', c); p.setAttribute('stroke-width', ww); p.setAttribute('stroke-linecap', 'round'); p.setAttribute('stroke-linejoin', 'round'); fx.appendChild(p); return p; };
-  mkp(id + 'w', '#fff', w + 4); mkp(id, col, w); MK[id] = [id + 'w', id];
-}
-function draw(id, tau, t0, d, op = 1) { MK[id].forEach(p => { E.stroke('#' + p, tau, t0, d); document.getElementById(p).style.opacity = tau >= t0 ? op : 0; }); }
-mk('ph1', 'M495 490 a33 33 0 1 0 -0.1 0'); mk('ph2', 'M833 543 a33 33 0 1 0 -0.1 0');
-mk('route', 'M830 905 C 890 860 960 815 1032 772 M1002 748 L1036 770 L998 790');
-mk('door', 'M846 316 V296 H880 M1286 296 H1320 V316 M1320 740 V770 H1286 M880 770 H846 V740');
+window.PALETTE = ['#2A2118', '#FFFFFF', '#1F5FD1'];   // 간판 글
 const T = { gage: S.at('가게가'), onul: S.at('오늘'), dub: S.at('덮밥'), gi: S.at('기억해'), chat: S.at('찾아') };
-S.ev(T.gage, 'shine', 'sign'); S.ev(T.onul, 'click', 'phones'); S.ev(T.dub, 'marker', 'route'); S.ev(T.gi, 'in', 'glow'); S.ev(T.chat, 'ok', 'door');
+S.ev(T.gage, 'shine', 'sign'); S.ev(T.onul, 'sweep', 'push1'); S.ev(T.gi, 'in', 'glow'); S.ev(T.chat, 'sweep', 'push2');
 S.css('#ph', { backgroundImage: S.ph('p32_office_lunch') });
+// 카메라: 원점(ox,oy)을 잡고 s 배로 천천히 밀기(키 순서대로 0.7초씩 이어짐) — 1.00 이상이라 가장자리가 드러나지 않는다
+const CAMT = (tau, keys) => { let c = keys[0]; for (let i = 1; i < keys.length; i++) { const k = keys[i], p = S.cam(tau, k.t, k.t + (k.d || 0.7)); c = { s: S.lerp(c.s, k.s, p), ox: S.lerp(c.ox, k.ox, p), oy: S.lerp(c.oy, k.oy, p) }; if (p < 1) break; } return c; };
+const CAMX = (c, fl = 0, k = 1) => `translate(${(c.ox * (1 - c.s * k) + fl).toFixed(2)}px,${(c.oy * (1 - c.s * k)).toFixed(2)}px) scale(${(c.s * k).toFixed(4)})`;
 S.scene(tau => {
-  // 따라 걷기: 가게 문 쪽으로 천천히 밀기 1.00→1.10
-  S.css('#wrap', { transformOrigin: '1100px 150px', transform: `scale(${E.drift(tau, 1, 1.10).toFixed(4)})` });
+  // 따라 걷기 — 선을 긋지 않는다: «오늘» 에서 휴대폰 보며 걷는 두 사람 쪽으로, «찾아» 에서 가게 문 쪽으로 천천히 밀고 들어감
+  const c = CAMT(tau, [{ s: 1.0, ox: 1100, oy: 110 }, { t: T.onul, s: 1.10, ox: 830, oy: 110 }, { t: T.chat, s: 1.15, ox: 1350, oy: 110, d: 0.8 }]);
+  S.css('#wrap', { transformOrigin: '0 0', transform: CAMX(c, 0, E.drift(tau, 1, 1.03)) });
   E.wipe('#sgn', tau, T.gage, 0.45);
-  draw('ph1', tau, T.onul, 0.35); draw('ph2', tau, T.onul + 0.25, 0.35);
-  draw('route', tau, T.dub, 0.7);
   S.css('#glow', { opacity: S.EO(S.P(tau, T.gi, T.gi + 0.7)) });
-  draw('door', tau, T.chat, 0.45);
 });
 </script>
 </body></html>

@@ -25,7 +25,7 @@
 .gc .cq b{position:absolute;left:24px;top:36px;padding:6px 26px;background:#1F5FD1;color:#fff;font-size:60px;font-weight:800;border-radius:12px}
 .gc .cq span{position:absolute;left:0;top:300px;width:100%;text-align:center;font-size:120px;font-weight:900;color:#fff}
 .gc .cq i{position:absolute;left:30px;height:26px;border-radius:13px;background:rgba(255,255,255,.28)}
-.gc svg.cb{position:absolute;left:0;top:0;width:540px;height:400px}
+.gc .cq .rb{position:absolute;left:0;top:0;width:300px;height:720px;box-sizing:border-box;border:16px solid #D63A3A;border-radius:30px;opacity:0}
 </style></head>
 <body><div id="stage">
   <div id="w1" class="abs">
@@ -56,11 +56,11 @@ for (let k = 0; k < 5; k++) {
     `<div class="ad" id="ad${k}" style="top:${310 + 460 * k}px"><b>광고</b><span>○○</span><em></em><div class="rf"></div></div>`);
 }
 // ── 둘째 장면: 같은 사진 2×3 격자
-const g2 = document.getElementById('g2'), GX = [130, 690, 1250], GY = [95, 515];
+const g2 = document.getElementById('g2'), GX = [121, 695, 1269], GY = [76, 506];
 const GQ = [[145.7, 57.2], [277.9, 15.0], [377.8, 327.6], [245.3, 369.8]];
 for (let i = 0; i < 6; i++) {
   const x = GX[i % 3], y = GY[Math.floor(i / 3)];
-  g2.insertAdjacentHTML('beforeend', `<div class="gc" id="gc${i}" data-box="gc${i}" style="left:${x}px;top:${y}px"><div class="cph" id="cp${i}"></div><div class="cq" id="cq${i}"><b>광고</b><span>○○</span><i style="top:520px;width:170px"></i><i style="top:570px;width:230px"></i></div><svg class="cb" viewBox="0 0 540 400"><path id="rb${i}" d="M4 4 H536 V396 H4 Z" fill="none" stroke="#D63A3A" stroke-width="8" stroke-linejoin="round"/></svg></div>`);
+  g2.insertAdjacentHTML('beforeend', `<div class="gc" id="gc${i}" data-box="gc${i}" style="left:${x}px;top:${y}px"><div class="cph" id="cp${i}"></div><div class="cq" id="cq${i}"><b>광고</b><span>○○</span><i style="top:520px;width:170px"></i><i style="top:570px;width:230px"></i><div class="rb" id="rb${i}"></div></div></div>`);
 }
 const T = { mu: S.at('무서운'), gwang: S.at('광고가'), bye: S.at('별로였지'), geu: S.at('기억하거든요'), sur: S.at('광고를'), nap: S.at('나쁜'), gi: S.at('기억도') };
 const STEP = [2.9, 4.2, 5.75, 7.05];
@@ -89,15 +89,12 @@ S.scene(tau => {
   const rf = document.querySelector('#ad3 .rf'); rf.style.opacity = S.EO(S.P(tau, T.geu, T.geu + 0.3)).toFixed(3);
   // 둘째 장면 — 화면이 빠지며 여러 대
   const gk = S.EO(S.P(tau, 7.3, 7.7));
-  S.css('#g2', { opacity: gk, transform: `scale(${(1.06 - 0.06 * gk + 0.02 * S.P(tau, 7.7, S.SC.dur + S.SC.post)).toFixed(4)})` });
+  S.css('#g2', { opacity: gk, transform: `scale(${(1.06 - 0.12 * gk + 0.02 * S.P(tau, 7.7, S.SC.dur + S.SC.post)).toFixed(4)})` });
   for (let i = 0; i < 6; i++) {
     const k = S.ent(tau, 7.5 + GT * i, 0.12);
     S.css('#gc' + i, { opacity: k, transform: `scale(${(0.96 + 0.04 * k).toFixed(4)})` });
     const t0 = T.nap + 0.26 * i;
-    const path = document.getElementById('rb' + i);
-    if (!path._len) { path._len = path.getTotalLength(); path.style.strokeDasharray = path._len; }
-    path.style.strokeDashoffset = (path._len * (1 - S.EO(S.P(tau, t0, t0 + 0.3)))).toFixed(1);
-    path.style.opacity = tau >= t0 ? 1 : 0;
+    S.css('#rb' + i, { opacity: S.EO(S.P(tau, t0, t0 + 0.3)).toFixed(3) });
   }
 });
 </script>

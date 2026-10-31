@@ -6,7 +6,7 @@
 #wrap{left:0;top:0;width:1920px;height:1080px}
 #vig{left:0;top:0;width:1920px;height:1080px;background:radial-gradient(ellipse 52% 56% at 61% 72%,rgba(0,0,0,0) 30%,rgba(10,6,2,.62) 100%);opacity:0}
 #lit{left:880px;top:650px;width:560px;height:300px;background:radial-gradient(ellipse 50% 50% at 50% 50%,rgba(255,226,170,.42),rgba(255,226,170,0) 70%);opacity:0}
-#fx{left:0;top:0;width:1920px;height:1080px}
+.stx{background:linear-gradient(#FF6B6B,#FF6B6B) no-repeat 0 56%/0% 10px;border-radius:5px}
 #dp{left:1010px;top:520px;width:520px;height:150px;font-size:112px;text-align:center;padding:18px 0 0}
 </style></head>
 <body><div id="stage">
@@ -14,11 +14,7 @@
     <div id="ph" class="photo"></div>
     <div id="vig" class="abs"></div>
     <div id="lit" class="abs"></div>
-    <div id="dp" class="dpan" data-box="dp"><span id="dpn">0원</span></div>
-    <svg id="fx" class="abs" viewBox="0 0 1920 1080">
-      <path id="br" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" d="M969 757 V712 H1014 M1299 712 H1344 V757 M1344 811 V856 H1299 M1014 856 H969 V811"/>
-      <path id="stk" fill="none" stroke="#FF6B6B" stroke-width="10" stroke-linecap="round" d="M1030 632 L1510 560"/>
-    </svg>
+    <div id="dp" class="dpan" data-box="dp"><span id="dpn" class="stx">0원</span></div>
   </div>
 </div>
 <script src="../data/s26.js"></script>
@@ -27,23 +23,23 @@
 <script>
 window.PALETTE = ['#1B1E22', '#FFFFFF', '#FF6B6B'];   // 어두운 판 · 흰 글 · 빨강 줄(버리는 생각)
 const T = { sim: S.at('명심해야'), si: S.at('시급'), three: S.at('3천'), bu: S.at('버리셔야'), hand: S.at('한다는') };
-S.ev(1.21, 'marker', 'bracket'); S.ev(2.3, 'shine', 'light'); S.ev(T.si, 'card_in', 'dp'); S.ev(T.three, 'gauge', 'count'); S.ev(4.4, 'marker', 'ring'); S.ev(T.bu, 'no', 'strike');
+S.ev(T.sim, 'sweep', 'push'); S.ev(2.3, 'shine', 'light'); S.ev(T.si, 'card_in', 'dp'); S.ev(T.three, 'gauge', 'count'); S.ev(T.bu, 'no', 'strike');
 S.css('#ph', { backgroundImage: S.ph('p26_empty_hall_noon') });
+// 카메라: 원점(ox,oy)을 잡고 s 배로 천천히 밀기(키 순서대로 0.7초씩 이어짐) — 1.00 이상이라 가장자리가 드러나지 않는다
+const CAMT = (tau, keys) => { let c = keys[0]; for (let i = 1; i < keys.length; i++) { const k = keys[i], p = S.cam(tau, k.t, k.t + (k.d || 0.7)); c = { s: S.lerp(c.s, k.s, p), ox: S.lerp(c.ox, k.ox, p), oy: S.lerp(c.oy, k.oy, p) }; if (p < 1) break; } return c; };
+const CAMX = (c, fl = 0, k = 1) => `translate(${(c.ox * (1 - c.s * k) + fl).toFixed(2)}px,${(c.oy * (1 - c.s * k)).toFixed(2)}px) scale(${(c.s * k).toFixed(4)})`;
 S.scene(tau => {
-  // 아주 느린 밀기(1.00→1.08) — 휴대폰 쪽으로
-  S.css('#wrap', { transformOrigin: '1150px 780px', transform: `scale(${E.drift(tau, 1, 1.08).toFixed(4)})` });
+  // «명심해야» 에서 엎어 둔 휴대폰 쪽으로 천천히 밀고 들어감(괄호를 그리지 않음)
+  const c = CAMT(tau, [{ s: 1.0, ox: 1150, oy: 780 }, { t: T.sim, s: 1.12, ox: 1150, oy: 780 }]);
+  S.css('#wrap', { transformOrigin: '0 0', transform: CAMX(c, 0, E.drift(tau, 1, 1.04)) });
   S.css('#vig', { opacity: S.EO(S.P(tau, 0.02, 1.4)) });
-  E.stroke('#br', tau, T.sim, 0.5);
   S.css('#lit', { opacity: S.EO(S.P(tau, 2.3, 2.8)) * 0.9 });
   const k = S.ent(tau, T.si, 0.12);
   S.css('#dp', { opacity: k, transform: `translateY(${(16 * (1 - k)).toFixed(1)}px)` });
   const n = S.count(tau, T.three, T.three + 0.55, 0, 3000);
   document.getElementById('dpn').textContent = (tau < T.si ? '' : S.fmt(Math.floor(n / 10) * 10) + '원');
-  E.ring('#dp', tau, 4.4, '127,168,245');
-  E.stroke('#stk', tau, T.bu, 0.4);
-  // 괄호가 «버림» 쪽 빨강으로
-  const rd = S.EO(S.P(tau, T.hand, T.hand + 0.25));
-  S.css('#br', { stroke: rd > 0.5 ? '#FF6B6B' : '#fff' });
+  // «버리셔야» — 판 안 숫자에 빨강 줄이 그어짐(판 글자의 일부)
+  S.$('#dpn').style.backgroundSize = (S.EO(S.P(tau, T.bu, T.bu + 0.4)) * 100).toFixed(1) + '% 10px';
 });
 </script>
 </body></html>

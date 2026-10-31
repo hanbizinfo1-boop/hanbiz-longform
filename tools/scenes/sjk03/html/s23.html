@@ -6,10 +6,10 @@
 #cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
 #fx{left:0;top:0;width:1920px;height:1080px}
 .sb{position:absolute;width:170px;background:#E9ECEF;border:3px solid var(--ln);border-radius:6px 6px 0 0;transform-origin:50% 100%}
-.mb{position:absolute;top:310px;width:190px;height:130px;display:flex;align-items:center;justify-content:center;font-size:48px;font-weight:800}
+.mb{position:absolute;top:310px;width:170px;height:130px;display:flex;align-items:center;justify-content:center;font-size:48px;font-weight:800}
 #lbU{left:160px;top:210px;font-size:64px}
-#lbS{left:1050px;top:196px;font-size:64px;color:var(--bl)}
-#lbM{left:940px;top:690px;font-size:60px}
+#lbS{left:1040px;top:176px;font-size:64px;color:var(--bl)}
+#lbM{left:940px;top:650px;font-size:60px}
 </style></head>
 <body><div id="stage">
   <div id="cam" class="abs">
@@ -18,7 +18,7 @@
       <path id="base" class="ln w4" d="M140 800 L800 800"/>
       <path id="up" class="ln bl w6" d="M850 790 L850 400"/>
       <path id="uh" class="ln bl w6" d="M820 440 L850 396 L880 440"/>
-      <path id="setbox" class="ln bl w6" d="M1010 280 L1660 280 L1660 470 L1010 470 Z"/>
+      <path id="setbox" class="ln bl w6" d="M1000 280 L1690 280 L1690 470 L1000 470 Z"/>
       <path id="rul" class="ln w4" d="M940 790 L1690 790"/>
       <path id="tk" class="ln w4" d="M940 764 L940 816 M1090 764 L1090 816 M1240 764 L1240 816 M1390 764 L1390 816 M1540 764 L1540 816 M1690 764 L1690 816"/>
       <rect id="fill" x="940" y="778" width="0" height="24" fill="#1F5FD1" rx="4"/>
@@ -53,7 +53,7 @@ S.scene(tau => {
   E.pop('#lbU', tau, T.ju, { dy: 0 });
   E.stroke('#up', tau, T.kiw, 0.4); E.stroke('#uh', tau, T.kiw + 0.3, 0.15);
   // 1인분 셋(흩어져 나옴) → 세트로 모임 → 상자
-  const xs0 = [900, 1210, 1520], xs1 = [1050, 1250, 1450], ts = [T.one, T.one + 0.2, T.me + 0.05];
+  const xs0 = [900, 1210, 1520], xs1 = [1040, 1260, 1480], ts = [T.one, T.one + 0.2, T.me + 0.05];
   const mv = S.cam(tau, T.set, T.set + 0.4);
   [0, 1, 2].forEach(i => {
     const k = S.ent(tau, ts[i], 0.12);

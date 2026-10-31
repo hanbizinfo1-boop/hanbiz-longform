@@ -3,15 +3,12 @@
 <title>s01 포장대 김치찌개 + 영수증 12,000원 — 실물 층(Codex 사진 2.5D · 천천히 밀기)</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#ring{left:0;top:0;width:1920px;height:1080px}
+#vg{position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;opacity:0}
 #dp{left:150px;top:540px;font-size:68px}
 </style></head>
 <body><div id="stage">
   <div id="ph" class="photo">
-    <svg id="ring" class="abs" viewBox="0 0 1920 1080">
-      <path id="rg" class="ln bl w6" d="M650 694 L764 640 L880 798 L748 850 Z"/>
-      <path id="rl" class="ln w4" style="stroke:#fff" d="M560 636 L650 690"/>
-    </svg>
+    <div id="vg"></div>
     <div id="dp" class="dpan abs" data-box="dp">12,000원</div>
   </div>
 </div>
@@ -22,12 +19,13 @@
 window.PALETTE = ['#1B1E22', '#FFFFFF', '#1F5FD1'];
 S.css('#ph', { backgroundImage: S.ph('p01_pack_counter') });
 const T = { dp: 0.1, ring: S.at('배달로') };
-S.ev(T.dp, 'in', 'dp'); S.ev(T.ring, 'marker', 'rg');
+S.ev(T.dp, 'in', 'dp'); S.ev(T.ring, 'sweep', 'push');
 S.scene(tau => {
-  S.css('#ph', { transform: `scale(${E.drift(tau, 1, 1.06).toFixed(4)})` });
+  // 강조 = 영수증 쪽으로 천천히 밀기 + 바깥 비네트(선 표시 없음)
+  const push = S.cam(tau, T.ring, T.ring + 0.7);
+  S.css('#ph', { transformOrigin: '760px 745px', transform: `scale(${(E.drift(tau, 1, 1.04) * (1 + 0.12 * push)).toFixed(4)})` });
+  S.css('#vg', { opacity: push.toFixed(3), background: 'radial-gradient(ellipse 560px 400px at 760px 745px, rgba(0,0,0,0) 40%, rgba(0,0,0,.38) 100%)' });
   E.pop('#dp', tau, T.dp, { dy: 10 });
-  E.stroke('#rl', tau, T.dp + 0.1, 0.25);
-  E.stroke('#rg', tau, T.ring, 0.4);
 });
 </script>
 </body></html>

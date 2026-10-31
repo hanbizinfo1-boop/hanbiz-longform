@@ -19,7 +19,7 @@
       <g id="store" transform="translate(1010 250) scale(0.8)"></g>
       <g id="ppl"></g>
       <path id="strike" class="ln w6 rd" style="stroke-width:10" d="M285 540 L715 540"/>
-      <circle id="ringS" class="ln bl w4" cx="1634" cy="250" r="132"/>
+      <circle id="ringS" class="ln bl w4" cx="1666" cy="198" r="132"/>
     </svg>
     <div id="rate" class="abs" data-box="rate"><div class="s1 t">시급</div><div class="s2 big rd">3,000원</div></div>
   </div>
@@ -53,7 +53,7 @@ STORE.forEach(([id, d, cls]) => mk('store', { id: 'st_' + id, d, class: cls }));
 function star(cx, cy, Ro, r) { let d = ''; for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r : Ro; d += (i ? 'L' : 'M') + (cx + rr * Math.cos(a)).toFixed(1) + ' ' + (cy + rr * Math.sin(a)).toFixed(1); } return d + 'Z'; }
 const starEl = mk('store', { id: 'st_star', d: star(750, 62, 52, 22), class: 'ln bl w4', style: 'fill:#1F5FD1;transform-box:fill-box;transform-origin:center' });
 // 손님(작은 사람 셋) — 가게 앞으로
-[820, 910, 1000].forEach((x, i) => {
+[830, 910, 990].forEach((x, i) => {
   const gy = 730;
   mk('ppl', { id: 'pp' + i, d: `M${x - 22} ${gy - 78} a22 22 0 1 0 44 0 a22 22 0 1 0 -44 0 M${x} ${gy - 56} V${gy - 22} M${x - 20} ${gy - 44} H${x + 20} M${x} ${gy - 22} L${x - 14} ${gy} M${x} ${gy - 22} L${x + 14} ${gy}`, class: 'ln w4' });
 });
@@ -80,7 +80,7 @@ S.scene(tau => {
   // 별: 작은 별 → 커짐(위로 올라가며) → 파랑 링
   const sk = S.ent(tau, t + 0.9, 0.12), gk = S.cam(tau, T.grow, T.grow + 0.5);
   starEl.style.opacity = sk;
-  starEl.style.transform = `translate(${(30 * gk).toFixed(1)}px,${(-62 * gk).toFixed(1)}px) scale(${((0.5 + 0.5 * sk) + 1.4 * gk).toFixed(3)})`;
+  starEl.style.transform = `translate(${(70 * gk).toFixed(1)}px,${(-130 * gk).toFixed(1)}px) scale(${((0.5 + 0.5 * sk) + 1.4 * gk).toFixed(3)})`;
   E.stroke('#ringS', tau, T.ring, 0.45);
 });
 </script>

@@ -9,14 +9,12 @@
 #ch .tr{position:absolute;left:230px;height:44px;border-radius:8px}
 #fb{background:#7FA8F5;top:34px}
 #dl{background:#FF6B6B;top:120px}
+#vg{left:0;top:0;width:1920px;height:1080px;background:radial-gradient(ellipse 230px 250px at 1215px 530px,rgba(0,0,0,0) 0%,rgba(0,0,0,0) 55%,rgba(8,5,2,.5) 100%);opacity:0}
 #sl{position:absolute;left:230px;top:34px;height:44px;border-radius:8px;background:#7FA8F5;transform-origin:0 50%}
 </style></head>
 <body><div id="stage">
   <div id="ph" class="photo">
-    <svg id="ov" class="abs" viewBox="0 0 1920 1080">
-      <ellipse id="rg" class="ln bl w6" cx="1215" cy="522" rx="82" ry="86"/>
-      <ellipse id="rg2" class="ln bl w6" cx="1214" cy="522" rx="96" ry="100" style="stroke:#7FA8F5"/>
-    </svg>
+    <div id="vg" class="abs"></div>
     <div id="ch" class="dpan abs" data-box="ch">
       <div class="lb" style="top:42px">음식값</div><div id="fb" class="tr" style="left:230px;width:0"></div>
       <div class="lb" style="top:128px">배달료</div><div id="dl" class="tr" style="left:230px;width:0"></div>
@@ -30,10 +28,15 @@
 window.PALETTE = ['#1B1E22', '#FFFFFF', '#1F5FD1'];
 S.css('#ph', { backgroundImage: S.ph('p18_rider_small_bag') });
 const T = { ring: S.at('싼'), ch: S.at('비용', 0), dl: S.at('커집니다'), cheap: S.at('싸게'), slide: S.at('배달료는'), fin: S.at('남는') };
-S.ev(T.ring, 'marker', 'rg'); S.ev(T.ch, 'card_in', 'ch'); S.ev(T.dl, 'gauge', 'dl'); S.ev(T.cheap, 'in', 'fb'); S.ev(T.slide, 'coin', 'dl'); S.ev(T.fin, 'shine', 'rg2');
+S.ev(T.ring, 'sweep', 'push'); S.ev(T.ch, 'card_in', 'ch'); S.ev(T.dl, 'gauge', 'dl'); S.ev(T.cheap, 'in', 'fb'); S.ev(T.slide, 'coin', 'dl');
+// 카메라: 원점(ox,oy)을 잡고 s 배로 천천히 밀기(키 순서대로 0.7초씩 이어짐) — 1.00 이상이라 가장자리가 드러나지 않는다
+const CAMT = (tau, keys) => { let c = keys[0]; for (let i = 1; i < keys.length; i++) { const k = keys[i], p = S.cam(tau, k.t, k.t + (k.d || 0.7)); c = { s: S.lerp(c.s, k.s, p), ox: S.lerp(c.ox, k.ox, p), oy: S.lerp(c.oy, k.oy, p) }; if (p < 1) break; } return c; };
+const CAMX = (c, fl = 0, k = 1) => `translate(${(c.ox * (1 - c.s * k) + fl).toFixed(2)}px,${(c.oy * (1 - c.s * k)).toFixed(2)}px) scale(${(c.s * k).toFixed(4)})`;
 S.scene(tau => {
-  S.css('#ph', { transform: `scale(${E.drift(tau, 1, 1.07).toFixed(4)})` });   // 아주 느린 밀기
-  E.stroke('#rg', tau, T.ring, 0.4);
+  // «싼» 에서 봉투 쪽으로 천천히 밀고 들어감 + «남는» 에서 봉투 밖이 부드럽게 어두워짐
+  const c = CAMT(tau, [{ s: 1.0, ox: 1215, oy: 522 }, { t: T.ring, s: 1.13, ox: 1215, oy: 522 }]);
+  S.css('#ph', { transformOrigin: '0 0', transform: CAMX(c, 0, E.drift(tau, 1, 1.04)) });
+  S.css('#vg', { opacity: S.ent(tau, T.fin, 0.4) });
   E.pop('#ch', tau, T.ch, { dy: 14 });
   // 음식값 막대(파랑): 처음 길게 → «싸게» 에서 짧아짐 · 배달료 막대(빨강): «커집니다» 에서 같은 길이로 → «배달료는 비슷하게» 에서 음식값 위로 겹쳐 덮음
   const a0 = S.EO(S.P(tau, T.ch + 0.15, T.ch + 0.5));
@@ -47,7 +50,6 @@ S.scene(tau => {
   const dl = S.$('#dl'); dl.style.top = S.lerp(120, 34, cov).toFixed(1) + 'px';
   dl.style.width = S.lerp(190 * dlk, 190, cov).toFixed(1) + 'px';
   dl.style.opacity = 1;
-  E.stroke('#rg2', tau, T.fin, 0.4);
 });
 </script>
 </body></html>

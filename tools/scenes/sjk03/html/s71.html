@@ -4,21 +4,15 @@
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
 #wrap{left:0;top:0;width:1920px;height:1080px;transform-origin:900px 500px}
-#fx{left:0;top:0;width:1920px;height:1080px}
-.rg{fill:none;stroke:#4F86F0;stroke-width:8;opacity:0}
+.fv{left:0;top:0;width:1920px;height:1080px;pointer-events:none;opacity:0}
+#fB{background:radial-gradient(ellipse 360px 340px at 878px 487px,rgba(0,0,0,0) 40%,rgba(0,0,0,.38) 100%)}
+#fR{background:radial-gradient(ellipse 480px 540px at 1600px 600px,rgba(0,0,0,0) 40%,rgba(0,0,0,.38) 100%)}
 </style></head>
 <body><div id="stage">
   <div id="wrap" class="abs">
     <div id="ph" class="photo"></div>
-    <svg id="fx" class="abs" viewBox="0 0 1920 1080">
-      <rect id="bag" class="ln bl w6" x="676" y="292" width="404" height="390" rx="24"/>
-      <rect id="rg1" class="rg" x="676" y="292" width="404" height="390" rx="24" style="transform-box:fill-box;transform-origin:50% 50%"/>
-      <path id="ar" class="ln bl w6" d="M880 410 C 980 450, 1010 520, 960 590"/>
-      <path id="ah" class="ln bl w6" d="M930 556 L958 594 L992 560"/>
-      <path id="rd" class="ln bl w6" d="M1290 1080 L1290 340 Q1290 300 1330 300 L1920 300"/>
-      <rect id="rg2" class="rg" x="676" y="292" width="404" height="390" rx="24" style="transform-box:fill-box;transform-origin:50% 50%"/>
-      <circle id="rg3" class="rg" cx="920" cy="640" r="70"/>
-    </svg>
+    <div id="fB" class="abs fv"></div>
+    <div id="fR" class="abs fv"></div>
   </div>
 </div>
 <script src="../data/s71.js"></script>
@@ -29,17 +23,16 @@ window.PALETTE = ['#20262D', '#1F5FD1', '#F4F5F2'];
 S.$('#ph').style.backgroundImage = S.ph('p71_pack_handover');
 const T = { o: S.at('오늘'), gu: S.at('구독은'), dae: S.at('대신'), dp: S.at('대표님'), i: S.at('이', 3), bo: S.at('보내') };
 const TI = S.at('영상', 1), TB = S.at('보내');
-S.ev(T.o, 'marker', 'bag'); S.ev(T.gu, 'shine', 'rg1'); S.ev(T.dae, 'sweep', 'ar'); S.ev(T.dp, 'marker', 'rd'); S.ev(TI - 0.1, 'shine', 'rg2'); S.ev(TB, 'click', 'rg3');
-function ring(id, t, tau, r0, grow, dur) { const k = S.EO(S.P(tau, t, t + dur)), el = S.$(id); el.style.opacity = tau >= t ? (1 - k) * 0.9 : 0; if (r0) el.setAttribute('r', (r0 + grow * k).toFixed(1)); else el.style.transform = `scale(${(1 + grow * k).toFixed(4)})`; }
+S.ev(T.dp, 'sweep', 'pan');
 S.scene(tau => {
   // 천천히 당기기(1.08 → 1.00) — 첫 장면(포장대)으로 돌아오며 닫힘
-  S.css('#wrap', { transform: `scale(${(1.08 - 0.08 * S.EIO(S.P(tau, 0, S.SC.dur))).toFixed(4)})` });
-  E.stroke('#bag', tau, T.o, 0.55);
-  ring('#rg1', T.gu, tau, 0, 0.2, 0.8);
-  E.stroke('#ar', tau, T.dae, 0.5); E.stroke('#ah', tau, T.dae + 0.45, 0.15);
-  E.stroke('#rd', tau, T.dp, 0.6);
-  ring('#rg2', TI - 0.1, tau, 0, 0.22, 0.8);
-  ring('#rg3', TB, tau, 70, 160, 0.8);
+  // 천천히 당기기(1.08 → 1.00) + «대표님»에서 손님 쪽으로 옆 이동 — 강조는 대상 밖 어둡게(봉투 → 손님 → 봉투), 선·고리 없음
+  const pan = S.cam(tau, T.dp, T.dp + 0.7) * (1 - S.cam(tau, TI - 0.1, TI + 0.4));
+  const sc = 1.08 - 0.08 * S.EIO(S.P(tau, 0, S.SC.dur));
+  S.css('#wrap', { transform: `translateX(${(-Math.min(45, (sc - 1) * 900) * pan).toFixed(2)}px) scale(${sc.toFixed(4)})` });
+  const on = (a, b) => S.EO(S.P(tau, a, a + 0.3)) * (b == null ? 1 : 1 - S.EO(S.P(tau, b, b + 0.3)));
+  S.css('#fB', { opacity: Math.max(on(T.o, T.dp), on(TI - 0.1)).toFixed(3) });
+  S.css('#fR', { opacity: on(T.dp, TI - 0.1).toFixed(3) });
 });
 </script>
 </body></html>

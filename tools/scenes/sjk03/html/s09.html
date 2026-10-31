@@ -35,7 +35,7 @@ S.ev(-0.1, 'click', 'cell0'); S.ev(0.3, 'sweep', 'into'); S.ev(0.6, 'card_in', '
 const cell = i => pc.root.querySelectorAll('.pcell')[i];
 S.scene(tau => {
   // 카메라: 칸 0 으로 밀고 들어감
-  const keys = [{ t: -9, s: 1, x: 960, y: 540 }, { t: 0.3, s: 1.9, x: C0.x, y: C0.y, d: 0.5 }];
+  const keys = [{ t: -9, s: 1, x: 960, y: 540 }, { t: 0.3, s: 1.7, x: C0.x, y: 565, d: 0.5 }];
   const c = S.camState(tau, keys);
   const slow = 1 + 0.03 * S.P(tau, 0.8, S.SC.dur);
   S.css('#cam', { transform: S.camCss({ s: c.s * slow, x: c.x, y: c.y }) });

@@ -18,22 +18,21 @@
       <path id="bsg" class="ln w4" d="M1590 330 H1770 V420 H1590 Z"/>
       <path id="bwin" class="ln" d="M1590 470 H1770"/>
       <!-- 별점 표지판 -->
-      <path id="bd1" class="ln w4" d="M1260 440 H1530 V640 H1260 Z"/>
-      <path id="bl1" class="ln w4" d="M1330 640 V780 M1460 640 V780"/>
+      <path id="bd1" class="ln w4" d="M1230 400 H1500 V620 H1230 Z"/>
+      <path id="bl1" class="ln w4" d="M1500 450 H1560 M1500 570 H1560"/>
       <path id="s0" class="ln w4" d="M0 0"/><path id="s1" class="ln w4" d="M0 0"/><path id="s2" class="ln w4" d="M0 0"/><path id="s3" class="ln w4" d="M0 0"/><path id="s4" class="ln w4" d="M0 0"/>
-      <path id="chk" class="ln gn w6" style="opacity:0" d="M1335 575 L1385 620 L1465 540"/>
+      <path id="chk" class="ln gn w6" style="opacity:0" d="M1325 545 L1365 585 L1445 510"/>
       <!-- 손님 -->
       <g id="cus" style="opacity:0"><path class="ln w4" d="M280 650 a42 42 0 1 0 84 0 a42 42 0 1 0 -84 0 M322 692 V740 M322 740 L296 780 M322 740 L348 780 M322 704 H282 M322 704 H362"/></g>
       <!-- 화살표: 광고(파랑) → 표지판 앞 / 빨강 U턴 -->
-      <path id="ar" class="ln bl w6" d="M420 700 H1190"/><path id="ar2" class="ln bl w6" d="M1190 700 H1650"/>
-      <path id="ah" class="ln bl w6" d="M1612 666 L1656 700 L1612 734"/>
-      <path id="ut" class="ln rd w6" style="stroke-dasharray:16 12" d="M1190 700 C 1250 700, 1250 580, 1190 580 L900 580"/>
+      <path id="ar" class="ln bl w6" d="M420 700 H1190"/><path id="ar2" class="ln bl w6" d="M1190 700 H1520"/>
+      <path id="ah" class="ln bl w6" d="M1482 666 L1526 700 L1482 734"/>
+      <path id="ut" class="ln rd w6" style="stroke-dasharray:16 12" d="M1130 580 L900 580"/>
       <path id="uh" class="ln rd w6" d="M944 546 L896 580 L944 614"/>
       <path id="x1" class="ln rd w6" d="M1010 550 L1070 610"/><path id="x2" class="ln rd w6" d="M1070 550 L1010 610"/>
-      <rect id="ring" class="ln bl w4" x="1236" y="416" width="318" height="250" rx="22"/>
     </svg>
     <div id="adl" class="abs t bl" data-box="adl">광고</div>
-    <div id="ess" class="abs t bl" data-box="ess" style="left:1395px;top:366px;font-size:64px;transform:translate(-50%,-50%)">본질</div>
+    <div id="ess" class="abs t bl" data-box="ess" style="left:1365px;top:340px;font-size:64px;transform:translate(-50%,-50%)">본질</div>
   </div>
 </div>
 <script src="../data/s52.js"></script>
@@ -43,7 +42,7 @@
 window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1', '#D63A3A', '#1E9E5A'];   // 모눈 · 선 · 파랑 · 빨강(돌려보낸 옛 길) · 초록(체크)
 const NS = 'http://www.w3.org/2000/svg';
 function star(cx, cy, R, r) { let d = ''; for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r : R; d += (i ? 'L' : 'M') + (cx + rr * Math.cos(a)).toFixed(1) + ' ' + (cy + rr * Math.sin(a)).toFixed(1); } return d + 'Z'; }
-for (let i = 0; i < 5; i++) { const e = document.getElementById('s' + i); e.setAttribute('d', star(1285 + i * 50, 500, 24, 10)); }
+for (let i = 0; i < 5; i++) { const e = document.getElementById('s' + i); e.setAttribute('d', star(1277 + i * 44, 460, 20, 8)); }
 const T0 = 0.02;
 const T = { cus: S.at('광고는'), ok: S.at('가게를'), chk: S.at('더빨리'), door: S.at('알리는'), bad: S.at('안좋은'), no: S.at('아닙니다'), rem: S.at('기억하세요'), ess: S.at('본질이') };
 S.ev(T0, 'in', 'town'); S.ev(T.cus, 'card_in', 'cus'); S.ev(T.ok, 'shine', 'stars'); S.ev(T.chk, 'ok', 'check'); S.ev(T.door, 'marker', 'door'); S.ev(T.bad + 0.45, 'page', 'ghost'); S.ev(T.no, 'no', 'x'); S.ev(T.rem, 'click', 'ring'); S.ev(T.ess, 'shine', 'ess');
@@ -63,7 +62,7 @@ S.scene(tau => {
   E.stroke('#ut', tau, T.bad + 0.45, 0.5); E.stroke('#uh', tau, T.bad + 0.9, 0.15);
   document.getElementById('ut').style.opacity = tau >= T.bad + 0.45 ? 0.55 : 0; document.getElementById('uh').style.opacity = tau >= T.bad + 0.9 ? 0.55 : 0;
   E.stroke('#x1', tau, T.no, 0.2); E.stroke('#x2', tau, T.no + 0.1, 0.2);
-  E.stroke('#ring', tau, T.rem, 0.5);
+  { const rk = S.ent(tau, T.rem, 0.3), bd = document.getElementById('bd1'); bd.style.stroke = rk > 0 ? '#1F5FD1' : ''; bd.style.strokeWidth = rk > 0 ? (4 + 4 * rk).toFixed(2) : ''; }
   E.pop('#ess', tau, T.ess, { base: 'translate(-50%,-50%)', dy: 0 });
 });
 </script>

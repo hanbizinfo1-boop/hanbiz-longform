@@ -83,7 +83,7 @@ S.ev(PTR[0], 'click', 'rv1'); S.ev(PTR[3], 'marker', 'rv4'); S.ev(T.paste, 'shin
 S.ev(TTYPE0 + 0.1, 'type', 'prompt'); S.ev(TSEND, 'click', 'send'); S.ev(TRES[0], 'msg_in', 'r1'); S.ev(TRES[2], 'ok', 'r3');
 S.scene(tau => {
   // 카메라: 노트북 화면이 가운데로 — 천천히 밀기(1.45 → 1.9, 글이 읽히는 크기까지)
-  const c = { s: S.lerp(1.45, 1.92, S.EIO(S.P(tau, 0, 10.5))), x: 752, y: 558 };
+  const c = { s: S.lerp(1.45, 1.92, S.EIO(S.P(tau, 0, 10.5))), x: 752, y: S.lerp(558, 600, S.EIO(S.P(tau, 10.5, 13))) };
   S.css('#wrap', { transformOrigin: '0 0', transform: S.camCss(c) });
   // A. 리뷰 목록
   const sc = 300 * S.P(tau, 0, 9.9);

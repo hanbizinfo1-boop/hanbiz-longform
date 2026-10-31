@@ -11,7 +11,7 @@
 .st{position:absolute;left:236px;width:14px;height:130px;background:var(--bl);border-radius:6px;opacity:0}
 .lab{position:absolute;left:310px;font-size:68px}
 .ph{position:absolute;left:1050px;width:520px;height:0;border-bottom:4px dashed #C9CED3;opacity:0}
-#cursor{left:1056px;top:306px;width:7px;height:92px;background:var(--bl);border-radius:3px;opacity:0}
+#cursor{left:1060px;top:315px;width:7px;height:60px;background:var(--bl);border-radius:3px;opacity:0}
 </style></head>
 <body><div id="stage">
   <div id="cam" class="abs">
@@ -35,7 +35,7 @@
       <path id="ld" class="ln w4" d="M260 720 L1660 720"/>
       <path id="lv" class="ln" d="M1000 270 L1000 870"/>
       <path id="fo" class="ln bl w4" d="M1030 288 L1640 288 L1640 402 L1030 402 Z"/>
-      <path id="bk" class="ln bl w6" d="M232 284 L220 284 L220 856 L232 856"/>
+      <path id="bk" class="ln bl w6" d="M208 284 L196 284 L196 856 L208 856"/>
     </svg>
     <div id="l1" class="lab t" style="top:306px" data-box="l1">메뉴</div>
     <div id="l2" class="lab t" style="top:456px" data-box="l2">가격</div>
@@ -61,7 +61,7 @@ S.scene(tau => {
   E.stroke('#lv', tau, T.jab, 0.4);
   // 빈 칸(점선 밑줄) — 칸 이름이 차례로
   const ls = [T.jab, T.dat, T.nam, T.ju];
-  ls.forEach((t, i) => { E.wipe('#l' + (i + 1), tau, t, 0.35); S.css('#p' + (i + 1), { opacity: S.ent(tau, t, 0.12) }); });
+  ls.forEach((t, i) => { E.wipe('#l' + (i + 1), tau, t, 0.35); S.css('#p' + (i + 1), { opacity: S.ent(tau, t, 0.12) * (i === 0 ? 1 - S.P(tau, T.je - 0.02, T.je + 0.1) : 1) }); });
   // 제가 — 첫 칸에 커서(가만히 켜져 있음) + 파랑 테두리
   S.css('#cursor', { opacity: S.ent(tau, T.je, 0.12) });
   E.stroke('#fo', tau, T.je, 0.35);

@@ -6,50 +6,30 @@
 #wrap{left:0;top:0;width:1920px;height:1080px}
 #ph2{filter:blur(9px) brightness(.42) saturate(.55);opacity:0;
   -webkit-mask-image:radial-gradient(ellipse 430px 540px at 830px 770px,rgba(0,0,0,0) 52%,#000 100%);mask-image:radial-gradient(ellipse 430px 540px at 830px 770px,rgba(0,0,0,0) 52%,#000 100%)}
-#fx{left:0;top:-100px;width:1920px;height:1280px}
 </style></head>
 <body><div id="stage">
   <div id="wrap" class="abs">
     <div id="ph" class="photo"></div>
     <div id="ph2" class="photo"></div>
-    <svg id="fx" class="abs" viewBox="0 0 1536 1024"></svg>
   </div>
 </div>
 <script src="../data/s28.js"></script>
 <script src="../lib/sjk.js"></script>
 <script src="../lib/e4.js"></script>
 <script>
-window.PALETTE = ['#FFFFFF', '#1F5FD1', '#1B1E22'];   // 흰 괄호 · 파랑(짚는 것) · 사진 위 어두운 가림
-const NS = 'http://www.w3.org/2000/svg', fx = document.getElementById('fx');
-// 흰 바탕선 + 위 색선 한 쌍(어두운 사진 위에서 파랑이 묻히지 않게)
-const MK = {};
-function mk(id, d, col = '#1F5FD1', w = 5) {
-  const mkp = (pid, c, ww) => { const p = document.createElementNS(NS, 'path'); p.setAttribute('id', pid); p.setAttribute('d', d); p.setAttribute('fill', 'none'); p.setAttribute('stroke', c); p.setAttribute('stroke-width', ww); p.setAttribute('stroke-linecap', 'round'); p.setAttribute('stroke-linejoin', 'round'); fx.appendChild(p); return p; };
-  mkp(id + 'w', '#fff', w + 5); mkp(id, col, w); MK[id] = [id + 'w', id];
-}
-function draw(id, tau, t0, d, op = 1) { MK[id].forEach(p => { E.stroke('#' + p, tau, t0, d); document.getElementById(p).style.opacity = tau >= t0 ? op : 0; }); }
-mk('crane', 'M1170 128 V108 H1208 M1330 108 H1368 V128 M1368 232 V258 H1330 M1208 258 H1170 V232');
-mk('rise', 'M840 780 V650 M796 694 L840 646 L884 694');
-mk('bld', 'M944 190 V166 H984 M1130 166 H1170 V190 M1170 300 V326 H1130 M984 326 H944 V300');
-mk('flow', 'M715 905 C688 800 652 704 640 628 C632 584 604 548 578 524 M578 524 L580 566 M578 524 L620 530');
-mk('p1', 'M683 690 a38 38 0 1 0 -0.1 0', '#1F5FD1', 4); mk('p2', 'M730 800 a38 38 0 1 0 -0.1 0', '#1F5FD1', 4); mk('p3', 'M853 752 a38 38 0 1 0 -0.1 0', '#1F5FD1', 4);
-mk('gol', 'M640 430 a250 350 0 1 1 -0.1 0 z', '#1F5FD1', 6);
+window.PALETTE = ['#1B1E22', '#FFFFFF', '#1F5FD1'];   // 사진 위 어두운 가림(선·글 없음)
 const T = { ext: S.at('외부'), mae: S.at('매출이'), hoe: S.at('회사가'), flow: S.at('유동인구가'), mo: S.at('만약', 0), mo2: S.at('만약', 1), eob: S.at('어떻게') };
-S.ev(0.6, 'in', 'crane'); S.ev(T.mae + 0.02, 'gauge', 'rise'); S.ev(T.hoe, 'marker', 'bld'); S.ev(T.flow, 'in', 'flow'); S.ev(6.2, 'click', 'people'); S.ev(T.mo, 'no', 'dim'); S.ev(T.mo2, 'marker', 'golmok'); S.ev(T.eob, 'shine', 'push');
+S.ev(T.ext, 'sweep', 'push1'); S.ev(T.flow, 'sweep', 'push2'); S.ev(T.mo, 'no', 'dim');
 S.css('#ph', { backgroundImage: S.ph('p28_street_birdseye') });
 S.css('#ph2', { backgroundImage: S.ph('p28_street_birdseye') });
+// 카메라: 원점(ox,oy)을 잡고 s 배로 천천히 밀기(키 순서대로 0.7초씩 이어짐) — 1.00 이상이라 가장자리가 드러나지 않는다
+const CAMT = (tau, keys) => { let c = keys[0]; for (let i = 1; i < keys.length; i++) { const k = keys[i], p = S.cam(tau, k.t, k.t + (k.d || 0.7)); c = { s: S.lerp(c.s, k.s, p), ox: S.lerp(c.ox, k.ox, p), oy: S.lerp(c.oy, k.oy, p) }; if (p < 1) break; } return c; };
+const CAMX = (c, fl = 0, k = 1) => `translate(${(c.ox * (1 - c.s * k) + fl).toFixed(2)}px,${(c.oy * (1 - c.s * k)).toFixed(2)}px) scale(${(c.s * k).toFixed(4)})`;
 S.scene(tau => {
-  // 아주 느린 밀기 1.00→1.08, 마지막 «어떻게 해야 되냐» 에서 골목 쪽으로 조금 더
-  const extra = 0.05 * S.cam(tau, T.eob, T.eob + 0.8);
-  S.css('#wrap', { transformOrigin: '830px 540px', transform: `scale(${(E.drift(tau, 1, 1.05) + extra).toFixed(4)})` });
-  const dim = S.EO(S.P(tau, T.mo, T.mo + 0.5));
-  S.css('#ph2', { opacity: dim });
-  const fade = 1 - 0.85 * dim;       // 흐려지는 쪽의 표시도 같이 옅어짐
-  draw('crane', tau, 0.6, 0.5, fade); draw('rise', tau, T.mae, 0.5, fade); draw('bld', tau, T.hoe, 0.5, fade); draw('flow', tau, T.flow, 0.7, fade);
-  draw('p1', tau, 6.0, 0.3, fade); draw('p2', tau, 6.25, 0.3, fade); draw('p3', tau, 6.5, 0.3, fade);
-  draw('gol', tau, T.mo2, 0.6);
-  const th = 6 + 4 * S.cam(tau, T.eob, T.eob + 0.5);
-  document.getElementById('gol').setAttribute('stroke-width', th.toFixed(2));
+  // 선을 긋지 않는다 — 카메라가 «외부 요인» 에서 «회사가» 까지 큰 건물 쪽으로 천천히, «유동인구가» 골목 쪽으로 천천히 밀고 들어간다. «만약» 에서 골목 밖이 흐려지며 어두워짐(#ph2)
+  const c = CAMT(tau, [{ s: 1.0, ox: 1320, oy: 210 }, { t: T.ext, s: 1.14, ox: 1320, oy: 210, d: 3.0 }, { t: T.flow, s: 1.10, ox: 830, oy: 770, d: 0.8 }, { t: T.eob, s: 1.16, ox: 830, oy: 770, d: 0.8 }]);
+  S.css('#wrap', { transformOrigin: '0 0', transform: CAMX(c, 0, E.drift(tau, 1, 1.03)) });
+  S.css('#ph2', { opacity: S.EO(S.P(tau, T.mo, T.mo + 0.5)) });
 });
 </script>
 </body></html>

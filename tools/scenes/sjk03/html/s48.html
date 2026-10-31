@@ -6,20 +6,19 @@
 #wrap{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
 #ph{background-position:center}
 #fx{left:0;top:0;width:1920px;height:1080px}
+#vg{left:0;top:0;width:1920px;height:1080px;pointer-events:none;opacity:0;background:radial-gradient(ellipse 760px 400px at 865px 258px,rgba(0,0,0,0) 45%,rgba(0,0,0,.40) 100%)}
 .ink{fill:none;stroke:#2A2520;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
 .hlp{fill:rgba(31,95,209,.34)}
 </style></head>
 <body><div id="stage">
   <div id="wrap" class="abs">
     <div id="ph" class="photo"></div>
+    <div id="vg" class="abs"></div>
     <svg id="fx" class="abs" viewBox="0 0 1920 1080">
-      <!-- 창(잘되는 가게) 윤곽 — 파랑 선 -->
-      <path id="win" class="ln bl w6" style="stroke-width:10" d="M312 4 L312 512 L1418 512 L1418 4"/>
       <!-- 수첩에 이어지는 글줄 3개 + 형광펜 3칸(사진 속 수첩 오른쪽 면) -->
       <path id="hl1" class="hlp" d="M930 866 L1085 838 L1087 868 L932 898 Z"/>
       <path id="hl2" class="hlp" d="M944 912 L1140 876 L1142 906 L946 944 Z"/>
       <path id="hl3" class="hlp" d="M960 958 L1200 912 L1202 944 L962 990 Z"/>
-      <path id="ul" class="ln bl w6" d="M960 1006 L1230 954"/>
     </svg>
   </div>
 </div>
@@ -30,17 +29,18 @@
 window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];
 S.$('#ph').style.backgroundImage = S.ph('p48_shop_window_note');
 const T = { ref: S.at('레퍼런스'), chat: S.at('찾아서'), gye: S.at('계속'), gae: S.at('개선을'), si: S.at('시켜야'), bon: S.at('본질이'), tan: S.at('탄탄해집니다') };
-S.ev(T.ref, 'marker', 'win'); S.ev(T.gye, 'type', 'hl1'); S.ev(T.si, 'click', 'hl3'); S.ev(T.bon, 'shine', 'ul');
+S.ev(T.gye, 'type', 'hl1'); S.ev(T.si, 'click', 'hl3'); S.ev(T.bon, 'sweep', 'push');
 S.scene(tau => {
   const k = S.P(tau, 0, S.SC.dur);
-  S.css('#wrap', { transformOrigin: '1150px 800px', transform: `scale(${(1 + 0.08 * k).toFixed(4)})` });
-  E.stroke('#win', tau, T.ref - 0.1, 0.7);
+  const push = S.cam(tau, T.bon, T.bon + 0.7);
+  S.css('#wrap', { transformOrigin: '1150px 800px', transform: `scale(${((1 + 0.05 * k) * (1 + 0.08 * push)).toFixed(4)})` });
+  // «레퍼런스» = 창 밖을 부드럽게 어둡게(선 표시 없음) — 수첩 줄 시작 전에 풀림
+  S.css('#vg', { opacity: (S.EO(S.P(tau, T.ref, T.ref + 0.4)) * (1 - S.EO(S.P(tau, T.gye - 0.2, T.gye + 0.2)))).toFixed(3) });
   // 형광펜 3줄 왼→오 (계속 · 개선을 · 시켜야) — 수첩에 이어 적는 줄
   [['#hl1', T.gye], ['#hl2', T.gae], ['#hl3', T.si]].forEach(([id, t]) => {
     const el = S.$(id), q = S.EO(S.P(tau, t, t + 0.4));
     el.style.opacity = tau >= t ? 1 : 0; el.style.transformBox = 'fill-box'; el.style.transformOrigin = '0 50%'; el.style.transform = `scaleX(${q.toFixed(4)})`;
   });
-  E.stroke('#ul', tau, T.bon, 0.45);
 });
 </script>
 </body></html>

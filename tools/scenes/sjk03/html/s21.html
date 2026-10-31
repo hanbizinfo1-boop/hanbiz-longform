@@ -6,26 +6,26 @@
 #cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
 #pie{left:0;top:0;width:1920px;height:1080px}
 .lb{position:absolute;width:640px;text-align:center;font-size:54px}
-#mid{left:660px;top:350px;width:600px;text-align:center;font-size:132px}
+#mid{left:660px;top:320px;width:600px;text-align:center;font-size:110px}
 </style></head>
 <body><div id="stage">
   <div id="cam" class="abs">
     <div class="grid"></div>
     <svg id="pie" class="abs" viewBox="0 0 1920 1080">
-      <circle cx="470" cy="430" r="248" fill="#DCE6F8"/>
+      <circle cx="470" cy="380" r="248" fill="#DCE6F8"/>
       <path id="sL" fill="#E26B6B" d=""/>
-      <path id="cL" class="ln w4" d="M222 430 a248 248 0 1 0 496 0 a248 248 0 1 0 -496 0"/>
-      <circle cx="1450" cy="430" r="248" fill="#DCE6F8" id="fRbase" opacity="0"/>
+      <path id="cL" class="ln w4" d="M222 380 a248 248 0 1 0 496 0 a248 248 0 1 0 -496 0"/>
+      <circle cx="1450" cy="380" r="248" fill="#DCE6F8" id="fRbase" opacity="0"/>
       <path id="sR" fill="#E26B6B" d=""/>
-      <path id="cR" class="ln w4" d="M1202 430 a248 248 0 1 0 496 0 a248 248 0 1 0 -496 0"/>
-      <path id="cRb" class="ln bl w6" d="M1182 430 a268 268 0 1 0 536 0 a268 268 0 1 0 -536 0"/>
+      <path id="cR" class="ln w4" d="M1202 380 a248 248 0 1 0 496 0 a248 248 0 1 0 -496 0"/>
+      <path id="cRb" class="ln bl w6" d="M1178 380 a272 272 0 1 0 544 0 a272 272 0 1 0 -544 0"/>
       <path id="ar" class="ln bl w6" d="M0 0"/>
     </svg>
-    <div id="la1" class="lb t" style="left:150px;top:715px" data-box="la1">한 그릇</div>
-    <div id="la2" class="lb t mu" style="left:150px;top:785px;color:#7A828A" data-box="la2">8천 원</div>
-    <div id="lb1" class="lb t" style="left:1130px;top:715px" data-box="lb1">세 그릇</div>
-    <div id="lb2" class="lb t" style="left:1130px;top:785px;color:#7A828A" data-box="lb2">2만 4천 원</div>
-    <div id="lb3" class="lb t rd" style="left:1130px;top:855px" data-box="lb3">6,000원 미만</div>
+    <div id="la1" class="lb t" style="left:150px;top:676px" data-box="la1">한 그릇</div>
+    <div id="la2" class="lb t mu" style="left:150px;top:740px;color:#7A828A" data-box="la2">8천 원</div>
+    <div id="lb1" class="lb t" style="left:1130px;top:676px" data-box="lb1">세 그릇</div>
+    <div id="lb2" class="lb t" style="left:1130px;top:740px;color:#7A828A" data-box="lb2">2만 4천 원</div>
+    <div id="lb3" class="lb t rd" style="left:1130px;top:804px" data-box="lb3">6,000원 미만</div>
     <div id="mid" class="abs big" data-box="mid">½ → ¼</div>
   </div>
 </div>
@@ -46,13 +46,13 @@ S.ev(T0, 'in', 'cL'); S.ev(0.3, 'gauge', 'sL'); S.ev(T.gat, 'in', 'la'); S.ev(T.
 S.scene(tau => {
   S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
   E.stroke('#cL', tau, T0, 0.5);
-  S.$('#sL').setAttribute('d', sec(470, 430, 248, 180 * S.EO(S.P(tau, 0.3, 0.9))));
+  S.$('#sL').setAttribute('d', sec(470, 380, 248, 180 * S.EO(S.P(tau, 0.3, 0.9))));
   E.pop('#la1', tau, T.gat, { dy: 8 }); E.pop('#la2', tau, T.gat + 0.45, { dy: 8 });
   // 세 그릇 — 오른쪽 원이 그려지고 전부 파랑(남는 몫)으로 시작, 수수료로 빠지는 몫이 4분의 1만큼 빨강
   E.stroke('#cR', tau, T.se - 0.15, 0.5);
   S.css('#fRbase', { opacity: S.ent(tau, T.se + 0.25, 0.12) });
   E.pop('#lb1', tau, T.se + 0.2, { dy: 8 }); E.pop('#lb2', tau, T.m2, { dy: 8 });
-  S.$('#sR').setAttribute('d', sec(1450, 430, 248, 90 * S.EO(S.P(tau, T.su, T.don + 0.25))));
+  S.$('#sR').setAttribute('d', sec(1450, 380, 248, 90 * S.EO(S.P(tau, T.su, T.don + 0.25))));
   E.wipe('#lb3', tau, T.cheon, 0.55);
   // ½ → ¼ : 한 줄로 왼→오 차례로(½ 절반에서 · → 4분의 · ¼ 1로)
   const k = S.clamp((tau - T.jeol) / 1.5);

@@ -3,22 +3,18 @@
 <title>s54 세 번째는 단골 — 저녁 가게 출입문 안쪽, 손님 발·준비된 포장 봉투(실물 층, Codex 사진 + 선)</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#wrap{left:0;top:0;width:1920px;height:1080px;transform-origin:1000px 500px}
-#fx{left:0;top:0;width:1920px;height:1080px}
+#wrap{left:0;top:0;width:1920px;height:1080px;transform-origin:1345px 237px}
 #vg{left:0;top:0;width:1920px;height:1080px;background:radial-gradient(ellipse 1100px 800px at 960px 470px,rgba(0,0,0,0) 40%,rgba(12,8,4,.55) 100%);opacity:0}
-.zone{fill:rgba(31,95,209,.18);opacity:0}
+.fv{left:0;top:0;width:1920px;height:1080px;pointer-events:none;opacity:0}
+#fb{background:radial-gradient(ellipse 360px 340px at 1345px 237px,rgba(0,0,0,0) 40%,rgba(0,0,0,.38) 100%)}
+#fc{background:radial-gradient(ellipse 300px 460px at 637px 580px,rgba(0,0,0,0) 40%,rgba(0,0,0,.38) 100%)}
 </style></head>
 <body><div id="stage">
   <div id="wrap" class="abs">
     <div id="ph" class="photo"></div>
     <div id="vg" class="abs"></div>
-    <svg id="fx" class="abs" viewBox="0 0 1920 1080">
-      <rect id="zb" class="ln bl w4" x="1130" y="18" width="430" height="438" rx="14" style="opacity:0;transform-box:fill-box;transform-origin:50% 50%"/>
-      <rect id="bg" class="ln bl w6" x="1130" y="18" width="430" height="438" rx="14"/>
-      <rect id="cu" class="ln bl w6" x="530" y="300" width="214" height="562" rx="20"/>
-      <path id="ar" class="ln bl w6" d="M745 800 C 900 900, 1040 760, 1130 520"/>
-      <path id="ah" class="ln bl w6" d="M1086 560 L1130 516 L1156 574"/>
-    </svg>
+    <div id="fb" class="abs fv"></div>
+    <div id="fc" class="abs fv"></div>
   </div>
 </div>
 <script src="../data/s54.js"></script>
@@ -28,14 +24,14 @@
 window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];
 S.$('#ph').style.backgroundImage = S.ph('p54_door_inside');
 const T = { dan: S.at('단골은'), gi: S.at('기억하고'), da: S.at('다시'), chat: S.at('찾는'), son: S.at('손님을') };
-S.ev(0.3, 'in', 'vg'); S.ev(T.dan, 'marker', 'bg'); S.ev(T.gi, 'shine', 'zb'); S.ev(T.da, 'sweep', 'ar'); S.ev(T.son, 'click', 'cu');
+S.ev(0.3, 'in', 'vg'); S.ev(T.dan, 'sweep', 'push1'); S.ev(T.gi, 'sweep', 'push2');
 S.scene(tau => {
-  S.css('#wrap', { transform: `scale(${(1 + 0.08 * S.P(tau, 0, S.SC.dur)).toFixed(4)})` });
+  // 강조 = 가게 봉투 쪽으로 천천히 밀기 두 번 + 대상 밖 어둡게(선·화살표 없음): 봉투(단골은~) → 손님(손님을~)
+  const p1 = S.cam(tau, T.dan, T.dan + 0.7), p2 = S.cam(tau, T.gi, T.gi + 0.7);
+  S.css('#wrap', { transform: `scale(${((1 + 0.04 * S.P(tau, 0, S.SC.dur)) * (1 + 0.05 * p1 + 0.05 * p2)).toFixed(4)})` });
   S.css('#vg', { opacity: S.EO(S.P(tau, 0.1, 0.9)) });
-  E.stroke('#bg', tau, T.dan, 0.55);
-  { const k = S.EO(S.P(tau, T.gi, T.gi + 0.6)); S.css("#zb", { opacity: tau >= T.gi ? (1 - k) * 0.9 : 0, transform: `scale(${(1 + 0.16 * k).toFixed(4)})` }); }
-  E.stroke('#ar', tau, T.da, 0.6); E.stroke('#ah', tau, T.chat, 0.2);
-  E.stroke('#cu', tau, T.son, 0.5);
+  S.css('#fb', { opacity: (S.EO(S.P(tau, T.dan, T.dan + 0.4)) * (1 - S.EO(S.P(tau, T.chat, T.chat + 0.3)))).toFixed(3) });
+  S.css('#fc', { opacity: S.EO(S.P(tau, T.son, T.son + 0.4)).toFixed(3) });
 });
 </script>
 </body></html>

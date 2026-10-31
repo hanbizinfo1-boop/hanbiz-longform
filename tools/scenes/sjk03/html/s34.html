@@ -37,32 +37,32 @@ const STORE = [
   'M110 300 L300 300 L300 470 L110 470 Z', 'M600 300 L790 300 L790 470 L600 470 Z',
   'M205 300 L205 470 M110 385 L300 385', 'M695 300 L695 470 M600 385 L790 385'
 ];
-const CX = [380, 960, 1540], TOP = 215, SC = 0.56, BK = 0.8;
+const CX = [380, 960, 1540], TOP = 195, SC = 0.56, BK = 0.8;
 CX.forEach((cx, c) => {
   STORE.forEach((d, i) => mk(`s${c}_${i}`, sh(d, cx - 450 * SC, TOP, SC), 'ln w4'));
   document.getElementById('sg' + c).style.left = cx + 'px';
   document.getElementById('sg' + c).style.top = (TOP + 65 * SC) + 'px';
   // 그릇(같은 모양) · 김 · 재료 · 시계
-  const bx = cx - 212, by = 650;
+  const bx = cx - 212, by = 600;
   mk(`bw${c}`, sh('M40 160 L360 160 C352 270 290 320 200 320 C110 320 48 270 40 160 Z', bx, by, BK), 'ln w4');
   mk(`br${c}`, sh('M20 160 L380 160', bx, by, BK), 'ln w4');
-  mk(`stm${c}`, `M${cx - 114} 730 C ${cx - 126} 708, ${cx - 102} 696, ${cx - 114} 674 M${cx - 52} 730 C ${cx - 64} 708, ${cx - 40} 696, ${cx - 52} 674 M${cx + 10} 730 C ${cx - 2} 708, ${cx + 22} 696, ${cx + 10} 674`, 'ln w4 mu');
-  const clx = cx + 170, cly = 790, ang = [40, 150, 255][c] * Math.PI / 180;
+  mk(`stm${c}`, `M${cx - 114} 680 C ${cx - 126} 658, ${cx - 102} 646, ${cx - 114} 624 M${cx - 52} 680 C ${cx - 64} 658, ${cx - 40} 646, ${cx - 52} 624 M${cx + 10} 680 C ${cx - 2} 658, ${cx + 22} 646, ${cx + 10} 624`, 'ln w4 mu');
+  const clx = cx + 170, cly = 740, ang = [40, 150, 255][c] * Math.PI / 180;
   mk(`clk${c}`, `M${clx - 54} ${cly} a54 54 0 1 0 108 0 a54 54 0 1 0 -108 0`, 'ln w4');
   mk(`clh${c}`, `M${clx} ${cly} L${(clx + 38 * Math.sin(ang)).toFixed(1)} ${(cly - 38 * Math.cos(ang)).toFixed(1)} M${clx} ${cly} L${clx} ${cly - 26}`, 'ln w4');
   // 재료 아이콘(그릇 둘레 위): 칸마다 모양이 조금씩 다름
   const kinds = [['c', 'c', 't'], ['s', 't', 'c'], ['t', 's', 's']][c];
   kinds.forEach((k, j) => {
-    const x = cx - 112 + j * 60, y = 752;
+    const x = cx - 112 + j * 60, y = 688;
     const d = k === 'c' ? `M${x - 16} ${y} a16 16 0 1 0 32 0 a16 16 0 1 0 -32 0` : k === 's' ? `M${x - 14} ${y - 14} L${x + 14} ${y - 14} L${x + 14} ${y + 14} L${x - 14} ${y + 14} Z` : `M${x} ${y - 17} L${x + 17} ${y + 13} L${x - 17} ${y + 13} Z`;
     mk(`in${c}_${j}`, d, 'ln w4 bl');
   });
 });
 // = 두 개, ≠ 로 바뀜(사선)
-mk('eq0', 'M645 372 L695 372 M645 404 L695 404', 'ln w6'); mk('eq1', 'M1225 372 L1275 372 M1225 404 L1275 404', 'ln w6');
-mk('ne0', 'M660 428 L680 348', 'ln w6 rd'); mk('ne1', 'M1240 428 L1260 348', 'ln w6 rd');
-mk('same', 'M128 590 L128 610 L1792 610 L1792 590', 'ln w4');
-mk('frame', 'M704 175 H1216 V925 H704 Z', 'ln bl w6');
+mk('eq0', 'M645 352 L695 352 M645 384 L695 384', 'ln w6'); mk('eq1', 'M1225 352 L1275 352 M1225 384 L1275 384', 'ln w6');
+mk('ne0', 'M660 408 L680 328', 'ln w6 rd'); mk('ne1', 'M1240 408 L1260 328', 'ln w6 rd');
+mk('same', 'M128 570 L128 590 L1792 590 L1792 570', 'ln w4');
+mk('frame', 'M704 160 H1216 V880 H704 Z', 'ln bl w6');
 const T0 = 0.02;
 const T = { s0: S.at('프랜차이즈라고'), jb: S.at('점바점이라는'), b0: S.at('점포마다'), ne: S.at('똑같지'), stm: S.at('레시피여도'), clk: S.at('조리법을'), clk1: S.at('어떻게'), clk2: S.at('준수해서'), clr: S.at('어떤'), ing: S.at('재료를'), ing1: S.at('쓰는지에'), ing2: S.at('따라'), fr: S.at('다르거든요'), same: S.at('같은', 0) };
 S.ev(T0, 'in', 's0'); S.ev(T.s0 + 0.9, 'card_in', 's2'); S.ev(T.jb, 'shine', 'jb'); S.ev(T.same, 'marker', 'same'); S.ev(T.b0, 'page', 'bowls'); S.ev(T.ne, 'no', 'ne'); S.ev(T.stm, 'marker', 'steam'); S.ev(T.clk, 'click', 'clock'); S.ev(T.ing, 'in', 'ing'); S.ev(T.fr, 'ok', 'frame');

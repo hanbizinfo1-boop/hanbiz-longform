@@ -33,7 +33,7 @@ S.ev(T.on, 'click', 'cell2'); S.ev(T.push, 'sweep', 'push'); S.ev(T.rows, 'card_
 const RY = i => 406 + 60 * i;
 S.scene(tau => {
   // 카드 전체 → 둘째 칸으로 밀고 들어감(0.5초)
-  const cam = S.camState(tau, [{ t: -9, s: 1, x: 960, y: 540 }, { t: T.push, s: 2.0, x: 960, y: 520, d: 0.5 }]);
+  const cam = S.camState(tau, [{ t: -9, s: 1, x: 960, y: 540 }, { t: T.push, s: 2.0, x: 960, y: 540, d: 0.5 }]);
   S.css('#cam', { transform: S.camCss(cam) });
   const on2 = S.P(tau, T.on, T.on + 0.2), out = 1 - S.P(tau, T.push + 0.35, T.push + 0.6);
   PROG.draw(pc, [{ show: 1, on: 1 }, { show: out, on: on2 }, { show: 1, on: 0 }], 1);

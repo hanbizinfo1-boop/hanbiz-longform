@@ -11,22 +11,22 @@
   <div id="cam" class="abs">
     <div class="grid"></div>
     <svg id="sc" class="abs" viewBox="140 120 1640 810" data-box="sc">
-      <path id="post" class="ln w6" d="M960 470 L960 880"/>
-      <path id="base" class="ln w6" d="M760 884 L1160 884"/>
-      <path id="beam" class="ln w6" d="M410 470 L1510 470"/>
-      <circle id="pv" cx="960" cy="470" r="24" fill="#F4F5F2" class="ln w4"/>
-      <path id="sl1" class="ln w4" d="M0 0"/><path id="sl2" class="ln w4" d="M0 0"/>
-      <path id="sr1" class="ln w4" d="M0 0"/><path id="sr2" class="ln w4" d="M0 0"/>
+      <path id="post" class="ln w6" d="M960 290 L960 860"/>
+      <path id="base" class="ln w6" d="M760 864 L1160 864"/>
+      <path id="beam" class="ln w6" d="M410 290 L1510 290"/>
+      <circle id="pv" cx="960" cy="290" r="24" fill="#F4F5F2" class="ln w4"/>
       <g id="pl"><!-- 왼쪽 접시 -->
-        <path class="ln w4" d="M-210 0 L210 0 C190 60 100 90 0 90 C-100 90 -190 60 -210 0"/>
-        <g id="L1"><rect x="-180" y="-90" width="360" height="80" rx="8" fill="#D63A3A"/><text x="0" y="-34" font-size="46" text-anchor="middle" fill="#fff">수수료</text></g>
-        <g id="L2"><rect x="-180" y="-180" width="360" height="80" rx="8" fill="#D63A3A"/><text x="0" y="-124" font-size="46" text-anchor="middle" fill="#fff">광고비</text></g>
-        <text id="Lsub" x="0" y="162" font-size="46" text-anchor="middle" fill="#D63A3A">손님 한 명당</text>
+        <path class="ln w4" d="M0 -310 L0 -230 M-240 -230 L240 -230 M-240 -230 L-240 0 M240 -230 L240 0"/>
+        <path class="ln w4" d="M-240 0 L240 0 C220 60 110 90 0 90 C-110 90 -220 60 -240 0"/>
+        <g id="L1"><rect x="-180" y="-84" width="360" height="80" rx="8" fill="#D63A3A"/><text x="0" y="-28" font-size="46" text-anchor="middle" fill="#fff">수수료</text></g>
+        <g id="L2"><rect x="-180" y="-168" width="360" height="80" rx="8" fill="#D63A3A"/><text x="0" y="-112" font-size="46" text-anchor="middle" fill="#fff">광고비</text></g>
+        <text id="Lsub" x="0" y="150" font-size="46" text-anchor="middle" fill="#D63A3A">손님 한 명당</text>
       </g>
       <g id="pr"><!-- 오른쪽 접시 -->
-        <path class="ln w4" d="M-210 0 L210 0 C190 60 100 90 0 90 C-100 90 -190 60 -210 0"/>
-        <g id="R1"><rect x="-170" y="-80" width="340" height="70" rx="8" fill="#fff" stroke="#20262D" stroke-width="3"/><text x="0" y="-31" font-size="42" text-anchor="middle" fill="#20262D">막국수 원가</text></g>
-        <g id="R2"><rect x="-170" y="-180" width="340" height="90" rx="8" fill="#1F5FD1"/><text x="0" y="-120" font-size="52" text-anchor="middle" fill="#fff">단골 손님</text></g>
+        <path class="ln w4" d="M0 -310 L0 -230 M-240 -230 L240 -230 M-240 -230 L-240 0 M240 -230 L240 0"/>
+        <path class="ln w4" d="M-240 0 L240 0 C220 60 110 90 0 90 C-110 90 -220 60 -240 0"/>
+        <g id="R1"><rect x="-170" y="-74" width="340" height="70" rx="8" fill="#fff" stroke="#20262D" stroke-width="3"/><text x="0" y="-25" font-size="42" text-anchor="middle" fill="#20262D">막국수 원가</text></g>
+        <g id="R2"><rect x="-170" y="-168" width="340" height="90" rx="8" fill="#1F5FD1"/><text x="0" y="-106" font-size="52" text-anchor="middle" fill="#fff">단골 손님</text></g>
       </g>
       <text id="eff" x="1498" y="250" font-size="84" text-anchor="middle" fill="#1F5FD1">몇 배 효율</text>
       <path id="efl" class="ln bl w6" d="M1290 276 L1706 276"/>
@@ -49,16 +49,14 @@ function blk(id, tau, t0, dy = -110) { const el = $(id), k = S.ent(tau, t0, 0.14
 S.scene(tau => {
   S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
   const th = pose(tau), r = th * Math.PI / 180, dx = 550 * Math.cos(r), dy = 550 * Math.sin(r);
-  const L = [960 - dx, 470 + dy], R = [960 + dx, 470 - dy];
+  const L = [960 - dx, 290 + dy], R = [960 + dx, 290 - dy];
   $('beam').setAttribute('d', `M${L[0].toFixed(1)} ${L[1].toFixed(1)} L${R[0].toFixed(1)} ${R[1].toFixed(1)}`);
   E.stroke('#post', tau, T0, 0.45); E.stroke('#base', tau, T0 + 0.2, 0.3);
   const bk = S.ent(tau, T0 + 0.1, 0.15); $('beam').style.opacity = bk; $('pv').style.opacity = bk;
   // 접시와 줄
   const pa = S.ent(tau, T.pl, 0.14), pb = S.ent(tau, T.pr, 0.14);
-  $('pl').setAttribute('transform', `translate(${L[0].toFixed(1)} ${(L[1] + 170).toFixed(1)})`); $('pl').style.opacity = pa;
-  $('pr').setAttribute('transform', `translate(${R[0].toFixed(1)} ${(R[1] + 170).toFixed(1)})`); $('pr').style.opacity = pb;
-  const str = (id, E0, x, o) => { $(id).setAttribute('d', `M${E0[0].toFixed(1)} ${E0[1].toFixed(1)} L${(E0[0] + x).toFixed(1)} ${(E0[1] + 170).toFixed(1)}`); $(id).style.opacity = o; };
-  str('sl1', L, -210, pa); str('sl2', L, 210, pa); str('sr1', R, -210, pb); str('sr2', R, 210, pb);
+  $('pl').setAttribute('transform', `translate(${L[0].toFixed(1)} ${(L[1] + 310).toFixed(1)})`); $('pl').style.opacity = pa;
+  $('pr').setAttribute('transform', `translate(${R[0].toFixed(1)} ${(R[1] + 310).toFixed(1)})`); $('pr').style.opacity = pb;
   // 블록
   blk('L1', tau, T.b1); blk('L2', tau, T.b2); blk('R1', tau, T.r1); blk('R2', tau, T.win, -150);
   $('Lsub').style.opacity = S.ent(tau, T.sub, 0.14);

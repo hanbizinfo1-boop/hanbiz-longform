@@ -19,7 +19,6 @@
 .hr{position:absolute;left:14px;height:34px}
 .hr .bb{position:absolute;left:104px;top:5px;height:24px;border-radius:6px;background:#1F5FD1;width:0}
 #sb{position:absolute;left:795px;top:367px;width:190px;height:64px;border-radius:14px;background:#2A3038;color:#ECEEF0;font-size:28px;font-weight:800;display:flex;align-items:center;justify-content:center;white-space:nowrap}
-#br{position:absolute;left:0;top:0;width:690px;height:550px}
 .pring{position:absolute;width:90px;height:90px;margin:-45px 0 0 -45px;border-radius:50%;border:6px solid #7FA8F5;background:rgba(127,168,245,.28);opacity:0;z-index:9}
 </style></head>
 <body><div id="stage">
@@ -28,7 +27,7 @@
     <div id="q" class="abs">
       <div class="app">
         <div id="hd2"><span>리뷰 관리</span><u id="un"></u></div>
-        <div id="lv"><div id="ls"></div><svg id="br" viewBox="0 0 690 550"></svg></div>
+        <div id="lv"><div id="ls"></div></div>
         <div id="rp"></div>
         <div id="sb">별점 낮은 순</div>
         <div id="r1" class="pring" style="left:905px;top:399px"></div>
@@ -57,19 +56,17 @@ C.forEach(([n, t], i) => {
 const rp = document.getElementById('rp');
 [5, 4, 3, 2, 1].forEach((n, k) => rp.insertAdjacentHTML('beforeend', `<div class="hr" style="top:${22 + 44 * k}px">${stars(n, 16).replace(/margin-right:2px/g, 'margin-right:0')}<i class="bb" id="hb${k}"></i></div>`));
 const HB = [30, 40, 70, 110, 150];
-// 묶음 괄호
-const NS = 'http://www.w3.org/2000/svg', brs = document.getElementById('br');
-['bw', 'bb2'].forEach((id, i) => { const p = document.createElementNS(NS, 'path'); p.setAttribute('id', id); p.setAttribute('d', 'M8 8 H682 V418 H8 Z'); p.setAttribute('fill', 'none'); p.setAttribute('stroke', i ? '#1F5FD1' : '#fff'); p.setAttribute('stroke-width', i ? 5 : 10); p.setAttribute('stroke-linejoin', 'round'); brs.appendChild(p); });
 const T = { mul: S.at('뭘'), ur: S.at('우리'), il: S.at('읽어'), by: S.at('별점', 0), nak: S.at('낮은'), gat: S.at('같은'), mal: S.at('말이'), gye: S.at('계속'), nao: S.at('나오면'), geu: S.at('그게'), yak: S.at('약점입니다') };
 const PRESS = T.nak;                    // «별점 낮은 순» — 엄지가 눌림
 const HL = [T.mal, T.mal + 0.33, T.gye + 0.1];
-S.ev(0.25, 'in', 'list'); S.ev(1.1, 'gauge', 'hist'); S.ev(1.7, 'sweep', 'scroll1'); S.ev(T.ur, 'marker', 'title'); S.ev(3.3, 'sweep', 'scroll2'); S.ev(PRESS, 'click', 'sort'); S.ev(HL[0], 'marker', 'hl1'); S.ev(HL[2], 'click', 'hl3'); S.ev(T.geu, 'marker', 'brace'); S.ev(T.yak, 'shine', 'brace2');
+S.ev(0.25, 'in', 'list'); S.ev(1.1, 'gauge', 'hist'); S.ev(1.7, 'sweep', 'scroll1'); S.ev(T.ur, 'marker', 'title'); S.ev(3.3, 'sweep', 'scroll2'); S.ev(PRESS, 'click', 'sort'); S.ev(HL[0], 'marker', 'hl1'); S.ev(HL[2], 'click', 'hl3'); S.ev(T.geu, 'sweep', 'push');
 S.css('#ph', { backgroundImage: S.ph('d46_tablet_table_clean') });
 S.fitQuad(S.$('#q'), 1000, 610, [[676.3, 164.1], [1491.0, 349.3], [1377.7, 847.6], [563.0, 662.4]]);
 const SLOT = 140;
 S.scene(tau => {
   // 태블릿 클로즈업 프레이밍 1.25배 + 아주 느린 밀기
-  const s = 1.25 + 0.05 * S.P(tau, 0, S.SC.dur);
+  const push = S.cam(tau, T.geu, T.geu + 0.7);
+  const s = (1.25 + 0.05 * S.P(tau, 0, S.SC.dur)) * (1 + 0.08 * push);
   S.css('#wrap', { transform: `translate(960px,540px) scale(${s.toFixed(4)}) translate(-1030px,-505px)` });
   // 눌리기 전 → 눌린 뒤 줄 순서(0.4초 감속으로 자리 바꿈)
   const mv = S.EO(S.P(tau, PRESS + 0.1, PRESS + 0.5));
@@ -91,10 +88,10 @@ S.scene(tau => {
   R.ring('#r1', tau, PRESS + 0.05, 0.5);
   // «양이 적다» 형광펜 — 맨 위 세 장에 차례로
   [2, 4, 6].forEach((id, j) => { S.css('#hl' + id, { backgroundSize: (100 * S.EO(S.P(tau, HL[j], HL[j] + 0.3))).toFixed(1) + '% 100%' }); });
-  // 묶음 괄호(맨 위 세 장)
-  const bk = S.EO(S.P(tau, T.geu, T.geu + 0.5));
-  ['bw', 'bb2'].forEach(id => { const p = document.getElementById(id); if (!p._len) { p._len = p.getTotalLength(); p.style.strokeDasharray = p._len; } p.style.strokeDashoffset = (p._len * (1 - bk)).toFixed(1); p.style.opacity = tau >= T.geu ? 1 : 0; });
-  document.getElementById('bb2').setAttribute('stroke-width', (5 + 3 * S.EO(S.P(tau, T.yak, T.yak + 0.3))).toFixed(2));
+  // 묶음 강조 = 맨 위 세 장 밖(나머지 카드·분포)을 어둡게 — 선 표시 없음
+  const dim = S.EO(S.P(tau, T.geu, T.geu + 0.4));
+  S.css('#cd3', { opacity: (S.ent(tau, 0.25 + 0.1 * DEF.indexOf(3), 0.12) * (1 - 0.65 * dim)).toFixed(3) });
+  S.css('#rp', { opacity: (1 - 0.65 * dim).toFixed(3) });
 });
 </script>
 </body></html>

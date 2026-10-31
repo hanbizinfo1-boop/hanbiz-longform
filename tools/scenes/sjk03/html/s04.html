@@ -15,9 +15,9 @@
     <svg id="stair" class="abs" viewBox="0 0 1920 1080">
       <path id="base" class="ln w4" d="M150 880 L1700 880"/>
       <!-- 단계 점선(윗면 높이) -->
-      <path id="st1" class="ln mu" stroke-dasharray="10 10" d="M490 280 L590 280"/>
-      <path id="st2" class="ln mu" stroke-dasharray="10 10" d="M850 605 L950 605"/>
-      <path id="st3" class="ln mu" stroke-dasharray="10 10" d="M1210 735 L1310 735"/>
+      <path id="st1" class="ln mu" stroke-dasharray="10 10" d="M498 280 L582 280"/>
+      <path id="st2" class="ln mu" stroke-dasharray="10 10" d="M858 605 L942 605"/>
+      <path id="st3" class="ln mu" stroke-dasharray="10 10" d="M1218 735 L1302 735"/>
       <!-- 1열: 12,000 (아래 5~6천 남는 쪽 + 위 수수료 덩어리) -->
       <g id="c1">
         <rect x="230" y="605" width="260" height="275" fill="#DCE6F8"/>
@@ -48,7 +48,6 @@
       </g>
       <g id="r4"><rect x="1310" y="735" width="260" height="95" fill="#F7DEDE"/><path class="ln rd w4" d="M1310 830 L1310 735 L1570 735 L1570 830 Z"/></g>
       <text id="t4" x="1440" y="800" text-anchor="middle" font-size="40" fill="#D63A3A">포장 용기</text>
-      <path id="fin_ring" class="ln bl w6" d="M1296 880 L1296 816 L1584 816 L1584 880"/>
     </svg>
     <div id="fin2" class="abs t" data-box="fin2" data-box-group="fin">수익은</div>
     <div id="fin" class="abs big" data-box="fin" data-box-group="fin">천 원 남짓</div>
@@ -98,7 +97,6 @@ S.scene(tau => {
   document.querySelector('#c4 rect').style.fill = f > 0 ? `rgb(${Math.round(220 - 189 * f)},${Math.round(230 - 135 * f)},${Math.round(248 - 39 * f)})` : '#DCE6F8';
   E.pop('#fin2', tau, T.prof, { dy: 0 });
   E.wipe('#fin', tau, T.cheon, 0.55);
-  E.stroke('#fin_ring', tau, T.nam, 0.4);
 });
 </script>
 </body></html>

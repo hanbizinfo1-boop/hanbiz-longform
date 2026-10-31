@@ -4,7 +4,9 @@
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
 #wrap{left:0;top:0;width:1920px;height:1080px;transform-origin:1250px 800px}
-#fx{left:0;top:0;width:1920px;height:1080px}
+.fv{left:0;top:0;width:1920px;height:1080px;pointer-events:none;opacity:0}
+#fP{background:radial-gradient(ellipse 470px 330px at 1190px 850px,rgba(0,0,0,0) 40%,rgba(0,0,0,.38) 100%)}
+#fC{background:radial-gradient(ellipse 340px 200px at 1405px 720px,rgba(0,0,0,0) 40%,rgba(0,0,0,.38) 100%)}
 /* 정산서 종이 — s03.html 의 #sheet 항목 그대로(항목 이름 다섯 줄 + 금액 칸 막대). 사진 속 흰 종이의 결·펜이 비치도록 배경 없이 곱하기(multiply)로 얹는다 */
 #sh{left:0;top:0;width:640px;height:610px;mix-blend-mode:multiply}
 #sheet{left:0;top:0;width:640px;height:610px;color:#26211A}
@@ -33,11 +35,8 @@
         <div class="rule" style="top:518px"></div>
       </div>
     </div>
-    <svg id="fx" class="abs" viewBox="0 0 1920 1080">
-      <path id="pp" class="ln bl w6" d="M1163 678 L1513 896 L1169 1032 L866 765 Z"/>
-      <path id="cc" class="ln bl w6" d="M1225 668 L1385 622 L1590 738 L1584 782 L1420 818 Z"/>
-      <path id="cg" class="ln bl w4" d="M1225 668 L1385 622 L1590 738 L1584 782 L1420 818 Z" style="opacity:0;transform-box:fill-box;transform-origin:50% 50%"/>
-    </svg>
+    <div id="fP" class="abs fv"></div>
+    <div id="fC" class="abs fv"></div>
   </div>
 </div>
 <script src="../data/s69.js"></script>
@@ -49,10 +48,14 @@ S.$('#ph').style.backgroundImage = S.ph('p69_closing_counter');
 // 사진 속 흰 종이 네 모서리(사진 (930,622) (1210,797) (935,905) (693,692) → 판 ×1.25, y −100): 글이 읽히는 방향 = 위 모서리(오른쪽 위→오른쪽 아래) 따라
 S.fitQuad(S.$('#sh'), 640, 610, [[1163, 678], [1513, 896], [1169, 1032], [866, 765]]);
 const T = { jeong: S.at('정산서를'), yeo: S.at('열어'), bo: S.at('보세요'), je: S.at('제일'), pal: S.at('팔리는'), jin: S.at('진짜'), sun: S.at('순수익') };
-S.ev(0.3, 'marker', 'pp'); S.ev(T.jeong, 'paper', 'sheet'); S.ev(T.yeo, 'marker', 'n0'); S.ev(T.pal - 0.2, 'gauge', 'bars'); S.ev(T.jin, 'click', 'cc'); S.ev(T.sun, 'shine', 'cg');
+S.ev(T.jeong, 'paper', 'sheet'); S.ev(T.yeo, 'marker', 'n0'); S.ev(T.pal - 0.2, 'gauge', 'bars'); S.ev(T.jin, 'sweep', 'push');
 S.scene(tau => {
-  S.css('#wrap', { transform: `scale(${(1 + 0.2 * S.P(tau, 0, S.SC.dur)).toFixed(4)})` });
-  E.stroke('#pp', tau, 0.3, 0.6);
+  // 강조 = 정산서 종이 → 계산기 쪽으로 천천히 밀기 + 대상 밖 어둡게(선 없음). 종이가 자막 띠에 닿지 않게 카메라가 살짝 올라감
+  const P = S.P(tau, 0, S.SC.dur);
+  S.css('#wrap', { transform: `translateY(${(-90 * P).toFixed(1)}px) scale(${(1.1 + 0.26 * P).toFixed(4)})` });
+  const on = (a, b) => S.EO(S.P(tau, a, a + 0.4)) * (b == null ? 1 : 1 - S.EO(S.P(tau, b, b + 0.3)));
+  S.css('#fP', { opacity: on(T.jeong, T.jin).toFixed(3) });
+  S.css('#fC', { opacity: on(T.jin).toFixed(3) });
   S.css('#sheet', { opacity: S.ent(tau, T.jeong, 0.12) });
   E.wipe('#ttl', tau, T.jeong, 0.3);
   for (let i = 0; i < 5; i++) {
@@ -60,10 +63,6 @@ S.scene(tau => {
     const t = T.pal - 0.2 + i * 0.14, b = S.EO(S.P(tau, t, t + 0.4));
     S.css('#b' + i, { transform: `scaleX(${b.toFixed(3)})`, opacity: tau >= t ? 1 : 0 });
   }
-  // 종이 테두리는 정산서가 올라온 뒤 옅어짐
-  S.$('#pp').style.opacity = tau >= 0.3 ? 1 - 0.6 * S.P(tau, T.jeong + 0.3, T.jeong + 0.6) : 0;
-  E.stroke('#cc', tau, T.jin, 0.5);
-  { const k = S.EO(S.P(tau, T.sun, T.sun + 0.7)); S.css('#cg', { opacity: tau >= T.sun ? (1 - k) * 0.9 : 0, transform: `scale(${(1 + 0.16 * k).toFixed(4)})` }); }
 });
 </script>
 </body></html>

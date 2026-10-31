@@ -5,43 +5,43 @@
 <style>
 #cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
 #bowls{left:0;top:0;width:1920px;height:1080px}
-.blk{width:440px;height:130px}
-.blk svg{position:absolute;left:26px;top:15px;width:100px;height:100px}
-.blk .t{position:absolute;left:160px;top:36px;font-size:52px}
-.gh{position:absolute;width:440px;height:130px;border:3px dashed #A9B0B6;border-radius:10px;opacity:0}
-#labL{left:170px;top:885px;width:600px;text-align:center;font-size:52px}
-#labR{left:1060px;top:885px;width:600px;text-align:center;font-size:52px}
-#fr_lab{left:1110px;top:116px;font-size:52px;color:var(--rd)}
+.blk{width:520px;height:130px}
+.blk svg{position:absolute;left:34px;top:15px;width:100px;height:100px}
+.blk .t{position:absolute;left:180px;top:36px;font-size:52px}
+.gh{position:absolute;width:520px;height:130px;border:3px dashed #A9B0B6;border-radius:10px;opacity:0}
+#labL{left:170px;top:745px;width:600px;text-align:center;font-size:52px}
+#labR{left:1060px;top:745px;width:600px;text-align:center;font-size:52px}
+#fr_lab{left:1076px;top:112px;font-size:52px;color:var(--rd)}
 </style></head>
 <body><div id="stage">
   <div id="cam" class="abs">
     <div class="grid"></div>
     <svg id="bowls" class="abs" viewBox="0 0 1920 1080">
-      <g transform="translate(470,660)">
-        <path id="bL1" class="ln w4" d="M-190 0 L190 0 C 180 130, 110 200, 0 200 C -110 200, -180 130, -190 0 Z"/>
-        <path id="bL2" class="ln w4" d="M-215 0 L215 0"/>
+      <g transform="translate(470,720)">
+        <path id="bL1" class="ln w4" d="M-228 0 L228 0 C 216 91, 132 140, 0 140 C -132 140, -216 91, -228 0 Z"/>
+        <path id="bL2" class="ln w4" d="M-255 0 L255 0"/>
       </g>
-      <path id="div" class="ln mu" stroke-dasharray="12 12" d="M915 170 L915 880"/>
-      <g transform="translate(1360,660)">
-        <path id="bR1" class="ln w4" d="M-190 0 L190 0 C 180 130, 110 200, 0 200 C -110 200, -180 130, -190 0 Z"/>
-        <path id="bR2" class="ln w4" d="M-215 0 L215 0"/>
+      <path id="div" class="ln mu" stroke-dasharray="12 12" d="M915 150 L915 880"/>
+      <g transform="translate(1360,720)">
+        <path id="bR1" class="ln w4" d="M-228 0 L228 0 C 216 91, 132 140, 0 140 C -132 140, -216 91, -228 0 Z"/>
+        <path id="bR2" class="ln w4" d="M-255 0 L255 0"/>
       </g>
-      <path id="frame" class="ln rd w6" d="M1105 196 L1615 196 L1615 654 L1105 654 Z"/>
+      <path id="frame" class="ln rd w6" d="M1076 200 L1644 200 L1644 678 L1076 678 Z"/>
     </svg>
     <div id="labL" class="abs t" data-box="labL">매장 주문</div>
     <div id="labR" class="abs t" data-box="labR">배달 주문</div>
     <!-- 왼쪽: 비어 있는 자리(점선) -->
-    <div id="g1" class="gh" style="left:250px;top:512px"></div>
-    <div id="g2" class="gh" style="left:250px;top:364px"></div>
-    <div id="g3" class="gh" style="left:250px;top:216px"></div>
+    <div id="g1" class="gh" style="left:210px;top:524px"></div>
+    <div id="g2" class="gh" style="left:210px;top:374px"></div>
+    <div id="g3" class="gh" style="left:210px;top:224px"></div>
     <!-- 오른쪽: 붙는 블록 -->
-    <div id="b1" class="card blk" style="left:1140px;top:512px" data-box="b1" data-box-group="stk">
+    <div id="b1" class="card blk" style="left:1100px;top:524px" data-box="b1" data-box-group="stk">
       <svg viewBox="0 0 100 100"><path class="ln w4" d="M22 38 L78 38 L72 88 L28 88 Z"/><path class="ln w4" d="M38 38 C 38 14, 62 14, 62 38"/></svg>
       <div class="t">포장</div></div>
-    <div id="b2" class="card blk" style="left:1140px;top:364px" data-box="b2" data-box-group="stk">
+    <div id="b2" class="card blk" style="left:1100px;top:374px" data-box="b2" data-box-group="stk">
       <svg viewBox="0 0 100 100"><circle class="ln w4" cx="24" cy="70" r="14"/><circle class="ln w4" cx="78" cy="70" r="14"/><path class="ln w4" d="M24 70 L44 40 L62 40 L78 70 M44 40 L38 28 L26 28 M62 40 L66 28 L80 28"/></svg>
       <div class="t">배달</div></div>
-    <div id="b3" class="card blk" style="left:1140px;top:216px" data-box="b3" data-box-group="stk">
+    <div id="b3" class="card blk" style="left:1100px;top:224px" data-box="b3" data-box-group="stk">
       <svg viewBox="0 0 100 100"><rect class="ln w4" x="30" y="10" width="40" height="80" rx="8"/><path class="ln w4" d="M42 30 L58 30 M42 48 L58 48 M42 66 L58 66"/></svg>
       <div class="t">앱</div></div>
     <div id="fr_lab" class="abs t" data-box="fr_lab" data-box-group="stk">매장에 없는 비용</div>

@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
 /* 정산서 종이 — #sheet 한 덩어리(항목 이름 다섯 줄 + 금액 칸 막대). 다른 장면은 이 블록을 통째로 복사해 쓴다 */
-#sheet{left:640px;top:170px;width:640px;height:610px;background:#EFEAE0;border-radius:4px;
+#sheet{left:640px;top:140px;width:640px;height:610px;background:#EFEAE0;border-radius:4px;
   background-image:radial-gradient(rgba(120,100,70,.10) 1px,transparent 1.3px);background-size:6px 6px;
   box-shadow:0 22px 44px rgba(0,0,0,.50),0 2px 3px rgba(0,0,0,.35);transform-origin:50% 50%;color:#26211A}
 #sheet .ttl{position:absolute;left:44px;top:30px;font-size:46px;font-weight:900;letter-spacing:.02em}
@@ -12,7 +12,7 @@
 #sheet .nm{position:absolute;left:44px;font-size:36px;font-weight:700;white-space:nowrap}
 #sheet .bar{position:absolute;left:366px;height:30px;background:#D63A3A;transform-origin:0 50%}
 #sheet .cell{position:absolute;left:350px;width:250px;height:48px;border-left:2px solid #8C8472}
-#sheetSrc{left:560px;top:872px;width:800px;text-align:center;color:#C4C9CF}
+#sheetSrc{left:560px;top:800px;width:800px;text-align:center;color:#C4C9CF}
 </style></head>
 <body><div id="stage">
   <div id="ph" class="photo">
@@ -46,7 +46,7 @@ S.scene(tau => {
   const k = S.P(tau, 0, S.SC.dur);
   S.css('#ph', { transform: `translateY(${S.lerp(-34, 14, k).toFixed(2)}px) scale(1.05)` });
   const a = S.ent(tau, T.sheet, 0.12);
-  S.css('#sheet', { opacity: a, transform: `perspective(2100px) scale(1.2) rotateX(14deg) rotateZ(-2.2deg) translateY(${(-26 * (1 - a)).toFixed(2)}px)` });
+  S.css('#sheet', { opacity: a, transform: `perspective(2100px) scale(1.1) rotateX(14deg) rotateZ(-2.2deg) translateY(${(-26 * (1 - a)).toFixed(2)}px)` });
   for (let i = 0; i < 5; i++) {
     const t = T.r0 + i * 0.3;
     E.wipe('#n' + i, tau, t, 0.28);

@@ -6,7 +6,7 @@
 #cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
 #row{left:0;top:0;width:1920px;height:1080px}
 #big{left:460px;top:130px;width:1000px;text-align:center;font-size:280px}
-#cost{left:1000px;top:800px;font-size:60px;color:var(--rd)}
+#cost{left:1000px;top:770px;font-size:60px;color:var(--rd)}
 </style></head>
 <body><div id="stage">
   <div id="cam" class="abs">
@@ -21,13 +21,13 @@
 <script src="../lib/e4.js"></script>
 <script>
 window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1', '#D63A3A'];   // 빨강 = 비용으로 나가는 세 개
-const BOWL = 'M-72 0 L72 0 C 68 90, 44 150, 0 150 C -44 150, -68 90, -72 0 Z';
-let svg = '<path id="tray" class="ln rd w4" d="M1264 738 L1772 738 L1772 925 L1264 925 Z"/>';
+const BOWL = 'M-60 0 L60 0 C 57 72, 37 120, 0 120 C -37 120, -57 72, -60 0 Z';
+let svg = '<path id="tray" class="ln rd w4" d="M1252 694 L1780 694 L1780 874 L1252 874 Z"/>';
 for (let i = 0; i < 10; i++) {
   const cx = 220 + i * 162;
-  svg += `<g id="g${i}" transform="translate(${cx},560)"><path id="f${i}" d="${BOWL}" fill="#F4F5F2" stroke="none"/><path id="b${i}" class="ln w4" d="${BOWL}"/><path id="r${i}" class="ln w4" d="M-80 0 L80 0"/></g>`;
+  svg += `<g id="g${i}" transform="translate(${cx},500)"><path id="f${i}" d="${BOWL}" fill="#F4F5F2" stroke="none"/><path id="b${i}" class="ln w4" d="${BOWL}"/><path id="r${i}" class="ln w4" d="M-66 0 L66 0"/></g>`;
 }
-svg += '<path id="ring" class="ln bl w6" d="M126 524 L1282 524 L1282 726 L126 726 Z"/>';
+svg += '<path id="ring" class="ln bl w6" d="M112 464 L1290 464 L1290 656 L112 656 Z"/>';
 document.getElementById('row').innerHTML = svg;
 const T = { big: S.at('30%'), yeol: S.at('열'), se: S.at('세'), bi: S.at('비용으로'), nagan: S.at('나간다는'), ddeu: S.at('뜻이죠') };
 const T0 = 0.02;
@@ -45,7 +45,7 @@ S.scene(tau => {
       col = lerpC([244 - 24 * k, 245 - 15 * k, 242 + 6 * k].map(Math.round), [247, 190, 190], r);
       S.$('#b' + i).style.stroke = r > 0.5 ? '#D63A3A' : '#20262D'; S.$('#r' + i).style.stroke = r > 0.5 ? '#D63A3A' : '#20262D';
       const d = S.ent(tau, T.bi + (i - 7) * 0.1, 0.25);       // 비용으로 — 아래 빨강 칸으로 빠짐
-      S.$('#g' + i).setAttribute('transform', `translate(${220 + i * 162},${560 + 190 * d})`);
+      S.$('#g' + i).setAttribute('transform', `translate(${220 + i * 162},${500 + 230 * d})`);
     }
     S.$('#f' + i).style.fill = col;
   }

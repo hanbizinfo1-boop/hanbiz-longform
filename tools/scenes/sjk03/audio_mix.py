@@ -33,44 +33,42 @@ BGM_GAP = 19          # 목소리 말 중앙 − BGM 중앙(dB). 10-16 사장님
 # 흐린 낮의 긴장 → 새벽에 풀림. 장 경계 = 대본 장([00]~[02] 훅·문제 / [03]~[04] 상담·약속 / [05] 글 / [06] 숫자 / [07] 시간 / [08] 정리·끝)
 # 3편: 1편 5곡 · 2편 6곡을 빼고 남은 4곡(앞 편과 같은 분위기·도구 금지 — 절대금지 10-16). 장 = 연출표 진행표 카드 장 시작
 #   훅·가격(설명 — 로파이 가볍게) / 광고(숫자·분석) / 단골(따뜻함) / 정리·끝(마무리·희망)
-CHAPTERS = [(0.0, BGM_NEW / "2_Lo-Fi_02.mp3"), (254.4, BGM_NEW / "4_Pilates_and_Yoga.mp3"),
-            (399.71, BGM_NEW / "3_Dont_Leave_Me_Tonight.mp3"), (515.64, BGM_NEW / "5_Better_Times_are_Coming.mp3")]
+# 10-31 사장님 «BGM이 너무 장난스러워서» → 로파이(Lo-Fi 02)·신스웨이브(Better Times) 빼고 잔잔한 곡만:
+#   훅·가격 Pilates and Yoga(피아노+신스 앰비언트) / 광고·단골 Don't Leave Me Tonight(조용한 기타) / 정리·끝 Jump into Hope(신스 앰비언트 — 2편 끝 곡, 잔잔한 미사용 곡이 더 없어 다시 씀)
+CHAPTERS = [(0.0, BGM_NEW / "4_Pilates_and_Yoga.mp3"), (254.4, BGM_NEW / "3_Dont_Leave_Me_Tonight.mp3"),
+            (515.64, BGM_NEW / "5_Jump_into_Hope.mp3")]
 TOTAL = TL[-1]["t1"] if TL else 547.213
 
 # 역할 → [(파일, 원음 대비 구울 dB, 정렬)] 변형 순서
+# 10-31 사장님 «효과음 대비 목소리가 작아서 목소리에 몰입이 안되는거» · «효과음이 톡톡 튀는 효과음이 많아서»
+#   → 반짝(キラッ)·카툰 팝·게임 게이지·오답 삑·맑은 띵 같은 밝고 튀는 소리를 빼고, 낮고 부드러운 소리(바람 휙·천 펄럭·종이·연필)로.
+#   반짝(shine)은 소리 없이(SKIP). 효과음 버스 전체도 SFX_GAIN 만큼 낮춘다.
 VAR = {
-    # v2(10-15): 효과음이 2초에 하나꼴이라 «3초 사슬 같은 파일 3번» 을 지키려면 변형이 더 필요 — 휙·스윕·팝 변형 추가
-    "in": [("휙２.mp3", 4, "peak"), ("휙1.mp3", 8, "peak"), ("ML_Fast whoosh transition", 5, "attack"),
-           ("ML_Fast transitions swoosh", 5, "attack"), ("ML_Flying fast swoosh", 5, "attack"), ("ML_Speeding swoosh", 5, "attack")],
-    "sweep": [("ML_Fast sweep transition", 5, "attack"), ("air sweep", 5, "attack"), ("small sweep", 5, "attack"),
-              ("ML_Fast sweeping transition", 5, "attack"), ("ML_Swirling whoosh", 5, "attack"), ("ML_Vacuum swoosh transition", 5, "attack")],
-    "card": [("ML_Cartoon bubbles popping", 5, "attack"), ("KN_pepSound1", 8, "attack"), ("KN_pepSound2", 8, "attack"), ("20. 카툰 팝", 5, "attack"),
-             ("ML_Egg bubble pop", 5, "attack"), ("ML_Cartoon bubble pop", 5, "attack"), ("pop-up_02", 5, "attack")],
-    "msg": [("채팅 효과음", 5, "attack"), ("7. 뿅", 5, "attack"), ("ML_Bell notification", 5, "attack"), ("ML_Bubble pop up alert", 5, "attack")],
-    "big": [("SEL_文字表示の衝撃音1", 5, "attack"), ("SEL_文字表示の衝撃音2", 5, "attack"), ("SEL_文字表示の衝撃音3", 5, "attack"),
-            ("ML_Movie whoosh impact", 5, "attack")],
-    "ok": [("맑은소리", 7, "attack"), ("SEL_キラッ2", 0, "attack")],
-    "no": [("KN_error_003", 5, "attack"), ("KN_lowDown", 5, "attack"), ("KN_error_004", 5, "attack"), ("KN_error_002", 5, "attack")],   # 10-20: 셋째·넷째 = 같은 케니 error 계열(3초 사슬 여유)
-    "miss": [("KN_lowDown", 5, "attack")],
-    "type": [("SEL_キーボード2", 6, "attack"), ("SEL_キーボード1", 6, "attack"), ("Mechanical Keyboard Click 01", 5, "attack")],   # 10-20: 셋째 = 다운 폴더(청음 전 새 소리) — 타자 줄이 촘촘해져 두 파일로는 3초 사슬이 모자람
-    "marker": [("SEL_油性マーカーで字を書く", 3, "attack"), ("SEL_シャーペンで字を書く", 4, "attack"), ("24. 연필", 4, "attack"), ("볼펜소리", 4, "attack")],   # 10-20: 넷째 = 사장님 볼펜소리(3초 사슬 여유)
-    "pen": [("SEL_シャーペンで字を書く", 4, "attack"), ("SEL_油性マーカーで字を書く", 3, "attack")],
-    "stamp": [("도장.mp3", 5, "attack")],
-    "page": [("ML_Page turn chime", 5, "attack")],
-    "gauge": [("SEL_ゲージ回復1", 12, "attack"), ("SEL_ゲージ回復2", 12, "attack"), ("SEL_ゲージ回復3", 12, "attack")],
-    "shine": [("SEL_キラッ1", -1, "attack"), ("SEL_キラッ2", -1, "attack")],
-    "click": [("마우스 클릭", 5, "attack"), ("15. 마우스클릭", 5, "attack"), ("ML_Hard pop click", 5, "attack")],   # 10-20: 셋째 = 예능 16_UI_타자_메시지
-    "level": [("SEL_レベルアップ", 5, "attack")],
-    # 2편 — 연출설계 3-3 «뜻이 맞으면 셔터·종이 찢김·감열지 출력·불 켜짐 소리로»(라이브러리에 철 셔터·프린터 소리가 없어 가까운 것)
-    "shutter": [("Lightweight sliding door close", 4, "attack"), ("Closet sliding door", 4, "attack"), ("Cupboard sliding door", 4, "attack")],
-    "paper": [("종이넘기는 소리", 3, "attack"), ("종이소리 화면전환", 3, "attack"), ("종이소리", 3, "attack")],
-    # 10-20 효과음 채움 — 블렌더 물리(동전·구슬·액체). 라이브러리에 정확한 소리가 없어 가까운 짧은 것: 동전 주머니 · 유리 틱 / 케니 드롭 / 물방울
-    "coin": [("ML_Bag of coins touch", 5, "attack"), ("KN_glass_004", 3, "attack"), ("KN_glass_005", 3, "attack")],
-    "marble": [("KN_drop_001", 5, "attack"), ("KN_drop_002", 5, "attack"), ("KN_drop_003", 5, "attack"), ("KN_drop_004", 5, "attack")],
-    "water": [("21. 물방울1", 5, "attack"), ("23. 물방울2", 5, "attack"), ("ML_Soap bubble sound", 3, "attack")],
-    # 10-20 s15 «전화가 오는 듯한 연출» — 옛 벽 전화기 벨(사장님 폴더). 첫 울림 0.1~2.2초 뒤 −55dB 아래 방 울림만 남아 2.4초에서 줄인다(둘째 울림 6.1초 전 — 울리는 소리를 자르지 않음)
+    "in": [("휙２.mp3", 0, "peak"), ("air sweep", 0, "attack"), ("휙1.mp3", 3, "peak"), ("두꺼운 바람", 0, "attack")],
+    "sweep": [("air sweep", 0, "attack"), ("두꺼운 바람", 0, "attack"), ("휙1.mp3", 3, "peak"), ("휙２.mp3", 0, "peak")],
+    "card": [("SEL_マントを翻す", 0, "attack"), ("휙２.mp3", -3, "peak"), ("종이소리 화면전환", -2, "attack"), ("air sweep", -3, "attack")],
+    "msg": [("채팅 효과음", 0, "attack"), ("SEL_マントを翻す", 0, "attack")],
+    "big": [("두꺼운 바람", 2, "attack"), ("휙1.mp3", 4, "peak")],
+    "ok": [("SEL_シャーペンで字を書く", 2, "attack"), ("24. 연필", 2, "attack"), ("볼펜소리", 2, "attack")],
+    "no": [("KN_lowDown", 2, "attack"), ("종이소리", 0, "attack")],
+    "miss": [("KN_lowDown", 2, "attack")],
+    "type": [("SEL_キーボード2", 3, "attack"), ("SEL_キーボード1", 3, "attack"), ("Mechanical Keyboard Click 01", 2, "attack")],
+    "marker": [("SEL_シャーペンで字を書く", 2, "attack"), ("24. 연필", 2, "attack"), ("볼펜소리", 2, "attack"), ("SEL_油性マーカーで字を書く", 0, "attack")],
+    "pen": [("SEL_シャーペンで字を書く", 2, "attack"), ("24. 연필", 2, "attack")],
+    "stamp": [("도장.mp3", 3, "attack")],
+    "page": [("종이넘기는 소리", 0, "attack"), ("종이소리 화면전환", 0, "attack")],
+    "gauge": [("ML_Air woosh", 0, "attack"), ("air sweep", -2, "attack"), ("두꺼운 바람", -2, "attack")],
+    "click": [("15. 마우스클릭", -2, "attack"), ("마우스 클릭", -2, "attack")],
+    "shutter": [("Lightweight sliding door close", 2, "attack")],
+    "paper": [("종이넘기는 소리", 0, "attack"), ("종이소리 화면전환", 0, "attack"), ("종이소리", 0, "attack")],
+    "coin": [("ML_Bag of coins touch", 2, "attack"), ("KN_glass_004", 0, "attack")],
+    "marble": [("KN_drop_001", 3, "attack"), ("KN_drop_002", 3, "attack")],
+    "water": [("21. 물방울1", 3, "attack"), ("23. 물방울2", 3, "attack")],
     "phone": [("전화벨소리", 0, "attack")],
+    "shine": [("air sweep", -4, "attack")],
 }
+SKIP = {"shine"}            # 반짝 = 소리 없음(10-31 «톡톡 튀는 효과음»)
+SFX_GAIN = -5.0             # 효과음 버스 전체(dB) — 10-31 «효과음 대비 목소리가 작아서»
 ALIAS = {"msg": "msg", "card": "card", "big": "big", "in": "in", "sweep": "sweep", "chip": "card", "pop": "card", "bell": "msg", "print": "page", "tear": "paper"}
 DUR = {"marker": 0.35, "phone": 2.4}
 
@@ -90,6 +88,8 @@ def collect():
         for e in json.load(open(p, encoding="utf-8")).get("events", []):
             k = role_key(e["role"])
             t = base + e["t"]
+            if k in SKIP:
+                continue
             if k not in VAR:
                 unknown.append((round(t, 2), e["role"])); continue
             if t < s["t0"] - s["pre"] or t > s["t1"] + s["post"]:
@@ -248,7 +248,7 @@ def main():
     pre = OUT / "mix_pre.wav"
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", VOICE, "-i", str(OUT / "bgm_raw.wav"), "-i", str(OUT / "sfx_bus.wav"),
                     "-filter_complex", "[0:a]aformat=sample_fmts=fltp:sample_rates=48000:channel_layouts=stereo[v];"
-                    "[v][1:a][2:a]amix=inputs=3:normalize=0:duration=first[m]", "-map", "[m]", "-c:a", "pcm_f32le", str(pre)], check=True)
+                    f"[2:a]volume={SFX_GAIN}dB[s];[v][1:a][s]amix=inputs=3:normalize=0:duration=first[m]", "-map", "[m]", "-c:a", "pcm_f32le", str(pre)], check=True)
     r = subprocess.run(["ffmpeg", "-nostats", "-i", str(pre), "-af", "loudnorm=I=-14:TP=-2.3:LRA=20:print_format=json", "-f", "null", "-"],
                        capture_output=True, text=True, encoding="utf-8", errors="replace")
     js = json.loads(r.stderr[r.stderr.rindex("{"):r.stderr.rindex("}") + 1])
