@@ -4,13 +4,14 @@
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
 #ov{left:0;top:0;width:1920px;height:1080px}
-#ch{left:330px;top:320px;width:760px;height:250px;padding:26px 34px 26px}
+#ch{left:330px;top:300px;width:760px;height:350px;padding:26px 34px 26px}
 #ch .lb{position:absolute;left:34px;font-size:50px;font-weight:800;color:#fff;white-space:nowrap}
 #ch .tr{position:absolute;left:230px;height:44px;border-radius:8px}
 #fb{background:#7FA8F5;top:34px}
 #dl{background:#FF6B6B;top:120px}
 #vg{left:0;top:0;width:1920px;height:1080px;background:radial-gradient(ellipse 230px 250px at 1215px 530px,rgba(0,0,0,0) 0%,rgba(0,0,0,0) 55%,rgba(8,5,2,.5) 100%);opacity:0}
-#sl{position:absolute;left:230px;top:34px;height:44px;border-radius:8px;background:#7FA8F5;transform-origin:0 50%}
+#rt{position:absolute;left:230px;top:210px;width:480px;height:44px;border-radius:8px;background:#7FA8F5;overflow:hidden;opacity:0}
+#rr{position:absolute;right:0;top:0;height:44px;width:0;background:#FF6B6B}
 </style></head>
 <body><div id="stage">
   <div id="ph" class="photo">
@@ -18,6 +19,7 @@
     <div id="ch" class="dpan abs" data-box="ch">
       <div class="lb" style="top:42px">음식값</div><div id="fb" class="tr" style="left:230px;width:0"></div>
       <div class="lb" style="top:128px">배달료</div><div id="dl" class="tr" style="left:230px;width:0"></div>
+      <div class="lb" id="rl" style="top:218px;opacity:0">비율</div><div id="rt"><div id="rr"></div></div>
     </div>
   </div>
 </div>
@@ -27,8 +29,8 @@
 <script>
 window.PALETTE = ['#1B1E22', '#FFFFFF', '#1F5FD1'];
 S.css('#ph', { backgroundImage: S.ph('p18_rider_small_bag') });
-const T = { ring: S.at('싼'), ch: S.at('비용', 0), dl: S.at('커집니다'), cheap: S.at('싸게'), slide: S.at('배달료는'), fin: S.at('남는') };
-S.ev(T.ring, 'sweep', 'push'); S.ev(T.ch, 'card_in', 'ch'); S.ev(T.dl, 'gauge', 'dl'); S.ev(T.cheap, 'in', 'fb'); S.ev(T.slide, 'coin', 'dl');
+const T = { ring: S.at('싼'), ch: S.at('비용', 0), dl: S.at('커집니다'), cheap: S.at('싸게'), slide: S.at('배달료는'), fin: S.at('남는'), rat: S.at('비율이'), bba: S.at('빠지기'), eop: S.at('얘기죠') };
+S.ev(T.ring, 'sweep', 'push'); S.ev(T.ch, 'card_in', 'ch'); S.ev(T.dl, 'gauge', 'dl'); S.ev(T.cheap, 'in', 'fb'); S.ev(T.slide, 'coin', 'dl'); S.ev(T.rat, 'gauge', 'rt');
 // 카메라: 원점(ox,oy)을 잡고 s 배로 천천히 밀기(키 순서대로 0.7초씩 이어짐) — 1.00 이상이라 가장자리가 드러나지 않는다
 const CAMT = (tau, keys) => { let c = keys[0]; for (let i = 1; i < keys.length; i++) { const k = keys[i], p = S.cam(tau, k.t, k.t + (k.d || 0.7)); c = { s: S.lerp(c.s, k.s, p), ox: S.lerp(c.ox, k.ox, p), oy: S.lerp(c.oy, k.oy, p) }; if (p < 1) break; } return c; };
 const CAMX = (c, fl = 0, k = 1) => `translate(${(c.ox * (1 - c.s * k) + fl).toFixed(2)}px,${(c.oy * (1 - c.s * k)).toFixed(2)}px) scale(${(c.s * k).toFixed(4)})`;
@@ -50,6 +52,11 @@ S.scene(tau => {
   const dl = S.$('#dl'); dl.style.top = S.lerp(120, 34, cov).toFixed(1) + 'px';
   dl.style.width = S.lerp(190 * dlk, 190, cov).toFixed(1) + 'px';
   dl.style.opacity = 1;
+  // 비율 줄: «비율이» 에서 나타남(빨강 몫 20%) → «빠지기» 에서 70% → «얘기죠» 에서 92%(파랑은 얇은 조각만) — 결론은 끝까지 남음
+  const ra = S.ent(tau, T.rat, 0.3);
+  S.css('#rt', { opacity: ra }); S.css('#rl', { opacity: ra });
+  const sh = 0.20 + 0.50 * S.EO(S.P(tau, T.bba, T.bba + 0.6)) + 0.22 * S.EO(S.P(tau, T.eop, T.eop + 0.5));
+  S.$('#rr').style.width = (480 * sh * (ra > 0 ? 1 : 0)).toFixed(1) + 'px';
 });
 </script>
 </body></html>

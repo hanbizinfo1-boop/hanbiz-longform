@@ -84,7 +84,10 @@ function fig(svgId, tau, t0) {
   return a;
 }
 S.scene(tau => {
-  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  // 카메라가 칸을 차례로 짚음: 딱(가격 칸) → 꼭(광고 칸) → 배달앱은(단골 칸) → 계산하면서(전체로 빠짐)
+  const fk = S.cam(tau, T.f1, T.f1 + 0.6) * (1 - S.cam(tau, T.calc, T.calc + 0.7)), cxv = 370 + 590 * S.cam(tau, T.f2, T.f2 + 0.6) + 588 * S.cam(tau, T.f3, T.f3 + 0.6);
+  const cs = E.drift(tau) * (1 + 0.04 * fk);
+  S.css('#cam', { transform: `translate(${(-0.25 * (cxv - 960) * (cs - 1)).toFixed(2)}px,${(70 * (cs - 1)).toFixed(2)}px) scale(${cs.toFixed(4)})` });
   const fr = S.ent(tau, T0, 0.14);
   PROG.draw(pc, [{ show: 1, on: 1 }, { show: 1, on: 1 }, { show: 1, on: 1 }], fr);
   fig('stair', tau, T.f1); E.wipe('#fin', tau, T.f1 + 0.55, 0.5);

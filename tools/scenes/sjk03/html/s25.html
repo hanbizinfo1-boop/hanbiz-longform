@@ -6,7 +6,7 @@
 #cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
 #art{left:0;top:0;width:1920px;height:1080px}
 .cx{transform:translate(-50%,-50%)}
-#lbl1{left:410px;top:850px;font-size:38px}
+#lbl1{left:410px;top:850px;font-size:40px}
 #lm20{left:1620px;top:690px;font-size:46px;color:#4A525A}
 #lm40{left:900px;top:690px;font-size:46px;color:#4A525A}
 #lm60{left:1260px;top:104px;font-size:46px;color:#4A525A}
@@ -20,7 +20,7 @@
     <div class="grid"></div>
     <svg id="art" class="abs" viewBox="0 0 1920 1080">
       <g id="trk"></g><g id="fil"></g><g id="tick"></g>
-      <g id="slips"></g>
+      <g id="slipsB"></g><g id="slips"></g>
       <path id="ar" class="ln w6" d="M545 490 L895 490"/>
       <path id="ah" class="ln w6" d="M858 456 L898 490 L858 524"/>
       <path id="ul" class="ln w6 rd" d="M1080 620 L1440 620"/>
@@ -58,8 +58,17 @@ SL.forEach(([x, y], i) => {
   mk('slips', { id: 'sl' + i, d, class: 'ln w4' });
   mk('slips', { id: 'sn' + i, d: `M${x + 26} ${y + 44} H${x + 124} M${x + 26} ${y + 84} H${x + 124} M${x + 26} ${y + 124} H${x + 94}`, class: 'ln' });
 });
+// 주문서 뒤로 겹쳐 쌓인 복사본(회색, 왼쪽 위로 12·24px) — «많아도»
+SL.forEach(([x, y], i) => [1, 2].forEach(k => {
+  const ox = x - 12 * k, oy = y - 12 * k;
+  let d = `M${ox} ${oy} H${ox + 150} V${oy + 196}`;
+  for (let q = 0; q < 5; q++) d += ` L${ox + 135 - q * 30} ${oy + 184} L${ox + 120 - q * 30} ${oy + 196}`;
+  d += ` L${ox} ${oy + 184} Z`;
+  mk('slipsB', { id: 'sb' + i + '_' + k, d, class: 'ln mu w4' });
+}));
+const mix = (a, b, k) => '#' + [0, 1, 2].map(i => Math.round(parseInt(a.slice(1 + 2 * i, 3 + 2 * i), 16) * (1 - k) + parseInt(b.slice(1 + 2 * i, 3 + 2 * i), 16) * k).toString(16).padStart(2, '0')).join('');
 const T0 = 0.02;
-const T = { s1: S.at('1인분'), s2: S.at('배달'), s3: S.at('주문이'), that: S.at('그주문이'), m20: S.at('20분에'), k: S.at('천원'), j: S.at('즉'), sg: S.at('시급'), r: S.at('3천'), up: S.at('업무였다는') };
+const T = { many: S.at('많아도'), nam: S.at('남는'), s1: S.at('1인분'), s2: S.at('배달'), s3: S.at('주문이'), that: S.at('그주문이'), m20: S.at('20분에'), k: S.at('천원'), j: S.at('즉'), sg: S.at('시급'), r: S.at('3천'), up: S.at('업무였다는') };
 S.ev(T0, 'in', 'ring'); S.ev(T.s3, 'page', 'slips'); S.ev(T.m20, 'gauge', 'arc1'); S.ev(T.k, 'shine', 'c1k'); S.ev(T.j, 'gauge', 'arc2'); S.ev(T.r, 'shine', 'rate'); S.ev(T.up, 'marker', 'ul');
 S.scene(tau => {
   S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
@@ -68,6 +77,14 @@ S.scene(tau => {
   [T.s1, T.s2 + 0.1, T.s3 + 0.1].forEach((t, i) => { E.stroke('#sl' + i, tau, t, 0.35); E.stroke('#sn' + i, tau, t + 0.2, 0.25); });
   E.pop('#lbl1', tau, T.s1 + 0.1, { base: 'translate(-50%,-50%)' });
   E.stroke('#ar', tau, T.that, 0.35); E.stroke('#ah', tau, T.that + 0.25, 0.15);
+  // 많아도: 주문서 뒤로 겹친 복사본이 차례로 그려짐(주문이 많다)
+  for (let i = 0; i < 3; i++) [1, 2].forEach(k => E.stroke(`#sb${i}_${k}`, tau, T.many + 0.12 * (i * 2 + k) - 0.1, 0.3));
+  // 20분 칸은 1,000원(파랑)으로 → «시급 3천 원» 에서 세 칸 모두 빨강으로
+  const toB = S.ent(tau, T.nam, 0.4), toR = S.ent(tau, T.r, 0.4);
+  ['#fil0', '#fil1', '#fil2'].forEach((id, i) => {
+    const col = i === 0 ? mix(mix('#20262D', '#1F5FD1', toB), '#D63A3A', toR) : mix('#20262D', '#D63A3A', toR);
+    document.querySelector(id).style.stroke = col;
+  });
   // 20분 칸 → 1,000원
   E.stroke('#fil0', tau, T.m20, 0.5);
   E.pop('#lm20', tau, T.m20, { base: 'translate(-50%,-50%)' });

@@ -12,6 +12,9 @@
 .lab{position:absolute;left:310px;font-size:68px}
 .val{position:absolute;left:1050px;font-size:112px}
 #brk{left:226px;top:280px;width:2px;height:550px}
+#tk{left:1510px;top:290px;width:90px;height:490px;border:3px solid #20262D;border-radius:8px;background:#fff;opacity:0;overflow:hidden}
+.sg2{position:absolute;left:0;width:100%;background:#D63A3A;transform-origin:50% 0;transform:scaleY(0);border-bottom:2px solid #fff}
+#tkl{left:1555px;top:786px;font-size:40px;transform:translate(-50%,0);opacity:0}
 </style></head>
 <body><div id="stage">
   <div id="cam" class="abs">
@@ -30,6 +33,8 @@
       <path id="lv" class="ln" d="M1000 270 L1000 840"/>
       <path id="bk" class="ln bl w6" d="M192 284 L180 284 L180 826 L192 826"/>
     </svg>
+    <div id="tk" class="abs" data-box="tk"><div id="g1" class="sg2" style="top:0;height:38px"></div><div id="g2" class="sg2" style="top:38px;height:15px"></div><div id="g3" class="sg2" style="top:53px;height:184px"></div></div>
+    <div id="tkl" class="abs t" data-box="tkl">주문 1건</div>
     <div id="l1" class="lab t" style="top:330px" data-box="l1">중개 수수료</div>
     <div id="v1" class="val big" style="top:312px" data-box="v1">7.8%</div>
     <div id="l2" class="lab t" style="top:520px" data-box="l2">결제 수수료</div>
@@ -44,11 +49,14 @@
 <script>
 window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];
 const T = { mo: S.at('모의로'), gye: S.at('계산해'), bo: S.at('보겠습니다'), su: S.at('수수료로'), ye: S.at('예시'), deul: S.at('들어서'),
-  jung: S.at('중개'), v1: S.at('7.8%'), gyeol: S.at('결제'), v2: S.at('3%'), jum: S.at('점주가'), bae: S.at('배달비'), v3: S.at('3천'), ireo: S.at('이렇게'), hae: S.at('볼게요') - 0.3 };
+  jung: S.at('중개'), v1: S.at('7.8%'), gyeol: S.at('결제'), v2: S.at('3%'), jum: S.at('점주가'), bae: S.at('배달비'), v3: S.at('3천'), ireo: S.at('이렇게'), ye2: S.at('예시'), hae: S.at('볼게요') - 0.3 };
 const T0 = 0.02;
 S.ev(T0, 'paper', 'note'); S.ev(0.25, 'card_in', 'hd'); S.ev(T.mo, 'marker', 'la'); S.ev(T.gye + 0.1, 'marker', 'lb'); S.ev(T.su, 'marker', 'lv');
 S.ev(T.jung, 'type', 'r1'); S.ev(T.v1, 'shine', 'v1'); S.ev(T.gyeol, 'type', 'r2'); S.ev(T.v2, 'shine', 'v2'); S.ev(T.jum, 'type', 'r3'); S.ev(T.v3, 'shine', 'v3'); S.ev(T.ireo, 'ok', 'hd'); S.ev(T.hae + 0.3, 'marker', 'bk');
+const gp = (id, t0) => S.css(id, { transform: `scaleY(${S.EO(S.P(tau0, t0, t0 + 0.5)).toFixed(4)})` });
+let tau0 = 0;
 S.scene(tau => {
+  tau0 = tau;
   S.css('#cam', { transform: `scale(${E.drift(tau, 1, 1.05).toFixed(4)})` });
   E.stroke('#fr', tau, T0, 0.5); S.css('#nb', { opacity: S.ent(tau, T0 + 0.1, 0.12) });
   E.wipe('#hd', tau, 0.25, 0.3); E.pop('#hdt', tau, 0.5, { dy: 0 });
@@ -67,6 +75,9 @@ S.scene(tau => {
   S.css('#hd', { background: `rgb(${Math.round(233 - 13 * h)},${Math.round(236 - 6 * h)},${Math.round(239 + 9 * h)})` });
   S.css('#hdt', { color: h > 0.5 ? '#1F5FD1' : '#20262D' });
   E.stroke('#bk', tau, T.hae + 0.3, 0.4);
+  // 주문 1건 칸: «예시» 에서 빈 칸이 서고 → 값이 나올 때마다 빨강 조각이 위에서부터 한 칸씩 채워짐(8천 원 주문에 대한 몫 — 숫자는 쓰지 않음)
+  S.css('#tk', { opacity: S.ent(tau, T.ye2 + 0.1, 0.3) }); S.css('#tkl', { opacity: S.ent(tau, T.ye2 + 0.1, 0.3) });
+  gp('#g1', T.v1 + 0.25); gp('#g2', T.v2 + 0.25); gp('#g3', T.v3 + 0.25);
 });
 </script>
 </body></html>

@@ -42,6 +42,7 @@ function mk(parent, tag, attrs) { const e = document.createElementNS(NS, tag); f
 const g = document.getElementById('store');
 STORE.forEach(([id, d, cls]) => mk(g, 'path', { id: 'st_' + id, d, class: cls }));
 function star(cx, cy, R, r) { let d = ''; for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r : R; d += (i ? 'L' : 'M') + (cx + rr * Math.cos(a)).toFixed(1) + ' ' + (cy + rr * Math.sin(a)).toFixed(1); } return d + 'Z'; }
+const signF = mk(g, 'path', { id: 'st_signf', d: 'M270 20 H630 V110 H270 Z', style: 'fill:#DCE6F8;stroke:none;opacity:0' }); g.insertBefore(signF, g.firstChild);
 const starEl = mk(g, 'path', { id: 'st_star', d: star(750, 20, 52, 22), class: 'ln bl w4', style: 'fill:#1F5FD1;transform-box:fill-box;transform-origin:center;opacity:0' });
 // 옆 가게 두 채: 같은 선화를 작게 · 옅게
 [['nL', 120, 330], ['nR', 1470, 330]].forEach(([id, x, y]) => {
@@ -49,7 +50,7 @@ const starEl = mk(g, 'path', { id: 'st_star', d: star(750, 20, 52, 22), class: '
   STORE.slice(0, 10).forEach(([i2, d, cls]) => mk(gg, 'path', { d, class: cls }));
 });
 const T0 = 0.02;
-const T = { aw: S.at('시간에'), win: S.at('장사가'), door: S.at('잘될'), sgn: S.at('요건을'), nb: S.at('가게에는'), star: S.at('특별한'), tag: S.at('특징을'), ring: S.at('한다는'), q1: S.at('특징', 1), q2: S.at('특징', 2), p: S.at('특징이라고', 1), big: S.at('거창한') };
+const T = { aw: S.at('시간에'), win: S.at('장사가'), door: S.at('잘될'), sgn: S.at('요건을'), nb: S.at('가게에는'), star: S.at('특별한'), tag: S.at('특징을'), ring: S.at('한다는'), q1: S.at('특징', 1), q2: S.at('특징', 2), p: S.at('특징이라고', 1), big: S.at('거창한'), sm: S.at('아니에요'), our: S.at('우리만의') };
 S.ev(T0, 'in', 'store'); S.ev(T.sgn, 'marker', 'sign'); S.ev(T.nb, 'card_in', 'nb'); S.ev(T.star, 'shine', 'star'); S.ev(T.ring, 'click', 'ring'); S.ev(T.q1, 'msg_in', 'q1'); S.ev(T.p, 'ok', 'ring2');
 // 별 둘레 링(파랑 원)
 const ringEl = mk(document.getElementById('sparkG'), 'circle', { id: 'sp1', cx: 1260, cy: 270, r: 74, class: 'ln bl w4' });
@@ -63,13 +64,15 @@ S.scene(tau => {
   E.stroke('#st_door', tau, T.door, 0.4); E.stroke('#st_knob', tau, T.door + 0.35, 0.1);
   // 요건 자리: 간판 윤곽(비어 있음)
   E.stroke('#st_sign', tau, T.sgn, 0.45);
-  // 다른 가게(회색)
-  const nk = S.ent(tau, T.nb, 0.14);
-  document.getElementById('nL').style.opacity = (0.42 * nk).toFixed(3); document.getElementById('nR').style.opacity = (0.42 * S.ent(tau, T.nb + 0.25, 0.14)).toFixed(3);
+  signF.style.opacity = S.ent(tau, T.sgn + 0.5, 0.3);
+  // 다른 가게(회색) — «우리만의» 에서 더 옅어져 우리 가게만 또렷해짐
+  const nk = S.ent(tau, T.nb, 0.14), nz = 1 - 0.5 * S.ent(tau, T.our, 0.4);
+  document.getElementById('nL').style.opacity = (0.42 * nk * nz).toFixed(3); document.getElementById('nR').style.opacity = (0.42 * S.ent(tau, T.nb + 0.25, 0.14) * nz).toFixed(3);
   // 별(파랑) — 감속 확대로 붙음
   const sk = S.ent(tau, T.star, 0.12);
-  starEl.style.opacity = sk; starEl.style.transform = `scale(${(0.4 + 0.6 * sk).toFixed(3)})`;
+  starEl.style.opacity = sk; starEl.style.transform = `scale(${((0.4 + 0.6 * sk) * (1 - 0.3 * S.ent(tau, T.sm, 0.35))).toFixed(3)})`;
   E.pop('#tag', tau, T.tag);
+  S.css('#tag', { transform: S.$('#tag').style.transform + ` scale(${(1 - 0.18 * S.ent(tau, T.big, 0.4)).toFixed(3)})` });
   // 한다는 소리: 별 둘레 링 한 번
   E.stroke('#sp1', tau, T.ring, 0.45);
   const o1 = S.P(tau, T.q1 - 0.1, T.q1);   // 물음표가 나오면 링은 걷힘

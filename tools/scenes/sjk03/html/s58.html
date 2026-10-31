@@ -10,6 +10,9 @@
 .nt{position:absolute;left:0;width:400px;text-align:center;font-size:112px;line-height:1;color:#2C2118;opacity:.92}
 #xx{position:absolute;left:0;top:0;width:400px;height:344px}
 .rz{fill:rgba(214,58,58,.14);opacity:0}
+#dp{left:100px;top:560px;width:548px;height:210px;padding:0;opacity:0}
+.sl{position:absolute;top:24px;width:200px;height:162px;border:4px dashed #5A636D;border-radius:10px;text-align:center;font-size:40px;padding-top:14px}
+#dot{position:absolute;top:108px;left:106px;width:56px;height:56px;border-radius:50%;background:#7FA8F5}
 </style></head>
 <body><div id="stage">
   <div id="wrap" class="abs">
@@ -21,6 +24,7 @@
       <svg id="xx" viewBox="0 0 400 344"><path id="x1" class="ln rd" style="stroke-width:18" d="M52 36 L348 300"/><path id="x2" class="ln rd" style="stroke-width:18" d="M348 36 L52 300"/></svg>
     </div>
   </div>
+  <div id="dp" class="dpan abs" data-box="dp"><div id="sa" class="sl" style="left:34px">배달앱</div><div id="sb" class="sl" style="left:314px">전화</div><div id="dot"></div></div>
 </div>
 <script src="../data/s58.js"></script>
 <script src="../lib/sjk.js"></script>
@@ -30,14 +34,21 @@ window.PALETTE = ['#20262D', '#1F5FD1', '#D63A3A'];   // 빨강 = 하면 안 되
 S.$('#ph').style.backgroundImage = S.ph('p58_bag_handle_macro');
 // 사진 속 크라프트 쪽지(왼 모서리 → 위 모서리 방향으로 글이 읽힘): 판 좌표 = 사진 ×1.25, y −100
 S.fitQuad(S.$('#note'), 400, 344, [[940, 394], [1231, 216], [1409, 450], [1118, 628]]);
-const T = { ju: S.at('주의하실'), app: S.at('앱으로'), da: S.at('다음엔'), jeon: S.at('전화로'), oh: S.at('오시면'), an: S.at('안', 0), yak: S.at('약관에'), gye: S.at('계약') };
-S.ev(T.ju, 'sweep', 'push1'); S.ev(T.da, 'type', 'n1'); S.ev(T.oh, 'no', 'x1'); S.ev(T.yak, 'sweep', 'push2');
+const T = { si: S.at('시키라고'), ju: S.at('주의하실'), app: S.at('앱으로'), da: S.at('다음엔'), jeon: S.at('전화로'), oh: S.at('오시면'), an: S.at('안', 0), yak: S.at('약관에'), gye: S.at('계약') };
+S.ev(T.ju, 'sweep', 'push1'); S.ev(T.da, 'type', 'n1'); S.ev(T.oh, 'no', 'x1'); S.ev(T.yak, 'sweep', 'push2'); S.ev(T.app, 'card_in', 'dp');
 S.scene(tau => {
   // 강조 = 쪽지 쪽으로 천천히 밀기(주의하실 · 약관에) + 쪽지 밖 어둡게 — 선·네모 없음
   const p1 = S.cam(tau, T.ju, T.ju + 0.7), p2 = S.cam(tau, T.yak, T.yak + 0.7);
   S.css('#wrap', { transform: `scale(${((1 + 0.04 * S.P(tau, 0, S.SC.dur)) * (1 + 0.06 * p1 + 0.05 * p2)).toFixed(4)})` });
   S.css('#fn', { opacity: S.EO(S.P(tau, T.ju, T.ju + 0.4)).toFixed(3) });
   E.wipe('#n1', tau, T.da, 0.38); E.wipe('#n2', tau, T.jeon, 0.4);
+  // 손님 점: 배달앱 칸 → «시키라고»에서 전화 칸으로 옮겨 감 → «약관에»에서 빨강이 되어 배달앱 칸으로 되돌아옴
+  E.pop('#dp', tau, T.app, { dy: 12 });
+  const m1 = S.EO(S.P(tau, T.si, T.si + 0.5)), m2 = S.EO(S.P(tau, T.yak, T.yak + 0.5)), rd = S.EO(S.P(tau, T.yak, T.yak + 0.3));
+  const dx = 134 + 280 * (m1 - m2) - 28;
+  S.css('#dot', { left: dx.toFixed(1) + 'px', background: rd > 0.5 ? '#FF6B6B' : '#7FA8F5' });
+  S.css('#sa', { borderColor: m1 < 0.5 || m2 > 0.5 ? (m2 > 0.5 ? '#FF6B6B' : '#7FA8F5') : '#5A636D', borderStyle: m1 < 0.5 || m2 > 0.5 ? 'solid' : 'dashed' });
+  S.css('#sb', { borderColor: m1 >= 0.5 && m2 <= 0.5 ? '#7FA8F5' : '#5A636D', borderStyle: m1 >= 0.5 && m2 <= 0.5 ? 'solid' : 'dashed' });
   E.stroke('#x1', tau, T.oh, 0.3); E.stroke('#x2', tau, T.oh + 0.34, 0.3);
 });
 </script>

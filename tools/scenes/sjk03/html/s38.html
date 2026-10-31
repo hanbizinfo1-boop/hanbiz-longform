@@ -40,7 +40,7 @@
 window.PALETTE = ['#16191D', '#ECEEF0', '#1F5FD1', '#D63A3A'];   // 어두운 앱 · 글 · 파랑(켜짐·신청) · 빨강(줄어든 막대 하나)
 const R = {};
 R.ring = (sel, tau, t0, d = 0.5) => { const el = S.$(sel), k = S.P(tau, t0, t0 + d); el.style.opacity = (tau < t0 || k >= 1) ? 0 : (1 - k * k).toFixed(3); el.style.transform = `scale(${(0.55 + S.EO(k)).toFixed(3)})`; };
-const T = { ju: S.at('주문이'), jul: S.at('줄면'), gwang: S.at('광고부터'), son: S.at('손님이'), jul2: S.at('줄어든'), iyu: S.at('이유가'), ga: S.at('광고가'), bu: S.at('부족해서라고'), sa: S.at('생각하시는') };
+const T = { ju: S.at('주문이'), jul: S.at('줄면'), gwang: S.at('광고부터'), son: S.at('손님이'), jul2: S.at('줄어든'), iyu: S.at('이유가'), ga: S.at('광고가'), bu: S.at('부족해서라고'), sa: S.at('생각하시는'), gs: S.at('거시거든요?') };
 const H = [150, 118, 88, 58, 34];
 S.ev(T.ju + 0.05, 'gauge', 'bars'); S.ev(T.gwang, 'card_in', 'ad'); S.ev(T.son, 'no', 'redbar'); S.ev(T.iyu + 0.1, 'in', 'btn'); S.ev(T.bu + 0.05, 'click', 'press'); S.ev(T.sa + 0.15, 'ok', 'check');
 S.css('#ph', { backgroundImage: S.ph('d38_phone_counter_side_clean') });
@@ -48,12 +48,16 @@ S.fitQuad(S.$('#q'), 300, 740, [[923.0, 303.8], [1098.2, 227.2], [1300.1, 688.9]
 S.scene(tau => {
   // 휴대폰 클로즈업 프레이밍(글자가 읽히게 1.8배) + 아주 느린 밀기
   const s = 1.8 + 0.08 * S.P(tau, 0, S.SC.dur);
-  S.css('#wrap', { transform: `translate(960px,540px) scale(${s.toFixed(4)}) translate(-1110px,-500px)` });
+  S.css('#wrap', { transform: `translate(960px,540px) scale(${s.toFixed(4)}) translate(-1110px,${(-500 - 40 * S.cam(tau, T.iyu, T.iyu + 0.8)).toFixed(2)}px)` });   // 이유가: 신청 버튼 쪽으로 카메라가 조금 내려감
   E.pop('#l0', tau, T.ju, { dy: 0 });
   ['b1', 'b2', 'b3', 'b4', 'b5'].forEach((id, i) => {
     const t0 = T.ju + 0.05 + 0.25 * i;
-    S.css('#' + id, { height: (H[i] * S.EO(S.P(tau, t0, t0 + 0.35))).toFixed(1) + 'px', background: (i === 4 && tau >= T.son) ? '#D63A3A' : '#1F5FD1' });
+    S.css('#' + id, { height: (H[i] * (i === 4 ? 1 - 0.62 * S.ent(tau, T.jul2, 0.35) : 1) * S.EO(S.P(tau, t0, t0 + 0.35))).toFixed(1) + 'px', background: (i === 4 && tau >= T.son) ? '#D63A3A' : '#1F5FD1' });
   });
+  // 광고부터 거시거든요: 광고 카드만 파랑 테두리로 진하게, 막대는 옅게(0.4초) → 손님이(빨강 막대)에서 막대 다시 진하게. 줄어든: 빨강 막대가 더 짧아짐
+  const gz = S.ent(tau, T.gs, 0.4), gb = S.ent(tau, T.son, 0.3);
+  S.css('#chart', { opacity: (1 - 0.55 * gz * (1 - gb)).toFixed(3) });
+  S.css('#adc', { borderColor: `rgb(${[42, 48, 56].map((v, i) => Math.round(v + ([31, 95, 209][i] - v) * gz * (1 - gb)))})`, borderWidth: (1 + 2 * gz * (1 - gb)).toFixed(2) + 'px' });
   const ac = S.ent(tau, T.gwang, 0.12);
   S.css('#adc', { opacity: ac, transform: `translateY(${(12 * (1 - ac)).toFixed(1)}px)` });
   const on = S.EO(S.P(tau, T.ga, T.ga + 0.2));

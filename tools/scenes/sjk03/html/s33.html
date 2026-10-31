@@ -8,6 +8,12 @@
 .gl{position:absolute;left:430px;top:300px;width:610px;height:490px;border-radius:50%;overflow:hidden;opacity:0}
 .gl i{position:absolute;top:-80px;left:0;width:150px;height:660px;background:linear-gradient(90deg,rgba(255,236,200,0),rgba(255,236,200,.62) 50%,rgba(255,236,200,0));transform:rotate(20deg)}
 #vig{left:0;top:0;width:1920px;height:1080px;background:radial-gradient(ellipse 560px 470px at 919px 581px,rgba(0,0,0,0) 55%,rgba(8,4,0,.62) 100%);opacity:0}
+#tm{left:1290px;top:140px;width:520px;height:176px;padding:0;opacity:0}
+#tm .rl{position:absolute;left:28px;font-size:44px;font-weight:900;color:#fff}
+#tm .rt{position:absolute;left:196px;width:236px;height:26px;border-radius:13px;background:rgba(255,255,255,.14);overflow:hidden}
+#tm .rf{position:absolute;left:0;top:0;height:26px;width:0;border-radius:13px}
+#tck{position:absolute;left:452px;top:60px;width:56px;height:56px;border-radius:50%;background:#1E9E5A;opacity:0}
+#tck svg{position:absolute;left:0;top:0}
 </style></head>
 <body><div id="stage">
   <div id="wrap" class="abs">
@@ -18,13 +24,18 @@
     </div>
     <div id="vig" class="abs"></div>
   </div>
+  <div id="tm" class="dpan abs" data-box="tm">
+    <div id="tl1" class="rl" style="top:24px;opacity:0">매운맛</div><div id="tt1" class="rt" style="top:38px;opacity:0"><div id="tf1" class="rf" style="background:#FF6B6B"></div></div>
+    <div id="tl2" class="rl" style="top:100px;opacity:0">감칠맛</div><div id="tt2" class="rt" style="top:114px;opacity:0"><div id="tf2" class="rf" style="background:#7FA8F5"></div></div>
+    <div id="tck"><svg width="56" height="56" viewBox="0 0 56 56"><path d="M15 29 L25 39 L42 18" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+  </div>
 </div>
 <script src="../data/s33.js"></script>
 <script src="../lib/sjk.js"></script>
 <script src="../lib/e4.js"></script>
 <script>
 window.PALETTE = ['#FFFFFF', '#1F5FD1', '#1E9E5A'];   // 빛 띠 · (선·표시 없음)
-const T = { bae: S.at('마찬가지예요'), gage: S.at('가게만의'), mae: S.at('매운'), meok: S.at('먹고'), jung: S.at('중요하다는'), geo: S.at('거예요') };
+const T = { bae: S.at('마찬가지예요'), gage: S.at('가게만의'), mae: S.at('매운'), meok: S.at('먹고'), jung: S.at('중요하다는'), geo: S.at('거예요'), t1: S.at('매운'), t2: S.at('감칠맛이') + 0.15, t3: S.at('중요하다는') };
 S.ev(T.gage, 'sweep', 'push1'); S.ev(T.mae, 'shine', 'glint1'); S.ev(T.jung, 'sweep', 'push2'); S.ev(T.jung + 0.3, 'shine', 'glint2');
 S.css('#ph', { backgroundImage: S.ph('p33_rice_bowl_top') });
 // 카메라: 원점(ox,oy)을 잡고 s 배로 천천히 밀기(키 순서대로 0.7초씩 이어짐) — 1.00 이상이라 가장자리가 드러나지 않는다
@@ -40,6 +51,16 @@ S.scene(tau => {
     S.css('#' + g, { opacity: (k > 0 && k < 1) ? 1 : 0 });
     S.css('#' + b, { left: S.lerp(-200, 700, S.EIO(k)).toFixed(1) + 'px' });
   });
+  // 맛 판: «매운» 에서 판 + 매운맛 막대가 차오름 → «감칠맛이» 에서 감칠맛 막대 → «중요하다는» 에서 초록 확인 표시(판 안)
+  const pk = S.ent(tau, T.t1, 0.3);
+  S.css('#tm', { opacity: pk, transform: `translateY(${(14 * (1 - pk)).toFixed(1)}px)` });
+  S.css('#tl1', { opacity: pk }); S.css('#tt1', { opacity: pk });
+  S.css('#tf1', { width: (236 * S.EO(S.P(tau, T.t1 + 0.1, T.t1 + 0.6))).toFixed(1) + 'px' });
+  const p2 = S.ent(tau, T.t2, 0.3);
+  S.css('#tl2', { opacity: p2 }); S.css('#tt2', { opacity: p2 });
+  S.css('#tf2', { width: (236 * S.EO(S.P(tau, T.t2 + 0.1, T.t2 + 0.6))).toFixed(1) + 'px' });
+  const ck = S.ent(tau, T.t3, 0.25);
+  S.css('#tck', { opacity: ck, transform: `scale(${(0.7 + 0.3 * ck).toFixed(3)})` });
   // 초점: 용기 밖이 어두워짐
   S.css('#vig', { opacity: S.EO(S.P(tau, T.meok, T.meok + 0.5)) });
 });

@@ -8,6 +8,10 @@
 .fv{left:0;top:0;width:1920px;height:1080px;pointer-events:none;opacity:0}
 #fb{background:radial-gradient(ellipse 360px 340px at 1345px 237px,rgba(0,0,0,0) 40%,rgba(0,0,0,.38) 100%)}
 #fc{background:radial-gradient(ellipse 300px 460px at 637px 580px,rgba(0,0,0,0) 40%,rgba(0,0,0,.38) 100%)}
+#dp{left:1380px;top:600px;opacity:0}
+#dpl{font-size:64px}
+#dts{display:flex;gap:32px;margin-top:28px}
+.dt{display:block;width:84px;height:84px;border-radius:50%;border:6px solid #5A636D;background:transparent}
 </style></head>
 <body><div id="stage">
   <div id="wrap" class="abs">
@@ -16,6 +20,7 @@
     <div id="fb" class="abs fv"></div>
     <div id="fc" class="abs fv"></div>
   </div>
+  <div id="dp" class="dpan abs" data-box="dp"><div id="dpl">단골</div><div id="dts"><i class="dt"></i><i class="dt"></i><i class="dt"></i></div></div>
 </div>
 <script src="../data/s54.js"></script>
 <script src="../lib/sjk.js"></script>
@@ -23,8 +28,8 @@
 <script>
 window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];
 S.$('#ph').style.backgroundImage = S.ph('p54_door_inside');
-const T = { dan: S.at('단골은'), gi: S.at('기억하고'), da: S.at('다시'), chat: S.at('찾는'), son: S.at('손님을') };
-S.ev(0.3, 'in', 'vg'); S.ev(T.dan, 'sweep', 'push1'); S.ev(T.gi, 'sweep', 'push2');
+const T = { ga: S.at('가게를'), dan: S.at('단골은'), gi: S.at('기억하고'), da: S.at('다시'), chat: S.at('찾는'), son: S.at('손님을') };
+S.ev(0.3, 'in', 'vg'); S.ev(T.dan, 'sweep', 'push1'); S.ev(T.gi, 'sweep', 'push2'); S.ev(T.ga, 'card_in', 'dp');
 S.scene(tau => {
   // 강조 = 가게 봉투 쪽으로 천천히 밀기 두 번 + 대상 밖 어둡게(선·화살표 없음): 봉투(단골은~) → 손님(손님을~)
   const p1 = S.cam(tau, T.dan, T.dan + 0.7), p2 = S.cam(tau, T.gi, T.gi + 0.7);
@@ -32,6 +37,9 @@ S.scene(tau => {
   S.css('#vg', { opacity: S.EO(S.P(tau, 0.1, 0.9)) });
   S.css('#fb', { opacity: (S.EO(S.P(tau, T.dan, T.dan + 0.4)) * (1 - S.EO(S.P(tau, T.chat, T.chat + 0.3)))).toFixed(3) });
   S.css('#fc', { opacity: S.EO(S.P(tau, T.son, T.son + 0.4)).toFixed(3) });
+  // 단골 판: 점 세 개가 «기억하고 → 다시 → 찾는»에서 차례로 파랑으로 채워짐(재방문이 쌓이는 그림)
+  E.pop('#dp', tau, T.ga, { dy: 12 });
+  [T.gi, T.da, T.chat].forEach((t, i) => { const k = S.ent(tau, t, 0.3), d = document.querySelectorAll('.dt')[i]; d.style.background = `rgba(127,168,245,${k.toFixed(3)})`; d.style.borderColor = k > 0.5 ? '#7FA8F5' : '#5A636D'; });
 });
 </script>
 </body></html>

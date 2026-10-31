@@ -7,11 +7,18 @@
 .fv{left:0;top:0;width:1920px;height:1080px;pointer-events:none;opacity:0}
 #fm{background:radial-gradient(ellipse 420px 480px at 1648px 190px,rgba(0,0,0,0) 40%,rgba(0,0,0,.38) 100%)}
 .rg{fill:none;stroke:#4F86F0;stroke-width:8;opacity:0}
+#dp{left:60px;top:110px;width:420px;height:500px;padding:0;opacity:0}
+.bar{position:absolute;bottom:100px;width:130px;border-radius:8px 8px 0 0;height:0}
+.bl2{position:absolute;bottom:36px;width:130px;text-align:center;font-size:44px;color:#fff}
 </style></head>
 <body><div id="stage">
   <div id="wrap" class="abs">
     <div id="ph" class="photo"></div>
     <div id="fm" class="abs fv"></div>
+  </div>
+  <div id="dp" class="dpan abs" data-box="dp">
+    <div id="ba" class="bar" style="left:50px;background:#6B747D"></div><div class="bl2" style="left:50px">지출</div>
+    <div id="bb" class="bar" style="left:240px;background:#1F5FD1"></div><div class="bl2" style="left:240px">서비스</div>
   </div>
 </div>
 <script src="../data/s63.js"></script>
@@ -20,12 +27,16 @@
 <script>
 window.PALETTE = ['#20262D', '#1F5FD1', '#1E9E5A'];
 S.$('#ph').style.backgroundImage = S.ph('p63_fridge_magnet');
-const T = { gson: S.at('그', 0), keun: S.at('큰'), bad: S.at('받았다고'), ak: S.at('아까운가요') };
-S.ev(T.keun, 'sweep', 'push1'); S.ev(T.ak, 'sweep', 'push2');
+const T = { ji: S.at('지출한'), gson: S.at('그', 0), keun: S.at('큰'), bad: S.at('받았다고'), ak: S.at('아까운가요') };
+S.ev(T.ji, 'card_in', 'dp'); S.ev(T.keun, 'sweep', 'push1'); S.ev(T.ak, 'sweep', 'push2');
 S.scene(tau => {
   // 강조 = 냉장고 쪽지 밖을 어둡게(그 쪽지) + 천천히 밀기 두 번(큰 · 아까운가요) — 선·고리·체크 없음
   const p1 = S.cam(tau, T.keun, T.keun + 0.7), p2 = S.cam(tau, T.ak, T.ak + 0.7);
   S.css('#wrap', { transform: `scale(${((1 + 0.04 * S.P(tau, 0, S.SC.dur)) * (1 + 0.05 * p1 + 0.04 * p2)).toFixed(4)})` });
+  // 지출한 비용 막대(회색, 낮음) → 더 큰 서비스 막대(파랑, 훨씬 높음) — 같은 폭 둘 나란히
+  E.pop('#dp', tau, T.ji, { dy: 12 });
+  S.css('#ba', { height: (150 * S.EO(S.P(tau, T.ji + 0.1, T.ji + 0.6))).toFixed(1) + 'px' });
+  S.css('#bb', { height: (330 * S.EO(S.P(tau, T.keun, T.keun + 0.7))).toFixed(1) + 'px' });
   S.css('#fm', { opacity: S.EO(S.P(tau, T.gson + 0.1, T.gson + 0.5)).toFixed(3) });
 });
 </script>

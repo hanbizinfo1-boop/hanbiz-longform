@@ -14,6 +14,7 @@
 .ad{position:absolute;left:16px;width:268px;height:220px;background:linear-gradient(135deg,#22345A,#18233D);border:1px solid #2F4A80;border-radius:12px}
 .ad b{position:absolute;left:14px;top:12px;padding:3px 14px;background:#1F5FD1;color:#fff;font-size:28px;font-weight:800;border-radius:8px}
 .ad span{position:absolute;left:0;top:96px;width:100%;text-align:center;font-size:56px;font-weight:900;color:#fff}
+.ad .stl{position:absolute;right:12px;top:14px;height:30px;white-space:nowrap;opacity:0;line-height:0}
 .ad em{position:absolute;left:16px;top:184px;width:140px;height:14px;border-radius:7px;background:rgba(255,255,255,.28)}
 .ad .rf{position:absolute;left:-4px;top:-4px;width:276px;height:228px;border:6px solid #D63A3A;border-radius:14px;opacity:0;background:transparent}
 .pring{position:absolute;width:90px;height:90px;margin:-45px 0 0 -45px;border-radius:50%;border:6px solid #7FA8F5;background:rgba(127,168,245,.28);opacity:0;z-index:9}
@@ -50,10 +51,11 @@ window.PALETTE = ['#16191D', '#ECEEF0', '#1F5FD1', '#D63A3A'];   // 어두운 �
 const R = {};
 R.ring = (sel, tau, t0, d = 0.5) => { const el = S.$(sel), k = S.P(tau, t0, t0 + d); return (tau < t0 || k >= 1) ? 0 : (1 - k * k); };
 // ── 첫 장면: 피드(글 같은 가게 광고가 4번 — 글 사이사이 일반 글)
+const STAR = (on, sz) => `<svg viewBox="0 0 24 24" width="${sz}" height="${sz}" style="margin-left:2px"><polygon points="12,1.8 15.2,8.4 22.4,9.3 17.1,14.3 18.5,21.5 12,18 5.5,21.5 6.9,14.3 1.6,9.3 8.8,8.4" fill="${on ? '#ECEEF0' : 'none'}" stroke="${on ? '#ECEEF0' : '#8E99A6'}" stroke-width="1.6" stroke-linejoin="round"/></svg>`;
 const fd = document.getElementById('fd');
 for (let k = 0; k < 5; k++) {
   fd.insertAdjacentHTML('beforeend', `<div class="po" style="top:${90 + 460 * k}px"><i style="top:30px;width:150px"></i><i style="top:60px;width:210px"></i><i style="top:150px;width:120px"></i></div>` +
-    `<div class="ad" id="ad${k}" style="top:${310 + 460 * k}px"><b>광고</b><span>○○</span><em></em><div class="rf"></div></div>`);
+    `<div class="ad" id="ad${k}" style="top:${310 + 460 * k}px"><b>광고</b><div class="stl">${[0, 1, 2, 3, 4].map(n => STAR(n < 1, 30)).join('')}</div><span>○○</span><em></em><div class="rf"></div></div>`);
 }
 // ── 둘째 장면: 같은 사진 2×3 격자
 const g2 = document.getElementById('g2'), GX = [121, 695, 1269], GY = [76, 506];
@@ -62,7 +64,7 @@ for (let i = 0; i < 6; i++) {
   const x = GX[i % 3], y = GY[Math.floor(i / 3)];
   g2.insertAdjacentHTML('beforeend', `<div class="gc" id="gc${i}" data-box="gc${i}" style="left:${x}px;top:${y}px"><div class="cph" id="cp${i}"></div><div class="cq" id="cq${i}"><b>광고</b><span>○○</span><i style="top:520px;width:170px"></i><i style="top:570px;width:230px"></i><div class="rb" id="rb${i}"></div></div></div>`);
 }
-const T = { mu: S.at('무서운'), gwang: S.at('광고가'), bye: S.at('별로였지'), geu: S.at('기억하거든요'), sur: S.at('광고를'), nap: S.at('나쁜'), gi: S.at('기억도') };
+const T = { mu: S.at('무서운'), gwang: S.at('광고가'), bye: S.at('별로였지'), geu: S.at('기억하거든요'), sur: S.at('광고를'), nap: S.at('나쁜'), gi: S.at('기억도'), ga: S.at('가게라는'), geu2: S.at('이렇게'), ppl: S.at('빨리') };
 const STEP = [2.9, 4.2, 5.75, 7.05];
 S.ev(0.25, 'in', 'feed'); S.ev(1.34, 'card_in', 'tag'); S.ev(2.52, 'shine', 'ad0'); S.ev(STEP[0], 'sweep', 'swipe1'); S.ev(STEP[1], 'click', 'swipe2'); S.ev(STEP[2], 'sweep', 'swipe3');
 S.ev(T.geu, 'no', 'redad'); S.ev(7.5, 'in', 'grid'); S.ev(T.nap, 'no', 'red1'); S.ev(9.45, 'marker', 'red4'); S.ev(10.05, 'shine', 'red6');
@@ -73,8 +75,12 @@ for (let i = 0; i < 6; i++) { S.css('#cp' + i, { backgroundImage: S.ph('d44_sofa
 const GT = 0.22;
 S.scene(tau => {
   // 첫 장면 — 휴대폰 클로즈업 프레이밍 + 아주 느린 밀기
-  const s1 = 1.5 + 0.06 * S.P(tau, 0, 7.6);
-  S.css('#w1', { transform: `translate(960px,540px) scale(${s1.toFixed(4)}) translate(-800px,-450px)` });
+  // 이렇게 기억하거든요: 아래 광고 카드 쪽으로 카메라가 밀고 들어감(0.8초)
+  const zk = S.cam(tau, T.geu2, T.geu2 + 0.8);
+  const s1 = 1.5 + 0.06 * S.P(tau, 0, 7.6) + 0.12 * zk;
+  S.css('#w1', { transform: `translate(960px,540px) scale(${s1.toFixed(4)}) translate(${(-800 - 12 * zk).toFixed(2)}px,${(-450 + 30 * zk).toFixed(2)}px)` });
+  // 맛없는 가게라는: 광고 카드 위쪽에 별점 5칸 중 1칸만 채워진 줄이 나타남
+  document.querySelectorAll('.ad .stl').forEach(e => { e.style.opacity = S.ent(tau, T.ga, 0.15); });
   const sw = STEP.map((t, i) => S.cam(tau, t, t + 0.3));
   S.css('#fd', { transform: `translateY(${(-460 * sw.reduce((a, b) => a + b, 0)).toFixed(1)}px)` });
   S.css('#fd', { opacity: S.ent(tau, 0.25, 0.12) });
@@ -89,7 +95,7 @@ S.scene(tau => {
   const rf = document.querySelector('#ad3 .rf'); rf.style.opacity = S.EO(S.P(tau, T.geu, T.geu + 0.3)).toFixed(3);
   // 둘째 장면 — 화면이 빠지며 여러 대
   const gk = S.EO(S.P(tau, 7.3, 7.7));
-  S.css('#g2', { opacity: gk, transform: `scale(${(1.06 - 0.12 * gk + 0.02 * S.P(tau, 7.7, S.SC.dur + S.SC.post)).toFixed(4)})` });
+  S.css('#g2', { opacity: gk, transform: `scale(${(1.06 - 0.12 * gk + 0.02 * S.P(tau, 7.7, S.SC.dur + S.SC.post) - 0.06 * S.cam(tau, T.ppl, T.ppl + 0.7)).toFixed(4)})` });   // 더 빨리: 여러 대가 한눈에 보이게 천천히 뒤로 빠짐
   for (let i = 0; i < 6; i++) {
     const k = S.ent(tau, 7.5 + GT * i, 0.12);
     S.css('#gc' + i, { opacity: k, transform: `scale(${(0.96 + 0.04 * k).toFixed(4)})` });

@@ -7,6 +7,9 @@
 .fv{left:0;top:0;width:1920px;height:1080px;pointer-events:none;opacity:0}
 #fB{background:radial-gradient(ellipse 360px 340px at 878px 487px,rgba(0,0,0,0) 40%,rgba(0,0,0,.38) 100%)}
 #fR{background:radial-gradient(ellipse 480px 540px at 1600px 600px,rgba(0,0,0,0) 40%,rgba(0,0,0,.38) 100%)}
+#dp{left:60px;top:640px;width:560px;height:240px;padding:0;opacity:0}
+.dt{position:absolute;top:116px;width:72px;height:72px;border-radius:50%;border:6px solid #5A636D;box-sizing:border-box}
+#chip{position:absolute;left:32px;top:24px;width:120px;height:60px;border-radius:10px;background:#1F5FD1;color:#fff;font-size:42px;display:flex;align-items:center;justify-content:center}
 </style></head>
 <body><div id="stage">
   <div id="wrap" class="abs">
@@ -14,6 +17,7 @@
     <div id="fB" class="abs fv"></div>
     <div id="fR" class="abs fv"></div>
   </div>
+  <div id="dp" class="dpan abs" data-box="dp"><div id="da" class="dt" style="left:56px;background:#7FA8F5;border-color:#7FA8F5"></div><div id="db" class="dt" style="left:432px"></div><div id="chip">영상</div></div>
 </div>
 <script src="../data/s71.js"></script>
 <script src="../lib/sjk.js"></script>
@@ -23,13 +27,18 @@ window.PALETTE = ['#20262D', '#1F5FD1', '#F4F5F2'];
 S.$('#ph').style.backgroundImage = S.ph('p71_pack_handover');
 const T = { o: S.at('오늘'), gu: S.at('구독은'), dae: S.at('대신'), dp: S.at('대표님'), i: S.at('이', 3), bo: S.at('보내') };
 const TI = S.at('영상', 1), TB = S.at('보내');
-S.ev(T.dp, 'sweep', 'pan');
+S.ev(T.dp, 'sweep', 'pan'); S.ev(TI, 'card_in', 'dp');
 S.scene(tau => {
   // 천천히 당기기(1.08 → 1.00) — 첫 장면(포장대)으로 돌아오며 닫힘
   // 천천히 당기기(1.08 → 1.00) + «대표님»에서 손님 쪽으로 옆 이동 — 강조는 대상 밖 어둡게(봉투 → 손님 → 봉투), 선·고리 없음
   const pan = S.cam(tau, T.dp, T.dp + 0.7) * (1 - S.cam(tau, TI - 0.1, TI + 0.4));
   const sc = 1.08 - 0.08 * S.EIO(S.P(tau, 0, S.SC.dur));
   S.css('#wrap', { transform: `translateX(${(-Math.min(45, (sc - 1) * 900) * pan).toFixed(2)}px) scale(${sc.toFixed(4)})` });
+  // 판: 영상 → 칩이 나(왼쪽 점)에서 뜨고, 보내 주세요에서 주변 대표님(오른쪽 점)으로 옮겨 가며 점이 파랑으로 참
+  E.pop('#dp', tau, TI, { dy: 12 });
+  const mv = S.EO(S.P(tau, TB, TB + 0.5)), fk = S.ent(tau, TB + 0.5, 0.3);
+  S.css('#chip', { transform: `translateX(${(376 * mv).toFixed(1)}px)`, opacity: 1 - 0.0 * mv });
+  S.css('#db', { background: `rgba(127,168,245,${fk.toFixed(3)})`, borderColor: fk > 0.5 ? '#7FA8F5' : '#5A636D' });
   const on = (a, b) => S.EO(S.P(tau, a, a + 0.3)) * (b == null ? 1 : 1 - S.EO(S.P(tau, b, b + 0.3)));
   S.css('#fB', { opacity: Math.max(on(T.o, T.dp), on(TI - 0.1)).toFixed(3) });
   S.css('#fR', { opacity: on(T.dp, TI - 0.1).toFixed(3) });

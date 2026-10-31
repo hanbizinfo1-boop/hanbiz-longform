@@ -5,6 +5,7 @@
 <style>
 #wrap{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
 #ph{background-position:center}
+#vg2{left:0;top:0;width:1920px;height:1080px;pointer-events:none;opacity:0;background:radial-gradient(ellipse 620px 360px at 1080px 900px,rgba(0,0,0,0) 40%,rgba(0,0,0,.42) 100%)}
 #fx{left:0;top:0;width:1920px;height:1080px}
 #vg{left:0;top:0;width:1920px;height:1080px;pointer-events:none;opacity:0;background:radial-gradient(ellipse 760px 400px at 865px 258px,rgba(0,0,0,0) 45%,rgba(0,0,0,.40) 100%)}
 .ink{fill:none;stroke:#2A2520;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
@@ -14,6 +15,7 @@
   <div id="wrap" class="abs">
     <div id="ph" class="photo"></div>
     <div id="vg" class="abs"></div>
+    <div id="vg2" class="abs"></div>
     <svg id="fx" class="abs" viewBox="0 0 1920 1080">
       <!-- 수첩에 이어지는 글줄 3개 + 형광펜 3칸(사진 속 수첩 오른쪽 면) -->
       <path id="hl1" class="hlp" d="M930 866 L1085 838 L1087 868 L932 898 Z"/>
@@ -28,18 +30,23 @@
 <script>
 window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];
 S.$('#ph').style.backgroundImage = S.ph('p48_shop_window_note');
-const T = { ref: S.at('레퍼런스'), chat: S.at('찾아서'), gye: S.at('계속'), gae: S.at('개선을'), si: S.at('시켜야'), bon: S.at('본질이'), tan: S.at('탄탄해집니다') };
+const T = { ref: S.at('레퍼런스'), chat: S.at('찾아서'), gye: S.at('계속'), gae: S.at('개선을'), si: S.at('시켜야'), bon: S.at('본질이'), tan: S.at('탄탄해집니다'), our: S.at('우리') };
 S.ev(T.gye, 'type', 'hl1'); S.ev(T.si, 'click', 'hl3'); S.ev(T.bon, 'sweep', 'push');
 S.scene(tau => {
   const k = S.P(tau, 0, S.SC.dur);
   const push = S.cam(tau, T.bon, T.bon + 0.7);
-  S.css('#wrap', { transformOrigin: '1150px 800px', transform: `scale(${((1 + 0.05 * k) * (1 + 0.08 * push)).toFixed(4)})` });
+  // 레퍼런스를: 잘되는 가게 안쪽(창)으로 천천히 밀고 들어가고(0.7초) → 찾아서: 수첩 쪽으로 옮겨 옴
+  const mv = S.cam(tau, T.chat, T.chat + 0.7), zw = S.cam(tau, 0.3, 1.0) * (1 - mv);
+  S.css('#wrap', { transformOrigin: `${S.lerp(865, 1150, mv).toFixed(1)}px ${S.lerp(258, 800, mv).toFixed(1)}px`, transform: `scale(${((1 + 0.05 * k) * (1 + 0.08 * push) * (1 + 0.06 * zw)).toFixed(4)})` });
+  // 우리 가게: 수첩 둘레 밖이 부드럽게 어두워짐(비네트)
+  S.css('#vg2', { opacity: S.EO(S.P(tau, T.our, T.our + 0.4)).toFixed(3) });
   // «레퍼런스» = 창 밖을 부드럽게 어둡게(선 표시 없음) — 수첩 줄 시작 전에 풀림
   S.css('#vg', { opacity: (S.EO(S.P(tau, T.ref, T.ref + 0.4)) * (1 - S.EO(S.P(tau, T.gye - 0.2, T.gye + 0.2)))).toFixed(3) });
   // 형광펜 3줄 왼→오 (계속 · 개선을 · 시켜야) — 수첩에 이어 적는 줄
   [['#hl1', T.gye], ['#hl2', T.gae], ['#hl3', T.si]].forEach(([id, t]) => {
     const el = S.$(id), q = S.EO(S.P(tau, t, t + 0.4));
-    el.style.opacity = tau >= t ? 1 : 0; el.style.transformBox = 'fill-box'; el.style.transformOrigin = '0 50%'; el.style.transform = `scaleX(${q.toFixed(4)})`;
+    const th = S.ent(tau, T.tan, 0.4);   // 탄탄해집니다: 세 줄이 두꺼워지고 진해짐
+    el.style.opacity = tau >= t ? 1 : 0; el.style.transformBox = 'fill-box'; el.style.transformOrigin = '0 50%'; el.style.transform = `scale(${q.toFixed(4)},${(1 + 0.4 * th).toFixed(3)})`; el.style.fill = `rgba(31,95,209,${(0.34 + 0.22 * th).toFixed(3)})`;
   });
 });
 </script>

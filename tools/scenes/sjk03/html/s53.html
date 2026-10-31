@@ -14,6 +14,10 @@
       <path id="br" class="ln bl w6" d="M362 664 V688 H1150 V664"/>
       <path id="sp0" class="ln bl w6" d="M753 716 V668 M737 686 L753 668 L769 686"/>
       <path id="sp1" class="ln bl w6" d="M1163 716 V668 M1147 686 L1163 668 L1179 686"/>
+      <path id="gnd" class="ln w6" d="M300 894 H1620"/>
+      <g id="pp">
+        <g id="pq0"></g><g id="pq1"></g><g id="pq2"></g><g id="pq3"></g><g id="pq4"></g>
+      </g>
     </svg>
     <div id="brl" class="abs t bl" data-box="brl">여기까지</div>
   </div>
@@ -28,11 +32,17 @@ const RX = 360, RY = 260, CW = (1200 - 56) / 3, GAP = 28;
 const pc = PROG.mount('#cam', { x: RX, y: RY, w: 1200, h: 380 });
 const cells = pc.root.querySelectorAll('.pcell');
 cells.forEach((c, i) => { c.dataset.box = 'c' + i; });
-const T = { c1: 0.12, c2: 0.5, br: S.at('여기까지'), dash: S.at('않을'), c3: S.at('세번째가'), drop: S.at('앞의'), slide: S.at('앞의') + 0.42, sup: S.at('버티게') };
+const T = { c1: 0.12, c2: 0.5, br: S.at('여기까지'), dash: S.at('않을'), c3: S.at('세번째가'), drop: S.at('앞의'), slide: S.at('앞의') + 0.42, sup: S.at('버티게'), see: S.at('보시는'), few: S.at('많지'), gnd: S.at('해') };
 S.ev(T.c1, 'card_in', 'c1'); S.ev(T.br, 'marker', 'bracket'); S.ev(T.c3, 'click', 'c3'); S.ev(T.drop, 'sweep', 'drop'); S.ev(T.sup, 'ok', 'support');
+// 보시는 분: 위쪽에 작은 사람 선화 다섯이 나란히(보는 사람) — 많지 않을: 하나만 남고 옅어짐
+[760, 860, 960, 1060, 1160].forEach((x, i) => { const g = document.getElementById('pq' + i), np = document.createElementNS('http://www.w3.org/2000/svg', 'path'); np.setAttribute('class', 'ln w4'); np.setAttribute('d', `M${x - 16} 124 a16 16 0 1 0 32 0 a16 16 0 1 0 -32 0 M${x} 140 V176 M${x - 18} 152 H${x + 18} M${x} 176 L${x - 12} 198 M${x} 176 L${x + 12} 198`); g.appendChild(np); });
 const c3 = cells[2], word3 = c3.querySelector('.pword'), icon3 = c3.querySelector('.picon'), num3 = c3.querySelector('.pnum');
 S.scene(tau => {
-  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  // 근데 세 번째가: 셋째 칸 쪽으로 카메라가 밀고 들어감(0.6초) → 앞의: 다시 빠지며 받침이 내려옴
+  const pz = S.cam(tau, 4.13, 4.73) * (1 - S.cam(tau, T.drop, T.drop + 0.7));
+  S.css('#cam', { transformOrigin: `${S.lerp(960, 1360, pz).toFixed(1)}px ${S.lerp(540, 450, pz).toFixed(1)}px`, transform: `scale(${(E.drift(tau) * (1 + 0.06 * pz)).toFixed(4)})` });
+  [0, 1, 2, 3, 4].forEach(i => { const g = document.getElementById('pq' + i), a = S.ent(tau, T.see + 0.1 * i, 0.15), lose = i === 4 ? 0 : S.ent(tau, T.few + 0.12 * i, 0.3), gone = S.ent(tau, 4.13, 0.3); g.style.opacity = (a * (1 - 0.8 * lose) * (1 - gone)).toFixed(3); });
+  E.stroke('#gnd', tau, T.gnd, 0.5);
   const on3 = S.P(tau, T.c3, T.c3 + 0.2);
   const dropK = S.EZ(S.P(tau, T.drop, T.drop + 0.4)), slideK = S.EZ(S.P(tau, T.slide, T.slide + 0.5));
   const gone = S.P(tau, T.drop, T.drop + 0.2);

@@ -46,13 +46,15 @@
 <script>
 window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];   // 모눈 · 선 · 파랑(본질 세 블록). 지붕은 회색
 const T = { roof: S.at('광고보단'), slot: S.at('본질이'), food: S.at('맛이나'), svc: S.at('응대'), atm: S.at('인테리어와'),
-  all: S.at('이 모든 게'), our: S.at('우리 가게만의') };
+  all: S.at('이 모든 게'), our: S.at('우리 가게만의'), ess: S.at('본질이'), need: S.at('필요한'), pz: S.at('가게만의') };
 const T0 = 0.02;
 S.ev(T.roof, 'marker', 'roof'); S.ev(T.slot, 'card_in', 'slots'); S.ev(T.food, 'in', 'b0'); S.ev(T.svc, 'card_in', 'b1');
 S.ev(T.atm, 'in', 'b2'); S.ev(T.all, 'marker', 'tie'); S.ev(T.our, 'shine', 'bar');
 function icon(id, tau, t0) { document.querySelectorAll('#' + id + ' svg .ln').forEach((p, i) => E.stroke(p, tau, t0 + 0.12 * i, 0.45)); }
 S.scene(tau => {
-  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  // 가게만의 특징: 아래 «본질» 막대 쪽으로 카메라가 천천히 내려감(1초)
+  const pz = S.cam(tau, T.pz, T.pz + 1.0);
+  S.css('#cam', { transform: `translate(960px,540px) scale(${(E.drift(tau) * (1 + 0.02 * pz)).toFixed(4)}) translate(-960px,${(-540 - 24 * pz).toFixed(2)}px)` });
   // 장면 첫 순간부터: 지붕 모양이 아니라 «바닥에 놓일 자리» 점선이 먼저 — 빈 모눈 방지로 세 칸 틀을 바로 그린다
   ['#sl0', '#sl1', '#sl2'].forEach((s, i) => E.pop(s, tau, T0 + 0.06 * i, { dy: 0 }));
   E.stroke('#rf1', tau, T.roof, 0.45);
@@ -63,6 +65,13 @@ S.scene(tau => {
     S.css(id, { opacity: tau >= t0 ? S.ent(tau, t0, 0.12) : 0 });
     S.css('#sl' + i, { opacity: tau >= t0 ? 0 : S.$('#sl' + i).style.opacity });
   });
+  // 본질이 먼저예요: 빈 칸 점선이 파랑으로 바뀌고 지붕(광고)은 옅게 위로 비킴
+  const ek = S.ent(tau, T.ess, 0.45), mixb = (a, b, k) => `rgb(${a.map((v, i) => Math.round(v + (b[i] - v) * k)).join(',')})`;
+  ['#sl0', '#sl1', '#sl2'].forEach(sl => S.css(sl, { borderColor: mixb([169, 176, 182], [31, 95, 209], ek) }));
+  S.css('#roof', { opacity: (1 - 0.55 * ek).toFixed(3), transform: `translateY(${(-8 * ek).toFixed(1)}px)` });
+  const rt = S.$('#roofT'); rt.style.opacity = (parseFloat(rt.style.opacity) * (1 - 0.55 * ek)).toFixed(3); rt.style.transform += ` translateY(${(-8 * ek).toFixed(1)}px)`;
+  // 이 모든 게 다 필요한: 세 블록이 왼→오로 차례로 한 번씩 진해졌다 돌아옴
+  ['#b0', '#b1', '#b2'].forEach((id, i) => { const a = T.need + 0.15 * i, k = S.P(tau, a, a + 0.2) * (1 - S.P(tau, a + 0.2, a + 0.45)); S.css(id, { background: mixb([220, 230, 248], [176, 200, 242], k) }); });
   E.stroke('#tp', tau, T.all, 0.9);
   E.wipe('#bar', tau, T.our, 1.1);
 });

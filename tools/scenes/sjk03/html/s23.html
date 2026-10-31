@@ -3,7 +3,7 @@
 <title>s23 주문 단위를 키운다 — 주문 단위 계단(왼) · 1인분 셋 → 세트 상자(오른 위) · 최소 주문 금액 눈금 한 칸(오른 아래) (설명 층)</title>
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
-#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:960px 540px}
+#cam{left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
 #fx{left:0;top:0;width:1920px;height:1080px}
 .sb{position:absolute;width:170px;background:#E9ECEF;border:3px solid var(--ln);border-radius:6px 6px 0 0;transform-origin:50% 100%}
 .mb{position:absolute;top:310px;width:170px;height:130px;display:flex;align-items:center;justify-content:center;font-size:48px;font-weight:800}
@@ -21,6 +21,7 @@
       <path id="setbox" class="ln bl w6" d="M1000 280 L1690 280 L1690 470 L1000 470 Z"/>
       <path id="rul" class="ln w4" d="M940 790 L1690 790"/>
       <path id="tk" class="ln w4" d="M940 764 L940 816 M1090 764 L1090 816 M1240 764 L1240 816 M1390 764 L1390 816 M1540 764 L1540 816 M1690 764 L1690 816"/>
+      <rect id="sbf" x="1000" y="280" width="690" height="190" fill="#DCE6F8" rx="4" opacity="0"/>
       <rect id="fill" x="940" y="778" width="0" height="24" fill="#1F5FD1" rx="4"/>
       <circle id="mk" cx="1240" cy="790" r="22" fill="#1F5FD1" opacity="0"/>
     </svg>
@@ -47,7 +48,13 @@ S.ev(T0, 'marker', 'base'); S.ev(T.bo, 'gauge', 'sb1'); S.ev(T.dan, 'gauge', 'sb
 S.ev(T.one, 'card_in', 'm1'); S.ev(T.set, 'page', 'merge'); S.ev(T.muk, 'marker', 'setbox'); S.ev(T.min, 'marker', 'rul'); S.ev(T.geu, 'click', 'mk'); S.ev(T.jo, 'gauge', 'step'); S.ev(T.geo, 'ok', 'mk');
 const tick = i => 940 + 150 * i;
 S.scene(tau => {
-  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  // 카메라: «1인분 메뉴는» 에서 오른쪽 위(1인분 셋 자리)로 밀고 → «최소 주문 금액» 에서 아래 눈금 쪽으로 옮겨 가고 → «거죠» 에서 전체로 빠짐
+  const cs = S.camState(tau, [{ s: 1, x: 960, y: 540 }, { t: T.one - 0.1, s: 1.05, x: 1020, y: 430, d: 0.7 }, { t: T.min - 0.1, s: 1.05, x: 1020, y: 620, d: 0.7 }, { t: T.jo + 0.45, s: 1, x: 960, y: 540, d: 0.55 }]);
+  S.css('#cam', { transform: S.camCss({ s: cs.s * E.drift(tau, 1, 1.02), x: cs.x, y: cs.y }) });
+  // 키웁니다: 계단 가장 높은 칸이 파랑으로 · 거죠: 세트 상자가 파랑 옅게 채워짐
+  const sb3 = S.ent(tau, T.kiw + 0.45, 0.3);
+  S.css('#sb3', { background: `rgb(${Math.round(233 - 13 * sb3)},${Math.round(236 - 6 * sb3)},${Math.round(239 + 9 * sb3)})`, borderColor: sb3 > 0.5 ? '#1F5FD1' : '#20262D' });
+  S.css('#sbf', { opacity: S.ent(tau, T.jo + 0.45, 0.4) });
   E.stroke('#base', tau, T0, 0.4);
   [['#sb1', T.bo], ['#sb2', T.dan], ['#sb3', T.meon]].forEach(([s, t]) => { const k = S.EO(S.P(tau, t, t + 0.3)); S.css(s, { opacity: tau >= t ? 1 : 0, transform: `scaleY(${k.toFixed(4)})` }); });
   E.pop('#lbU', tau, T.ju, { dy: 0 });

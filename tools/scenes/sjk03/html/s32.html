@@ -7,6 +7,10 @@
 #pc{position:absolute;left:0;top:-100px;width:1536px;height:1024px;transform:scale(1.25);transform-origin:0 0}
 #sgn{position:absolute;left:885px;top:105px;width:300px;height:100px;display:flex;align-items:center;justify-content:center;font-family:"Pre";font-weight:900;font-size:96px;color:#2A2118;letter-spacing:.08em}
 #glow{position:absolute;left:700px;top:260px;width:700px;height:620px;background:radial-gradient(ellipse 50% 50% at 50% 55%,rgba(255,196,110,.50),rgba(255,196,110,0) 72%);opacity:0}
+#mem{left:70px;top:96px;width:480px;height:82px;padding:0;opacity:0;overflow:hidden}
+#mem .rl{position:absolute;left:24px;font-size:44px;font-weight:900;color:#fff}
+#mem .rt{position:absolute;left:140px;width:316px;height:24px;border-radius:12px;background:rgba(255,255,255,.14);overflow:hidden}
+#mem .rf{position:absolute;left:0;top:0;height:24px;width:0;border-radius:12px;background:#7FA8F5}
 </style></head>
 <body><div id="stage">
   <div id="wrap" class="abs">
@@ -16,13 +20,17 @@
       <div id="sgn" data-box="sgn">○○</div>
     </div>
   </div>
+  <div id="mem" class="dpan abs" data-box="mem">
+    <div class="rl" style="top:14px">기억</div><div class="rt" style="top:28px"><div id="mf1" class="rf"></div></div>
+    <div id="r2l" class="rl" style="top:82px;opacity:0">방문</div><div id="r2t" class="rt" style="top:96px;opacity:0"><div id="mf2" class="rf"></div></div>
+  </div>
 </div>
 <script src="../data/s32.js"></script>
 <script src="../lib/sjk.js"></script>
 <script src="../lib/e4.js"></script>
 <script>
 window.PALETTE = ['#2A2118', '#FFFFFF', '#1F5FD1'];   // 간판 글
-const T = { gage: S.at('가게가'), onul: S.at('오늘'), dub: S.at('덮밥'), gi: S.at('기억해'), chat: S.at('찾아') };
+const T = { gage: S.at('가게가'), onul: S.at('오늘'), dub: S.at('덮밥'), gi: S.at('기억해'), chat: S.at('찾아'), mk0: S.at('기억에'), mk1: S.at('남는'), cam1: S.at('돼야') };
 S.ev(T.gage, 'shine', 'sign'); S.ev(T.onul, 'sweep', 'push1'); S.ev(T.gi, 'in', 'glow'); S.ev(T.chat, 'sweep', 'push2');
 S.css('#ph', { backgroundImage: S.ph('p32_office_lunch') });
 // 카메라: 원점(ox,oy)을 잡고 s 배로 천천히 밀기(키 순서대로 0.7초씩 이어짐) — 1.00 이상이라 가장자리가 드러나지 않는다
@@ -30,9 +38,15 @@ const CAMT = (tau, keys) => { let c = keys[0]; for (let i = 1; i < keys.length; 
 const CAMX = (c, fl = 0, k = 1) => `translate(${(c.ox * (1 - c.s * k) + fl).toFixed(2)}px,${(c.oy * (1 - c.s * k)).toFixed(2)}px) scale(${(c.s * k).toFixed(4)})`;
 S.scene(tau => {
   // 따라 걷기 — 선을 긋지 않는다: «오늘» 에서 휴대폰 보며 걷는 두 사람 쪽으로, «찾아» 에서 가게 문 쪽으로 천천히 밀고 들어감
-  const c = CAMT(tau, [{ s: 1.0, ox: 1100, oy: 110 }, { t: T.onul, s: 1.10, ox: 830, oy: 110 }, { t: T.chat, s: 1.15, ox: 1350, oy: 110, d: 0.8 }]);
+  const c = CAMT(tau, [{ s: 1.0, ox: 1100, oy: 110 }, { t: T.cam1, s: 1.06, ox: 1100, oy: 110, d: 0.7 }, { t: T.onul, s: 1.10, ox: 830, oy: 110 }, { t: T.chat, s: 1.15, ox: 1350, oy: 110, d: 0.8 }]);
   S.css('#wrap', { transformOrigin: '0 0', transform: CAMX(c, 0, E.drift(tau, 1, 1.03)) });
   E.wipe('#sgn', tau, T.gage, 0.45);
+  // 기억 판: «기억에» 에서 기억 막대 칸이 서고 → «남는» 에서 차오름 → «찾아» 에서 판이 아래로 늘며 방문 막대가 차오름
+  const mk = S.ent(tau, T.mk0, 0.3), r2 = S.ent(tau, T.chat, 0.3);
+  S.css('#mem', { opacity: mk, height: (82 + 68 * r2).toFixed(1) + 'px', transform: `translateY(${(12 * (1 - mk)).toFixed(1)}px)` });
+  S.css('#mf1', { width: (316 * S.EO(S.P(tau, T.mk1, T.mk1 + 0.5))).toFixed(1) + 'px' });
+  S.css('#r2l', { opacity: r2 }); S.css('#r2t', { opacity: r2 });
+  S.css('#mf2', { width: (316 * S.EO(S.P(tau, T.chat + 0.1, T.chat + 0.6))).toFixed(1) + 'px' });
   S.css('#glow', { opacity: S.EO(S.P(tau, T.gi, T.gi + 0.7)) });
 });
 </script>

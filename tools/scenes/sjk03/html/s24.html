@@ -23,6 +23,7 @@
 #bar1{position:absolute;left:80px;top:910px;width:1340px;height:84px;background:#4A5560;border-radius:10px;overflow:hidden;opacity:0}
 #red{position:absolute;right:0;top:0;height:84px;width:0;background:#D63A3A;display:flex;align-items:center;justify-content:flex-end;padding-right:30px;color:#fff;font-size:40px;font-weight:800;white-space:nowrap;overflow:hidden}
 #blu{position:absolute;left:0;top:0;height:84px;width:0;background:#1F5FD1}
+.gd{position:absolute;width:44px;height:44px;border-radius:50%;background:#7FA8F5;opacity:0}
 .pring{position:absolute;width:90px;height:90px;margin:-45px 0 0 -45px;border-radius:50%;border:6px solid #7FA8F5;background:rgba(127,168,245,.28);opacity:0}
 </style></head>
 <body><div id="stage">
@@ -35,13 +36,16 @@
       <div class="mrow" id="row2" style="top:196px"><span>떡볶이</span><span class="pr2">8,000원</span></div>
       <div id="addb"><span>+ 메뉴 추가</span></div>
       <div class="mrow" id="row3" style="top:330px;opacity:0"><span style="display:flex;align-items:center"><i class="pl"></i>1인 세트</span><span class="pr2" style="color:#7FA8F5">+</span></div>
+      <div id="gs" class="lab2" style="top:470px;opacity:0">손님</div>
+      <div class="gd" id="gd0" style="left:190px;top:476px"></div><div class="gd" id="gd1" style="left:256px;top:476px"></div><div class="gd" id="gd2" style="left:322px;top:476px"></div><div class="gd" id="gd3" style="left:388px;top:476px"></div><div class="gd" id="gd4" style="left:454px;top:476px"></div><div class="gd" id="gd5" style="left:520px;top:476px"></div>
       <div id="r1" class="pring" style="left:750px;top:386px"></div>
-      <div class="lab2" id="lab2" style="top:550px">최소 주문 금액</div>
+      <div class="lab2" id="lab2" style="top:566px">최소 주문 금액</div>
       <div id="trk"></div><div id="fil"></div>
       <div class="tk" style="left:77px"></div><div class="tk" style="left:345px"></div><div class="tk" style="left:613px"></div><div class="tk" style="left:881px"></div><div class="tk" style="left:1149px"></div><div class="tk" style="left:1417px"></div>
       <div id="kn"></div>
       <div id="r2" class="pring" style="left:613px;top:694px"></div>
       <div class="lab2" id="lab3" style="top:820px">정산</div>
+      <div class="lab2" id="lab4" style="top:820px;left:210px;color:#7FA8F5;opacity:0">순수익</div>
       <div id="bar1"><div id="blu"></div><div id="red">수수료</div></div>
     </div></div>
   </div>
@@ -53,7 +57,7 @@
 window.PALETTE = ['#16191D', '#ECEEF0', '#1F5FD1', '#D63A3A'];   // 어두운 앱 · 글 · 파랑(켜짐) · 빨강(수수료 막대 — 빠져나가는 돈)
 const R = {};
 R.ring = (sel, tau, t0, d = 0.5) => { const el = S.$(sel), k = S.P(tau, t0, t0 + d); el.style.opacity = (tau < t0 || k >= 1) ? 0 : (1 - k * k).toFixed(3); el.style.transform = `scale(${(0.55 + S.EO(k)).toFixed(3)})`; };
-const T = { add: S.at('1인분만'), jul: S.at('줄어들겠지만'), net: S.at('순수익으로'), res: S.at('결과적으론'), big: S.at('큰'), why: S.at('왜냐하면'), fee: S.at('수수료를'), first: S.at('애초에'), rest: S.at('남는'), none: S.at('없었으니까요') };
+const T = { add: S.at('1인분만'), jul: S.at('줄어들겠지만'), net: S.at('순수익으로'), res: S.at('결과적으론'), big: S.at('큰'), why: S.at('왜냐하면'), fee: S.at('수수료를'), first: S.at('애초에'), rest: S.at('남는'), none: S.at('없었으니까요'), gu: S.at('손님은'), gl: 2.25, gn: S.at('거의') - 0.25 };
 const TICK = [80, 348, 616, 884, 1152, 1420];
 S.ev(0.02, 'in', 'pan'); S.ev(0.45, 'card_in', 'rows'); S.ev(1.1, 'click', 'add'); S.ev(2.0, 'marker', 'row3'); S.ev(2.45, 'sweep', 'scroll');
 S.ev(T.net, 'marker', 'track'); S.ev(T.res, 'click', 'knob'); S.ev(5.56, 'card_in', 'lab3'); S.ev(6.7, 'gauge', 'bar'); S.ev(T.fee, 'coin', 'red'); S.ev(T.rest, 'shine', 'blu');
@@ -72,7 +76,7 @@ S.scene(tau => {
   S.css('#row3', { opacity: r3, transform: `translateY(${(14 * (1 - r3)).toFixed(2)}px)` });
   E.ring('#row3', tau, 2.0, '31,95,209');
   // 아래로 스크롤
-  S.css('#sc', { transform: `translateY(${(-300 * S.cam(tau, 2.45, 3.0)).toFixed(1)}px)` });
+  S.css('#sc', { transform: `translateY(${(-330 * S.cam(tau, 2.45, 3.0)).toFixed(1)}px)` });
   // 최소 주문 금액 눈금
   E.pop('#lab2', tau, 0.8, { dy: 0 });
   S.css('#trk', { opacity: S.ent(tau, 0.9, 0.12) });
@@ -82,6 +86,12 @@ S.scene(tau => {
   S.css('#kn', { opacity: kk, left: kx + 'px' });
   S.css('#fil', { width: (kx - 80) * (kk > 0 ? 1 : 0) + 'px', opacity: kk });
   R.ring('#r2', tau, T.res, 0.5);
+  // 손님 점 여섯 — «손님은» 에서 나타나고 → «줄어들겠지만» 에서 맨 오른쪽 점 하나만 작아져 사라짐(조금 줄어듦)
+  const gk = S.ent(tau, T.gu, 0.3), gv = S.EO(S.P(tau, T.gl, T.gl + 0.45));
+  S.css('#gs', { opacity: gk });
+  for (let i = 0; i < 6; i++) S.css('#gd' + i, { opacity: (gk * (i === 5 ? 1 - gv : 1)).toFixed(3), transform: `scale(${(i === 5 ? 1 - 0.5 * gv : 1).toFixed(3)})` });
+  // «남는 게 거의» — 정산 막대 옆에 «순수익» 이름이 써짐
+  E.wipe('#lab4', tau, T.gn, 0.35);
   // 정산 막대(수수료 빨강 → 남는 건 파랑 조금)
   E.pop('#lab3', tau, 5.56, { dy: 0 });
   S.css('#bar1', { opacity: S.ent(tau, 6.7, 0.12) });

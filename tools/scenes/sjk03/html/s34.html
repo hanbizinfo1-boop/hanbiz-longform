@@ -53,18 +53,19 @@ CX.forEach((cx, c) => {
   // 재료 아이콘(그릇 둘레 위): 칸마다 모양이 조금씩 다름
   const kinds = [['c', 'c', 't'], ['s', 't', 'c'], ['t', 's', 's']][c];
   kinds.forEach((k, j) => {
-    const x = cx - 112 + j * 60, y = 688;
-    const d = k === 'c' ? `M${x - 16} ${y} a16 16 0 1 0 32 0 a16 16 0 1 0 -32 0` : k === 's' ? `M${x - 14} ${y - 14} L${x + 14} ${y - 14} L${x + 14} ${y + 14} L${x - 14} ${y + 14} Z` : `M${x} ${y - 17} L${x + 17} ${y + 13} L${x - 17} ${y + 13} Z`;
+    const x = cx - 118 + j * 68, y = 690;
+    const d = k === 'c' ? `M${x - 23} ${y} a23 23 0 1 0 46 0 a23 23 0 1 0 -46 0` : k === 's' ? `M${x - 20} ${y - 20} L${x + 20} ${y - 20} L${x + 20} ${y + 20} L${x - 20} ${y + 20} Z` : `M${x} ${y - 24} L${x + 24} ${y + 18} L${x - 24} ${y + 18} Z`;
     mk(`in${c}_${j}`, d, 'ln w4 bl');
   });
 });
 // = 두 개, ≠ 로 바뀜(사선)
 mk('eq0', 'M645 352 L695 352 M645 384 L695 384', 'ln w6'); mk('eq1', 'M1225 352 L1275 352 M1225 384 L1275 384', 'ln w6');
 mk('ne0', 'M660 408 L680 328', 'ln w6 rd'); mk('ne1', 'M1240 408 L1260 328', 'ln w6 rd');
+mk('ul', 'M870 144 L1050 144', 'ln bl w4');
 mk('same', 'M128 570 L128 590 L1792 590 L1792 570', 'ln w4');
-mk('frame', 'M704 160 H1216 V880 H704 Z', 'ln bl w6');
+mk('frame', 'M722 172 H1198 V880 H722 Z', 'ln bl w6');
 const T0 = 0.02;
-const T = { s0: S.at('프랜차이즈라고'), jb: S.at('점바점이라는'), b0: S.at('점포마다'), ne: S.at('똑같지'), stm: S.at('레시피여도'), clk: S.at('조리법을'), clk1: S.at('어떻게'), clk2: S.at('준수해서'), clr: S.at('어떤'), ing: S.at('재료를'), ing1: S.at('쓰는지에'), ing2: S.at('따라'), fr: S.at('다르거든요'), same: S.at('같은', 0) };
+const T = { s0: S.at('프랜차이즈라고'), jb: S.at('점바점이라는'), b0: S.at('점포마다'), ne: S.at('똑같지'), stm: S.at('레시피여도'), clk: S.at('조리법을'), clk1: S.at('어떻게'), clk2: S.at('준수해서'), clr: S.at('어떤'), ing: S.at('재료를'), ing1: S.at('쓰는지에'), ing2: S.at('따라'), fr: S.at('전부'), same: S.at('같은', 0), ask: S.at('아시죠'), all: S.at('따라') };
 S.ev(T0, 'in', 's0'); S.ev(T.s0 + 0.9, 'card_in', 's2'); S.ev(T.jb, 'shine', 'jb'); S.ev(T.same, 'marker', 'same'); S.ev(T.b0, 'page', 'bowls'); S.ev(T.ne, 'no', 'ne'); S.ev(T.stm, 'marker', 'steam'); S.ev(T.clk, 'click', 'clock'); S.ev(T.ing, 'in', 'ing'); S.ev(T.fr, 'ok', 'frame');
 S.scene(tau => {
   S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
@@ -87,7 +88,16 @@ S.scene(tau => {
   ['eq0', 'eq1'].forEach((id, i) => E.stroke('#' + id, tau, T.s0 + 0.9 + i * 0.1, 0.25));
   ['ne0', 'ne1'].forEach((id, i) => E.stroke('#' + id, tau, T.ne + i * 0.1, 0.2));
   E.stroke('#same', tau, T.same, 0.6);
+  // 점바점 밑줄(«아시죠») · 같은 간판 세 칸이 같은 옅은 파랑으로(«같은 프랜차이즈라도» 뒤) · «전부» 에서 그릇 셋이 서로 다른 옅은 색으로 채워짐
+  E.stroke('#ul', tau, T.ask, 0.4);
+  const sf = S.ent(tau, T.same + 0.7, 0.3);
+  CX.forEach((cx, c) => {
+    S.css(`#s${c}_3`, { fill: `rgba(31,95,209,${(0.16 * sf).toFixed(3)})` });
+    const bf = S.ent(tau, T.all + 0.12 * c, 0.35), col = ['31,95,209', '214,58,58', '122,130,138'][c], al = [0.18, 0.16, 0.20][c];
+    S.css(`#bw${c}`, { fill: `rgba(${col},${(al * bf).toFixed(3)})` });
+  });
   E.stroke('#frame', tau, T.fr, 0.5);
+  S.$('#same').style.opacity = tau >= T.same ? (1 - S.ent(tau, T.fr - 0.1, 0.3)).toFixed(3) : 0;   // 짚는 틀이 그려질 때 «같은» 괄호는 걷힘(선이 겹치지 않게)
 });
 </script>
 </body></html>

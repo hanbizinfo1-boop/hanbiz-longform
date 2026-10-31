@@ -36,6 +36,7 @@
       <path id="c3a" class="ln w6" style="stroke:#fff" d="M40 320 L360 80"/>
       <path id="c3b" class="ln w6" style="stroke:#fff" d="M250 76 L362 76 L362 188"/>
     </svg>
+    <div id="dot" class="abs" data-box="dot" style="left:0;top:0;width:36px;height:36px;border-radius:50%;background:#20262D;opacity:0"></div>
     <svg id="ck" class="abs" viewBox="0 0 150 150" data-box="ck">
       <circle id="ckc" cx="75" cy="75" r="68" fill="#1E9E5A"/>
       <path id="ckp" class="ln w6" style="stroke:#fff;stroke-width:12" d="M38 78 L65 105 L112 48"/>
@@ -47,7 +48,7 @@
 <script src="../lib/e4.js"></script>
 <script>
 window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1', '#1E9E5A'];   // 모눈 · 선 · 파랑 · 초록(확인 체크 — 연출표 1장 «확인»). 초록은 광고 칸 체크 한 곳
-const T = { ai: S.at('AI가'), w: S.at('약점부터'), r: S.at('리뷰가'), g: S.at('좋아지기'), a: S.at('광고를'), e: S.at('효율이'), ok: S.at('100%') };
+const T = { ai: S.at('AI가'), w: S.at('약점부터'), r: S.at('리뷰가'), g: S.at('좋아지기'), a: S.at('광고를'), e: S.at('효율이'), ok: S.at('100%'), then: S.at('그때'), ad2: S.at('광고', 1) };
 const T0 = 0.02;
 S.ev(T0, 'marker', 'ground'); S.ev(T.w, 'click', 's1'); S.ev(T.r, 'gauge', 's2'); S.ev(T.a, 'click', 's3'); S.ev(T.e, 'marker', 'chart3'); S.ev(T.ok, 'ok', 'ck');
 function on(id, k) {
@@ -57,11 +58,19 @@ function on(id, k) {
   const sb = el.querySelector('.sb'); if (sb) sb.style.color = w ? 'rgba(255,255,255,.9)' : '#7A828A';
 }
 S.scene(tau => {
-  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  const zp = S.cam(tau, T.ad2, T.ad2 + 0.7);
+  S.css('#cam', { transformOrigin: `${S.lerp(960, 1200, zp).toFixed(1)}px 560px`, transform: `scale(${(E.drift(tau) * (1 + 0.06 * zp)).toFixed(4)})` });
   E.stroke('#g1', tau, T0, 0.5);
   ['#s1', '#s2', '#s3'].forEach((s, i) => E.pop(s, tau, T0 + 0.12 + 0.26 * i, { dy: 22 }));
   // 10-30 설계자: «AI가 말해 주는 약점» 작은 글 뺌(화면 글 검사 T2 세 단 글)
   on('#s1', S.ent(tau, T.w, 0.12)); on('#s2', S.ent(tau, T.r, 0.12)); on('#s3', S.ent(tau, T.a, 0.12));
+  // 계단을 오르는 점: 약점부터에서 첫 칸 위에 서고 → 리뷰가: 둘째 칸 위로 → 광고를: 셋째 칸 위로 옮겨 감(0.5초씩, 위로 솟았다 내려앉음)
+  const j1 = S.cam(tau, T.r, T.r + 0.5), j2 = S.cam(tau, T.a, T.a + 0.5);
+  const dx = 440 + 520 * j1 + 520 * j2, dy = 602 - 140 * j1 - 140 * j2 - 90 * Math.sin(Math.PI * j1) - 90 * Math.sin(Math.PI * j2);
+  S.css('#dot', { opacity: S.ent(tau, T.w, 0.15), left: (dx - 18).toFixed(1) + 'px', top: (dy - 18).toFixed(1) + 'px' });
+  // 그때 광고를: 앞 두 칸은 옅어지고 광고 칸만 진하게 / 광고(6.25): 카메라가 셋째 칸 쪽으로 천천히 밀림
+  const dm = 1 - 0.45 * S.ent(tau, T.then, 0.4);
+  ['#s1', '#s2', '#chart2'].forEach(id => { const el = S.$(id); el.style.opacity = ((id === '#chart2' ? 1 : parseFloat(el.style.opacity)) * dm).toFixed(3); });
   // ② 리뷰 칸: 별점 선이 오름
   E.stroke('#c2a', tau, T.r + 0.15, 0.3); E.stroke('#c2b', tau, T.g, 0.9);
   S.css('#c2c', { opacity: S.ent(tau, T.g + 0.85, 0.1) });

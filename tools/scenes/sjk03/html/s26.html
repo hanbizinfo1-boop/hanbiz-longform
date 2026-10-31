@@ -8,12 +8,17 @@
 #lit{left:880px;top:650px;width:560px;height:300px;background:radial-gradient(ellipse 50% 50% at 50% 50%,rgba(255,226,170,.42),rgba(255,226,170,0) 70%);opacity:0}
 .stx{background:linear-gradient(#FF6B6B,#FF6B6B) no-repeat 0 56%/0% 10px;border-radius:5px}
 #dp{left:1010px;top:520px;width:520px;height:150px;font-size:112px;text-align:center;padding:18px 0 0}
+#tp2{left:1010px;top:330px;width:520px;height:150px;padding:0;opacity:0}
+#tp2 .tx{position:absolute;left:34px;top:22px;font-size:56px;font-weight:900;color:#fff}
+#tp2 .tr{position:absolute;left:34px;top:104px;width:452px;height:20px;border-radius:10px;background:rgba(255,255,255,.14);overflow:hidden}
+#tpf{position:absolute;left:0;top:0;height:20px;width:0;border-radius:10px;background:#7FA8F5}
 </style></head>
 <body><div id="stage">
   <div id="wrap" class="abs">
     <div id="ph" class="photo"></div>
     <div id="vig" class="abs"></div>
     <div id="lit" class="abs"></div>
+    <div id="tp2" class="dpan" data-box="tp2"><div class="tx">빈 시간</div><div class="tr"><div id="tpf"></div></div></div>
     <div id="dp" class="dpan" data-box="dp"><span id="dpn" class="stx">0원</span></div>
   </div>
 </div>
@@ -22,7 +27,7 @@
 <script src="../lib/e4.js"></script>
 <script>
 window.PALETTE = ['#1B1E22', '#FFFFFF', '#FF6B6B'];   // 어두운 판 · 흰 글 · 빨강 줄(버리는 생각)
-const T = { sim: S.at('명심해야'), si: S.at('시급'), three: S.at('3천'), bu: S.at('버리셔야'), hand: S.at('한다는') };
+const T = { sim: S.at('명심해야'), si: S.at('시급'), three: S.at('3천'), bu: S.at('버리셔야'), hand: S.at('한다는'), nam: S.at('남는') };
 S.ev(T.sim, 'sweep', 'push'); S.ev(2.3, 'shine', 'light'); S.ev(T.si, 'card_in', 'dp'); S.ev(T.three, 'gauge', 'count'); S.ev(T.bu, 'no', 'strike');
 S.css('#ph', { backgroundImage: S.ph('p26_empty_hall_noon') });
 // 카메라: 원점(ox,oy)을 잡고 s 배로 천천히 밀기(키 순서대로 0.7초씩 이어짐) — 1.00 이상이라 가장자리가 드러나지 않는다
@@ -34,6 +39,10 @@ S.scene(tau => {
   S.css('#wrap', { transformOrigin: '0 0', transform: CAMX(c, 0, E.drift(tau, 1, 1.04)) });
   S.css('#vig', { opacity: S.EO(S.P(tau, 0.02, 1.4)) });
   S.css('#lit', { opacity: S.EO(S.P(tau, 2.3, 2.8)) * 0.9 });
+  // 남는 시간 판: «남는» 에서 나타남 → «3천» 에서 숫자가 오르는 동안 시간 막대가 차오름 → «한다는» 에서 판이 옅어짐(그 생각을 버림)
+  const nk = S.ent(tau, T.nam, 0.3), nd = S.ent(tau, T.hand, 0.4);
+  S.css('#tp2', { opacity: (nk * (1 - 0.6 * nd)).toFixed(3), transform: `translateY(${(16 * (1 - nk)).toFixed(1)}px)` });
+  S.css('#tpf', { width: (452 * S.EO(S.P(tau, T.three, T.three + 0.9))).toFixed(1) + 'px' });
   const k = S.ent(tau, T.si, 0.12);
   S.css('#dp', { opacity: k, transform: `translateY(${(16 * (1 - k)).toFixed(1)}px)` });
   const n = S.count(tau, T.three, T.three + 0.55, 0, 3000);

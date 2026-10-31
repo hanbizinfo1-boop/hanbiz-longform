@@ -10,6 +10,9 @@
 .mm .a{font-size:62px;line-height:1;font-family:"Hand";font-weight:700;white-space:nowrap}
 .mm .b{font-size:29px;letter-spacing:-.02em;line-height:1.2;margin-top:18px;font-family:"Hand";font-weight:700;white-space:nowrap}
 .mm i{position:absolute;left:50%;top:-8px;margin-left:-11px;width:22px;height:22px;border-radius:50%;box-shadow:0 3px 5px rgba(0,0,0,.35)}
+#dp{left:60px;top:140px;width:480px;height:440px;padding:0;opacity:0}
+#dpl{position:absolute;left:40px;top:20px;font-size:60px}
+.kb{position:absolute;bottom:40px;width:100px;height:0;border-radius:8px 8px 0 0;background:#5A636D}
 </style></head>
 <body><div id="stage">
   <div id="wrap" class="abs">
@@ -21,6 +24,7 @@
     <div id="m5" class="memo mm" style="left:1555px;top:470px"><i style="background:#2D6BD6"></i><div class="a">막국수</div><div class="b">010-0000-0000</div></div>
     <div id="fm" class="abs fv"></div>
   </div>
+  <div id="dp" class="dpan abs" data-box="dp"><div id="dpl">단골</div><div id="k1" class="kb" style="left:40px"></div><div id="k2" class="kb" style="left:190px"></div><div id="k3" class="kb" style="left:340px"></div></div>
 </div>
 <script src="../data/s65.js"></script>
 <script src="../lib/sjk.js"></script>
@@ -28,7 +32,7 @@
 <script>
 window.PALETTE = ['#20262D', '#1F5FD1', '#F5D96B'];
 S.$('#ph').style.backgroundImage = S.ph('p65_memo_board');
-const T = { dan: S.at('단골이'), man: S.at('많은'), jip: S.at('집은'), ireo: S.at('이런'), gwan: S.at('관리를'), kkok: S.at('꼭'), jo: S.at('좋겠네요') };
+const T = { gw: S.at('잘합니다'), dan: S.at('단골이'), man: S.at('많은'), jip: S.at('집은'), ireo: S.at('이런'), gwan: S.at('관리를'), kkok: S.at('꼭'), jo: S.at('좋겠네요') };
 const MT = [T.dan, T.man, T.jip, T.ireo + 0.15, T.gwan];
 S.ev(MT[0], 'paper', 'm1'); S.ev(MT[2], 'card_in', 'm3'); S.ev(MT[4], 'paper', 'm5'); S.ev(T.kkok, 'sweep', 'push');
 const ROT = [-5, 3, -3, 4, -4];
@@ -37,6 +41,11 @@ S.scene(tau => {
   const push = S.cam(tau, T.kkok, T.kkok + 0.7);
   S.css('#wrap', { transform: `scale(${((1 + 0.04 * S.P(tau, 0, S.SC.dur)) * (1 + 0.07 * push)).toFixed(4)})` });
   S.css('#fm', { opacity: S.EO(S.P(tau, T.kkok, T.kkok + 0.4)).toFixed(3) });
+  // 단골 판: 막대 셋이 «단골이 · 많은 · 집은»에서 차례로 자람(단골이 늘어남) → «잘합니다»에서 회색이 파랑으로
+  E.pop('#dp', tau, T.dan, { dy: 12 });
+  [[T.dan + 0.05, 110], [T.man, 190], [T.jip, 270]].forEach(([t, h], i) => S.css('#k' + (i + 1), { height: (h * S.EO(S.P(tau, t, t + 0.45))).toFixed(1) + 'px' }));
+  const gk = S.EO(S.P(tau, T.gw, T.gw + 0.35)), gc = [90, 99, 109].map((v, i) => Math.round(v + ([127, 168, 245][i] - v) * gk));
+  [1, 2, 3].forEach(i => S.css('#k' + i, { background: `rgb(${gc})` }));
   MT.forEach((t, i) => {
     const k = S.ent(tau, t, 0.12);
     S.css('#m' + (i + 1), { opacity: k, transform: `rotate(${ROT[i]}deg) translateY(${(-18 * (1 - k)).toFixed(1)}px) scale(${(1.06 - 0.06 * k).toFixed(3)})` });

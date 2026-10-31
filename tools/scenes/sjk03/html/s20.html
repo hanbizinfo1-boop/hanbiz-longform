@@ -7,12 +7,19 @@
 #rc{left:0;top:0;width:220px;height:300px;font-family:"Pre";font-weight:900;color:#2B2A22;font-size:50px;text-align:center;padding-top:44px;opacity:0;line-height:1.1}
 #vg{left:0;top:0;width:1920px;height:1080px;background:radial-gradient(ellipse 330px 300px at 856px 606px,rgba(0,0,0,0) 0%,rgba(0,0,0,0) 55%,rgba(8,5,2,.5) 100%);opacity:0}
 #dp{left:360px;top:150px;font-size:112px}
+#bp{left:1000px;top:220px;width:620px;height:150px;padding:0;opacity:0}
+#bb{position:absolute;left:30px;top:43px;width:560px;height:64px;border-radius:8px;overflow:hidden;background:rgba(255,255,255,.12)}
+#bbi{position:absolute;left:0;top:0;width:560px;height:64px;background:#7FA8F5;transform-origin:0 50%;transform:scaleX(0)}
+#bbr{position:absolute;left:280px;top:0;width:280px;height:64px;background:#FF6B6B;opacity:0}
+#bbt{position:absolute;left:20px;top:0;height:64px;line-height:64px;font-size:40px;font-weight:900;color:#10243F;opacity:0}
+#bbh{position:absolute;left:280px;width:280px;top:0;height:64px;line-height:64px;font-size:40px;font-weight:900;color:#1B1E22;text-align:center}
 </style></head>
 <body><div id="stage">
   <div id="ph" class="photo">
     <div id="vg" class="abs"></div>
     <div id="rc" class="abs">8,000원</div>
     <div id="dp" class="dpan abs" data-box="dp"><span class="rd">≈ 4,000원</span></div>
+    <div id="bp" class="dpan abs" data-box="bp"><div id="bb"><div id="bbi"></div><div id="bbr"></div><div id="bbt">8,000원</div><div id="bbh">절반</div></div></div>
   </div>
 </div>
 <script src="../data/s20.js"></script>
@@ -22,8 +29,8 @@
 window.PALETTE = ['#1B1E22', '#FFFFFF', '#1F5FD1'];
 S.css('#ph', { backgroundImage: S.ph('p20_tteokbokki_top') });
 const QR = [[768, 797], [912, 745], [1005, 925], [860, 978]].map(([x, y]) => [x * 1.25, y * 1.25 - 100]);
-const T = { bw: S.at('떡볶이'), rc: S.at('8천'), in: S.at('주문이'), fee: S.at('수수료로'), dp: S.at('무려'), half: S.at('절반이') };
-S.ev(T.bw, 'sweep', 'push1'); S.ev(T.rc, 'type', 'rc'); S.ev(T.dp, 'shine', 'dp'); S.ev(T.half, 'sweep', 'push2');
+const T = { bw: S.at('떡볶이'), rc: S.at('8천'), in: S.at('주문이'), fee: S.at('수수료로'), dp: S.at('무려'), half: S.at('절반이'), inn: S.at('들어오면'), go: S.at('나가는'), pa: S.at('빠지는') };
+S.ev(T.bw, 'sweep', 'push1'); S.ev(T.rc, 'type', 'rc'); S.ev(T.dp, 'shine', 'dp'); S.ev(T.half, 'sweep', 'push2'); S.ev(T.inn, 'gauge', 'bb'); S.ev(T.go, 'coin', 'bbr');
 // 카메라: 원점(ox,oy)을 잡고 s 배로 천천히 밀기(키 순서대로 0.7초씩 이어짐) — 1.00 이상이라 가장자리가 드러나지 않는다
 const CAMT = (tau, keys) => { let c = keys[0]; for (let i = 1; i < keys.length; i++) { const k = keys[i], p = S.cam(tau, k.t, k.t + (k.d || 0.7)); c = { s: S.lerp(c.s, k.s, p), ox: S.lerp(c.ox, k.ox, p), oy: S.lerp(c.oy, k.oy, p) }; if (p < 1) break; } return c; };
 const CAMX = (c, fl = 0, k = 1) => `translate(${(c.ox * (1 - c.s * k) + fl).toFixed(2)}px,${(c.oy * (1 - c.s * k)).toFixed(2)}px) scale(${(c.s * k).toFixed(4)})`;
@@ -35,6 +42,13 @@ S.scene(tau => {
   S.fitQuad(S.$('#rc'), 220, 300, QR);
   const q = S.EO(S.P(tau, T.rc, T.rc + 0.3)); const rc = S.$('#rc'); rc.style.opacity = tau >= T.rc ? 1 : 0; rc.style.clipPath = `inset(0 ${((1 - q) * 100).toFixed(1)}% 0 0)`;
   E.pop('#dp', tau, T.dp, { dy: 12 });
+  // 주문 한 건 막대: «들어오면» 에서 파랑 막대가 자라고 → «나가는» 에서 오른쪽 절반이 빨강으로 → «빠지는» 에서 그 칸에 «절반»
+  const bk = S.ent(tau, T.inn, 0.3);
+  S.css('#bp', { opacity: bk });
+  S.css('#bbi', { transform: `scaleX(${S.EO(S.P(tau, T.inn + 0.1, T.inn + 0.6)).toFixed(4)})` });
+  S.css('#bbt', { opacity: S.ent(tau, T.inn + 0.4, 0.2) });
+  S.css('#bbr', { opacity: S.ent(tau, T.go, 0.4) });
+  E.wipe('#bbh', tau, T.pa, 0.35);
 });
 </script>
 </body></html>

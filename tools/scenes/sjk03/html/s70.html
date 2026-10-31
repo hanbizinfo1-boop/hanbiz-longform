@@ -42,6 +42,8 @@
     <div id="l3" class="lab t" style="top:606px" data-box="l3">수수료</div>
     <div id="l4" class="lab t" style="top:756px" data-box="l4">배달비</div>
     <div id="cursor" class="abs"></div>
+    <div id="qm" class="abs t" data-box="qm" style="left:1290px;top:584px;font-size:110px;color:#A9B0B6;opacity:0">?</div>
+    <svg id="cm" class="abs" data-box="cm" style="left:1520px;top:174px;width:90px;height:72px" viewBox="0 0 90 72"><path id="cmp" class="ln bl w4" d="M8 8 H82 V50 H44 L24 66 V50 H8 Z"/><path id="cml" class="ln bl" d="M24 24 H66 M24 36 H52"/></svg>
   </div>
 </div>
 <script src="../data/s70.js"></script>
@@ -68,6 +70,11 @@ S.scene(tau => {
   // 세세하게 — 줄마다 파랑 띠가 차례로(채우지 않음)
   [T.se, T.se + 0.4, T.dap, T.dal].forEach((t, i) => S.css('#s' + (i + 1), { opacity: S.ent(tau, t, 0.12) }));
   E.stroke('#bk', tau, T.deu, 0.4);
+  // 새 움직임: 잡히시면 «?» 칸이 떴다가 댓글에서 걷힘 · 댓글에서 헤더에 댓글 아이콘이 그려짐 · 세세하게부터 줄 이름이 차례로 파랑 · 드리겠습니다에서 빈 칸 밑줄이 파랑 실선으로
+  S.css('#qm', { opacity: (S.ent(tau, T.jab, 0.2) * (1 - S.EO(S.P(tau, T.dat, T.dat + 0.3)))).toFixed(3) });
+  E.stroke('#cmp', tau, T.dat, 0.35); E.stroke('#cml', tau, T.dat + 0.25, 0.25);
+  [T.se, T.se + 0.4, T.dap, T.dal].forEach((t, i) => { const k = S.ent(tau, t, 0.2); S.css('#l' + (i + 1), { color: `rgb(${[32, 38, 45].map((v, j) => Math.round(v + ([31, 95, 209][j] - v) * k))})` }); });
+  [0, 1, 2, 3].forEach(i => { const k = S.ent(tau, T.deu + 0.1 * i, 0.15), el = S.$('#p' + (i + 1)); el.style.borderBottomStyle = k > 0.5 ? 'solid' : 'dashed'; el.style.borderBottomColor = k > 0.5 ? '#1F5FD1' : '#C9CED3'; });
 });
 </script>
 </body></html>

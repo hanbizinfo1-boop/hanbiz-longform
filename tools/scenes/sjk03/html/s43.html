@@ -15,6 +15,7 @@
     <svg id="art" class="abs" viewBox="0 0 1920 1080">
       <rect id="slot" class="ln mu w4" style="stroke-dasharray:none" x="620" y="220" width="680" height="220" rx="20"/>
       <rect id="bar" class="ln w4" x="310" y="600" width="1300" height="76" rx="10"/>
+      <rect id="full" x="312" y="602" width="0" height="72" rx="8" style="fill:#DCE6F8"/>
       <rect id="fill" x="312" y="602" width="0" height="72" rx="8" style="fill:#1F5FD1"/>
       <path id="ul" class="ln bl w6" d="M660 438 H1260"/>
       <path id="tick" class="ln w4" d="M580 580 V696"/>
@@ -28,12 +29,18 @@
 <script src="../lib/sjk.js"></script>
 <script src="../lib/e4.js"></script>
 <script>
-window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];   // 모눈 · 선 · 파랑(큰 숫자)
+window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1', '#D63A3A'];   // 모눈 · 선 · 파랑(큰 숫자)
 const T0 = 0.02;
-const T = { src: S.at('서울시'), l1: S.at('광고비로만'), l2: S.at('주문'), num: S.at('20.8%를'), end: S.at('있었습니다') };
+const T = { src: S.at('서울시'), l1: S.at('광고비로만'), l2: S.at('주문'), num: S.at('20.8%를'), end: S.at('있었습니다'), sso: S.at('쓴') };
 S.ev(T0, 'in', 'bar'); S.ev(T.src, 'paper', 'src'); S.ev(T.l1, 'marker', 'l1'); S.ev(T.num, 'gauge', 'fill'); S.ev(T.num + 0.2, 'shine', 'num');
 S.scene(tau => {
-  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  // 20.8%: 숫자가 올라가는 동안 카메라가 천천히 가까이(1초)
+  const pz = S.cam(tau, T.num, T.num + 1.0);
+  S.css('#cam', { transformOrigin: '960px 480px', transform: `scale(${(E.drift(tau) * (1 + 0.05 * pz)).toFixed(4)})` });
+  // 주문 금액: 막대 전체가 옅은 파랑으로 왼→오 채워짐(주문 금액 = 막대 전체) → 20.8% 가 그 안에서 자람 / 쓴: 채움·숫자가 빨강(나간 돈)으로 바뀜
+  document.getElementById('full').setAttribute('width', (1296 * S.EO(S.P(tau, T.l2, T.l2 + 0.5))).toFixed(1));
+  const rd = S.ent(tau, T.sso, 0.4), mixc = (a, b) => `rgb(${a.map((v, i) => Math.round(v + (b[i] - v) * rd)).join(',')})`;
+  S.css('#fill', { fill: mixc([31, 95, 209], [214, 58, 58]) }); S.css('#num', { color: mixc([31, 95, 209], [214, 58, 58]) }); S.css('#ul', { stroke: mixc([31, 95, 209], [214, 58, 58]) });
   E.stroke('#bar', tau, T0, 0.6); E.stroke('#slot', tau, T0 + 0.1, 0.5);
   E.wipe('#src', tau, T.src, 0.5);
   S.css('#l1', { opacity: S.ent(tau, T.l1, 0.12) }); S.css('#l2', { opacity: S.ent(tau, T.l2, 0.12) });

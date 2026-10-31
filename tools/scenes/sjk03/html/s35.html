@@ -6,6 +6,11 @@
 #wrap{left:0;top:0;width:1920px;height:1080px}
 #ph2{opacity:0}
 #vg{left:0;top:0;width:1920px;height:1080px;background:radial-gradient(ellipse 480px 330px at 481px 740px,rgba(0,0,0,0) 0%,rgba(0,0,0,0) 55%,rgba(8,5,2,.5) 100%);opacity:0}
+#rp{left:90px;top:100px;width:520px;height:82px;padding:0;opacity:0;overflow:hidden}
+#rp .rl{position:absolute;left:28px;font-size:44px;font-weight:900;color:#fff}
+#rp .rt{position:absolute;left:190px;width:290px;height:26px;border-radius:13px;background:rgba(255,255,255,.14);overflow:hidden}
+#rp .rf{position:absolute;left:0;top:0;height:26px;width:290px;border-radius:13px}
+#rp .sq{position:absolute;top:22px;width:36px;height:36px;border-radius:8px;background:#7FA8F5}
 </style></head>
 <body><div id="stage">
   <div id="wrap" class="abs">
@@ -13,14 +18,20 @@
     <div id="ph2" class="photo"></div>
     <div id="vg" class="abs"></div>
   </div>
+  <div id="rp" class="dpan abs" data-box="rp">
+    <div class="rl" style="top:16px">호출</div>
+    <div id="q0" class="sq" style="left:190px"></div><div id="q1" class="sq" style="left:242px"></div><div id="q2" class="sq" style="left:294px"></div><div id="q3" class="sq" style="left:346px"></div>
+    <div id="r2l" class="rl" style="top:88px;opacity:0">배달비</div><div id="r2t" class="rt" style="top:102px;opacity:0"><div id="f2" class="rf" style="background:#FF6B6B"></div></div>
+    <div id="r3l" class="rl" style="top:160px;opacity:0">순수익</div><div id="r3t" class="rt" style="top:174px;opacity:0"><div id="f3" class="rf" style="background:#7FA8F5"></div></div>
+  </div>
 </div>
 <script src="../data/s35.js"></script>
 <script src="../lib/sjk.js"></script>
 <script src="../lib/e4.js"></script>
 <script>
 window.PALETTE = ['#FFFFFF', '#1F5FD1', '#1B1E22'];   // (선·표시 없음 — 카메라·어둡게만)
-const T = { ju: S.at('주문'), rid: S.at('라이더'), jul: S.at('줄면', 0), bae: S.at('배달비가'), gat: S.at('같이'), jud: S.at('줄어들고'), cha: S.at('없다는') };
-S.ev(T.ju, 'sweep', 'push1'); S.ev(T.jul, 'in', 'cross'); S.ev(T.gat, 'sweep', 'push2');
+const T = { ju: S.at('주문'), rid: S.at('라이더'), jul: S.at('줄면', 0), bae: S.at('배달비가'), gat: S.at('같이'), jud: S.at('줄어들고'), cha: S.at('없다는'), nb: S.at('배달비가'), ns: S.at('순수익에선') };
+S.ev(T.ju, 'sweep', 'push1'); S.ev(T.jul, 'in', 'cross'); S.ev(T.gat, 'sweep', 'push2'); S.ev(T.rid, 'card_in', 'rp');
 S.css('#ph', { backgroundImage: S.ph('p35a_scooters_many') });
 S.css('#ph2', { backgroundImage: S.ph('p35b_scooters_one') });
 // 카메라: 원점(ox,oy)을 잡고 s 배로 천천히 밀기(키 순서대로 0.7초씩 이어짐) — 1.00 이상이라 가장자리가 드러나지 않는다
@@ -32,6 +43,13 @@ S.scene(tau => {
   S.css('#ph2', { opacity: x });
   const c = CAMT(tau, [{ s: 1.0, ox: 900, oy: 640 }, { t: T.ju, s: 1.09, ox: 900, oy: 640 }, { t: T.jul, s: 1.0, ox: 480, oy: 740, d: 0.5 }, { t: T.gat, s: 1.14, ox: 480, oy: 740 }]);
   S.css('#wrap', { transformOrigin: '0 0', transform: CAMX(c, 0, E.drift(tau, 1, 1.03)) });
+  // 호출 판: «라이더» 에서 호출 칸 넷 → «줄면» 에서 셋이 차례로 사라짐 → «배달비가» 에서 배달비 막대(«줄어들고» 에서 짧아짐) → «순수익에선» 에서 순수익 막대
+  const pk = S.ent(tau, T.rid, 0.3), r2 = S.ent(tau, T.nb, 0.3), r3 = S.ent(tau, T.ns, 0.3);
+  S.css('#rp', { opacity: pk, height: (82 + 72 * r2 + 72 * r3).toFixed(1) + 'px', transform: `translateY(${(12 * (1 - pk)).toFixed(1)}px)` });
+  [1, 2, 3].forEach(i => { const v = S.ent(tau, T.jul + 0.1 * (i - 1), 0.25); S.css('#q' + i, { opacity: (1 - v).toFixed(3), transform: `scale(${(1 - 0.5 * v).toFixed(3)})` }); });
+  S.css('#r2l', { opacity: r2 }); S.css('#r2t', { opacity: r2 });
+  S.css('#f2', { width: (290 * (1 - 0.72 * S.EO(S.P(tau, T.jud, T.jud + 0.5)))).toFixed(1) + 'px' });
+  S.css('#r3l', { opacity: r3 }); S.css('#r3t', { opacity: r3 });
   S.css('#vg', { opacity: S.ent(tau, T.jud, 0.4) * x });
 });
 </script>

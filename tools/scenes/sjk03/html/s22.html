@@ -10,11 +10,21 @@
 #sl .nx{position:absolute;left:0;right:0;top:150px;font-size:130px;font-weight:900;white-space:nowrap;letter-spacing:-.02em}
 #sl .ulx{position:absolute;left:46px;top:290px;width:146px;height:10px;background:#1F5FD1;border-radius:5px;transform-origin:0 50%;transform:scaleX(0)}
 #clip{left:956px;top:186px;width:84px;height:92px}
+#cp{left:560px;top:660px;width:800px;height:170px;padding:0;opacity:0}
+#cp .rl{position:absolute;left:34px;font-size:44px;font-weight:900;color:#fff}
+#cp .rb{position:absolute;left:150px;height:40px;border-radius:6px;background:#FF6B6B;transform-origin:0 50%;transform:scaleX(0)}
+#cx{position:absolute;left:150px;top:30px;width:640px;height:40px;border-radius:6px;overflow:hidden;transform-origin:0 50%;transform:scaleX(0)}
+#cxa{position:absolute;left:0;top:0;width:290px;height:40px;background:#FF6B6B}
+#cxb{position:absolute;left:290px;top:0;width:350px;height:40px;background:#FF6B6B}
 </style></head>
 <body><div id="stage">
   <div id="ph" class="photo">
     <div id="tL" class="abs tk">김치찌개</div>
     <div id="tR" class="abs tk">막국수</div>
+    <div id="cp" class="dpan abs" data-box="cp">
+      <div class="rl" style="top:24px">×1</div><div id="cx"><div id="cxa"></div><div id="cxb"></div></div>
+      <div class="rl" style="top:98px">×3</div><div id="cy" class="rb" style="top:104px;width:290px"></div>
+    </div>
     <div id="sl" class="abs" data-box="sl"><div class="mn">떡볶이</div><div class="nx" id="nx">×1</div><div class="ulx" id="ulx"></div></div>
   </div>
 </div>
@@ -27,8 +37,8 @@ S.css('#ph', { backgroundImage: S.ph('p22_ticket_rail') });
 const Q = q => q.map(([x, y]) => [x * 1.25, y * 1.25 - 100]);
 const QL = Q([[335, 286], [550, 286], [542, 576], [333, 573]]);
 const QR = Q([[1082, 286], [1257, 286], [1277, 579], [1097, 579]]);
-const T = { a: 0.25, l: 1.0, r: 1.5, ring: S.at('어떤'), b: S.at('당연히'), dim: S.at('같은'), pick: S.at('주문', 1), ul: S.at('배') };
-S.ev(T.a, 'page', 'sl'); S.ev(T.l, 'paper', 'tL'); S.ev(T.ring, 'sweep', 'push'); S.ev(T.b, 'in', 'sl'); S.ev(T.dim, 'marker', 'tL'); S.ev(T.pick, 'paper', 'sl'); S.ev(T.ul, 'marker', 'ulx');
+const T = { a: 0.25, l: 1.0, r: 1.5, ring: S.at('어떤'), b: S.at('당연히'), dim: S.at('같은'), pick: S.at('주문', 1), ul: S.at('배'), c1: S.at('비용'), c2: 7.85, c3: S.at('나니까요') };
+S.ev(T.a, 'page', 'sl'); S.ev(T.l, 'paper', 'tL'); S.ev(T.ring, 'sweep', 'push'); S.ev(T.b, 'in', 'sl'); S.ev(T.dim, 'marker', 'tL'); S.ev(T.pick, 'paper', 'sl'); S.ev(T.ul, 'marker', 'ulx'); S.ev(T.c1, 'card_in', 'cp');
 // 카메라: 원점(ox,oy)을 잡고 s 배로 천천히 밀기(키 순서대로 0.7초씩 이어짐) — 1.00 이상이라 가장자리가 드러나지 않는다
 const CAMT = (tau, keys) => { let c = keys[0]; for (let i = 1; i < keys.length; i++) { const k = keys[i], p = S.cam(tau, k.t, k.t + (k.d || 0.7)); c = { s: S.lerp(c.s, k.s, p), ox: S.lerp(c.ox, k.ox, p), oy: S.lerp(c.oy, k.oy, p) }; if (p < 1) break; } return c; };
 const CAMX = (c, fl = 0, k = 1) => `translate(${(c.ox * (1 - c.s * k) + fl).toFixed(2)}px,${(c.oy * (1 - c.s * k)).toFixed(2)}px) scale(${(c.s * k).toFixed(4)})`;
@@ -51,6 +61,13 @@ S.scene(tau => {
   sl.style.opacity = a.toFixed(3);
   sl.style.transform = `translateY(${dy.toFixed(1)}px) rotate(${rot.toFixed(2)}deg) scale(${sc.toFixed(4)})`;
   sl.style.boxShadow = `0 ${14 + 26 * pk}px ${28 + 26 * pk}px rgba(0,0,0,.45)`;
+  // 비용 비율 비교 판: «비용» 에서 판 + ×1 빨강 막대(긴 것) → «두 배» 에서 ×3 막대가 절반 아래로 → «나니까요» 에서 ×1 막대의 남는 몫이 옅어짐
+  const cpk = S.ent(tau, T.c1, 0.3);
+  S.css('#cp', { opacity: cpk });
+  S.css('#cx', { transform: `scaleX(${S.EO(S.P(tau, T.c1 + 0.1, T.c1 + 0.6)).toFixed(4)})` });
+  S.css('#cy', { transform: `scaleX(${S.EO(S.P(tau, T.c2, T.c2 + 0.45)).toFixed(4)})` });
+  const ex = S.EO(S.P(tau, T.c3, T.c3 + 0.4));
+  S.css('#cxb', { background: `rgb(${Math.round(255 - 135 * ex)},${Math.round(107 - 12 * ex)},${Math.round(107 - 12 * ex)})`, opacity: (1 - 0.4 * ex).toFixed(3) });
   S.$('#ulx').style.transform = `scaleX(${S.EO(S.P(tau, T.ul, T.ul + 0.4)).toFixed(3)})`;
 });
 </script>

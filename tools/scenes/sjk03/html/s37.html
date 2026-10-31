@@ -18,6 +18,9 @@
     <div id="r2" class="rw" data-box="r2" data-box-group="list"><span class="th"></span>○○</div>
     <div id="r3" class="rw me" data-box="r3" data-box-group="list"><span class="th"></span>우리 가게<span class="tg" id="tg">광고</span></div>
     <div id="r4" class="rw" data-box="r4" data-box-group="list"><span class="th"></span>○○</div>
+    <svg id="upS" class="abs" style="left:720px;top:400px;width:50px;height:240px" viewBox="0 0 50 240" data-box="upS">
+      <path id="upA" class="ln bl w6" d="M25 226 L25 14 M8 34 L25 12 L42 34"/>
+    </svg>
   </div>
 </div>
 <script src="../data/s37.js"></script>
@@ -28,7 +31,7 @@
 window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];   // 모눈 · 선 · 파랑(켜진 칸)
 const pc = PROG.mount('#cam', { x: 360, y: 330, w: 1200, h: 380 });
 const cells = pc.root.querySelectorAll('.pcell');
-const T = { on: S.at('두번째는'), push: S.at('예시로') - 0.45, rows: S.at('예시로') + 0.06, tag: S.at('돈을'), rise: S.at('띄우는') };
+const T = { on: S.at('두번째는'), push: S.at('예시로') - 0.45, rows: S.at('예시로') + 0.06, tag: S.at('돈을'), rise: S.at('띄우는'), me: S.at('우리 가게를'), up: S.at('위로') };
 S.ev(T.on, 'click', 'cell2'); S.ev(T.push, 'sweep', 'push'); S.ev(T.rows, 'card_in', 'rows'); S.ev(T.tag, 'marker', 'tag'); S.ev(T.rise, 'shine', 'rise');
 const RY = i => 406 + 60 * i;
 S.scene(tau => {
@@ -53,6 +56,12 @@ S.scene(tau => {
     el.style.top = RY(idx[i]).toFixed(1) + 'px';
     el.style.zIndex = i === 3 ? 7 : 5;
   });
+  // 우리 가게를: 우리 가게 줄만 진하게, 나머지 줄은 옅게(0.4초) — 위로 올라간 뒤에도 그대로
+  const dm = 1 - 0.58 * S.ent(tau, T.me, 0.4);
+  [0, 1, 2, 4].forEach(i => { const el = document.getElementById('r' + i); el.style.opacity = (parseFloat(el.style.opacity) * dm).toFixed(3); });
+  // 위로: 줄 왼쪽에 파랑 위쪽 화살표가 그려지고(0.35초) 줄이 올라가면 걷힘
+  E.stroke('#upA', tau, T.up - 0.12, 0.35);
+  document.getElementById('upA').style.opacity = tau >= T.up - 0.12 ? (1 - S.P(tau, T.rise + 0.5, T.rise + 0.8)).toFixed(3) : 0;
   // 돈을 내고 → «광고» 꼬리표
   document.getElementById('tg').style.opacity = S.ent(tau, T.tag, 0.12);
   // 위로 올라간 뒤 파랑 강조(칸 파랑 위라 어두운 테두리 + 꼬리표)

@@ -13,6 +13,7 @@
 #ibt{left:1010px;top:670px;width:260px;text-align:center;font-size:64px;font-weight:900;color:var(--ln)}
 #igt{left:1330px;top:670px;width:260px;text-align:center;font-size:64px;font-weight:900;color:var(--ln)}
 #rfill{left:900px;top:80px;width:800px;height:800px;border-radius:50%;background:rgba(31,95,209,.10);opacity:0}
+.cd{position:absolute;top:772px;width:48px;height:48px;border-radius:50%;background:var(--bl);opacity:0}
 </style></head>
 <body><div id="stage">
   <div id="cam" class="abs">
@@ -26,6 +27,7 @@
     <div id="ibt" class="abs t" data-box="ibt" data-box-group="rc">매장</div>
     <svg id="ig" class="abs" viewBox="0 0 160 150" data-box="ig" data-box-group="rc"><path class="ln bl w4" d="M30 52 L130 52 L142 140 L18 140 Z"/><path class="ln bl w4" d="M54 52 C54 16 106 16 106 52"/><path class="ln bl w4" d="M52 84 L108 84"/></svg>
     <div id="igt" class="abs t" data-box="igt" data-box-group="rc">포장</div>
+    <div class="cd" style="left:1162px" data-box="cd0" data-box-group="rc"></div><div class="cd" style="left:1238px" data-box="cd1" data-box-group="rc"></div><div class="cd" style="left:1314px" data-box="cd2" data-box-group="rc"></div><div class="cd" style="left:1390px" data-box="cd3" data-box-group="rc"></div>
   </div>
 </div>
 <script src="../data/s59.js"></script>
@@ -33,11 +35,20 @@
 <script src="../lib/e4.js"></script>
 <script>
 window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];   // 모눈 · 선 · 파랑(앱 밖 손님). 앱 손님은 회색 선
-const T = { lt: S.at('배달앱'), rc: S.at('밖에서'), foc: S.at('집중하시면'), ib: S.at('매장에서'), ig: S.at('포장하러') };
+const T = { son: S.at('손님한테'), lt: S.at('배달앱'), rc: S.at('밖에서'), foc: S.at('집중하시면'), ib: S.at('매장에서'), ig: S.at('포장하러') };
 const T0 = 0.02;
 S.ev(T0, 'marker', 'lc'); S.ev(T.rc, 'in', 'rc'); S.ev(T.foc, 'click', 'focus'); S.ev(T.ib, 'card_in', 'ib'); S.ev(T.ig, 'in', 'ig');
 S.scene(tau => {
-  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  // 집중하시면: 오른쪽 원 쪽으로 살짝 밀고, 왼쪽 앱 손님은 옅어짐(손대지 않음)
+  const pu = S.cam(tau, T.foc, T.foc + 0.6), cs = E.drift(tau) * (1 + 0.04 * pu);
+  S.css('#cam', { transform: `translate(${(-170 * (cs - 1)).toFixed(2)}px,${(-170 * (cs - 1)).toFixed(2)}px) scale(${cs.toFixed(4)})` });
+  const lf = 1 - 0.55 * S.EO(S.P(tau, T.foc, T.foc + 0.4));
+  S.css('#lc', { filter: `opacity(${lf.toFixed(3)})` }); S.css('#lt', { filter: `opacity(${lf.toFixed(3)})` });
+  // 손님 점 네 개가 쌓이고, 매장에서 · 포장하러에서 첫째·둘째가 진해짐(손님마다 길이 다름)
+  document.querySelectorAll('.cd').forEach((d, i) => {
+    const a = S.ent(tau, T.son + 0.2 * i, 0.2), hi = i === 0 ? S.ent(tau, T.ib, 0.3) : i === 1 ? S.ent(tau, T.ig, 0.3) : 0;
+    d.style.opacity = (a * (0.3 + 0.7 * hi)).toFixed(3); d.style.transform = `scale(${(1 + 0.2 * hi).toFixed(3)})`;
+  });
   E.stroke('#lcc', tau, T0, 0.6); E.wipe('#lt', tau, T0 + 0.35, 0.45);
   E.stroke('#rcc', tau, T.rc - 0.35, 0.7); E.wipe('#rt', tau, T.rc + 0.1, 0.5);
   const f = S.ent(tau, T.foc, 0.2);

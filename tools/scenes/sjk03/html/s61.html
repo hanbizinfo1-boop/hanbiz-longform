@@ -7,6 +7,11 @@
 #note{left:0;top:0;width:600px;height:480px}
 .nt{position:absolute;left:100px;width:480px;text-align:center;font-size:74px;line-height:1;color:#2C2118;opacity:.93;white-space:nowrap}
 .ph1{font-size:58px}
+.fv{left:0;top:0;width:1920px;height:1080px;pointer-events:none;opacity:0}
+#fn{background:radial-gradient(ellipse 560px 440px at 1208px 560px,rgba(0,0,0,0) 40%,rgba(0,0,0,.38) 100%)}
+#dp{left:60px;top:160px;width:440px;height:330px;padding:0;opacity:0}
+#chip{position:absolute;left:155px;top:20px;width:130px;height:90px;background:#C9A57A;border-radius:6px;background-image:radial-gradient(rgba(90,60,30,.12) 1px,transparent 1.2px);background-size:7px 7px}
+#bg{position:absolute;left:100px;top:150px;width:240px;height:150px;background:#2F343B;border:5px solid #C9A57A;border-radius:6px 6px 14px 14px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:18px;font-size:44px;color:#fff;box-sizing:border-box}
 </style></head>
 <body><div id="stage">
   <div id="wrap" class="abs">
@@ -18,7 +23,9 @@
       <div id="n4" class="nt hand" style="top:308px">서비스로 드려요</div>
       <div id="n5" class="nt hand ph1" style="top:400px">010-0000-0000</div>
     </div>
+    <div id="fn" class="abs fv"></div>
   </div>
+  <div id="dp" class="dpan abs" data-box="dp"><div id="chip"></div><div id="bg">봉투</div></div>
 </div>
 <script src="../data/s61.js"></script>
 <script src="../lib/sjk.js"></script>
@@ -28,12 +35,16 @@ window.PALETTE = ['#20262D', '#1F5FD1', '#C9A57A'];
 S.$('#ph').style.backgroundImage = S.ph('p61_note_macro');
 // 사진 속 크라프트 쪽지 네 모서리(사진 좌표 (768,208) (1335,368) (1187,880) (575,635) → 판 좌표 ×1.25, y −100)
 S.fitQuad(S.$('#note'), 600, 480, [[960, 160], [1669, 360], [1484, 1000], [719, 694]]);
-const T = { bong: S.at('봉투에'), da: S.at('다음에'), jeon: S.at('전화', 0), mak: S.at('막국수'), seo: S.at('서비스로'), dryeo: S.at('드려요'), ra: S.at('라고'), neon: S.at('넣는다고'), saeng: S.at('생각해') };
+const T = { jj: S.at('쪽지를'), ne: S.at('넣는다고'), bong: S.at('봉투에'), da: S.at('다음에'), jeon: S.at('전화', 0), mak: S.at('막국수'), seo: S.at('서비스로'), dryeo: S.at('드려요'), ra: S.at('라고'), neon: S.at('넣는다고'), saeng: S.at('생각해') };
 S.ev(T.da, 'type', 'n1'); S.ev(T.mak, 'paper', 'n3'); S.ev(T.dryeo, 'ok', 'n5'); S.ev(T.ra, 'sweep', 'push1'); S.ev(T.saeng, 'sweep', 'push2');
 S.scene(tau => {
   // 강조 = 쪽지 쪽으로 천천히 밀기(«라고» · «생각해») — 테두리·화살표 없음
   const p1 = S.cam(tau, T.ra, T.ra + 0.7), p2 = S.cam(tau, T.saeng, T.saeng + 0.7);
   S.css('#wrap', { transform: `scale(${((1 + 0.04 * S.P(tau, 0, S.SC.dur)) * (1 + 0.05 * p1 + 0.04 * p2)).toFixed(4)})` });
+  // 새 움직임: 막국수 줄에서 쪽지 밖을 어둡게 · 쪽지를 → 봉투 판 · 넣는다고 → 쪽지 조각이 봉투 안으로 내려앉음
+  S.css('#fn', { opacity: S.EO(S.P(tau, T.mak, T.mak + 0.4)).toFixed(3) });
+  E.pop('#dp', tau, T.jj, { dy: 12 });
+  S.css('#chip', { top: (20 + 98 * S.EO(S.P(tau, T.ne, T.ne + 0.55))).toFixed(1) + 'px' });
   E.wipe('#n1', tau, T.da, 0.55); E.wipe('#n2', tau, T.jeon, 0.6); E.wipe('#n3', tau, T.mak, 0.55); E.wipe('#n4', tau, T.seo, 0.8); E.wipe('#n5', tau, T.dryeo - 0.05, 0.45);
 });
 </script>

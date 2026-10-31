@@ -10,6 +10,9 @@
 #f0{background:radial-gradient(ellipse 420px 560px at 912px 435px,rgba(0,0,0,0) 40%,rgba(0,0,0,.38) 100%)}
 #f1{background:radial-gradient(ellipse 420px 400px at 547px 280px,rgba(0,0,0,0) 40%,rgba(0,0,0,.38) 100%)}
 #f2{background:radial-gradient(ellipse 440px 560px at 1497px 435px,rgba(0,0,0,0) 40%,rgba(0,0,0,.38) 100%)}
+#pn{left:1230px;top:120px;width:620px;height:440px;padding:0;opacity:0}
+#pn .ad{position:absolute;top:34px;width:230px;height:84px;border-radius:8px;background:#D63A3A;color:#fff;font-size:40px;font-weight:900;display:flex;align-items:center;justify-content:center}
+#pn .rs{position:absolute;bottom:34px;width:230px;border-radius:8px 8px 0 0;color:#fff;font-size:40px;font-weight:900;display:flex;align-items:flex-start;justify-content:center;padding-top:8px;height:0;overflow:hidden}
 </style></head>
 <body><div id="stage">
   <div id="wrap" class="abs">
@@ -20,6 +23,10 @@
     <div id="f1" class="abs fv"></div>
     <div id="f2" class="abs fv"></div>
   </div>
+  <div id="pn" class="dpan abs" data-box="pn">
+    <div class="ad" id="pa0" style="left:55px">광고비</div><div class="ad" id="pa1" style="left:335px">광고비</div>
+    <div class="rs" id="pr0" style="left:55px;background:#4F86F0">결과</div><div class="rs" id="pr1" style="left:335px;background:#6B747D">결과</div>
+  </div>
 </div>
 <script src="../data/s51.js"></script>
 <script src="../lib/sjk.js"></script>
@@ -27,11 +34,18 @@
 <script>
 window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];
 S.$('#ph').style.backgroundImage = S.ph('p51_busy_door');
-const T = { jo: S.at('좋은'), al: S.at('알려'), gat: S.at('같은'), gyeol: S.at('결과가'), dal: S.at('달라지는') };
-S.ev(0.3, 'in', 'vg'); S.ev(T.jo, 'sweep', 'push');
+const T = { jo: S.at('좋은'), al: S.at('알려'), gat: S.at('같은'), gyeol: S.at('결과가'), dal: S.at('달라지는'), many: S.at('더 많은'), same: S.at('광고비인데'), res: S.at('결과가') };
+S.ev(0.3, 'in', 'vg'); S.ev(T.jo, 'sweep', 'push'); S.ev(T.same, 'card_in', 'pn'); S.ev(T.res, 'gauge', 'res');
 S.scene(tau => {
   const push = S.cam(tau, T.jo, T.jo + 0.7);
-  S.css('#wrap', { transform: `scale(${((1 + 0.06 * S.P(tau, 0, S.SC.dur)) * (1 + 0.07 * push)).toFixed(4)})` });
+  // 더 많은 사람한테: 카메라가 가게 안쪽 손님들 쪽으로 옆으로 흘러감(0.9초) → 같은 광고비인데(4.89): 원래 자리로
+  const fl = S.cam(tau, T.many, T.many + 0.9) * (1 - S.cam(tau, T.same, T.same + 0.8));
+  S.css('#wrap', { transformOrigin: `${S.lerp(910, 1300, fl).toFixed(1)}px ${S.lerp(500, 430, fl).toFixed(1)}px`, transform: `scale(${((1 + 0.06 * S.P(tau, 0, S.SC.dur)) * (1 + 0.07 * push) * (1 + 0.05 * fl)).toFixed(4)})` });
+  // 같은 광고비인데: 같은 크기 빨강 광고비 칸 둘 / 결과가 완전히 달라지는: 결과 막대(왼쪽 높고 파랑, 오른쪽 낮고 회색)가 자람
+  const pk = S.ent(tau, T.same, 0.14);
+  S.css('#pn', { opacity: pk, transform: `translateY(${(14 * (1 - pk)).toFixed(1)}px)` });
+  S.css('#pa0', { opacity: pk }); S.css('#pa1', { opacity: S.ent(tau, T.same + 0.12, 0.14) });
+  S.css('#pr0', { opacity: tau >= T.res ? 1 : 0, height: (230 * S.EO(S.P(tau, T.res, T.res + 0.55))).toFixed(1) + 'px' }); S.css('#pr1', { opacity: tau >= T.res ? 1 : 0, height: (64 * S.EO(S.P(tau, T.res, T.res + 0.55))).toFixed(1) + 'px' });
   S.css('#vg', { opacity: S.EO(S.P(tau, 0.1, 0.9)) });
   S.css('#gl', { opacity: 0.7 * S.EO(S.P(tau, T.jo, T.jo + 0.6)) });
   // 강조 = 대상 밖을 부드럽게 어둡게(선·네모 없음): 가운데 문 → 왼쪽 창 → 오른쪽 문 → «달라지는»에서 풀림

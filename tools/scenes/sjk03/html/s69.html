@@ -7,36 +7,36 @@
 .fv{left:0;top:0;width:1920px;height:1080px;pointer-events:none;opacity:0}
 #fP{background:radial-gradient(ellipse 470px 330px at 1190px 850px,rgba(0,0,0,0) 40%,rgba(0,0,0,.38) 100%)}
 #fC{background:radial-gradient(ellipse 340px 200px at 1405px 720px,rgba(0,0,0,0) 40%,rgba(0,0,0,.38) 100%)}
-/* 정산서 종이 — s03.html 의 #sheet 항목 그대로(항목 이름 다섯 줄 + 금액 칸 막대). 사진 속 흰 종이의 결·펜이 비치도록 배경 없이 곱하기(multiply)로 얹는다 */
-#sh{left:0;top:0;width:640px;height:610px;mix-blend-mode:multiply}
-#sheet{left:0;top:0;width:640px;height:610px;color:#26211A}
-#sheet .ttl{position:absolute;left:44px;top:30px;font-size:46px;font-weight:900;letter-spacing:.02em}
-#sheet .rule{position:absolute;left:36px;right:36px;height:2px;background:#8C8472}
-#sheet .nm{position:absolute;left:44px;font-size:36px;font-weight:700;white-space:nowrap}
-#sheet .bar{position:absolute;left:366px;height:30px;background:#D63A3A;transform-origin:0 50%}
-#sheet .cell{position:absolute;left:350px;width:250px;height:48px;border-left:2px solid #8C8472}
+/* 정산서 — 사진 속 종이 글이 작아 안 읽혀서, 사진 위에 읽히는 크기의 종이 카드로 다시 그림(항목·막대는 장면 3 정산서 그대로) */
+#card{left:90px;top:150px;width:900px;height:700px;background:#EFEAE0;background-image:radial-gradient(rgba(120,100,70,.10) 1px,transparent 1.2px);background-size:6px 6px;border-radius:6px;box-shadow:0 18px 44px rgba(0,0,0,.55);color:#26211A;opacity:0}
+#card .ttl{position:absolute;left:44px;top:24px;font-size:64px;font-weight:900;letter-spacing:.02em}
+#card .sub{position:absolute;right:44px;top:44px;font-size:44px;font-weight:700;color:#6B6254;white-space:nowrap}
+#card .rule{position:absolute;left:36px;right:36px;height:2px;background:#8C8472}
+#card .nm{position:absolute;left:44px;font-size:52px;font-weight:700;white-space:nowrap}
+#card .cell{position:absolute;left:470px;width:380px;height:70px;border-left:2px solid #8C8472}
+#card .bar{position:absolute;left:490px;height:40px;background:#D63A3A;transform-origin:0 50%}
+#net{position:absolute;left:490px;top:612px;height:40px;width:130px;background:#1F5FD1;transform-origin:0 50%;box-shadow:0 0 0 0 rgba(31,95,209,0)}
 </style></head>
 <body><div id="stage">
   <div id="wrap" class="abs">
     <div id="ph" class="photo"></div>
-    <div id="sh" class="abs">
-      <div id="sheet" class="abs">
-        <div class="ttl" id="ttl">정산서</div>
-        <div class="rule" style="top:98px"></div>
-        <div class="nm" id="n0" style="top:126px">중개 수수료</div><div class="cell" style="top:122px"></div><div class="bar" id="b0" style="top:131px;width:90px"></div>
-        <div class="rule" style="top:182px"></div>
-        <div class="nm" id="n1" style="top:210px">결제 수수료</div><div class="cell" style="top:206px"></div><div class="bar" id="b1" style="top:215px;width:56px"></div>
-        <div class="rule" style="top:266px"></div>
-        <div class="nm" id="n2" style="top:294px">배달비</div><div class="cell" style="top:290px"></div><div class="bar" id="b2" style="top:299px;width:200px"></div>
-        <div class="rule" style="top:350px"></div>
-        <div class="nm" id="n3" style="top:378px">할인 쿠폰</div><div class="cell" style="top:374px"></div><div class="bar" id="b3" style="top:383px;width:120px"></div>
-        <div class="rule" style="top:434px"></div>
-        <div class="nm" id="n4" style="top:462px">광고비</div><div class="cell" style="top:458px"></div><div class="bar" id="b4" style="top:467px;width:170px"></div>
-        <div class="rule" style="top:518px"></div>
-      </div>
-    </div>
     <div id="fP" class="abs fv"></div>
     <div id="fC" class="abs fv"></div>
+  </div>
+  <div id="card" class="abs" data-box="card">
+    <div class="ttl" id="ttl">정산서</div><div class="sub" id="sub">김치찌개 1그릇</div>
+    <div class="rule" style="top:108px"></div>
+    <div class="nm" id="n0" style="top:124px">중개 수수료</div><div class="cell" style="top:118px"></div><div class="bar" id="b0" style="top:133px;width:162px"></div>
+    <div class="rule" style="top:200px"></div>
+    <div class="nm" id="n1" style="top:216px">결제 수수료</div><div class="cell" style="top:210px"></div><div class="bar" id="b1" style="top:225px;width:100px"></div>
+    <div class="rule" style="top:292px"></div>
+    <div class="nm" id="n2" style="top:308px">배달비</div><div class="cell" style="top:302px"></div><div class="bar" id="b2" style="top:317px;width:360px"></div>
+    <div class="rule" style="top:384px"></div>
+    <div class="nm" id="n3" style="top:400px">할인 쿠폰</div><div class="cell" style="top:394px"></div><div class="bar" id="b3" style="top:409px;width:216px"></div>
+    <div class="rule" style="top:476px"></div>
+    <div class="nm" id="n4" style="top:492px">광고비</div><div class="cell" style="top:486px"></div><div class="bar" id="b4" style="top:501px;width:306px"></div>
+    <div class="rule" style="top:568px"></div>
+    <div class="nm" id="nn" style="top:584px;color:#1F5FD1;font-weight:900">순수익</div><div id="net"></div>
   </div>
 </div>
 <script src="../data/s69.js"></script>
@@ -46,23 +46,28 @@
 window.PALETTE = ['#26211A', '#1F5FD1', '#D63A3A'];
 S.$('#ph').style.backgroundImage = S.ph('p69_closing_counter');
 // 사진 속 흰 종이 네 모서리(사진 (930,622) (1210,797) (935,905) (693,692) → 판 ×1.25, y −100): 글이 읽히는 방향 = 위 모서리(오른쪽 위→오른쪽 아래) 따라
-S.fitQuad(S.$('#sh'), 640, 610, [[1163, 678], [1513, 896], [1169, 1032], [866, 765]]);
-const T = { jeong: S.at('정산서를'), yeo: S.at('열어'), bo: S.at('보세요'), je: S.at('제일'), pal: S.at('팔리는'), jin: S.at('진짜'), sun: S.at('순수익') };
-S.ev(T.jeong, 'paper', 'sheet'); S.ev(T.yeo, 'marker', 'n0'); S.ev(T.pal - 0.2, 'gauge', 'bars'); S.ev(T.jin, 'sweep', 'push');
+const T = { jeong: S.at('정산서를'), yeo: S.at('열어'), bo: S.at('보세요'), je: S.at('제일'), pal: S.at('팔리는'), me: S.at('메뉴'), jin: S.at('진짜'), sun: S.at('순수익') };
+S.ev(T.jeong, 'paper', 'card'); S.ev(T.yeo, 'marker', 'n0'); S.ev(T.pal - 0.2, 'gauge', 'bars'); S.ev(T.jin, 'sweep', 'push');
 S.scene(tau => {
-  // 강조 = 정산서 종이 → 계산기 쪽으로 천천히 밀기 + 대상 밖 어둡게(선 없음). 종이가 자막 띠에 닿지 않게 카메라가 살짝 올라감
+  // 사진: 천천히 밀기 + 대상 밖 어둡게(종이 → 계산기)
   const P = S.P(tau, 0, S.SC.dur);
-  S.css('#wrap', { transform: `translateY(${(-90 * P).toFixed(1)}px) scale(${(1.1 + 0.26 * P).toFixed(4)})` });
+  S.css('#wrap', { transform: `translateY(${(-60 * P).toFixed(1)}px) scale(${(1.08 + 0.14 * P).toFixed(4)})` });
   const on = (a, b) => S.EO(S.P(tau, a, a + 0.4)) * (b == null ? 1 : 1 - S.EO(S.P(tau, b, b + 0.3)));
   S.css('#fP', { opacity: on(T.jeong, T.jin).toFixed(3) });
   S.css('#fC', { opacity: on(T.jin).toFixed(3) });
-  S.css('#sheet', { opacity: S.ent(tau, T.jeong, 0.12) });
+  E.pop('#card', tau, T.jeong, { base: 'rotate(-1.2deg)', dy: 16, sc: 0.04 });
   E.wipe('#ttl', tau, T.jeong, 0.3);
+  // 메뉴 하나(새): 종이 위 한 줄 · 진짜(새): 빨강 막대가 옅어짐 · 순수익(새): 파랑 막대가 짧게 남음
+  E.wipe('#sub', tau, T.me, 0.45);
+  const dim = 1 - 0.65 * S.EO(S.P(tau, T.jin, T.jin + 0.4));
   for (let i = 0; i < 5; i++) {
     E.wipe('#n' + i, tau, T.jeong + 0.5 + i * 0.32, 0.28);
     const t = T.pal - 0.2 + i * 0.14, b = S.EO(S.P(tau, t, t + 0.4));
-    S.css('#b' + i, { transform: `scaleX(${b.toFixed(3)})`, opacity: tau >= t ? 1 : 0 });
+    S.css('#b' + i, { transform: `scaleX(${b.toFixed(3)})`, opacity: (tau >= t ? 1 : 0) * dim });
   }
+  E.wipe('#nn', tau, T.sun, 0.4);
+  const nk = S.EO(S.P(tau, T.sun + 0.1, T.sun + 0.7));
+  S.css('#net', { transform: `scaleX(${nk.toFixed(3)})`, opacity: tau >= T.sun + 0.1 ? 1 : 0, boxShadow: `0 0 ${(26 * nk).toFixed(0)}px rgba(31,95,209,${(0.55 * nk).toFixed(2)})` });
 });
 </script>
 </body></html>

@@ -6,11 +6,16 @@
 #wrap{left:0;top:0;width:1920px;height:1080px}
 #ph2{filter:blur(9px) brightness(.42) saturate(.55);opacity:0;
   -webkit-mask-image:radial-gradient(ellipse 430px 540px at 830px 770px,rgba(0,0,0,0) 52%,#000 100%);mask-image:radial-gradient(ellipse 430px 540px at 830px 770px,rgba(0,0,0,0) 52%,#000 100%)}
+#sp{left:560px;top:330px;width:520px;height:150px;padding:0;opacity:0}
+#sp .tx{position:absolute;left:34px;top:22px;font-size:56px;font-weight:900;color:#fff}
+#sp .tr{position:absolute;left:34px;top:104px;width:452px;height:20px;border-radius:10px;background:rgba(255,255,255,.14);overflow:hidden}
+#spf{position:absolute;left:0;top:0;height:20px;width:0;border-radius:10px;background:#7FA8F5}
 </style></head>
 <body><div id="stage">
   <div id="wrap" class="abs">
     <div id="ph" class="photo"></div>
     <div id="ph2" class="photo"></div>
+    <div id="sp" class="dpan abs" data-box="sp"><div class="tx">매출</div><div class="tr"><div id="spf"></div></div></div>
   </div>
 </div>
 <script src="../data/s28.js"></script>
@@ -18,8 +23,8 @@
 <script src="../lib/e4.js"></script>
 <script>
 window.PALETTE = ['#1B1E22', '#FFFFFF', '#1F5FD1'];   // 사진 위 어두운 가림(선·글 없음)
-const T = { ext: S.at('외부'), mae: S.at('매출이'), hoe: S.at('회사가'), flow: S.at('유동인구가'), mo: S.at('만약', 0), mo2: S.at('만약', 1), eob: S.at('어떻게') };
-S.ev(T.ext, 'sweep', 'push1'); S.ev(T.flow, 'sweep', 'push2'); S.ev(T.mo, 'no', 'dim');
+const T = { ext: S.at('외부'), mae: S.at('매출이'), hoe: S.at('회사가'), flow: S.at('유동인구가'), mo: S.at('만약', 0), mo2: S.at('만약', 1), eob: S.at('어떻게'), sa: S.at('늘어날'), sb: S.at('회사가'), sc: S.at('유동인구가'), sd: S.at('그런') };
+S.ev(T.ext, 'sweep', 'push1'); S.ev(T.flow, 'sweep', 'push2'); S.ev(T.mo, 'no', 'dim'); S.ev(T.sa, 'gauge', 'spf'); S.ev(T.sb + 0.3, 'gauge', 'spf');
 S.css('#ph', { backgroundImage: S.ph('p28_street_birdseye') });
 S.css('#ph2', { backgroundImage: S.ph('p28_street_birdseye') });
 // 카메라: 원점(ox,oy)을 잡고 s 배로 천천히 밀기(키 순서대로 0.7초씩 이어짐) — 1.00 이상이라 가장자리가 드러나지 않는다
@@ -30,6 +35,12 @@ S.scene(tau => {
   const c = CAMT(tau, [{ s: 1.0, ox: 1320, oy: 210 }, { t: T.ext, s: 1.14, ox: 1320, oy: 210, d: 3.0 }, { t: T.flow, s: 1.10, ox: 830, oy: 770, d: 0.8 }, { t: T.eob, s: 1.16, ox: 830, oy: 770, d: 0.8 }]);
   S.css('#wrap', { transformOrigin: '0 0', transform: CAMX(c, 0, E.drift(tau, 1, 1.03)) });
   S.css('#ph2', { opacity: S.EO(S.P(tau, T.mo, T.mo + 0.5)) });
+  // 매출 판: 외부 요인(매출이 늘어날 → 회사가 → 유동인구가)마다 막대가 한 단계씩 차오름 → «그런 게 없다면» 에서 처음으로 돌아가 비어 있는 채로 끝까지 남음
+  const lv = 0.34 * S.EO(S.P(tau, T.sa, T.sa + 0.5)) + 0.33 * S.EO(S.P(tau, T.sb + 0.3, T.sb + 0.8)) + 0.33 * S.EO(S.P(tau, T.sc, T.sc + 0.5));
+  const back = S.EO(S.P(tau, T.sd, T.sd + 0.5));
+  const k = S.ent(tau, T.sa - 0.35, 0.3);
+  S.css('#sp', { opacity: k, transform: `translateY(${(14 * (1 - k)).toFixed(1)}px)` });
+  S.css('#spf', { width: (452 * (lv * (1 - 0.92 * back) )).toFixed(1) + 'px', background: back > 0.5 ? '#7A828A' : '#7FA8F5' });
 });
 </script>
 </body></html>

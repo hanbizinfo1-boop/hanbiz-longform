@@ -14,11 +14,14 @@
     <div class="grid"></div>
     <svg id="art" class="abs" viewBox="0 0 1920 1080">
       <path id="fT" class="ln" style="fill:rgba(31,95,209,.12);stroke:none" d="M440 230 L1480 230 L1284 500 L636 500 Z"/>
+      <clipPath id="cpB"><rect id="cpr" x="600" y="500" width="720" height="0"/></clipPath>
+      <path id="fB" clip-path="url(#cpB)" style="fill:rgba(122,130,138,.16);stroke:none" d="M636 500 L1284 500 L1190 630 L1190 890 L730 890 L730 630 Z"/>
       <path id="f1" class="ln w4" d="M440 230 L1480 230 L1190 630 L1190 890 L730 890 L730 630 Z"/>
       <path id="fTb" class="ln bl w6" d="M440 230 L1480 230 L1284 500 L636 500 Z"/>
       <path id="bd" class="ln w6" style="stroke-dasharray:18 14" d="M640 500 L1280 500"/>
       <path id="br" class="ln bl w6" d="M390 250 C 350 250, 350 250, 350 290 L350 440 C 350 480, 330 490, 300 490 C 330 490, 350 500, 350 540 L350 690"/>
       <g id="st" class="ln w4" style="opacity:0"><path d="M900 40 L960 10 L1020 40 V110 H900 Z M940 110 V70 H980 V110"/></g>
+      <g id="st2" class="ln w4" style="opacity:0"><path d="M900 40 L960 10 L1020 40 V110 H900 Z M940 110 V70 H980 V110"/></g>
       <path id="eye" class="ln bl w4" d="M860 340 C 910 280, 1010 280, 1060 340 C 1010 400, 910 400, 860 340 Z"/>
       <circle id="eyc" class="ln bl w4" cx="960" cy="340" r="22"/>
       <path id="hand" class="ln w4" d="M900 690 V610 M930 690 V586 M960 690 V580 M990 690 V596 M1020 690 V640 C 1040 640, 1050 660, 1040 690 C 1030 740, 1000 760, 960 760 C 920 760, 900 740, 900 690"/>
@@ -34,7 +37,7 @@
 <script>
 window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];   // 모눈 · 선 · 파랑(광고가 하는 일 = 보여 줌)
 const T0 = 0.02;
-const T = { top: S.at('딱'), store: S.at('우리가게'), eye: S.at('눈앞에'), show: S.at('보여'), bd: S.at('것까지가'), br: S.at('광고가', 1), dec: S.at('이후는'), lb: S.at('이후는') + 0.3, hand: S.at('결정하는') };
+const T = { top: S.at('딱'), store: S.at('우리가게'), eye: S.at('눈앞에'), show: S.at('보여'), bd: S.at('것까지가'), br: S.at('광고가', 1), dec: S.at('이후는'), lb: S.at('이후는') + 0.3, hand: S.at('결정하는'), see: S.at('거죠'), deep: S.at('하는', 1), after: S.at('이후는') - 0.3 };
 S.ev(T0, 'in', 'funnel'); S.ev(T.store, 'card_in', 'store'); S.ev(T.eye, 'marker', 'eye'); S.ev(T.show, 'shine', 'show'); S.ev(T.bd, 'click', 'border'); S.ev(T.br, 'marker', 'bracket'); S.ev(T.dec, 'card_in', 'dec'); S.ev(T.hand, 'ok', 'hand');
 S.scene(tau => {
   S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
@@ -51,6 +54,12 @@ S.scene(tau => {
   E.stroke('#br', tau, T.br, 0.5); E.pop('#lbA', tau, T.br + 0.3, { base: 'translate(-50%,-50%)', dy: 0 });
   E.wipe('#lbB', tau, T.lb, 0.4);
   E.stroke('#hand', tau, T.hand, 0.55);
+  // 거죠: 눈 오른쪽에 우리 가게(작은 선화)가 눈앞에 자라 나타남(0.4초) — 보여 주는 대상
+  const vk = S.EO(S.P(tau, T.see, T.see + 0.4));
+  S.css('#st2', { opacity: vk.toFixed(3), transform: `translate(1180px,335px) scale(${(0.8 * (0.45 + 0.55 * vk)).toFixed(3)}) translate(-960px,-75px)` });
+  // 광고가 하는 일(6.48): 위 칸 파랑 채움이 진해짐 · 그 이후는(7.3): 아래 칸이 위→아래로 옅은 회색으로 채워짐
+  S.css('#fT', { opacity: S.ent(tau, T.show, 0.15), fill: `rgba(31,95,209,${(0.12 + 0.16 * S.ent(tau, T.deep, 0.4)).toFixed(3)})` });
+  document.getElementById('cpr').setAttribute('height', (390 * S.EO(S.P(tau, T.after, T.after + 0.55))).toFixed(1));
 });
 </script>
 </body></html>

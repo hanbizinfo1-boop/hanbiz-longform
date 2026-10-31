@@ -48,17 +48,21 @@ for (let r = 0; r < 5; r++) for (let c = 0; c < 4; c++) {
   g.appendChild(d);
 }
 for (let c = 0; c < 4; c++) { const d = document.createElement('div'); d.className = 'ic'; d.style.left = (10 + c * 100) + 'px'; d.style.top = '785px'; d.style.background = COL[(c + 2) % COL.length]; d.innerHTML = '<svg width="52" height="52" viewBox="0 0 52 52">' + GL[(c * 2 + 1) % GL.length] + '</svg>'; g.appendChild(d); }
-const T = { aps: S.at('앱으로'), ga: S.at('가게를'), gi: S.at('기억하기보단'), dal: S.at('배달앱을'), go: S.at('배고프면'), name: S.at('이름보다'), bu: S.at('배달앱부터'), ky: S.at('켜잖아요') };
+const T = { mem: S.at('기억합니다'), aps: S.at('앱으로'), ga: S.at('가게를'), gi: S.at('기억하기보단'), dal: S.at('배달앱을'), go: S.at('배고프면'), name: S.at('이름보다'), bu: S.at('배달앱부터'), ky: S.at('켜잖아요') };
 S.ev(T.aps, 'click', 'dv'); S.ev(T.ga, 'in', 'shop'); S.ev(T.dal, 'shine', 'dv'); S.ev(T.go, 'sweep', 'dim'); S.ev(T.bu, 'click', 'tap'); S.ev(T.ky, 'sweep', 'open');
 S.scene(tau => {
   // 아주 느린 당기기 — 화면 글이 읽히는 크기(1.75)에서 1.55 로
-  S.css('#wrap', { transform: S.camCss({ s: S.lerp(1.78, 1.56, S.EIO(S.P(tau, 0, S.SC.dur))), x: 1014, y: 451 }), transformOrigin: '0 0' });
+  // 배달앱부터(5.69): 아이콘 쪽으로 한 번 더 밀고 들어감
+  const pu = S.cam(tau, T.bu, T.bu + 0.7);
+  S.css('#wrap', { transform: S.camCss({ s: S.lerp(1.78, 1.56, S.EIO(S.P(tau, 0, S.SC.dur))) + 0.3 * pu, x: S.lerp(1014, 1006, pu), y: S.lerp(451, 560, pu) }), transformOrigin: '0 0' });
+  // 기억합니다(3.49): 다른 아이콘은 옅어지고 배달앱만 또렷
+  S.css('#grid', { opacity: 1 - 0.55 * S.EO(S.P(tau, T.mem, T.mem + 0.4)) });
   // 배달앱 아이콘 — «앱으로 시킨»에 파랑 테두리 숨, «배달앱을 기억»에 크게
   const a = S.EO(S.P(tau, T.aps, T.aps + 0.35)), d = S.EO(S.P(tau, T.dal, T.dal + 0.4));
   S.css('#dv', { boxShadow: `0 0 0 ${(6 * a).toFixed(1)}px rgba(127,168,245,${(0.9 * a).toFixed(2)})`, transform: `scale(${(1 + 0.12 * d).toFixed(3)})` });
   // 가게 아이콘은 «가게를»에 나타났다가 «기억하기보단»에 흐려지고 «가게 이름보다»에 더 흐려짐(선 표시 없음)
   const s1 = S.ent(tau, T.ga, 0.12), fd = S.EO(S.P(tau, T.gi, T.gi + 0.4)), fd2 = S.EO(S.P(tau, T.name, T.name + 0.4));
-  S.css('#shop', { opacity: s1 * (1 - 0.6 * fd) * (1 - 0.5 * fd2) }); S.css('#shoplb', { opacity: s1 * (1 - 0.6 * fd) * (1 - 0.5 * fd2) });
+  S.css('#shop', { opacity: s1 * (1 - 0.6 * fd) * (1 - 0.5 * fd2), transform: `translateY(${(36 * fd2).toFixed(1)}px) scale(${(1 - 0.3 * fd2).toFixed(3)})` }); S.css('#shoplb', { opacity: s1 * (1 - 0.6 * fd) * (1 - 0.5 * fd2), transform: `translateY(${(36 * fd2).toFixed(1)}px)` });
   S.css('#dim', { opacity: S.EO(S.P(tau, T.go, T.go + 0.4)) * (1 - S.P(tau, T.ky, T.ky + 0.2)) });
   // 엄지가 눌림: 고리가 줄어들며 아이콘이 눌림
   const tp = S.P(tau, T.bu, T.bu + 0.45);

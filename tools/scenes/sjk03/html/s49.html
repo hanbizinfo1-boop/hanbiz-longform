@@ -11,6 +11,7 @@
 #list{position:absolute;left:0;top:0;width:1120px}
 .rv{position:absolute;left:36px;width:1048px;height:92px;border-radius:12px;background:#1E2328;border:1px solid #2A3038;display:flex;align-items:center;gap:26px;padding:0 28px;font-size:40px;font-weight:700;color:#ECEEF0;white-space:nowrap}
 .rv svg{flex:none}
+.rv .an{position:absolute;right:28px;top:40px;width:0;height:12px;border-radius:6px;background:#4F86F0}
 .rv .bar2{position:absolute;left:0;top:0;width:10px;height:100%;border-radius:12px 0 0 12px;background:#1F5FD1;opacity:0}
 #vB{position:absolute;left:0;top:64px;width:1120px;height:736px;opacity:0}
 .bub{position:absolute;border-radius:20px;font-family:"Pre";opacity:0}
@@ -22,6 +23,8 @@
 .ar{display:flex;align-items:center;gap:24px;font-size:48px;font-weight:800;color:#fff;height:70px;opacity:0;white-space:nowrap}
 .ar i{display:block;width:22px;height:22px;border-radius:50%;background:#4F86F0;flex:none}
 #dots{position:absolute;left:84px;top:410px;opacity:0}
+#tri{position:absolute;left:34px;top:430px;display:flex;gap:18px}
+#tri i{display:block;width:30px;height:30px;border-radius:50%;border:4px solid #4F86F0;opacity:0}
 #dots b{display:inline-block;width:22px;height:22px;border-radius:50%;background:#7FA8F5;margin-right:14px}
 #fxl{position:absolute;left:0;top:0;width:1920px;height:1080px}
 </style></head>
@@ -46,6 +49,7 @@
           <div id="chunk" class="cl" style="position:absolute;left:34px;top:26px"></div>
           <div id="div" style="position:absolute;left:34px;right:34px;height:2px;background:#343B44"></div>
           <div id="prompt" class="pm" style="position:absolute;left:34px"></div>
+          <div id="tri"><i></i><i></i><i></i></div>
           <div id="send"><svg width="40" height="40" viewBox="0 0 40 40"><path d="M20 32 L20 9 M9 19 L20 8 L31 19" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           <div id="ring"></div>
         </div>
@@ -70,20 +74,22 @@ RV.forEach((r, i) => {
   let st = '<svg width="170" height="30" viewBox="0 0 125 24">';
   for (let k = 0; k < 5; k++) st += `<g transform="translate(${k * 25},0)" fill="${k < r[1] ? '#F2B33A' : '#3A414A'}">${STAR}</g>`;
   st += '</svg>';
-  d.innerHTML = '<span class="bar2"></span>' + st + '<span>' + r[0] + '</span>';
+  d.innerHTML = '<span class="bar2"></span><span class="an"></span>' + st + '<span>' + r[0] + '</span>';
   list.appendChild(d);
 });
 const CH = ['맛이 없다', '양이 적다 · 포장이 엉망이다', '맛이 없다 · 양이 적다', '포장이 엉망이다', '양이 적다 · 맛이 없다'];
 const PR = '손님들이 자주 하는 불만 세 가지로 정리해 줘';
 S.$('#ubc').innerHTML = CH.join('<br>'); S.$('#ubp').textContent = PR;
-const T = { ai: S.at('AI한테라도'), gyeol: S.at('결정은'), data: S.at('데이터'), eotteo: S.at('어떻게'), paste: S.at('붙여'), son: S.at('손님들이'), jeong: S.at('정리해', 0), ireo: S.at('이렇게'), bar: S.at('바로'), jj: S.at('정리해', 1) };
+const T = { ai: S.at('AI한테라도'), gyeol: S.at('결정은'), data: S.at('데이터'), eotteo: S.at('어떻게'), paste: S.at('붙여'), son: S.at('손님들이'), jeong: S.at('정리해', 0), ireo: S.at('이렇게'), bar: S.at('바로'), jj: S.at('정리해', 1), an: S.at('분석은'), se: S.at('세'), ba: S.at('바로') };
 const PTR = [1.57, 2.7, 3.88, 5.0, 6.17, 7.2, 8.05, 9.0];     // 읽는 줄이 한 줄씩 내려감(분석)
 const TSWAP = 10.05, TTYPE0 = S.at('손님들이'), TTYPE1 = 12.9, TSEND = T.ireo, TRES = [14.1, 14.4, 14.7];
 S.ev(PTR[0], 'click', 'rv1'); S.ev(PTR[3], 'marker', 'rv4'); S.ev(T.paste, 'shine', 'sel'); S.ev(TSWAP, 'paper', 'chunk');
 S.ev(TTYPE0 + 0.1, 'type', 'prompt'); S.ev(TSEND, 'click', 'send'); S.ev(TRES[0], 'msg_in', 'r1'); S.ev(TRES[2], 'ok', 'r3');
 S.scene(tau => {
   // 카메라: 노트북 화면이 가운데로 — 천천히 밀기(1.45 → 1.9, 글이 읽히는 크기까지)
-  const c = { s: S.lerp(1.45, 1.92, S.EIO(S.P(tau, 0, 10.5))), x: 752, y: S.lerp(558, 600, S.EIO(S.P(tau, 10.5, 13))) };
+  // 바로 정리해 줍니다: 답 세 줄 쪽으로 카메라가 조금 더 가까이(0.9초)
+  const pz = S.cam(tau, T.ba, T.ba + 0.9);
+  const c = { s: S.lerp(1.45, 1.92, S.EIO(S.P(tau, 0, 10.5))) * (1 + 0.06 * pz), x: 752, y: S.lerp(558, 600, S.EIO(S.P(tau, 10.5, 13))) + 40 * pz };
   S.css('#wrap', { transformOrigin: '0 0', transform: S.camCss(c) });
   // A. 리뷰 목록
   const sc = 300 * S.P(tau, 0, 9.9);
@@ -96,6 +102,10 @@ S.scene(tau => {
     e.style.background = a ? (tau >= T.paste ? '#243553' : '#1E2D4A') : '#1E2328';
     e.querySelector('.bar2').style.opacity = a;
   });
+  // 데이터 분석은: 읽은 줄마다 오른쪽에 파랑 분석 막대가 자람(위→아래 0.12초 간격)
+  RV.forEach((r, i) => { const t0 = T.an + 0.12 * i; S.$('#rv' + i).querySelector('.an').style.width = (120 * S.EO(S.P(tau, t0, t0 + 0.3))).toFixed(1) + 'px'; });
+  // 세 가지로: 입력창 아래에 빈 동그라미 세 개가 차례로 나타남(보내면 걷힘)
+  document.querySelectorAll('#tri i').forEach((e, i) => { e.style.opacity = (tau >= TSEND ? 0 : S.ent(tau, T.se + 0.14 * i, 0.12)).toFixed(3); });
   const swap = tau >= TSWAP;
   S.css('#vA', { opacity: swap ? 1 - S.P(tau, TSWAP, TSWAP + 0.12) : 1, visibility: tau >= TSWAP + 0.12 ? 'hidden' : 'visible' });
   S.css('#vB', { opacity: S.ent(tau, TSWAP, 0.12) });

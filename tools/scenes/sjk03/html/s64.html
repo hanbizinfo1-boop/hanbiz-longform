@@ -38,7 +38,7 @@
 <script src="../lib/e4.js"></script>
 <script>
 window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1', '#D63A3A'];   // 모눈 · 선 · 파랑(막국수 서비스·단골 쪽이 이김) · 빨강(수수료·광고비 — 연출표 뜻 색)
-const T = { pl: S.at('배달앱'), b1: S.at('수수료나'), b2: S.at('광고비'), sub: S.at('한 명당'), pr: S.at('이 비용이'), r1: S.at('막국수', 0), heavy: S.at('비싸면'), srv: S.at('서비스로'), win: S.at('몇 배'), eff: S.at('효율'), ok: S.at('확정입니다') };
+const T = { q: S.at('어떠세요'), sv: S.at('서비스로'), mk: S.at('마케팅이'), pl: S.at('배달앱'), b1: S.at('수수료나'), b2: S.at('광고비'), sub: S.at('한 명당'), pr: S.at('이 비용이'), r1: S.at('막국수', 0), heavy: S.at('비싸면'), srv: S.at('서비스로'), win: S.at('몇 배'), eff: S.at('효율'), ok: S.at('확정입니다') };
 const T0 = 0.02;
 S.ev(T0, 'marker', 'scale'); S.ev(T.pl, 'in', 'pl'); S.ev(T.b1, 'coin', 'L1'); S.ev(T.b2, 'gauge', 'L2'); S.ev(T.pr, 'card_in', 'pr'); S.ev(T.r1, 'in', 'R1');
 S.ev(T.win, 'shine', 'R2'); S.ev(T.ok, 'marker', 'efl');
@@ -47,7 +47,12 @@ const C = (t, a, b) => S.cam(t, a, b);
 function pose(tau) { return 5 * C(tau, T.b1, T.b1 + 0.45) + 4 * C(tau, T.b2, T.b2 + 0.45) - 1 * C(tau, T.r1, T.r1 + 0.4) + 4 * C(tau, T.heavy, T.heavy + 0.45) - 24 * C(tau, T.win, T.win + 0.7); }
 function blk(id, tau, t0, dy = -110) { const el = $(id), k = S.ent(tau, t0, 0.14); el.style.opacity = k; el.style.transform = `translate(0px,${(dy * (1 - k)).toFixed(2)}px)`; }
 S.scene(tau => {
-  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  // 카메라: 수수료나 → 빨강 접시 쪽 · 어떠세요 → 가운데 · 막국수를 서비스로 → 오른쪽 접시 쪽 · 몇 배 → 가운데로 빠짐 / 마케팅이: 이기는 쪽만 진하게(빨강 쪽 옅어짐)
+  const c1 = C(tau, T.b1, T.b1 + 0.7), c2 = C(tau, T.q, T.q + 0.7), c3 = C(tau, T.sv, T.sv + 0.7), c4 = C(tau, T.win, T.win + 0.7);
+  const cz = 1 + 0.045 * (c1 - c2 + c3 - c4), cx = 15 * (c1 - c2) - 15 * (c3 - c4);
+  S.css('#cam', { transform: `translateX(${cx.toFixed(2)}px) scale(${(E.drift(tau) * cz).toFixed(4)})` });
+  const dm = 1 - 0.6 * S.EO(S.P(tau, T.mk, T.mk + 0.4));
+  ['#L1', '#L2', '#Lsub'].forEach(id => S.css(id, { filter: `opacity(${dm.toFixed(3)})` }));
   const th = pose(tau), r = th * Math.PI / 180, dx = 550 * Math.cos(r), dy = 550 * Math.sin(r);
   const L = [960 - dx, 290 + dy], R = [960 + dx, 290 - dy];
   $('beam').setAttribute('d', `M${L[0].toFixed(1)} ${L[1].toFixed(1)} L${R[0].toFixed(1)} ${R[1].toFixed(1)}`);

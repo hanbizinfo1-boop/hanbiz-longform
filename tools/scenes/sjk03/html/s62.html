@@ -46,13 +46,20 @@
 <script src="../lib/e4.js"></script>
 <script>
 window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1', '#D63A3A'];   // 빨강 = 앱 수수료로 나갈 돈(탑의 조각 · 장면 13)
-const T = { mak: S.at('막국수'), won: S.at('원가'), sol: S.at('솔직히'), bi: S.at('비싸지'), geun: S.at('근데'), son: S.at('손님은'), wonga: S.at('원가가'), ani: S.at('아니라'), menu: S.at('메뉴'), gi: S.at('기억합니다'),
+const T = { srv: S.at('서비스를'), toc: S.at('손님에게'), mak: S.at('막국수'), won: S.at('원가'), sol: S.at('솔직히'), bi: S.at('비싸지'), geun: S.at('근데'), son: S.at('손님은'), wonga: S.at('원가가'), ani: S.at('아니라'), menu: S.at('메뉴'), gi: S.at('기억합니다'),
   eo: S.at('어차피'), app: S.at('앱'), geunyang: S.at('그냥'), sonnim: S.at('손님에게'), deu: S.at('드리는'), geo: S.at('거죠') };
 const T0 = 0.02;
 S.ev(T0, 'in', 'bowl'); S.ev(T.won, 'card_in', 'tgC'); S.ev(T.bi, 'gauge', 'gf'); S.ev(T.geun, 'in', 'cust'); S.ev(T.wonga, 'card_in', 'tgM'); S.ev(T.ani, 'no', 'xx'); S.ev(T.menu, 'shine', 'tgB'); S.ev(T.gi, 'marker', 'ring');
 S.ev(T.eo, 'card_in', 'pc'); S.ev(T.app, 'marker', 'lbF'); S.ev(T.geunyang, 'sweep', 'pc'); S.ev(T.deu, 'coin', 'pc'); S.ev(T.geo, 'ok', 'bring');
 S.scene(tau => {
-  S.css('#cam', { transform: `scale(${(1.1 * E.drift(tau)).toFixed(4)})` });
+  // 손님은(3.15): 카메라가 손님 쪽으로 옮겨 감 → 어차피(6.52): 그릇 쪽으로 되돌아옴
+  const pn = S.cam(tau, T.son, T.son + 0.7) - S.cam(tau, T.eo, T.eo + 0.7);
+  S.css('#cam', { transform: `translateX(${(-80 * pn).toFixed(2)}px) scale(${(1.1 * E.drift(tau)).toFixed(4)})` });
+  // 메뉴 가격(4.56): 작은 원가 꼬리표·눈금은 옅어짐 · 서비스를 기억(5.42): 손님 어깨가 파랑으로 · 손님에게(8.55): 그릇→손님 화살표가 파랑으로
+  const dm = 1 - 0.55 * S.EO(S.P(tau, T.menu, T.menu + 0.4));
+  ['#tgC', '#gg', '#gf', '#str'].forEach(id => S.css(id, { filter: `opacity(${dm.toFixed(3)})` }));
+  S.css('#sh', { fill: `rgba(220,230,248,${S.EO(S.P(tau, T.srv, T.srv + 0.4)).toFixed(3)})` });
+  { const ak = S.EO(S.P(tau, T.toc, T.toc + 0.3)), ac = `rgb(${[32, 38, 45].map((v, i) => Math.round(v + ([31, 95, 209][i] - v) * ak))})`; S.css('#ar', { stroke: ac }); S.css('#ah', { stroke: ac }); }
   ['#b1', '#b2', '#b3', '#b4'].forEach((p, i) => E.stroke(p, tau, T0 + i * 0.1, 0.4));
   E.pop('#lbN', tau, T.mak, { dy: 8 });
   // 작은 원가 꼬리표 + 끈 + 낮은 눈금

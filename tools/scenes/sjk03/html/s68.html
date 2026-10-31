@@ -8,6 +8,9 @@
 #fP{background:radial-gradient(ellipse 430px 330px at 377px 639px,rgba(0,0,0,0) 40%,rgba(0,0,0,.38) 100%)}
 #fG{background:radial-gradient(ellipse 240px 260px at 1418px 525px,rgba(0,0,0,0) 40%,rgba(0,0,0,.38) 100%)}
 #fW{background:radial-gradient(ellipse 250px 420px at 1575px 420px,rgba(0,0,0,0) 40%,rgba(0,0,0,.38) 100%)}
+#dp{left:1260px;top:640px;width:560px;height:230px;padding:0;opacity:0}
+.cl{position:absolute;top:34px;width:240px;height:162px;border:4px dashed #5A636D;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:52px;color:#fff;box-sizing:border-box}
+#cn{position:absolute;left:0;top:0;width:40px;height:40px;border-radius:50%;background:#FF6B6B;opacity:0}
 </style></head>
 <body><div id="stage">
   <div id="wrap" class="abs">
@@ -16,6 +19,7 @@
     <div id="fG" class="abs fv"></div>
     <div id="fW" class="abs fv"></div>
   </div>
+  <div id="dp" class="dpan abs" data-box="dp"><div id="c1" class="cl" style="left:30px;background:rgba(214,58,58,.92);border:0">수수료</div><div id="c2" class="cl" style="left:290px">단골</div><div id="cn"></div></div>
 </div>
 <script src="../data/s68.js"></script>
 <script src="../lib/sjk.js"></script>
@@ -25,13 +29,19 @@ window.PALETTE = ['#20262D', '#1F5FD1', '#D63A3A'];
 S.$('#ph').style.backgroundImage = S.ph('p68_counter_hall');
 const T = { bae: S.at('배달앱에'), su: S.at('수수료', 0), ma: S.at('마시고'), iy: S.at('수수료를', 1), dan: S.at('단골을'), man: S.at('만드셔야'), sal: S.at('살아남는'), ga: S.at('가게가') };
 const T3 = S.at('이용해서');
-S.ev(T.su + 0.4, 'coin', 'fee'); S.ev(T.dan, 'sweep', 'pan1'); S.ev(T.sal, 'sweep', 'pan2');
+const TJ = S.at('지출로');
+S.ev(T.su + 0.4, 'coin', 'fee'); S.ev(TJ, 'card_in', 'dp'); S.ev(T.dan, 'sweep', 'pan1'); S.ev(T.sal, 'sweep', 'pan2');
 S.scene(tau => {
   // 강조 = 대상 쪽으로 천천히 밀기·옆으로 미끄러짐 + 대상 밖 어둡게(POS → 포장 봉투 → 손님 휴대폰) — 선·✕·화살표 없음
   const k1 = S.cam(tau, T.dan, T.dan + 0.7), k2 = S.cam(tau, T.sal, T.sal + 0.7);
   const fx = 377 + (1418 - 377) * k1 + (1575 - 1418) * k2;
   const sc = 1.06 + 0.03 * S.cam(tau, T.bae, T.bae + 0.7) + 0.03 * k1 + 0.03 * k2;
   S.css('#wrap', { transform: `translateX(${(-(fx - 960) * 0.1).toFixed(2)}px) scale(${sc.toFixed(4)})` });
+  // 판: 수수료 칸(지출) → 이용해서: 빨강 점이 단골 칸으로 옮겨 감 → 단골을: 단골 칸이 파랑으로 참
+  E.pop('#dp', tau, TJ, { dy: 12 });
+  const mv = S.EO(S.P(tau, T3, T3 + 0.55)), fl = S.ent(tau, T.dan, 0.35);
+  S.css('#cn', { opacity: tau >= T3 && mv < 1 ? 1 : 0, transform: `translate(${(130 + 260 * mv).toFixed(1)}px,${(95).toFixed(1)}px)` });
+  S.css('#c2', { background: `rgba(31,95,209,${fl.toFixed(3)})`, borderColor: fl > 0.5 ? '#7FA8F5' : '#5A636D', borderStyle: fl > 0.5 ? 'solid' : 'dashed' });
   const on = (a, b) => S.EO(S.P(tau, a, a + 0.3)) * (b == null ? 1 : 1 - S.EO(S.P(tau, b, b + 0.3)));
   S.css('#fP', { opacity: on(T.bae, T.dan).toFixed(3) });
   S.css('#fG', { opacity: on(T.dan, T.sal).toFixed(3) });

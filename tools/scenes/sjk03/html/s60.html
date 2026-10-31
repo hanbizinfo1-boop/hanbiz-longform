@@ -10,6 +10,8 @@
 #fB{background:radial-gradient(ellipse 320px 340px at 1595px 551px,rgba(0,0,0,0) 40%,rgba(0,0,0,.38) 100%)}
 #stk{left:1500px;top:760px;width:250px;height:120px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:62px;white-space:nowrap;color:#2C2118;transform:rotate(-4deg);opacity:0}
 .rg{fill:none;stroke:#4F86F0;stroke-width:8;opacity:0}
+#dp{left:60px;top:110px;width:580px;height:240px;padding:0;opacity:0}
+.cl{position:absolute;top:30px;width:240px;height:180px;border:4px dashed #5A636D;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:52px;color:#fff}
 </style></head>
 <body><div id="stage">
   <div id="wrap" class="abs">
@@ -19,6 +21,7 @@
     <div id="fB" class="abs fv"></div>
     <div id="stk" class="kraft hand">○○ 족발</div>
   </div>
+  <div id="dp" class="dpan abs" data-box="dp"><div id="c1" class="cl" style="left:30px">주문</div><div id="c2" class="cl" style="left:310px">서비스</div></div>
 </div>
 <script src="../data/s60.js"></script>
 <script src="../lib/sjk.js"></script>
@@ -26,8 +29,8 @@
 <script>
 window.PALETTE = ['#20262D', '#1F5FD1', '#C9A57A'];
 S.$('#ph').style.backgroundImage = S.ph('p60_jokbal_pack');
-const T = { jok: S.at('족발집을'), jip: S.at('족발집에'), po: S.at('포장하러'), dae: S.at('대부분'), pojang: S.at('포장해서'), geun: S.at('근데'), man: S.at('만약') };
-S.ev(0.3, 'card_in', 'stk'); S.ev(T.jip, 'sweep', 'push1'); S.ev(T.geun, 'sweep', 'push2');
+const T = { gn: S.at('그냥'), si: S.at('시킨'), jok: S.at('족발집을'), jip: S.at('족발집에'), po: S.at('포장하러'), dae: S.at('대부분'), pojang: S.at('포장해서'), geun: S.at('근데'), man: S.at('만약') };
+S.ev(0.3, 'card_in', 'stk'); S.ev(T.jip, 'sweep', 'push1'); S.ev(T.geun, 'sweep', 'push2'); S.ev(T.gn, 'card_in', 'dp');
 S.scene(tau => {
   // 강조 = 천천히 밀기 두 번(족발집에 · 근데) + 대상 밖 어둡게(포장 통 → 손 → 봉투) — 선·화살표 없음
   const p1 = S.cam(tau, T.jip, T.jip + 0.7), p2 = S.cam(tau, T.geun, T.geun + 0.7);
@@ -36,6 +39,11 @@ S.scene(tau => {
   S.css('#fT', { opacity: on(T.jip, T.dae).toFixed(3) });
   S.css('#fH', { opacity: on(T.dae, T.pojang).toFixed(3) });
   S.css('#fB', { opacity: on(T.geun).toFixed(3) });
+  // 판: 그냥 시킨 것만 → «주문» 칸만 파랑 · 근데 만약 → «서비스» 빈 칸이 생기고 파랑으로 채워짐
+  E.pop('#dp', tau, T.gn, { dy: 12 });
+  const f1 = S.ent(tau, T.si, 0.3), s0 = S.ent(tau, T.geun + 0.05, 0.2), f2 = S.ent(tau, T.man, 0.3);
+  S.css('#c1', { background: `rgba(31,95,209,${f1.toFixed(3)})`, borderColor: f1 > 0.5 ? '#7FA8F5' : '#5A636D', borderStyle: f1 > 0.5 ? 'solid' : 'dashed' });
+  S.css('#c2', { opacity: 0.4 + 0.6 * s0, background: `rgba(31,95,209,${f2.toFixed(3)})`, borderColor: f2 > 0.5 ? '#7FA8F5' : '#5A636D', borderStyle: f2 > 0.5 ? 'solid' : 'dashed' });
   const a = S.ent(tau, T.jok, 0.12);
   S.css('#stk', { opacity: a, transform: `rotate(-4deg) translateY(${(14 * (1 - a)).toFixed(1)}px) scale(${(0.94 + 0.06 * a).toFixed(3)})` });
 });

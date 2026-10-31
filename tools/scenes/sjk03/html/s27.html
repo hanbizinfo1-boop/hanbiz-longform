@@ -9,6 +9,7 @@
 .pan.rdp{border-color:#D63A3A;color:#D63A3A;background:#F7DEDE}
 .pan.blp{border-color:#1F5FD1;color:#1F5FD1;background:#DCE6F8}
 .pan.gy{border:4px dashed #A9B0B6;color:#7A828A;background:#F4F5F2}
+#wt0,#wt1,#wt2{position:absolute;width:56px;height:56px;border-radius:8px;background:#1F5FD1;opacity:0}
 #later{left:1472px;top:300px;font-size:44px;color:#7A828A;transform:translate(-50%,-50%)}
 </style></head>
 <body><div id="stage">
@@ -26,6 +27,7 @@
     <div id="pL" class="abs pan rdp" data-box="pL"></div>
     <div id="pR" class="abs pan blp" data-box="pR"></div>
     <svg id="art2" class="abs" style="left:0;top:0;width:1920px;height:1080px;pointer-events:none" viewBox="0 0 1920 1080"><path id="x1" class="ln rd w6" d="M0 0 L100 100"/><path id="x2" class="ln rd w6" d="M0 0 L100 100"/></svg>
+    <div id="wt0"></div><div id="wt1"></div><div id="wt2"></div>
     <div id="later" class="abs t" data-box="later">나중에</div>
   </div>
 </div>
@@ -66,6 +68,12 @@ S.scene(tau => {
   };
   pan('pL', Lx, Ly, T.left, 'sl1', 'sl2');
   pan('pR', Rx, Ry, T.right, 'sr1', 'sr2');
+  // 잘될 방법 접시에 파랑 추 셋이 차례로 내려앉음(저울이 기우는 이유) → «아무것도» 에서 추가 사라짐
+  const wk = S.ent(tau, T.right, 0.12), wgo = S.P(tau, T.nothing, T.nothing + 0.35);
+  [0, 1, 2].forEach(i => {
+    const ti = T.right + 0.14 + 0.18 * i, dr = S.EO(S.P(tau, ti, ti + 0.28));
+    S.css('#wt' + i, { left: (Rx - 108 + i * 72).toFixed(1) + 'px', top: (Ry + 200 - 4 - 56 - 60 * (1 - dr) + 14 * (1 - wk)).toFixed(1) + 'px', opacity: (S.ent(tau, ti, 0.1) * (1 - wgo)).toFixed(3), transform: `scale(${(1 - 0.3 * wgo).toFixed(3)})` });
+  });
   // 아무것도 안 하고 → 오른쪽 접시가 회색 점선으로
   const g = tau >= T.nothing;
   const pr = document.getElementById('pR');

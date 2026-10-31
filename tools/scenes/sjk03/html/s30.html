@@ -7,6 +7,7 @@
 #bgp{left:0;top:0;width:1920px;height:1080px;background-size:cover;background-position:center;filter:blur(28px) brightness(.38) saturate(.9);transform:scale(1.08)}
 .slot{position:absolute;width:830px;height:380px;border-radius:10px;background:rgba(255,244,230,.07);opacity:0}
 .cell{position:absolute;width:830px;height:380px;overflow:hidden;border-radius:10px;opacity:0;background:#1E1710}
+.lbl{left:24px;top:24px;font-size:44px;padding:8px 22px 12px;opacity:0}
 .cin{position:absolute;left:0;top:0;width:830px;height:553px;background-size:830px 553px;background-repeat:no-repeat}
 </style></head>
 <body><div id="stage">
@@ -14,10 +15,10 @@
     <div id="bgp" class="abs"></div>
     <div class="slot" id="sl1" style="left:120px;top:70px"></div><div class="slot" id="sl2" style="left:970px;top:70px"></div>
     <div class="slot" id="sl3" style="left:120px;top:480px"></div><div class="slot" id="sl4" style="left:970px;top:480px"></div>
-    <div class="cell" id="c1" data-box="c1" style="left:120px;top:70px"><div class="cin" id="i1"></div></div>
-    <div class="cell" id="c2" data-box="c2" style="left:970px;top:70px"><div class="cin" id="i2"></div></div>
-    <div class="cell" id="c3" data-box="c3" style="left:120px;top:480px"><div class="cin" id="i3"></div></div>
-    <div class="cell" id="c4" data-box="c4" style="left:970px;top:480px"><div class="cin" id="i4"></div></div>
+    <div class="cell" id="c1" data-box="c1" data-box-group="c1" style="left:120px;top:70px"><div class="cin" id="i1"></div><div class="dpan lbl" id="lb1" data-box="lb1" data-box-group="c1">레시피</div></div>
+    <div class="cell" id="c2" data-box="c2" data-box-group="c2" style="left:970px;top:70px"><div class="cin" id="i2"></div><div class="dpan lbl" id="lb2" data-box="lb2" data-box-group="c2">응대</div></div>
+    <div class="cell" id="c3" data-box="c3" data-box-group="c3" style="left:120px;top:480px"><div class="cin" id="i3"></div><div class="dpan lbl" id="lb3" data-box="lb3" data-box-group="c3">쿠폰북</div></div>
+    <div class="cell" id="c4" data-box="c4" data-box-group="c4" style="left:970px;top:480px"><div class="cin" id="i4"></div><div class="dpan lbl" id="lb4" data-box="lb4" data-box-group="c4">인테리어</div></div>
   </div>
 </div>
 <script src="../data/s30.js"></script>
@@ -44,6 +45,7 @@ S.scene(tau => {
     if (tau >= T.ire && tau < T.don) { const on = Math.min(3, Math.max(0, Math.floor((tau - T.ire) / 0.27 + 1e-6))); lit = (on === i) ? 1 : 0.62; }
     const dim = i === 0 ? 0 : 0.55 * S.EO(S.P(tau, T.yeon, T.yeon + 0.3));
     S.css('#c' + (i + 1), { opacity: k, transform: `scale(${(0.96 + 0.04 * k).toFixed(4)})`, filter: `brightness(${((1 - dim) * lit).toFixed(3)})` });
+    E.pop('#lb' + (i + 1), tau, T_IN[i] + 0.3, { dy: 10 });
     // 칸마다 살짝 밀기: 칸 안 사진이 자기 방향으로 천천히 옆 흐름 + 아주 조금 확대
     const p = S.P(tau, T_IN[i], S.SC.dur);
     const sc = 1.06 + (i === 0 ? 0.04 * S.EO(S.P(tau, T.yeon, T.yeon + 1.2)) : 0);

@@ -14,6 +14,7 @@
 .cd .sr{position:absolute;left:18px;top:12px;height:30px}
 .cd .tx{position:absolute;left:18px;top:62px;font-size:36px;font-weight:700;color:#ECEEF0;white-space:nowrap}
 .cd .hl{background-image:linear-gradient(#1F5FD1,#1F5FD1);background-repeat:no-repeat;padding:2px 10px;margin:0 -10px;border-radius:8px}
+.cd .ac{position:absolute;left:0;top:13px;width:7px;height:0;border-radius:4px;background:#D63A3A}
 .cd .sk{position:absolute;left:18px;height:12px;border-radius:6px;background:#2E353E}
 #rp{position:absolute;left:700px;top:60px;width:300px;height:550px;border-left:1px solid #2A3038;background:#191D22}
 .hr{position:absolute;left:14px;height:34px}
@@ -39,7 +40,7 @@
 <script src="../lib/sjk.js"></script>
 <script src="../lib/e4.js"></script>
 <script>
-window.PALETTE = ['#16191D', '#ECEEF0', '#1F5FD1'];   // 어두운 앱 · 글·별 · 파랑(형광펜·켜짐·괄호)
+window.PALETTE = ['#16191D', '#ECEEF0', '#1F5FD1', '#D63A3A'];   // 어두운 앱 · 글·별 · 파랑(형광펜·켜짐·괄호)
 const R = {};
 R.ring = (sel, tau, t0, d = 0.5) => { const el = S.$(sel), k = S.P(tau, t0, t0 + d); el.style.opacity = (tau < t0 || k >= 1) ? 0 : (1 - k * k).toFixed(3); el.style.transform = `scale(${(0.55 + S.EO(k)).toFixed(3)})`; };
 const STAR = (on, sz) => `<svg viewBox="0 0 24 24" width="${sz}" height="${sz}" style="margin-right:2px"><polygon points="12,1.8 15.2,8.4 22.4,9.3 17.1,14.3 18.5,21.5 12,18 5.5,21.5 6.9,14.3 1.6,9.3 8.8,8.4" fill="${on ? '#ECEEF0' : 'none'}" stroke="${on ? '#ECEEF0' : '#59626C'}" stroke-width="1.6" stroke-linejoin="round"/></svg>`;
@@ -50,13 +51,13 @@ const DEF = [0, 3, 1, 4, 2, 5, 6];     // 눌리기 전 줄 순서(카드 번호
 const SRT = [2, 4, 6, 3, 5, 1, 0];     // «별점 낮은 순» 뒤: 1점 «양이 적다» 셋이 맨 위
 const ls = document.getElementById('ls');
 C.forEach(([n, t], i) => {
-  ls.insertAdjacentHTML('beforeend', `<div class="cd" id="cd${i}"><span class="sr">${stars(n, 30)}</span>` + (t ? `<span class="tx"><span class="hl" id="hl${i}">${t}</span></span>` : `<i class="sk" style="top:64px;width:360px"></i><i class="sk" style="top:90px;width:260px"></i>`) + `</div>`);
+  ls.insertAdjacentHTML('beforeend', `<div class="cd" id="cd${i}"><span class="sr">${stars(n, 30)}</span>` + (t ? `<span class="tx"><span class="hl" id="hl${i}">${t}</span></span><i class="ac"></i>` : `<i class="sk" style="top:64px;width:360px"></i><i class="sk" style="top:90px;width:260px"></i>`) + `</div>`);
 });
 // 오른쪽 분포(별 5→1개, 낮은 쪽이 길게)
 const rp = document.getElementById('rp');
 [5, 4, 3, 2, 1].forEach((n, k) => rp.insertAdjacentHTML('beforeend', `<div class="hr" style="top:${22 + 44 * k}px">${stars(n, 16).replace(/margin-right:2px/g, 'margin-right:0')}<i class="bb" id="hb${k}"></i></div>`));
 const HB = [30, 40, 70, 110, 150];
-const T = { mul: S.at('뭘'), ur: S.at('우리'), il: S.at('읽어'), by: S.at('별점', 0), nak: S.at('낮은'), gat: S.at('같은'), mal: S.at('말이'), gye: S.at('계속'), nao: S.at('나오면'), geu: S.at('그게'), yak: S.at('약점입니다') };
+const T = { mul: S.at('뭘'), ur: S.at('우리'), il: S.at('읽어'), by: S.at('별점', 0), nak: S.at('낮은'), gat: S.at('같은'), mal: S.at('말이'), gye: S.at('계속'), nao: S.at('나오면'), geu: S.at('그게'), yak: S.at('약점입니다'), rv: S.at('리뷰부터'), lo: S.at('별점', 0) };
 const PRESS = T.nak;                    // «별점 낮은 순» — 엄지가 눌림
 const HL = [T.mal, T.mal + 0.33, T.gye + 0.1];
 S.ev(0.25, 'in', 'list'); S.ev(1.1, 'gauge', 'hist'); S.ev(1.7, 'sweep', 'scroll1'); S.ev(T.ur, 'marker', 'title'); S.ev(3.3, 'sweep', 'scroll2'); S.ev(PRESS, 'click', 'sort'); S.ev(HL[0], 'marker', 'hl1'); S.ev(HL[2], 'click', 'hl3'); S.ev(T.geu, 'sweep', 'push');
@@ -67,7 +68,15 @@ S.scene(tau => {
   // 태블릿 클로즈업 프레이밍 1.25배 + 아주 느린 밀기
   const push = S.cam(tau, T.geu, T.geu + 0.7);
   const s = (1.25 + 0.05 * S.P(tau, 0, S.SC.dur)) * (1 + 0.08 * push);
-  S.css('#wrap', { transform: `translate(960px,540px) scale(${s.toFixed(4)}) translate(-1030px,-505px)` });
+  // 우리 가게 리뷰부터: 카메라가 카드 목록 쪽(왼쪽)으로 천천히 옮겨 감(0.7초)
+  const pn = S.cam(tau, T.rv, T.rv + 0.7);
+  S.css('#wrap', { transform: `translate(960px,540px) scale(${s.toFixed(4)}) translate(${(-1030 - 55 * pn).toFixed(2)}px,${(-505 + 10 * pn).toFixed(2)}px)` });
+  // 별점 낮은: 오른쪽 분포에서 별 1개 줄만 빨강으로 진하게, 나머지 줄은 옅게(0.4초)
+  const hk = S.ent(tau, T.nak, 0.4), mc = (a, b, k) => `rgb(${a.map((v, i) => Math.round(v + (b[i] - v) * k)).join(',')})`;
+  document.querySelectorAll('#rp .hr').forEach((r, k) => { r.style.opacity = (k === 4 ? 1 : 1 - 0.6 * hk).toFixed(3); });
+  S.css('#hb4', { background: mc([31, 95, 209], [214, 58, 58], hk) });
+  // 약점입니다: 맨 위 «양이 적다» 세 장 왼쪽에 빨강 띠가 차례로 자람
+  [2, 4, 6].forEach((id, j) => { document.querySelector('#cd' + id + ' .ac').style.height = (100 * S.ent(tau, T.yak + 0.15 * j, 0.3)).toFixed(1) + 'px'; });
   // 눌리기 전 → 눌린 뒤 줄 순서(0.4초 감속으로 자리 바꿈)
   const mv = S.EO(S.P(tau, PRESS + 0.1, PRESS + 0.5));
   C.forEach((c, i) => {

@@ -18,6 +18,7 @@
   <div id="cam" class="abs">
     <div class="grid"></div>
     <svg id="frame" class="abs" viewBox="0 0 1528 480" data-box="frame" data-box-group="bar"><path id="f1" class="ln w4" d="M8 8 L1520 8 L1520 472 L8 472 Z"/></svg>
+    <svg id="tks" class="abs" style="left:196px;top:838px;width:1528px;height:40px" viewBox="0 0 1528 40"><path id="tkb" class="ln mu w4" d="M8 8 L1520 8"/></svg>
     <div id="hq" class="abs t" data-box="hq">언제?</div>
     <div id="hn" class="abs t" data-box="hn">남는 시간</div>
     <div id="gseg" class="abs" data-box="gseg" data-box-group="bar"><div class="t">배달 단가<br>조정</div></div>
@@ -41,8 +42,9 @@
 <script src="../lib/e4.js"></script>
 <script>
 window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1'];   // 모눈 · 선 · 파랑(남는 시간)
-const T = { q: S.at('언제'), adj: S.at('배달 단가를'), free: S.at('남는'), c0: S.at('인테리어는'), c1: S.at('같은 업종에'), c2: S.at('리뷰는') };
+const T = { q: S.at('언제'), adj: S.at('배달 단가를'), free: S.at('남는'), c0: S.at('인테리어는'), c1: S.at('같은 업종에'), c2: S.at('리뷰는'), tk: S.at('개선시킨다?') - 0.2, dim: S.at('시간에'), pz: S.at('분위기') };
 const T0 = 0.02;
+for (let i = 0; i < 13; i++) { const p = document.createElementNS('http://www.w3.org/2000/svg', 'path'); p.setAttribute('id', 'tk' + i); p.setAttribute('class', 'ln mu w4'); p.setAttribute('d', `M${8 + 126 * i} 8 L${8 + 126 * i} 30`); document.getElementById('tks').appendChild(p); }
 S.ev(T0, 'marker', 'frame'); S.ev(T.q, 'card_in', 'q'); S.ev(T.adj, 'gauge', 'gseg'); S.ev(T.free, 'click', 'bseg');
 S.ev(T.c0, 'card_in', 'c0'); S.ev(T.c1, 'in', 'c1'); S.ev(T.c2, 'card_in', 'c2');
 function cell(id, tau, t0) {
@@ -51,7 +53,14 @@ function cell(id, tau, t0) {
   E.wipe('#' + id + ' .t', tau, t0 + 0.55, 0.5);
 }
 S.scene(tau => {
-  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  // 분위기 좋은 집…: 파랑 «남는 시간» 칸 쪽으로 카메라가 천천히 밀고 들어감(1초)
+  const pz = S.cam(tau, T.pz, T.pz + 1.0);
+  S.css('#cam', { transform: `translate(960px,540px) scale(${(E.drift(tau) * (1 + 0.05 * pz)).toFixed(4)}) translate(${(-960 + 0 * pz).toFixed(2)}px,${(-540 + 20 * pz).toFixed(2)}px)` });
+  // 개선시킨다?: 틀 아래에 하루 시간 눈금이 왼→오로 그려짐(글 없음)
+  for (let i = 0; i < 13; i++) { const el = document.getElementById('tk' + i); E.stroke(el, tau, T.tk + 0.04 * i, 0.25); }
+  E.stroke('#tkb', tau, T.tk, 0.5);
+  // 남는 시간에: 배달 단가 조정 칸은 옅게(남는 시간 칸만 진하게)
+  S.css('#gseg', { opacity: (1 - 0.55 * S.ent(tau, T.dim, 0.4)).toFixed(3) });
   E.stroke('#f1', tau, T0, 0.6);
   E.pop('#hq', tau, T.q, { dy: 10 });
   S.css('#hq', { opacity: S.ent(tau, T.q, 0.12) * (1 - S.P(tau, T.free - 0.05, T.free + 0.08)) });

@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="../lib/sjk.css">
 <style>
 #bg{left:0;top:0;width:1920px;height:1080px;background-size:cover;background-position:center;filter:blur(18px) brightness(.55);transform-origin:960px 540px}
-#pan{left:210px;top:130px;width:1500px;height:820px;border-radius:18px;transform-origin:50% 50%;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+#pan{left:210px;top:130px;width:1500px;height:820px;border-radius:18px;transform-origin:50% 100%;box-shadow:0 30px 80px rgba(0,0,0,.5)}
 #hd1{position:absolute;left:0;top:0;width:1500px;height:90px;background:#1B1F25;border-bottom:1px solid #2A3038;display:flex;align-items:center;padding:0 50px;gap:24px;font-size:44px;font-weight:800}
 #hd1 .dot{width:14px;height:14px;border-radius:50%;background:#1F5FD1}
 #vp{position:absolute;left:0;top:90px;width:1500px;height:730px;overflow:hidden}
@@ -24,6 +24,7 @@
       <div class="rl" id="la" style="top:98px">클릭</div><div class="tr" id="ta" style="top:90px"><div class="fl" id="fa"></div></div>
       <div class="rl" id="lb" style="top:298px">주문</div><div class="tr" id="tb" style="top:290px"><div class="fl" id="fb"></div></div>
       <div id="dash"></div>
+      <div id="rk0" class="pring" style="left:330px;top:138px"></div><div id="rk1" class="pring" style="left:770px;top:138px"></div><div id="rk2" class="pring" style="left:1045px;top:138px"></div><div id="rk3" class="pring" style="left:1298px;top:138px"></div>
       <div id="rg" class="pring" style="left:44px;top:268px;width:1400px;height:140px;border-radius:24px;margin:0;background:rgba(127,168,245,.12)"></div>
       <div class="rl" id="lc" style="top:498px">광고비</div><div class="tr" id="tc" style="top:490px"><div class="fl" id="fc"></div></div>
     </div></div>
@@ -41,14 +42,20 @@ const seg = (tau, a, b, from, to) => S.lerp(from, to, S.EO(S.P(tau, a, b)));
 S.scene(tau => {
   const pk = S.ent(tau, 0.02, 0.12);
   S.css('#bg', { transform: `scale(${(1.07 + 0.02 * S.P(tau, 0, S.SC.dur)).toFixed(4)})` });
-  S.css('#pan', { opacity: pk, transform: `perspective(2200px) rotateX(6deg) translateY(${(18 * (1 - pk)).toFixed(1)}px)` });
+  // 그렇게 되면: 판이 천천히 가까이 밀려 들어옴(0.6초) · 광고비만: 클릭·주문 줄은 옅어지고 광고비 줄만 진하게
+  const pz = S.cam(tau, T.geu, T.geu + 0.6);
+  S.css('#pan', { opacity: pk, transform: `perspective(2200px) rotateX(6deg) translateY(${(18 * (1 - pk)).toFixed(1)}px) scale(${(1 + 0.04 * pz).toFixed(4)})` });
+  const dm = 1 - 0.6 * S.ent(tau, T.gv, 0.4);
+  // 누를 때마다: 클릭 막대가 자라기 시작하는 자리에 눌림 고리(0.5초)
+  [1.82, 3.0, 4.5, 6.0].forEach((t0, i) => { const k = S.P(tau, t0, t0 + 0.5), el = S.$('#rk' + i); el.style.opacity = (tau < t0 || k >= 1) ? 0 : (1 - k * k).toFixed(3); el.style.transform = `scale(${(0.55 + S.EO(k)).toFixed(3)})`; });
   S.css('#sc', { transform: `translateY(${(-50 * S.cam(tau, 3.9, 4.4)).toFixed(1)}px)` });
   // 클릭 — 계속 오름
   const a = S.ent(tau, 0.25, 0.12); S.css('#la', { opacity: a }); S.css('#ta', { opacity: a });
   const wa = seg(tau, 1.82, 2.6, 0, 0.40) + seg(tau, 3.0, 3.8, 0, 0.25) + seg(tau, 4.5, 5.4, 0, 0.23) + seg(tau, 6.0, 6.9, 0, 0.12);
   S.css('#fa', { width: (1100 * wa).toFixed(1) + 'px' });
+  S.css('#la', { opacity: a * dm }); S.css('#ta', { opacity: a * dm });
   // 주문 — 그대로(작은 막대 하나)
-  const b = S.ent(tau, 0.45, 0.12); S.css('#lb', { opacity: b }); S.css('#tb', { opacity: b });
+  const b = S.ent(tau, 0.45, 0.12); S.css('#lb', { opacity: b * dm }); S.css('#tb', { opacity: b * dm });
   // 광고비 — 빨강, 계속 나감(숫자 없음)
   const c = S.ent(tau, 0.65, 0.12); S.css('#lc', { opacity: c }); S.css('#tc', { opacity: c });
   const wc = seg(tau, 2.84, 3.6, 0, 0.30) + seg(tau, 3.9, 4.6, 0, 0.20) + seg(tau, T.gv, T.gv + 0.8, 0, 0.28) + seg(tau, T.gye + 0.4, T.gum + 0.3, 0, 0.16);

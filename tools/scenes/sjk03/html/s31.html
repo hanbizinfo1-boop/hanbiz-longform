@@ -32,13 +32,14 @@ const SH = [rect(690, 130, 180, 110), rect(690, 264, 180, 110), rect(690, 398, 1
 SH.forEach((d, i) => mk('sh' + i, d, 'ln mu w4'));
 // 큰길 건너 남쪽 가게 줄(회색)
 for (let i = 0; i < 5; i++) mk('so' + i, rect(200 + i * 330, 770, 240, 80), 'ln mu w4');
+mk('cfill', rect(1130, 400, 440, 176), 'ln', 'stroke:none;fill:rgba(32,38,45,.10);opacity:0');
 // 큰길 모퉁이 가게(입지) — 크고 진한 선
 mk('corner', rect(1130, 400, 440, 176), 'ln w6'); mk('cdoor', 'M1300 576 V536 H1380 V576', 'ln w4');
 // 별 가게: 파랑 테두리(덧그림) + 별
 mk('blue', rect(1130, 130, 180, 110), 'ln bl w6'); mk('bfill', rect(1138, 138, 164, 94), 'ln', 'stroke:none;fill:rgba(31,95,209,.14)');
 mk('star', star(1220, 185, 38, 16), 'ln bl w4', 'fill:#1F5FD1;transform-box:fill-box;transform-origin:center');
 const T0 = 0.02;
-const T = { sh: S.at('특징이'), corner: S.at('진짜'), loc: S.at('입지가'), star: S.at('잘되기가'), ring: S.at('어렵습니다') };
+const T = { sh: S.at('특징이'), corner: S.at('진짜'), loc: S.at('입지가'), star: S.at('잘되기가'), ring: S.at('어렵습니다'), good: S.at('좋은'), vry: S.at('매우') };
 S.ev(T0, 'in', 'roads'); S.ev(T.sh + 0.3, 'marker', 'shops'); S.ev(T.corner, 'card_in', 'corner'); S.ev(T.loc, 'shine', 'loc'); S.ev(T.star, 'ok', 'star'); S.ev(T.ring, 'click', 'ring');
 S.scene(tau => {
   S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
@@ -55,6 +56,14 @@ S.scene(tau => {
   S.css('#bfill', { opacity: S.ent(tau, T.star + 0.1, 0.12) });
   const sk = S.ent(tau, T.star + 0.15, 0.12);
   S.css('#star', { opacity: sk, transform: `scale(${(0.4 + 0.6 * sk).toFixed(3)})` });
+  // 입지가: 큰길 두 줄이 잠깐 굵어짐 → 좋은: 모퉁이 가게 면이 진해짐 → 매우: 별 가게 말고 나머지 가게가 옅어짐(별 가게만 또렷)
+  const rp = S.ent(tau, T.loc, 0.3) * (1 - S.ent(tau, T.good, 0.3));
+  ['av1', 'av2'].forEach(id => { S.$('#' + id).style.strokeWidth = (4 + 3 * rp).toFixed(2); });
+  S.css('#cfill', { opacity: S.ent(tau, T.good, 0.35) * (tau >= T.corner ? 1 : 0) });
+  const dm = 1 - 0.6 * S.ent(tau, T.vry, 0.4);
+  SH.forEach((d, i) => { if (i !== 3 || true) S.$('#sh' + i).style.opacity = ((tau >= T.sh + i * 0.1 ? 1 : 0) * dm).toFixed(3); });
+  for (let i = 0; i < 5; i++) S.$('#so' + i).style.opacity = ((tau >= T.sh + 0.2 + i * 0.12 ? 1 : 0) * dm).toFixed(3);
+  S.$('#corner').style.opacity = ((tau >= T.corner ? 1 : 0) * dm).toFixed(3); S.$('#cdoor').style.opacity = ((tau >= T.corner + 0.35 ? 1 : 0) * dm).toFixed(3);
   S.$('#bfill').style.fill = `rgba(31,95,209,${(0.14 + 0.16 * S.ent(tau, T.ring, 0.4)).toFixed(3)})`;
 });
 </script>

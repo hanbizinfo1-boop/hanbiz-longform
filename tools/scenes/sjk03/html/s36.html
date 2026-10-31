@@ -16,7 +16,7 @@
       <!-- ① 시계 고리(s25 복사: 세 칸 다 찬 고리) -->
       <g id="clock"><g id="trk"></g><g id="fil"></g><g id="tick"></g></g>
       <!-- ② 가게 선화(s29 복사) -->
-      <g id="store" transform="translate(1010 250) scale(0.8)"></g>
+      <g id="store" transform="translate(1010 250) scale(0.8)"><path id="st_tint" d="M60 210 H840 V600 H60 Z" style="fill:#DCE6F8;stroke:none;opacity:0"/></g>
       <g id="ppl"></g>
       <path id="strike" class="ln w6 rd" style="stroke-width:10" d="M285 540 L715 540"/>
       <circle id="ringS" class="ln bl w4" cx="1666" cy="198" r="132"/>
@@ -58,10 +58,14 @@ const starEl = mk('store', { id: 'st_star', d: star(750, 62, 52, 22), class: 'ln
   mk('ppl', { id: 'pp' + i, d: `M${x - 22} ${gy - 78} a22 22 0 1 0 44 0 a22 22 0 1 0 -44 0 M${x} ${gy - 56} V${gy - 22} M${x - 20} ${gy - 44} H${x + 20} M${x} ${gy - 22} L${x - 14} ${gy} M${x} ${gy - 22} L${x + 14} ${gy}`, class: 'ln w4' });
 });
 const T0 = 0.02;
-const T = { st: S.at('그러니까'), str: S.at('3천'), dim: S.at('하는'), p0: S.at('손님들로'), p1: S.at('하여금'), p2: S.at('어떻게든'), grow: S.at('기억되게'), ring: S.at('된다는') };
+const T = { st: S.at('그러니까'), str: S.at('3천'), dim: S.at('하는'), p0: S.at('손님들로'), p1: S.at('하여금'), p2: S.at('어떻게든'), grow: S.at('기억되게'), shop: S.at('내 가게가'), ring: S.at('된다는') };
 S.ev(T0, 'in', 'clock'); S.ev(T.st, 'card_in', 'store'); S.ev(T.str, 'marker', 'strike'); S.ev(T.p0, 'in', 'ppl'); S.ev(T.grow, 'shine', 'star'); S.ev(T.ring, 'click', 'ring');
 S.scene(tau => {
-  S.css('#cam', { transform: `scale(${E.drift(tau, 1, 1.05).toFixed(4)})` });
+  // 기억되게: 별이 커질 때 카메라가 가게 쪽으로 천천히 밀고 들어감(0.8초)
+  const pk = S.cam(tau, T.grow, T.grow + 0.8), cx = S.lerp(960, 1000, pk), cy = S.lerp(540, 500, pk);
+  S.css('#cam', { transform: `translate(960px,540px) scale(${(E.drift(tau, 1, 1.05) * (1 + 0.04 * pk)).toFixed(4)}) translate(${-cx.toFixed(2)}px,${-cy.toFixed(2)}px)` });
+  // 내 가게가: 가게 벽이 옅은 파랑으로 채워짐(0.45초)
+  S.css('#st_tint', { opacity: S.ent(tau, T.shop, 0.45).toFixed(3) });
   // 시계 고리: 앞 그림 그대로 빠르게
   for (let i = 0; i < 3; i++) { E.stroke('#trk' + i, tau, T0 + i * 0.05, 0.3); E.stroke('#fil' + i, tau, T0 + 0.2 + i * 0.1, 0.3); E.stroke('#tk' + i, tau, T0 + 0.1, 0.2); }
   E.pop('#rate', tau, T0 + 0.4, { base: 'translate(-50%,-50%)', dy: 0 });

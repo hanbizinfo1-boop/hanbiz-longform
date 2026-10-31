@@ -45,7 +45,12 @@ const T0 = 0.02;
 const T = { ad: S.at('광고는'), cus: S.at('손님을'), ar: S.at('가게'), sign: S.at('평가가'), ut: S.at('돌려보낸') };
 S.ev(T0, 'in', 'town'); S.ev(T.cus, 'card_in', 'cus'); S.ev(T.ar, 'marker', 'arrow'); S.ev(T.sign, 'click', 'stars'); S.ev(T.ut, 'no', 'uturn');
 S.scene(tau => {
-  S.css('#cam', { transform: `scale(${E.drift(tau).toFixed(4)})` });
+  // 평가가: 별점 표지판 쪽으로 카메라가 천천히 밀고 들어감(0.7초) → 돌려보낸: 다시 빠지며 U턴이 그려짐
+  const zz = S.cam(tau, T.sign, T.sign + 0.7) * (1 - S.cam(tau, T.ut, T.ut + 0.7)), cx = S.lerp(960, 1000, zz), cy = S.lerp(540, 520, zz);
+  S.css('#cam', { transform: `translate(960px,540px) scale(${(E.drift(tau) * (1 + 0.08 * zz)).toFixed(4)}) translate(${-cx.toFixed(2)}px,${-cy.toFixed(2)}px)` });
+  // 별 두 개만 채워진 뒤: 표지판 테두리가 빨강으로 바뀜(낮은 평가)
+  const rb = S.ent(tau, T.sign + 0.5, 0.3);
+  S.css('#bd1', { stroke: `rgb(${[32, 38, 45].map((v, j) => Math.round(v + ([214, 58, 58][j] - v) * rb))})` });
   E.stroke('#gr', tau, T0, 0.5); E.stroke('#bw', tau, T0 + 0.05, 0.5); E.stroke('#bd', tau, T0 + 0.25, 0.3); E.stroke('#bsg', tau, T0 + 0.35, 0.3); E.stroke('#bwin', tau, T0 + 0.5, 0.2);
   E.stroke('#bd1', tau, T0 + 0.2, 0.4); E.stroke('#bl1', tau, T0 + 0.5, 0.2);
   E.pop('#adl', tau, T.ad, { base: 'translate(-50%,-50%)', dy: 0 });

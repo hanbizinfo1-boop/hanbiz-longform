@@ -12,7 +12,7 @@
   <div id="cam" class="abs">
     <div class="grid"></div>
     <svg id="pie" class="abs" viewBox="0 0 1920 1080">
-      <circle cx="470" cy="380" r="248" fill="#DCE6F8"/>
+      <circle id="bL" cx="470" cy="380" r="248" fill="#DCE6F8"/>
       <path id="sL" fill="#E26B6B" d=""/>
       <path id="cL" class="ln w4" d="M222 380 a248 248 0 1 0 496 0 a248 248 0 1 0 -496 0"/>
       <circle cx="1450" cy="380" r="248" fill="#DCE6F8" id="fRbase" opacity="0"/>
@@ -20,6 +20,7 @@
       <path id="cR" class="ln w4" d="M1202 380 a248 248 0 1 0 496 0 a248 248 0 1 0 -496 0"/>
       <path id="cRb" class="ln bl w6" d="M1178 380 a272 272 0 1 0 544 0 a272 272 0 1 0 -544 0"/>
       <path id="ar" class="ln bl w6" d="M0 0"/>
+      <circle id="k0" class="ln w4" r="48" fill="#fff" opacity="0"/><circle id="k1" class="ln w4" r="48" fill="#fff" opacity="0"/><circle id="k2" class="ln w4" r="48" fill="#fff" opacity="0"/>
     </svg>
     <div id="la1" class="lb t" style="left:150px;top:676px" data-box="la1">한 그릇</div>
     <div id="la2" class="lb t mu" style="left:150px;top:740px;color:#7A828A" data-box="la2">8천 원</div>
@@ -40,7 +41,7 @@ const sec = (cx, cy, r, deg) => {
   const f = a => `${(cx + r * Math.cos(a)).toFixed(2)} ${(cy + r * Math.sin(a)).toFixed(2)}`;
   return `M${cx} ${cy} L${f(a0)} A${r} ${r} 0 ${deg > 180 ? 1 : 0} 1 ${f(a1)} Z`;
 };
-const T = { man: S.at('만약'), gat: S.at('같은'), se: S.at('세'), m2: S.at('2만'), su: S.at('수수료로'), don: S.at('돈은'), cheon: S.at('6천'), jeol: S.at('절반에서'), bun: S.at('4분의'), shem: S.at('셈이죠') };
+const T = { man: S.at('만약'), gat: S.at('같은'), se: S.at('세'), m2: S.at('2만'), su: S.at('수수료로'), don: S.at('돈은'), cheon: S.at('6천'), jeol: S.at('절반에서'), bun: S.at('4분의'), shem: S.at('셈이죠'), mu: S.at('묶어서'), jj: S.at('4분의') };
 const T0 = 0.02;
 S.ev(T0, 'in', 'cL'); S.ev(0.3, 'gauge', 'sL'); S.ev(T.gat, 'in', 'la'); S.ev(T.se, 'in', 'cR'); S.ev(T.m2, 'in', 'lb2'); S.ev(T.su, 'gauge', 'sR'); S.ev(T.cheon, 'shine', 'lb3'); S.ev(T.jeol, 'shine', 'half'); S.ev(T.bun, 'marker', 'quarter'); S.ev(T.shem, 'ok', 'ring');
 S.scene(tau => {
@@ -58,6 +59,17 @@ S.scene(tau => {
   const k = S.clamp((tau - T.jeol) / 1.5);
   const mid = S.$('#mid'); mid.style.opacity = tau >= T.jeol ? 1 : 0; mid.style.clipPath = `inset(-14px ${((1 - k) * 100).toFixed(2)}% -14px -6px)`;
   E.stroke('#cRb', tau, T.shem, 0.45);
+  // 세 그릇 묶어서: 그릇 셋이 양옆·위에서 모여 한 묶음이 됨 → 금액이 나오면 걷힘
+  const KS = [[1060, 380, 1400, 405], [1840, 380, 1500, 405], [1450, 130, 1450, 335]];
+  const kin = S.ent(tau, T.se, 0.25), kmv = S.EO(S.P(tau, T.mu, T.mu + 0.55)), kout = S.P(tau, T.m2 + 0.3, T.m2 + 0.6);
+  KS.forEach(([x0, y0, x1, y1], i) => {
+    const e = S.$('#k' + i);
+    e.setAttribute('cx', S.lerp(x0, x1, kmv).toFixed(1)); e.setAttribute('cy', S.lerp(y0, y1, kmv).toFixed(1));
+    e.style.opacity = (kin * (1 - kout)).toFixed(3);
+  });
+  // 절반에서 4분의 1로: 왼쪽 원은 빨강 절반만, 오른쪽 원은 빨강 4분의 1만 진하게(파랑 몫은 옅게)
+  S.css('#bL', { opacity: (1 - 0.65 * S.ent(tau, T.jeol, 0.35)).toFixed(3) });
+  S.css('#fRbase', { opacity: (S.ent(tau, T.se + 0.25, 0.12) * (1 - 0.65 * S.ent(tau, T.jj, 0.35))).toFixed(3) });
 });
 </script>
 </body></html>

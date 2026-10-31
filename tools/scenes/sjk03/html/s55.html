@@ -13,6 +13,7 @@
 #sw{left:220px;top:742px;width:260px;height:130px}
 #swl{left:520px;top:766px;font-size:60px;font-weight:900}
 #fee{left:900px;top:742px;width:400px;height:130px;background:#fff;border:3px solid var(--ln);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:64px;font-weight:900}
+#fbar{left:906px;top:854px;width:388px;height:14px;background:var(--rd);border-radius:6px;transform-origin:0 50%;opacity:0}
 </style></head>
 <body><div id="stage">
   <div id="cam" class="abs">
@@ -32,7 +33,8 @@
       <circle id="swk" cx="225" cy="75" r="56" fill="#fff"/>
     </svg>
     <div id="swl" class="abs t" data-box="swl" data-box-group="sw">배달앱</div>
-    <div id="fee" class="abs t" data-box="fee">수수료</div>
+    <div id="fee" class="abs t" data-box="fee" data-box-group="fee">수수료</div>
+    <div id="fbar" class="abs" data-box="fbar" data-box-group="fee"></div>
   </div>
 </div>
 <script src="../data/s55.js"></script>
@@ -41,7 +43,7 @@
 <script>
 window.PALETTE = ['#F4F5F2', '#20262D', '#1F5FD1', '#D63A3A'];   // 모눈 · 선 · 파랑(큰 숫자·들어온 주문) · 빨강(끄면 사라지는 돈·주문 — 연출표 뜻 색)
 const T = { lab: S.at('배달하는'), src: S.at('중기부'), big: S.at('67.7%'), app: S.at('배달앱으로'), sw: S.at('배달앱은'), fee: S.at('부담스럽죠'),
-  off: S.at('끄는'), only: S.at('수수료만'), ord: S.at('주문도') };
+  off: S.at('끄는'), dim: S.at('들어왔습니다'), try: S.at('싶어도'), only: S.at('수수료만'), ord: S.at('주문도') };
 const T0 = 0.02;
 S.ev(T0, 'in', 'circles'); S.ev(T.src, 'paper', 'src'); S.ev(T.big, 'shine', 'big'); S.ev(T.app, 'marker', 'brk'); S.ev(T.sw, 'card_in', 'sw');
 S.ev(T.fee, 'in', 'fee'); S.ev(T.off, 'click', 'off'); S.ev(T.only, 'coin', 'fee'); S.ev(T.ord, 'no', 'circles');
@@ -56,7 +58,7 @@ S.scene(tau => {
     const fill = i < 7 ? S.ent(tau, T.big + 0.14 * i, 0.12) : 0;
     const red = i < 7 ? S.ent(tau, T.ord, 0.12) : 0;
     const col = lerp3(lerp3([32, 38, 45], [31, 95, 209], fill), [214, 58, 58], red);
-    c.style.opacity = (o * (i < 7 ? 1 - gone : 1)).toFixed(3);
+    c.style.opacity = (o * (i < 7 ? 1 - gone : 1 - 0.6 * S.ent(tau, T.dim, 0.4))).toFixed(3);
     c.style.borderColor = `rgb(${col})`;
     c.style.background = fill > 0 ? `rgba(${col},${fill.toFixed(3)})` : 'transparent';
   });
@@ -69,7 +71,9 @@ S.scene(tau => {
   // 스위치: 켜짐(파랑) → 끄는 순간 꺼짐(회색)
   const swIn = E.pop('#sw', tau, T.sw, { dy: 12 }); E.pop('#swl', tau, T.sw + 0.1, { dy: 0 });
   const off = S.ent(tau, T.off, 0.2);
-  S.$('#swk').setAttribute('cx', (225 - 150 * off).toFixed(1));
+  // 끄고 싶어도: 손잡이가 꺼지는 쪽으로 살짝 갔다가 돌아옴(아직 못 끔)
+  const ty = S.EO(S.P(tau, T.try, T.try + 0.25)) * (1 - S.EO(S.P(tau, T.try + 0.3, T.try + 0.6)));
+  S.$('#swk').setAttribute('cx', (225 - 150 * off - 40 * ty).toFixed(1));
   const tc = lerp3([31, 95, 209], [185, 191, 197], off);
   S.$('#swt').setAttribute('fill', `rgb(${tc})`); S.$('#swt').setAttribute('stroke', `rgb(${tc})`);
   // 수수료 블록: 나타남 → 끄는 순간 «수수료만 없어지는 게» 빨강 → 주문과 같이 사라짐
@@ -78,6 +82,8 @@ S.scene(tau => {
   const fc = lerp3([32, 38, 45], [214, 58, 58], fr);
   S.css('#fee', { borderColor: `rgb(${fc})`, color: `rgb(${fc})`, background: `rgba(247,222,222,${(fr * 0.9).toFixed(3)})` });
   S.$('#fee').style.opacity = (S.ent(tau, T.fee, 0.12) * (1 - gone)).toFixed(3);
+  // 부담스럽죠: 수수료 칸 아래쪽에 빨강 막대가 차오름(부담이 쌓이는 그림)
+  S.css('#fbar', { opacity: (S.ent(tau, T.fee + 0.5, 0.1) * (1 - gone)).toFixed(3), transform: `scaleX(${S.EO(S.P(tau, T.fee + 0.5, T.fee + 1.1)).toFixed(3)})` });
 });
 </script>
 </body></html>
